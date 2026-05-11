@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NGFW Engineer Quiz - Palo Alto Networks</title>
+  <style>
+    :root {
+      --primary: #e65100;
+      --primary-dark: #bf360c;
+      --primary-light: #fff3e0;
+      --success: #2e7d32;
+      --danger: #c62828;
+      --bg: #f5f5f5;
+      --card: #ffffff;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --border: #e0e0e0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 30px 24px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .header h1 { font-size: 22px; margin-bottom: 8px; }
+    .header .exam-info { font-size: 13px; opacity: 0.9; }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+    }
+
+    .hidden { display: none !important; }
+
+    /* Home page */
+    #home-page { text-align: center; }
+    #home-page h2 { font-size: 24px; margin-bottom: 8px; }
+    #home-page p { color: var(--text-muted); margin-bottom: 24px; }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      transition: all 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); opacity: 0.9; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-primary { background: var(--primary); }
+    .btn-success { background: var(--success); }
+    .btn-danger { background: var(--danger); }
+    .btn-secondary { background: var(--text-muted); }
+    .btn-warning { background: #f9a825; color: #1f2937; }
+    .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+    .info-box {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    .info-box ul { margin: 8px 0 0 16px; }
+    .info-box li { margin-bottom: 4px; }
+    .info-box strong { color: var(--primary-dark); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .stat-item {
+      background: var(--primary-light);
+      padding: 14px;
+      border-radius: 8px;
+    }
+    .stat-item .number { font-size: 22px; font-weight: 700; color: var(--primary); }
+    .stat-item .label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* Quiz page */
+    .score-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: #f9fafb;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .score-label { font-size: 13px; color: var(--text-muted); }
+    .score-display { font-size: 18px; font-weight: 700; color: var(--primary); }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .question-number {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .question-type {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .question-type.single { background: #e3f2fd; color: #1565c0; }
+    .question-type.multi { background: #fce4ec; color: #c62828; }
+
+    .question-text {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .show-answer-btn {
+      background: none;
+      border: 1px dashed var(--border);
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      transition: all 0.2s;
+    }
+    .show-answer-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .answer-display {
+      padding: 10px 14px;
+      border-radius: 6px;
+      background: #e8f5e9;
+      color: var(--success);
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .answer-display.show { display: block; }
+
+    /* Options */
+    .options { margin-bottom: 20px; }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option:hover { border-color: var(--primary); background: var(--primary-light); }
+    .option.selected { border-color: var(--primary); background: var(--primary-light); }
+    .option.correct-answer { border-color: var(--success); background: #e8f5e9; }
+    .option.wrong-answer { border-color: var(--danger); background: #ffebee; }
+
+    .option input { display: none; }
+
+    .option-label {
+      font-size: 14px;
+      line-height: 1.4;
+      flex: 1;
+    }
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .option.selected .option-letter { background: var(--primary); color: white; }
+    .option.correct-answer .option-letter { background: var(--success); color: white; }
+    .option.wrong-answer .option-letter { background: var(--danger); color: white; }
+
+    /* Navigation buttons */
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .nav-buttons .btn { flex: 1; min-width: 100px; text-align: center; }
+
+    /* Results */
+    .results { text-align: center; }
+    .results-score {
+      font-size: 56px;
+      font-weight: 800;
+      margin: 20px 0;
+    }
+    .results-score.pass { color: var(--success); }
+    .results-score.fail { color: var(--danger); }
+
+    .results-message {
+      font-size: 20px;
+      margin-bottom: 24px;
+    }
+
+    .results-details {
+      max-width: 400px;
+      margin: 0 auto 24px;
+    }
+    .results-details > div {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    /* Review */
+    .review-section { text-align: left; margin-top: 24px; }
+    .review-section h3 { margin-bottom: 16px; }
+
+    .review-item {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .review-item.correct { background: #e8f5e9; border-left: 3px solid var(--success); }
+    .review-item.incorrect { background: #ffebee; border-left: 3px solid var(--danger); }
+    .review-item .review-title { font-weight: 600; margin-bottom: 4px; }
+    .review-item .review-answer { color: var(--text-muted); }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container { padding: 12px; }
+      .header { padding: 20px 16px; }
+      .card { padding: 16px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .btn-grid { grid-template-columns: 1fr; }
+      .results-score { font-size: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>🛡️ NGFW Engineer Quiz</h1>
+    <div class="exam-info">
+      <strong>Exam:</strong> Palo Alto Networks NGFW Engineer
+    </div>
+  </div>
+
+  <!-- Home Page -->
+  <div id="home-page">
+    <div class="card">
+      <div style="font-size: 40px; margin-bottom: 16px;">🎯</div>
+      <h2>Start Your Quiz</h2>
+      <p>Select number of questions and begin</p>
+
+      <div class="btn-grid">
+        <button class="btn btn-primary" onclick="startQuiz(20)">20 Questions</button>
+        <button class="btn btn-primary" onclick="startQuiz(60)">60 Questions</button>
+        <button class="btn btn-success" onclick="startQuiz(121)">All (121) Questions</button>
+      </div>
+
+      <div class="info-box">
+        <strong>📌 How to use:</strong>
+        <ul>
+          <li>Select the number of questions you want to answer</li>
+          <li>Questions and options are randomized each time</li>
+          <li>Single/Multi-select auto-detected (multi-select shows "Choose all that apply")</li>
+          <li>Use "Show Answer" to verify your selection</li>
+          <li>Click Submit to see your final score and results</li>
+          <li>Pass mark: 60%</li>
+        </ul>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="number">121</div>
+          <div class="label">Total Questions</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">10</div>
+          <div class="label">Points per Question</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">60%</div>
+          <div class="label">Pass Mark</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz Page -->
+  <div id="quiz-page" class="hidden">
+    <div class="card">
+      <div class="score-bar">
+        <span class="score-label">Your Score</span>
+        <span class="score-display"><span id="current-score">0</span> / <span id="total-points">1210</span></span>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+
+      <div class="question-header">
+        <div>
+          <span class="question-number" id="q-number">1</span>
+          <span id="q-total" style="color: var(--text-muted); font-size: 13px;">of 20 questions</span>
+        </div>
+        <span class="question-type" id="q-type">Single Select</span>
+      </div>
+
+      <div class="question-text" id="q-text">Loading question...</div>
+
+      <button class="show-answer-btn" onclick="toggleAnswer()">👁️ Show Answer</button>
+      <div class="answer-display" id="answer-display"></div>
+
+      <div class="options" id="options-container"></div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-primary" onclick="prevQuestion()" id="btn-prev" disabled>← Previous</button>
+        <button class="btn btn-primary" onclick="nextQuestion()" id="btn-next">Next →</button>
+        <button class="btn btn-success" onclick="submitQuiz()" id="btn-submit" style="display: none;">✓ Submit Quiz</button>
+        <button class="btn btn-secondary" onclick="goHome()">⌂ Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Page -->
+  <div id="results-page" class="hidden">
+    <div class="card">
+      <div class="results">
+        <div class="results-score" id="final-score">0</div>
+        <div class="results-message" id="result-message">Loading...</div>
+
+        <div class="results-details">
+          <div><span>Total Questions:</span> <span id="result-total">0</span></div>
+          <div><span>Correct Answers:</span> <span id="result-correct">0</span></div>
+          <div><span>Your Score:</span> <span id="result-score">0 / 1210</span></div>
+          <div><span>Pass Mark:</span> <span>60%</span></div>
+          <div><span>Status:</span> <span id="result-status" style="font-weight: 700;">—</span></div>
+        </div>
+
+        <div class="review-section">
+          <h3>📝 Answer Review</h3>
+          <div id="review-list"></div>
+        </div>
+
+        <div class="nav-buttons" style="margin-top: 20px;">
+          <button class="btn btn-secondary" onclick="goHome()">⌂ Back to Home</button>
+          <button class="btn btn-warning" onclick="retakeQuiz()">🔄 Retake Quiz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="questions-ngfw.js"></script>
+<script>
+  let selectedQuestions = [];
+  let currentQuestion = 0;
+  let userAnswers = {};
+  let showAnswerState = {};
+  const POINTS_PER_Q = 10;
+  const PASS_PERCENT = 60;
+
+  // Fisher-Yates shuffle
+  function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // Shuffle choices, track correct answers
+  function shuffleChoices(question) {
+    const indices = question.choices.map((_, i) => i);
+    const shuffledIndices = shuffleArray(indices);
+    
+    const correctSet = new Set(question.answer.split(''));
+    const oldCorrectLetters = question.choices
+      .filter(c => correctSet.has(c.letter))
+      .map(c => c.letter);
+    
+    const oldToText = {};
+    question.choices.forEach(c => { oldToText[c.letter] = c.text; });
+
+    const newChoices = shuffledIndices.map((oldIdx) => ({
+      letter: question.choices[oldIdx].letter,
+      text: question.choices[oldIdx].text
+    }));
+
+    // Remap correct answer
+    const newCorrect = oldCorrectLetters.map(oldLetter => {
+      const text = oldToText[oldLetter];
+      return newChoices.find(c => c.text === text).letter;
+    });
+    newCorrect.sort();
+
+    return {
+      ...question,
+      choices: newChoices,
+      answer: newCorrect.join('')
+    };
+  }
+
+  function startQuiz(count) {
+    const shuffled = shuffleArray(ngfwQuestions);
+    selectedQuestions = shuffled.slice(0, count).map(q => shuffleChoices(q));
+    currentQuestion = 0;
+    userAnswers = {};
+    showAnswerState = {};
+
+    document.getElementById('total-points').textContent = count * POINTS_PER_Q;
+    document.getElementById('home-page').classList.add('hidden');
+    document.getElementById('quiz-page').classList.remove('hidden');
+    document.getElementById('results-page').classList.add('hidden');
+    displayQuestion();
+  }
+
+  function displayQuestion() {
+    if (currentQuestion >= selectedQuestions.length) return;
+    const q = selectedQuestions[currentQuestion];
+    const total = selectedQuestions.length;
+
+    document.getElementById('q-number').textContent = currentQuestion + 1;
+    document.getElementById('q-total').textContent = `of ${total} questions`;
+    document.getElementById('q-text').innerHTML = q.text.replace(/\n/g, '<br>');
+    document.getElementById('q-type').textContent = q.type === 'multi' ? 'Choose all that apply' : 'Single Select';
+    document.getElementById('q-type').className = 'question-type ' + q.type;
+
+    // Progress
+    document.getElementById('progress-fill').style.width = `${(currentQuestion / total) * 100}%`;
+
+    const container = document.getElementById('options-container');
+    const saved = userAnswers[currentQuestion] || [];
+    
+    container.innerHTML = q.choices.map(c => {
+      const isSelected = saved.includes(c.letter);
+      return `
+        <div class="option${isSelected ? ' selected' : ''}" onclick="selectOption('${c.letter}')">
+          <input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="answer" value="${c.letter}" ${isSelected ? 'checked' : ''}>
+          <span class="option-letter">${c.letter}</span>
+          <span class="option-label">${c.text}</span>
+        </div>
+      `;
+    }).join('');
+
+    // Nav buttons
+    document.getElementById('btn-prev').disabled = currentQuestion === 0;
+    document.getElementById('btn-next').style.display = currentQuestion < total - 1 ? 'inline-block' : 'none';
+    document.getElementById('btn-submit').style.display = currentQuestion === total - 1 ? 'inline-block' : 'none';
+
+    updateAnswerDisplay();
+    updateScore();
+  }
+
+  function selectOption(letter) {
+    const q = selectedQuestions[currentQuestion];
+    if (!userAnswers[currentQuestion]) userAnswers[currentQuestion] = [];
+    
+    if (q.type === 'single') {
+      userAnswers[currentQuestion] = [letter];
+    } else {
+      const idx = userAnswers[currentQuestion].indexOf(letter);
+      if (idx >= 0) {
+        userAnswers[currentQuestion].splice(idx, 1);
+      } else {
+        userAnswers[currentQuestion].push(letter);
+      }
+      userAnswers[currentQuestion].sort();
+    }
+    displayQuestion();
+  }
+
+  function toggleAnswer() {
+    showAnswerState[currentQuestion] = !showAnswerState[currentQuestion];
+    updateAnswerDisplay();
+  }
+
+  function updateAnswerDisplay() {
+    const q = selectedQuestions[currentQuestion];
+    const display = document.getElementById('answer-display');
+
+    if (showAnswerState[currentQuestion]) {
+      display.textContent = `✓ Correct Answer: ${q.answer}`;
+      display.className = 'answer-display show';
+    } else {
+      display.className = 'answer-display';
+    }
+  }
+
+  function updateScore() {
+    let correct = 0;
+    for (let i = 0; i < selectedQuestions.length; i++) {
+      const q = selectedQuestions[i];
+      const ua = (userAnswers[i] || []).sort().join('');
+      const ca = q.answer;
+      if (ua === ca) correct++;
+    }
+    const score = correct * POINTS_PER_Q;
+    document.getElementById('current-score').textContent = score;
+  }
+
+  function nextQuestion() {
+    if (currentQuestion < selectedQuestions.length - 1) {
+      currentQuestion++;
+      displayQuestion();
+    }
+  }
+
+  function prevQuestion() {
+    if (currentQuestion > 0) {
+      currentQuestion--;
+      displayQuestion();
+    }
+  }
+
+  function submitQuiz() {
+    const total = selectedQuestions.length;
+    let correct = 0;
+    
+    for (let i = 0; i < total; i++) {
+      const q = selectedQuestions[i];
+      const ua = (userAnswers[i] || []).sort().join('');
+      const ca = q.answer;
+      if (ua === ca) correct++;
+    }
+
+    const score = correct * POINTS_PER_Q;
+    const maxScore = total * POINTS_PER_Q;
+    const pct = Math.round((correct / total) * 100);
+    const passed = pct >= PASS_PERCENT;
+
+    document.getElementById('final-score').textContent = pct + '%';
+    document.getElementById('final-score').className = 'results-score ' + (passed ? 'pass' : 'fail');
+    document.getElementById('result-message').textContent = passed ? '🎉 PASSED! Congratulations!' : '❌ FAILED. Try Again!';
+    document.getElementById('result-total').textContent = total;
+    document.getElementById('result-correct').textContent = correct;
+    document.getElementById('result-score').textContent = `${score} / ${maxScore} (${pct}%)`;
+    document.getElementById('result-status').textContent = passed ? 'PASSED ✓' : 'FAILED ✗';
+    document.getElementById('result-status').style.color = passed ? '#2e7d32' : '#c62828';
+
+    // Build review
+    let reviewHTML = '';
+    for (let i = 0; i < total; i++) {
+      const q = selectedQuestions[i];
+      const ua = (userAnswers[i] || []).sort().join('');
+      const ca = q.answer;
+      const isCorrect = ua === ca;
+
+      reviewHTML += `
+        <div class="review-item ${isCorrect ? 'correct' : 'incorrect'}">
+          <div class="review-title">Q${i + 1}: ${isCorrect ? '✓ Correct' : '✗ Incorrect'}</div>
+          <div class="review-answer"><strong>Your Answer:</strong> ${ua || 'Not answered'}</div>
+          <div class="review-answer"><strong>Correct Answer:</strong> ${ca}</div>
+        </div>
+      `;
+    }
+    document.getElementById('review-list').innerHTML = reviewHTML;
+
+    document.getElementById('quiz-page').classList.add('hidden');
+    document.getElementById('results-page').classList.remove('hidden');
+  }
+
+  function retakeQuiz() {
+    const count = selectedQuestions.length;
+    startQuiz(count);
+  }
+
+  function goHome() {
+    document.getElementById('home-page').classList.remove('hidden');
+    document.getElementById('quiz-page').classList.add('hidden');
+    document.getElementById('results-page').classList.add('hidden');
+  }
+</script>
+
+</body>
+</html>
