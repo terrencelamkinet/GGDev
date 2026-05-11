@@ -114,6 +114,7 @@
     <div>
       <span id="scoreDisplay">💰 0</span>
       <span style="margin-left:14px;" id="levelDisplay">⭐ Lv.1</span>
+      <span style="margin-left:12px;font-size:14px;" id="targetDisplay">0/30</span>
     </div>
     <div style="display:flex;align-items:center;gap:8px;">
       <span style="font-size:12px;">專注</span>
@@ -125,12 +126,12 @@
 
   <div id="overlay">
     <h1>🦅 專注飛鳥</h1>
-    <p>按住 Space 下沉食金幣<br>放開 Space 慢慢上浮</p>
-    <p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 放開上浮</p>
+    <p>拍 Space 下沉食金幣<br>預設向上浮</p>
+    <p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 預設上升</p>
     <button id="startBtn">開始遊戲</button>
   </div>
 
-  <div class="space-hint">⎵ 按住下沉 · 放開上浮</div>
+  <div class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
   <div class="credits">專注飛鳥 · v2</div>
 </div>
 
@@ -162,7 +163,8 @@ function getLevelConfig(level) {
   const coinCount = Math.min(3 + level * 2, 10);
   const spawnRate = Math.max(50 - level * 2, 20);
   const gravityFactor = 1 + level * 0.06;
-  return { requiredFocus, coinCount, spawnRate, gravityFactor };
+  const coinTarget = 30 + (level - 1) * 15;
+  return { requiredFocus, coinCount, spawnRate, gravityFactor, coinTarget };
 }
 
 // ===== 音效 =====
@@ -190,11 +192,11 @@ function updateBird() {
   const cfg = getLevelConfig(state.level);
 
   if (state.spacePressed) {
-    // 按住Space → 向下沉（慢10倍）
+    // 拍Space → 向下沉
     b.vy += 0.015 * cfg.gravityFactor;
   } else {
-    // 放開Space → 慢慢向上浮
-    b.vy -= 0.008 * cfg.gravityFactor;
+    // 預設向上浮 (default上升)
+    b.vy -= 0.02 * cfg.gravityFactor;
   }
 
   // 阻力
@@ -248,9 +250,10 @@ function updateCoins() {
 }
 
 function checkLevelUp() {
-  const threshold = state.level * 25 + 15;
-  if (state.totalCoins >= threshold && state.level < 20) {
+  const cfg = getLevelConfig(state.level);
+  if (state.totalCoins >= cfg.coinTarget && state.level < 20) {
     state.level++;
+    state.totalCoins = 0;
     levelUpSound();
   }
 }
@@ -367,6 +370,8 @@ function drawCoins() {
 function drawHUD() {
   document.getElementById('scoreDisplay').textContent = `💰 ${state.score}`;
   document.getElementById('levelDisplay').textContent = `⭐ Lv.${state.level}`;
+  const cfg = getLevelConfig(state.level);
+  document.getElementById('targetDisplay').textContent = `${state.totalCoins}/${cfg.coinTarget}`;
   document.getElementById('focusBar').style.width = `${state.focusLevel}%`;
 }
 
@@ -377,10 +382,11 @@ function showGameOver() {
   gameOverSound();
   const overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden');
+  const _cfg = getLevelConfig(state.level);
   overlay.innerHTML = `
     <h1>💫 遊戲結束</h1>
     <p>分數：💰 ${state.score} &nbsp;|&nbsp; Lv.${state.level}</p>
-    <p style="font-size:13px;opacity:0.6;">total coins: ${state.totalCoins}</p>
+    <p style="font-size:13px;opacity:0.6;">關卡進度：${state.totalCoins}/${_cfg.coinTarget}</p>
     <button id="restartBtn">再玩一次</button>
   `;
   document.getElementById('restartBtn').onclick = resetGame;
@@ -405,8 +411,8 @@ function resetGame() {
   overlay.classList.remove('hidden');
   overlay.innerHTML = `
     <h1>🦅 專注飛鳥</h1>
-    <p>按住 Space 下沉食金幣<br>放開 Space 慢慢上浮</p>
-    <p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 放開上浮</p>
+    <p>拍 Space 下沉食金幣<br>預設向上浮</p>
+    <p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 預設上升</p>
     <button id="startBtn">開始遊戲</button>
   `;
   document.getElementById('startBtn').onclick = startGame;
