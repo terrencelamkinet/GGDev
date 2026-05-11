@@ -1,0 +1,6 @@
+# BrainLink Bridge Requirements
+# Install: pip install -r requirements.txt
+
+cushy-serial>=1.0.0
+websockets>=12.0
+pyserial
