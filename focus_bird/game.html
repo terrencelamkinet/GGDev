@@ -149,6 +149,9 @@ const state = {
   focusLevel: 50,
   targetFocus: 50,
   spacePressed: false,
+  externalMode: false,  // true = 用腦波/WebSocket
+  ws: null,             // WebSocket connection
+  attention: 0,         // 腦波 attention 值
   bird: { x: 100, y: 100, vy: 0 },
   coins: [],
   spawnTimer: 0,
@@ -482,6 +485,36 @@ function startGame() {
   gameLoop();
 }
 
+// ===== WebSocket (腦波 external mode) =====
+function connectBrainLink(wsUrl) {
+  state.externalMode = true;
+  state.ws = new WebSocket(wsUrl);
+  state.ws.onopen = () => console.log('🧠 BrainLink connected');
+  state.ws.onmessage = (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      state.attention = data.attention;
+      // attention > threshold = 專注 = 下沉
+      state.spacePressed = data.shouldDive;
+    } catch(e) {}
+  };
+  state.ws.onclose = () => {
+    console.log('🧠 BrainLink disconnected, retrying in 3s...');
+    state.externalMode = false;
+    setTimeout(() => connectBrainLink(wsUrl), 3000);
+  };
+  state.ws.onerror = () => state.ws.close();
+}
+
+// 如果 URL 有 ?ws=ws://... 就自動連接腦波
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const wsUrl = params.get('ws');
+  if (wsUrl) {
+    connectBrainLink(wsUrl);
+  }
+})();
+
 // ===== 鍵盤控制 (Space only) =====
 document.addEventListener('keydown', (e) => {
   if (e.key === ' ') {
@@ -491,13 +524,13 @@ document.addEventListener('keydown', (e) => {
       else startGame();
       return;
     }
-    state.spacePressed = true;
+    if (!state.externalMode) state.spacePressed = true;
   }
 });
 document.addEventListener('keyup', (e) => {
   if (e.key === ' ') {
     e.preventDefault();
-    state.spacePressed = false;
+    if (!state.externalMode) state.spacePressed = false;
   }
 });
 
@@ -529,7 +562,7 @@ canvas.addEventListener('mousedown', (e) => {
   }
 });
 canvas.addEventListener('mouseup', () => { state.spacePressed = false; });
-canvas.addEventListener('mouseleave', () => { state.spacePressed = false; });
+canvas.addEventListener('mouseleave', () => { if (!state.externalMode) state.spacePressed = false; });
 
 // ===== Start button =====
 document.getElementById('startBtn').onclick = startGame;
