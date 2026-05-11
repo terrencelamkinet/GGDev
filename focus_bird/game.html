@@ -103,6 +103,26 @@
     line-height: 1.5;
     border: 1px solid rgba(255,255,255,0.08);
   }
+  .game-hint {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    pointer-events: none;
+    z-index: 10;
+    animation: hintFade 3s ease-in-out forwards;
+  }
+  @keyframes hintFade {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    10% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
 </style>
 </head>
 <body>
@@ -132,6 +152,7 @@
   </div>
 
   <div class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
+  <div id="gameHint" class="game-hint hidden">拍 Space 下沉 · 專注食金幣</div>
   <div class="credits">專注飛鳥 · v2</div>
 </div>
 
@@ -256,6 +277,7 @@ function checkLevelUp() {
   if (state.totalCoins >= cfg.coinTarget && state.level < 20) {
     state.level++;
     state.totalCoins = 0;
+  state.coinsSpawned = 0;
     levelUpSound();
   }
 }
@@ -654,12 +676,11 @@ function gameLoop() {
   // 鳥
   updateBird();
 
-  // 金幣（random 3-5秒遇到一個）
+  // 第一個金幣 8-10秒先出，之後3-5秒
+  if (!state.nextSpawn) state.nextSpawn = 480 + Math.floor(Math.random() * 120);
   state.spawnTimer++;
-  if (!state.nextSpawn) state.nextSpawn = 180 + Math.floor(Math.random() * 120);
   if (state.coins.length < 30 && state.spawnTimer >= state.nextSpawn) {
     state.spawnTimer = 0;
-  state.nextSpawn = 0;
     state.nextSpawn = 180 + Math.floor(Math.random() * 120);
     spawnCoin();
   }
@@ -693,10 +714,17 @@ function startGame() {
   state.score = 0;
   state.level = 1;
   state.totalCoins = 0;
+  state.coinsSpawned = 0;
   state.comboCount = 0;
   state.focusLevel = 50;
   state.targetFocus = 50;
   state.spacePressed = false;
+  // 3秒後自動消失 gameHint
+  document.getElementById('gameHint').classList.remove('hidden');
+  setTimeout(() => {
+    const el = document.getElementById('gameHint');
+    if (el) el.classList.add('hidden');
+  }, 3000);
   gameLoop();
 }
 
