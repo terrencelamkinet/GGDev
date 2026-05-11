@@ -195,7 +195,7 @@ function updateBird() {
 
   if (state.spacePressed) {
     // 拍Space → 向下沉
-    b.vy += 0.015 * cfg.gravityFactor;
+    b.vy += 0.03 * cfg.gravityFactor;
   } else {
     // 預設向上浮 (default上升)
     b.vy -= 0.02 * cfg.gravityFactor;
@@ -294,117 +294,36 @@ function drawBackground() {
   drawCloud(160, 70, 0.8);
   drawCloud(290, 40, 1.1);
 
-  // ===== 遠山（移動）=====
-  const m1x = - (state.frame * 0.15) % (W);  // scroll offset
-  ctx.fillStyle = '#7CB342';
+  // ===== 遠景（簡單）=====
+  // 簡單遠山輪廓
+  ctx.fillStyle = '#8BC34A';
   ctx.beginPath();
-  ctx.moveTo(m1x - W, H * 0.75);
-  ctx.lineTo(m1x - W + 30, H * 0.55);
-  ctx.lineTo(m1x - W + 60, H * 0.58);
-  ctx.lineTo(m1x - W + 100, H * 0.48);
-  ctx.lineTo(m1x - W + 140, H * 0.60);
-  ctx.lineTo(m1x - W + 180, H * 0.52);
-  ctx.lineTo(m1x - W + 220, H * 0.62);
-  ctx.lineTo(m1x - W + 260, H * 0.50);
-  ctx.lineTo(m1x - W + 300, H * 0.56);
-  ctx.lineTo(m1x - W + 340, H * 0.46);
-  ctx.lineTo(m1x - W + 380, H * 0.54);
-  ctx.lineTo(m1x - W + 400, H * 0.62);
-  ctx.lineTo(m1x, H * 0.65);
-  ctx.lineTo(m1x, H * 0.75);
+  ctx.moveTo(0, H * 0.75);
+  ctx.lineTo(50, H * 0.60);
+  ctx.lineTo(100, H * 0.65);
+  ctx.lineTo(150, H * 0.58);
+  ctx.lineTo(200, H * 0.68);
+  ctx.lineTo(250, H * 0.55);
+  ctx.lineTo(300, H * 0.62);
+  ctx.lineTo(350, H * 0.56);
+  ctx.lineTo(W, H * 0.60);
+  ctx.lineTo(W, H * 0.75);
   ctx.closePath();
   ctx.fill();
 
-  // second copy of far mountain to tile
+  ctx.fillStyle = '#AED581';
   ctx.beginPath();
-  ctx.moveTo(m1x, H * 0.75);
-  ctx.lineTo(m1x + 30, H * 0.55);
-  ctx.lineTo(m1x + 60, H * 0.58);
-  ctx.lineTo(m1x + 100, H * 0.48);
-  ctx.lineTo(m1x + 140, H * 0.60);
-  ctx.lineTo(m1x + 180, H * 0.52);
-  ctx.lineTo(m1x + 220, H * 0.62);
-  ctx.lineTo(m1x + 260, H * 0.50);
-  ctx.lineTo(m1x + 300, H * 0.56);
-  ctx.lineTo(m1x + 340, H * 0.46);
-  ctx.lineTo(m1x + 380, H * 0.54);
-  ctx.lineTo(m1x + 400, H * 0.62);
-  ctx.lineTo(m1x + 400, H * 0.75);
+  ctx.moveTo(0, H * 0.75);
+  ctx.lineTo(60, H * 0.68);
+  ctx.lineTo(120, H * 0.72);
+  ctx.lineTo(180, H * 0.64);
+  ctx.lineTo(240, H * 0.72);
+  ctx.lineTo(300, H * 0.68);
+  ctx.lineTo(360, H * 0.65);
+  ctx.lineTo(W, H * 0.70);
+  ctx.lineTo(W, H * 0.75);
   ctx.closePath();
   ctx.fill();
-
-  // 遠山陰影層
-  const m2x = - (state.frame * 0.2) % (W);
-  ctx.fillStyle = 'rgba(255,255,255,0.06)';
-  ctx.beginPath();
-  ctx.moveTo(m2x - W, H * 0.75);
-  ctx.lineTo(m2x - W + 30, H * 0.58);
-  ctx.lineTo(m2x - W + 60, H * 0.62);
-  ctx.lineTo(m2x - W + 100, H * 0.52);
-  ctx.lineTo(m2x - W + 140, H * 0.64);
-  ctx.lineTo(m2x - W + 180, H * 0.56);
-  ctx.lineTo(m2x - W + 220, H * 0.65);
-  ctx.lineTo(m2x - W + 260, H * 0.54);
-  ctx.lineTo(m2x - W + 300, H * 0.60);
-  ctx.lineTo(m2x - W + 340, H * 0.50);
-  ctx.lineTo(m2x - W + 380, H * 0.58);
-  ctx.lineTo(m2x - W + 400, H * 0.65);
-  ctx.lineTo(m2x, H * 0.68);
-  ctx.lineTo(m2x, H * 0.75);
-  ctx.closePath();
-  ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(m2x, H * 0.75);
-  ctx.lineTo(m2x + 30, H * 0.58);
-  ctx.lineTo(m2x + 60, H * 0.62);
-  ctx.lineTo(m2x + 100, H * 0.52);
-  ctx.lineTo(m2x + 140, H * 0.64);
-  ctx.lineTo(m2x + 180, H * 0.56);
-  ctx.lineTo(m2x + 220, H * 0.65);
-  ctx.lineTo(m2x + 260, H * 0.54);
-  ctx.lineTo(m2x + 300, H * 0.60);
-  ctx.lineTo(m2x + 340, H * 0.50);
-  ctx.lineTo(m2x + 380, H * 0.58);
-  ctx.lineTo(m2x + 400, H * 0.65);
-  ctx.lineTo(m2x + 400, H * 0.75);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== 近山（移動更快）=====
-  const m3x = - (state.frame * 0.3) % (W);
-  ctx.fillStyle = '#558B2F';
-  ctx.beginPath();
-  ctx.moveTo(m3x - W, H * 0.78);
-  ctx.lineTo(m3x - W + 50, H * 0.65);
-  ctx.lineTo(m3x - W + 90, H * 0.72);
-  ctx.lineTo(m3x - W + 130, H * 0.60);
-  ctx.lineTo(m3x - W + 170, H * 0.68);
-  ctx.lineTo(m3x - W + 210, H * 0.70);
-  ctx.lineTo(m3x - W + 250, H * 0.64);
-  ctx.lineTo(m3x - W + 290, H * 0.72);
-  ctx.lineTo(m3x - W + 330, H * 0.62);
-  ctx.lineTo(m3x - W + 370, H * 0.70);
-  ctx.lineTo(m3x - W + 400, H * 0.74);
-  ctx.lineTo(m3x, H * 0.72);
-  ctx.lineTo(m3x, H * 0.78);
-  ctx.closePath();
-  ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(m3x, H * 0.78);
-  ctx.lineTo(m3x + 50, H * 0.65);
-  ctx.lineTo(m3x + 90, H * 0.72);
-  ctx.lineTo(m3x + 130, H * 0.60);
-  ctx.lineTo(m3x + 170, H * 0.68);
-  ctx.lineTo(m3x + 210, H * 0.70);
-  ctx.lineTo(m3x + 250, H * 0.64);
-  ctx.lineTo(m3x + 290, H * 0.72);
-  ctx.lineTo(m3x + 330, H * 0.62);
-  ctx.lineTo(m3x + 370, H * 0.70);
-  ctx.lineTo(m3x + 400, H * 0.74);
-  ctx.lineTo(m3x + 400, H * 0.78);
-  ctx.closePath();
-  ctx.fill();
-
   // ===== 河流 =====
   ctx.fillStyle = 'rgba(66, 165, 245, 0.3)';
   ctx.beginPath();
@@ -465,63 +384,6 @@ function drawBackground() {
     ctx.fillStyle = '#FFC107';
     ctx.beginPath();
     ctx.arc(fx, fy - 7, 1.5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // ===== 動物：樹上雀仔 =====
-  const birdPositions = [
-    {x: 30, y: H*0.52, size: 1},
-    {x: 180, y: H*0.48, size: 0.8},
-    {x: 320, y: H*0.55, size: 0.9}
-  ];
-  for (const bp of birdPositions) {
-    ctx.fillStyle = '#5D4037';
-    const bobY = Math.sin(state.frame * 0.04 + bp.x) * 1.5;
-    // 身體
-    ctx.beginPath();
-    ctx.ellipse(bp.x, bp.y + bobY, 4*bp.size, 3*bp.size, 0, 0, Math.PI*2);
-    ctx.fill();
-    // 頭
-    ctx.beginPath();
-    ctx.arc(bp.x + 4*bp.size, bp.y - 2*bp.size + bobY, 2.5*bp.size, 0, Math.PI*2);
-    ctx.fill();
-    // 嘴
-    ctx.fillStyle = '#FF9800';
-    ctx.beginPath();
-    ctx.moveTo(bp.x + 6*bp.size, bp.y - 2*bp.size + bobY);
-    ctx.lineTo(bp.x + 9*bp.size, bp.y - 2*bp.size + bobY);
-    ctx.lineTo(bp.x + 7*bp.size, bp.y - 1*bp.size + bobY);
-    ctx.closePath();
-    ctx.fill();
-    // 眼
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(bp.x + 5*bp.size, bp.y - 3*bp.size + bobY, 1.2*bp.size, 0, Math.PI*2);
-    ctx.fill();
-    ctx.fillStyle = '#000';
-    ctx.beginPath();
-    ctx.arc(bp.x + 5.5*bp.size, bp.y - 3*bp.size + bobY, 0.6*bp.size, 0, Math.PI*2);
-    ctx.fill();
-  }
-
-  // ===== 蝴蝶 =====
-  for (let i = 0; i < 3; i++) {
-    const bx = (80 + i * 150 + Math.sin(state.frame * 0.02 + i*2) * 20) % W;
-    const by = 120 + i * 40 + Math.sin(state.frame * 0.03 + i) * 10;
-    const wingFlap = Math.sin(state.frame * 0.1 + i) * 3;
-    ctx.fillStyle = '#CE93D8';
-    // 左翼
-    ctx.beginPath();
-    ctx.ellipse(bx - 4, by, 5, 3 + wingFlap, -0.3, 0, Math.PI*2);
-    ctx.fill();
-    // 右翼
-    ctx.beginPath();
-    ctx.ellipse(bx + 4, by, 5, 3 + wingFlap, 0.3, 0, Math.PI*2);
-    ctx.fill();
-    // 身體
-    ctx.fillStyle = '#4A148C';
-    ctx.beginPath();
-    ctx.ellipse(bx, by, 1.5, 3, 0, 0, Math.PI*2);
     ctx.fill();
   }
 
