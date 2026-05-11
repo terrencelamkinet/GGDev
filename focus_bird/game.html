@@ -159,12 +159,11 @@ const state = {
 
 // ===== 關卡設定 =====
 function getLevelConfig(level) {
-  const requiredFocus = Math.min(30 + level * 6, 88);
-  const coinCount = Math.min(3 + level * 2, 10);
-  const spawnRate = Math.max(50 - level * 2, 20);
-  const gravityFactor = 1 + level * 0.06;
   const coinTarget = 30 + (level - 1) * 15;
-  return { requiredFocus, coinCount, spawnRate, gravityFactor, coinTarget };
+  const gravityFactor = 1 + level * 0.06;
+  // 每個金幣之間 delay 3-5秒 (180-300 frames at 60fps)
+  const coinInterval = 180 + Math.floor(Math.random() * 120);
+  return { coinTarget, gravityFactor, coinInterval };
 }
 
 // ===== 音效 =====
@@ -211,16 +210,16 @@ function updateBird() {
 // ===== 金幣 =====
 function spawnCoin() {
   const cfg = getLevelConfig(state.level);
-  if (state.coins.length >= cfg.coinCount) return;
+  // 金幣總數 = 30，食完唔再出
+  if (state.coins.length >= 30) return;
 
   const x = W + 20;
-  const y = Math.random() * (H - 180) + 60;
-  const size = 11 + Math.random() * 5;
-  state.coins.push({ x, y, size, collected: false, value: Math.floor(5 + state.level * 2 + Math.random() * 4) });
+  const y = H - 40;  // 地上
+  const size = 14;
+  state.coins.push({ x, y, size, collected: false, value: 10 });
 }
 
 function updateCoins() {
-  const cfg = getLevelConfig(state.level);
   for (let i = state.coins.length - 1; i >= 0; i--) {
     const c = state.coins[i];
     if (c.collected) { state.coins.splice(i, 1); continue; }
@@ -437,11 +436,13 @@ function gameLoop() {
   // 鳥
   updateBird();
 
-  // 金幣
-  const cfg = getLevelConfig(state.level);
+  // 金幣（random 3-5秒遇到一個）
   state.spawnTimer++;
-  if (state.spawnTimer >= cfg.spawnRate) {
+  if (!state.nextSpawn) state.nextSpawn = 180 + Math.floor(Math.random() * 120);
+  if (state.coins.length < 30 && state.spawnTimer >= state.nextSpawn) {
     state.spawnTimer = 0;
+  state.nextSpawn = 0;
+    state.nextSpawn = 180 + Math.floor(Math.random() * 120);
     spawnCoin();
   }
   updateCoins();
@@ -470,6 +471,7 @@ function startGame() {
   state.bird = { x: 100, y: 100, vy: 0 };
   state.coins = [];
   state.spawnTimer = 0;
+  state.nextSpawn = 0;
   state.score = 0;
   state.level = 1;
   state.totalCoins = 0;
