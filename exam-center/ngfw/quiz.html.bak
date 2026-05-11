@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Palo Alto Networks SecOps Pro Quiz</title>
+  <title>NGFW Engineer Quiz - Palo Alto Networks</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
   <!-- Home Page -->
   <div id="home-page">
     <div class="card" style="text-align: center;">
-      <div style="font-size: 40px; margin-bottom: 16px;">🕵️</div>
+      <div style="font-size: 40px; margin-bottom: 16px;">🎯</div>
       <h2>Start Your Quiz</h2>
       <p style="color: var(--text-muted); margin-bottom: 24px;">Select number of questions and begin</p>
 
@@ -31,10 +31,10 @@
         <strong>📌 How to use:</strong>
         <ul>
           <li>Select the number of questions to begin a timed quiz</li>
-          <li>Questions are randomized each time (choice text only, ABCD stays fixed)</li>
+          <li>Questions and options are randomized each time</li>
           <li>Single/Multi-select auto-detected</li>
           <li>Use "Show Answer" to verify your selection</li>
-          <li>Click Submit to see your final score report and answer review</li>
+          <li>Click Submit to see your final score and results</li>
           <li>Pass mark: 60%</li>
         </ul>
       </div>
@@ -51,7 +51,7 @@
           <div class="label">Points per Question</div>
         </div>
         <div class="stat-item">
-          <div class="number">70%</div>
+          <div class="number">60%</div>
           <div class="label">Pass Mark</div>
         </div>
       </div>
@@ -65,6 +65,8 @@
   <!-- Quiz Page -->
   <div id="quiz-page" class="hidden">
     <div class="card">
+      <div class="score-bar" style="display: none;">1210</span></span>
+      </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
       </div>
@@ -98,7 +100,7 @@
           <div><span>Total Questions:</span> <span id="result-total">0</span></div>
           <div><span>Correct Answers:</span> <span id="result-correct">0</span></div>
           <div><span>Your Score:</span> <span id="result-score">0 / 1210</span></div>
-          <div><span>Pass Mark:</span> <span>70%</span></div>
+          <div><span>Pass Mark:</span> <span>60%</span></div>
           <div><span>Status:</span> <span id="result-status" style="font-weight: 700;">—</span></div>
         </div>
         <div class="review-section">
@@ -148,17 +150,22 @@
     return a;
   }
 
-  // Shuffle TEXT only — ABCD letter labels stay fixed
-  function shuffleChoices(q) {
-    const texts = q.choices.map(c => c.text);
-    const shuffledTexts = shuffleArray(texts);
-    q.choices = q.choices.map((c, i) => ({letter: c.letter, text: shuffledTexts[i]}));
-    return q;
+  function shuffleChoices(question) {
+    const indices = question.choices.map((_, i) => i);
+    const idx = shuffleArray(indices);
+    const oldToText = {};
+    question.choices.forEach(c => { oldToText[c.letter] = c.text; });
+    const correctSet = new Set(question.answer.split(''));
+    const oldCorrect = question.choices.filter(c => correctSet.has(c.letter)).map(c => c.letter);
+    const newChoices = idx.map(i => ({letter: question.choices[i].letter, text: question.choices[i].text}));
+    const newCorrect = oldCorrect.map(l => newChoices.find(c => c.text === oldToText[l]).letter).sort();
+    return {...question, choices: newChoices, answer: newCorrect.join('')};
   }
 
   function startQuiz(count) {
     selectedQuestions = shuffleArray(ngfwQuestions).slice(0, count).map(q => shuffleChoices(q));
     currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+    document.getElementById('total-points').textContent = count * POINTS_PER_Q;
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
     displayQuestion();
@@ -172,15 +179,14 @@
     document.getElementById('q-text').innerHTML = q.text.replace(/\n/g, '<br>');
     document.getElementById('q-type').textContent = q.type === 'multi' ? 'Choose all that apply' : 'Single Select';
     document.getElementById('q-type').className = 'question-type ' + q.type;
-    document.getElementById('progress-fill').style.width = `${((currentQuestion) / total) * 100}%`;
+    document.getElementById('progress-fill').style.width = `${(currentQuestion / total) * 100}%`;
 
     const saved = userAnswers[currentQuestion] || [];
-    const type = q.type === 'multi' ? 'checkbox' : 'radio';
     document.getElementById('options-container').innerHTML = q.choices.map(c =>
       `<div class="option${saved.includes(c.letter) ? ' selected' : ''}" onclick="selectOption('${c.letter}')">
          <span class="option-letter">${c.letter}</span>
          <span class="option-label">${c.text}</span>
-         <input type="${type}" name="answer" value="${c.letter}" ${saved.includes(c.letter) ? 'checked' : ''}>
+         <input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="answer" value="${c.letter}" ${saved.includes(c.letter) ? 'checked' : ''}>
        </div>`
     ).join('');
 
@@ -211,6 +217,15 @@
       el.textContent = `✓ Correct Answer: ${q.answer}`;
       el.className = 'answer-display show';
     } else el.className = 'answer-display';
+  }
+
+  function updateScore() {
+    let correct = 0;
+    for (let i = 0; i < selectedQuestions.length; i++) {
+      const ua = (userAnswers[i] || []).sort().join('');
+      if (ua === selectedQuestions[i].answer) correct++;
+    }
+    document.getElementById('current-score').textContent = correct * POINTS_PER_Q;
   }
 
   function nextQuestion() { if (currentQuestion < selectedQuestions.length - 1) { currentQuestion++; displayQuestion(); } }
@@ -257,12 +272,12 @@
   }
 
   function showAnswerKey() {
-    const all = ngfwQuestions;
+    const sorted = [...ngfwQuestions].sort((a, b) => a.num - b.num);
     let html = '';
-    for (let i = 0; i < all.length; i++) {
-      const q = all[i];
+    for (let i = 0; i < sorted.length; i++) {
+      const q = sorted[i];
       const correctSet = new Set(q.answer.split(''));
-      html += `<div class="q-block"><div class="q-title">Q${i + 1} · ${q.type === 'multi' ? 'Choose all that apply' : 'Single Select'}</div>`;
+      html += `<div class="q-block"><div class="q-title">Q${i + 1} (PDF #${q.num}) · ${q.type === 'multi' ? 'Choose all that apply' : 'Single Select'}</div>`;
       html += `<div class="q-text">${q.text.replace(/\n/g, '<br>')}</div>`;
       q.choices.forEach(c => {
         html += `<div class="ak-choice${correctSet.has(c.letter) ? ' correct' : ''}"><span class="letter-badge">${c.letter}</span><span>${c.text}</span></div>`;

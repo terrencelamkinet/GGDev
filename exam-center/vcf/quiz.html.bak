@@ -3,38 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Palo Alto Networks SecOps Pro Quiz</title>
+  <title>VMware 2V0-13.25 Quiz</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
 
 <div class="container">
   <div class="header">
-    <h1>🛡️ NGFW Engineer Quiz</h1>
-    <div class="exam-info"><strong>Exam:</strong> Palo Alto Networks NGFW Engineer · 121 Questions</div>
+    <h1>🏗️ VMware Certification Quiz</h1>
+    <div class="exam-info"><strong>Exam:</strong> VMware Cloud Foundation 9.0 Architect 2V0-13.25 · 89 Questions</div>
   </div>
 
   <!-- Home Page -->
   <div id="home-page">
     <div class="card" style="text-align: center;">
-      <div style="font-size: 40px; margin-bottom: 16px;">🕵️</div>
+      <div style="font-size: 40px; margin-bottom: 16px;">🎓</div>
       <h2>Start Your Quiz</h2>
       <p style="color: var(--text-muted); margin-bottom: 24px;">Select number of questions and begin</p>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px;">
         <button class="btn btn-primary" onclick="startQuiz(20)">20 Questions</button>
         <button class="btn btn-primary" onclick="startQuiz(60)">60 Questions</button>
-        <button class="btn btn-success" onclick="startQuiz(121)">All (121) Questions</button>
+        <button class="btn btn-success" onclick="startQuiz(89)">All (89) Questions</button>
       </div>
 
       <div class="info-box" style="text-align: left;">
         <strong>📌 How to use:</strong>
         <ul>
           <li>Select the number of questions to begin a timed quiz</li>
-          <li>Questions are randomized each time (choice text only, ABCD stays fixed)</li>
+          <li>Questions and options are randomized each time</li>
           <li>Single/Multi-select auto-detected</li>
           <li>Use "Show Answer" to verify your selection</li>
-          <li>Click Submit to see your final score report and answer review</li>
+          <li>Click Submit to see your final score and results</li>
           <li>Pass mark: 60%</li>
         </ul>
       </div>
@@ -43,7 +43,7 @@
 
       <div class="stats-grid" style="margin-top: 20px;">
         <div class="stat-item">
-          <div class="number">121</div>
+          <div class="number">89</div>
           <div class="label">Total Questions</div>
         </div>
         <div class="stat-item">
@@ -51,7 +51,7 @@
           <div class="label">Points per Question</div>
         </div>
         <div class="stat-item">
-          <div class="number">70%</div>
+          <div class="number">60%</div>
           <div class="label">Pass Mark</div>
         </div>
       </div>
@@ -65,6 +65,8 @@
   <!-- Quiz Page -->
   <div id="quiz-page" class="hidden">
     <div class="card">
+      <div class="score-bar" style="display: none;">890</span></span>
+      </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
       </div>
@@ -97,8 +99,8 @@
         <div class="results-details">
           <div><span>Total Questions:</span> <span id="result-total">0</span></div>
           <div><span>Correct Answers:</span> <span id="result-correct">0</span></div>
-          <div><span>Your Score:</span> <span id="result-score">0 / 1210</span></div>
-          <div><span>Pass Mark:</span> <span>70%</span></div>
+          <div><span>Your Score:</span> <span id="result-score">0 / 890</span></div>
+          <div><span>Pass Mark:</span> <span>60%</span></div>
           <div><span>Status:</span> <span id="result-status" style="font-weight: 700;">—</span></div>
         </div>
         <div class="review-section">
@@ -117,11 +119,11 @@
   <div id="answer-key-page" class="hidden">
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h2 style="font-size: 20px; color: var(--primary);">📖 Answer Key — All 121 Questions</h2>
+        <h2 style="font-size: 20px; color: var(--primary);">📖 Answer Key — All 89 Questions</h2>
         <button class="btn btn-secondary" onclick="goHome()">← Back</button>
       </div>
       <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
-        順序顯示 1-121 題，每題 choices 跟原始順序。
+        順序顯示 1-89 題，每題 choices 跟原始順序。
         <span style="background: #e8f5e9; padding: 2px 6px; border-radius: 3px; font-weight: 600;">綠色 highlight</span> = 正確答案
       </p>
       <div id="answer-key-content"></div>
@@ -148,17 +150,31 @@
     return a;
   }
 
-  // Shuffle TEXT only — ABCD letter labels stay fixed
-  function shuffleChoices(q) {
+  // Convert questionBank format to our standard format
+  function normalizeQuestion(q) {
+    return {
+      num: 0,
+      text: q.text.replace(/<br>/g, '\n'),
+      choices: q.options.map(o => ({letter: o.value, text: o.text})),
+      answer: Array.isArray(q.correct) ? q.correct.join('') : q.correct,
+      type: q.multi ? 'multi' : 'single'
+    };
+  }
+
+  function shuffleChoices(normQ) {
+    const q = {...normQ};
+    // Shuffle TEXT only, keep ABCD letter labels fixed
     const texts = q.choices.map(c => c.text);
     const shuffledTexts = shuffleArray(texts);
     q.choices = q.choices.map((c, i) => ({letter: c.letter, text: shuffledTexts[i]}));
+    // Answer doesn't need remapping since letters stay the same
     return q;
   }
 
   function startQuiz(count) {
-    selectedQuestions = shuffleArray(ngfwQuestions).slice(0, count).map(q => shuffleChoices(q));
+    selectedQuestions = shuffleArray(questionBank.map(q => normalizeQuestion(q))).slice(0, count).map(q => shuffleChoices(q));
     currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+    document.getElementById('total-points').textContent = count * POINTS_PER_Q;
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
     displayQuestion();
@@ -172,15 +188,14 @@
     document.getElementById('q-text').innerHTML = q.text.replace(/\n/g, '<br>');
     document.getElementById('q-type').textContent = q.type === 'multi' ? 'Choose all that apply' : 'Single Select';
     document.getElementById('q-type').className = 'question-type ' + q.type;
-    document.getElementById('progress-fill').style.width = `${((currentQuestion) / total) * 100}%`;
+    document.getElementById('progress-fill').style.width = `${(currentQuestion / total) * 100}%`;
 
     const saved = userAnswers[currentQuestion] || [];
-    const type = q.type === 'multi' ? 'checkbox' : 'radio';
     document.getElementById('options-container').innerHTML = q.choices.map(c =>
       `<div class="option${saved.includes(c.letter) ? ' selected' : ''}" onclick="selectOption('${c.letter}')">
          <span class="option-letter">${c.letter}</span>
          <span class="option-label">${c.text}</span>
-         <input type="${type}" name="answer" value="${c.letter}" ${saved.includes(c.letter) ? 'checked' : ''}>
+         <input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="answer" value="${c.letter}" ${saved.includes(c.letter) ? 'checked' : ''}>
        </div>`
     ).join('');
 
@@ -212,6 +227,8 @@
       el.className = 'answer-display show';
     } else el.className = 'answer-display';
   }
+
+
 
   function nextQuestion() { if (currentQuestion < selectedQuestions.length - 1) { currentQuestion++; displayQuestion(); } }
   function prevQuestion() { if (currentQuestion > 0) { currentQuestion--; displayQuestion(); } }
@@ -257,7 +274,7 @@
   }
 
   function showAnswerKey() {
-    const all = ngfwQuestions;
+    const all = questionBank.map(q => normalizeQuestion(q));
     let html = '';
     for (let i = 0; i < all.length; i++) {
       const q = all[i];

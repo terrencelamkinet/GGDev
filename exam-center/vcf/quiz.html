@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VMware 2V0-13.25 Quiz</title>
+  <title>Palo Alto Networks SecOps Pro Quiz</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -11,13 +11,13 @@
 <div class="container">
   <div class="header">
     <h1>🏗️ VMware Certification Quiz</h1>
-    <div class="exam-info"><strong>Exam:</strong> VMware Cloud Foundation 9.0 Architect 2V0-13.25 · 89 Questions</div>
+    <div class="exam-info"><strong>Exam:</strong> VMware Cloud Foundation Architect 2V0-13.25 · 89 Questions</div>
   </div>
 
   <!-- Home Page -->
   <div id="home-page">
     <div class="card" style="text-align: center;">
-      <div style="font-size: 40px; margin-bottom: 16px;">🎓</div>
+      <div style="font-size: 40px; margin-bottom: 16px;">🕵️</div>
       <h2>Start Your Quiz</h2>
       <p style="color: var(--text-muted); margin-bottom: 24px;">Select number of questions and begin</p>
 
@@ -31,10 +31,10 @@
         <strong>📌 How to use:</strong>
         <ul>
           <li>Select the number of questions to begin a timed quiz</li>
-          <li>Questions and options are randomized each time</li>
+          <li>Questions are randomized each time (choice text only, ABCD stays fixed)</li>
           <li>Single/Multi-select auto-detected</li>
           <li>Use "Show Answer" to verify your selection</li>
-          <li>Click Submit to see your final score and results</li>
+          <li>Click Submit to see your final score report and answer review</li>
           <li>Pass mark: 60%</li>
         </ul>
       </div>
@@ -51,7 +51,7 @@
           <div class="label">Points per Question</div>
         </div>
         <div class="stat-item">
-          <div class="number">60%</div>
+          <div class="number">70%</div>
           <div class="label">Pass Mark</div>
         </div>
       </div>
@@ -65,10 +65,6 @@
   <!-- Quiz Page -->
   <div id="quiz-page" class="hidden">
     <div class="card">
-      <div class="score-bar">
-        <span class="score-label">Your Score</span>
-        <span class="score-display"><span id="current-score">0</span> / <span id="total-points">890</span></span>
-      </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
       </div>
@@ -102,7 +98,7 @@
           <div><span>Total Questions:</span> <span id="result-total">0</span></div>
           <div><span>Correct Answers:</span> <span id="result-correct">0</span></div>
           <div><span>Your Score:</span> <span id="result-score">0 / 890</span></div>
-          <div><span>Pass Mark:</span> <span>60%</span></div>
+          <div><span>Pass Mark:</span> <span>70%</span></div>
           <div><span>Status:</span> <span id="result-status" style="font-weight: 700;">—</span></div>
         </div>
         <div class="review-section">
@@ -152,7 +148,6 @@
     return a;
   }
 
-  // Convert questionBank format to our standard format
   function normalizeQuestion(q) {
     return {
       num: 0,
@@ -163,23 +158,17 @@
     };
   }
 
-  function shuffleChoices(normQ) {
-    const q = {...normQ};
-    const idx = shuffleArray(q.choices.map((_, i) => i));
-    const oldToText = {};
-    q.choices.forEach(c => { oldToText[c.letter] = c.text; });
-    const correctSet = new Set(q.answer.split(''));
-    const oldCorrect = q.choices.filter(c => correctSet.has(c.letter)).map(c => c.letter);
-    q.choices = idx.map(i => ({letter: q.choices[i].letter, text: q.choices[i].text}));
-    const newCorrect = oldCorrect.map(l => q.choices.find(c => c.text === oldToText[l]).letter).sort();
-    q.answer = newCorrect.join('');
+  // Shuffle TEXT only — ABCD letter labels stay fixed
+  function shuffleChoices(q) {
+    const texts = q.choices.map(c => c.text);
+    const shuffledTexts = shuffleArray(texts);
+    q.choices = q.choices.map((c, i) => ({letter: c.letter, text: shuffledTexts[i]}));
     return q;
   }
 
   function startQuiz(count) {
     selectedQuestions = shuffleArray(questionBank.map(q => normalizeQuestion(q))).slice(0, count).map(q => shuffleChoices(q));
     currentQuestion = 0; userAnswers = {}; showAnswerState = {};
-    document.getElementById('total-points').textContent = count * POINTS_PER_Q;
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
     displayQuestion();
@@ -193,14 +182,15 @@
     document.getElementById('q-text').innerHTML = q.text.replace(/\n/g, '<br>');
     document.getElementById('q-type').textContent = q.type === 'multi' ? 'Choose all that apply' : 'Single Select';
     document.getElementById('q-type').className = 'question-type ' + q.type;
-    document.getElementById('progress-fill').style.width = `${(currentQuestion / total) * 100}%`;
+    document.getElementById('progress-fill').style.width = `${((currentQuestion) / total) * 100}%`;
 
     const saved = userAnswers[currentQuestion] || [];
+    const type = q.type === 'multi' ? 'checkbox' : 'radio';
     document.getElementById('options-container').innerHTML = q.choices.map(c =>
       `<div class="option${saved.includes(c.letter) ? ' selected' : ''}" onclick="selectOption('${c.letter}')">
          <span class="option-letter">${c.letter}</span>
          <span class="option-label">${c.text}</span>
-         <input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="answer" value="${c.letter}" ${saved.includes(c.letter) ? 'checked' : ''}>
+         <input type="${type}" name="answer" value="${c.letter}" ${saved.includes(c.letter) ? 'checked' : ''}>
        </div>`
     ).join('');
 
@@ -208,7 +198,6 @@
     document.getElementById('btn-next').style.display = currentQuestion < total - 1 ? 'inline-block' : 'none';
     document.getElementById('btn-submit').style.display = currentQuestion === total - 1 ? 'inline-block' : 'none';
     updateAnswerDisplay();
-    updateScore();
   }
 
   function selectOption(letter) {
@@ -232,14 +221,6 @@
       el.textContent = `✓ Correct Answer: ${q.answer}`;
       el.className = 'answer-display show';
     } else el.className = 'answer-display';
-  }
-
-  function updateScore() {
-    let correct = 0;
-    for (let i = 0; i < selectedQuestions.length; i++) {
-      if (((userAnswers[i] || []).sort().join('')) === selectedQuestions[i].answer) correct++;
-    }
-    document.getElementById('current-score').textContent = correct * POINTS_PER_Q;
   }
 
   function nextQuestion() { if (currentQuestion < selectedQuestions.length - 1) { currentQuestion++; displayQuestion(); } }
