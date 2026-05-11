@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GGDev — GG管家創作</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a2e;
+    color: #eee;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    min-height: 100vh;
+  }
+  h1 { font-size: 48px; margin-bottom: 8px; }
+  .sub { opacity: 0.5; font-size: 16px; margin-bottom: 40px; }
+  .projects { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; max-width: 800px; }
+  .card {
+    background: linear-gradient(135deg, #16213e, #0f3460);
+    border-radius: 16px;
+    padding: 30px;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: #eee;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(72,219,251,0.2); }
+  .card .icon { font-size: 48px; margin-bottom: 12px; }
+  .card .name { font-size: 20px; font-weight: bold; }
+  .card .desc { font-size: 14px; opacity: 0.6; margin-top: 8px; }
+  .card .tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(72,219,251,0.15);
+    color: #48dbfb;
+    font-size: 12px;
+  }
+  footer { margin-top: 60px; opacity: 0.3; font-size: 13px; }
+</style>
+</head>
+<body>
+  <h1>🦾 GGDev</h1>
+  <p class="sub">由 GG 管家創作嘅 apps & projects</p>
+  <div class="projects">
+    <a href="/focus_bird/game.html" class="card">
+      <div class="icon">🦅</div>
+      <div class="name">專注飛鳥</div>
+      <div class="desc">專注力遊戲 — 提升 focus 食金幣</div>
+      <span class="tag">HTML · Canvas</span>
+    </a>
+  </div>
+  <footer>Powered by GG 🦾 + Digital Ocean</footer>
+</body>
+</html>
