@@ -262,18 +262,220 @@ function checkLevelUp() {
 
 // ===== 繪畫 =====
 function drawBackground() {
-  const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, '#87CEEB');
-  grad.addColorStop(0.6, '#B0E0FF');
-  grad.addColorStop(1, '#90EE90');
-  ctx.fillStyle = grad;
+  // ===== 天空 =====
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+  skyGrad.addColorStop(0, '#4a90d9');
+  skyGrad.addColorStop(0.4, '#87CEEB');
+  skyGrad.addColorStop(0.7, '#B8E6FF');
+  skyGrad.addColorStop(1, '#E8F5E9');
+  ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, W, H);
 
-  // 地面
-  ctx.fillStyle = '#5a8f3e';
-  ctx.fillRect(0, H-25, W, 25);
-  ctx.fillStyle = '#4a7f2e';
-  ctx.fillRect(0, H-25, W, 3);
+  // ===== 太陽 =====
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 28, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFF3B0';
+  ctx.fill();
+  // 太陽光暈
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 35, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 243, 176, 0.15)';
+  ctx.fill();
+
+  // ===== 白雲 =====
+  function drawCloud(cx, cy, scale) {
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.beginPath(); ctx.arc(cx, cy, 12*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*scale, cy-4*scale, 10*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+28*scale, cy, 9*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*scale, cy+4*scale, 8*scale, 0, Math.PI*2); ctx.fill();
+  }
+  drawCloud(50, 50, 1);
+  drawCloud(160, 70, 0.8);
+  drawCloud(290, 40, 1.1);
+
+  // ===== 遠山 =====
+  ctx.fillStyle = '#7CB342';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.75);
+  ctx.lineTo(30, H * 0.55);
+  ctx.lineTo(60, H * 0.58);
+  ctx.lineTo(100, H * 0.48);
+  ctx.lineTo(140, H * 0.60);
+  ctx.lineTo(180, H * 0.52);
+  ctx.lineTo(220, H * 0.62);
+  ctx.lineTo(260, H * 0.50);
+  ctx.lineTo(300, H * 0.56);
+  ctx.lineTo(340, H * 0.46);
+  ctx.lineTo(380, H * 0.54);
+  ctx.lineTo(400, H * 0.62);
+  ctx.lineTo(W, H * 0.65);
+  ctx.lineTo(W, H * 0.75);
+  ctx.closePath();
+  ctx.fill();
+
+  // 遠山陰影層
+  ctx.fillStyle = 'rgba(255,255,255,0.08)';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.75);
+  ctx.lineTo(30, H * 0.58);
+  ctx.lineTo(60, H * 0.62);
+  ctx.lineTo(100, H * 0.52);
+  ctx.lineTo(140, H * 0.64);
+  ctx.lineTo(180, H * 0.56);
+  ctx.lineTo(220, H * 0.65);
+  ctx.lineTo(260, H * 0.54);
+  ctx.lineTo(300, H * 0.60);
+  ctx.lineTo(340, H * 0.50);
+  ctx.lineTo(380, H * 0.58);
+  ctx.lineTo(400, H * 0.65);
+  ctx.lineTo(W, H * 0.68);
+  ctx.lineTo(W, H * 0.75);
+  ctx.closePath();
+  ctx.fill();
+
+  // 近山
+  ctx.fillStyle = '#558B2F';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.78);
+  ctx.lineTo(50, H * 0.65);
+  ctx.lineTo(90, H * 0.72);
+  ctx.lineTo(130, H * 0.60);
+  ctx.lineTo(170, H * 0.68);
+  ctx.lineTo(210, H * 0.70);
+  ctx.lineTo(250, H * 0.64);
+  ctx.lineTo(290, H * 0.72);
+  ctx.lineTo(330, H * 0.62);
+  ctx.lineTo(370, H * 0.70);
+  ctx.lineTo(400, H * 0.74);
+  ctx.lineTo(W, H * 0.72);
+  ctx.lineTo(W, H * 0.78);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 河流 =====
+  ctx.fillStyle = 'rgba(66, 165, 245, 0.3)';
+  ctx.beginPath();
+  ctx.moveTo(0, H - 25);
+  ctx.quadraticCurveTo(W*0.25, H-35, W*0.5, H-25);
+  ctx.quadraticCurveTo(W*0.75, H-15, W, H-25);
+  ctx.lineTo(W, H-10);
+  ctx.quadraticCurveTo(W*0.75, H, W*0.5, H-12);
+  ctx.quadraticCurveTo(W*0.25, H-22, 0, H-10);
+  ctx.closePath();
+  ctx.fill();
+
+  // 水面反光
+  ctx.fillStyle = 'rgba(255,255,255,0.12)';
+  for (let i = 0; i < 4; i++) {
+    const rx = 30 + i * 90 + Math.sin(state.frame * 0.03 + i) * 5;
+    ctx.fillRect(rx, H-22, 15, 3);
+  }
+
+  // ===== 草地（地面）=====
+  ctx.fillStyle = '#4CAF50';
+  ctx.fillRect(0, H-20, W, 20);
+
+  // 草地紋理（草葉）
+  ctx.strokeStyle = '#388E3C';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 30; i++) {
+    const gx = (i * 13 + state.frame * 0.2) % W;
+    const gh = 5 + Math.sin(i * 2.7) * 3;
+    ctx.beginPath();
+    ctx.moveTo(gx, H-20);
+    ctx.lineTo(gx - 1, H-20 - gh);
+    ctx.stroke();
+  }
+
+  // ===== 花朵 =====
+  const flowerColors = ['#E91E63', '#FF5722', '#FFEB3B', '#9C27B0', '#FF9800'];
+  for (let i = 0; i < 8; i++) {
+    const fx = (i * 47 + 15) % W;
+    const fy = H - 18;
+    const fc = flowerColors[i % flowerColors.length];
+    // 花莖
+    ctx.strokeStyle = '#388E3C';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy);
+    ctx.lineTo(fx, fy - 6 - Math.sin(i * 1.3) * 3);
+    ctx.stroke();
+    // 花瓣
+    ctx.fillStyle = fc;
+    for (let p = 0; p < 5; p++) {
+      const angle = (p / 5) * Math.PI * 2 + state.frame * 0.005;
+      ctx.beginPath();
+      ctx.ellipse(fx + Math.cos(angle) * 2.5, fy - 7 + Math.sin(angle) * 2.5, 2, 1.5, angle, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // 花心
+    ctx.fillStyle = '#FFC107';
+    ctx.beginPath();
+    ctx.arc(fx, fy - 7, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // ===== 動物：樹上雀仔 =====
+  const birdPositions = [
+    {x: 30, y: H*0.52, size: 1},
+    {x: 180, y: H*0.48, size: 0.8},
+    {x: 320, y: H*0.55, size: 0.9}
+  ];
+  for (const bp of birdPositions) {
+    ctx.fillStyle = '#5D4037';
+    const bobY = Math.sin(state.frame * 0.04 + bp.x) * 1.5;
+    // 身體
+    ctx.beginPath();
+    ctx.ellipse(bp.x, bp.y + bobY, 4*bp.size, 3*bp.size, 0, 0, Math.PI*2);
+    ctx.fill();
+    // 頭
+    ctx.beginPath();
+    ctx.arc(bp.x + 4*bp.size, bp.y - 2*bp.size + bobY, 2.5*bp.size, 0, Math.PI*2);
+    ctx.fill();
+    // 嘴
+    ctx.fillStyle = '#FF9800';
+    ctx.beginPath();
+    ctx.moveTo(bp.x + 6*bp.size, bp.y - 2*bp.size + bobY);
+    ctx.lineTo(bp.x + 9*bp.size, bp.y - 2*bp.size + bobY);
+    ctx.lineTo(bp.x + 7*bp.size, bp.y - 1*bp.size + bobY);
+    ctx.closePath();
+    ctx.fill();
+    // 眼
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(bp.x + 5*bp.size, bp.y - 3*bp.size + bobY, 1.2*bp.size, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.arc(bp.x + 5.5*bp.size, bp.y - 3*bp.size + bobY, 0.6*bp.size, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // ===== 蝴蝶 =====
+  for (let i = 0; i < 3; i++) {
+    const bx = (80 + i * 150 + Math.sin(state.frame * 0.02 + i*2) * 20) % W;
+    const by = 120 + i * 40 + Math.sin(state.frame * 0.03 + i) * 10;
+    const wingFlap = Math.sin(state.frame * 0.1 + i) * 3;
+    ctx.fillStyle = '#CE93D8';
+    // 左翼
+    ctx.beginPath();
+    ctx.ellipse(bx - 4, by, 5, 3 + wingFlap, -0.3, 0, Math.PI*2);
+    ctx.fill();
+    // 右翼
+    ctx.beginPath();
+    ctx.ellipse(bx + 4, by, 5, 3 + wingFlap, 0.3, 0, Math.PI*2);
+    ctx.fill();
+    // 身體
+    ctx.fillStyle = '#4A148C';
+    ctx.beginPath();
+    ctx.ellipse(bx, by, 1.5, 3, 0, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // ===== 金幣落地提示 =====
+  ctx.fillStyle = 'rgba(255, 215, 0, 0.12)';
+  ctx.fillRect(0, H-25, W, 5);
 }
 
 function drawBird() {

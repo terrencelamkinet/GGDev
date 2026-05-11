@@ -26,7 +26,7 @@ import msvcrt
 import threading
 
 class Simulator:
-    def __init__(self, ws_host="0.0.0.0", ws_port=8765, threshold=40):
+    def __init__(self, ws_host="0.0.0.0", ws_port=8765, threshold=65):
         self.ws_host = ws_host
         self.ws_port = ws_port
         self.threshold = threshold
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="BrainLink Simulator for Windows")
     parser.add_argument("--port", type=int, default=8765, help="WebSocket port")
-    parser.add_argument("--threshold", type=int, default=40, help="Attention threshold")
+    parser.add_argument("--threshold", type=int, default=65, help="Attention threshold (default=65: 50=hover, >65=dive)")
     parser.add_argument("--host", default="0.0.0.0", help="Bind address")
     args = parser.parse_args()
 
