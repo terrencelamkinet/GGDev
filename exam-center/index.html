@@ -16,9 +16,21 @@
 
   <div class="card">
     <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
-      <strong>Available Exams:</strong> 2
+      <strong>Available Exams:</strong> 3
     </div>
     <div class="exams-grid">
+      <!-- SOC -->
+      <div class="exam-card" onclick="window.location='soc/quiz.html'">
+        <div class="exam-icon" style="background: #fce4ec;">🕵️</div>
+        <div class="exam-info">
+          <div class="exam-name">Palo Alto Networks Security Operations Professional</div>
+          <div class="exam-code">SecOps-Pro · 90 Questions · 70% Pass</div>
+        </div>
+        <div class="exam-actions">
+          <a href="soc/quiz.html" class="btn btn-primary">▶ Quiz</a>
+        </div>
+      </div>
+
       <!-- VCF -->
       <div class="exam-card" onclick="window.location='vcf/quiz.html'">
         <div class="exam-icon vcf">🏗️</div>
@@ -41,7 +53,6 @@
         </div>
         <div class="exam-actions">
           <a href="ngfw/quiz.html" class="btn btn-primary">▶ Quiz</a>
-          <a href="ngfw/quiz.html" class="btn btn-outline" style="border: 2px solid var(--primary); color: var(--primary); background: transparent; font-size: 13px; padding: 8px 14px;">📖 Answer Key</a>
         </div>
       </div>
     </div>
@@ -50,9 +61,9 @@
   <div class="info-box">
     <strong>📌 How to add new exams:</strong>
     <ol>
-      <li>Upload the PDF to the exam repo's root folder</li>
-      <li>Use web_search "OCF the PDF..." to extract Q&amp;As</li>
-      <li>Tell me and I'll generate the quiz + answer key</li>
+      <li>Upload the PDF to me</li>
+      <li>I'll OCR + extract Q&amp;As + generate quiz</li>
+      <li>Auto-deployed to Exam Center</li>
     </ol>
   </div>
 </div>
