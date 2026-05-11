@@ -294,6 +294,66 @@
       .btn-grid { grid-template-columns: 1fr; }
       .results-score { font-size: 40px; }
     }
+
+    /* Answer Key page */
+    #answer-key-page .q-block {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    #answer-key-page .q-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+    #answer-key-page .q-text {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    #answer-key-page .ak-choice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+    #answer-key-page .ak-choice.correct {
+      border-color: var(--success);
+      background: #e8f5e9;
+    }
+    #answer-key-page .ak-choice .letter-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    #answer-key-page .ak-choice.correct .letter-badge {
+      background: var(--success);
+      color: white;
+    }
+    #answer-key-page .ak-answer {
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: #e8f5e9;
+      color: var(--success);
+      font-weight: 600;
+      font-size: 13px;
+      border-radius: 4px;
+      display: inline-block;
+    }
   </style>
 </head>
 <body>
@@ -323,7 +383,7 @@
       <div class="info-box">
         <strong>📌 How to use:</strong>
         <ul>
-          <li>Select the number of questions you want to answer</li>
+          <li>Select the number of questions you want to begin a timed quiz</li>
           <li>Questions and options are randomized each time</li>
           <li>Single/Multi-select auto-detected (multi-select shows "Choose all that apply")</li>
           <li>Use "Show Answer" to verify your selection</li>
@@ -331,6 +391,8 @@
           <li>Pass mark: 60%</li>
         </ul>
       </div>
+
+      <button class="btn btn-outline" onclick="showAnswerKey()" style="width: 100%; margin-bottom: 16px;">📖 答案一覽 (Answer Key)</button>
 
       <div class="stats-grid">
         <div class="stat-item">
@@ -412,6 +474,19 @@
       </div>
     </div>
   </div>
+
+  <!-- Answer Key Page -->
+  <div id="answer-key-page" class="hidden">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="font-size: 20px; color: var(--primary);">📖 Answer Key — All 121 Questions</h2>
+        <button class="btn btn-secondary" onclick="goHome()">← Back</button>
+      </div>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">順序顯示 1-121 題，每題 choices 跟 PDF 原始順序。<span style="background: #e8f5e9; padding: 2px 6px; border-radius: 3px; font-weight: 600;">綠色 highlight</span> = 正確答案</p>
+      <div id="answer-key-content"></div>
+    </div>
+  </div>
+
 </div>
 
 <script src="questions-ngfw.js"></script>
@@ -633,6 +708,43 @@
     document.getElementById('home-page').classList.remove('hidden');
     document.getElementById('quiz-page').classList.add('hidden');
     document.getElementById('results-page').classList.add('hidden');
+    document.getElementById('answer-key-page').classList.add('hidden');
+  }
+
+  function showAnswerKey() {
+    // Use same ngfwQuestions source — NO shuffle, NO modification
+    const container = document.getElementById('answer-key-content');
+    let html = '';
+
+    // Sort by question number ascending (original PDF order)
+    const sorted = [...ngfwQuestions].sort((a, b) => a.num - b.num);
+
+    for (let i = 0; i < sorted.length; i++) {
+      const q = sorted[i];
+      const correctSet = new Set(q.answer.split(''));
+
+      html += `<div class="q-block">`;
+      html += `<div class="q-title">Q${i + 1} (PDF #${q.num}) · ${q.type === 'multi' ? 'Choose all that apply' : 'Single Select'}</div>`;
+      html += `<div class="q-text">${q.text.replace(/\n/g, '<br>')}</div>`;
+
+      q.choices.forEach(c => {
+        const isCorrect = correctSet.has(c.letter);
+        html += `<div class="ak-choice${isCorrect ? ' correct' : ''}">`;
+        html +=   `<span class="letter-badge">${c.letter}</span>`;
+        html +=   `<span>${c.text}</span>`;
+        html += `</div>`;
+      });
+
+      html += `<div class="ak-answer">✅ Correct Answer: ${q.answer}</div>`;
+      html += `</div>`;
+    }
+
+    container.innerHTML = html;
+
+    document.getElementById('home-page').classList.add('hidden');
+    document.getElementById('quiz-page').classList.add('hidden');
+    document.getElementById('results-page').classList.add('hidden');
+    document.getElementById('answer-key-page').classList.remove('hidden');
   }
 </script>
 
