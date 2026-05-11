@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reference - Questions Library</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>📖 Reference - Questions Library</h1>
+    <p>Complete Question Bank for Cross-Check with Official PDF</p>
+  </div>
+
+  <div class="content-reference">
+    <a href="home.html" class="back-link">← Back to Home</a>
+
+    <div class="exam-code">
+      <strong>Exam:</strong> <span id="exam-name">VMware Cloud Foundation 9.0 Architect 2V0-13.25</span>
+    </div>
+
+    <div class="question-stats">
+      <div class="stat-item">
+        <div class="stat-value" id="total-questions">89</div>
+        <div>Total Questions</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="single-select">70</div>
+        <div>Single Select</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="multi-select">19</div>
+        <div>Multiple Select</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">10</div>
+        <div>Points Per Q</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="search-box">
+        <input 
+          type="text" 
+          id="search" 
+          placeholder="Search questions by keyword..." 
+          oninput="filterQuestions()"
+        >
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="exportToText()">📥 Export to Text</button>
+        <a href="home.html" class="btn btn-secondary">Back Home</a>
+      </div>
+    </div>
+
+    <div class="question-list" id="question-list"></div>
+    <div id="no-results" class="no-results" style="display:none;">
+      No questions found. Try a different search term.
+    </div>
+  </div>
+</div>
+
+<script src="questions-complete.js"></script>
+<script>
+  let allQuestions = [];
+  let filteredQuestions = [];
+
+  function initializeReference() {
+    const params = new URLSearchParams(window.location.search);
+    const examCode = params.get('exam') || sessionStorage.getItem('examCode') || 'VMware Cloud Foundation 9.0 Architect 2V0-13.25';
+    
+    document.getElementById('exam-name').textContent = examCode;
+    
+    // Get questions (should be all 89 from questions-complete.js)
+    if (typeof questionBank !== 'undefined' && questionBank.length > 0) {
+      allQuestions = questionBank.slice(0, 89);
+    }
+    
+    displayQuestions(allQuestions);
+    updateStats();
+  }
+
+  function displayQuestions(questions) {
+    const container = document.getElementById('question-list');
+    const noResults = document.getElementById('no-results');
+    
+    if (questions.length === 0) {
+      container.innerHTML = '';
+      noResults.style.display = 'block';
+      return;
+    }
+    
+    noResults.style.display = 'none';
+    container.innerHTML = questions.map((q, index) => {
+      const typeClass = q.type === 'radio' ? 'radio' : 'checkbox';
+      const typeLabel = q.type === 'radio' ? '✓ Single Select' : '◆ Multiple Select';
+      const correctAnswer = Array.isArray(q.correct) ? q.correct.join(', ') : q.correct;
+      
+      return `
+        <div class="question-item">
+          <div style="display: flex; align-items: flex-start;">
+            <div class="question-number">${index + 1}</div>
+            <div style="flex: 1;">
+              <div class="question-text">${q.text}</div>
+              <div class="question-options">
+                ${q.options.map(opt => `
+                  <div class="option" style="padding: 6px 0; color: #6b7280;">
+                    <strong style="color: #0f7490;">${opt.value}.</strong> ${opt.text}
+                  </div>
+                `).join('')}
+              </div>
+              <div class="question-meta">
+                <span class="question-type ${typeClass}">${typeLabel}</span>
+                <span><strong>Answer:</strong> <strong style="color: #10b981;">${correctAnswer}</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function filterQuestions() {
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    
+    if (searchTerm.length === 0) {
+      filteredQuestions = allQuestions;
+    } else {
+      filteredQuestions = allQuestions.filter(q => 
+        q.text.toLowerCase().includes(searchTerm) ||
+        q.options.some(opt => opt.text.toLowerCase().includes(searchTerm))
+      );
+    }
+    
+    displayQuestions(filteredQuestions);
+  }
+
+  function exportToText() {
+    let text = 'VMware Cloud Foundation 9.0 Architect 2V0-13.25\n';
+    text += 'Complete Question Bank - All 89 Questions\n';
+    text += '='.repeat(80) + '\n\n';
+    
+    const questionsToExport = filteredQuestions.length > 0 ? filteredQuestions : allQuestions;
+    
+    questionsToExport.forEach((q, index) => {
+      text += `Question ${index + 1}:\n`;
+      text += q.text + '\n\n';
+      
+      text += 'Options:\n';
+      q.options.forEach(opt => {
+        text += `  ${opt.value}. ${opt.text}\n`;
+      });
+      
+      const correctAnswer = Array.isArray(q.correct) ? q.correct.join(', ') : q.correct;
+      text += `\nCorrect Answer: ${correctAnswer}\n`;
+      text += `Question Type: ${q.type === 'radio' ? 'Single Select' : 'Multiple Select'}\n`;
+      text += '\n' + '='.repeat(80) + '\n\n';
+    });
+    
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', 'VMware_2V0-13.25_Questions_Reference.txt');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  function updateStats() {
+    const questionsToCount = filteredQuestions.length > 0 ? filteredQuestions : allQuestions;
+    const singleSelect = questionsToCount.filter(q => q.type === 'radio').length;
+    const multiSelect = questionsToCount.filter(q => q.type === 'checkbox').length;
+    
+    document.getElementById('total-questions').textContent = questionsToCount.length;
+    document.getElementById('single-select').textContent = singleSelect;
+    document.getElementById('multi-select').textContent = multiSelect;
+  }
+
+  // Initialize on page load
+  window.addEventListener('load', initializeReference);
+</script>
+
+</body>
+</html>

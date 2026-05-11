@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Center</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container-wide">
+  <div class="header">
+    <h1>📚 Exam Center</h1>
+    <p>Practice exams for IT certifications</p>
+  </div>
+
+  <div class="card">
+    <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
+      <strong>Available Exams:</strong> 2
+    </div>
+    <div class="exams-grid">
+      <!-- VCF -->
+      <div class="exam-card" onclick="window.location='vcf/quiz.html'">
+        <div class="exam-icon vcf">🏗️</div>
+        <div class="exam-info">
+          <div class="exam-name">VMware Cloud Foundation 9.0 Architect</div>
+          <div class="exam-code">2V0-13.25 · 89 Questions</div>
+        </div>
+        <div class="exam-actions">
+          <a href="vcf/quiz.html" class="btn btn-primary">▶ Quiz</a>
+          <a href="vcf/reference.html" class="btn btn-outline" style="border: 2px solid var(--primary); color: var(--primary); background: transparent; font-size: 13px; padding: 8px 14px;">📖 Reference</a>
+        </div>
+      </div>
+
+      <!-- NGFW -->
+      <div class="exam-card" onclick="window.location='ngfw/quiz.html'">
+        <div class="exam-icon ngfw">🛡️</div>
+        <div class="exam-info">
+          <div class="exam-name">Palo Alto Networks NGFW Engineer</div>
+          <div class="exam-code">NGFW · 121 Questions</div>
+        </div>
+        <div class="exam-actions">
+          <a href="ngfw/quiz.html" class="btn btn-primary">▶ Quiz</a>
+          <a href="ngfw/quiz.html" class="btn btn-outline" style="border: 2px solid var(--primary); color: var(--primary); background: transparent; font-size: 13px; padding: 8px 14px;">📖 Answer Key</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>📌 How to add new exams:</strong>
+    <ol>
+      <li>Upload the PDF to the exam repo's root folder</li>
+      <li>Use web_search "OCF the PDF..." to extract Q&amp;As</li>
+      <li>Tell me and I'll generate the quiz + answer key</li>
+    </ol>
+  </div>
+</div>
+
+</body>
+</html>
