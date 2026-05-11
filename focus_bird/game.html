@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>專注飛鳥 🦅</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+  }
+  .game-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  }
+  canvas {
+    display: block;
+    background: #87CEEB;
+    cursor: pointer;
+  }
+  .hud {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    font-size: 18px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  .focus-bar-outer {
+    width: 180px;
+    height: 18px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .focus-bar-inner {
+    height: 100%;
+    width: 50%;
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
+    border-radius: 10px;
+    transition: width 0.15s;
+  }
+  #overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.65);
+    text-align: center;
+    gap: 12px;
+  }
+  #overlay h1 { font-size: 42px; }
+  #overlay p { font-size: 18px; opacity: 0.8; max-width: 320px; }
+  #overlay button {
+    margin-top: 8px;
+    padding: 14px 48px;
+    font-size: 20px;
+    border: none;
+    border-radius: 12px;
+    background: #48dbfb;
+    color: #1a1a2e;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  #overlay button:hover { transform: scale(1.05); }
+  .hidden { display: none !important; }
+  .credits {
+    position: absolute;
+    bottom: 12px;
+    right: 20px;
+    font-size: 12px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .instruction {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="game-wrapper">
+  <canvas id="gameCanvas" width="600" height="700"></canvas>
+
+  <div class="hud">
+    <div>
+      <span id="scoreDisplay">💰 0</span>
+      <span style="margin-left:18px;" id="levelDisplay">⭐ Lv.1</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:14px;">專注力</span>
+      <div class="focus-bar-outer">
+        <div class="focus-bar-inner" id="focusBar" style="width:50%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="overlay">
+    <h1>🦅 專注飛鳥</h1>
+    <p>提升專注力令飛鳥降落食金幣！<br>專注力不足就會向上飛走</p>
+    <p style="font-size:14px;opacity:0.6;">⬆ 按 ↑ 模擬專注力提升 &nbsp;|&nbsp; ⬇ 按 ↓ 模擬分心</p>
+    <button id="startBtn">開始遊戲</button>
+  </div>
+
+  <div class="credits">專注飛鳥 · Focus Bird</div>
+</div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const W = 600, H = 700;
+
+// ===== 遊戲狀態 =====
+const state = {
+  running: false,
+  gameOver: false,
+  score: 0,
+  level: 1,
+  focusLevel: 50,          // 0-100, 越高越專注
+  targetFocus: 50,
+  bird: { x: 150, y: 200, vy: 0 },
+  coins: [],
+  spawnTimer: 0,
+  frame: 0,
+  comboCount: 0,
+  totalCoins: 0,
+};
+
+// ===== 關卡設定 =====
+function getLevelConfig(level) {
+  // 越高關：需要越高的專注力先落到地面
+  const requiredFocus = Math.min(30 + level * 8, 90);
+  // 金幣數量
+  const coinCount = Math.min(3 + level * 2, 12);
+  // 金幣出現速度
+  const spawnRate = Math.max(40 - level * 2, 15);
+  // 重力係數 (越高關越難控制)
+  const gravityFactor = 1 + level * 0.08;
+  return { requiredFocus, coinCount, spawnRate, gravityFactor };
+}
+
+// ===== 音效 (簡單 oscillator) =====
+function playTone(freq, dur = 0.08) {
+  try {
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.frequency.value = freq;
+    gain.gain.value = 0.15;
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+    osc.start();
+    osc.stop(ac.currentTime + dur);
+  } catch(e) {}
+}
+function coinSound() { playTone(880, 0.1); }
+function levelUpSound() { playTone(660, 0.1); setTimeout(()=>playTone(880,0.15),100); }
+function gameOverSound() { playTone(330, 0.2); setTimeout(()=>playTone(220,0.3),200); }
+
+// ===== 專注力控制 =====
+function setFocusRaw(val) {
+  state.targetFocus = Math.max(0, Math.min(100, val));
+}
+
+function increaseFocus(amount = 8) {
+  state.targetFocus = Math.min(100, state.targetFocus + amount);
+}
+function decreaseFocus(amount = 8) {
+  state.targetFocus = Math.max(0, state.targetFocus - amount);
+}
+
+// ===== 鳥嘅物理 =====
+function updateBird() {
+  const cfg = getLevelConfig(state.level);
+  const b = state.bird;
+
+  // 專注力影響鳥嘅運動
+  // 專注力高 (70+) → 向下 (降落食金幣)
+  // 專注力低 (30-) → 向上 (失控飛走)
+  // 中間就 hover
+
+  const focus = state.focusLevel;
+  let gravity = 0.15 * cfg.gravityFactor;
+
+  if (focus >= cfg.requiredFocus) {
+    // 專注夠 → 向下
+    const strength = (focus - cfg.requiredFocus) / (100 - cfg.requiredFocus);
+    b.vy += gravity * 0.5 + strength * 0.6;
+  } else if (focus <= 30) {
+    // 分心 → 向上飛
+    const strength = (30 - focus) / 30;
+    b.vy -= 0.3 + strength * 0.8;
+  } else {
+    // 中間 hover — 飄浮
+    b.vy += gravity * 0.2;
+  }
+
+  // 阻力
+  b.vy *= 0.92;
+
+  // 邊界
+  b.y += b.vy;
+  if (b.y < 30) b.y = 30;
+  if (b.y > H - 60) b.y = H - 60;
+}
+
+// ===== 金幣 =====
+function spawnCoin() {
+  const cfg = getLevelConfig(state.level);
+  if (state.coins.length >= cfg.coinCount) return;
+
+  const x = W + 30;
+  const y = Math.random() * (H - 200) + 80;
+  // 金幣越大越需要專注力先食到 (越後期)
+  const size = 12 + Math.random() * 6;
+  state.coins.push({ x, y, size, collected: false, value: Math.floor(5 + state.level * 2 + Math.random() * 5) });
+}
+
+function updateCoins() {
+  const cfg = getLevelConfig(state.level);
+  for (let i = state.coins.length - 1; i >= 0; i--) {
+    const c = state.coins[i];
+    if (c.collected) { state.coins.splice(i, 1); continue; }
+    c.x -= 1.5 + state.level * 0.1;
+    if (c.x < -40) { state.coins.splice(i, 1); continue; }
+
+    // 碰撞檢測 — 鳥同金幣
+    const b = state.bird;
+    const dx = c.x - b.x;
+    const dy = c.y - b.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < c.size + 20) {
+      // 需要足夠專注力先食到
+      const requiredFocusForCoin = Math.min(20 + state.level * 5, 85);
+      if (state.focusLevel >= requiredFocusForCoin) {
+        c.collected = true;
+        state.score += c.value;
+        state.totalCoins++;
+        state.comboCount++;
+        coinSound();
+
+        // 每 collecting 幾個 coins combo 有 bonus
+        if (state.comboCount % 5 === 0) {
+          state.score += 20;
+          playTone(1100, 0.12);
+        }
+
+        // 升級 check
+        checkLevelUp();
+      }
+    }
+  }
+}
+
+function checkLevelUp() {
+  const threshold = state.level * 30 + 20;
+  if (state.totalCoins >= threshold && state.level < 20) {
+    state.level++;
+    levelUpSound();
+  }
+}
+
+// ===== 繪畫 =====
+function drawBackground() {
+  // 天空漸層
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, '#87CEEB');
+  grad.addColorStop(0.6, '#B0E0FF');
+  grad.addColorStop(1, '#90EE90');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // 地面
+  ctx.fillStyle = '#5a8f3e';
+  ctx.fillRect(0, H-30, W, 30);
+  ctx.fillStyle = '#4a7f2e';
+  ctx.fillRect(0, H-30, W, 3);
+
+  // 地面「專注區域」— 專注力夠時鳥落到呢度食金幣
+  ctx.fillStyle = 'rgba(255, 215, 0, 0.08)';
+  ctx.fillRect(0, H-50, W, 20);
+}
+
+function drawBird() {
+  const b = state.bird;
+  const focus = state.focusLevel;
+
+  ctx.save();
+  ctx.translate(b.x, b.y);
+
+  // 旋轉 — 根據 vy
+  const angle = Math.max(-0.3, Math.min(0.3, b.vy * 0.04));
+  ctx.rotate(angle);
+
+  // 身體
+  ctx.fillStyle = '#e17055';
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 22, 14, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 翅膀
+  const wingY = Math.sin(state.frame * 0.12) * 4;
+  ctx.fillStyle = '#d35400';
+  ctx.beginPath();
+  ctx.moveTo(-10, -2);
+  ctx.lineTo(-20 + wingY, -12 + wingY);
+  ctx.lineTo(5, -2);
+  ctx.fill();
+
+  // 眼
+  ctx.fillStyle = '#2d3436';
+  ctx.beginPath();
+  ctx.arc(12, -3, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(13, -4, 1.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 嘴
+  ctx.fillStyle = '#fdcb6e';
+  ctx.beginPath();
+  ctx.moveTo(20, 0);
+  ctx.lineTo(28, -2);
+  ctx.lineTo(28, 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // 專注光環 — 專注力高時有光
+  if (focus > 70) {
+    ctx.beginPath();
+    ctx.arc(0, 0, 30, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(72, 219, 251, ${(focus - 70) / 100 * 0.2})`;
+    ctx.fill();
+  }
+  // 分心紅色光環
+  if (focus < 30) {
+    ctx.beginPath();
+    ctx.arc(0, 0, 34, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 107, 107, ${(30 - focus) / 100 * 0.15})`;
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function drawCoins() {
+  for (const c of state.coins) {
+    if (c.collected) continue;
+    ctx.save();
+    ctx.translate(c.x, c.y);
+
+    // 旋轉效果
+    const rot = state.frame * 0.03 + c.x * 0.01;
+    ctx.rotate(rot);
+
+    // 金幣
+    ctx.beginPath();
+    ctx.arc(0, 0, c.size, 0, Math.PI * 2);
+    const grad = ctx.createRadialGradient(-2, -2, 0, 0, 0, c.size);
+    grad.addColorStop(0, '#ffeaa7');
+    grad.addColorStop(0.7, '#fdcb6e');
+    grad.addColorStop(1, '#e17055');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    ctx.strokeStyle = '#d68910';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // $ 符號
+    ctx.fillStyle = '#b8860b';
+    ctx.font = `${Math.max(10, c.size - 2)}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('$', 0, 0);
+
+    ctx.restore();
+  }
+}
+
+function drawHUD() {
+  document.getElementById('scoreDisplay').textContent = `💰 ${state.score}`;
+  document.getElementById('levelDisplay').textContent = `⭐ Lv.${state.level}`;
+  document.getElementById('focusBar').style.width = `${state.focusLevel}%`;
+}
+
+// ===== Game Over =====
+function showGameOver() {
+  state.gameOver = true;
+  state.running = false;
+  gameOverSound();
+  const overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden');
+  overlay.innerHTML = `
+    <h1>💫 遊戲結束</h1>
+    <p>分數：💰 ${state.score} &nbsp;|&nbsp; 達到 Lv.${state.level}</p>
+    <p style="font-size:14px;opacity:0.6;">total coins: ${state.totalCoins}</p>
+    <button id="restartBtn">再玩一次</button>
+  `;
+  document.getElementById('restartBtn').onclick = resetGame;
+}
+
+// ===== 重置 =====
+function resetGame() {
+  state.running = false;
+  state.gameOver = false;
+  state.score = 0;
+  state.level = 1;
+  state.focusLevel = 50;
+  state.targetFocus = 50;
+  state.bird = { x: 150, y: 200, vy: 0 };
+  state.coins = [];
+  state.comboCount = 0;
+  state.totalCoins = 0;
+  state.frame = 0;
+
+  const overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden');
+  overlay.innerHTML = `
+    <h1>🦅 專注飛鳥</h1>
+    <p>提升專注力令飛鳥降落食金幣！<br>專注力不足就會向上飛走</p>
+    <p style="font-size:14px;opacity:0.6;">⬆ 按 ↑ 模擬專注力提升 &nbsp;|&nbsp; ⬇ 按 ↓ 模擬分心</p>
+    <button id="startBtn">開始遊戲</button>
+  `;
+  document.getElementById('startBtn').onclick = startGame;
+
+  ctx.clearRect(0, 0, W, H);
+  drawBackground();
+  drawBird();
+}
+
+// ===== 主遊戲 loop =====
+function gameLoop() {
+  if (!state.running) return;
+  state.frame++;
+
+  // 專注力平滑過渡
+  state.focusLevel += (state.targetFocus - state.focusLevel) * 0.08;
+  state.focusLevel = Math.max(0, Math.min(100, state.focusLevel));
+
+  // 鳥
+  updateBird();
+
+  // 生成金幣
+  const cfg = getLevelConfig(state.level);
+  state.spawnTimer++;
+  if (state.spawnTimer >= cfg.spawnRate) {
+    state.spawnTimer = 0;
+    spawnCoin();
+  }
+
+  // 金幣更新
+  updateCoins();
+
+  // 繪畫
+  ctx.clearRect(0, 0, W, H);
+  drawBackground();
+  drawCoins();
+  drawBird();
+  drawHUD();
+
+  // 失敗條件：鳥飛出頂 (完全分心)
+  if (state.bird.y <= 30 && state.focusLevel < 15) {
+    showGameOver();
+    return;
+  }
+
+  // 成功通關條件（所有關 coin 完 + 達到 focus 門檻）
+  // (optional: 無 time limit，可以不斷玩)
+
+  requestAnimationFrame(gameLoop);
+}
+
+// ===== 開始 =====
+function startGame() {
+  document.getElementById('overlay').classList.add('hidden');
+  state.running = true;
+  state.gameOver = false;
+  state.bird = { x: 150, y: 200, vy: 0 };
+  state.coins = [];
+  state.spawnTimer = 0;
+  state.score = 0;
+  state.level = 1;
+  state.totalCoins = 0;
+  state.comboCount = 0;
+  state.focusLevel = 50;
+  state.targetFocus = 50;
+  gameLoop();
+}
+
+// ===== 鍵盤控制 (模擬專注力) =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+    e.preventDefault();
+    increaseFocus();
+  }
+  if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+    e.preventDefault();
+    decreaseFocus();
+  }
+  if (e.key === ' ' && !state.running) {
+    e.preventDefault();
+    if (state.gameOver) resetGame();
+    else startGame();
+  }
+});
+
+// ===== Start button =====
+document.getElementById('startBtn').onclick = startGame;
+
+// ===== 初始化畫面 =====
+drawBackground();
+drawBird();
+</script>
+</body>
+</html>

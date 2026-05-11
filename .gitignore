@@ -1,0 +1,27 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env.local
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+voice_env/
+
+# Config (contains sensitive keys)
+config/*.json
+!config/README.md
+
+# Credentials
+credentials/
+*.token
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
