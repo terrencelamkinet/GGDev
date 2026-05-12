@@ -25,7 +25,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 2,
-    "text": "Which action should an administrator take to create automated response actions when a user account is\ncompromised? (Choose one answer)",
+    "text": "Which action should an administrator take to create automated response actions when a user account is compromised? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -121,7 +121,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 6,
-    "text": "Which scripting language will allow the use of the Query Builder in Cortex XDR to show the top five accounts with\nfailed Windows Logons in the past 24 hours? (Choose one answer)",
+    "text": "Which scripting language will allow the use of the Query Builder in Cortex XDR to show the top five accounts with failed Windows Logons in the past 24 hours? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -145,7 +145,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 7,
-    "text": "Which statement explains the difference between the Cortex Identity Threat Detection and Response (ITDR)\nmodule and identity analytics in Cortex XSIAM? (Choose one answer)",
+    "text": "Which statement explains the difference between the Cortex Identity Threat Detection and Response (ITDR) module and identity analytics in Cortex XSIAM? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -169,7 +169,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 8,
-    "text": "What ts the WildFire verdict on a sample that does not pose a direct security threat, but is snown to display\nobtrusive behavior? (Choose one answer)",
+    "text": "What ts the WildFire verdict on a sample that does not pose a direct security threat, but is snown to display obtrusive behavior? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -193,7 +193,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 9,
-    "text": "Why would a security engineer be unable to activate Cortex XDR analytics when configuring data sources and\nalert sensors during a Cortex XSIAM evaluation? (Choose one answer)",
+    "text": "Why would a security engineer be unable to activate Cortex XDR analytics when configuring data sources and alert sensors during a Cortex XSIAM evaluation? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -241,7 +241,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 11,
-    "text": "In Cortex XDR, what can be used to notify analysts of atomic behavior related to processes, registry, files, and\nnetwork activity? (Choose one answer)",
+    "text": "In Cortex XDR, what can be used to notify analysts of atomic behavior related to processes, registry, files, and network activity? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -289,7 +289,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 13,
-    "text": "A customer is investigating a security incident in which unusual network traffic is observed and a malicious\nprocess is identified on an endpoint.\nWhich Cortex XDR capability assists with correlating firewall network logs and endpoint data in this environment? (Choose one answer)",
+    "text": "A customer is investigating a security incident in which unusual network traffic is observed and a malicious process is identified on an endpoint.\nWhich Cortex XDR capability assists with correlating firewall network logs and endpoint data in this environment? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -337,7 +337,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 15,
-    "text": "With a Windows endpoint, what is required to remove the Cortex XDR agent when the endpoint is no longer\nonline and cannot be managed directly from the management console? (Choose one answer)\n4. A Cortex XDR administrator must provide the end user with an offline removal tool created in the management console.",
+    "text": "With a Windows endpoint, what is required to remove the Cortex XDR agent when the endpoint is no longer online and cannot be managed directly from the management console? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -361,7 +361,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 16,
-    "text": "Anew incident in Cortex XSIAM contains WildFire malware and Behavioral Threat Protection (BTP) alerts about\nan unsigned process attempting to dump the memory of lsass.exe.\nWhich initial verdict applies to this incident? (Choose one answer)",
+    "text": "Anew incident in Cortex XSIAM contains WildFire malware and Behavioral Threat Protection (BTP) alerts about an unsigned process attempting to dump the memory of lsass.exe.\nWhich initial verdict applies to this incident? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -385,7 +385,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 17,
-    "text": "Which action is the responsibility of the SOC manager? (Choose one answer)\ne A, Developing and implementing crisis communication plans\n@ B. Handling direct end-user support or help desk issues\n¢ C, Performing initial triage and classification of incidents",
+    "text": "Which action is the responsibility of the SOC manager? (Choose one answer) e A, Developing and implementing crisis communication plans @ B. Handling direct end-user support or help desk issues ¢ C, Performing initial triage and classification of incidents",
     "choices": [
       {
         "letter": "A",
@@ -433,7 +433,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 19,
-    "text": "Which sensor is used by Cortex XSIAM to identify and collect DNS queries, HTTP headers, and DHCP\ninformation? (Choose one answer)",
+    "text": "Which sensor is used by Cortex XSIAM to identify and collect DNS queries, HTTP headers, and DHCP information? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -529,7 +529,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 23,
-    "text": "A security auditor must ensure adherence to which two regulatory compliance frameworks when reviewing a\nfinancial institution's data protection policies? (Choose two answers)",
+    "text": "A security auditor must ensure adherence to which two regulatory compliance frameworks when reviewing a financial institution's data protection policies? (Choose two answers)",
     "choices": [
       {
         "letter": "A",
@@ -601,7 +601,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 26,
-    "text": "What is the most operationally efficient way in Cortex XDR to prevent unauthorized USB access to a phone or\nmobile device on a Windows machine? (Choose one answer)",
+    "text": "What is the most operationally efficient way in Cortex XDR to prevent unauthorized USB access to a phone or mobile device on a Windows machine? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -697,7 +697,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 30,
-    "text": "During a sophisticated cyber attack, a company experiences a mulfivector intrusion that evades detection by\ntraditional security tools.\nThe company requires a solution that will correlate and analyze the disparate attack indicators across its network,\nendpoints, and cloud environments to uncover the full scope of the breach and take immediate automated\nresponse actions.\nWhich solution should be recommended? (Choose one answer)",
+    "text": "During a sophisticated cyber attack, a company experiences a mulfivector intrusion that evades detection by traditional security tools.\nThe company requires a solution that will correlate and analyze the disparate attack indicators across its network, endpoints, and cloud environments to uncover the full scope of the breach and take immediate automated response actions.\nWhich solution should be recommended? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -745,7 +745,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 32,
-    "text": "Which artifacts should be collected and analyzed during a forensic investigation following a security operations center (SOC) breach due toa\nphishing attack? (Choose one answer)\ne A Proxy logs, URL Logs, cloud audit Logs",
+    "text": "Which artifacts should be collected and analyzed during a forensic investigation following a security operations center (SOC) breach due toa phishing attack? (Choose one answer) e A Proxy logs, URL Logs, cloud audit Logs",
     "choices": [
       {
         "letter": "B",
@@ -837,7 +837,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 36,
-    "text": "Which component of Cortex XDR would allow an analyst to determine if suspicious user activity deviates from\nnormal user activity? (Choose one answer)",
+    "text": "Which component of Cortex XDR would allow an analyst to determine if suspicious user activity deviates from normal user activity? (Choose one answer) @ A.\\dentity Analytics",
     "choices": [
       {
         "letter": "A",
@@ -909,7 +909,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 39,
-    "text": "Which Cortex XDR component raises an alert when suspicious activity composed of multiple events is detected\nand deviates from established baseline behavior? (Choose one answer)",
+    "text": "Which Cortex XDR component raises an alert when suspicious activity composed of multiple events is detected and deviates from established baseline behavior? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -957,7 +957,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 41,
-    "text": "An incident responder is accessing a workstation through the Live Terminal feature in Cortex XSIAM. The\nresponder wants to download a file for analysis, but notices the text on the download option is greyed out.\nWhat would cause this? (Choose one answer)",
+    "text": "An incident responder is accessing a workstation through the Live Terminal feature in Cortex XSIAM. The responder wants to download a file for analysis, but notices the text on the download option is greyed out.\nWhat would cause this? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1005,7 +1005,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 43,
-    "text": "Which built-in report template is used to schedule a report showing the average mean time to resolution (MTTR)\nfor the week? (Choose one answer)",
+    "text": "Which built-in report template is used to schedule a report showing the average mean time to resolution (MTTR) for the week? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1053,7 +1053,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 45,
-    "text": "Which predefined role in the Cortex XDR tenant can view and triage incidents? (Choose one answer)",
+    "text": "Which predefined role in the Cortex XDR tenant can view and triage incidents? (Choose one answer) @ A.IT administrator",
     "choices": [
       {
         "letter": "A",
@@ -1077,7 +1077,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 46,
-    "text": "Which task should a threat hunter include in the investigation when a Cortex XDR incident contains alerts about a\nmalicious process? (Choose one answer)",
+    "text": "Which task should a threat hunter include in the investigation when a Cortex XDR incident contains alerts about a malicious process? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1101,7 +1101,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 47,
-    "text": "Which response action in Cortex XSIAM would be unavailable to a SOC analyst investigating an incident involving\na Linux server? (Choose one answer)",
+    "text": "Which response action in Cortex XSIAM would be unavailable to a SOC analyst investigating an incident involving a Linux server? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1173,7 +1173,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 50,
-    "text": "A custom PowerShell command is detected by Cortex XDR as a behavioral threat, and the administrator has\nconfirmed it as a false positive.\nWhich action will allow this command to run and not be detected by Cortex XDR? (Choose one answer)",
+    "text": "A custom PowerShell command is detected by Cortex XDR as a behavioral threat, and the administrator has confirmed it as a false positive.\nWhich action will allow this command to run and not be detected by Cortex XDR? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1245,7 +1245,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 53,
-    "text": "A file hash is evaluated in Cortex XSOAR by using two unique threat feeds:\n* VirusTotal feed (rating of B - usually reliable) and the file verdict is malicious\n* AlienVault feed (rating of B - usually reliable) and the file verdict is benign\nWhat is the overall file verdict? {Choose one answer)",
+    "text": "A file hash is evaluated in Cortex XSOAR by using two unique threat feeds:\n* VirusTotal feed (rating of B - usually reliable) and the file verdict is malicious * AlienVault feed (rating of B - usually reliable) and the file verdict is benign What is the overall file verdict? {Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1269,7 +1269,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 54,
-    "text": "Which MITRE enterprise tactic will provide more information on the technique used by a threat actor who has\nsuccessfully used PsExec to upload files to an internal server from a compromised workstation? (Choose one answer)",
+    "text": "Which MITRE enterprise tactic will provide more information on the technique used by a threat actor who has successfully used PsExec to upload files to an internal server from a compromised workstation? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1313,7 +1313,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 56,
-    "text": "Which solution will minimize mean time to resolution (MTTR) when, as c result of previous malware infection. a\ncompany's Windows endpoint is suffering a small amount of file corruption and modified registry keys? (Choose one answer)",
+    "text": "Which solution will minimize mean time to resolution (MTTR) when, as c result of previous malware infection. a company's Windows endpoint is suffering a small amount of file corruption and modified registry keys? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1361,7 +1361,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 58,
-    "text": "What is the most operationally efficient tool for detection of events related to abuse of authorized access and\nmalicious insider activity across endpoints, network, identity, and the cloud? (Choose one answer)\n@ A.User and Entity Behavior Analytics (UEBA)",
+    "text": "What is the most operationally efficient tool for detection of events related to abuse of authorized access and malicious insider activity across endpoints, network, identity, and the cloud? (Choose one answer) @ A.User and Entity Behavior Analytics (UEBA) @ B.Honeypots or decoy servers",
     "choices": [
       {
         "letter": "A",
@@ -1433,7 +1433,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 61,
-    "text": "The same IP address was fetched from two different threat intelligence feeds in Cortex KSOAR. The first integration returns o verdict of Suspicious\nwith an A (very reliable) confidence rating. while the second integration returns a verdict of Benign also with an A (very reliable) confidence rating.\nWhat is the final indicator verdict assigned to the !P address? (Choose one answer)",
+    "text": "The same IP address was fetched from two different threat intelligence feeds in Cortex KSOAR. The first integration returns o verdict of Suspicious with an A (very reliable) confidence rating. while the second integration returns a verdict of Benign also with an A (very reliable) confidence rating.\nWhat is the final indicator verdict assigned to the !P address? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1457,7 +1457,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 62,
-    "text": "An administrator has configured Cortex XDR to ingest logs from third party firewalls and is using Cortex XDR agents on endpoints. The goal is to\nsee network connections from the firewalls correlated with the endpoint processes that initiated them.\nWhich feature handles this correlation ta form network stories? (Choose one answer)",
+    "text": "An administrator has configured Cortex XDR to ingest logs from third party firewalls and is using Cortex XDR agents on endpoints. The goal is to see network connections from the firewalls correlated with the endpoint processes that initiated them.\nWhich feature handles this correlation ta form network stories? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1481,7 +1481,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 63,
-    "text": "Which Cortex XSOAR feature will execute a specific integration command to enrich an IP address without leaving the incident view, while also\nensuring this action is recorded in the incident's history? (Choose one answer)",
+    "text": "Which Cortex XSOAR feature will execute a specific integration command to enrich an IP address without leaving the incident view, while also ensuring this action is recorded in the incident's history? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1505,7 +1505,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 64,
-    "text": "An automation engineer is using Cortex XSIAM playbooks to create modular. readable, and structured security workflows. The engineer requires a\nmethad to clearly delineate the Engagement, Triage, and Containment phases by introducing visual grouping mechanisms into the playbook\ncanves.\nWhich playbook element is designed to organize the workflow in this scenario? (Choose one answer)",
+    "text": "An automation engineer is using Cortex XSIAM playbooks to create modular. readable, and structured security workflows. The engineer requires a methad to clearly delineate the Engagement, Triage, and Containment phases by introducing visual grouping mechanisms into the playbook canves.\nWhich playbook element is designed to organize the workflow in this scenario? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1553,7 +1553,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 66,
-    "text": "A security architect is designing a new incident response workflow that requires a specific playbook to be executed every Saturday at 1:00 AM to\nperform weekly archival and cleanup tasks. This process must be reliably scheduled within Cortex XSOAR.\nWhat should the architect use to ensure the playbook runs automatically per the specifications? (Choose one answer)",
+    "text": "A security architect is designing a new incident response workflow that requires a specific playbook to be executed every Saturday at 1:00 AM to perform weekly archival and cleanup tasks. This process must be reliably scheduled within Cortex XSOAR.\nWhat should the architect use to ensure the playbook runs automatically per the specifications? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1577,7 +1577,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 67,
-    "text": "An organization requires o security solution that offers comprehensive threat visibility across their entire digital ecosystem, including firewalls,\ncloud environments, and user authentication logs, not just endpoint data.\nWhich Palo Alto Networks solution is best suited to meet this extended requirement? (Choose one answer)",
+    "text": "An organization requires o security solution that offers comprehensive threat visibility across their entire digital ecosystem, including firewalls, cloud environments, and user authentication logs, not just endpoint data.\nWhich Palo Alto Networks solution is best suited to meet this extended requirement? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1625,7 +1625,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 69,
-    "text": "An analyst observes a threat actor using the remote desktop protocol (RDP) to interactively log on to a domain controller using credentials stolen\nfrom a compromised workstation.\nWhich MITRE enterprise tactic includes this technique? (Choose one onswer)",
+    "text": "An analyst observes a threat actor using the remote desktop protocol (RDP) to interactively log on to a domain controller using credentials stolen from a compromised workstation.\nWhich MITRE enterprise tactic includes this technique? (Choose one onswer)",
     "choices": [
       {
         "letter": "A",
@@ -1673,7 +1673,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 71,
-    "text": "Acustom script activity, previously categorized as non-malicious, suddenly begins executing a series of unusual file operations and network\nconnections. Cortex XDR detects this change, aggregates the sequence of abnormal events, and immediately raises a high-severity alert.\nWhich Cortex XDR capability uses statistical baselining and machine learning to specifically identify this type of activity? (Choose one answer)",
+    "text": "Acustom script activity, previously categorized as non-malicious, suddenly begins executing a series of unusual file operations and network connections. Cortex XDR detects this change, aggregates the sequence of abnormal events, and immediately raises a high-severity alert.\nWhich Cortex XDR capability uses statistical baselining and machine learning to specifically identify this type of activity? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1697,7 +1697,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 72,
-    "text": "An analyst ts investigating a critical incident on a Windows server in which a malware execution led to numerous file deletions and registry key\nchanges. The offected files and registry keys need to be restored efficiently and quickly.\nWhich Cortex XDR response action should the analyst select? (Choose one answer)",
+    "text": "An analyst ts investigating a critical incident on a Windows server in which a malware execution led to numerous file deletions and registry key changes. The offected files and registry keys need to be restored efficiently and quickly.\nWhich Cortex XDR response action should the analyst select? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1745,7 +1745,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 74,
-    "text": "An analyst is investigating a complex sequence of malicious activities in Cortex XDR and needs a single, consolidated view of all related processes,\nnetwork connections, and file changes that resulted in a security alert.\nWhich component of Cortex KDR performs the required data correlation to generate the view? {Choose one answer)",
+    "text": "An analyst is investigating a complex sequence of malicious activities in Cortex XDR and needs a single, consolidated view of all related processes, network connections, and file changes that resulted in a security alert.\nWhich component of Cortex KDR performs the required data correlation to generate the view? {Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1793,7 +1793,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 76,
-    "text": "Which statement accurately describes the relationship and primary difference between Al and machine Learning (ML) in cybersecurity? (Choose\none answer)\ne 4.Alisa subfield of ML that specifically handles data Labeling and feature engineering for deep learning algorithms.",
+    "text": "Which statement accurately describes the relationship and primary difference between Al and machine Learning (ML) in cybersecurity? (Choose one answer) e 4.Alisa subfield of ML that specifically handles data Labeling and feature engineering for deep learning algorithms.",
     "choices": [
       {
         "letter": "A",
@@ -1841,7 +1841,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 78,
-    "text": "Asecurity analyst is reviewing o comprehensive list of newly ingested indicators of compromise (IOCs) from various threat intelligence feeds in\nCortex XSOAR. The analyst needs to quickly filter and sort the |OCs to determine which ones pose the grectest immediate risk to the organization,\nregardless of their source.\nWhich indicator attribute in Cortex KSOAR is the most direct and efficient mechanism for this prioritization task? (Choose one answer)",
+    "text": "Asecurity analyst is reviewing o comprehensive list of newly ingested indicators of compromise (IOCs) from various threat intelligence feeds in Cortex XSOAR. The analyst needs to quickly filter and sort the |OCs to determine which ones pose the grectest immediate risk to the organization, regardless of their source.\nWhich indicator attribute in Cortex KSOAR is the most direct and efficient mechanism for this prioritization task? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1865,7 +1865,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 79,
-    "text": "An organization requires o specific user to have the ability to investigate alerts and perform remediation tasks, such as terminating molicious\nprocesses and isolating compromised hosts, without having full administrative control over the tenant settings.\nWhich predefined role should be assigned to this user in Cortex XDR? (Choose one answer)",
+    "text": "An organization requires o specific user to have the ability to investigate alerts and perform remediation tasks, such as terminating molicious processes and isolating compromised hosts, without having full administrative control over the tenant settings.\nWhich predefined role should be assigned to this user in Cortex XDR? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1889,7 +1889,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 80,
-    "text": "A security operations center (SOC) anolyst is reviewing the current queve of incidents in the Cortex XDR console. The goal is to prioritize a new\nthreat that signifies a confirmed, deep-seated persistent compromise and represents the greatest risk of immediate, irreparable damage to core\nnetwork assets.\nWhich incident should the analyst prioritize for immediate containment and remediation? (Choose one answer)",
+    "text": "A security operations center (SOC) anolyst is reviewing the current queve of incidents in the Cortex XDR console. The goal is to prioritize a new threat that signifies a confirmed, deep-seated persistent compromise and represents the greatest risk of immediate, irreparable damage to core network assets.\nWhich incident should the analyst prioritize for immediate containment and remediation? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1913,7 +1913,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 81,
-    "text": "An organization ingests security data from dozens of different sensors. including endpoint agents and network firewalls. These low-fidelity events\nfrom all the sources need to become part of a cohesive narrative for a security incident.\nWhich specific automated function performs this task? (Choose one answer)",
+    "text": "An organization ingests security data from dozens of different sensors. including endpoint agents and network firewalls. These low-fidelity events from all the sources need to become part of a cohesive narrative for a security incident.\nWhich specific automated function performs this task? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -1961,7 +1961,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 83,
-    "text": "What will consolidate the final verdict and o detailed trace of the file's behavior when an artifact's hash is automatically submitted to Palo Alto\nNetworks cloud-based service for static and dynamic onalysis? (Choose one answer)\n@ A. SmartScore incident page\ne 6. External threat feed indicator",
+    "text": "What will consolidate the final verdict and o detailed trace of the file's behavior when an artifact's hash is automatically submitted to Palo Alto Networks cloud-based service for static and dynamic onalysis? (Choose one answer) @ A. SmartScore incident page e 6. External threat feed indicator",
     "choices": [
       {
         "letter": "A",
@@ -1985,7 +1985,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 84,
-    "text": "Asecurity analyst is tuning Cortex XDR after a custom application, which uses the mshtc.exe utility with a legitimate internal script, triggers a\nbehavioral threat alert. The administrator must ensure the legitimate script runs without detection.\nWhich set of criteria must be included in the new exception rule to prevent future false positives while maintaining protection against similar\nmalicious activity? (Choose one answer)\n@ A. Exception based on the process path and script command-line crguments",
+    "text": "Asecurity analyst is tuning Cortex XDR after a custom application, which uses the mshtc.exe utility with a legitimate internal script, triggers a behavioral threat alert. The administrator must ensure the legitimate script runs without detection.\nWhich set of criteria must be included in the new exception rule to prevent future false positives while maintaining protection against similar malicious activity? (Choose one answer) @ A. Exception based on the process path and script command-line crguments @ B. File name hash (SHA256) of the mshta.exe file",
     "choices": [
       {
         "letter": "A",
@@ -2033,7 +2033,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 86,
-    "text": "Which query Language will perform a deep investigation into a series of potential endpoint attacks by searching across all collected event data\nusing Cortex XDR Query Builder? (Choose one answer)",
+    "text": "Which query Language will perform a deep investigation into a series of potential endpoint attacks by searching across all collected event data using Cortex XDR Query Builder? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
@@ -2057,7 +2057,7 @@ const ngfwSocQuestions = [
   },
   {
     "num": 87,
-    "text": "Which Cortex XSOAR capability provides sourcing, download, and management of curated collections of security orchestration content? (Choose\none answer)",
+    "text": "Which Cortex XSOAR capability provides sourcing, download, and management of curated collections of security orchestration content? (Choose one answer)",
     "choices": [
       {
         "letter": "A",
