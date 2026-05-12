@@ -158,11 +158,15 @@
     };
   }
 
-  // Shuffle TEXT only — ABCD letter labels stay fixed
+  // Shuffle choices preserving text-answer correctness
   function shuffleChoices(q) {
-    const texts = q.choices.map(c => c.text);
-    const shuffledTexts = shuffleArray(texts);
-    q.choices = q.choices.map((c, i) => ({letter: c.letter, text: shuffledTexts[i]}));
+    const correctTexts = new Set(
+      q.choices.filter(c => q.answer.includes(c.letter)).map(c => c.text)
+    );
+    const shuffled = shuffleArray(q.choices);
+    shuffled.forEach((c, i) => c.letter = String.fromCharCode(65 + i));
+    q.choices = shuffled;
+    q.answer = shuffled.filter(c => correctTexts.has(c.text)).map(c => c.letter).sort().join('');
     return q;
   }
 
