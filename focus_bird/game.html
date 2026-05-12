@@ -173,13 +173,14 @@ const state = {
   externalMode: false,
   ws: null,
   attention: 0,
-  bird: { x: 200, y: 250, vy: 0 },
+  bird: { x: 300, y: 250, vy: 0 },
   coins: [],
   spawnTimer: 0,
   nextSpawn: 0,
   frame: 0,
   comboCount: 0,
   totalCoins: 0,
+};
   coinsSpawned: 0,
 
 // ===== 音效 =====
@@ -343,6 +344,340 @@ function resetGame() {
 }
 
 // ===== 主遊戲 loop =====
+function drawBackground() {
+  // ===== 天空 =====
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+  skyGrad.addColorStop(0, '#4a90d9');
+  skyGrad.addColorStop(0.4, '#87CEEB');
+  skyGrad.addColorStop(0.7, '#B8E6FF');
+  skyGrad.addColorStop(1, '#E8F5E9');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // ===== 太陽 =====
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 28, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFF3B0';
+  ctx.fill();
+  // 太陽光暈
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 35, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 243, 176, 0.15)';
+  ctx.fill();
+
+  // ===== 白雲 =====
+  function drawCloud(cx, cy, scale) {
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.beginPath(); ctx.arc(cx, cy, 12*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*scale, cy-4*scale, 10*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+28*scale, cy, 9*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*scale, cy+4*scale, 8*scale, 0, Math.PI*2); ctx.fill();
+  }
+  drawCloud(50, 50, 1);
+  drawCloud(160, 70, 0.8);
+  drawCloud(290, 40, 1.1);
+
+  // ===== 遠景（簡單）=====
+  // 簡單遠山輪廓
+  ctx.fillStyle = '#8BC34A';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.75);
+  ctx.lineTo(50, H * 0.60);
+  ctx.lineTo(100, H * 0.65);
+  ctx.lineTo(150, H * 0.58);
+  ctx.lineTo(200, H * 0.68);
+  ctx.lineTo(250, H * 0.55);
+  ctx.lineTo(300, H * 0.62);
+  ctx.lineTo(350, H * 0.56);
+  ctx.lineTo(W, H * 0.60);
+  ctx.lineTo(W, H * 0.75);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = '#AED581';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.75);
+  ctx.lineTo(60, H * 0.68);
+  ctx.lineTo(120, H * 0.72);
+  ctx.lineTo(180, H * 0.64);
+  ctx.lineTo(240, H * 0.72);
+  ctx.lineTo(300, H * 0.68);
+  ctx.lineTo(360, H * 0.65);
+  ctx.lineTo(W, H * 0.70);
+  ctx.lineTo(W, H * 0.75);
+  ctx.closePath();
+  ctx.fill();
+  // ===== 河流 =====
+  ctx.fillStyle = 'rgba(66, 165, 245, 0.3)';
+  ctx.beginPath();
+  ctx.moveTo(0, H - 25);
+  ctx.quadraticCurveTo(W*0.25, H-35, W*0.5, H-25);
+  ctx.quadraticCurveTo(W*0.75, H-15, W, H-25);
+  ctx.lineTo(W, H-10);
+  ctx.quadraticCurveTo(W*0.75, H, W*0.5, H-12);
+  ctx.quadraticCurveTo(W*0.25, H-22, 0, H-10);
+  ctx.closePath();
+  ctx.fill();
+
+  // 水面反光
+  ctx.fillStyle = 'rgba(255,255,255,0.12)';
+  for (let i = 0; i < 4; i++) {
+    const rx = 30 + i * 90 + Math.sin(state.frame * 0.03 + i) * 5;
+    ctx.fillRect(rx, H-22, 15, 3);
+  }
+
+  // ===== 草地（地面）=====
+  ctx.fillStyle = '#4CAF50';
+  ctx.fillRect(0, H-20, W, 20);
+
+  // 草地紋理（草葉）
+  ctx.strokeStyle = '#388E3C';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 30; i++) {
+    let gx = (i * 13 - state.frame * 0.3) % W;
+    if (gx < 0) gx += W;
+    const gh = 5 + Math.sin(i * 2.7) * 3;
+    ctx.beginPath();
+    ctx.moveTo(gx, H-20);
+    ctx.lineTo(gx - 1, H-20 - gh);
+    ctx.stroke();
+  }
+
+  // ===== 花朵 =====
+  const flowerColors = ['#E91E63', '#FF5722', '#FFEB3B', '#9C27B0', '#FF9800'];
+  for (let i = 0; i < 8; i++) {
+    let fx = (i * 47 + 15 - state.frame * 0.3) % W;
+    if (fx < 0) fx += W;
+    const fy = H - 18;
+    const fc = flowerColors[i % flowerColors.length];
+    // 花莖
+    ctx.strokeStyle = '#388E3C';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy);
+    ctx.lineTo(fx, fy - 6 - Math.sin(i * 1.3) * 3);
+    ctx.stroke();
+    // 花瓣
+    ctx.fillStyle = fc;
+    for (let p = 0; p < 5; p++) {
+      const angle = (p / 5) * Math.PI * 2 + state.frame * 0.005;
+      ctx.beginPath();
+      ctx.ellipse(fx + Math.cos(angle) * 2.5, fy - 7 + Math.sin(angle) * 2.5, 2, 1.5, angle, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // 花心
+    ctx.fillStyle = '#FFC107';
+    ctx.beginPath();
+    ctx.arc(fx, fy - 7, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // ===== 金幣落地提示 =====
+  ctx.fillStyle = 'rgba(255, 215, 0, 0.12)';
+  ctx.fillRect(0, H-25, W, 5);
+}
+
+function drawBird() {
+  const b = state.bird;
+  const focus = state.focusLevel;
+  const frame = state.frame;
+
+  ctx.save();
+  ctx.translate(b.x, b.y);
+
+  const angle = Math.max(-0.3, Math.min(0.3, b.vy * 0.04));
+  ctx.rotate(angle);
+
+  // ===== 身體（橢圓形）=====
+  ctx.fillStyle = '#e17055';
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 腹部淺色
+  ctx.fillStyle = '#fab1a0';
+  ctx.beginPath();
+  ctx.ellipse(2, 4, 10, 7, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 尾羽 =====
+  const tailFlap = Math.sin(frame * 0.08) * 2;
+  ctx.fillStyle = '#c0392b';
+  ctx.beginPath();
+  ctx.moveTo(-16, -3);
+  ctx.lineTo(-28, -8 + tailFlap);
+  ctx.lineTo(-25, 2 - tailFlap);
+  ctx.lineTo(-16, 3);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 右翼（前面，拍翼動畫）=====
+  const wingUp = Math.sin(frame * 0.1) * 8;
+  const wingTwist = Math.abs(Math.sin(frame * 0.1));
+  ctx.fillStyle = '#d63031';
+  ctx.beginPath();
+  ctx.moveTo(-4, -2);
+  ctx.lineTo(-22, -16 + wingUp);
+  ctx.lineTo(-16 + wingTwist * 3, -6);
+  ctx.lineTo(-4, 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // 翅膀光影
+  ctx.fillStyle = 'rgba(255,255,255,0.1)';
+  ctx.beginPath();
+  ctx.moveTo(-6, -2);
+  ctx.lineTo(-20, -12 + wingUp);
+  ctx.lineTo(-15, -4);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 左翼（後面）=====
+  const wingUp2 = Math.sin(frame * 0.1 + Math.PI) * 6;
+  ctx.fillStyle = '#a93226';
+  ctx.beginPath();
+  ctx.moveTo(-4, -1);
+  ctx.lineTo(-20, -12 + wingUp2);
+  ctx.lineTo(-14, -4);
+  ctx.lineTo(-4, 1);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 頭 =====
+  ctx.fillStyle = '#e17055';
+  ctx.beginPath();
+  ctx.arc(14, -4, 9, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 眼（白）=====
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.ellipse(18, -5, 4, 4.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 瞳孔 =====
+  ctx.fillStyle = '#2d3436';
+  ctx.beginPath();
+  ctx.arc(19, -5, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 瞳孔高光 =====
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(20, -6.5, 1, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 嘴 =====
+  ctx.fillStyle = '#fdcb6e';
+  ctx.beginPath();
+  ctx.moveTo(21, -2);
+  ctx.lineTo(32, -1);
+  ctx.lineTo(21, 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 腮紅 =====
+  ctx.fillStyle = 'rgba(255, 107, 107, 0.3)';
+  ctx.beginPath();
+  ctx.ellipse(14, 2, 5, 3, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 專注光環 =====
+  if (focus > 70) {
+    const pulse = Math.sin(frame * 0.06) * 2;
+    ctx.beginPath();
+    ctx.arc(0, 0, 30 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(72, 219, 251, ${(focus - 70) / 100 * 0.2})`;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(0, 0, 34 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(72, 219, 251, ${(focus - 70) / 100 * 0.08})`;
+    ctx.fill();
+  }
+  if (focus < 25) {
+    ctx.beginPath();
+    ctx.arc(0, 0, 32, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 107, 107, ${(25 - focus) / 100 * 0.15})`;
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function drawCoin3D(c, rotAngle) {
+  // 3D 自轉金幣
+  const r = c.size;
+  const scaleX = Math.abs(Math.cos(rotAngle));  // 橫向壓縮（自轉效果）
+
+  ctx.save();
+
+  // 金幣陰影
+  ctx.beginPath();
+  ctx.ellipse(2, 2, r * scaleX, r, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(0,0,0,0.15)';
+  ctx.fill();
+
+  // 金幣本體（橢圓 = 3D旋轉）
+  ctx.beginPath();
+  ctx.ellipse(0, 0, r * scaleX, r, 0, 0, Math.PI * 2);
+  const grad = ctx.createLinearGradient(-r, 0, r, 0);
+  grad.addColorStop(0, '#ffe066');
+  grad.addColorStop(0.2, '#ffd43b');
+  grad.addColorStop(0.5, '#fcc419');
+  grad.addColorStop(0.8, '#ffd43b');
+  grad.addColorStop(1, '#f08c00');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // 邊框
+  ctx.strokeStyle = '#d68910';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // 邊緣高光
+  ctx.beginPath();
+  ctx.ellipse(-r*0.3*scaleX, -r*0.3, r*0.5*scaleX, r*0.4, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fill();
+
+  // 中間符號（只有正面先睇到）
+  if (scaleX > 0.3) {
+    const opacity = Math.min(1, (scaleX - 0.3) / 0.5);
+    ctx.globalAlpha = opacity;
+    ctx.fillStyle = '#b8860b';
+    ctx.font = `bold ${Math.max(10, r * 1.1)}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('$', 0, 1);
+    ctx.globalAlpha = 1;
+  }
+
+  ctx.restore();
+}
+
+function drawCoins() {
+  for (const c of state.coins) {
+    if (c.collected) continue;
+    ctx.save();
+    ctx.translate(c.x, c.y);
+
+    // 金幣自轉速度，每個金幣有微細 offset
+    const rot = state.frame * 0.05 + c.x * 0.02;
+    drawCoin3D(c, rot);
+
+    ctx.restore();
+  }
+}
+
+function drawHUD() {
+  document.getElementById('scoreDisplay').textContent = `💰 ${state.score}`;
+  document.getElementById('levelDisplay').textContent = `⭐ Lv.${state.level}`;
+  const cfg = getLevelConfig(state.level);
+  document.getElementById('targetDisplay').textContent = `${state.totalCoins}/${cfg.coinTarget}`;
+  document.getElementById('focusBar').style.width = `${state.focusLevel}%`;
+}
+
+// ===== Game Over =====
 function gameLoop() {
   if (!state.running) return;
   state.frame++;
