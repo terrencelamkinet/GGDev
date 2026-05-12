@@ -72,7 +72,7 @@
     transition: 0.15s;
   }
   .lv-btn:hover { transform: scale(1.05); background: rgba(255,255,255,0.25); }
-  .lv-btn.locked { opacity: 0.35; cursor: not-allowed; }
+  /* .lv-btn.locked removed (all levels open) */
   #overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -173,7 +173,7 @@
 
   <div id="spaceHint" class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
   <div id="gameHint" class="game-hint hidden">⎵ 拍 Space 下沉 · 預設上升</div>
-  <div class="credits">專注飛鳥 · v1.4</div>
+  <div class="credits">專注飛鳥 · v1.5</div>
 </div>
 
 <script>
@@ -300,7 +300,7 @@ function updateCoins() {
 function showLevelComplete() {
   state.running = false;
   levelUpSound();
-  setUnlockedLevel(state.level + 1);
+  // setUnlockedLevel removed (all levels open)
   const cfg = getLevelConfig(state.level);
   const elapsed = Math.floor((Date.now() - state.levelStartTime) / 1000);
   const timeStr = elapsed >= 60 ? `${Math.floor(elapsed/60)}m ${elapsed%60}s` : `${elapsed}s`;
@@ -374,20 +374,9 @@ function resetGame() {
 function showLevelSelect() {
   var overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden');
-  const unlocked = getUnlockedLevels();
   var grid = '';
   for (var i = 1; i <= 20; i++) {
-    const canPlay = i <= unlocked;
-    var leaderboardKey = 'leaderboard_lv' + i;
-    var bestTime = '';
-    try {
-      var records = JSON.parse(localStorage.getItem(leaderboardKey) || '[]');
-      if (Array.isArray(records) && records.length > 0) bestTime = ' 🏅' + records[0].time + 's';
-    } catch(e){}
-    var medal = '';
-    if (canPlay && bestTime) medal = '';
-    grid += '<div class="lv-btn' + (canPlay ? '' : ' locked') + '" data-lv="' + i + '" onclick="' + (canPlay ? 'startLevel(' + i + ')' : '') + '">' +
-      (canPlay ? 'Lv.' + i : '🔒') + '</div>';
+    grid += '<div class="lv-btn" data-lv="' + i + '" onclick="startLevel(' + i + ')">Lv.' + i + '</div>';
   }
   overlay.innerHTML = 
     '<h1>🦅 專注飛鳥</h1>' +
