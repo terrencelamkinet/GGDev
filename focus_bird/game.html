@@ -357,6 +357,7 @@ function resetGame() {
 }
 
 function showLevelSelect() {
+  state.running = false;
   document.getElementById('exitBtn').classList.add('hidden');
   var overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden');
