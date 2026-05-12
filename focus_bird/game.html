@@ -110,10 +110,6 @@
     opacity: 0.4;
     pointer-events: none;
   }
-    10% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    70% { opacity: 1; }
-    100% { opacity: 0; }
-  }
 </style>
 </head>
 <body>
@@ -718,6 +714,8 @@ function gameLoop() {
   drawCoins();
   drawBird();
   drawHUD();
+
+  requestAnimationFrame(gameLoop);
 }
 
 // ===== 開始（或下一關）=====
