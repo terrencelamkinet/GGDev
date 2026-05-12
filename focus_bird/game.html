@@ -706,7 +706,7 @@ function gameLoop() {
   drawBird();
   drawHUD();
 
-  if (state.bird.y <= 30) {
+  if (state.bird.y <= 30 && !state.gameOver) {
     showGameOver();
     return;
   }
