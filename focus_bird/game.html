@@ -151,7 +151,7 @@
     <button id="startBtn">開始遊戲</button>
   </div>
 
-  <div class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
+  <div id="spaceHint" class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
   <div id="gameHint" class="game-hint hidden">⎵ 拍 Space 下沉 · 預設上升</div>
   <div class="credits">專注飛鳥 · v1.1</div>
 </div>
@@ -266,22 +266,69 @@ function updateCoins() {
         playTone(1100, 0.12);
       }
 
-      checkLevelUp();
+      // 夠金幣就過關
+      const cfg = getLevelConfig(state.level);
+      if (state.totalCoins >= cfg.coinTarget) {
+        showLevelComplete();
+        return;
+      }
     }
   }
 }
 
-function checkLevelUp() {
+// ===== 過關／Level完成 =====
+function showLevelComplete() {
+  state.running = false;
+  levelUpSound();
   const cfg = getLevelConfig(state.level);
-  if (state.totalCoins >= cfg.coinTarget && state.level < cfg.maxLevel) {
-    state.level++;
-    state.totalCoins = 0;
-  state.coinsSpawned = 0;
-    levelUpSound();
-  }
-}
 
-// ===== 繪畫 =====
+  const elapsed = Math.floor((Date.now() - state.levelStartTime) / 1000);
+  const mins = Math.floor(elapsed / 60);
+  const secs = elapsed % 60;
+  const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+
+  // Save to leaderboard
+  const key = `leaderboard_lv${state.level}`;
+  let records = [];
+  try { records = JSON.parse(localStorage.getItem(key) || "[]");
+    if (!Array.isArray(records)) records = [];
+  } catch(e) { records = []; }
+  records.push({ time: elapsed, date: new Date().toISOString().slice(0, 10), coins: cfg.coinTarget });
+  records.sort((a, b) => a.time - b.time);
+  if (records.length > 10) records = records.slice(0, 10);
+  localStorage.setItem(key, JSON.stringify(records));
+
+  const overlay = document.getElementById("overlay");
+  overlay.classList.remove("hidden");
+
+  let lbHtml = "";
+  if (records.length > 0) {
+    lbHtml = `<div style="margin:10px 0 5px;font-size:13px;opacity:0.7;">📊 排行榜 TOP5</div>`;
+    for (let i = 0; i < Math.min(5, records.length); i++) {
+      const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i+1}.`;
+      const r = records[i];
+      const rm = Math.floor(r.time / 60); const rs = r.time % 60;
+      lbHtml += `<div style="font-size:13px;">${medal} ${rm > 0 ? `${rm}m ` : ""}${rs}s${i === 0 ? " 👑" : ""}</div>`;
+    }
+  }
+
+  const nextLevel = state.level < cfg.maxLevel;
+  overlay.innerHTML = `
+    <h1>🎉 第${state.level}關完成！</h1>
+    <p style="font-size:20px;">⏱ <strong>${timeStr}</strong></p>
+    <p style="font-size:13px;opacity:0.6;">金幣：${cfg.coinTarget} 個</p>
+    ${lbHtml}
+    <button id="nextLevelBtn" style="margin-top:4px;">${nextLevel ? "➡️ 下一關" : "🏆 全部完成！"}</button>
+    <button id="restartLv1Btn" style="margin-top:8px;padding:8px 20px;font-size:14px;background:rgba(255,255,255,0.1);color:#fff;">🔄 重新開始</button>
+  `;
+
+  if (nextLevel) {
+    document.getElementById("nextLevelBtn").onclick = () => startLevel(state.level + 1);
+  } else {
+    document.getElementById("nextLevelBtn").onclick = resetGame;
+  }
+  document.getElementById("restartLv1Btn").onclick = resetGame;
+}
 function drawBackground() {
   // ===== 天空 =====
   const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
@@ -653,7 +700,7 @@ function resetGame() {
     <p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 預設上升</p>
     <button id="startBtn">開始遊戲</button>
   `;
-  document.getElementById('startBtn').onclick = startGame;
+  document.getElementById('startBtn').onclick = startLevel(1);
 
   ctx.clearRect(0, 0, W, H);
   drawBackground();
@@ -694,43 +741,36 @@ function gameLoop() {
 
   // 失敗條件：飛到頂就 game over
   if (state.bird.y <= 30) {
+    showGameOver();
     return;
   }
 
   requestAnimationFrame(gameLoop);
 }
 
-// ===== 開始 =====
-function startGame() {
-  document.getElementById('overlay').classList.add('hidden');
+// ===== 開始（或下一關）=====
+function startLevel(levelNum) {
+  document.getElementById("overlay").classList.add("hidden");
   state.running = true;
   state.gameOver = false;
+  state.level = levelNum;
+  state.totalCoins = 0;
+  state.coinsSpawned = 0;
   state.bird = { x: 200, y: 250, vy: 0 };
   state.coins = [];
   state.spawnTimer = 0;
   state.nextSpawn = 0;
-  state.score = 0;
-  state.level = 1;
-  state.totalCoins = 0;
-  state.coinsSpawned = 0;
-  state.comboCount = 0;
-  state.focusLevel = 50;
-  state.targetFocus = 50;
+  state.levelStartTime = Date.now();
   state.spacePressed = false;
-  // 開始後 3秒隱藏遊戲提示
-  const el = document.getElementById("gameHint");
-  if (el) {
-    el.classList.remove("hidden");
-    el.style.animation = "none";
-    el.style.opacity = "1";
-    setTimeout(() => {
-      el.classList.add("hidden");
-    }, 3000);
-  }
   gameLoop();
+  // 開始後 3秒隱藏提示
+  const h1 = document.getElementById("gameHint");
+  if (h1) { h1.classList.remove("hidden"); h1.style.animation = "none"; h1.style.opacity = "1";
+    setTimeout(() => h1.classList.add("hidden"), 3000); }
+  const h2 = document.getElementById("spaceHint");
+  if (h2) { h2.classList.remove("hidden"); h2.style.animation = "none"; h2.style.opacity = "1";
+    setTimeout(() => h2.classList.add("hidden"), 3000); }
 }
-
-// ===== WebSocket (腦波 external mode) =====
 function connectBrainLink(wsUrl) {
   state.externalMode = true;
   state.ws = new WebSocket(wsUrl);
@@ -766,7 +806,7 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     if (!state.running) {
       if (state.gameOver) resetGame();
-      else startGame();
+      else startLevel(1);
       return;
     }
     if (!state.externalMode) state.spacePressed = true;
@@ -784,7 +824,7 @@ canvas.addEventListener('touchstart', (e) => {
   e.preventDefault();
   if (!state.running) {
     if (state.gameOver) resetGame();
-    else startGame();
+    else startLevel(1);
   } else {
     state.spacePressed = true;
   }
@@ -801,7 +841,7 @@ canvas.addEventListener('touchcancel', (e) => {
 canvas.addEventListener('mousedown', (e) => {
   if (!state.running) {
     if (state.gameOver) resetGame();
-    else startGame();
+    else startLevel(1);
   } else {
     state.spacePressed = true;
   }
@@ -810,7 +850,7 @@ canvas.addEventListener('mouseup', () => { state.spacePressed = false; });
 canvas.addEventListener('mouseleave', () => { if (!state.externalMode) state.spacePressed = false; });
 
 // ===== Start button =====
-document.getElementById('startBtn').onclick = startGame;
+document.getElementById('startBtn').onclick = startLevel(1);
 
 // ===== 初始化畫面 =====
 drawBackground();
