@@ -26,6 +26,7 @@
     display: block;
     background: #87CEEB;
     cursor: pointer;
+    border-radius: 16px;
   }
   .hud {
     position: absolute;
@@ -173,7 +174,7 @@
 
   <div id="spaceHint" class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
   <div id="gameHint" class="game-hint hidden">⎵ 拍 Space 下沉 · 預設上升</div>
-  <div class="credits">專注飛鳥 · v1.5</div>
+
 </div>
 
 <script>
@@ -380,7 +381,7 @@ function showLevelSelect() {
   }
   overlay.innerHTML = 
     '<h1>🦅 專注飛鳥</h1>' +
-    '<p style="font-size:14px;opacity:0.8;">揀關卡開始（拍 Space 下沉 · 預設上升）</p>' +
+    '<p style="font-size:13px;opacity:0.6;">v1.5 · 揀關卡開始</p>' +
     '<div class="lv-grid">' + grid + '</div>';
   ctx.clearRect(0, 0, W, H);
   drawBackground();
