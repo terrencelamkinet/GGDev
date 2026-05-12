@@ -153,7 +153,7 @@
 
   <div id="spaceHint" class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
   <div id="gameHint" class="game-hint hidden">⎵ 拍 Space 下沉 · 預設上升</div>
-  <div class="credits">專注飛鳥 · v1.2</div>
+  <div class="credits">專注飛鳥 · v1.3</div>
 </div>
 
 <script>
@@ -232,7 +232,7 @@ function spawnCoin() {
   const cfg = getLevelConfig(state.level);
   const maxCoins = cfg.coinTarget + 5;
   if (state.coinsSpawned >= maxCoins) return;
-  state.coins.push({ x: W + 20, y: H - 40, size: 14, collected: false, value: 10 });
+  state.coins.push({ x: W + 20, y: H - 40, size: 14, collected: false, value: 1 });
   state.coinsSpawned++;
 }
 
@@ -240,7 +240,7 @@ function updateCoins() {
   for (let i = state.coins.length - 1; i >= 0; i--) {
     const c = state.coins[i];
     if (c.collected) { state.coins.splice(i, 1); continue; }
-    c.x -= 1.2 + state.level * 0.08;
+    c.x -= 1.2 * Math.pow(1.03, state.level - 1);
     if (c.x < -40) { state.coins.splice(i, 1); continue; }
     const b = state.bird;
     const dx = c.x - b.x;
