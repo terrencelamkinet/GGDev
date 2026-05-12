@@ -129,7 +129,13 @@
   </div>
 </div>
 
-<script src="questions.js"></script>
+<script src="questions.js">// ===== 檢查有冇上次進度 =====
+(function() {
+  var rc = document.getElementById("resumeContainer");
+  if (rc && quizHasSaved()) { rc.classList.remove("hidden"); }
+})();
+
+</script>
 <script>
   const PASS_PERCENT = 70;
   const POINTS_PER_Q = 10;
@@ -138,6 +144,30 @@
   let currentQuestion = 0;
   let userAnswers = {};
   let showAnswerState = {};
+
+  // ===== 自動進度存檔 (localStorage) =====
+  const CACHE_KEY = "exam_progress_soc";
+  function quizAutoSave() {
+    try {
+      if (!selectedQuestions.length) return;
+      const d = { questions: selectedQuestions.map(q => JSON.parse(JSON.stringify(q))), current: currentQuestion, answers: JSON.parse(JSON.stringify(userAnswers)), showAns: JSON.parse(JSON.stringify(showAnswerState)), ts: Date.now() };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(d));
+    } catch(e) {}
+  }
+  function quizHasSaved() {
+    try { var r = localStorage.getItem(CACHE_KEY); if (!r) return false; var d = JSON.parse(r); return Array.isArray(d.questions) && d.questions.length > 0; } catch(e) { return false; }
+  }
+  function quizRestore() {
+    try {
+      var r = localStorage.getItem(CACHE_KEY); if (!r) return false; var d = JSON.parse(r);
+      if (!Array.isArray(d.questions) || !d.questions.length) return false;
+      selectedQuestions = d.questions; currentQuestion = d.current; userAnswers = d.answers || {}; showAnswerState = d.showAns || {};
+      document.querySelectorAll("#home-page, #quiz-page, #results-page, #answer-key-page").forEach(function(el){ el.classList.toggle("hidden", el.id !== "quiz-page"); });
+      displayQuestion(); return true;
+    } catch(e) { return false; }
+  }
+  function quizClearCache() { try { localStorage.removeItem(CACHE_KEY); } catch(e) {} }
+
 
   function shuffleArray(arr) {
     const a = [...arr];
@@ -161,6 +191,7 @@
   }
 
   function startQuiz(count) {
+    quizClearCache();
     selectedQuestions = shuffleArray(ngfwSocQuestions.map(q => ({...q}))).slice(0, count).map(q => shuffleChoices(q));
     currentQuestion = 0; userAnswers = {}; showAnswerState = {};
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
@@ -195,6 +226,7 @@
   }
 
   function selectOption(letter) {
+    quizAutoSave();
     const q = selectedQuestions[currentQuestion];
     if (!userAnswers[currentQuestion]) userAnswers[currentQuestion] = [];
     if (q.type === 'single') { userAnswers[currentQuestion] = [letter]; }
@@ -206,7 +238,8 @@
     displayQuestion();
   }
 
-  function toggleAnswer() { showAnswerState[currentQuestion] = !showAnswerState[currentQuestion]; updateAnswerDisplay(); }
+  function toggleAnswer() {
+    quizAutoSave(); showAnswerState[currentQuestion] = !showAnswerState[currentQuestion]; updateAnswerDisplay(); }
 
   function updateAnswerDisplay() {
     const q = selectedQuestions[currentQuestion];
@@ -217,10 +250,13 @@
     } else el.className = 'answer-display';
   }
 
-  function nextQuestion() { if (currentQuestion < selectedQuestions.length - 1) { currentQuestion++; displayQuestion(); } }
-  function prevQuestion() { if (currentQuestion > 0) { currentQuestion--; displayQuestion(); } }
+  function nextQuestion() {
+    quizAutoSave(); if (currentQuestion < selectedQuestions.length - 1) { currentQuestion++; displayQuestion(); } }
+  function prevQuestion() {
+    quizAutoSave(); if (currentQuestion > 0) { currentQuestion--; displayQuestion(); } }
 
   function submitQuiz() {
+    quizClearCache();
     const total = selectedQuestions.length;
     let correct = 0;
     for (let i = 0; i < total; i++) {
@@ -277,6 +313,12 @@
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'answer-key-page'));
   }
+// ===== 檢查有冇上次進度 =====
+(function() {
+  var rc = document.getElementById("resumeContainer");
+  if (rc && quizHasSaved()) { rc.classList.remove("hidden"); }
+})();
+
 </script>
 
 </body>
