@@ -53,6 +53,26 @@
     border-radius: 10px;
     transition: width 0.15s;
   }
+
+  .lv-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    max-width: 340px;
+    margin: 12px auto 0;
+  }
+  .lv-btn {
+    padding: 12px 4px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    transition: 0.15s;
+  }
+  .lv-btn:hover { transform: scale(1.05); background: rgba(255,255,255,0.25); }
+  .lv-btn.locked { opacity: 0.35; cursor: not-allowed; }
   #overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -153,7 +173,7 @@
 
   <div id="spaceHint" class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
   <div id="gameHint" class="game-hint hidden">⎵ 拍 Space 下沉 · 預設上升</div>
-  <div class="credits">專注飛鳥 · v1.3</div>
+  <div class="credits">專注飛鳥 · v1.4</div>
 </div>
 
 <script>
@@ -227,6 +247,17 @@ function getLevelConfig(level) {
   return { coinTarget, gravityFactor, coinInterval, maxLevel };
 }
 
+function getUnlockedLevels() {
+  try { return parseInt(localStorage.getItem('focusBird_unlocked') || '1', 10); } catch(e) { return 1; }
+}
+function setUnlockedLevel(lv) {
+  try {
+    var cur = getUnlockedLevels();
+    if (lv > cur) localStorage.setItem('focusBird_unlocked', String(lv));
+  } catch(e) {}
+}
+
+
 // ===== 金幣 =====
 function spawnCoin() {
   const cfg = getLevelConfig(state.level);
@@ -269,6 +300,7 @@ function updateCoins() {
 function showLevelComplete() {
   state.running = false;
   levelUpSound();
+  setUnlockedLevel(state.level + 1);
   const cfg = getLevelConfig(state.level);
   const elapsed = Math.floor((Date.now() - state.levelStartTime) / 1000);
   const timeStr = elapsed >= 60 ? `${Math.floor(elapsed/60)}m ${elapsed%60}s` : `${elapsed}s`;
@@ -296,10 +328,12 @@ function showLevelComplete() {
     '<p style="font-size:20px;">⏱ <strong>' + timeStr + '</strong></p>' +
     '<p style="font-size:13px;opacity:0.6;">金幣：' + cfg.coinTarget + ' 個</p>' +
     lbHtml +
-    '<button id="nextLevelBtn" style="margin-top:4px;">' + (canNext ? '➡️ 下一關' : '🏆 全部完成！') + '</button>' +
+    '<button id="nextLevelBtn" style="margin-top:4px;">' + (canNext ? '➡️ 下一關 (Lv.' + (state.level + 1) + ')' : '🏆 全部完成！') + '</button>' +
+    '<button id="homeBtn" style="margin-top:8px;padding:8px 20px;font-size:14px;background:rgba(255,255,255,0.1);color:#fff;margin-right:8px;">🏠 主頁</button>' +
     '<button id="restartLv1Btn" style="margin-top:8px;padding:8px 20px;font-size:14px;background:rgba(255,255,255,0.1);color:#fff;">🔄 重新開始</button>';
 
   document.getElementById('nextLevelBtn').onclick = canNext ? function(){ startLevel(state.level + 1); } : resetGame;
+  document.getElementById('homeBtn').onclick = showLevelSelect;
   document.getElementById('restartLv1Btn').onclick = resetGame;
 }
 
@@ -315,8 +349,10 @@ function showGameOver() {
     '<h1>💫 遊戲結束</h1>' +
     '<p>分數：💰 ' + state.score + ' | Lv.' + state.level + '</p>' +
     '<p style="font-size:13px;opacity:0.6;">關卡進度：' + state.totalCoins + '/' + _cfg.coinTarget + '</p>' +
-    '<button id="restartBtn">再玩一次</button>';
+    '<button id="restartBtn">再玩一次</button>' +
+    '<button id="homeBtn2" style="margin-top:8px;padding:8px 20px;font-size:14px;background:rgba(255,255,255,0.1);color:#fff;display:block;margin-left:auto;margin-right:auto;">🏠 主頁</button>';
   document.getElementById('restartBtn').onclick = resetGame;
+  document.getElementById('homeBtn2').onclick = showLevelSelect;
 }
 
 // ===== 重置 =====
@@ -332,14 +368,31 @@ function resetGame() {
   state.comboCount = 0;
   state.totalCoins = 0;
   state.frame = 0;
+  showLevelSelect();
+}
+
+function showLevelSelect() {
   var overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden');
+  const unlocked = getUnlockedLevels();
+  var grid = '';
+  for (var i = 1; i <= 20; i++) {
+    const canPlay = i <= unlocked;
+    var leaderboardKey = 'leaderboard_lv' + i;
+    var bestTime = '';
+    try {
+      var records = JSON.parse(localStorage.getItem(leaderboardKey) || '[]');
+      if (Array.isArray(records) && records.length > 0) bestTime = ' 🏅' + records[0].time + 's';
+    } catch(e){}
+    var medal = '';
+    if (canPlay && bestTime) medal = '';
+    grid += '<div class="lv-btn' + (canPlay ? '' : ' locked') + '" data-lv="' + i + '" onclick="' + (canPlay ? 'startLevel(' + i + ')' : '') + '">' +
+      (canPlay ? 'Lv.' + i : '🔒') + '</div>';
+  }
   overlay.innerHTML = 
     '<h1>🦅 專注飛鳥</h1>' +
-    '<p>拍 Space 下沉食金幣<br>預設向上浮</p>' +
-    '<p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 | 預設上升</p>' +
-    '<button id="startBtn">開始遊戲</button>';
-  document.getElementById('startBtn').onclick = function(){ startLevel(1); };
+    '<p style="font-size:14px;opacity:0.8;">揀關卡開始（拍 Space 下沉 · 預設上升）</p>' +
+    '<div class="lv-grid">' + grid + '</div>';
   ctx.clearRect(0, 0, W, H);
   drawBackground();
   drawBird();
@@ -796,12 +849,8 @@ document.getElementById('gameCanvas').addEventListener('mousedown', function(e) 
 document.getElementById('gameCanvas').addEventListener('mouseup', function() { state.spacePressed = false; });
 document.getElementById('gameCanvas').addEventListener('mouseleave', function() { if (!state.externalMode) state.spacePressed = false; });
 
-// ===== Start button =====
-document.getElementById('startBtn').onclick = function(){ startLevel(1); };
-
-// ===== 初始化畫面 =====
-drawBackground();
-drawBird();
+// ===== 初始化畫面 (level select) =====
+showLevelSelect();
 </script>
 </body>
 </html>
