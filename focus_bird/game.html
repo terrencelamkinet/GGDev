@@ -110,36 +110,6 @@
     opacity: 0.4;
     pointer-events: none;
   }
-  .space-hint {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.65);
-    padding: 8px 18px;
-    border-radius: 14px;
-    font-size: 13px;
-    pointer-events: none;
-    text-align: center;
-    line-height: 1.5;
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  .game-hint {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 10px 22px;
-    border-radius: 12px;
-    font-size: 15px;
-    pointer-events: none;
-    z-index: 10;
-    animation: hintFade 3s ease-in-out forwards;
-  }
-  @keyframes hintFade {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
     10% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -172,8 +142,6 @@
     <button id="startBtn">開始遊戲</button>
   </div>
 
-  <div id="spaceHint" class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
-  <div id="gameHint" class="game-hint hidden">⎵ 拍 Space 下沉 · 預設上升</div>
 
 </div>
 
@@ -770,13 +738,6 @@ function startLevel(levelNum) {
   state.levelStartTime = Date.now();
   state.spacePressed = false;
   gameLoop();
-  // 3秒後隱藏提示
-  var h1 = document.getElementById('gameHint');
-  if (h1) { h1.classList.remove('hidden'); h1.style.animation = 'none'; h1.style.opacity = '1';
-    setTimeout(function(){ h1.classList.add('hidden'); }, 3000); }
-  var h2 = document.getElementById('spaceHint');
-  if (h2) { h2.classList.remove('hidden'); h2.style.animation = 'none'; h2.style.opacity = '1';
-    setTimeout(function(){ h2.classList.add('hidden'); }, 3000); }
 }
 
 // ===== WebSocket (腦波 external mode) =====
