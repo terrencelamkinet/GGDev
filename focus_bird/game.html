@@ -236,7 +236,7 @@ function updateCoins() {
   for (let i = state.coins.length - 1; i >= 0; i--) {
     const c = state.coins[i];
     if (c.collected) { state.coins.splice(i, 1); continue; }
-    c.x -= 1.2 * Math.pow(1.03, state.level - 1);
+    c.x -= 1.2 * Math.pow(1.05, state.level - 1);
     if (c.x < -40) { state.coins.splice(i, 1); continue; }
     const b = state.bird;
     const dx = c.x - b.x;
@@ -345,7 +345,7 @@ function showLevelSelect() {
   }
   overlay.innerHTML = 
     '<h1>🦅 專注飛鳥</h1>' +
-    '<p style="font-size:13px;opacity:0.6;">v1.5 · 揀關卡開始</p>' +
+    '<p style="font-size:13px;opacity:0.6;">v1.6 · 揀關卡開始</p>' +
     '<div class="lv-grid">' + grid + '</div>';
   ctx.clearRect(0, 0, W, H);
   drawBackground();
@@ -697,13 +697,13 @@ function gameLoop() {
   }
   updateBird();
 
-  if (!state.nextSpawn) state.nextSpawn = 60 + Math.floor(Math.random() * 120);
+  if (!state.nextSpawn) state.nextSpawn = 300; // 5秒後先出第一個金幣
   state.spawnTimer++;
   var cfg = getLevelConfig(state.level);
   var maxCoins = cfg.coinTarget + 5;
   if (state.coinsSpawned < maxCoins && state.spawnTimer >= state.nextSpawn) {
     state.spawnTimer = 0;
-    state.nextSpawn = 180 + Math.floor(Math.random() * 120);
+    state.nextSpawn = 180 + Math.floor(Math.random() * 120); // 3-5秒 random
     spawnCoin();
   }
   updateCoins();
