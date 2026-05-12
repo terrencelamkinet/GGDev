@@ -443,7 +443,7 @@ function drawBackground() {
   ctx.strokeStyle = '#388E3C';
   ctx.lineWidth = 1;
   for (let i = 0; i < 30; i++) {
-    let gx = (i * 13 - state.frame * 0.45) % W;
+    let gx = (i * 13 - state.frame * 0.45 * Math.pow(1.05, state.level - 1)) % W;
     if (gx < 0) gx += W;
     const gh = 5 + Math.sin(i * 2.7) * 3;
     ctx.beginPath();
@@ -455,7 +455,7 @@ function drawBackground() {
   // ===== 花朵 =====
   const flowerColors = ['#E91E63', '#FF5722', '#FFEB3B', '#9C27B0', '#FF9800'];
   for (let i = 0; i < 8; i++) {
-    let fx = (i * 47 + 15 - state.frame * 0.45) % W;
+    let fx = (i * 47 + 15 - state.frame * 0.45 * Math.pow(1.05, state.level - 1)) % W;
     if (fx < 0) fx += W;
     const fy = H - 18;
     const fc = flowerColors[i % flowerColors.length];
