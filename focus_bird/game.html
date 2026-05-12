@@ -170,25 +170,17 @@ const state = {
   focusLevel: 50,
   targetFocus: 50,
   spacePressed: false,
-  externalMode: false,  // true = 用腦波/WebSocket
-  ws: null,             // WebSocket connection
-  attention: 0,         // 腦波 attention 值
+  externalMode: false,
+  ws: null,
+  attention: 0,
   bird: { x: 200, y: 250, vy: 0 },
   coins: [],
   spawnTimer: 0,
+  nextSpawn: 0,
   frame: 0,
   comboCount: 0,
   totalCoins: 0,
-};
-
-function getLevelConfig(level) {
-  const maxLevel = 20;
-  const l = Math.min(level, maxLevel);
-  const coinTarget = 10 + (l - 1) * 5;
-  const gravityFactor = 1 + l * 0.06;
-  const coinInterval = 180 + Math.floor(Math.random() * 120);
-  return { coinTarget, gravityFactor, coinInterval };
-}
+  coinsSpawned: 0,
 
 // ===== 音效 =====
 function playTone(freq, dur = 0.08) {
@@ -213,33 +205,33 @@ function gameOverSound() { playTone(330, 0.2); setTimeout(()=>playTone(220,0.3),
 function updateBird() {
   const b = state.bird;
   const cfg = getLevelConfig(state.level);
-
   if (state.spacePressed) {
-    // 拍Space → 向下沉
     b.vy += 0.03 * cfg.gravityFactor;
   } else {
-    // 預設向上浮 (default上升)
     b.vy -= 0.02 * cfg.gravityFactor;
   }
-
-  // 阻力
   b.vy *= 0.95;
-
-  // 邊界
   b.y += b.vy;
   if (b.y > H - 50) b.y = H - 50;
+}
+
+// ===== 關卡設定 =====
+function getLevelConfig(level) {
+  const maxLevel = 20;
+  const l = Math.min(level, maxLevel);
+  const coinTarget = 10 + (l - 1) * 5;
+  const gravityFactor = 1 + l * 0.06;
+  const coinInterval = 180 + Math.floor(Math.random() * 120);
+  return { coinTarget, gravityFactor, coinInterval, maxLevel };
 }
 
 // ===== 金幣 =====
 function spawnCoin() {
   const cfg = getLevelConfig(state.level);
-  // 金幣總數 = 30，食完唔再出
-  if (state.coins.length >= 30) return;
-
-  const x = W + 20;
-  const y = H - 40;  // 地上
-  const size = 14;
-  state.coins.push({ x, y, size, collected: false, value: 10 });
+  const maxCoins = cfg.coinTarget + 5;
+  if (state.coinsSpawned >= maxCoins) return;
+  state.coins.push({ x: W + 20, y: H - 40, size: 14, collected: false, value: 10 });
+  state.coinsSpawned++;
 }
 
 function updateCoins() {
@@ -248,25 +240,19 @@ function updateCoins() {
     if (c.collected) { state.coins.splice(i, 1); continue; }
     c.x -= 1.2 + state.level * 0.08;
     if (c.x < -40) { state.coins.splice(i, 1); continue; }
-
-    // 碰撞檢測
     const b = state.bird;
     const dx = c.x - b.x;
     const dy = c.y - b.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    if (dist < c.size + 18) {
+    if (Math.sqrt(dx*dx + dy*dy) < c.size + 18) {
       c.collected = true;
       state.score += c.value;
       state.totalCoins++;
       state.comboCount++;
       coinSound();
-
       if (state.comboCount % 5 === 0) {
         state.score += 20;
         playTone(1100, 0.12);
       }
-
-      // 夠金幣就過關
       const cfg = getLevelConfig(state.level);
       if (state.totalCoins >= cfg.coinTarget) {
         showLevelComplete();
@@ -276,388 +262,42 @@ function updateCoins() {
   }
 }
 
-// ===== 過關／Level完成 =====
+// ===== 過關畫面 =====
 function showLevelComplete() {
   state.running = false;
   levelUpSound();
   const cfg = getLevelConfig(state.level);
-
   const elapsed = Math.floor((Date.now() - state.levelStartTime) / 1000);
-  const mins = Math.floor(elapsed / 60);
-  const secs = elapsed % 60;
-  const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
-
-  // Save to leaderboard
-  const key = `leaderboard_lv${state.level}`;
+  const timeStr = elapsed >= 60 ? `${Math.floor(elapsed/60)}m ${elapsed%60}s` : `${elapsed}s`;
+  const key = 'leaderboard_lv' + state.level;
   let records = [];
-  try { records = JSON.parse(localStorage.getItem(key) || "[]");
-    if (!Array.isArray(records)) records = [];
-  } catch(e) { records = []; }
-  records.push({ time: elapsed, date: new Date().toISOString().slice(0, 10), coins: cfg.coinTarget });
-  records.sort((a, b) => a.time - b.time);
-  if (records.length > 10) records = records.slice(0, 10);
+  try { records = JSON.parse(localStorage.getItem(key) || '[]'); if(!Array.isArray(records)) records = []; } catch(e){}
+  records.push({ time: elapsed, date: new Date().toISOString().slice(0,10), coins: cfg.coinTarget });
+  records.sort(function(a,b){ return a.time - b.time; });
+  if (records.length > 10) records = records.slice(0,10);
   localStorage.setItem(key, JSON.stringify(records));
 
-  const overlay = document.getElementById("overlay");
-  overlay.classList.remove("hidden");
-
-  let lbHtml = "";
-  if (records.length > 0) {
-    lbHtml = `<div style="margin:10px 0 5px;font-size:13px;opacity:0.7;">📊 排行榜 TOP5</div>`;
-    for (let i = 0; i < Math.min(5, records.length); i++) {
-      const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i+1}.`;
-      const r = records[i];
-      const rm = Math.floor(r.time / 60); const rs = r.time % 60;
-      lbHtml += `<div style="font-size:13px;">${medal} ${rm > 0 ? `${rm}m ` : ""}${rs}s${i === 0 ? " 👑" : ""}</div>`;
-    }
+  const overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden');
+  var lbHtml = '<div style="margin:10px 0 5px;font-size:13px;opacity:0.7;">📊 排行榜 TOP5</div>';
+  for (var i = 0; i < Math.min(5, records.length); i++) {
+    var medal = ['🥇','🥈','🥉'][i] || (i+1) + '.';
+    var t = records[i].time;
+    var ts = t >= 60 ? Math.floor(t/60) + 'm ' + (t%60) + 's' : t + 's';
+    lbHtml += '<div style="font-size:13px;">' + medal + ' ' + ts + (i === 0 ? ' 👑' : '') + '</div>';
   }
 
-  const nextLevel = state.level < cfg.maxLevel;
-  overlay.innerHTML = `
-    <h1>🎉 第${state.level}關完成！</h1>
-    <p style="font-size:20px;">⏱ <strong>${timeStr}</strong></p>
-    <p style="font-size:13px;opacity:0.6;">金幣：${cfg.coinTarget} 個</p>
-    ${lbHtml}
-    <button id="nextLevelBtn" style="margin-top:4px;">${nextLevel ? "➡️ 下一關" : "🏆 全部完成！"}</button>
-    <button id="restartLv1Btn" style="margin-top:8px;padding:8px 20px;font-size:14px;background:rgba(255,255,255,0.1);color:#fff;">🔄 重新開始</button>
-  `;
+  var canNext = state.level < cfg.maxLevel;
+  overlay.innerHTML = 
+    '<h1>🎉 第' + state.level + '關完成！</h1>' +
+    '<p style="font-size:20px;">⏱ <strong>' + timeStr + '</strong></p>' +
+    '<p style="font-size:13px;opacity:0.6;">金幣：' + cfg.coinTarget + ' 個</p>' +
+    lbHtml +
+    '<button id="nextLevelBtn" style="margin-top:4px;">' + (canNext ? '➡️ 下一關' : '🏆 全部完成！') + '</button>' +
+    '<button id="restartLv1Btn" style="margin-top:8px;padding:8px 20px;font-size:14px;background:rgba(255,255,255,0.1);color:#fff;">🔄 重新開始</button>';
 
-  if (nextLevel) {
-    document.getElementById("nextLevelBtn").onclick = () => startLevel(state.level + 1);
-  } else {
-    document.getElementById("nextLevelBtn").onclick = resetGame;
-  }
-  document.getElementById("restartLv1Btn").onclick = resetGame;
-}
-function drawBackground() {
-  // ===== 天空 =====
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
-  skyGrad.addColorStop(0, '#4a90d9');
-  skyGrad.addColorStop(0.4, '#87CEEB');
-  skyGrad.addColorStop(0.7, '#B8E6FF');
-  skyGrad.addColorStop(1, '#E8F5E9');
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, W, H);
-
-  // ===== 太陽 =====
-  ctx.beginPath();
-  ctx.arc(W - 50, 45, 28, 0, Math.PI * 2);
-  ctx.fillStyle = '#FFF3B0';
-  ctx.fill();
-  // 太陽光暈
-  ctx.beginPath();
-  ctx.arc(W - 50, 45, 35, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255, 243, 176, 0.15)';
-  ctx.fill();
-
-  // ===== 白雲 =====
-  function drawCloud(cx, cy, scale) {
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.beginPath(); ctx.arc(cx, cy, 12*scale, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+14*scale, cy-4*scale, 10*scale, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+28*scale, cy, 9*scale, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+14*scale, cy+4*scale, 8*scale, 0, Math.PI*2); ctx.fill();
-  }
-  drawCloud(50, 50, 1);
-  drawCloud(160, 70, 0.8);
-  drawCloud(290, 40, 1.1);
-
-  // ===== 遠景（簡單）=====
-  // 簡單遠山輪廓
-  ctx.fillStyle = '#8BC34A';
-  ctx.beginPath();
-  ctx.moveTo(0, H * 0.75);
-  ctx.lineTo(50, H * 0.60);
-  ctx.lineTo(100, H * 0.65);
-  ctx.lineTo(150, H * 0.58);
-  ctx.lineTo(200, H * 0.68);
-  ctx.lineTo(250, H * 0.55);
-  ctx.lineTo(300, H * 0.62);
-  ctx.lineTo(350, H * 0.56);
-  ctx.lineTo(W, H * 0.60);
-  ctx.lineTo(W, H * 0.75);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle = '#AED581';
-  ctx.beginPath();
-  ctx.moveTo(0, H * 0.75);
-  ctx.lineTo(60, H * 0.68);
-  ctx.lineTo(120, H * 0.72);
-  ctx.lineTo(180, H * 0.64);
-  ctx.lineTo(240, H * 0.72);
-  ctx.lineTo(300, H * 0.68);
-  ctx.lineTo(360, H * 0.65);
-  ctx.lineTo(W, H * 0.70);
-  ctx.lineTo(W, H * 0.75);
-  ctx.closePath();
-  ctx.fill();
-  // ===== 河流 =====
-  ctx.fillStyle = 'rgba(66, 165, 245, 0.3)';
-  ctx.beginPath();
-  ctx.moveTo(0, H - 25);
-  ctx.quadraticCurveTo(W*0.25, H-35, W*0.5, H-25);
-  ctx.quadraticCurveTo(W*0.75, H-15, W, H-25);
-  ctx.lineTo(W, H-10);
-  ctx.quadraticCurveTo(W*0.75, H, W*0.5, H-12);
-  ctx.quadraticCurveTo(W*0.25, H-22, 0, H-10);
-  ctx.closePath();
-  ctx.fill();
-
-  // 水面反光
-  ctx.fillStyle = 'rgba(255,255,255,0.12)';
-  for (let i = 0; i < 4; i++) {
-    const rx = 30 + i * 90 + Math.sin(state.frame * 0.03 + i) * 5;
-    ctx.fillRect(rx, H-22, 15, 3);
-  }
-
-  // ===== 草地（地面）=====
-  ctx.fillStyle = '#4CAF50';
-  ctx.fillRect(0, H-20, W, 20);
-
-  // 草地紋理（草葉）
-  ctx.strokeStyle = '#388E3C';
-  ctx.lineWidth = 1;
-  for (let i = 0; i < 30; i++) {
-    const gx = (i * 13 + state.frame * 0.2) % W;
-    const gh = 5 + Math.sin(i * 2.7) * 3;
-    ctx.beginPath();
-    ctx.moveTo(gx, H-20);
-    ctx.lineTo(gx - 1, H-20 - gh);
-    ctx.stroke();
-  }
-
-  // ===== 花朵 =====
-  const flowerColors = ['#E91E63', '#FF5722', '#FFEB3B', '#9C27B0', '#FF9800'];
-  for (let i = 0; i < 8; i++) {
-    const fx = (i * 47 + 15) % W;
-    const fy = H - 18;
-    const fc = flowerColors[i % flowerColors.length];
-    // 花莖
-    ctx.strokeStyle = '#388E3C';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(fx, fy);
-    ctx.lineTo(fx, fy - 6 - Math.sin(i * 1.3) * 3);
-    ctx.stroke();
-    // 花瓣
-    ctx.fillStyle = fc;
-    for (let p = 0; p < 5; p++) {
-      const angle = (p / 5) * Math.PI * 2 + state.frame * 0.005;
-      ctx.beginPath();
-      ctx.ellipse(fx + Math.cos(angle) * 2.5, fy - 7 + Math.sin(angle) * 2.5, 2, 1.5, angle, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    // 花心
-    ctx.fillStyle = '#FFC107';
-    ctx.beginPath();
-    ctx.arc(fx, fy - 7, 1.5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // ===== 金幣落地提示 =====
-  ctx.fillStyle = 'rgba(255, 215, 0, 0.12)';
-  ctx.fillRect(0, H-25, W, 5);
-}
-
-function drawBird() {
-  const b = state.bird;
-  const focus = state.focusLevel;
-  const frame = state.frame;
-
-  ctx.save();
-  ctx.translate(b.x, b.y);
-
-  const angle = Math.max(-0.3, Math.min(0.3, b.vy * 0.04));
-  ctx.rotate(angle);
-
-  // ===== 身體（橢圓形）=====
-  ctx.fillStyle = '#e17055';
-  ctx.beginPath();
-  ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // 腹部淺色
-  ctx.fillStyle = '#fab1a0';
-  ctx.beginPath();
-  ctx.ellipse(2, 4, 10, 7, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // ===== 尾羽 =====
-  const tailFlap = Math.sin(frame * 0.08) * 2;
-  ctx.fillStyle = '#c0392b';
-  ctx.beginPath();
-  ctx.moveTo(-16, -3);
-  ctx.lineTo(-28, -8 + tailFlap);
-  ctx.lineTo(-25, 2 - tailFlap);
-  ctx.lineTo(-16, 3);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== 右翼（前面，拍翼動畫）=====
-  const wingUp = Math.sin(frame * 0.1) * 8;
-  const wingTwist = Math.abs(Math.sin(frame * 0.1));
-  ctx.fillStyle = '#d63031';
-  ctx.beginPath();
-  ctx.moveTo(-4, -2);
-  ctx.lineTo(-22, -16 + wingUp);
-  ctx.lineTo(-16 + wingTwist * 3, -6);
-  ctx.lineTo(-4, 2);
-  ctx.closePath();
-  ctx.fill();
-
-  // 翅膀光影
-  ctx.fillStyle = 'rgba(255,255,255,0.1)';
-  ctx.beginPath();
-  ctx.moveTo(-6, -2);
-  ctx.lineTo(-20, -12 + wingUp);
-  ctx.lineTo(-15, -4);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== 左翼（後面）=====
-  const wingUp2 = Math.sin(frame * 0.1 + Math.PI) * 6;
-  ctx.fillStyle = '#a93226';
-  ctx.beginPath();
-  ctx.moveTo(-4, -1);
-  ctx.lineTo(-20, -12 + wingUp2);
-  ctx.lineTo(-14, -4);
-  ctx.lineTo(-4, 1);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== 頭 =====
-  ctx.fillStyle = '#e17055';
-  ctx.beginPath();
-  ctx.arc(14, -4, 9, 0, Math.PI * 2);
-  ctx.fill();
-
-  // ===== 眼（白）=====
-  ctx.fillStyle = '#fff';
-  ctx.beginPath();
-  ctx.ellipse(18, -5, 4, 4.5, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // ===== 瞳孔 =====
-  ctx.fillStyle = '#2d3436';
-  ctx.beginPath();
-  ctx.arc(19, -5, 2.5, 0, Math.PI * 2);
-  ctx.fill();
-
-  // ===== 瞳孔高光 =====
-  ctx.fillStyle = '#fff';
-  ctx.beginPath();
-  ctx.arc(20, -6.5, 1, 0, Math.PI * 2);
-  ctx.fill();
-
-  // ===== 嘴 =====
-  ctx.fillStyle = '#fdcb6e';
-  ctx.beginPath();
-  ctx.moveTo(21, -2);
-  ctx.lineTo(32, -1);
-  ctx.lineTo(21, 2);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== 腮紅 =====
-  ctx.fillStyle = 'rgba(255, 107, 107, 0.3)';
-  ctx.beginPath();
-  ctx.ellipse(14, 2, 5, 3, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // ===== 專注光環 =====
-  if (focus > 70) {
-    const pulse = Math.sin(frame * 0.06) * 2;
-    ctx.beginPath();
-    ctx.arc(0, 0, 30 + pulse, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(72, 219, 251, ${(focus - 70) / 100 * 0.2})`;
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(0, 0, 34 + pulse, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(72, 219, 251, ${(focus - 70) / 100 * 0.08})`;
-    ctx.fill();
-  }
-  if (focus < 25) {
-    ctx.beginPath();
-    ctx.arc(0, 0, 32, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255, 107, 107, ${(25 - focus) / 100 * 0.15})`;
-    ctx.fill();
-  }
-
-  ctx.restore();
-}
-
-function drawCoin3D(c, rotAngle) {
-  // 3D 自轉金幣
-  const r = c.size;
-  const scaleX = Math.abs(Math.cos(rotAngle));  // 橫向壓縮（自轉效果）
-
-  ctx.save();
-
-  // 金幣陰影
-  ctx.beginPath();
-  ctx.ellipse(2, 2, r * scaleX, r, 0, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(0,0,0,0.15)';
-  ctx.fill();
-
-  // 金幣本體（橢圓 = 3D旋轉）
-  ctx.beginPath();
-  ctx.ellipse(0, 0, r * scaleX, r, 0, 0, Math.PI * 2);
-  const grad = ctx.createLinearGradient(-r, 0, r, 0);
-  grad.addColorStop(0, '#ffe066');
-  grad.addColorStop(0.2, '#ffd43b');
-  grad.addColorStop(0.5, '#fcc419');
-  grad.addColorStop(0.8, '#ffd43b');
-  grad.addColorStop(1, '#f08c00');
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  // 邊框
-  ctx.strokeStyle = '#d68910';
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-
-  // 邊緣高光
-  ctx.beginPath();
-  ctx.ellipse(-r*0.3*scaleX, -r*0.3, r*0.5*scaleX, r*0.4, 0, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255,255,255,0.3)';
-  ctx.fill();
-
-  // 中間符號（只有正面先睇到）
-  if (scaleX > 0.3) {
-    const opacity = Math.min(1, (scaleX - 0.3) / 0.5);
-    ctx.globalAlpha = opacity;
-    ctx.fillStyle = '#b8860b';
-    ctx.font = `bold ${Math.max(10, r * 1.1)}px Arial`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('$', 0, 1);
-    ctx.globalAlpha = 1;
-  }
-
-  ctx.restore();
-}
-
-function drawCoins() {
-  for (const c of state.coins) {
-    if (c.collected) continue;
-    ctx.save();
-    ctx.translate(c.x, c.y);
-
-    // 金幣自轉速度，每個金幣有微細 offset
-    const rot = state.frame * 0.05 + c.x * 0.02;
-    drawCoin3D(c, rot);
-
-    ctx.restore();
-  }
-}
-
-function drawHUD() {
-  document.getElementById('scoreDisplay').textContent = `💰 ${state.score}`;
-  document.getElementById('levelDisplay').textContent = `⭐ Lv.${state.level}`;
-  const cfg = getLevelConfig(state.level);
-  document.getElementById('targetDisplay').textContent = `${state.totalCoins}/${cfg.coinTarget}`;
-  document.getElementById('focusBar').style.width = `${state.focusLevel}%`;
+  document.getElementById('nextLevelBtn').onclick = canNext ? function(){ startLevel(state.level + 1); } : resetGame;
+  document.getElementById('restartLv1Btn').onclick = resetGame;
 }
 
 // ===== Game Over =====
@@ -665,15 +305,14 @@ function showGameOver() {
   state.gameOver = true;
   state.running = false;
   gameOverSound();
-  const overlay = document.getElementById('overlay');
+  var overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden');
-  const _cfg = getLevelConfig(state.level);
-  overlay.innerHTML = `
-    <h1>💫 遊戲結束</h1>
-    <p>分數：💰 ${state.score} &nbsp;|&nbsp; Lv.${state.level}</p>
-    <p style="font-size:13px;opacity:0.6;">關卡進度：${state.totalCoins}/${_cfg.coinTarget}</p>
-    <button id="restartBtn">再玩一次</button>
-  `;
+  var _cfg = getLevelConfig(state.level);
+  overlay.innerHTML = 
+    '<h1>💫 遊戲結束</h1>' +
+    '<p>分數：💰 ' + state.score + ' | Lv.' + state.level + '</p>' +
+    '<p style="font-size:13px;opacity:0.6;">關卡進度：' + state.totalCoins + '/' + _cfg.coinTarget + '</p>' +
+    '<button id="restartBtn">再玩一次</button>';
   document.getElementById('restartBtn').onclick = resetGame;
 }
 
@@ -684,24 +323,20 @@ function resetGame() {
   state.score = 0;
   state.level = 1;
   state.focusLevel = 50;
-  state.targetFocus = 50;
   state.spacePressed = false;
   state.bird = { x: 200, y: 250, vy: 0 };
   state.coins = [];
   state.comboCount = 0;
   state.totalCoins = 0;
   state.frame = 0;
-
-  const overlay = document.getElementById('overlay');
+  var overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden');
-  overlay.innerHTML = `
-    <h1>🦅 專注飛鳥</h1>
-    <p>拍 Space 下沉食金幣<br>預設向上浮</p>
-    <p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 預設上升</p>
-    <button id="startBtn">開始遊戲</button>
-  `;
-  document.getElementById('startBtn').onclick = startLevel(1);
-
+  overlay.innerHTML = 
+    '<h1>🦅 專注飛鳥</h1>' +
+    '<p>拍 Space 下沉食金幣<br>預設向上浮</p>' +
+    '<p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 | 預設上升</p>' +
+    '<button id="startBtn">開始遊戲</button>';
+  document.getElementById('startBtn').onclick = function(){ startLevel(1); };
   ctx.clearRect(0, 0, W, H);
   drawBackground();
   drawBird();
@@ -712,50 +347,46 @@ function gameLoop() {
   if (!state.running) return;
   state.frame++;
 
-  // Space按住=專注升，放開=專注降
   if (state.spacePressed) {
     state.focusLevel = Math.min(100, state.focusLevel + 1.5);
   } else {
     state.focusLevel = Math.max(0, state.focusLevel - 0.5);
   }
-
-  // 鳥
   updateBird();
 
-  // 第一個金幣 8-10秒先出，之後3-5秒
   if (!state.nextSpawn) state.nextSpawn = 480 + Math.floor(Math.random() * 120);
   state.spawnTimer++;
-  if (state.coins.length < 30 && state.spawnTimer >= state.nextSpawn) {
+  var cfg = getLevelConfig(state.level);
+  var maxCoins = cfg.coinTarget + 5;
+  if (state.coinsSpawned < maxCoins && state.spawnTimer >= state.nextSpawn) {
     state.spawnTimer = 0;
     state.nextSpawn = 180 + Math.floor(Math.random() * 120);
     spawnCoin();
   }
   updateCoins();
 
-  // 繪畫
   ctx.clearRect(0, 0, W, H);
   drawBackground();
   drawCoins();
   drawBird();
   drawHUD();
 
-  // 失敗條件：飛到頂就 game over
   if (state.bird.y <= 30) {
     showGameOver();
     return;
   }
-
   requestAnimationFrame(gameLoop);
 }
 
 // ===== 開始（或下一關）=====
 function startLevel(levelNum) {
-  document.getElementById("overlay").classList.add("hidden");
+  document.getElementById('overlay').classList.add('hidden');
   state.running = true;
   state.gameOver = false;
   state.level = levelNum;
   state.totalCoins = 0;
   state.coinsSpawned = 0;
+  state.focusLevel = 50;
   state.bird = { x: 200, y: 250, vy: 0 };
   state.coins = [];
   state.spawnTimer = 0;
@@ -763,94 +394,77 @@ function startLevel(levelNum) {
   state.levelStartTime = Date.now();
   state.spacePressed = false;
   gameLoop();
-  // 開始後 3秒隱藏提示
-  const h1 = document.getElementById("gameHint");
-  if (h1) { h1.classList.remove("hidden"); h1.style.animation = "none"; h1.style.opacity = "1";
-    setTimeout(() => h1.classList.add("hidden"), 3000); }
-  const h2 = document.getElementById("spaceHint");
-  if (h2) { h2.classList.remove("hidden"); h2.style.animation = "none"; h2.style.opacity = "1";
-    setTimeout(() => h2.classList.add("hidden"), 3000); }
+  // 3秒後隱藏提示
+  var h1 = document.getElementById('gameHint');
+  if (h1) { h1.classList.remove('hidden'); h1.style.animation = 'none'; h1.style.opacity = '1';
+    setTimeout(function(){ h1.classList.add('hidden'); }, 3000); }
+  var h2 = document.getElementById('spaceHint');
+  if (h2) { h2.classList.remove('hidden'); h2.style.animation = 'none'; h2.style.opacity = '1';
+    setTimeout(function(){ h2.classList.add('hidden'); }, 3000); }
 }
+
+// ===== WebSocket (腦波 external mode) =====
 function connectBrainLink(wsUrl) {
   state.externalMode = true;
   state.ws = new WebSocket(wsUrl);
-  state.ws.onopen = () => console.log('🧠 BrainLink connected');
-  state.ws.onmessage = (event) => {
+  state.ws.onopen = function(){ console.log('🧠 BrainLink connected'); };
+  state.ws.onmessage = function(event) {
     try {
-      const data = JSON.parse(event.data);
+      var data = JSON.parse(event.data);
       state.attention = data.attention;
-      // attention > threshold = 專注 = 下沉
       state.spacePressed = data.shouldDive;
     } catch(e) {}
   };
-  state.ws.onclose = () => {
+  state.ws.onclose = function(){
     console.log('🧠 BrainLink disconnected, retrying in 3s...');
     state.externalMode = false;
-    setTimeout(() => connectBrainLink(wsUrl), 3000);
+    setTimeout(function(){ connectBrainLink(wsUrl); }, 3000);
   };
-  state.ws.onerror = () => state.ws.close();
+  state.ws.onerror = function(){ state.ws.close(); };
 }
 
-// 如果 URL 有 ?ws=ws://... 就自動連接腦波
+// If URL has ?ws=...
 (function() {
-  const params = new URLSearchParams(window.location.search);
-  const wsUrl = params.get('ws');
-  if (wsUrl) {
-    connectBrainLink(wsUrl);
-  }
+  var params = new URLSearchParams(window.location.search);
+  var wsUrl = params.get('ws');
+  if (wsUrl) connectBrainLink(wsUrl);
 })();
 
-// ===== 鍵盤控制 (Space only) =====
-document.addEventListener('keydown', (e) => {
+// ===== 鍵盤控制 =====
+document.addEventListener('keydown', function(e) {
   if (e.key === ' ') {
     e.preventDefault();
-    if (!state.running) {
-      if (state.gameOver) resetGame();
-      else startLevel(1);
-      return;
-    }
+    if (!state.running && state.gameOver) resetGame();
     if (!state.externalMode) state.spacePressed = true;
   }
 });
-document.addEventListener('keyup', (e) => {
-  if (e.key === ' ') {
-    e.preventDefault();
-    if (!state.externalMode) state.spacePressed = false;
-  }
+document.addEventListener('keyup', function(e) {
+  if (e.key === ' ') { e.preventDefault(); if (!state.externalMode) state.spacePressed = false; }
 });
 
-// Touch support for mobile
-canvas.addEventListener('touchstart', (e) => {
+// Touch
+document.getElementById('gameCanvas').addEventListener('touchstart', function(e) {
   e.preventDefault();
-  if (!state.running) {
-    if (state.gameOver) resetGame();
-    else startLevel(1);
-  } else {
-    state.spacePressed = true;
-  }
+  if (!state.running && state.gameOver) resetGame();
+  else state.spacePressed = true;
 });
-canvas.addEventListener('touchend', (e) => {
-  e.preventDefault();
-  state.spacePressed = false;
+document.getElementById('gameCanvas').addEventListener('touchend', function(e) {
+  e.preventDefault(); state.spacePressed = false;
 });
-canvas.addEventListener('touchcancel', (e) => {
+document.getElementById('gameCanvas').addEventListener('touchcancel', function(e) {
   state.spacePressed = false;
 });
 
-// Mouse support
-canvas.addEventListener('mousedown', (e) => {
-  if (!state.running) {
-    if (state.gameOver) resetGame();
-    else startLevel(1);
-  } else {
-    state.spacePressed = true;
-  }
+// Mouse
+document.getElementById('gameCanvas').addEventListener('mousedown', function(e) {
+  if (!state.running && state.gameOver) resetGame();
+  else state.spacePressed = true;
 });
-canvas.addEventListener('mouseup', () => { state.spacePressed = false; });
-canvas.addEventListener('mouseleave', () => { if (!state.externalMode) state.spacePressed = false; });
+document.getElementById('gameCanvas').addEventListener('mouseup', function() { state.spacePressed = false; });
+document.getElementById('gameCanvas').addEventListener('mouseleave', function() { if (!state.externalMode) state.spacePressed = false; });
 
 // ===== Start button =====
-document.getElementById('startBtn').onclick = startLevel(1);
+document.getElementById('startBtn').onclick = function(){ startLevel(1); };
 
 // ===== 初始化畫面 =====
 drawBackground();
