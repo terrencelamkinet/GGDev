@@ -1,0 +1,33 @@
+{
+  "projects": [
+    {
+      "name": "專注飛鳥",
+      "description": "用EEG檢測專注力嘅訓練遊戲，飛鳥透過專注力高低控制升降食金幣",
+      "status": "active",
+      "created": "2026-05-10 23:23:48",
+      "last_activity": "2026-05-12 19:41",
+      "conversations": 2,
+      "files": [],
+      "notes": ""
+    },
+    {
+      "name": "exam-center",
+      "description": "IT 認證考試模擬系統 (SOC NGFW VCF)",
+      "status": "active",
+      "created": "2026-05-11",
+      "last_activity": "2026-05-12 15:46",
+      "conversations": 9,
+      "files": [
+        "exam-center/index.html",
+        "exam-center/soc/quiz.html",
+        "exam-center/soc/questions.js",
+        "exam-center/ngfw/quiz.html",
+        "exam-center/ngfw/questions.js",
+        "exam-center/vcf/quiz.html",
+        "exam-center/vcf/questions.js"
+      ],
+      "notes": "DO auto-deploy from git push"
+    }
+  ],
+  "last_updated": "2026-05-12 15:46"
+}

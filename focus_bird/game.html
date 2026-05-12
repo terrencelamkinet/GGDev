@@ -152,7 +152,7 @@
   </div>
 
   <div class="space-hint">⎵ 拍Space下沉 · 預設上升</div>
-  <div id="gameHint" class="game-hint hidden">拍 Space 下沉 · 專注食金幣</div>
+  <div id="gameHint" class="game-hint hidden">⎵ 拍 Space 下沉 · 預設上升</div>
   <div class="credits">專注飛鳥 · v2</div>
 </div>
 
@@ -173,7 +173,7 @@ const state = {
   externalMode: false,  // true = 用腦波/WebSocket
   ws: null,             // WebSocket connection
   attention: 0,         // 腦波 attention 值
-  bird: { x: 100, y: 100, vy: 0 },
+  bird: { x: 200, y: 250, vy: 0 },
   coins: [],
   spawnTimer: 0,
   frame: 0,
@@ -181,11 +181,11 @@ const state = {
   totalCoins: 0,
 };
 
-// ===== 關卡設定 =====
 function getLevelConfig(level) {
-  const coinTarget = 30 + (level - 1) * 15;
-  const gravityFactor = 1 + level * 0.06;
-  // 每個金幣之間 delay 3-5秒 (180-300 frames at 60fps)
+  const maxLevel = 20;
+  const l = Math.min(level, maxLevel);
+  const coinTarget = 10 + (l - 1) * 5;
+  const gravityFactor = 1 + l * 0.06;
   const coinInterval = 180 + Math.floor(Math.random() * 120);
   return { coinTarget, gravityFactor, coinInterval };
 }
@@ -227,7 +227,6 @@ function updateBird() {
 
   // 邊界
   b.y += b.vy;
-  if (b.y < 30) b.y = 30;
   if (b.y > H - 50) b.y = H - 50;
 }
 
@@ -274,7 +273,7 @@ function updateCoins() {
 
 function checkLevelUp() {
   const cfg = getLevelConfig(state.level);
-  if (state.totalCoins >= cfg.coinTarget && state.level < 20) {
+  if (state.totalCoins >= cfg.coinTarget && state.level < cfg.maxLevel) {
     state.level++;
     state.totalCoins = 0;
   state.coinsSpawned = 0;
@@ -640,7 +639,7 @@ function resetGame() {
   state.focusLevel = 50;
   state.targetFocus = 50;
   state.spacePressed = false;
-  state.bird = { x: 100, y: 100, vy: 0 };
+  state.bird = { x: 200, y: 250, vy: 0 };
   state.coins = [];
   state.comboCount = 0;
   state.totalCoins = 0;
@@ -693,9 +692,8 @@ function gameLoop() {
   drawBird();
   drawHUD();
 
-  // 失敗條件：飛出頂 + 無專注
-  if (state.bird.y <= 30 && state.focusLevel < 5) {
-    showGameOver();
+  // 失敗條件：飛到頂就 game over
+  if (state.bird.y <= 30) {
     return;
   }
 
@@ -707,7 +705,7 @@ function startGame() {
   document.getElementById('overlay').classList.add('hidden');
   state.running = true;
   state.gameOver = false;
-  state.bird = { x: 100, y: 100, vy: 0 };
+  state.bird = { x: 200, y: 250, vy: 0 };
   state.coins = [];
   state.spawnTimer = 0;
   state.nextSpawn = 0;
@@ -719,12 +717,16 @@ function startGame() {
   state.focusLevel = 50;
   state.targetFocus = 50;
   state.spacePressed = false;
-  // 3秒後自動消失 gameHint
-  document.getElementById('gameHint').classList.remove('hidden');
-  setTimeout(() => {
-    const el = document.getElementById('gameHint');
-    if (el) el.classList.add('hidden');
-  }, 3000);
+  // 開始後 3秒隱藏遊戲提示
+  const el = document.getElementById("gameHint");
+  if (el) {
+    el.classList.remove("hidden");
+    el.style.animation = "none";
+    el.style.opacity = "1";
+    setTimeout(() => {
+      el.classList.add("hidden");
+    }, 3000);
+  }
   gameLoop();
 }
 
