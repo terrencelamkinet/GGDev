@@ -266,12 +266,7 @@ function updateCoins() {
       state.score += c.value;
       state.totalCoins++;
       state.lastCoinTime = state.frame;
-      state.comboCount++;
       coinSound();
-      if (state.comboCount % 5 === 0) {
-        state.score += 20;
-        playTone(1100, 0.12);
-      }
       const cfg = getLevelConfig(state.level);
       if (state.totalCoins >= cfg.coinTarget) {
         showLevelComplete();
