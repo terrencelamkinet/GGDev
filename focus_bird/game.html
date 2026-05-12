@@ -102,6 +102,25 @@
   }
   #overlay button:hover { transform: scale(1.05); }
   .hidden { display: none !important; }
+  #exitBtn {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 36px;
+    height: 36px;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+  }
+  #exitBtn:hover { background: rgba(0,0,0,0.7); }
   .credits {
     position: absolute;
     bottom: 8px;
@@ -116,6 +135,7 @@
 
 <div class="game-wrapper">
   <canvas id="gameCanvas" width="400" height="500"></canvas>
+  <button id="exitBtn" class="hidden" onclick="showLevelSelect()">✕</button>
 
   <div class="hud">
     <div>
@@ -337,6 +357,7 @@ function resetGame() {
 }
 
 function showLevelSelect() {
+  document.getElementById('exitBtn').classList.add('hidden');
   var overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden');
   var grid = '';
@@ -721,6 +742,7 @@ function gameLoop() {
 // ===== 開始（或下一關）=====
 function startLevel(levelNum) {
   document.getElementById('overlay').classList.add('hidden');
+  document.getElementById('exitBtn').classList.remove('hidden');
   state.running = true;
   state.gameOver = false;
   state.level = levelNum;
