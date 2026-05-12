@@ -1,7 +1,7 @@
 const ngfwQuestions = [
   {
     "num": 1,
-    "text": "To maintain security efficacy of its public cloud resources by using native tools, a company purchases Cloud NGFW credits to replicate the Panorama, PA-Series, and VM-Series devices used in physical data centers. Resources exist on AWS and Azure: The AWS deployment is architected with AWS Transit Gateway, to which all resources connect The Azure deployment is architected with each application independently routing traffic The engineer deploying Cloud NGFW in these two cloud environments must account for the following: Minimize changes to the two cloud environments Scale to the demands of the applications while using the least amount of compute resources Allow the company to unify the Security policies across all protected areas Which two implementations will meet these requirements? (Choose two.)",
+    "text": "To maintain security efficacy of its public cloud resources by using native tools, a company purchases Cloud NGFW credits to replicate the\nPanorama, PA-Series, and VM-Series devices used in physical data centers. Resources exist on AWS and Azure:\nThe AWS deployment is architected with AWS Transit Gateway, to which all resources connect\nThe Azure deployment is architected with each application independently routing traffic\nThe engineer deploying Cloud NGFW in these two cloud environments must account for the following:\nMinimize changes to the two cloud environments\nScale to the demands of the applications while using the least amount of compute resources\nAllow the company to unify the Security policies across all protected areas\nWhich two implementations will meet these requirements? (Choose two.)",
     "choices": [
       {
         "letter": "A",
@@ -25,7 +25,7 @@ const ngfwQuestions = [
   },
   {
     "num": 2,
-    "text": "During an upgrade to the routing infrastructure in a customer environment, the network administrator wants to implement Advanced Routing Engine (ARE) on a Palo Alto Networks firewall. Which firewall models support this configuration?",
+    "text": "During an upgrade to the routing infrastructure in a customer environment, the network administrator wants to implement Advanced Routing\nEngine (ARE) on a Palo Alto Networks firewall.\nWhich firewall models support this configuration?",
     "choices": [
       {
         "letter": "A",
@@ -49,7 +49,7 @@ const ngfwQuestions = [
   },
   {
     "num": 3,
-    "text": "Which two statements apply to configuring required security rules when setting up an IPSec tunnel between a Palo Alto Networks firewall and a third- party gateway? (Choose two.)",
+    "text": "Which two statements apply to configuring required security rules when setting up an IPSec tunnel between a Palo Alto Networks firewall and a\nthird- party gateway? (Choose two.)",
     "choices": [
       {
         "letter": "A",
@@ -169,7 +169,7 @@ const ngfwQuestions = [
   },
   {
     "num": 8,
-    "text": "An organization has configured GlobalProtect in a hybrid authentication model using both certificate-based authentication for the pre-logon stage and SAML-based multi-factor authentication (MFA) for user logon. How does the GlobalProtect agent process the authentication flow on Windows endpoints?",
+    "text": "An organization has configured GlobalProtect in a hybrid authentication model using both certificate-based authentication for the pre-logon stage\nand SAML-based multi-factor authentication (MFA) for user logon.\nHow does the GlobalProtect agent process the authentication flow on Windows endpoints?",
     "choices": [
       {
         "letter": "A",
@@ -193,23 +193,23 @@ const ngfwQuestions = [
   },
   {
     "num": 9,
-    "text": "An NGFW engineer is configuring multiple Panorama-managed firewalls to start sending all logs to Strata Logging Service. The Strata Logging Service instance has been provisioned, the required device certificates have been installed, and Panorama and the firewalls have been successfully onboarded to Strata Logging Service. Which configuration task must be performed to start sending the logs to Strata Logging Service and continue forwarding them to the Panorama log collectors as well?",
+    "text": "An NGFW engineer is configuring multiple Panorama-managed firewalls to start sending all logs to Strata Logging Service. The Strata Logging\nService instance has been provisioned, the required device certificates have been installed, and Panorama and the firewalls have been\nsuccessfully onboarded to Strata Logging Service.\nWhich configuration task must be performed to start sending the logs to Strata Logging Service and continue forwarding them to the Panorama\nlog collectors as well?",
     "choices": [
       {
         "letter": "A",
-        "text": "Modify all active Log Forwarding profiles to select the \u201cCloud Logging\u201d option in each profile match list in the appropriate device groups."
+        "text": "Modify all active Log Forwarding profiles to select the “Cloud Logging” option in each profile match list in the appropriate device groups."
       },
       {
         "letter": "B",
-        "text": "Enable the \u201cPanorama/Cloud Logging\u201d option in the Logging and Reporting Settings section under Device --> Setup --> Management in the appropriate templates."
+        "text": "Enable the “Panorama/Cloud Logging” option in the Logging and Reporting Settings section under Device --> Setup --> Management in the appropriate templates."
       },
       {
         "letter": "C",
-        "text": "Select the \u201cEnable Duplicate Logging\u201d option in the Cloud Logging section under Device --> Setup --> Management in the appropriate templates."
+        "text": "Select the “Enable Duplicate Logging” option in the Cloud Logging section under Device --> Setup --> Management in the appropriate templates."
       },
       {
         "letter": "D",
-        "text": "Select the \u201cEnable Cloud Logging\u201d option in the Cloud Logging section under Device --> Setup --> Management in the appropriate templates."
+        "text": "Select the “Enable Cloud Logging” option in the Cloud Logging section under Device --> Setup --> Management in the appropriate templates."
       }
     ],
     "answer": "C",
@@ -217,7 +217,7 @@ const ngfwQuestions = [
   },
   {
     "num": 10,
-    "text": "An NGFW engineer is configuring multiple Layer 2 interfaces on a Palo Alto Networks firewall, and all interfaces must be assigned to the same VLAN. During initial testing, it is reported that clients located behind the various interfaces cannot communicate with each other. Which action taken by the engineer will resolve this issue?",
+    "text": "An NGFW engineer is configuring multiple Layer 2 interfaces on a Palo Alto Networks firewall, and all interfaces must be assigned to the same\nVLAN. During initial testing, it is reported that clients located behind the various interfaces cannot communicate with each other.\nWhich action taken by the engineer will resolve this issue?",
     "choices": [
       {
         "letter": "A",
@@ -305,7 +305,7 @@ const ngfwQuestions = [
       },
       {
         "letter": "D",
-        "text": "Validate the tunnel interface VLAN against the peer\u2019s configuration."
+        "text": "Validate the tunnel interface VLAN against the peer’s configuration."
       }
     ],
     "answer": "B",
@@ -317,19 +317,19 @@ const ngfwQuestions = [
     "choices": [
       {
         "letter": "A",
-        "text": "Set Transmission Rate to \u201cfast.\u201d"
+        "text": "Set Transmission Rate to “fast.”"
       },
       {
         "letter": "B",
-        "text": "Set passive link state to \u201cAuto.\u201d"
+        "text": "Set passive link state to “Auto.”"
       },
       {
         "letter": "C",
-        "text": "Set \u201cEnable in HA Passive State.\u201d"
+        "text": "Set “Enable in HA Passive State.”"
       },
       {
         "letter": "D",
-        "text": "Set LACP mode to \u201cActive.\u201d"
+        "text": "Set LACP mode to “Active.”"
       }
     ],
     "answer": "C",
@@ -457,7 +457,7 @@ const ngfwQuestions = [
   },
   {
     "num": 20,
-    "text": "A PA-Series firewall with all licensable features is being installed. The customer\u2019s Security policy requires that users do not directly access websites. Instead, a security device must create the connection, and there must be authentication back to the Active Directory servers for all sessions. Which action meets the requirements in this scenario?",
+    "text": "A PA-Series firewall with all licensable features is being installed. The customer’s Security policy requires that users do not directly access websites. Instead, a security device must create the connection, and there must be authentication back to the Active Directory servers for all sessions. Which action meets the requirements in this scenario?",
     "choices": [
       {
         "letter": "A",
@@ -553,7 +553,7 @@ const ngfwQuestions = [
   },
   {
     "num": 24,
-    "text": "What is a result of enabling split tunneling in the GlobalProtect portal configuration with the \u201cBoth Network Traffic and DNS\u201d option?",
+    "text": "What is a result of enabling split tunneling in the GlobalProtect portal configuration with the “Both Network Traffic and DNS” option?",
     "choices": [
       {
         "letter": "A",
@@ -729,11 +729,11 @@ const ngfwQuestions = [
       },
       {
         "letter": "B",
-        "text": "Distribute the root and intermediate CA certificates via Panorama as shared objects to ensure all firewalls have a consistent trust chain. Configure OCSP responder profiles on each firewall to offload revocation checks to an internal OCSP server while keeping CRL checks as a fallback. Maintain separate certificate profiles for user and device authentication and use an automated enrollment method \u2013 such as Group Policy or SCEP \u2013 to deploy certificates to endpoints."
+        "text": "Distribute the root and intermediate CA certificates via Panorama as shared objects to ensure all firewalls have a consistent trust chain. Configure OCSP responder profiles on each firewall to offload revocation checks to an internal OCSP server while keeping CRL checks as a fallback. Maintain separate certificate profiles for user and device authentication and use an automated enrollment method – such as Group Policy or SCEP – to deploy certificates to endpoints."
       },
       {
         "letter": "C",
-        "text": "Configure each firewall independently to trust the root and intermediate CA certificates. Rely only on manual CRL checks for certificate revocation, and import both user and device certificates directly into each firewall\u2019s local certificate store for authentication."
+        "text": "Configure each firewall independently to trust the root and intermediate CA certificates. Rely only on manual CRL checks for certificate revocation, and import both user and device certificates directly into each firewall’s local certificate store for authentication."
       },
       {
         "letter": "D",
@@ -797,19 +797,19 @@ const ngfwQuestions = [
     "choices": [
       {
         "letter": "A",
-        "text": "REST API\u2019s \u201csdwanInterfaceprofiles\u201d parameter on a Panorama device"
+        "text": "REST API’s “sdwanInterfaceprofiles” parameter on a Panorama device"
       },
       {
         "letter": "B",
-        "text": "REST API\u2019s \u201csdwanInterfaces\u201d parameter on a firewall device"
+        "text": "REST API’s “sdwanInterfaces” parameter on a firewall device"
       },
       {
         "letter": "C",
-        "text": "XML API\u2019s \u201csdwanprofiles/interfaces\u201d parameter on a Panorama device"
+        "text": "XML API’s “sdwanprofiles/interfaces” parameter on a Panorama device"
       },
       {
         "letter": "D",
-        "text": "XML API\u2019s \u201cInterfaceProfiles/sdwan\u201d parameter on a firewall device"
+        "text": "XML API’s “InterfaceProfiles/sdwan” parameter on a firewall device"
       }
     ],
     "answer": "A",
@@ -825,15 +825,15 @@ const ngfwQuestions = [
       },
       {
         "letter": "B",
-        "text": "Ensure Authentication is set to \u201ccertificate,\u201d then import a post-quantum derived certificate."
+        "text": "Ensure Authentication is set to “certificate,” then import a post-quantum derived certificate."
       },
       {
         "letter": "C",
-        "text": "Select IKE v2 Preferred, enable the Advanced Options (cid:0) PQ KEM, then add one or more \u201cRounds.\u201d"
+        "text": "Select IKE v2 Preferred, enable the Advanced Options (cid:0) PQ KEM, then add one or more “Rounds.”"
       },
       {
         "letter": "D",
-        "text": "Select IKE v2, enable the Advanced Options (cid:0) PQ KEM, then create an IKE Crypto Profile with Advanced Options adding one or more \u201cRounds.\u201d"
+        "text": "Select IKE v2, enable the Advanced Options (cid:0) PQ KEM, then create an IKE Crypto Profile with Advanced Options adding one or more “Rounds.”"
       }
     ],
     "answer": "AD",
@@ -853,7 +853,7 @@ const ngfwQuestions = [
       },
       {
         "letter": "C",
-        "text": "Enable the \u201callow inter-VSYS traffic\u201d option in both external zone configurations."
+        "text": "Enable the “allow inter-VSYS traffic” option in both external zone configurations."
       },
       {
         "letter": "D",
@@ -985,7 +985,7 @@ const ngfwQuestions = [
   },
   {
     "num": 42,
-    "text": "A multinational organization wants to use the Cloud Identity Engine (CIE) to aggregate identity data from multiple sources (on premises AD, Azure AD, Okta) while enforcing strict data isolation for different regional business units. Each region\u2019s firewalls, managed via Panorama, must only receive the user and group information relevant to that region. The organization aims to minimize administrative overhead while meeting data sovereignty requirements. Which approach achieves this segmentation of identity data?",
+    "text": "A multinational organization wants to use the Cloud Identity Engine (CIE) to aggregate identity data from multiple sources (on premises AD, Azure AD, Okta) while enforcing strict data isolation for different regional business units. Each region’s firewalls, managed via Panorama, must only receive the user and group information relevant to that region. The organization aims to minimize administrative overhead while meeting data sovereignty requirements. Which approach achieves this segmentation of identity data?",
     "choices": [
       {
         "letter": "A",
@@ -993,7 +993,7 @@ const ngfwQuestions = [
       },
       {
         "letter": "B",
-        "text": "Establish separate CIE tenants for each business unit, integrating each tenant with the relevant identity sources. Redistribute user and group data from each tenant only to the region\u2019s firewalls, maintaining a strict one-to-one mapping of tenant to business unit."
+        "text": "Establish separate CIE tenants for each business unit, integrating each tenant with the relevant identity sources. Redistribute user and group data from each tenant only to the region’s firewalls, maintaining a strict one-to-one mapping of tenant to business unit."
       },
       {
         "letter": "C",
@@ -1009,7 +1009,7 @@ const ngfwQuestions = [
   },
   {
     "num": 43,
-    "text": "An engineer is implementing a new rollout of SAML for administrator authentication across a company\u2019s Palo Alto Networks NGFWs. User authentication on company firewalls is currently performed with RADIUS, which will remain available for six months, until it is decommissioned. The company wants both authentication types to be running in parallel during the transition to SAML. Which two actions meet the criteria? (Choose two.)",
+    "text": "An engineer is implementing a new rollout of SAML for administrator authentication across a company’s Palo Alto Networks NGFWs. User authentication on company firewalls is currently performed with RADIUS, which will remain available for six months, until it is decommissioned. The company wants both authentication types to be running in parallel during the transition to SAML. Which two actions meet the criteria? (Choose two.)",
     "choices": [
       {
         "letter": "A",
@@ -1017,15 +1017,15 @@ const ngfwQuestions = [
       },
       {
         "letter": "B",
-        "text": "Create an authentication sequence that includes both the \u201cRADIUS\u201d Server Profile and \u201cSAML Identity Provider\u201d Server Profile to run the two services in tandem."
+        "text": "Create an authentication sequence that includes both the “RADIUS” Server Profile and “SAML Identity Provider” Server Profile to run the two services in tandem."
       },
       {
         "letter": "C",
-        "text": "Create and apply an authentication profile with the \u201cSAML Identity Provider\u201d Server Profile."
+        "text": "Create and apply an authentication profile with the “SAML Identity Provider” Server Profile."
       },
       {
         "letter": "D",
-        "text": "Create and add the \u201cSAML Identity Provider\u201d Server Profile to the authentication profile for the \u201cRADIUS\u201d Server Profile."
+        "text": "Create and add the “SAML Identity Provider” Server Profile to the authentication profile for the “RADIUS” Server Profile."
       }
     ],
     "answer": "AC",
@@ -1533,7 +1533,7 @@ const ngfwQuestions = [
   },
   {
     "num": 65,
-    "text": "A government agency needs to ensure that all user web access is explicitly mediated and authenticated. The agency has the following requirements: \u2022 Client browsers must be manually configured to send traffic to the firewall's IP address and a specific port. \u2022 The firewall must support seamless single sign-on (SSO) with the users' existing Active Directory credentials. Which feature set should the engineer configure to meet the agency's requirements?",
+    "text": "A government agency needs to ensure that all user web access is explicitly mediated and authenticated. The agency has the following requirements: • Client browsers must be manually configured to send traffic to the firewall's IP address and a specific port. • The firewall must support seamless single sign-on (SSO) with the users' existing Active Directory credentials. Which feature set should the engineer configure to meet the agency's requirements?",
     "choices": [
       {
         "letter": "A",
@@ -1821,7 +1821,7 @@ const ngfwQuestions = [
   },
   {
     "num": 77,
-    "text": "An organization must secure its AWS and Azure environments using a managed Palo Alto Networks solution, and all policies must be synchronized from an existing Panorama deployment. The organization wants to insert security with the least possible impact on its application teams and use existing hub-and-spoke network designs. \u2022 The AWS environment uses a centralized AWS Transit Gateway (TGW) architecture. \u2022 The Azure environment uses a Virtual WAN (vWAN) hub. Which two actions are the most appropriate in this use case? (Choose two.)",
+    "text": "An organization must secure its AWS and Azure environments using a managed Palo Alto Networks solution, and all policies must be synchronized from an existing Panorama deployment. The organization wants to insert security with the least possible impact on its application teams and use existing hub-and-spoke network designs. • The AWS environment uses a centralized AWS Transit Gateway (TGW) architecture. • The Azure environment uses a Virtual WAN (vWAN) hub. Which two actions are the most appropriate in this use case? (Choose two.)",
     "choices": [
       {
         "letter": "A",
@@ -1989,7 +1989,7 @@ const ngfwQuestions = [
   },
   {
     "num": 84,
-    "text": "A Palo Alto Networks firewall has the following interfaces configured: \u2022 ethernet1/1 (Layer 3) \u2022 ethernet1/2 (TAP) \u2022 ethernet1/3 (Layer 2) \u2022 ethernet1/4 (virtual wire) An administrator needs to create a link group to monitor upstream connectivity for high availability (HA) failover. Which set of interfaces can be added to the link group?",
+    "text": "A Palo Alto Networks firewall has the following interfaces configured: • ethernet1/1 (Layer 3) • ethernet1/2 (TAP) • ethernet1/3 (Layer 2) • ethernet1/4 (virtual wire) An administrator needs to create a link group to monitor upstream connectivity for high availability (HA) failover. Which set of interfaces can be added to the link group?",
     "choices": [
       {
         "letter": "A",
@@ -2397,7 +2397,7 @@ const ngfwQuestions = [
   },
   {
     "num": 101,
-    "text": "An organization needs a GlobalProtect solution that meets two key requirements: \u2022 IT administrators must be able to run scripts and push updates to endpoints before a user logs in. \u2022 Users must authenticate with their cloud identity provider, which is protected by multi-factor authentication (MFA). Which GlobalProtect authentication configuration should be used to meet both requirements?",
+    "text": "An organization needs a GlobalProtect solution that meets two key requirements: • IT administrators must be able to run scripts and push updates to endpoints before a user logs in. • Users must authenticate with their cloud identity provider, which is protected by multi-factor authentication (MFA). Which GlobalProtect authentication configuration should be used to meet both requirements?",
     "choices": [
       {
         "letter": "A",
@@ -2685,7 +2685,7 @@ const ngfwQuestions = [
   },
   {
     "num": 113,
-    "text": "A Managed Security Service Provider (MSSP) is creating a new VSYS for a customer. To prevent this customer\u2019s traffic from overwhelming the firewall\u2019s state table, which resource limit should the MSSP configure for the new VSYS?",
+    "text": "A Managed Security Service Provider (MSSP) is creating a new VSYS for a customer. To prevent this customer’s traffic from overwhelming the firewall’s state table, which resource limit should the MSSP configure for the new VSYS?",
     "choices": [
       {
         "letter": "A",
@@ -2757,7 +2757,7 @@ const ngfwQuestions = [
   },
   {
     "num": 116,
-    "text": "An organization is securing its cloud workloads using the Palo Alto Networks platform. The goal is to use a fully managed firewall service that integrates with Panorama for consistent policy management. The solution must be scalable and require minimal changes to the existing routing fabric. \u2022 The AWS cloud uses a distributed architecture where each application virtual private cloud (VPC) routes internet traffic through its own internet gateway. \u2022 The Azure cloud is built around a Virtual WAN (vWAN) hub for centralized connectivity. Which two deployments meet these criteria? (Choose two.)",
+    "text": "An organization is securing its cloud workloads using the Palo Alto Networks platform. The goal is to use a fully managed firewall service that integrates with Panorama for consistent policy management. The solution must be scalable and require minimal changes to the existing routing fabric. • The AWS cloud uses a distributed architecture where each application virtual private cloud (VPC) routes internet traffic through its own internet gateway. • The Azure cloud is built around a Virtual WAN (vWAN) hub for centralized connectivity. Which two deployments meet these criteria? (Choose two.)",
     "choices": [
       {
         "letter": "A",
@@ -2781,7 +2781,7 @@ const ngfwQuestions = [
   },
   {
     "num": 117,
-    "text": "A holding company has recently acquired two new businesses, each with its own Okta identity provider. The holding company wants to use a single Cloud Identity Engine (CIE) instance to provide User-ID for all three organizations\u2019 firewalls. However, for legal reasons, the firewalls of Company A must only receive identity data from Company A's Okta instance, and the firewalls of Company B must only receive data from Company B's Okta instance. Which configuration in CIE supports this requirement with highest operational efficiency?",
+    "text": "A holding company has recently acquired two new businesses, each with its own Okta identity provider. The holding company wants to use a single Cloud Identity Engine (CIE) instance to provide User-ID for all three organizations’ firewalls. However, for legal reasons, the firewalls of Company A must only receive identity data from Company A's Okta instance, and the firewalls of Company B must only receive data from Company B's Okta instance. Which configuration in CIE supports this requirement with highest operational efficiency?",
     "choices": [
       {
         "letter": "A",
