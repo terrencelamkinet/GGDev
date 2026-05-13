@@ -245,7 +245,7 @@ body {
   border-radius: 6px; margin-bottom: 4px; font-size: 13px;
 }
 .ak-choice.correct { border-color: var(--success); background: #e8f5e9; }
-.ak-choice.incorrect { border-color: var(--danger); background: #ffebee; }
+
 .ak-choice .letter-badge {
   width: 24px; height: 24px; border-radius: 50%;
   background: var(--border); display: flex;
@@ -253,7 +253,6 @@ body {
   font-weight: 700; font-size: 12px; flex-shrink: 0;
 }
 .ak-choice.correct .letter-badge { background: var(--success); color: white; }
-.ak-choice.incorrect .letter-badge { background: var(--danger); color: white; }
 .ak-note {
   background: #fff8e1;
   border: 1px solid #ffe082;
