@@ -244,6 +244,15 @@ body {
   font-weight: 700; font-size: 12px; flex-shrink: 0;
 }
 .ak-choice.correct .letter-badge { background: var(--success); color: white; }
+.ak-note {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  color: #8d6e00;
+}
 .ak-answer {
   margin-top: 8px; padding: 6px 10px;
   background: #e8f5e9; color: var(--success);

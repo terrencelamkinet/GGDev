@@ -305,13 +305,14 @@
   }
 
   function showAnswerKey() {
-    const all = ngfwQuestions;
-    let html = '';
+    const all = getSourceQuestions();
+    let html = '<div class="ak-note">⚠️ Show answers in PDF order (A,B,C,D as printed in the exam)</div>';
     for (let i = 0; i < all.length; i++) {
       const q = all[i];
       const correctSet = new Set(q.answer.split(''));
       html += `<div class="q-block"><div class="q-title">Q${i + 1} · ${q.type === 'multi' ? 'Choose all that apply' : 'Single Select'}</div>`;
       html += `<div class="q-text">${q.text.replace(/\n/g, '<br>')}</div>`;
+      // Show choices in the ORIGINAL PDF order (A,B,C,D as they appear in questions.js)
       q.choices.forEach(c => {
         html += `<div class="ak-choice${correctSet.has(c.letter) ? ' correct' : ''}"><span class="letter-badge">${c.letter}</span><span>${c.text}</span></div>`;
       });
@@ -320,6 +321,13 @@
     document.getElementById('answer-key-content').innerHTML = html;
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'answer-key-page'));
+  }
+
+  function getSourceQuestions() {
+    // Return questions in their original (PDF) order without shuffle
+    // ngfwQuestions from questions.js preserves raw PDF A,B,C,D layout
+    // Deep clone to avoid accidental mutation
+    return JSON.parse(JSON.stringify(ngfwQuestions));
   }
 // ===== 檢查有冇上次進度 =====
 (function() {

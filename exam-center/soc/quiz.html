@@ -297,8 +297,8 @@
   }
 
   function showAnswerKey() {
-    const all = ngfwSocQuestions;
-    let html = '';
+    const all = getSourceQuestions();
+    let html = '<div class="ak-note">⚠️ Show answers in PDF order (A,B,C,D as printed in the exam)</div>';
     for (let i = 0; i < all.length; i++) {
       const q = all[i];
       const correctSet = new Set(q.answer.split(''));
@@ -312,6 +312,11 @@
     document.getElementById('answer-key-content').innerHTML = html;
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'answer-key-page'));
+  }
+
+  function getSourceQuestions() {
+    // Return questions in original (PDF) order, choices in A,B,C,D layout
+    return JSON.parse(JSON.stringify(ngfwSocQuestions));
   }
 // ===== 檢查有冇上次進度 =====
 (function() {
