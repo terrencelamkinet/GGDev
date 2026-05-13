@@ -220,6 +220,14 @@ body {
 .review-item.incorrect { background: #ffebee; border-left: 3px solid var(--danger); }
 .review-item .review-title { font-weight: 600; margin-bottom: 4px; }
 .review-item .review-answer { color: var(--text-muted); }
+.review-item .review-qtext { font-size: 14px; line-height: 1.6; margin-bottom: 10px; padding: 10px; background: #f8f9fa; border-radius: 6px; }
+.review-choice {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 6px 10px; border: 1px solid var(--border);
+  border-radius: 6px; margin-bottom: 3px; font-size: 13px;
+}
+.review-choice.correct-ans { border-color: var(--success); background: #e8f5e9; }
+.review-choice.wrong-choice { border-color: var(--danger); background: #ffebee; text-decoration: line-through; }
 
 /* Answer Key */
 .q-block {
@@ -237,6 +245,7 @@ body {
   border-radius: 6px; margin-bottom: 4px; font-size: 13px;
 }
 .ak-choice.correct { border-color: var(--success); background: #e8f5e9; }
+.ak-choice.incorrect { border-color: var(--danger); background: #ffebee; }
 .ak-choice .letter-badge {
   width: 24px; height: 24px; border-radius: 50%;
   background: var(--border); display: flex;
@@ -244,6 +253,7 @@ body {
   font-weight: 700; font-size: 12px; flex-shrink: 0;
 }
 .ak-choice.correct .letter-badge { background: var(--success); color: white; }
+.ak-choice.incorrect .letter-badge { background: var(--danger); color: white; }
 .ak-note {
   background: #fff8e1;
   border: 1px solid #ffe082;
