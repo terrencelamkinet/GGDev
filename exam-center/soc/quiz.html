@@ -107,7 +107,8 @@
         </div>
         <div class="nav-buttons" style="margin-top: 20px;">
           <button class="btn btn-secondary" onclick="goHome()">⌂ Back to Home</button>
-          <button class="btn btn-warning" onclick="retakeQuiz()">🔄 Retake Quiz</button>
+          <button class="btn btn-warning" onclick="retakeQuiz()">🔄 Retake (同份題目)</button>
+          <button class="btn btn-danger" onclick="retakeWrongOnly()">🎯 Retake 錯題 Only</button>
         </div>
       </div>
     </div>
@@ -273,15 +274,28 @@
     document.getElementById('result-status').textContent = passed ? 'PASSED ✓' : 'FAILED ✗';
     document.getElementById('result-status').style.color = passed ? '#2e7d32' : '#c62828';
 
+    window._lastUserAnswers = JSON.parse(JSON.stringify(userAnswers));
+    window._lastSelectedQuestions = selectedQuestions;
     let html = '';
     for (let i = 0; i < total; i++) {
-      const ua = (userAnswers[i] || []).sort().join('');
-      const ca = selectedQuestions[i].answer;
-      const isCorrect = ua === ca;
+      const q = selectedQuestions[i];
+      const uaSet = new Set(userAnswers[i] || []);
+      const caSet = new Set(q.answer.split(''));
+      const uaSorted = (userAnswers[i] || []).sort().join('');
+      const isCorrect = uaSorted === q.answer;
       html += `<div class="review-item ${isCorrect ? 'correct' : 'incorrect'}">
         <div class="review-title">Q${i + 1}: ${isCorrect ? '✓ Correct' : '✗ Incorrect'}</div>
-        <div class="review-answer"><strong>Your Answer:</strong> ${ua || 'Not answered'}</div>
-        <div class="review-answer"><strong>Correct Answer:</strong> ${ca}</div>
+        <div class="review-qtext">${q.text.replace(/\n/g, '<br>')}</div>`;
+      q.choices.forEach(c => {
+        const isCorrectAns = caSet.has(c.letter);
+        const isUserChoice = uaSet.has(c.letter);
+        let cls = 'review-choice';
+        if (isCorrectAns) cls += ' correct-ans';
+        if (isUserChoice && !isCorrectAns) cls += ' wrong-choice';
+        const icon = isCorrectAns ? '✅ ' : (isUserChoice ? '❌ ' : '');
+        html += `<div class="${cls}"><span class="letter-badge">${c.letter}</span>${icon}<span>${c.text}</span></div>`;
+      });
+      html += `<div class="review-answer"><strong>Your Answer:</strong> ${uaSorted || 'Not answered'} &nbsp;|&nbsp; <strong>Correct:</strong> ${q.answer}</div>
       </div>`;
     }
     document.getElementById('review-list').innerHTML = html;
@@ -289,7 +303,36 @@
     document.getElementById('results-page').classList.remove('hidden');
   }
 
-  function retakeQuiz() { startQuiz(selectedQuestions.length); }
+  function retakeQuiz() {
+    const old = window._lastUserAnswers;
+    const oldQs = window._lastSelectedQuestions;
+    if (old && oldQs && old.length === oldQs.length) {
+      selectedQuestions = oldQs.map(q => shuffleChoices(JSON.parse(JSON.stringify(q))));
+      currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+      document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+        .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
+      displayQuestion();
+    } else {
+      startQuiz(selectedQuestions.length);
+    }
+  }
+
+  function retakeWrongOnly() {
+    const oldQs = window._lastSelectedQuestions;
+    const oldAns = window._lastUserAnswers;
+    if (!oldQs || !oldAns) { retakeQuiz(); return; }
+    const wrong = [];
+    for (let i = 0; i < oldQs.length; i++) {
+      const ua = (oldAns[i] || []).sort().join('');
+      if (ua !== oldQs[i].answer) wrong.push(oldQs[i]);
+    }
+    if (wrong.length === 0) { alert('🎉 全部答啱，冇錯題！'); return; }
+    selectedQuestions = wrong.map(q => shuffleChoices(JSON.parse(JSON.stringify(q))));
+    currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+      .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
+    displayQuestion();
+  }
 
   function goHome() {
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
