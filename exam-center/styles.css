@@ -22,34 +22,34 @@ body {
   min-height: 100vh;
 }
 
-.container { max-width: 800px; margin: 0 auto; padding: 20px; }
-.container-wide { max-width: 900px; margin: 0 auto; padding: 20px; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px; }
+.container-wide { max-width: 900px; margin: 0 auto; padding: 24px; }
 
 .header {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
-  padding: 30px 24px;
+  padding: 36px 32px;
   border-radius: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
-.header h1 { font-size: 22px; margin-bottom: 8px; }
-.header p { font-size: 13px; opacity: 0.9; }
+.header h1 { font-size: 24px; margin-bottom: 8px; }
+.header p { font-size: 14px; opacity: 0.9; }
 
 .card {
   background: var(--card);
   border-radius: 12px;
-  padding: 24px;
+  padding: 28px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .hidden { display: none !important; }
 
 .btn {
-  padding: 14px 20px;
+  padding: 16px 24px;
   border: none;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   color: white;
@@ -133,7 +133,7 @@ body {
 .question-type { font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
 .question-type.single { background: #e3f2fd; color: #1565c0; }
 .question-type.multi { background: #fce4ec; color: #c62828; }
-.question-text { font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+.question-text { font-size: 16px; line-height: 1.7; margin-bottom: 24px; }
 .question-text p { margin-bottom: 8px; }
 
 /* Show answer */
@@ -166,18 +166,18 @@ body {
 .option {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: 14px;
+  padding: 14px 16px;
   border: 2px solid var(--border);
   border-radius: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   cursor: pointer;
   transition: all 0.2s;
 }
 .option:hover { border-color: var(--primary); background: var(--primary-light); }
 .option.selected { border-color: var(--primary); background: var(--primary-light); }
 .option input { display: none; }
-.option-label { font-size: 14px; line-height: 1.4; flex: 1; }
+.option-label { font-size: 15px; line-height: 1.5; flex: 1; }
 .option-letter {
   width: 28px; height: 28px;
   border-radius: 50%;
@@ -225,8 +225,8 @@ body {
 .q-block {
   background: var(--card);
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .q-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
