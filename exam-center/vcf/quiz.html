@@ -111,7 +111,8 @@
         </div>
         <div class="nav-buttons" style="margin-top: 20px;">
           <button class="btn btn-secondary" onclick="goHome()">⌂ Back to Home</button>
-          <button class="btn btn-warning" onclick="retakeQuiz()">🔄 Retake Quiz</button>
+          <button class="btn btn-warning" onclick="retakeQuiz()">🔄 Retake (同份題目)</button>
+          <button class="btn btn-danger" onclick="retakeWrongOnly()">🎯 Retake 錯題 Only</button>
         </div>
       </div>
     </div>
@@ -272,6 +273,8 @@
   function submitQuiz() {
     quizClearCache();
     const total = selectedQuestions.length;
+    window._lastUserAnswers = JSON.parse(JSON.stringify(userAnswers));
+    window._lastSelectedQuestions = selectedQuestions;
     let correct = 0;
     for (let i = 0; i < total; i++) {
       if (((userAnswers[i] || []).sort().join('')) === selectedQuestions[i].answer) correct++;
@@ -314,7 +317,36 @@
     document.getElementById('results-page').classList.remove('hidden');
   }
 
-  function retakeQuiz() { startQuiz(selectedQuestions.length); }
+  function retakeQuiz() {
+    const old = window._lastUserAnswers;
+    const oldQs = window._lastSelectedQuestions;
+    if (old && oldQs && old.length === oldQs.length) {
+      selectedQuestions = oldQs.map(q => shuffleChoices(normalizeQuestion(q)));
+      currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+      document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+        .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
+      displayQuestion();
+    } else {
+      startQuiz(selectedQuestions.length);
+    }
+  }
+
+  function retakeWrongOnly() {
+    const oldQs = window._lastSelectedQuestions;
+    const oldAns = window._lastUserAnswers;
+    if (!oldQs || !oldAns) { retakeQuiz(); return; }
+    const wrong = [];
+    for (let i = 0; i < oldQs.length; i++) {
+      const ua = (oldAns[i] || []).sort().join('');
+      if (ua !== oldQs[i].answer) wrong.push(oldQs[i]);
+    }
+    if (wrong.length === 0) { alert('🎉 全部答啱，冇錯題！'); return; }
+    selectedQuestions = wrong.map(q => shuffleChoices(normalizeQuestion(q)));
+    currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+      .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
+    displayQuestion();
+  }
 
   function goHome() {
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
