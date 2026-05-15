@@ -81,9 +81,9 @@
       <div class="options" id="options-container"></div>
       <div class="nav-buttons">
         <button class="btn btn-primary" onclick="prevQuestion()" id="btn-prev" disabled>← Previous</button>
-        <button class="btn btn-primary" onclick="nextQuestion()" id="btn-next">Next →</button>
+        <button class="btn btn-primary" onclick="nextQuestion()" id="btn-next">Next →<br><small style="font-size:11px;color:var(--text-muted);font-weight:normal;">(Space)</small></button>
         <button class="btn btn-success" onclick="submitQuiz()" id="btn-submit" style="display: none;">✓ Submit Quiz</button>
-        <button class="btn btn-secondary" onclick="goHome()">⌂ Home</button>
+        <button class="btn btn-secondary" onclick="confirmGoHome()">⌂ Home</button>
       </div>
     </div>
   </div>
@@ -370,5 +370,26 @@
 </script>
 
   <footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">Exam Center v1.1a</footer>
+<!-- keyboard-shortcut -->
+<script>
+document.addEventListener("keydown", function(e) {
+  if (e.code === "Space" && !e.target.matches("input, textarea, select, button")) {
+    e.preventDefault();
+    var qp = document.getElementById("quiz-page");
+    if (qp && !qp.classList.contains("hidden")) {
+      var nb = document.getElementById("btn-next");
+      if (nb && nb.style.display !== "none") { nextQuestion(); }
+      else { var sb = document.getElementById("btn-submit"); if (sb && sb.style.display !== "none") submitQuiz(); }
+    }
+  }
+  if (e.code === "Home") {
+    var qp = document.getElementById("quiz-page");
+    if (qp && !qp.classList.contains("hidden")) { e.preventDefault(); confirmGoHome(); }
+  }
+});
+function confirmGoHome() {
+  if (confirm("確定離開測驗？\n未提交嘅答案將會遺失。")) { goHome(); }
+}
+</script>
 </body>
 </html>
