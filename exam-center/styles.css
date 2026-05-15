@@ -438,3 +438,11 @@ body {
   /* AK note */
   .ak-note { font-size: 13px; padding: 10px 12px; }
 }
+
+/* Hide (Space) hint on mobile/tablet (width < 1024px) */
+@media (max-width: 1023px) {
+  .desktop-hint { display: none !important; }
+}
+@media (min-width: 1024px) {
+  .desktop-hint { display: inline !important; }
+}
