@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Center</title>
+  <link rel="stylesheet" href="styles.css?v=1.1">
+</head>
+<body>
+
+<div class="container-wide">
+  <div class="header">
+    <h1>📚 Exam Center</h1>
+    <p>Practice exams for IT certifications</p>
+  </div>
+
+  <div class="card">
+    <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
+      <strong>Available Exams:</strong> 3
+    </div>
+    <div class="exams-grid">
+      <!-- SOC -->
+      <div class="exam-card" onclick="window.location='soc/quiz.html'">
+        <div class="exam-icon" style="background: #fce4ec;">🕵️</div>
+        <div class="exam-info">
+          <div class="exam-name">Palo Alto Networks Security Operations Professional</div>
+          <div class="exam-code">SecOps-Pro · 90 Questions · 70% Pass</div>
+        </div>
+        <div class="exam-actions">
+          <a href="soc/quiz.html" class="btn btn-primary">▶ Quiz</a>
+        </div>
+      </div>
+
+      <!-- VCF -->
+      <div class="exam-card" onclick="window.location='vcf/quiz.html'">
+        <div class="exam-icon vcf">🏗️</div>
+        <div class="exam-info">
+          <div class="exam-name">VMware Cloud Foundation Architect</div>
+          <div class="exam-code">2V0-13.25 · 89 Questions</div>
+        </div>
+        <div class="exam-actions">
+          <a href="vcf/quiz.html" class="btn btn-primary">▶ Quiz</a>
+        </div>
+      </div>
+
+      <!-- NGFW -->
+      <div class="exam-card" onclick="window.location='ngfw/quiz.html'">
+        <div class="exam-icon ngfw">🛡️</div>
+        <div class="exam-info">
+          <div class="exam-name">Palo Alto Networks NGFW Engineer</div>
+          <div class="exam-code">NGFW · 121 Questions</div>
+        </div>
+        <div class="exam-actions">
+          <a href="ngfw/quiz.html" class="btn btn-primary">▶ Quiz</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">
+    Exam Center v1.1a
+  </footer>
+</div>
+
+</body>
+</html>

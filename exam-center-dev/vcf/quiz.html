@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCF Architect Quiz</title>
+  <link rel="stylesheet" href="../styles.css?v=1.1">
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>🏗️ VMware Certification Quiz</h1>
+    <div class="exam-info"><strong>Exam:</strong> VMware Cloud Foundation Architect 2V0-13.25 · 89 Questions</div>
+  </div>
+
+  <!-- Home Page -->
+  <div id="home-page">
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 16px;">🕵️</div>
+      <h2>Start Your Quiz</h2>
+      <p style="color: var(--text-muted); margin-bottom: 24px;">Select number of questions and begin</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px;">
+        <button class="btn btn-primary" onclick="startQuiz(20)">20 Questions</button>
+        <button class="btn btn-primary" onclick="startQuiz(60)">60 Questions</button>
+        <button class="btn btn-success" onclick="startQuiz(89)">All (89) Questions</button>
+      </div>
+
+      <div id="resumeContainer" class="hidden" style="margin-bottom: 12px;">
+        <button class="btn btn-warning" onclick="if(quizRestore()){}" style="width: 100%;">⏯️ 繼續上次進度</button>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">自動儲存 · 關閉 tab 後仍可繼續</p>
+      </div>
+      <div class="info-box" style="text-align: left;">
+        <strong>📌 How to use:</strong>
+        <ul>
+          <li>Select the number of questions to begin a timed quiz</li>
+          <li>Questions are randomized each time (choice text only, ABCD stays fixed)</li>
+          <li>Single/Multi-select auto-detected</li>
+          <li>Use "Show Answer" to verify your selection</li>
+          <li>Click Submit to see your final score report and answer review</li>
+          <li>Pass mark: 60%</li>
+        </ul>
+      </div>
+
+      <button class="btn btn-outline" onclick="showAnswerKey()" style="width: 100%; margin-bottom: 16px;">📖 答案一覽 (Answer Key)</button>
+
+      <div class="stats-grid" style="margin-top: 20px;">
+        <div class="stat-item">
+          <div class="number">89</div>
+          <div class="label">Total Questions</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">10</div>
+          <div class="label">Points per Question</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">70%</div>
+          <div class="label">Pass Mark</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <a href="../index.html" class="btn btn-secondary">← Back to Exam Center</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz Page -->
+  <div id="quiz-page" class="hidden">
+    <div class="card">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+      <div class="question-header">
+        <div>
+          <span class="question-number" id="q-number">1</span>
+          <span id="q-total" style="color: var(--text-muted); font-size: 13px;">of 20 questions</span>
+        </div>
+        <span class="question-type" id="q-type">Single Select</span>
+      </div>
+      <div class="question-text" id="q-text">Loading question...</div>
+      <button class="show-answer-btn" onclick="toggleAnswer()">👁️ Show Answer</button>
+      <div class="answer-display" id="answer-display"></div>
+      <div class="options" id="options-container"></div>
+      <div class="nav-buttons">
+        <button class="btn btn-primary" onclick="prevQuestion()" id="btn-prev" disabled>← Previous</button>
+        <button class="btn btn-primary" onclick="nextQuestion()" id="btn-next">Next →</button>
+        <button class="btn btn-success" onclick="submitQuiz()" id="btn-submit" style="display: none;">✓ Submit Quiz</button>
+        <button class="btn btn-secondary" onclick="goHome()">⌂ Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Page -->
+  <div id="results-page" class="hidden">
+    <div class="card">
+      <div class="results">
+        <div class="results-score" id="final-score">0</div>
+        <div class="results-message" id="result-message">Loading...</div>
+        <div class="results-details">
+          <div><span>Total Questions:</span> <span id="result-total">0</span></div>
+          <div><span>Correct Answers:</span> <span id="result-correct">0</span></div>
+          <div><span>Your Score:</span> <span id="result-score">0 / 890</span></div>
+          <div><span>Pass Mark:</span> <span>70%</span></div>
+          <div><span>Status:</span> <span id="result-status" style="font-weight: 700;">—</span></div>
+        </div>
+        <div class="review-section">
+          <h3>📝 Answer Review</h3>
+          <div id="review-list"></div>
+        </div>
+        <div class="nav-buttons" style="margin-top: 20px;">
+          <button class="btn btn-secondary" onclick="goHome()">⌂ Back to Home</button>
+          <button class="btn btn-warning" onclick="retakeQuiz()">🔄 Retake (同份題目)</button>
+          <button class="btn btn-danger" onclick="retakeWrongOnly()">🎯 Retake 錯題 Only</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Answer Key Page -->
+  <div id="answer-key-page" class="hidden">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="font-size: 20px; color: var(--primary);">📖 Answer Key — All 89 Questions</h2>
+        <button class="btn btn-secondary" onclick="goHome()">← Back</button>
+      </div>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
+        順序顯示 1-89 題，每題 choices 跟原始順序。
+        <span style="background: #e8f5e9; padding: 2px 6px; border-radius: 3px; font-weight: 600;">綠色 highlight</span> = 正確答案
+      </p>
+      <div id="answer-key-content"></div>
+    </div>
+  </div>
+</div>
+
+<script src="questions.js">// ===== 檢查有冇上次進度 =====
+(function() {
+  var rc = document.getElementById("resumeContainer");
+  if (rc && quizHasSaved()) { rc.classList.remove("hidden"); }
+})();
+
+</script>
+<script>
+  const PASS_PERCENT = 60;
+  const POINTS_PER_Q = 10;
+
+  let selectedQuestions = [];
+  let currentQuestion = 0;
+  let userAnswers = {};
+  let showAnswerState = {};
+
+  // ===== 自動進度存檔 (localStorage) =====
+  const CACHE_KEY = "exam_progress_vcf";
+  function quizAutoSave() {
+    try {
+      if (!selectedQuestions.length) return;
+      const d = { questions: selectedQuestions.map(q => JSON.parse(JSON.stringify(q))), current: currentQuestion, answers: JSON.parse(JSON.stringify(userAnswers)), showAns: JSON.parse(JSON.stringify(showAnswerState)), ts: Date.now() };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(d));
+    } catch(e) {}
+  }
+  function quizHasSaved() {
+    try { var r = localStorage.getItem(CACHE_KEY); if (!r) return false; var d = JSON.parse(r); return Array.isArray(d.questions) && d.questions.length > 0; } catch(e) { return false; }
+  }
+  function quizRestore() {
+    try {
+      var r = localStorage.getItem(CACHE_KEY); if (!r) return false; var d = JSON.parse(r);
+      if (!Array.isArray(d.questions) || !d.questions.length) return false;
+      selectedQuestions = d.questions; currentQuestion = d.current; userAnswers = d.answers || {}; showAnswerState = d.showAns || {};
+      document.querySelectorAll("#home-page, #quiz-page, #results-page, #answer-key-page").forEach(function(el){ el.classList.toggle("hidden", el.id !== "quiz-page"); });
+      displayQuestion(); return true;
+    } catch(e) { return false; }
+  }
+  function quizClearCache() { try { localStorage.removeItem(CACHE_KEY); } catch(e) {} }
+
+
+  function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function normalizeQuestion(q) {
+    return {
+      num: 0,
+      text: q.text.replace(/<br>/g, '\n'),
+      choices: q.options.map(o => ({letter: o.value, text: o.text})),
+      answer: Array.isArray(q.correct) ? q.correct.join('') : q.correct,
+      type: q.multi ? 'multi' : 'single'
+    };
+  }
+
+  // Shuffle choices preserving text-answer correctness
+  function shuffleChoices(q) {
+    const correctTexts = new Set(
+      q.choices.filter(c => q.answer.includes(c.letter)).map(c => c.text)
+    );
+    const shuffled = shuffleArray(q.choices);
+    shuffled.forEach((c, i) => c.letter = String.fromCharCode(65 + i));
+    q.choices = shuffled;
+    q.answer = shuffled.filter(c => correctTexts.has(c.text)).map(c => c.letter).sort().join('');
+    return q;
+  }
+
+  function startQuiz(count) {
+    quizClearCache();
+    selectedQuestions = shuffleArray(questionBank.map(q => normalizeQuestion(q))).slice(0, count).map(q => shuffleChoices(q));
+    currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+      .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
+    displayQuestion();
+  }
+
+  function displayQuestion() {
+    const q = selectedQuestions[currentQuestion];
+    const total = selectedQuestions.length;
+    document.getElementById('q-number').textContent = currentQuestion + 1;
+    document.getElementById('q-total').textContent = `of ${total} questions`;
+    document.getElementById('q-text').innerHTML = q.text.replace(/\n/g, '<br>');
+    document.getElementById('q-type').textContent = q.type === 'multi' ? 'Choose all that apply' : 'Single Select';
+    document.getElementById('q-type').className = 'question-type ' + q.type;
+    document.getElementById('progress-fill').style.width = `${((currentQuestion) / total) * 100}%`;
+
+    const saved = userAnswers[currentQuestion] || [];
+    const type = q.type === 'multi' ? 'checkbox' : 'radio';
+    document.getElementById('options-container').innerHTML = q.choices.map(c =>
+      `<div class="option${saved.includes(c.letter) ? ' selected' : ''}" onclick="selectOption('${c.letter}')">
+         <span class="option-letter">${c.letter}</span>
+         <span class="option-label">${c.text}</span>
+         <input type="${type}" name="answer" value="${c.letter}" ${saved.includes(c.letter) ? 'checked' : ''}>
+       </div>`
+    ).join('');
+
+    document.getElementById('btn-prev').disabled = currentQuestion === 0;
+    document.getElementById('btn-next').style.display = currentQuestion < total - 1 ? 'inline-block' : 'none';
+    document.getElementById('btn-submit').style.display = currentQuestion === total - 1 ? 'inline-block' : 'none';
+    updateAnswerDisplay();
+  }
+
+  function selectOption(letter) {
+    quizAutoSave();
+    const q = selectedQuestions[currentQuestion];
+    if (!userAnswers[currentQuestion]) userAnswers[currentQuestion] = [];
+    if (q.type === 'single') { userAnswers[currentQuestion] = [letter]; }
+    else {
+      const idx = userAnswers[currentQuestion].indexOf(letter);
+      idx >= 0 ? userAnswers[currentQuestion].splice(idx, 1) : userAnswers[currentQuestion].push(letter);
+      userAnswers[currentQuestion].sort();
+    }
+    displayQuestion();
+  }
+
+  function toggleAnswer() {
+    quizAutoSave(); showAnswerState[currentQuestion] = !showAnswerState[currentQuestion]; updateAnswerDisplay(); }
+
+  function updateAnswerDisplay() {
+    const q = selectedQuestions[currentQuestion];
+    const el = document.getElementById('answer-display');
+    if (showAnswerState[currentQuestion]) {
+      el.textContent = `✓ Correct Answer: ${q.answer}`;
+      el.className = 'answer-display show';
+    } else el.className = 'answer-display';
+  }
+
+  function nextQuestion() {
+    quizAutoSave(); if (currentQuestion < selectedQuestions.length - 1) { currentQuestion++; displayQuestion(); } }
+  function prevQuestion() {
+    quizAutoSave(); if (currentQuestion > 0) { currentQuestion--; displayQuestion(); } }
+
+  function submitQuiz() {
+    quizClearCache();
+    const total = selectedQuestions.length;
+    window._lastUserAnswers = JSON.parse(JSON.stringify(userAnswers));
+    window._lastSelectedQuestions = selectedQuestions;
+    let correct = 0;
+    for (let i = 0; i < total; i++) {
+      if (((userAnswers[i] || []).sort().join('')) === selectedQuestions[i].answer) correct++;
+    }
+    const pct = Math.round((correct / total) * 100);
+    const passed = pct >= PASS_PERCENT;
+    document.getElementById('final-score').textContent = pct + '%';
+    document.getElementById('final-score').className = 'results-score ' + (passed ? 'pass' : 'fail');
+    document.getElementById('result-message').textContent = passed ? '🎉 PASSED! Congratulations!' : '❌ FAILED. Try Again!';
+    document.getElementById('result-total').textContent = total;
+    document.getElementById('result-correct').textContent = correct;
+    document.getElementById('result-score').textContent = `${correct * POINTS_PER_Q} / ${total * POINTS_PER_Q} (${pct}%)`;
+    document.getElementById('result-status').textContent = passed ? 'PASSED ✓' : 'FAILED ✗';
+    document.getElementById('result-status').style.color = passed ? '#2e7d32' : '#c62828';
+
+    let html = '';
+    for (let i = 0; i < total; i++) {
+      const q = selectedQuestions[i];
+      const uaSet = new Set(userAnswers[i] || []);
+      const caSet = new Set(q.answer.split(''));
+      const uaSorted = (userAnswers[i] || []).sort().join('');
+      const isCorrect = uaSorted === q.answer;
+      html += `<div class="review-item ${isCorrect ? 'correct' : 'incorrect'}">
+        <div class="review-title">Q${i + 1}: ${isCorrect ? '✓ Correct' : '✗ Incorrect'}</div>
+        <div class="review-qtext">${q.text.replace(/\n/g, '<br>')}</div>`;
+      q.choices.forEach(c => {
+        const isCorrectAns = caSet.has(c.letter);
+        const isUserChoice = uaSet.has(c.letter);
+        let cls = 'review-choice';
+        if (isCorrectAns) cls += ' correct-ans';
+        if (isUserChoice && !isCorrectAns) cls += ' wrong-choice';
+        const icon = isCorrectAns ? '✅ ' : (isUserChoice ? '❌ ' : '');
+        html += `<div class="${cls}"><span class="letter-badge">${c.letter}</span>${icon}<span>${c.text}</span></div>`;
+      });
+      html += `<div class="review-answer"><strong>Your Answer:</strong> ${uaSorted || 'Not answered'} &nbsp;|&nbsp; <strong>Correct:</strong> ${q.answer}</div>
+      </div>`;
+    }
+    document.getElementById('review-list').innerHTML = html;
+    document.getElementById('quiz-page').classList.add('hidden');
+    document.getElementById('results-page').classList.remove('hidden');
+  }
+
+  function retakeQuiz() {
+    const old = window._lastUserAnswers;
+    const oldQs = window._lastSelectedQuestions;
+    if (old && oldQs && old.length === oldQs.length) {
+      selectedQuestions = oldQs.map(q => shuffleChoices(normalizeQuestion(q)));
+      currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+      document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+        .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
+      displayQuestion();
+    } else {
+      startQuiz(selectedQuestions.length);
+    }
+  }
+
+  function retakeWrongOnly() {
+    const oldQs = window._lastSelectedQuestions;
+    const oldAns = window._lastUserAnswers;
+    if (!oldQs || !oldAns) { retakeQuiz(); return; }
+    const wrong = [];
+    for (let i = 0; i < oldQs.length; i++) {
+      const ua = (oldAns[i] || []).sort().join('');
+      if (ua !== oldQs[i].answer) wrong.push(oldQs[i]);
+    }
+    if (wrong.length === 0) { alert('🎉 全部答啱，冇錯題！'); return; }
+    selectedQuestions = wrong.map(q => shuffleChoices(normalizeQuestion(q)));
+    currentQuestion = 0; userAnswers = {}; showAnswerState = {};
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+      .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
+    displayQuestion();
+  }
+
+  function goHome() {
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+      .forEach(el => el.classList.toggle('hidden', el.id !== 'home-page'));
+  }
+
+  function showAnswerKey() {
+    const all = getSourceQuestions();
+    let html = '<div class="ak-note">⚠️ Show answers in PDF order (A,B,C,D as printed in the exam)</div>';
+    for (let i = 0; i < all.length; i++) {
+      const q = all[i];
+      const correctSet = new Set(q.answer.split(''));
+      html += `<div class="q-block"><div class="q-title">Q${i + 1} · ${q.type === 'multi' ? 'Choose all that apply' : 'Single Select'}</div>`;
+      html += `<div class="q-text">${q.text.replace(/\n/g, '<br>')}</div>`;
+      q.choices.forEach(c => {
+        html += `<div class="ak-choice${correctSet.has(c.letter) ? ' correct' : ''}"><span class="letter-badge">${c.letter}</span><span>${c.text}</span></div>`;
+      });
+      html += `<div class="ak-answer">✅ Correct Answer: ${q.answer}</div></div>`;
+    }
+    document.getElementById('answer-key-content').innerHTML = html;
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
+      .forEach(el => el.classList.toggle('hidden', el.id !== 'answer-key-page'));
+  }
+
+  function getSourceQuestions() {
+    // Return questions in original (PDF) order, choices in A,B,C,D layout
+    return questionBank.map(q => normalizeQuestion(q));
+  }
+// ===== 檢查有冇上次進度 =====
+(function() {
+  var rc = document.getElementById("resumeContainer");
+  if (rc && quizHasSaved()) { rc.classList.remove("hidden"); }
+})();
+
+</script>
+
+  <footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">Exam Center v1.1a</footer>
+</body>
+</html>
