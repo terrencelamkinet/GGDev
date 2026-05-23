@@ -1,0 +1,7 @@
+***REMOVED*** GG-DEV DigitalOcean App Platform
+***REMOVED*** Auto-deploys from github.com/terrencelamkinet/GGDev.git main branch
+***REMOVED*** Apps:
+***REMOVED***   - exam-center (production): /exam-center/
+***REMOVED***   - exam-center-dev (development): /exam-center-dev/
+***REMOVED*** DO Dashboard: https://cloud.digitalocean.com/apps
+***REMOVED*** Deploy trigger: git push origin main
