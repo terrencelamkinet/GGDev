@@ -13,24 +13,43 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <h1><span>Hermes</span> Dashboard</h1>
+      <div class="avatar">🦾</div>
+      <div>
+        <h1>Good Morning<span class="sub">Terrence · Personal Dashboard</span></h1>
+      </div>
     </div>
     <div class="header-right">
-      <span class="last-update" id="lastUpdate">--:--</span>
-      <span class="status-badge gray" id="sysBadge">● --</span>
+      <span class="time-label" id="lastUpdate">--:--</span>
+      <span class="badge" id="sysBadge">● OK</span>
     </div>
   </div>
 
   <!-- ============================================================ -->
-  <!-- PAGE 1: SYSTEM                                              -->
+  <!-- PAGE 1: HOME (System)                                        -->
   <!-- ============================================================ -->
-  <div id="page-system" class="tab-page active">
+  <div id="page-home" class="tab-page active">
+    <div class="greeting">
+      <h2 id="greetingText">System Overview</h2>
+      <div class="date" id="todayDate">Loading...</div>
+    </div>
 
-    <div class="status-row">
-      <div class="status-item"><div class="value blue" id="valCpu">--</div><div class="label">CPU</div></div>
-      <div class="status-item"><div class="value green" id="valMem">--</div><div class="label">MEM</div></div>
-      <div class="status-item"><div class="value orange" id="valDisk">--</div><div class="label">DISK</div></div>
-      <div class="status-item"><div class="value" style="color:var(--accent2)" id="valLoad">--</div><div class="label">LOAD</div></div>
+    <!-- Metric Summary Cards -->
+    <div class="metric-summary">
+      <div class="metric-card">
+        <div class="icon">🖥️</div>
+        <div class="value green" id="sCpu">--</div>
+        <div class="label">CPU</div>
+      </div>
+      <div class="metric-card">
+        <div class="icon">💾</div>
+        <div class="value peach" id="sMem">--</div>
+        <div class="label">MEM</div>
+      </div>
+      <div class="metric-card">
+        <div class="icon">💿</div>
+        <div class="value purple" id="sDisk">--</div>
+        <div class="label">DISK</div>
+      </div>
     </div>
 
     <!-- Hermes Main -->
@@ -38,83 +57,115 @@
     <div class="card">
       <div class="card-header">
         <h2>🖥️ Hermes Main</h2>
-        <span class="status-badge gray" id="badgeMain">● Loading</span>
+        <span class="tag green" id="badgeMain">● Online</span>
       </div>
       <div class="metric-row">
-        <div class="metric"><div class="val blue" id="mCpu">--</div><div class="lbl">CPU</div></div>
-        <div class="metric"><div class="val green" id="mMem">--</div><div class="lbl">MEM</div></div>
-        <div class="metric"><div class="val orange" id="mDisk">--</div><div class="lbl">DISK</div></div>
-        <div class="metric"><div class="val" style="color:var(--text-dim)" id="mUp">--</div><div class="lbl">UPTIME</div></div>
+        <div class="metric"><div class="val green" id="hCpu">--</div><div class="lbl">CPU</div></div>
+        <div class="metric"><div class="val peach" id="hMem">--</div><div class="lbl">MEM</div></div>
+        <div class="metric"><div class="val purple" id="hDisk">--</div><div class="lbl">DISK</div></div>
+        <div class="metric"><div style="font-size:12px;color:var(--text-dim)" id="hUp">--</div><div class="lbl">UPTIME</div></div>
       </div>
-      <div style="font-size:12px;color:var(--text-dim)">⚡ Cron Jobs: <span id="mCron">--</span> · Callback: <span id="mCallback">--</span></div>
+      <div style="font-size:13px;color:var(--text-muted)">
+        Cron: <span id="hCron" style="font-weight:600">--</span> · Callback: <span id="hCallback" style="font-weight:600">--</span>
+      </div>
     </div>
 
-    <!-- OpenClaw + Sub Agents -->
-    <div class="section-title">⚙️ OpenClaw</div>
+    <!-- OpenClaw Sub Agents -->
+    <div class="section-title">⚙️ OpenClaw Agents</div>
     <div class="col2">
       <div class="card">
-        <div class="card-header"><h2>💻 GG-Work</h2><span class="status-badge gray" id="badgeWork">● --</span></div>
+        <div class="card-header"><h2>💻 Work</h2><span class="tag lavender" id="badgeWork">● --</span></div>
         <div class="metric-row">
-          <div class="metric"><div class="val blue" id="wCpu">--</div><div class="lbl">CPU</div></div>
-          <div class="metric"><div class="val green" id="wMem">--</div><div class="lbl">MEM</div></div>
+          <div class="metric"><div class="val green" id="wCpu">--</div><div class="lbl">CPU</div></div>
+          <div class="metric"><div class="val peach" id="wMem">--</div><div class="lbl">MEM</div></div>
         </div>
-        <div style="font-size:11px;color:var(--text-dim)">
-          Reminder: <span id="wRem">--</span> · Monitor: <span id="wMon">--</span><br>
-          Disk: <span id="wDisk">--</span> · Uptime: <span id="wUp">--</span>
+        <div style="font-size:12px;color:var(--text-dim)">
+          Reminder: <span id="wRem" style="font-weight:600">--</span> · Monitor: <span id="wMon" style="font-weight:600">--</span><br>
+          Disk: <span id="wDisk" style="font-weight:600">--</span>
         </div>
       </div>
       <div class="card">
-        <div class="card-header"><h2>🏠 GG-Person</h2><span class="status-badge gray" id="badgePerson">● --</span></div>
+        <div class="card-header"><h2>🏠 Person</h2><span class="tag lavender" id="badgePerson">● --</span></div>
         <div class="metric-row">
-          <div class="metric"><div class="val blue" id="pCpu">--</div><div class="lbl">CPU</div></div>
-          <div class="metric"><div class="val green" id="pMem">--</div><div class="lbl">MEM</div></div>
+          <div class="metric"><div class="val green" id="pCpu">--</div><div class="lbl">CPU</div></div>
+          <div class="metric"><div class="val peach" id="pMem">--</div><div class="lbl">MEM</div></div>
         </div>
-        <div style="font-size:11px;color:var(--text-dim)">
-          Reminder: <span id="pRem">--</span> · Monitor: <span id="pMon">--</span><br>
-          Disk: <span id="pDisk">--</span> · Uptime: <span id="pUp">--</span>
+        <div style="font-size:12px;color:var(--text-dim)">
+          Reminder: <span id="pRem" style="font-weight:600">--</span> · Monitor: <span id="pMon" style="font-weight:600">--</span><br>
+          Disk: <span id="pDisk" style="font-weight:600">--</span>
         </div>
       </div>
     </div>
 
-    <!-- Daemon Status -->
-    <div class="section-title">⚡ All Daemons</div>
+    <!-- Daemons -->
+    <div class="section-title">⚡ Daemon Status</div>
     <div class="card" id="daemonList">
-      <div style="color:var(--text-dim);font-size:12px">Loading...</div>
+      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
     </div>
 
-    <!-- Activity Log -->
-    <div class="section-title">📜 Activity</div>
-    <div class="card" id="activityLog">
-      <div style="color:var(--text-dim);font-size:12px">Loading...</div>
+    <!-- Schedule Timeline -->
+    <div class="section-title">📅 Today's Schedule</div>
+    <div class="card" id="todaySchedule">
+      <div class="schedule-item">
+        <span class="schedule-time">09:30</span>
+        <span class="schedule-dot done"></span>
+        <div class="schedule-info">
+          <div class="schedule-title">CISP Class</div>
+          <div class="schedule-desc">Online · Until 16:30</div>
+        </div>
+      </div>
+      <div class="schedule-item">
+        <span class="schedule-time">16:00</span>
+        <span class="schedule-dot"></span>
+        <div class="schedule-info">
+          <div class="schedule-title">Security Discussion</div>
+          <div class="schedule-desc">Internal meeting</div>
+        </div>
+      </div>
     </div>
-  </div><!-- /page-system -->
+
+    <!-- Activity -->
+    <div class="section-title">📜 Recent Activity</div>
+    <div class="card" id="activityLog">
+      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
+    </div>
+  </div><!-- /page-home -->
 
   <!-- ============================================================ -->
   <!-- PAGE 2: PERSONAL                                            -->
   <!-- ============================================================ -->
   <div id="page-personal" class="tab-page">
-    <div class="section-title">👤 Terrence Lam</div>
+    <div class="greeting">
+      <h2>Profile</h2>
+      <div class="date">Terrence Lam</div>
+    </div>
+
     <div class="card">
-      <div class="metric-row">
-        <div class="metric"><div class="val" style="color:var(--accent2)">Pre-Sales</div><div class="lbl">ROLE</div></div>
-        <div class="metric"><div class="val" style="color:var(--green)">AIA 31/F</div><div class="lbl">OFFICE</div></div>
-        <div class="metric"><div class="val" style="color:var(--orange)">7w6</div><div class="lbl">ENNEAGRAM</div></div>
-        <div class="metric"><div class="val" style="color:var(--blue)">UTC+8</div><div class="lbl">TZ</div></div>
+      <div class="profile-card">
+        <div class="profile-avatar">👤</div>
+        <div class="profile-info">
+          <h3>Terrence Lam</h3>
+          <p>Pre-Sales Consultant · AIA 31/F</p>
+        </div>
       </div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.6">
-        🏠 錦田水尾村 · 👩‍👧‍👧 太太 Aggie + 2 個小朋友 · ⛪ 伯特利慈光堂 / 新蒲崗萬迪 · 
-        🚗 Toyota Sienta Hybrid 2018 · 🎸 敬拜隊隊長
+      <div class="profile-tags">
+        <span class="tag-sm green">🇭🇰 Hong Kong</span>
+        <span class="tag-sm lavender">7w6</span>
+        <span class="tag-sm peach">UTC+8</span>
+        <span class="tag-sm green">⛪ Worship Leader</span>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:12px;line-height:1.6">
+        🏠 錦田水尾村 · 👩‍👧‍👧 Aggie + 2 kids<br>
+        🚗 Toyota Sienta Hybrid 2018 · 🎸 敬拜隊隊長<br>
+        ⛪ 伯特利慈光堂 / 新蒲崗萬迪教會
       </div>
     </div>
 
-    <div class="section-title">📅 Today's Schedule</div>
-    <div class="card" id="todaySchedule">
-      <div style="font-size:12px;color:var(--text-dim)">Loading calendar...</div>
-    </div>
-
-    <div class="section-title">📌 Reminders</div>
-    <div class="card" id="reminderList">
-      <div style="font-size:12px;color:var(--text-dim)">Total: <span id="remTotal">--</span> · Overdue: <span id="remOverdue">--</span></div>
+    <div class="section-title">📋 Reminders</div>
+    <div class="card">
+      <div style="font-size:14px;color:var(--text-muted)">
+        Total: <strong id="remTotal" style="color:var(--text)">--</strong> · Overdue: <strong id="remOverdue" style="color:#e17055">--</strong>
+      </div>
     </div>
   </div><!-- /page-personal -->
 
@@ -122,98 +173,120 @@
   <!-- PAGE 3: GG                                                  -->
   <!-- ============================================================ -->
   <div id="page-gg" class="tab-page">
+    <div class="greeting">
+      <h2>Agent Center</h2>
+      <div class="date">OpenClaw · Hermes</div>
+    </div>
 
-    <!-- OpenClaw Section -->
+    <!-- OpenClaw -->
     <div class="gg-section">
       <div class="gg-section-header">
-        <div class="icon purple">⚡</div>
+        <div class="icon green">⚡</div>
         <h3>OpenClaw</h3>
       </div>
       <div class="card">
-        <div style="font-size:12px;color:var(--text-dim);line-height:1.7">
-          <strong style="color:var(--text)">GG-Work</strong> 172.6.15.181<br>
-          Reminder: <span id="ggWRem" style="color:var(--green)">✓</span> · Monitor: <span id="ggWMon" style="color:var(--green)">✓</span> · OpenClaw: <span id="ggWOpen" style="color:var(--green)">✓</span><br>
-          CPU <span id="ggWCpu">--</span> · MEM <span id="ggWMem">--</span> · DISK <span id="gWWDisk">--</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span style="font-size:14px;font-weight:700">💻 GG-Work</span>
+          <span class="tag green" id="ggBadgeWork">● Online</span>
         </div>
-        <div style="font-size:12px;color:var(--text-dim);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
-          <strong style="color:var(--text)">GG-Person</strong> 172.6.15.182<br>
-          Reminder: <span id="ggPRem" style="color:var(--green)">✓</span> · Monitor: <span id="ggPMon" style="color:var(--green)">✓</span> · OpenClaw: <span id="ggPOpen" style="color:var(--green)">✓</span><br>
-          CPU <span id="ggPCpu">--</span> · MEM <span id="ggPMem">--</span> · DISK <span id="gWPDisk">--</span>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.8">
+          172.6.15.181<br>
+          Reminder: <span id="ggWRem" style="font-weight:600;color:var(--green-dark)">✓</span>
+          · Monitor: <span id="ggWMon" style="font-weight:600;color:var(--green-dark)">✓</span>
+          · OpenClaw: <span id="ggWOpen" style="font-weight:600;color:var(--green-dark)">✓</span><br>
+          CPU <span id="ggWCpu" style="font-weight:600">--</span> · MEM <span id="ggWMem" style="font-weight:600">--</span> · DISK <span id="ggWDisk" style="font-weight:600">--</span>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:14px;font-weight:700">🏠 GG-Person</span>
+          <span class="tag green" id="ggBadgePerson">● Online</span>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.8;margin-top:8px">
+          172.6.15.182<br>
+          Reminder: <span id="ggPRem" style="font-weight:600;color:var(--green-dark)">✓</span>
+          · Monitor: <span id="ggPMon" style="font-weight:600;color:var(--green-dark)">✓</span>
+          · OpenClaw: <span id="ggPOpen" style="font-weight:600;color:var(--green-dark)">✓</span><br>
+          CPU <span id="ggPCpu" style="font-weight:600">--</span> · MEM <span id="ggPMem" style="font-weight:600">--</span> · DISK <span id="ggPDisk" style="font-weight:600">--</span>
         </div>
       </div>
     </div>
 
-    <!-- Hermes Section -->
+    <!-- Hermes -->
     <div class="gg-section">
       <div class="gg-section-header">
-        <div class="icon blue">🤖</div>
+        <div class="icon lavender">🤖</div>
         <h3>Hermes</h3>
       </div>
       <div class="card">
-        <div style="font-size:12px;color:var(--text-dim);line-height:1.7">
-          <strong style="color:var(--text)">Hermes Main</strong> (this VM)<br>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span style="font-size:14px;font-weight:700">🤖 Hermes Main</span>
+          <span class="tag green" id="ggBadgeMain">● Online</span>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.8">
           Model: deepseek/deepseek-chat · Provider: DeepSeek<br>
-          CPU <span id="ggHCpu">--</span> · MEM <span id="ggHMem">--</span> · DISK <span id="gHHDisk">--</span> · Load <span id="ggHLoad">--</span><br>
-          Cron Jobs: <span id="ggHCron">--</span> · Calendar: <span id="ggHCal">Connected ✓</span>
+          CPU <span id="ggHCpu" style="font-weight:600">--</span> · MEM <span id="ggHMem" style="font-weight:600">--</span> · DISK <span id="ggHDisk" style="font-weight:600">--</span> · Load <span id="ggHLoad" style="font-weight:600">--</span><br>
+          Cron Jobs: <span id="ggHCron" style="font-weight:600">--</span> · Calendar: <span id="ggHCal" style="font-weight:600;color:var(--green-dark)">Connected ✓</span>
         </div>
       </div>
     </div>
-
   </div><!-- /page-gg -->
 
   <!-- ============================================================ -->
   <!-- PAGE 4: COST                                                -->
   <!-- ============================================================ -->
   <div id="page-cost" class="tab-page">
-    <div class="section-title">💰 API Cost Tracker</div>
+    <div class="greeting">
+      <h2>API Costs</h2>
+      <div class="date">Monthly usage & spending</div>
+    </div>
+
     <div class="card">
       <div class="cost-item">
-        <div class="cost-icon deepseek">Ｄ</div>
+        <div class="cost-icon purple">Ｄ</div>
         <div class="cost-info">
           <div class="cost-name">DeepSeek Chat</div>
           <div class="cost-detail">deepseek-chat · Main LLM</div>
         </div>
-        <div class="cost-amount" style="color:var(--accent2)" id="costDeepSeek">$0.00</div>
+        <div class="cost-amount" style="color:#9b8ec4" id="costDeepSeek">$0.00</div>
       </div>
       <div class="cost-item">
-        <div class="cost-icon google">🔍</div>
+        <div class="cost-icon green">🗺️</div>
         <div class="cost-info">
-          <div class="cost-name">Google Maps API</div>
+          <div class="cost-name">Google Maps</div>
           <div class="cost-detail">Traffic · Places · Geocoding</div>
         </div>
-        <div class="cost-amount" style="color:var(--blue)" id="costMaps">$0.00</div>
+        <div class="cost-amount" style="color:var(--green-dark)" id="costMaps">$0.00</div>
       </div>
       <div class="cost-item">
-        <div class="cost-icon notion">📝</div>
+        <div class="cost-icon peach">📝</div>
         <div class="cost-info">
           <div class="cost-name">Notion API</div>
           <div class="cost-detail">Memory · Tasks · Database</div>
         </div>
-        <div class="cost-amount" style="color:var(--orange)" id="costNotion">$0.00</div>
+        <div class="cost-amount" style="color:var(--peach-dark)" id="costNotion">$0.00</div>
       </div>
       <div class="cost-item">
-        <div class="cost-icon perplexity">🔮</div>
+        <div class="cost-icon purple">🔮</div>
         <div class="cost-info">
-          <div class="cost-name">Perplexity API</div>
+          <div class="cost-name">Perplexity</div>
           <div class="cost-detail">Web Search · Research</div>
         </div>
-        <div class="cost-amount" style="color:var(--pink)" id="costPerplexity">$0.00</div>
+        <div class="cost-amount" style="color:#9b8ec4" id="costPerplexity">$0.00</div>
       </div>
       <div class="cost-item">
-        <div class="cost-icon google">📅</div>
+        <div class="cost-icon green">📅</div>
         <div class="cost-info">
-          <div class="cost-name">Google Calendar API</div>
+          <div class="cost-name">Google Calendar</div>
           <div class="cost-detail">Events · Schedule</div>
         </div>
-        <div class="cost-amount" style="color:var(--green)" id="costCalendar">$0.00</div>
+        <div class="cost-amount" style="color:var(--green-dark)" id="costCalendar">$0.00</div>
       </div>
       <div class="cost-item">
-        <div class="cost-icon" style="background:rgba(255,107,107,0.2)">☁️</div>
+        <div class="cost-icon peach">☁️</div>
         <div class="cost-info">
           <div class="cost-name">DigitalOcean</div>
-          <div class="cost-detail">VM Hosting · Dashboard</div>
+          <div class="cost-detail">VM · Dashboard hosting</div>
         </div>
-        <div class="cost-amount" style="color:var(--red)" id="costDO">$0.00</div>
+        <div class="cost-amount" style="color:var(--peach-dark)" id="costDO">$0.00</div>
       </div>
       <div class="cost-total">
         <div class="total-label">Total Monthly Cost</div>
@@ -226,14 +299,14 @@
 
 <!-- ===== BOTTOM NAV ===== -->
 <nav class="bottom-nav">
-  <button class="nav-tab active" data-tab="page-system" onclick="switchTab(event, 'page-system')">
-    <span class="nav-icon">🖥️</span> System
+  <button class="nav-tab active" data-tab="page-home" onclick="switchTab(event, 'page-home')">
+    <span class="nav-icon">🖥️</span> Home
   </button>
   <button class="nav-tab" data-tab="page-personal" onclick="switchTab(event, 'page-personal')">
-    <span class="nav-icon">👤</span> Personal
+    <span class="nav-icon">👤</span> Profile
   </button>
   <button class="nav-tab" data-tab="page-gg" onclick="switchTab(event, 'page-gg')">
-    <span class="nav-icon">🦾</span> GG
+    <span class="nav-icon">🦾</span> Agents
   </button>
   <button class="nav-tab" data-tab="page-cost" onclick="switchTab(event, 'page-cost')">
     <span class="nav-icon">💰</span> Cost
@@ -275,28 +348,34 @@ async function fetchData() {
     setDetail('lastUpdate', ts);
     if (d.badge_color) {
       var badge = document.getElementById('sysBadge');
-      badge.className = 'status-badge ' + d.badge_color;
+      badge.className = 'badge' + (d.badge_color === 'red' ? ' warning' : '');
       badge.textContent = d.badge_text || '● OK';
     }
 
-    // Status row (Main system)
-    setVal('valCpu', (d.system ? d.system.temp : '--') + '%');
-    setVal('valMem', (d.system ? d.system.memory : '--') + '%');
-    setVal('valDisk', (d.system ? d.system.disk : '--') + '%');
-    setVal('valLoad', d.system ? d.system.load : '--');
+    // Metric summary
+    var sys = d.system || {};
+    setVal('sCpu', (sys.temp || '--') + '%');
+    setVal('sMem', (sys.memory || '--') + '%');
+    setVal('sDisk', (sys.disk || '--') + '%');
+
+    // Date/greeting
+    var now = new Date();
+    var h = now.getHours();
+    var greet = h < 12 ? 'Good Morning' : h < 18 ? 'Good Afternoon' : 'Good Evening';
+    setDetail('greetingText', greet);
+    setDetail('todayDate', now.toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric', timeZone:'Asia/Hong_Kong'}));
 
     var a = d.agents;
     if (!a) return;
 
-    // === Page 1: System ===
     // Hermes Main
-    setVal('mCpu', a.main.cpu + '%');
-    setVal('mMem', a.main.mem + '%');
-    setVal('mDisk', a.main.disk + '%');
-    setDetail('mUp', a.main.uptime);
-    setDetail('mCron', a.main.cron_jobs + ' active');
-    setDetail('mCallback', a.main.online ? 'Running' : 'Stopped');
-    setBadge('badgeMain', a.main.online);
+    setVal('hCpu', a.main.cpu + '%');
+    setVal('hMem', a.main.mem + '%');
+    setVal('hDisk', a.main.disk + '%');
+    setDetail('hUp', a.main.uptime);
+    setDetail('hCron', a.main.cron_jobs + ' active');
+    setDetail('hCallback', a.main.online ? '✓ Running' : '✗ Stopped');
+    setTag('badgeMain', a.main.online);
 
     // GG-Work
     setVal('wCpu', a.work.cpu + '%');
@@ -304,8 +383,7 @@ async function fetchData() {
     setDetail('wRem', a.work.daemons.reminder ? '✓' : '✗');
     setDetail('wMon', a.work.daemons.monitor ? '✓' : '✗');
     setDetail('wDisk', a.work.disk + '%');
-    setDetail('wUp', a.work.uptime);
-    setBadge('badgeWork', a.work.online);
+    setTag('badgeWork', a.work.online);
 
     // GG-Person
     setVal('pCpu', a.person.cpu + '%');
@@ -313,8 +391,7 @@ async function fetchData() {
     setDetail('pRem', a.person.daemons.reminder ? '✓' : '✗');
     setDetail('pMon', a.person.daemons.monitor ? '✓' : '✗');
     setDetail('pDisk', a.person.disk + '%');
-    setDetail('pUp', a.person.uptime);
-    setBadge('badgePerson', a.person.online);
+    setTag('badgePerson', a.person.online);
 
     // Daemon list
     var daemons = [
@@ -333,35 +410,36 @@ async function fetchData() {
     // Activity log
     var log = document.getElementById('activityLog');
     log.innerHTML = '';
-    (d.activity || []).slice(0, 8).forEach(function(a) {
+    (d.activity || []).slice(0, 5).forEach(function(a) {
       var div = document.createElement('div');
       div.className = 'log-line';
-      div.innerHTML = '<span class="log-time">' + a.time + '</span><span class="log-text">' + escHtml(a.text) + '</span>';
+      div.innerHTML = '<span class="log-icon">📌</span><span class="log-time">' + a.time + '</span><span class="log-text">' + escHtml(a.text) + '</span>';
       log.appendChild(div);
     });
 
-    // === Page 3: GG ===
+    // === GG Page ===
+    setTag('ggBadgeWork', a.work.online);
+    setTag('ggBadgePerson', a.person.online);
+    setTag('ggBadgeMain', a.main.online);
     setDetail('ggWRem', a.work.daemons.reminder ? '✓' : '✗');
     setDetail('ggWMon', a.work.daemons.monitor ? '✓' : '✗');
     setDetail('ggWOpen', a.work.daemons.openclaw ? '✓' : '✗');
     setDetail('ggWCpu', a.work.cpu + '%');
     setDetail('ggWMem', a.work.mem + '%');
-    setDetail('gWWDisk', a.work.disk + '%');
-
+    setDetail('ggWDisk', a.work.disk + '%');
     setDetail('ggPRem', a.person.daemons.reminder ? '✓' : '✗');
     setDetail('ggPMon', a.person.daemons.monitor ? '✓' : '✗');
     setDetail('ggPOpen', a.person.daemons.openclaw ? '✓' : '✗');
     setDetail('ggPCpu', a.person.cpu + '%');
     setDetail('ggPMem', a.person.mem + '%');
-    setDetail('gWPDisk', a.person.disk + '%');
-
+    setDetail('ggPDisk', a.person.disk + '%');
     setDetail('ggHCpu', a.main.cpu + '%');
     setDetail('ggHMem', a.main.mem + '%');
-    setDetail('gHHDisk', a.main.disk + '%');
+    setDetail('ggHDisk', a.main.disk + '%');
     setDetail('ggHLoad', a.main.load);
     setDetail('ggHCron', a.main.cron_jobs + ' active');
 
-    // === Page 2: Reminders ===
+    // === Reminders ===
     setDetail('remTotal', d.reminders ? d.reminders.total : '--');
     setDetail('remOverdue', d.reminders ? d.reminders.overdue : '--');
 
@@ -370,16 +448,16 @@ async function fetchData() {
   }
 }
 
-function setBadge(id, online) {
+function setTag(id, online) {
   var el = document.getElementById(id);
   if (!el) return;
-  el.className = 'status-badge ' + (online ? 'green' : 'red');
+  el.className = 'tag ' + (online ? 'green' : 'peach');
   el.textContent = online ? '● Online' : '● Offline';
 }
 
 // ===== INIT =====
 fetchData();
-setInterval(fetchData, 30000); // Every 30s
+setInterval(fetchData, 30000);
 </script>
 
 </body>
