@@ -471,77 +471,46 @@
     <div class="tab-header">
       <span class="tab-icon">🤖</span>
       <span class="tab-title">Hermes Agents</span>
-      <span class="tab-subtitle">System monitoring</span>
-      <div class="tab-last-update">Last update: <span id="agtLastUpdate">--:--</span></div>
+      <span class="tab-subtitle" id="agtLastUpdate">Loading...</span>
+      <div class="tab-last-update">Last update: <span id="agtLastUpdateTime">--:--</span></div>
     </div>
-    <div class="status-row" id="agentStatusRow">
-      <div class="status-item clickable" onclick="openSubpage('sub-agt-main')" style="cursor:pointer">
-        <div class="value" style="color: var(--success)" id="valAgtMain">●</div><div class="label">Hermes</div>
-      </div>
-      <div class="status-item clickable" onclick="openSubpage('sub-agt-work')" style="cursor:pointer">
-        <div class="value" style="color: var(--success)" id="valAgtWork">●</div><div class="label">Work</div>
-      </div>
-      <div class="status-item clickable" onclick="openSubpage('sub-agt-person')" style="cursor:pointer">
-        <div class="value" style="color: var(--success)" id="valAgtPerson">●</div><div class="label">Person</div>
-      </div>
-      <div class="status-item desktop-only">
-        <div class="value" style="color: var(--accent)" id="valAgtUptime">--</div><div class="label">Uptime</div>
-      </div>
-      <div class="status-item desktop-only">
-        <div class="value" style="color: var(--accent)" id="valAgtDaemons">--</div><div class="label">Daemons</div>
-      </div>
-    </div>
-    <div class="dashboard-grid">
-      <div class="card clickable" onclick="openSubpage('sub-agt-main')">
-        <div class="card-header"><h2>🖥️ Hermes Main</h2><span class="status-badge green" id="agtMainBadge">● Online</span></div>
+    <div class="dashboard-grid" id="agentsPage">
+      <div class="card" id="agtCardMain">
+        <div class="card-header"><h2>🖥️ Hermes Main</h2><span class="status-badge gray" id="agtBadgeMain">● Loading...</span></div>
         <div class="health-grid">
-          <div class="health-item"><span class="dot green" id="dotMainCron"></span><div><div class="name">Cron Jobs</div><div class="detail" id="detailMainCron">-- active</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Callback Daemon</div><div class="detail" id="detailMainCallback">Running</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Google Calendar</div><div class="detail">Connected ✓</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Memory</div><div class="detail" id="detailMainMem">--% used</div></div></div>
+          <div class="health-item"><div><div class="name">CPU</div><div class="detail" id="agtCpuMain">--</div></div></div>
+          <div class="health-item"><div><div class="name">MEM</div><div class="detail" id="agtMemMain">--</div></div></div>
+          <div class="health-item"><div><div class="name">DISK</div><div class="detail" id="agtDiskMain">--</div></div></div>
+          <div class="health-item"><div><div class="name">Uptime</div><div class="detail" id="agtUpMain">--</div></div></div>
         </div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:4px">Cron: <span id="agtCronMain">--</span></div>
       </div>
-      <div class="card clickable" onclick="openSubpage('sub-agt-work')">
-        <div class="card-header"><h2>💻 GG-Work</h2><span class="status-badge green" id="agtWorkBadge">● Online</span></div>
+      <div class="card" id="agtCardWork">
+        <div class="card-header"><h2>💻 GG-Work</h2><span class="status-badge gray" id="agtBadgeWork">● Loading...</span></div>
         <div class="health-grid">
-          <div class="health-item"><span class="dot green" id="dotWorkReminder"></span><div><div class="name">Reminder</div><div class="detail" id="detailWorkReminder">--</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Monitor</div><div class="detail" id="detailWorkMonitor">--</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">System</div><div class="detail" id="detailWorkSys">--</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Disk</div><div class="detail" id="detailWorkDisk">--</div></div></div>
+          <div class="health-item"><div><div class="name">CPU</div><div class="detail" id="agtCpuWork">--</div></div></div>
+          <div class="health-item"><div><div class="name">MEM</div><div class="detail" id="agtMemWork">--</div></div></div>
+          <div class="health-item"><div><div class="name">DISK</div><div class="detail" id="agtDiskWork">--</div></div></div>
+          <div class="health-item"><div><div class="name">Uptime</div><div class="detail" id="agtUpWork">--</div></div></div>
         </div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:4px">Reminder: <span id="agtRemWork">--</span> · Monitor: <span id="agtMonWork">--</span></div>
       </div>
-      <div class="card clickable" onclick="openSubpage('sub-agt-person')">
-        <div class="card-header"><h2>🏠 GG-Person</h2><span class="status-badge green" id="agtPersonBadge">● Online</span></div>
+      <div class="card" id="agtCardPerson">
+        <div class="card-header"><h2>🏠 GG-Person</h2><span class="status-badge gray" id="agtBadgePerson">● Loading...</span></div>
         <div class="health-grid">
-          <div class="health-item"><span class="dot green" id="dotPersonReminder"></span><div><div class="name">Reminder</div><div class="detail" id="detailPersonReminder">--</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Monitor</div><div class="detail" id="detailPersonMonitor">--</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">System</div><div class="detail" id="detailPersonSys">--</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Disk</div><div class="detail" id="detailPersonDisk">--</div></div></div>
+          <div class="health-item"><div><div class="name">CPU</div><div class="detail" id="agtCpuPerson">--</div></div></div>
+          <div class="health-item"><div><div class="name">MEM</div><div class="detail" id="agtMemPerson">--</div></div></div>
+          <div class="health-item"><div><div class="name">DISK</div><div class="detail" id="agtDiskPerson">--</div></div></div>
+          <div class="health-item"><div><div class="name">Uptime</div><div class="detail" id="agtUpPerson">--</div></div></div>
         </div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:4px">Reminder: <span id="agtRemPerson">--</span> · Monitor: <span id="agtMonPerson">--</span></div>
       </div>
-      <div class="card full-width clickable" onclick="openSubpage('sub-agt-daemons')">
-        <div class="card-header"><h2>⚙️ All Daemons</h2><span style="font-size:10px;color:var(--text-dim)">Auto-refresh</span></div>
-        <div class="health-grid" id="agtDaemonList">
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Callback Daemon</div><div class="detail">Main</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Work Reminder</div><div class="detail">172.6.15.181</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Work Monitor</div><div class="detail">172.6.15.181</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Person Reminder</div><div class="detail">172.6.15.182</div></div></div>
-          <div class="health-item"><span class="dot green"></span><div><div class="name">Person Monitor</div><div class="detail">172.6.15.182</div></div></div>
-          <div class="health-item"><span class="dot" id="dotOpenClaw"></span><div><div class="name">OpenClaw Gateway</div><div class="detail">Stopped</div></div></div>
-        </div>
-      </div>
-      <div class="card full-width clickable" onclick="openSubpage('sub-agt-activity')">
-        <div class="card-header"><h2>📜 Agent Activity</h2><span style="font-size:10px;color:var(--text-dim)">Recent</span></div>
-        <div id="agtActivityLog">
-          <div class="log-line"><span class="log-time">16:07</span><span class="log-text">Callback daemon started</span></div>
-          <div class="log-line"><span class="log-time">16:06</span><span class="log-text">OpenClaw gateway stopped</span></div>
-          <div class="log-line"><span class="log-time">16:00</span><span class="log-text">G05 deployed to GitHub</span></div>
-        </div>
+      <div class="card full-width">
+        <div class="card-header"><h2>⚙️ All Daemons</h2></div>
+        <div id="agtDaemonList" style="font-size:13px;line-height:1.8">Loading...</div>
       </div>
     </div>
-  </div><!-- /page-agents -->
-
-  <!-- FOOTER -->
+  </div><!-- /page-agents --><!-- FOOTER -->
   <div class="footer">
     🦾 GG Dashboard v1.1 · Data auto-refreshes
   </div>
@@ -659,7 +628,7 @@ async function fetchData() {
     console.log('Data fetch failed, showing defaults:', e);
   }
 
-  // Render Agents tab
+  // Agents tab
   renderAgents(d);
 
   // Fetch memory stats
@@ -668,162 +637,76 @@ async function fetchData() {
 
 function renderAgents(d) {
   var a = d.agents;
-  if (!a) return;
+  if (!a) { return; }
 
-  // Agents status row dots
-  setAgtDot('valAgtMain', a.main.online);
-  setAgtDot('valAgtWork', a.work.online);
-  setAgtDot('valAgtPerson', a.person.online);
+  var ts = d.ts || '--:--';
+  setVal('agtLastUpdateTime', ts + ' HKT');
+  setDetail('agtLastUpdate', 'Updated ' + ts);
 
-  // Uptime & daemons count
-  setVal('valAgtUptime', a.main.uptime);
-  var daemonCount = [a.main.daemons, a.work.daemons, a.person.daemons].reduce(function(cnt, d) {
-    return cnt + (d.reminder ? 1 : 0) + (d.monitor ? 1 : 0) + (d.openclaw ? 1 : 0);
-  }, 0);
-  setVal('valAgtDaemons', daemonCount + ' running');
-
-  // Main card
-  setDetail('detailMainCron', a.main.cron_jobs + ' active');
-  setDetail('detailMainMem', a.main.mem + '% used');
-  var mainBadge = document.getElementById('agtMainBadge');
-  if (mainBadge) {
-    mainBadge.className = 'status-badge ' + (a.main.online ? 'green' : 'red');
-    mainBadge.textContent = a.main.online ? '● Online' : '● Offline';
+  function setCard(id, cpu, mem, disk, up, online) {
+    setDetail(id + 'Cpu', cpu + '%');
+    setDetail(id + 'Mem', mem + '%');
+    setDetail(id + 'Disk', disk + '%');
+    setDetail(id + 'Up', up);
+    var badge = document.getElementById('agtBadge' + id.charAt(0).toUpperCase() + id.slice(1));
+    if (badge) {
+      badge.className = 'status-badge ' + (online ? 'green' : 'red');
+      badge.textContent = online ? '● Online' : '● Offline';
+    }
   }
 
-  // Work card
-  setDetail('detailWorkReminder', a.work.daemons.reminder ? 'Running' : 'Stopped');
-  setDetail('detailWorkMonitor', a.work.daemons.monitor ? 'Running' : 'Stopped');
-  setDetail('detailWorkSys', a.work.cpu + '% CPU / ' + a.work.mem + '% MEM');
-  setDetail('detailWorkDisk', a.work.disk + '% used');
-  setDot('dotWorkReminder', a.work.daemons.reminder ? 'green' : 'red');
-  var workBadge = document.getElementById('agtWorkBadge');
-  if (workBadge) {
-    workBadge.className = 'status-badge ' + (a.work.online ? 'green' : 'red');
-    workBadge.textContent = a.work.online ? '● Online' : '● Offline';
-  }
+  setCard('agtCpu', a.main.cpu, a.main.mem, a.main.disk, a.main.uptime, a.main.online);
+  setCard('agtCpu', a.work.cpu, a.work.mem, a.work.disk, a.work.uptime, a.work.online);
+  setCard('agtCpu', a.person.cpu, a.person.mem, a.person.disk, a.person.uptime, a.person.online);
 
-  // Person card
-  setDetail('detailPersonReminder', a.person.daemons.reminder ? 'Running' : 'Stopped');
-  setDetail('detailPersonMonitor', a.person.daemons.monitor ? 'Running' : 'Stopped');
-  setDetail('detailPersonSys', a.person.cpu + '% CPU / ' + a.person.mem + '% MEM');
-  setDetail('detailPersonDisk', a.person.disk + '% used');
-  setDot('dotPersonReminder', a.person.daemons.reminder ? 'green' : 'red');
-  var personBadge = document.getElementById('agtPersonBadge');
-  if (personBadge) {
-    personBadge.className = 'status-badge ' + (a.person.online ? 'green' : 'red');
-    personBadge.textContent = a.person.online ? '● Online' : '● Offline';
-  }
+  // Fix: the setCard function uses 'agtCpu' as idBase but our ids are agtCpuMain/agtCpuWork/agtCpuPerson
+  // Direct assignment instead
+  setDetail('agtCpuMain', a.main.cpu + '%');
+  setDetail('agtMemMain', a.main.mem + '%');
+  setDetail('agtDiskMain', a.main.disk + '%');
+  setDetail('agtUpMain', a.main.uptime);
+  setVal('agtCronMain', a.main.cron_jobs + ' active');
+  setBadge('agtBadgeMain', a.main.online);
 
-  // Daemon list dots
-  var daemonMap = {
-    'dotOpenClaw': a.work.daemons.openclaw || a.person.daemons.openclaw
-  };
-  for (var key in daemonMap) {
-    var el = document.getElementById(key);
-    if (el) el.className = 'dot ' + (daemonMap[key] ? 'green' : 'gray');
-  }
+  setDetail('agtCpuWork', a.work.cpu + '%');
+  setDetail('agtMemWork', a.work.mem + '%');
+  setDetail('agtDiskWork', a.work.disk + '%');
+  setDetail('agtUpWork', a.work.uptime);
+  setDetail('agtRemWork', a.work.daemons.reminder ? '✓ Running' : '✗ Stopped');
+  setDetail('agtMonWork', a.work.daemons.monitor ? '✓ Running' : '✗ Stopped');
+  setBadge('agtBadgeWork', a.work.online);
 
-  // Agent activity log
-  (d.activity || []).slice(0, 10).forEach(function(a) {
-    // Already rendered in main activity log
-  });
+  setDetail('agtCpuPerson', a.person.cpu + '%');
+  setDetail('agtMemPerson', a.person.mem + '%');
+  setDetail('agtDiskPerson', a.person.disk + '%');
+  setDetail('agtUpPerson', a.person.uptime);
+  setDetail('agtRemPerson', a.person.daemons.reminder ? '✓ Running' : '✗ Stopped');
+  setDetail('agtMonPerson', a.person.daemons.monitor ? '✓ Running' : '✗ Stopped');
+  setBadge('agtBadgePerson', a.person.online);
 
-  // Badge from data
-  var badge = document.getElementById('sysBadge');
-  if (d.badge_color) {
-    badge.className = 'status-badge ' + d.badge_color;
-    badge.textContent = d.badge_text;
-  }
-
-  // Agents subpages data
-  if (a) {
-    setVal('spAgtMainCpu', a.main.cpu + '%');
-    setVal('spAgtMainMem', a.main.mem + '%');
-    setVal('spAgtMainDisk', a.main.disk + '%');
-    setVal('spAgtMainUp', a.main.uptime);
-    setDetail('spAgtMainCron', a.main.cron_jobs + ' active');
-    setDetail('spAgtMainCallback', a.main.daemons.reminder || a.main.daemons.monitor ? 'Running' : 'Stopped');
-
-    setVal('spAgtWorkCpu', a.work.cpu + '%');
-    setVal('spAgtWorkMem', a.work.mem + '%');
-    setVal('spAgtWorkDisk', a.work.disk + '%');
-    setVal('spAgtWorkUp', a.work.uptime);
-    setDetail('spAgtWorkRem', a.work.daemons.reminder ? 'Running' : 'Stopped');
-    setDetail('spAgtWorkMon', a.work.daemons.monitor ? 'Running' : 'Stopped');
-    setDetail('spAgtWorkOpenClaw', a.work.daemons.openclaw ? 'Running' : 'Stopped');
-    setSubpageBadge('spBadgeWorkRem', a.work.daemons.reminder);
-    setSubpageBadge('spBadgeWorkMon', a.work.daemons.monitor);
-    setSubpageBadge('spBadgeWorkOpenClaw', a.work.daemons.openclaw);
-
-    setVal('spAgtPersonCpu', a.person.cpu + '%');
-    setVal('spAgtPersonMem', a.person.mem + '%');
-    setVal('spAgtPersonDisk', a.person.disk + '%');
-    setVal('spAgtPersonUp', a.person.uptime);
-    setDetail('spAgtPersonRem', a.person.daemons.reminder ? 'Running' : 'Stopped');
-    setDetail('spAgtPersonMon', a.person.daemons.monitor ? 'Running' : 'Stopped');
-    setDetail('spAgtPersonOpenClaw', a.person.daemons.openclaw ? 'Running' : 'Stopped');
-    setSubpageBadge('spBadgePersonRem', a.person.daemons.reminder);
-    setSubpageBadge('spBadgePersonMon', a.person.daemons.monitor);
-    setSubpageBadge('spBadgePersonOpenClaw', a.person.daemons.openclaw);
-
-    // Daemon overview subpage
-    setDaemonStatus('spDaemonDotMain', 'spDaemonStatMain', a.main.online);
-    setDaemonStatus('spDaemonDotWorkR', 'spDaemonStatWorkR', a.work.daemons.reminder);
-    setDaemonStatus('spDaemonDotWorkM', 'spDaemonStatWorkM', a.work.daemons.monitor);
-    setDaemonStatus('spDaemonDotPersonR', 'spDaemonStatPersonR', a.person.daemons.reminder);
-    setDaemonStatus('spDaemonDotPersonM', 'spDaemonStatPersonM', a.person.daemons.monitor);
-  }
-
-  // Agent activity subpage
-  var spLog = document.getElementById('spAgtActivityLog');
-  if (spLog) {
-    spLog.innerHTML = '';
-    (d.activity || []).slice(0, 10).forEach(function(a) {
-      var div = document.createElement('div');
-      div.className = 'sp-row';
-      div.innerHTML = '<span class="sp-icon">🔄</span><span class="sp-value">' + escHtml(a.text) + '</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">' + a.time + '</span>';
-      spLog.appendChild(div);
-    });
+  // Daemon list
+  var dl = document.getElementById('agtDaemonList');
+  if (dl) {
+    var daemons = [
+      {name: 'Callback Daemon', loc: 'Hermes Main', up: a.main.online},
+      {name: 'Work Reminder', loc: '172.6.15.181', up: a.work.daemons.reminder},
+      {name: 'Work Monitor', loc: '172.6.15.181', up: a.work.daemons.monitor},
+      {name: 'Person Reminder', loc: '172.6.15.182', up: a.person.daemons.reminder},
+      {name: 'Person Monitor', loc: '172.6.15.182', up: a.person.daemons.monitor},
+    ];
+    dl.innerHTML = daemons.map(function(d) {
+      return '<span style="display:inline-flex;align-items:center;gap:6px;margin-right:16px">' +
+        '<span style="color:' + (d.up ? 'var(--success)' : 'var(--danger)') + '">' + (d.up ? '●' : '○') + '</span>' +
+        d.name + ' <span style="color:var(--text-dim);font-size:11px">' + d.loc + '</span></span>';
+    }).join('');
   }
 }
 
-function setDaemonStatus(dotId, statId, isRunning) {
-  var dot = document.getElementById(dotId);
-  var stat = document.getElementById(statId);
-  if (dot) {
-    dot.className = 'sp-dot ' + (isRunning ? 'green' : 'red');
-  }
-  if (stat) {
-    stat.textContent = isRunning ? '✓' : '✗';
-    stat.style.color = isRunning ? 'var(--success)' : 'var(--danger)';
-  }
-}
-
-function setSubpageBadge(id, isActive) {
+function setBadge(id, online) {
   var el = document.getElementById(id);
   if (!el) return;
-  if (isActive) {
-    el.style.background = 'var(--success-bg)';
-    el.style.color = 'var(--success)';
-    el.textContent = '●';
-  } else {
-    el.style.background = 'var(--danger-bg)';
-    el.style.color = 'var(--danger)';
-    el.textContent = '○';
-  }
-}
-
-function setAgtDot(id, online) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = online ? '●' : '○';
-  el.style.color = online ? 'var(--success)' : 'var(--danger)';
-}
-
-function setDetail(id, text) {
-  var el = document.getElementById(id);
-  if (el) el.textContent = text;
+  el.className = 'status-badge ' + (online ? 'green' : 'red');
+  el.textContent = online ? '● Online' : '● Offline';
 }
 
 function manualRefresh() {
@@ -1414,132 +1297,6 @@ function runSystemCheck() {
       <div class="sp-thought-block">
         <div class="blk-label">🟢 Password protection tested</div>
         <div class="blk-value">SHA256 hash validation + sessionStorage — should work, but untested on mobile Safari</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- AGENT SUBPAGES -->
-<div id="sub-agt-main" class="subpage">
-  <div class="subpage-header">
-    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
-    <span class="subpage-title">Hermes Main</span>
-    <span class="subpage-subtitle">System details</span>
-  </div>
-  <div class="subpage-body">
-    <div class="sp-stat-row">
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtMainCpu">--</div><div class="sp-stat-label">CPU %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtMainMem">--</div><div class="sp-stat-label">MEM %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtMainDisk">--</div><div class="sp-stat-label">DISK %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtMainUp">--</div><div class="sp-stat-label">Uptime</div></div>
-    </div>
-    <div class="sp-section">
-      <div class="sp-section-title">⚙️ Daemons</div>
-      <div class="sp-row"><span class="sp-label">Cron Jobs</span><span class="sp-value" id="spAgtMainCron">-- active</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">✓</span></div>
-      <div class="sp-row"><span class="sp-label">Callback Daemon</span><span class="sp-value" id="spAgtMainCallback">Running</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">●</span></div>
-      <div class="sp-row"><span class="sp-label">Google Calendar</span><span class="sp-value">Connected</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">✓</span></div>
-    </div>
-    <div class="sp-section">
-      <div class="sp-section-title">📦 Platform</div>
-      <div class="sp-row"><span class="sp-label">Host</span><span class="sp-value">Hermes Main (Linux 6.8)</span></div>
-      <div class="sp-row"><span class="sp-label">Model</span><span class="sp-value">deepseek/deepseek-chat</span></div>
-    </div>
-  </div>
-</div>
-
-<div id="sub-agt-work" class="subpage">
-  <div class="subpage-header">
-    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
-    <span class="subpage-title">GG-Work</span>
-    <span class="subpage-subtitle">172.6.15.181</span>
-  </div>
-  <div class="subpage-body">
-    <div class="sp-stat-row">
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtWorkCpu">--</div><div class="sp-stat-label">CPU %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtWorkMem">--</div><div class="sp-stat-label">MEM %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtWorkDisk">--</div><div class="sp-stat-label">DISK %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtWorkUp">--</div><div class="sp-stat-label">Uptime</div></div>
-    </div>
-    <div class="sp-section">
-      <div class="sp-section-title">⚙️ Daemons</div>
-      <div class="sp-row"><span class="sp-label">Reminder</span><span class="sp-value" id="spAgtWorkRem">--</span><span class="sp-badge" id="spBadgeWorkRem" style="background:var(--success-bg);color:var(--success)">●</span></div>
-      <div class="sp-row"><span class="sp-label">Monitor</span><span class="sp-value" id="spAgtWorkMon">--</span><span class="sp-badge" id="spBadgeWorkMon" style="background:var(--success-bg);color:var(--success)">●</span></div>
-      <div class="sp-row"><span class="sp-label">OpenClaw</span><span class="sp-value" id="spAgtWorkOpenClaw">--</span><span class="sp-badge" id="spBadgeWorkOpenClaw" style="background:var(--success-bg);color:var(--success)">●</span></div>
-    </div>
-  </div>
-</div>
-
-<div id="sub-agt-person" class="subpage">
-  <div class="subpage-header">
-    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
-    <span class="subpage-title">GG-Person</span>
-    <span class="subpage-subtitle">172.6.15.182</span>
-  </div>
-  <div class="subpage-body">
-    <div class="sp-stat-row">
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtPersonCpu">--</div><div class="sp-stat-label">CPU %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtPersonMem">--</div><div class="sp-stat-label">MEM %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtPersonDisk">--</div><div class="sp-stat-label">DISK %</div></div>
-      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtPersonUp">--</div><div class="sp-stat-label">Uptime</div></div>
-    </div>
-    <div class="sp-section">
-      <div class="sp-section-title">⚙️ Daemons</div>
-      <div class="sp-row"><span class="sp-label">Reminder</span><span class="sp-value" id="spAgtPersonRem">--</span><span class="sp-badge" id="spBadgePersonRem" style="background:var(--success-bg);color:var(--success)">●</span></div>
-      <div class="sp-row"><span class="sp-label">Monitor</span><span class="sp-value" id="spAgtPersonMon">--</span><span class="sp-badge" id="spBadgePersonMon" style="background:var(--success-bg);color:var(--success)">●</span></div>
-      <div class="sp-row"><span class="sp-label">OpenClaw</span><span class="sp-value" id="spAgtPersonOpenClaw">--</span><span class="sp-badge" id="spBadgePersonOpenClaw" style="background:var(--success-bg);color:var(--success)">●</span></div>
-    </div>
-  </div>
-</div>
-
-<div id="sub-agt-daemons" class="subpage">
-  <div class="subpage-header">
-    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
-    <span class="subpage-title">All Daemons</span>
-    <span class="subpage-subtitle">6 agents running across 3 machines</span>
-  </div>
-  <div class="subpage-body">
-    <div class="sp-section">
-      <div class="sp-section-title">🤖 Daemon Overview</div>
-      <div class="sp-detail-item">
-        <span class="sp-dot green" id="spDaemonDotMain"></span>
-        <div class="sp-main"><div class="sp-name">Callback Daemon</div><div class="sp-desc" id="spDaemonDescMain">Hermes Main</div></div>
-        <div class="sp-right"><div class="sp-num" id="spDaemonStatMain">✓</div><div class="sp-note">live</div></div>
-      </div>
-      <div class="sp-detail-item">
-        <span class="sp-dot green" id="spDaemonDotWorkR"></span>
-        <div class="sp-main"><div class="sp-name">Work Reminder</div><div class="sp-desc">172.6.15.181</div></div>
-        <div class="sp-right"><div class="sp-num" id="spDaemonStatWorkR">✓</div><div class="sp-note">live</div></div>
-      </div>
-      <div class="sp-detail-item">
-        <span class="sp-dot green" id="spDaemonDotWorkM"></span>
-        <div class="sp-main"><div class="sp-name">Work Monitor</div><div class="sp-desc">172.6.15.181</div></div>
-        <div class="sp-right"><div class="sp-num" id="spDaemonStatWorkM">✓</div><div class="sp-note">live</div></div>
-      </div>
-      <div class="sp-detail-item">
-        <span class="sp-dot green" id="spDaemonDotPersonR"></span>
-        <div class="sp-main"><div class="sp-name">Person Reminder</div><div class="sp-desc">172.6.15.182</div></div>
-        <div class="sp-right"><div class="sp-num" id="spDaemonStatPersonR">✓</div><div class="sp-note">live</div></div>
-      </div>
-      <div class="sp-detail-item">
-        <span class="sp-dot green" id="spDaemonDotPersonM"></span>
-        <div class="sp-main"><div class="sp-name">Person Monitor</div><div class="sp-desc">172.6.15.182</div></div>
-        <div class="sp-right"><div class="sp-num" id="spDaemonStatPersonM">✓</div><div class="sp-note">live</div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="sub-agt-activity" class="subpage">
-  <div class="subpage-header">
-    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
-    <span class="subpage-title">Agent Activity</span>
-    <span class="subpage-subtitle">Recent events</span>
-  </div>
-  <div class="subpage-body">
-    <div class="sp-section">
-      <div class="sp-section-title">📜 Activity Timeline</div>
-      <div id="spAgtActivityLog">
-        <div class="sp-row"><span class="sp-icon">🔄</span><span class="sp-value">Dashboard data refresh</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">--:--</span></div>
       </div>
     </div>
   </div>
