@@ -1,0 +1,9 @@
+{
+  "id": "a1f71253",
+  "target": "person",
+  "desc": "GG V2 test suite: 呢個係test task，確認 person pipeline 正常運作。as of 2026-05-20 03:00 HKT",
+  "status": "done",
+  "created": "2026-05-20 06:50 HKT",
+  "result": "✅ **GG V2 Test Suite — Person Pipeline 結果報告**\n\n| 檢查項目 | 狀態 |\n|---------|:---:|\n| **Session 啟動** | ✅ 正常 — agent:gg-person, channel: webchat |\n| **SOUL.md 載入** | ✅ 身份、角色、範圍正確 |\n| **AGENTS.md 載入** | ✅ 權限規則已喚醒 |\n| **HEARTBEAT.md 載入** | ✅ 晨間預讀流程已確認 |\n| **Memory Search** | ✅ 正常運作（search provider: openai, 551ms） |\n| **UTC+8 時間理解** | ✅ 正確轉換：2026-05-20 03:00 HKT = 2026-05-19 19:00 UTC |\n| **Tools 可用** | ✅ exec, memory_search, read 等全部正常 |\n| **Model** | ✅ deepseek/deepseek-chat，context 10%（20k/200k） |\n\n**",
+  "completed": "2026-05-20 06:50 HKT"
+}

@@ -1,0 +1,18 @@
+# AgentSentinel policy - GG-Work
+budgets:
+  session: 10.00
+  run: 2.00
+denied_actions:
+  - "rm -rf /"
+  - "rm -rf ~"
+  - "format"
+  - "mkfs"
+  - "dd if=/dev/zero"
+  - ":(){ :|:& };:"  # fork bomb
+  - "shutdown"
+  - "reboot"
+policy:
+  max_retries: 5
+  max_consecutive_failures: 3
+  rate_limit_actions: ["curl", "wget", "git clone"]
+  rate_limit_per_minute: 30

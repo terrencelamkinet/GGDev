@@ -1,0 +1,82 @@
+{
+  "projects": [
+    {
+      "name": "專注飛鳥",
+      "description": "用EEG檢測專注力嘅訓練遊戲，飛鳥透過專注力高低控制升降食金幣",
+      "status": "active",
+      "created": "2026-05-10 23:23:48",
+      "last_activity": "2026-05-12 19:41",
+      "conversations": 2,
+      "files": [],
+      "notes": ""
+    },
+    {
+      "name": "exam-center",
+      "description": "IT 認證考試模擬系統 (SOC NGFW VCF)",
+      "status": "production",
+      "created": "2026-05-11",
+      "last_activity": "2026-05-15 13:48",
+      "conversations": 9,
+      "files": [
+        "exam-center/index.html",
+        "exam-center/soc/quiz.html",
+        "exam-center/soc/questions.js",
+        "exam-center/ngfw/quiz.html",
+        "exam-center/ngfw/questions.js",
+        "exam-center/vcf/quiz.html",
+        "exam-center/vcf/questions.js"
+      ],
+      "notes": "prod: exam-center/ | dev: exam-center-dev/ | DO auto-deploy from main"
+    },
+    {
+      "name": "G04 - 娘子獨立 Agent",
+      "description": "為娘子（Aggie）建立獨立嘅 AI agent，有自己嘅 Telegram bot、memory、cron，完全同 Terrence 分離隔離",
+      "status": "active",
+      "created": "2026-05-18 09:56",
+      "last_activity": "2026-05-18 09:56",
+      "conversations": 1,
+      "files": [
+        "gg-aggie/AGENTS.md",
+        "gg-aggie/memory/memory.md",
+        "gg-aggie/patterns.md"
+      ],
+      "notes": "方案：開第二個 Telegram bot + 第二個 OpenClaw agent instance。娘子用新 bot，完全獨立。Terrence 會抽呢個 project 繼續改。"
+    },
+    {
+      "name": "exam-center-dev",
+      "description": "Development site for exam-center —改完test先merge去production",
+      "status": "development",
+      "created": "2026-05-15 13:48",
+      "last_activity": "2026-05-15 13:48",
+      "conversations": 0,
+      "files": [],
+      "notes": "DO auto-deploy from main. URL: /exam-center-dev/"
+    },
+    {
+      "name": "G03 - Answer Compare",
+      "description": "",
+      "status": "active",
+      "created": "2026-05-16 12:15",
+      "last_activity": "2026-05-16 12:15",
+      "conversations": 1,
+      "files": [
+        "G03_Answer_Compare.json"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "G05 - GG Dashboard",
+      "description": "GG Dashboard — 一個 central dashboard 俾 Terrence 睇晒所有 system status（cron健康、提醒、tunnel、disk、error registry）、屬靈功課、TODO、快速action buttons",
+      "status": "development",
+      "created": "2026-05-23 00:17",
+      "last_activity": "2026-05-23 10:47",
+      "conversations": 1,
+      "files": [
+        "gg-dashboard/index.html",
+        "gg-dashboard/styles.css"
+      ],
+      "notes": "Built prototype — combines G05 + G02 (Exam Center link) + G03 (Voice Practice link). Geckoboard-style dark card dashboard. Mobile-first, status cards, schedule, alerts, projects, quick actions."
+    }
+  ],
+  "last_updated": "2026-05-23 10:47"
+}

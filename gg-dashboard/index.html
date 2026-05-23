@@ -659,8 +659,94 @@ async function fetchData() {
     console.log('Data fetch failed, showing defaults:', e);
   }
 
+  // Render Agents tab
+  renderAgents(d);
+
   // Fetch memory stats
   setTimeout(fetchMemoryStats, 100);
+}
+
+function renderAgents(d) {
+  var a = d.agents;
+  if (!a) return;
+
+  // Agents status row dots
+  setAgtDot('valAgtMain', a.main.online);
+  setAgtDot('valAgtWork', a.work.online);
+  setAgtDot('valAgtPerson', a.person.online);
+
+  // Uptime & daemons count
+  setVal('valAgtUptime', a.main.uptime);
+  var daemonCount = [a.main.daemons, a.work.daemons, a.person.daemons].reduce(function(cnt, d) {
+    return cnt + (d.reminder ? 1 : 0) + (d.monitor ? 1 : 0) + (d.openclaw ? 1 : 0);
+  }, 0);
+  setVal('valAgtDaemons', daemonCount + ' running');
+
+  // Main card
+  setDetail('detailMainCron', a.main.cron_jobs + ' active');
+  setDetail('detailMainMem', a.main.mem + '% used');
+  var mainBadge = document.getElementById('agtMainBadge');
+  if (mainBadge) {
+    mainBadge.className = 'status-badge ' + (a.main.online ? 'green' : 'red');
+    mainBadge.textContent = a.main.online ? '● Online' : '● Offline';
+  }
+
+  // Work card
+  setDetail('detailWorkReminder', a.work.daemons.reminder ? 'Running' : 'Stopped');
+  setDetail('detailWorkMonitor', a.work.daemons.monitor ? 'Running' : 'Stopped');
+  setDetail('detailWorkSys', a.work.cpu + '% CPU / ' + a.work.mem + '% MEM');
+  setDetail('detailWorkDisk', a.work.disk + '% used');
+  setDot('dotWorkReminder', a.work.daemons.reminder ? 'green' : 'red');
+  var workBadge = document.getElementById('agtWorkBadge');
+  if (workBadge) {
+    workBadge.className = 'status-badge ' + (a.work.online ? 'green' : 'red');
+    workBadge.textContent = a.work.online ? '● Online' : '● Offline';
+  }
+
+  // Person card
+  setDetail('detailPersonReminder', a.person.daemons.reminder ? 'Running' : 'Stopped');
+  setDetail('detailPersonMonitor', a.person.daemons.monitor ? 'Running' : 'Stopped');
+  setDetail('detailPersonSys', a.person.cpu + '% CPU / ' + a.person.mem + '% MEM');
+  setDetail('detailPersonDisk', a.person.disk + '% used');
+  setDot('dotPersonReminder', a.person.daemons.reminder ? 'green' : 'red');
+  var personBadge = document.getElementById('agtPersonBadge');
+  if (personBadge) {
+    personBadge.className = 'status-badge ' + (a.person.online ? 'green' : 'red');
+    personBadge.textContent = a.person.online ? '● Online' : '● Offline';
+  }
+
+  // Daemon list dots
+  var daemonMap = {
+    'dotOpenClaw': a.work.daemons.openclaw || a.person.daemons.openclaw
+  };
+  for (var key in daemonMap) {
+    var el = document.getElementById(key);
+    if (el) el.className = 'dot ' + (daemonMap[key] ? 'green' : 'gray');
+  }
+
+  // Agent activity log
+  (d.activity || []).slice(0, 10).forEach(function(a) {
+    // Already rendered in main activity log
+  });
+
+  // Badge from data
+  var badge = document.getElementById('sysBadge');
+  if (d.badge_color) {
+    badge.className = 'status-badge ' + d.badge_color;
+    badge.textContent = d.badge_text;
+  }
+}
+
+function setAgtDot(id, online) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = online ? '●' : '○';
+  el.style.color = online ? 'var(--success)' : 'var(--danger)';
+}
+
+function setDetail(id, text) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = text;
 }
 
 function manualRefresh() {
