@@ -1,0 +1,28 @@
+{
+  "ts": "23:56",
+  "hour": 23,
+  "minute": 56,
+  "system": {
+    "temp": 0,
+    "memory": 5,
+    "disk": 19,
+    "load": "0.06",
+    "uptime": "8:01",
+    "services": {
+      "gg-reminder": "green",
+      "disk": "green",
+      "memory": "green"
+    }
+  },
+  "reminders": {
+    "total": 20,
+    "overdue": 0,
+    "errors": 0
+  },
+  "activity": [
+    {
+      "time": "23:56",
+      "text": "Hermes dashboard active"
+    }
+  ]
+}
