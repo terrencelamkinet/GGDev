@@ -735,6 +735,83 @@ function renderAgents(d) {
     badge.className = 'status-badge ' + d.badge_color;
     badge.textContent = d.badge_text;
   }
+
+  // Agents subpages data
+  if (a) {
+    setVal('spAgtMainCpu', a.main.cpu + '%');
+    setVal('spAgtMainMem', a.main.mem + '%');
+    setVal('spAgtMainDisk', a.main.disk + '%');
+    setVal('spAgtMainUp', a.main.uptime);
+    setDetail('spAgtMainCron', a.main.cron_jobs + ' active');
+    setDetail('spAgtMainCallback', a.main.daemons.reminder || a.main.daemons.monitor ? 'Running' : 'Stopped');
+
+    setVal('spAgtWorkCpu', a.work.cpu + '%');
+    setVal('spAgtWorkMem', a.work.mem + '%');
+    setVal('spAgtWorkDisk', a.work.disk + '%');
+    setVal('spAgtWorkUp', a.work.uptime);
+    setDetail('spAgtWorkRem', a.work.daemons.reminder ? 'Running' : 'Stopped');
+    setDetail('spAgtWorkMon', a.work.daemons.monitor ? 'Running' : 'Stopped');
+    setDetail('spAgtWorkOpenClaw', a.work.daemons.openclaw ? 'Running' : 'Stopped');
+    setSubpageBadge('spBadgeWorkRem', a.work.daemons.reminder);
+    setSubpageBadge('spBadgeWorkMon', a.work.daemons.monitor);
+    setSubpageBadge('spBadgeWorkOpenClaw', a.work.daemons.openclaw);
+
+    setVal('spAgtPersonCpu', a.person.cpu + '%');
+    setVal('spAgtPersonMem', a.person.mem + '%');
+    setVal('spAgtPersonDisk', a.person.disk + '%');
+    setVal('spAgtPersonUp', a.person.uptime);
+    setDetail('spAgtPersonRem', a.person.daemons.reminder ? 'Running' : 'Stopped');
+    setDetail('spAgtPersonMon', a.person.daemons.monitor ? 'Running' : 'Stopped');
+    setDetail('spAgtPersonOpenClaw', a.person.daemons.openclaw ? 'Running' : 'Stopped');
+    setSubpageBadge('spBadgePersonRem', a.person.daemons.reminder);
+    setSubpageBadge('spBadgePersonMon', a.person.daemons.monitor);
+    setSubpageBadge('spBadgePersonOpenClaw', a.person.daemons.openclaw);
+
+    // Daemon overview subpage
+    setDaemonStatus('spDaemonDotMain', 'spDaemonStatMain', a.main.online);
+    setDaemonStatus('spDaemonDotWorkR', 'spDaemonStatWorkR', a.work.daemons.reminder);
+    setDaemonStatus('spDaemonDotWorkM', 'spDaemonStatWorkM', a.work.daemons.monitor);
+    setDaemonStatus('spDaemonDotPersonR', 'spDaemonStatPersonR', a.person.daemons.reminder);
+    setDaemonStatus('spDaemonDotPersonM', 'spDaemonStatPersonM', a.person.daemons.monitor);
+  }
+
+  // Agent activity subpage
+  var spLog = document.getElementById('spAgtActivityLog');
+  if (spLog) {
+    spLog.innerHTML = '';
+    (d.activity || []).slice(0, 10).forEach(function(a) {
+      var div = document.createElement('div');
+      div.className = 'sp-row';
+      div.innerHTML = '<span class="sp-icon">🔄</span><span class="sp-value">' + escHtml(a.text) + '</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">' + a.time + '</span>';
+      spLog.appendChild(div);
+    });
+  }
+}
+
+function setDaemonStatus(dotId, statId, isRunning) {
+  var dot = document.getElementById(dotId);
+  var stat = document.getElementById(statId);
+  if (dot) {
+    dot.className = 'sp-dot ' + (isRunning ? 'green' : 'red');
+  }
+  if (stat) {
+    stat.textContent = isRunning ? '✓' : '✗';
+    stat.style.color = isRunning ? 'var(--success)' : 'var(--danger)';
+  }
+}
+
+function setSubpageBadge(id, isActive) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (isActive) {
+    el.style.background = 'var(--success-bg)';
+    el.style.color = 'var(--success)';
+    el.textContent = '●';
+  } else {
+    el.style.background = 'var(--danger-bg)';
+    el.style.color = 'var(--danger)';
+    el.textContent = '○';
+  }
 }
 
 function setAgtDot(id, online) {
@@ -1337,6 +1414,132 @@ function runSystemCheck() {
       <div class="sp-thought-block">
         <div class="blk-label">🟢 Password protection tested</div>
         <div class="blk-value">SHA256 hash validation + sessionStorage — should work, but untested on mobile Safari</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AGENT SUBPAGES -->
+<div id="sub-agt-main" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Hermes Main</span>
+    <span class="subpage-subtitle">System details</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-stat-row">
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtMainCpu">--</div><div class="sp-stat-label">CPU %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtMainMem">--</div><div class="sp-stat-label">MEM %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtMainDisk">--</div><div class="sp-stat-label">DISK %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtMainUp">--</div><div class="sp-stat-label">Uptime</div></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">⚙️ Daemons</div>
+      <div class="sp-row"><span class="sp-label">Cron Jobs</span><span class="sp-value" id="spAgtMainCron">-- active</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">✓</span></div>
+      <div class="sp-row"><span class="sp-label">Callback Daemon</span><span class="sp-value" id="spAgtMainCallback">Running</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">●</span></div>
+      <div class="sp-row"><span class="sp-label">Google Calendar</span><span class="sp-value">Connected</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">✓</span></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">📦 Platform</div>
+      <div class="sp-row"><span class="sp-label">Host</span><span class="sp-value">Hermes Main (Linux 6.8)</span></div>
+      <div class="sp-row"><span class="sp-label">Model</span><span class="sp-value">deepseek/deepseek-chat</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="sub-agt-work" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">GG-Work</span>
+    <span class="subpage-subtitle">172.6.15.181</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-stat-row">
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtWorkCpu">--</div><div class="sp-stat-label">CPU %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtWorkMem">--</div><div class="sp-stat-label">MEM %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtWorkDisk">--</div><div class="sp-stat-label">DISK %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtWorkUp">--</div><div class="sp-stat-label">Uptime</div></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">⚙️ Daemons</div>
+      <div class="sp-row"><span class="sp-label">Reminder</span><span class="sp-value" id="spAgtWorkRem">--</span><span class="sp-badge" id="spBadgeWorkRem" style="background:var(--success-bg);color:var(--success)">●</span></div>
+      <div class="sp-row"><span class="sp-label">Monitor</span><span class="sp-value" id="spAgtWorkMon">--</span><span class="sp-badge" id="spBadgeWorkMon" style="background:var(--success-bg);color:var(--success)">●</span></div>
+      <div class="sp-row"><span class="sp-label">OpenClaw</span><span class="sp-value" id="spAgtWorkOpenClaw">--</span><span class="sp-badge" id="spBadgeWorkOpenClaw" style="background:var(--success-bg);color:var(--success)">●</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="sub-agt-person" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">GG-Person</span>
+    <span class="subpage-subtitle">172.6.15.182</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-stat-row">
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtPersonCpu">--</div><div class="sp-stat-label">CPU %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtPersonMem">--</div><div class="sp-stat-label">MEM %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtPersonDisk">--</div><div class="sp-stat-label">DISK %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spAgtPersonUp">--</div><div class="sp-stat-label">Uptime</div></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">⚙️ Daemons</div>
+      <div class="sp-row"><span class="sp-label">Reminder</span><span class="sp-value" id="spAgtPersonRem">--</span><span class="sp-badge" id="spBadgePersonRem" style="background:var(--success-bg);color:var(--success)">●</span></div>
+      <div class="sp-row"><span class="sp-label">Monitor</span><span class="sp-value" id="spAgtPersonMon">--</span><span class="sp-badge" id="spBadgePersonMon" style="background:var(--success-bg);color:var(--success)">●</span></div>
+      <div class="sp-row"><span class="sp-label">OpenClaw</span><span class="sp-value" id="spAgtPersonOpenClaw">--</span><span class="sp-badge" id="spBadgePersonOpenClaw" style="background:var(--success-bg);color:var(--success)">●</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="sub-agt-daemons" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">All Daemons</span>
+    <span class="subpage-subtitle">6 agents running across 3 machines</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">🤖 Daemon Overview</div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green" id="spDaemonDotMain"></span>
+        <div class="sp-main"><div class="sp-name">Callback Daemon</div><div class="sp-desc" id="spDaemonDescMain">Hermes Main</div></div>
+        <div class="sp-right"><div class="sp-num" id="spDaemonStatMain">✓</div><div class="sp-note">live</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green" id="spDaemonDotWorkR"></span>
+        <div class="sp-main"><div class="sp-name">Work Reminder</div><div class="sp-desc">172.6.15.181</div></div>
+        <div class="sp-right"><div class="sp-num" id="spDaemonStatWorkR">✓</div><div class="sp-note">live</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green" id="spDaemonDotWorkM"></span>
+        <div class="sp-main"><div class="sp-name">Work Monitor</div><div class="sp-desc">172.6.15.181</div></div>
+        <div class="sp-right"><div class="sp-num" id="spDaemonStatWorkM">✓</div><div class="sp-note">live</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green" id="spDaemonDotPersonR"></span>
+        <div class="sp-main"><div class="sp-name">Person Reminder</div><div class="sp-desc">172.6.15.182</div></div>
+        <div class="sp-right"><div class="sp-num" id="spDaemonStatPersonR">✓</div><div class="sp-note">live</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green" id="spDaemonDotPersonM"></span>
+        <div class="sp-main"><div class="sp-name">Person Monitor</div><div class="sp-desc">172.6.15.182</div></div>
+        <div class="sp-right"><div class="sp-num" id="spDaemonStatPersonM">✓</div><div class="sp-note">live</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="sub-agt-activity" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Agent Activity</span>
+    <span class="subpage-subtitle">Recent events</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">📜 Activity Timeline</div>
+      <div id="spAgtActivityLog">
+        <div class="sp-row"><span class="sp-icon">🔄</span><span class="sp-value">Dashboard data refresh</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">--:--</span></div>
       </div>
     </div>
   </div>
