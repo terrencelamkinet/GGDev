@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Click</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: sans-serif; background: #111; color: #eee; padding: 20px; }
+button { font-size: 24px; padding: 20px; margin: 10px; border: none; border-radius: 12px; background: #333; color: #fff; cursor: pointer; width: 100%; }
+</style>
+</head>
+<body>
+<h1>Click Test</h1>
+<button onclick="alert('System clicked!')">🖥️ System</button>
+<button onclick="alert('Personal clicked!')">👤 Personal</button>
+<button onclick="alert('GG clicked!')">🦾 GG</button>
+<button onclick="alert('Refresh!')">🔄 Refresh</button>
+<script>
+// Same structure as our dashboard
+var btns = document.querySelectorAll('button');
+console.log('Found ' + btns.length + ' buttons:');
+btns.forEach(function(b,i) { console.log(i + ': onclick=' + b.getAttribute('onclick')); });
+</script>
+</body>
+</html>

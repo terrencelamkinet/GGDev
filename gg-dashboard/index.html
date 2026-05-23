@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦾</text></svg>">
+  <title>GG Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  
+</head>
+<body>
+
+<!-- Lock Screen -->
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <span class="gg-emoji">🦾</span>
+      <h1>GG Dashboard</h1>
+    </div>
+    <div class="header-right">
+      <span class="last-update-time" id="lastUpdateTime">🕐 --:--</span>
+      <span class="status-badge green" id="sysBadge">● OK</span>
+      <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()" title="Refresh data">🔄</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 1: SYSTEM MONITORING                                       -->
+  <!-- ============================================================ -->
+  <div id="page-system" class="tab-page">
+
+    <div class="tab-header">
+      <span class="tab-icon">🖥️</span>
+      <span class="tab-title">System Monitoring</span>
+      <span class="tab-subtitle" id="lastCheck">Loading...</span>
+        <div class="tab-last-update">Last update: <span id="sysLastUpdate">--:--</span></div>
+    </div>
+
+    <!-- STATUS ROW -->
+    <div class="status-row" id="statusRow">
+      <div class="status-item clickable" onclick="openSubpage('sub-sys-status')" style="cursor:pointer">
+        <div class="value" style="color: var(--accent)" id="valCpu">--</div>
+        <div class="label">CPU %</div>
+      </div>
+      <div class="status-item clickable" onclick="openSubpage('sub-sys-status')" style="cursor:pointer">
+        <div class="value" style="color: var(--accent)" id="valMem">--</div>
+        <div class="label">MEM %</div>
+      </div>
+      <div class="status-item clickable" onclick="openSubpage('sub-sys-status')" style="cursor:pointer">
+        <div class="value" style="color: var(--accent)" id="valDisk">--</div>
+        <div class="label">DISK %</div>
+      </div>
+      <div class="status-item desktop-only">
+        <div class="value" style="color: var(--success)" id="valRem">--</div>
+        <div class="label">Reminders</div>
+      </div>
+      <div class="status-item desktop-only">
+        <div class="value" style="color: var(--success)" id="valErrors">--</div>
+        <div class="label">Errors</div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD GRID (desktop: 2-col) -->
+    <div class="dashboard-grid">
+
+      <!-- SYSTEM HEALTH -->
+      <div class="card clickable" onclick="openSubpage('sub-sys-services')">
+        <div class="card-header">
+          <h2>🖥️ Services</h2>
+        </div>
+        <div class="health-grid">
+          <div class="health-item">
+            <span class="dot " id="dotReminder"></span>
+            <div><div class="name">gg-reminder</div><div class="detail" id="detailReminder">Loading...</div></div>
+          </div>
+          <div class="health-item">
+            <span class="dot green"></span>
+            <div><div class="name">Tunnels</div><div class="detail">Work + Person ✓</div></div>
+          </div>
+          <div class="health-item">
+            <span class="dot green"></span>
+            <div><div class="name">Sub-agents</div><div class="detail">GG-Work + GG-Person</div></div>
+          </div>
+          <div class="health-item">
+            <span class="dot green"></span>
+            <div><div class="name">Memory Sync</div><div class="detail">Last: 07:30 today</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS (hidden) -->
+      <div class="card full-width" style="display:none">
+        <div class="card-header">
+          <h2>⚡ Quick Actions</h2>
+          <span style="font-size:10px;color:var(--text-dim)" id="dataTs">—</span>
+        </div>
+        <div class="actions-grid"></div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="card clickable" onclick="openSubpage('sub-sys-projects')">
+        <div class="card-header">
+          <h2>📋 Projects</h2>
+        </div>
+        <div class="health-grid">
+          <div class="health-item">
+            <span class="dot green"></span>
+            <div><div class="name">G03 Voice Practice</div><div class="detail">Planning</div></div>
+          </div>
+          <div class="health-item">
+            <span class="dot yellow"></span>
+            <div><div class="name">G04 Aggie Agent</div><div class="detail">Paused</div></div>
+          </div>
+          <div class="health-item">
+            <span class="dot green"></span>
+            <div><div class="name">G05 Dashboard</div><div class="detail">Building!</div></div>
+          </div>
+          <div class="health-item">
+            <span class="dot green"></span>
+            <div><div class="name">Exam Center</div><div class="detail">Live · 3 exams</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITY LOG (full width) -->
+      <div class="card full-width clickable" onclick="openSubpage('sub-sys-activity')">
+        <div class="card-header">
+          <h2>📜 Today's Activity</h2>
+          <span style="font-size:10px;color:var(--text-dim)">Auto</span>
+        </div>
+        <div id="activityLog"></div>
+      </div>
+
+    </div><!-- /dashboard-grid -->
+  </div><!-- /page-system -->
+
+  <!-- ============================================================ -->
+  <!-- TAB 2: PERSONAL INFO CENTER                                   -->
+  <!-- ============================================================ -->
+  <div id="page-personal" class="tab-page active">
+
+    <div class="tab-header">
+      <span class="tab-icon">👤</span>
+      <span class="tab-title">Personal Info Center</span>
+      <span class="tab-subtitle">Terrence's Hub</span>
+    </div>
+
+    <!-- PROFILE CARD -->
+    <div class="card clickable" onclick="openSubpage('sub-pers-profile')">
+      <div class="profile-header-card">
+        <div class="profile-avatar">👤</div>
+        <div class="profile-info">
+          <h3>Terrence Lam</h3>
+          <div class="profile-title">Pre-Sales Technical Consultant · Kinetix</div>
+          <div class="profile-location">🏠 錦田水尾村72A · 🏢 觀塘AIA 31/F</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK PERSONAL INFO -->
+    <div class="card clickable" onclick="openSubpage('sub-pers-info')">
+      <div class="card-header">
+        <h2>📌 Key Info</h2>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">⛪</span>
+        <span class="info-label">Church</span>
+        <span class="info-value">伯特利慈光堂 · 萬迪敬拜隊隊長（週六）</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">👨‍👩‍👧‍👦</span>
+        <span class="info-label">Family</span>
+        <span class="info-value">太太 Aggie + 兩個小朋友</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">⏰</span>
+        <span class="info-label">Work Hours</span>
+        <span class="info-value">Mon-Fri 09:00-18:00 (flexible)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🚗</span>
+        <span class="info-label">Route</span>
+        <span class="info-value">Route 3 (大欖隧道) · ~29min to office</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📧</span>
+        <span class="info-label">Contact</span>
+        <span class="info-value">Telegram @terrencelam34</span>
+      </div>
+    </div>
+
+    <!-- TODAY'S SCHEDULE (moved from System) -->
+    <div class="card clickable" onclick="openSubpage('sub-pers-today')">
+      <div class="card-header">
+        <h2>📅 Today</h2>
+        <span style="font-size:11px;color:var(--text-dim)" id="todayDate"></span>
+      </div>
+      <ul class="schedule-list">
+        <li class="schedule-item" style="cursor:pointer">
+          <span class="time">09:30</span>
+          <div class="title">CISP Class</div>
+          <span class="tag green">Now</span>
+        </li>
+        <li class="schedule-item" style="cursor:pointer">
+          <span class="time">16:00</span>
+          <div class="title">Security awareness discussion</div>
+          <span class="tag yellow">Upcoming</span>
+        </li>
+        <li class="schedule-item" style="opacity:0.4">
+          <span class="time">--:--</span>
+          <div class="title">No more events</div>
+          <span class="tag gray">--</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- SPIRITUAL HOMEWORK -->
+    <div class="card clickable" onclick="openSubpage('sub-pers-spiritual')">
+      <div class="card-header">
+        <h2>✝️ Spiritual</h2>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📖</span>
+        <span class="info-label">This Week</span>
+        <span class="info-value">詩歌〈神的殿天的門〉— 最少15分鐘禱告</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🎸</span>
+        <span class="info-label">週六</span>
+        <span class="info-value">16:30 到萬迪教會 · 22:00 崇拜完</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">⛪</span>
+        <span class="info-label">週日</span>
+        <span class="info-value">09:00-12:00 錦田教會幫手</span>
+      </div>
+    </div>
+
+    <!-- VEHICLE -->
+    <div class="card clickable" onclick="openSubpage('sub-pers-vehicle')">
+      <div class="card-header">
+        <h2>🚙 Vehicle</h2>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🪪</span>
+        <span class="info-label">License</span>
+        <span class="info-value">港車北上 · Exp 1 Jun 2026 ⚠️</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🎲</span>
+        <span class="info-label">Draw</span>
+        <span class="info-value">抽唔中 → 等下輪</span>
+      </div>
+    </div>
+
+    <!-- EXPIRING -->
+    <div class="card clickable" onclick="openSubpage('sub-pers-expiring')">
+      <div class="card-header">
+        <h2>⚠️ Expiring Soon</h2>
+      </div>
+      <ul class="alert-list">
+        <li class="alert-item">
+          <span class="alert-icon">🪪</span>
+          <div class="alert-text">港車北上 License</div>
+          <div class="alert-date">1 Jun</div>
+          <span class="alert-status" style="background:var(--warning-bg);color:var(--warning)">9d</span>
+        </li>
+        <li class="alert-item">
+          <span class="alert-icon">🎲</span>
+          <div class="alert-text">Next draw pending</div>
+          <div class="alert-date">TBD</div>
+          <span class="alert-status" style="background:var(--danger-bg);color:var(--danger)">!</span>
+        </li>
+        <li class="alert-item">
+          <span class="alert-icon">📧</span>
+          <div class="alert-text">CISP: Submit CV</div>
+          <div class="alert-date">13 Jun</div>
+          <span class="alert-status" style="background:rgba(255,255,255,0.05);color:var(--text-dim)">21d</span>
+        </li>
+        <li class="alert-item">
+          <span class="alert-icon">📝</span>
+          <div class="alert-text">CISP: Registration form</div>
+          <div class="alert-date">20 Jun</div>
+          <span class="alert-status" style="background:rgba(255,255,255,0.05);color:var(--text-dim)">28d</span>
+        </li>
+      </ul>
+    </div>
+
+  </div><!-- /page-personal -->
+
+  <!-- ============================================================ -->
+  <!-- TAB 3: GG MIND                                               -->
+  <!-- ============================================================ -->
+  <div id="page-gg" class="tab-page">
+
+    <div class="tab-header">
+      <span class="tab-icon">🦾</span>
+      <span class="tab-title">GG Mind</span>
+      <span class="tab-subtitle">What GG is thinking</span>
+    </div>
+
+    <!-- CURRENT STATUS -->
+    <div class="card clickable" onclick="openSubpage('sub-gg-state')">
+      <div class="card-header">
+        <h2>🧠 Current State</h2>
+        <span id="ggTimestamp" style="font-size:10px;color:var(--text-dim)">—</span>
+      </div>
+      <div class="gg-thought-card">
+        <div class="thought-section clickable" onclick="openSubpage('sub-gg-state')" style="cursor:pointer">
+          <div class="thought-label">🎯 Focus</div>
+          <div class="thought-value" id="ggFocus">Building G05 Dashboard</div>
+        </div>
+        <div class="thought-section clickable" onclick="openSubpage('sub-gg-state')" style="cursor:pointer">
+          <div class="thought-label">📋 Active Context</div>
+          <div class="thought-value" id="ggContext">Working on Cloudflare config · Password auth · Dashboard tabs</div>
+        </div>
+        <div class="thought-section clickable" onclick="openSubpage('sub-gg-state')" style="cursor:pointer">
+          <div class="thought-label">🔮 Next Intention</div>
+          <div class="thought-value" id="ggIntent">Awaiting Terrence's next instruction</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECISION HISTORY -->
+    <div class="card clickable" onclick="openSubpage('sub-gg-decisions')">
+      <div class="card-header">
+        <h2>📐 Recent Decisions</h2>
+        <span style="font-size:10px;color:var(--text-dim)">Last 10</span>
+      </div>
+      <ul class="schedule-list" id="ggDecisions">
+        <li class="schedule-item">
+          <span class="dot green"></span>
+          <div class="title">Password auth > CF Access (simpler, no cert needed)</div>
+          <span class="tag blue">12:09</span>
+        </li>
+        <li class="schedule-item">
+          <span class="dot yellow"></span>
+          <div class="title">DO free tier: custom domain not supported (Host header issue)</div>
+          <span class="tag blue">12:00</span>
+        </li>
+        <li class="schedule-item">
+          <span class="dot yellow"></span>
+          <div class="title">CF Tunnel failed: "Invalid tunnel secret" on fresh creation</div>
+          <span class="tag blue">12:07</span>
+        </li>
+        <li class="schedule-item">
+          <span class="dot green"></span>
+          <div class="title">nginx proxy (reverted) → wrong approach, no 443 cert</div>
+          <span class="tag blue">12:11</span>
+        </li>
+        <li class="schedule-item">
+          <span class="dot green"></span>
+          <div class="title">Serving static files from nginx directly → reverted</div>
+          <span class="tag gray">12:10</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ACTIVE LEARNINGS -->
+    <div class="card clickable" onclick="openSubpage('sub-gg-learnings')">
+      <div class="card-header">
+        <h2>📝 Active Learnings</h2>
+        <span style="font-size:10px;color:var(--text-dim)">This session</span>
+      </div>
+      <div class="learning-list">
+        <div class="learning-item clickable" onclick="openSubpage('sub-gg-learnings')" style="cursor:pointer">
+          <span class="dot green"></span>
+          <div class="learning-text">DO App Platform free tier doesn't support custom domain Host header → nginx | CF Tunnel | direct password auth</div>
+        </div>
+        <div class="learning-item clickable" onclick="openSubpage('sub-gg-learnings')" style="cursor:pointer">
+          <span class="dot green"></span>
+          <div class="learning-text">CF Tunnel requires proper token on first tunnel creation; recreated tunnels need fresh credentials</div>
+        </div>
+        <div class="learning-item clickable" onclick="openSubpage('sub-gg-learnings')" style="cursor:pointer">
+          <span class="dot green"></span>
+          <div class="learning-text">Terrence prefers simple password auth over complex auth setup for internal tools</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT MEMORY (moved from Personal) -->
+    <div class="card clickable" onclick="openSubpage('sub-gg-memory')">
+      <div class="card-header">
+        <h2>🧠 Recent Memory</h2>
+      </div>
+      <ul class="schedule-list">
+        <li class="schedule-item">
+          <span class="tag blue">Today</span>
+          <div class="title">CISP Class 09:30</div>
+        </li>
+        <li class="schedule-item">
+          <span class="tag blue">Today</span>
+          <div class="title">Building G05 Dashboard</div>
+        </li>
+        <li class="schedule-item">
+          <span class="tag gray">Yesterday</span>
+          <div class="title">License draw: 唔中</div>
+        </li>
+        <li class="schedule-item">
+          <span class="tag gray">Yesterday</span>
+          <div class="title">CISP course important dates set</div>
+        </li>
+        <li class="schedule-item">
+          <span class="tag gray">22 May</span>
+          <div class="title">Fubon Kong API PoC</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- MEMORY STATS -->
+    <div class="card clickable" onclick="openSubpage('sub-gg-stats')">
+      <div class="card-header">
+        <h2>📊 Memory Stats</h2>
+        <span style="font-size:10px;color:var(--text-dim)">Growth & Top Records</span>
+      </div>
+      <div class="health-grid">
+        <div class="health-item">
+          <span class="dot green"></span>
+          <div><div class="name" id="memTotal">--</div><div class="detail">Total records</div></div>
+        </div>
+        <div class="health-item">
+          <span class="dot green"></span>
+          <div><div class="name" id="memTodayGrowth">--</div><div class="detail">Added today</div></div>
+        </div>
+        <div class="health-item">
+          <span class="dot yellow"></span>
+          <div><div class="name" id="memScore8">--</div><div class="detail">≥8 importance</div></div>
+        </div>
+        <div class="health-item">
+          <span class="dot" id="memGrowthDot"></span>
+          <div><div class="name" id="memGrowthDays">--</div><div class="detail">Since</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURRENT CONFIDENCE & AMBIGUITY -->
+    <div class="card clickable" onclick="openSubpage('sub-gg-uncertainty')">
+      <div class="card-header">
+        <h2>🎲 Uncertainty Radar</h2>
+        <span style="font-size:10px;color:var(--text-dim)">Things GG isn't sure about</span>
+      </div>
+      <div class="uncertainty-item clickable" onclick="openSubpage('sub-gg-uncertainty')" style="cursor:pointer">
+        <span class="dot yellow"></span>
+        <div>
+          <div class="uc-title">DO deploy status</div>
+          <div class="uc-detail">GG confirms deploy via git push, but DO deploy takes ~60s — unsure if latest changes deployed</div>
+        </div>
+      </div>
+      <div class="uncertainty-item clickable" onclick="openSubpage('sub-gg-uncertainty')" style="cursor:pointer">
+        <span class="dot green"></span>
+        <div>
+          <div class="uc-title">Password protection tested</div>
+          <div class="uc-detail">SHA256 hash validation + sessionStorage — should work, but untested on mobile Safari</div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    </div>
+
+  </div><!-- /page-gg -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    🦾 GG Dashboard v1.1 · Data auto-refreshes
+  </div>
+
+</div><!-- /container -->
+
+<!-- ============================================================ -->
+<!-- BOTTOM NAVIGATION TABS                                       -->
+<!-- ============================================================ -->
+<nav class="bottom-nav">
+  <button class="nav-tab" data-tab="page-system" onclick="switchTab(event, 'page-system')">
+    <span class="nav-icon">🖥️</span>
+    System
+  </button>
+  <button class="nav-tab active" data-tab="page-personal" onclick="switchTab(event, 'page-personal')">
+    <span class="nav-icon">👤</span>
+    Personal
+  </button>
+  <button class="nav-tab" data-tab="page-gg" onclick="switchTab(event, 'page-gg')">
+    <span class="nav-icon">🦾</span>
+    GG
+  </button>
+</nav>
+
+<script>
+// Tab switching (after lock screen script)
+function switchTab(event, tabId) {
+  if (event) event.preventDefault();
+  // Hide all pages
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+  // Show target page
+  document.getElementById(tabId).classList.add('active');
+  // Update nav active state
+  document.querySelectorAll('.bottom-nav .nav-tab').forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  // Reset all subpages when switching tabs
+  closeSubpage();
+}
+
+// Live timestamp for GG Mind
+function updateGGTimestamp() {
+  const el = document.getElementById('ggTimestamp');
+  if (el) {
+    const now = new Date();
+    const hk = new Date(now.toLocaleString('en-US', {timeZone:'Asia/Hong_Kong'}));
+    el.textContent = '🕐 ' + hk.toLocaleTimeString('zh-HK', {hour:'2-digit',minute:'2-digit'}) + ' HKT';
+  }
+}
+updateGGTimestamp();
+setInterval(updateGGTimestamp, 30000);
+
+// ===== DATA FETCH =====
+async function fetchData() {
+  try {
+    const r = await fetch('gg-data.json?_=' + Date.now());
+    const d = await r.json();
+    
+    // Timestamp
+    document.getElementById('dataTs').textContent = d.ts;
+    document.getElementById('lastCheck').textContent = d.ts + ' HKT';
+    document.getElementById('lastUpdateTime').textContent = '🕐 ' + d.ts;
+    document.getElementById('sysLastUpdate').textContent = d.ts + ' HKT';
+    
+    // Status row
+    setVal('valCpu', d.system.temp + '%');
+    setVal('valMem', d.system.memory + '%', d.system.memory > 80 ? 'var(--danger)' : d.system.memory > 60 ? 'var(--warning)' : 'var(--accent)');
+    setVal('valDisk', d.system.disk + '%', d.system.disk > 90 ? 'var(--danger)' : d.system.disk > 80 ? 'var(--warning)' : 'var(--accent)');
+    setVal('valRem', d.reminders.total);
+    setVal('valErrors', d.reminders.errors);
+    
+    // Services
+    setDot('dotReminder', d.system.services['gg-reminder']);
+    document.getElementById('detailReminder').textContent = d.reminders.total + ' reminders · ' + d.reminders.overdue + ' overdue';
+    
+    // Activity log
+    var log = document.getElementById('activityLog');
+    log.innerHTML = '';
+    (d.activity || []).forEach(function(a) {
+      var div = document.createElement('div');
+      div.className = 'log-line';
+      div.innerHTML = '<span class="log-time">' + a.time + '</span><span class="log-text">' + escHtml(a.text) + '</span>';
+      log.appendChild(div);
+    });
+    
+    // System badge status
+    var allGreen = Object.values(d.system.services).every(function(s) { return s === 'green'; });
+    var hasYellow = Object.values(d.system.services).some(function(s) { return s === 'yellow'; });
+    var badge = document.getElementById('sysBadge');
+    if (allGreen) {
+      badge.className = 'status-badge green';
+      badge.textContent = '● All OK';
+    } else if (hasYellow) {
+      badge.className = 'status-badge yellow';
+      badge.textContent = '● Warning';
+    } else {
+      badge.className = 'status-badge red';
+      badge.textContent = '● Issues';
+    }
+    var badge = document.getElementById('sysBadge');
+    if (allGreen) {
+      badge.className = 'status-badge green';
+      badge.textContent = '● All OK';
+    } else if (hasYellow) {
+      badge.className = 'status-badge yellow';
+      badge.textContent = '● Warning';
+    } else {
+      badge.className = 'status-badge red';
+      badge.textContent = '● Issues';
+    }
+  } catch(e) {
+    console.log('Data fetch failed, showing defaults:', e);
+  }
+
+  // Fetch memory stats
+  setTimeout(fetchMemoryStats, 100);
+}
+
+function manualRefresh() {
+  var btn = document.getElementById('refreshBtn') || document.querySelector('.refresh-btn');
+  if (btn) { btn.classList.add('spinning'); }
+  fetchData();
+  fetchMemoryStats();
+  refreshMaintData();
+  setTimeout(function() {
+    if (btn) { btn.classList.remove('spinning'); }
+  }, 800);
+}
+
+async function fetchMemoryStats() {
+  try {
+    const r = await fetch('gg-memory-stats.json?_=' + Date.now());
+    const d = await r.json();
+    if (d.error) { console.log('Memory stats error:', d.error); return; }
+
+    // Stats card on GG tab
+    document.getElementById('memTotal').textContent = d.total.facts + ' 📝';
+    var todayCount = 0;
+    if (d.growth && d.growth.length > 0) {
+      var last = d.growth[d.growth.length - 1];
+      todayCount = last.added;
+      var daysSince = new Date() - new Date(d.growth[0].date + 'T00:00:00+08:00');
+      daysSince = Math.floor(daysSince / 86400000);
+      document.getElementById('memTodayGrowth').textContent = '+' + todayCount;
+      document.getElementById('memGrowthDays').textContent = daysSince + 'd';
+      document.getElementById('memGrowthDot').className = todayCount > 20 ? 'dot green' : todayCount > 0 ? 'dot yellow' : 'dot gray';
+    }
+    var score8 = d.score_distribution['>=8'] || 0;
+    document.getElementById('memScore8').textContent = score8 + ' 🏆';
+
+    // Stats subpage
+    if (document.getElementById('statsTotalCard')) {
+      document.getElementById('statsTotalCard').querySelector('.sp-stat-val').textContent = d.total.facts;
+      document.getElementById('statsTodayCard').querySelector('.sp-stat-val').textContent = '+' + todayCount;
+      document.getElementById('statsTopCard').querySelector('.sp-stat-val').textContent = score8;
+      var firstDate = d.growth.length > 0 ? d.growth[0].date : '-';
+      document.getElementById('statsDaysCard').querySelector('.sp-stat-val').textContent = firstDate;
+    }
+
+    // Growth list
+    var growthEl = document.getElementById('memGrowthList');
+    if (growthEl && d.growth) {
+      growthEl.innerHTML = '<table style="width:100%;font-size:13px;border-collapse:collapse">' +
+        '<tr style="color:var(--text-dim);border-bottom:1px solid #333"><td style="padding:4px">Date</td><td style="padding:4px;text-align:right">+Added</td><td style="padding:4px;text-align:right">Total</td></tr>' +
+        d.growth.slice().reverse().map(function(g) {
+          var isToday = g.date === d.growth[d.growth.length-1].date;
+          return '<tr style="' + (isToday ? 'color:var(--accent);font-weight:bold' : '') + ';border-bottom:1px solid #222">' +
+            '<td style="padding:4px">' + g.date + '</td>' +
+            '<td style="padding:4px;text-align:right;color:var(--success)">+' + g.added + '</td>' +
+            '<td style="padding:4px;text-align:right">' + g.total + '</td></tr>';
+        }).join('') + '</table>';
+    }
+
+    // Score distribution
+    var distEl = document.getElementById('memScoreDist');
+    if (distEl) {
+      var labels = ['>=8','7-7.9','6-6.9','5-5.9','4-4.9','3-3.9','2-2.9','1-1.9','<1'];
+      var colors = ['#f44336','#e57373','#ff9800','#ffb74d','#ffd54f','#81c784','#4caf50','#388e3c','#ddd'];
+      distEl.innerHTML = '<table style="width:100%;font-size:13px;border-collapse:collapse">' +
+        '<tr style="color:var(--text-dim);border-bottom:1px solid #333"><td style="padding:4px">Range</td><td style="padding:4px;text-align:right">Count</td><td style="padding:4px">Bar</td></tr>' +
+        labels.map(function(l) {
+          var cnt = d.score_distribution[l] || 0;
+          var pct = Math.min(100, (cnt / 30) * 100);
+          return '<tr style="border-bottom:1px solid #222">' +
+            '<td style="padding:4px;color:var(--text-dim)">' + l + '</td>' +
+            '<td style="padding:4px;text-align:right">' + cnt + '</td>' +
+            '<td style="padding:4px"><div style="background:' + colors[labels.indexOf(l)] + ';width:' + pct + '%;height:14px;border-radius:3px;min-width:' + (cnt > 0 ? '4px' : '0') + '"></div></td></tr>';
+        }).join('') + '</table>';
+    }
+
+    // Top 100 list
+    var topEl = document.getElementById('memTop100List');
+    if (topEl && d.top100) {
+      topEl.innerHTML = d.top100.map(function(m, i) {
+        var bg = m.importance >= 8 ? 'rgba(244,67,54,0.1)' : m.importance >= 6 ? 'rgba(255,152,0,0.08)' : 'transparent';
+        return '<div class="sp-row" style="background:' + bg + ';padding:6px 0;border-bottom:1px solid #1a1a1a">' +
+          '<span class="sp-dot" style="width:24px;flex-shrink:0;color:var(--text-dim);font-size:11px">#' + (i+1) + '</span>' +
+          '<span class="sp-value" style="font-size:12px;line-height:1.4;flex:1">' + escHtml(m.doc.slice(0,100)) + '</span>' +
+          '<span class="sp-badge" style="background:' + (m.importance >= 6 ? 'var(--warning-bg)' : 'var(--accent-light)') + ';color:' + (m.importance >= 6 ? 'var(--warning)' : 'var(--accent)') + ';flex-shrink:0;font-size:10px">' + m.importance.toFixed(1) + '</span></div>';
+      }).join('');
+    }
+  } catch(e) {
+    console.log('Memory stats fetch failed:', e);
+  }
+}
+    // Fallback: show placeholder values so page isn't blank
+    setVal('valCpu', '--');
+    setVal('valMem', '--');
+    setVal('valDisk', '--');
+    setVal('valRem', '?');
+    setVal('valErrors', '?');
+    document.getElementById('dataTs').textContent = 'Offline';
+    document.getElementById('lastCheck').textContent = 'Data unavailable';
+    document.getElementById('detailReminder').textContent = 'Waiting for data...';
+    var badge = document.getElementById('sysBadge');
+    badge.className = 'status-badge gray';
+    badge.textContent = '● Offline';
+  }
+}
+
+function setVal(id, val, color) {
+  var el = document.getElementById(id);
+  if (el) { el.textContent = val; if (color) el.style.color = color; }
+}
+function setDot(id, status) {
+  var el = document.getElementById(id);
+  if (el) { el.className = 'dot ' + (status || 'gray'); }
+}
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Set date & hourly refresh
+(function(){
+  var now = new Date();
+  var opts = {weekday:'short', year:'numeric', month:'short', day:'numeric', timeZone:'Asia/Hong_Kong'};
+  var el = document.getElementById('todayDate');
+  if (el) el.textContent = now.toLocaleDateString('en-US', opts);
+})();
+
+fetchData();
+setInterval(fetchData, 60000); // Every 1 min
+
+// Placeholder actions
+function openBriefing() {
+  window.open('/exam-center/', '_blank');
+}
+function runSystemCheck() {
+  manualRefresh();
+}
+</script>
+
+<div id="sub-sys-status" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">System Status</span>
+    <span class="subpage-subtitle">Live metrics</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-stat-row">
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spCpu">--</div><div class="sp-stat-label">CPU %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spMem">--</div><div class="sp-stat-label">MEM %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spDisk">--</div><div class="sp-stat-label">DISK %</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" id="spUptime">--</div><div class="sp-stat-label">Uptime</div></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">🖥️ Process Overview</div>
+      <div class="sp-row"><span class="sp-label">gg-reminder daemon</span><span class="sp-value">Running</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">●</span></div>
+      <div class="sp-row"><span class="sp-label">SSH tunnels</span><span class="sp-value">Work + Person</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">✓</span></div>
+      <div class="sp-row"><span class="sp-label">Update cron</span><span class="sp-value">Every 30 min</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">✓</span></div>
+      <div class="sp-row"><span class="sp-label">Memory sync</span><span class="sp-value">Last: 07:30 today</span><span class="sp-badge" style="background:var(--success-bg);color:var(--success)">✓</span></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">📦 Platform</div>
+      <div class="sp-row"><span class="sp-label">Host</span><span class="sp-value">arpa-ai-test01 (Linux 6.8)</span></div>
+      <div class="sp-row"><span class="sp-label">Node</span><span class="sp-value">v22.22.0</span></div>
+      <div class="sp-row"><span class="sp-label">Model</span><span class="sp-value">deepseek/deepseek-chat</span></div>
+    </div>
+    <div class="subpage-footer">🦾 Data refreshes every 60s</div>
+  </div>
+</div>
+<div id="sub-sys-services" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Services</span>
+    <span class="subpage-subtitle">System health monitor</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">🖥️ Running Services</div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">gg-reminder</div><div class="sp-desc" id="spDetailReminder">Loading...</div></div>
+        <div class="sp-right"><div class="sp-num" id="spRemCount">?</div><div class="sp-note">reminders</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">Tunnels (Work)</div><div class="sp-desc">Port 18901 · GG-Work agent</div></div>
+        <div class="sp-right"><div class="sp-num">✓</div><div class="sp-note">live</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">Tunnels (Person)</div><div class="sp-desc">Port 18902 · GG-Person agent</div></div>
+        <div class="sp-right"><div class="sp-num">✓</div><div class="sp-note">live</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">Memory Sync</div><div class="sp-desc">Daily extract + nightly consolidation</div></div>
+        <div class="sp-right"><div class="sp-num">✓</div><div class="sp-note">ok</div></div>
+      </div>
+    </div>
+    <div class="sp-actions">
+      <a href="#" class="sp-action-btn" onclick="alert('Restart not available from dashboard')">🔄 Restart</a>
+      <a href="#" class="sp-action-btn primary" onclick="closeSubpage()">← Back</a>
+    </div>
+  </div>
+</div>
+<div id="sub-sys-today" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Today's Schedule</span>
+    <span class="subpage-subtitle">23 May 2026 · Saturday</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">📅 Events</div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">CISP Class</div><div class="sp-desc">Online</div></div>
+        <div class="sp-right"><div class="sp-num">09:30</div><div class="sp-note">Now</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot yellow"></span>
+        <div class="sp-main"><div class="sp-name">Security awareness discussion</div><div class="sp-desc">Internal meeting</div></div>
+        <div class="sp-right"><div class="sp-num">16:00</div><div class="sp-note">Upcoming</div></div>
+      </div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">📝 Tasks</div>
+      <div class="sp-row"><span class="sp-icon">🦾</span><span class="sp-label">G05</span><span class="sp-value">GG Dashboard — building sub-pages</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">Now</span></div>
+      <div class="sp-row"><span class="sp-icon">📝</span><span class="sp-label">Study</span><span class="sp-value">CISP coursework (due 13 Jun)</span><span class="sp-badge" style="background:var(--warning-bg);color:var(--warning)">21d</span></div>
+    </div>
+  </div>
+</div>
+<div id="sub-sys-projects" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Projects</span>
+    <span class="subpage-subtitle">Active GG projects</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">📋 Running Projects</div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">G05 · GG Dashboard</div><div class="sp-desc">Building sub-pages, live on DO</div></div>
+        <div class="sp-right"><div class="sp-num">🔨</div><div class="sp-note">Active</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot yellow"></span>
+        <div class="sp-main"><div class="sp-name">G03 · Voice Practice</div><div class="sp-desc">Planning phase</div></div>
+        <div class="sp-right"><div class="sp-num">⏸️</div><div class="sp-note">Paused</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">G04 · Aggie Agent</div><div class="sp-desc">Paused — waiting for direction</div></div>
+        <div class="sp-right"><div class="sp-num">⏸️</div><div class="sp-note">Paused</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">Exam Center</div><div class="sp-desc">Live · 3 active exams</div></div>
+        <div class="sp-right"><div class="sp-num">✓</div><div class="sp-note">Live</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="sub-sys-actions" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Quick Actions</span>
+    <span class="subpage-subtitle">Shortcuts & tools</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-actions" style="flex-direction:column;gap:8px">
+      <a href="/exam-center/" class="sp-action-btn primary">🌅 Morning Briefing</a>
+      <a href="/exam-center/" class="sp-action-btn">📝 Exam Center</a>
+      <a href="#" class="sp-action-btn" onclick="manualRefresh()">🔍 System Check</a>
+      <a href="#" class="sp-action-btn" onclick="manualRefresh()">🚗 Traffic Check</a>
+    </div>
+  </div>
+</div>
+<div id="sub-sys-activity" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Today's Activity</span>
+    <span class="subpage-subtitle">Full event log</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">📜 Activity Timeline</div>
+      <div id="spActivityLog">
+        <div class="sp-row"><span class="sp-icon">🦾</span><span class="sp-value">Building GG Dashboard sub-pages</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">13:28</span></div>
+        <div class="sp-row"><span class="sp-icon">🦾</span><span class="sp-value">Deployed frontend with web fallback</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">13:25</span></div>
+        <div class="sp-row"><span class="sp-icon">🦾</span><span class="sp-value">Fixed gg-data.json not loading</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">13:24</span></div>
+        <div class="sp-row"><span class="sp-icon">⚡</span><span class="sp-value">Redeployed gg-dashboard to DO</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">13:22</span></div>
+        <div class="sp-row"><span class="sp-icon">📝</span><span class="sp-value">CISP class started</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">09:30</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="sub-pers-profile" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Terrence Lam</span>
+    <span class="subpage-subtitle">Profile details</span>
+  </div>
+  <div class="subpage-body">
+    <div class="profile-header-card" style="background:var(--card);border-radius:var(--radius);border:1px solid var(--border);margin-bottom:12px">
+      <div class="profile-avatar">👤</div>
+      <div class="profile-info">
+        <h3>Terrence Lam</h3>
+        <div class="profile-title">Pre-Sales Technical Consultant · Kinetix</div>
+        <div class="profile-location">🏠 錦田水尾村72A · 🏢 觀塘AIA 31/F</div>
+      </div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">📌 Personal Details</div>
+      <div class="sp-row"><span class="sp-icon">📞</span><span class="sp-label">Phone</span><span class="sp-value">+852 9553 5371</span></div>
+      <div class="sp-row"><span class="sp-icon">💬</span><span class="sp-label">Telegram</span><span class="sp-value">@terrencelam34</span></div>
+      <div class="sp-row"><span class="sp-icon">🏢</span><span class="sp-label">Office</span><span class="sp-value">Kinetix · 觀塘AIA Tower 31/F</span></div>
+      <div class="sp-row"><span class="sp-icon">⏰</span><span class="sp-label">Hours</span><span class="sp-value">Mon–Fri 09:00–18:00 (flexible)</span></div>
+    </div>
+  </div>
+</div>
+<div id="sub-pers-info" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Key Info</span>
+    <span class="subpage-subtitle">Quick reference</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">📍 Essentials</div>
+      <div class="sp-row"><span class="sp-icon">⛪</span><span class="sp-label">Church</span><span class="sp-value">伯特利慈光堂</span></div>
+      <div class="sp-row"><span class="sp-icon">🎸</span><span class="sp-label">Ministry</span><span class="sp-value">萬迪敬拜隊隊長（週六）</span></div>
+      <div class="sp-row"><span class="sp-icon">🚗</span><span class="sp-label">Commute</span><span class="sp-value">Route 3 (大欖隧道) ~29min</span></div>
+      <div class="sp-row"><span class="sp-icon">👨‍👩‍👧‍👦</span><span class="sp-label">Family</span><span class="sp-value">Aggie + 2 kids</span></div>
+    </div>
+  </div>
+</div>
+<div id="sub-pers-spiritual" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Spiritual</span>
+    <span class="subpage-subtitle">Faith & ministry</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">✝️ This Week</div>
+      <div class="sp-thought-block">
+        <div class="blk-label">📖 Spiritual Homework</div>
+        <div class="blk-value">詩歌〈神的殿天的門〉— 最少15分鐘禱告</div>
+      </div>
+      <div class="sp-thought-block">
+        <div class="blk-label">🎸 Saturday (萬迪)</div>
+        <div class="blk-value">16:30 到教會 · 22:00 崇拜完</div>
+      </div>
+      <div class="sp-thought-block">
+        <div class="blk-label">⛪ Sunday (錦田)</div>
+        <div class="blk-value">09:00-12:00 錦田教會幫手</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="sub-pers-today" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Today</span>
+    <span class="subpage-subtitle">23 May 2026</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">📅 Events</div>
+      <div class="sp-detail-item">
+        <span class="sp-dot green"></span>
+        <div class="sp-main"><div class="sp-name">CISP Class</div><div class="sp-desc">Online</div></div>
+        <div class="sp-right"><div class="sp-num">09:30</div><div class="sp-note">Now</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span class="sp-dot yellow"></span>
+        <div class="sp-main"><div class="sp-name">Security awareness discussion</div><div class="sp-desc">Internal meeting</div></div>
+        <div class="sp-right"><div class="sp-num">16:00</div><div class="sp-note">Upcoming</div></div>
+      </div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">📝 Tasks</div>
+      <div class="sp-row"><span class="sp-icon">🦾</span><span class="sp-label">G05</span><span class="sp-value">GG Dashboard — tweaks</span><span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">Now</span></div>
+      <div class="sp-row"><span class="sp-icon">📝</span><span class="sp-label">Study</span><span class="sp-value">CISP coursework (due 13 Jun)</span><span class="sp-badge" style="background:var(--warning-bg);color:var(--warning)">21d</span></div>
+    </div>
+  </div>
+</div>
+<div id="sub-gg-state" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Current State</span>
+    <span class="subpage-subtitle">GG's mind</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">🎯 Focus</div>
+      <div class="sp-row"><span class="sp-icon">🎯</span><span class="sp-value" id="spGgFocus">Building G05 Dashboard</span></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">📋 Active Context</div>
+      <div class="sp-row"><span class="sp-icon">📋</span><span class="sp-value" id="spGgContext">Dashboard UI/UX review · Bug fixes · Memory stats</span></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">🔮 Next Intention</div>
+      <div class="sp-row"><span class="sp-icon">🔮</span><span class="sp-value" id="spGgIntent">Awaiting Terrence's next instruction</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="sub-gg-memory" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Recent Memory</span>
+    <span class="subpage-subtitle">GG's notes</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">Today</div>
+      <div class="sp-row"><span class="sp-icon">📝</span><span class="sp-value">CISP Class 09:30</span></div>
+      <div class="sp-row"><span class="sp-icon">🦾</span><span class="sp-value">Building G05 Dashboard</span></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">Yesterday</div>
+      <div class="sp-row"><span class="sp-icon">🎲</span><span class="sp-value">License draw: 唔中</span></div>
+      <div class="sp-row"><span class="sp-icon">📝</span><span class="sp-value">CISP course important dates set</span></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">22 May</div>
+      <div class="sp-row"><span class="sp-icon">🏦</span><span class="sp-value">Fubon Kong API PoC</span></div>
+    </div>
+  </div>
+</div>
+<div id="sub-pers-vehicle" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Vehicle</span>
+    <span class="subpage-subtitle">車 · 管理</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-stat-row">
+      <div class="sp-stat-card"><div class="sp-stat-val" style="color:var(--warning)">⚠️</div><div class="sp-stat-label">License Exp</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" style="color:var(--text-dim)">🎲</div><div class="sp-stat-label">Draw Status</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" style="color:var(--accent)">10</div><div class="sp-stat-label">Items</div></div>
+      <div class="sp-stat-card"><div class="sp-stat-val" style="color:var(--success)">✓</div><div class="sp-stat-label">Next Due</div></div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-section-title">🪪 License</div>
+      <div class="sp-row"><span class="sp-icon">🪪</span><span class="sp-label">港車北上</span><span class="sp-value">Exp 1 Jun 2026</span><span class="sp-badge" style="background:var(--warning-bg);color:var(--warning)">9d ⚠️</span></div>
+      <div class="sp-row"><span class="sp-icon">🎲</span><span class="sp-label">Next draw</span><span class="sp-value">暫停 — 等 Terrence 通知</span></div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-section-title">🔧 Maintenance Schedule</div>
+      <div id="spMaintList">
+        <div class="sp-row"><span class="sp-icon">🔧</span><span class="sp-label">Loading...</span><span class="sp-value"></span></div>
+      </div>
+    </div>
+
+    <div class="sp-actions">
+      <a href="#" class="sp-action-btn" onclick="refreshMaintData();this.textContent='✅ Refreshed'">🔄 Refresh</a>
+      <a href="https://notion.so" target="_blank" class="sp-action-btn">➕ Add Record (Notion)</a>
+    </div>
+  </div>
+</div>
+<div id="sub-pers-expiring" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Expiring Soon</span>
+    <span class="subpage-subtitle">Upcoming deadlines</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">⚠️ Critical</div>
+      <div class="sp-detail-item">
+        <span style="font-size:20px">🪪</span>
+        <div class="sp-main"><div class="sp-name">港車北上 License</div><div class="sp-desc">Renew before 1 Jun 2026</div></div>
+        <div class="sp-right"><div class="sp-num" style="color:var(--warning)">9d</div></div>
+      </div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-title">📅 Upcoming</div>
+      <div class="sp-detail-item">
+        <span style="font-size:20px">📧</span>
+        <div class="sp-main"><div class="sp-name">CISP: Submit CV</div><div class="sp-desc">Deadline 13 Jun 2026</div></div>
+        <div class="sp-right"><div class="sp-num" style="color:var(--text-dim)">21d</div></div>
+      </div>
+      <div class="sp-detail-item">
+        <span style="font-size:20px">📝</span>
+        <div class="sp-main"><div class="sp-name">CISP: Registration form</div><div class="sp-desc">Deadline 20 Jun 2026</div></div>
+        <div class="sp-right"><div class="sp-num" style="color:var(--text-dim)">28d</div></div>
+      </div>
+    </div>
+<div id="sub-gg-decisions" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Recent Decisions</span>
+    <span class="subpage-subtitle">Session log</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">📐 Today's Decisions</div>
+      <div class="sp-row">
+        <span class="sp-dot green" style="width:8px;height:8px;border-radius:50%;flex-shrink:0"></span>
+        <span class="sp-value">Password auth > CF Access (simpler, no cert needed)</span>
+        <span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">12:09</span>
+      </div>
+      <div class="sp-row">
+        <span class="sp-dot yellow" style="width:8px;height:8px;border-radius:50%;flex-shrink:0"></span>
+        <span class="sp-value">DO free tier: custom domain not supported</span>
+        <span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">12:00</span>
+      </div>
+      <div class="sp-row">
+        <span class="sp-dot green" style="width:8px;height:8px;border-radius:50%;flex-shrink:0"></span>
+        <span class="sp-value">Build all dashboard cards as clickable sub-pages</span>
+        <span class="sp-badge" style="background:var(--accent-light);color:var(--accent)">13:29</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="sub-gg-stats" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Memory Stats</span>
+    <span class="subpage-subtitle">All records</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-stat-row">
+      <div class="sp-stat-card" id="statsTotalCard"><div class="sp-stat-val" style="color:var(--accent)">--</div><div class="sp-stat-label">Total</div></div>
+      <div class="sp-stat-card" id="statsTodayCard"><div class="sp-stat-val" style="color:var(--success)">--</div><div class="sp-stat-label">Today</div></div>
+      <div class="sp-stat-card" id="statsTopCard"><div class="sp-stat-val" style="color:var(--warning)">--</div><div class="sp-stat-label">≥8 Score</div></div>
+      <div class="sp-stat-card" id="statsDaysCard"><div class="sp-stat-val" style="color:var(--text-dim)">--</div><div class="sp-stat-label">Since</div></div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-section-title">📈 Growth Over Time</div>
+      <div id="memGrowthChart"></div>
+      <div id="memGrowthList" style="margin-top:8px"></div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-section-title">🏆 Top 100 Records by Importance</div>
+      <div id="memTop100List"></div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-section-title">📊 Score Distribution</div>
+      <div id="memScoreDist"></div>
+    </div>
+  </div>
+</div>
+<div id="sub-gg-learnings" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Active Learnings</span>
+    <span class="subpage-subtitle">GG's notes</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">📝 This Session</div>
+      <div class="sp-thought-block">
+        <div class="blk-label">✅ DO App Platform free tier doesn't support custom domain Host header</div>
+        <div class="blk-value">→ nginx | CF Tunnel | direct password auth · Chose password auth</div>
+      </div>
+      <div class="sp-thought-block">
+        <div class="blk-label">✅ CF Tunnel requires proper token on first tunnel creation</div>
+        <div class="blk-value">→ Recreated tunnels need fresh credentials</div>
+      </div>
+      <div class="sp-thought-block">
+        <div class="blk-label">✅ Terrence prefers simple password auth over complex auth setup</div>
+        <div class="blk-value">→ SHA256 + sessionStorage for internal tools</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="sub-gg-uncertainty" class="subpage">
+  <div class="subpage-header">
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <span class="subpage-title">Uncertainty Radar</span>
+    <span class="subpage-subtitle">Things GG isn't sure about</span>
+  </div>
+  <div class="subpage-body">
+    <div class="sp-section">
+      <div class="sp-section-title">🎲 Current Uncertainties</div>
+      <div class="sp-thought-block">
+        <div class="blk-label">🟡 DO deploy status</div>
+        <div class="blk-value">GG confirms deploy via git push, but DO deploy takes ~60s — unsure if latest changes deployed</div>
+      </div>
+      <div class="sp-thought-block">
+        <div class="blk-label">🟢 Password protection tested</div>
+        <div class="blk-value">SHA256 hash validation + sessionStorage — should work, but untested on mobile Safari</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== SUB-PAGE SYSTEM =====
+function openSubpage(id) {
+  var sp = document.getElementById(id);
+  if (!sp) { console.log('Sub-page not found:', id); return; }
+  sp.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSubpage() {
+  var active = document.querySelector('.subpage.active');
+  if (active) {
+    active.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+// Close subpage on back button (not on nav tab clicks)
+document.addEventListener('click', function(e) {
+  var target = e.target.closest('[onclick*="switchTab"]');
+  if (!target && e.target.closest('.subpage-back')) {
+    e.preventDefault();
+    closeSubpage();
+  }
+});
+
+// ===== VEHICLE MAINTENANCE =====
+function refreshMaintData() {
+  var list = document.getElementById('spMaintList');
+  if (!list) return;
+  list.innerHTML = '<div class="sp-row"><span class="sp-icon">🔄</span><span class="sp-value">Refreshing...</span></div>';
+  
+  // Fetch from Notion proxy or static data
+  fetch('gg-maintenance.json?_=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      list.innerHTML = '';
+      if (!data || !data.items || data.items.length === 0) {
+        list.innerHTML = '<div class="sp-row"><span class="sp-icon">📭</span><span class="sp-value">No maintenance records</span></div>';
+        return;
+      }
+      var now = new Date();
+      data.items.forEach(function(item) {
+        var due = item.nextService || '';
+        var isUrgent = due && due.indexOf('overdue') >= 0;
+        var dotColor = isUrgent ? 'red' : (due ? 'yellow' : 'gray');
+        var row = document.createElement('div');
+        row.className = 'sp-row';
+        row.innerHTML = '<span class="sp-dot ' + dotColor + '" style="width:8px;height:8px;border-radius:50%;flex-shrink:0"></span>'
+          + '<span class="sp-label" style="min-width:60px">' + escHtml(item.component) + '</span>'
+          + '<span class="sp-value">' + escHtml(item.service || '') + '</span>'
+          + '<span class="sp-badge" style="background:' + (isUrgent ? 'var(--danger-bg)' : 'var(--accent-light)') + ';color:' + (isUrgent ? 'var(--danger)' : 'var(--accent)') + '">' + escHtml(due) + '</span>';
+        list.appendChild(row);
+      });
+    })
+    .catch(function(e) {
+      list.innerHTML = '<div class="sp-row"><span class="sp-icon">⚠️</span><span class="sp-value">Failed to load: ' + e.message + '</span></div>';
+    });
+}
+
+// Auto-refresh maintenance data when vehicle page opens
+document.addEventListener('click', function(e) {
+  var card = e.target.closest('.clickable');
+  if (card && card.getAttribute('onclick') && card.getAttribute('onclick').includes('sub-pers-vehicle')) {
+    setTimeout(refreshMaintData, 300);
+  }
+});
+</script>
+
+</body>
+</html>
