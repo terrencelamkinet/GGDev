@@ -1,0 +1,14 @@
+{
+  "name": "G04 - 娘子獨立 Agent",
+  "description": "為娘子（Aggie）建立獨立嘅 AI agent，有自己嘅 Telegram bot、memory、cron，完全同 Terrence 分離隔離",
+  "status": "active",
+  "created": "2026-05-18 09:56",
+  "last_activity": "2026-05-18 09:56",
+  "conversations": 1,
+  "files": [
+    "gg-aggie/AGENTS.md",
+    "gg-aggie/memory/memory.md",
+    "gg-aggie/patterns.md"
+  ],
+  "notes": "Terrence 會抽出呢個 project 繼續改。方案：開第二個 Telegram bot + 第二個 OpenClaw agent instance，完全獨立。娘子公司見到嘅係另外一個 bot。"
+}
