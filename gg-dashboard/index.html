@@ -464,6 +464,83 @@
 
   </div><!-- /page-gg -->
 
+  <!-- ============================================================ -->
+  <!-- TAB 4: HERMES AGENTS                                         -->
+  <!-- ============================================================ -->
+  <div id="page-agents" class="tab-page">
+    <div class="tab-header">
+      <span class="tab-icon">🤖</span>
+      <span class="tab-title">Hermes Agents</span>
+      <span class="tab-subtitle">System monitoring</span>
+      <div class="tab-last-update">Last update: <span id="agtLastUpdate">--:--</span></div>
+    </div>
+    <div class="status-row" id="agentStatusRow">
+      <div class="status-item clickable" onclick="openSubpage('sub-agt-main')" style="cursor:pointer">
+        <div class="value" style="color: var(--success)" id="valAgtMain">●</div><div class="label">Hermes</div>
+      </div>
+      <div class="status-item clickable" onclick="openSubpage('sub-agt-work')" style="cursor:pointer">
+        <div class="value" style="color: var(--success)" id="valAgtWork">●</div><div class="label">Work</div>
+      </div>
+      <div class="status-item clickable" onclick="openSubpage('sub-agt-person')" style="cursor:pointer">
+        <div class="value" style="color: var(--success)" id="valAgtPerson">●</div><div class="label">Person</div>
+      </div>
+      <div class="status-item desktop-only">
+        <div class="value" style="color: var(--accent)" id="valAgtUptime">--</div><div class="label">Uptime</div>
+      </div>
+      <div class="status-item desktop-only">
+        <div class="value" style="color: var(--accent)" id="valAgtDaemons">--</div><div class="label">Daemons</div>
+      </div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="card clickable" onclick="openSubpage('sub-agt-main')">
+        <div class="card-header"><h2>🖥️ Hermes Main</h2><span class="status-badge green" id="agtMainBadge">● Online</span></div>
+        <div class="health-grid">
+          <div class="health-item"><span class="dot green" id="dotMainCron"></span><div><div class="name">Cron Jobs</div><div class="detail" id="detailMainCron">-- active</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Callback Daemon</div><div class="detail" id="detailMainCallback">Running</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Google Calendar</div><div class="detail">Connected ✓</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Memory</div><div class="detail" id="detailMainMem">--% used</div></div></div>
+        </div>
+      </div>
+      <div class="card clickable" onclick="openSubpage('sub-agt-work')">
+        <div class="card-header"><h2>💻 GG-Work</h2><span class="status-badge green" id="agtWorkBadge">● Online</span></div>
+        <div class="health-grid">
+          <div class="health-item"><span class="dot green" id="dotWorkReminder"></span><div><div class="name">Reminder</div><div class="detail" id="detailWorkReminder">--</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Monitor</div><div class="detail" id="detailWorkMonitor">--</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">System</div><div class="detail" id="detailWorkSys">--</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Disk</div><div class="detail" id="detailWorkDisk">--</div></div></div>
+        </div>
+      </div>
+      <div class="card clickable" onclick="openSubpage('sub-agt-person')">
+        <div class="card-header"><h2>🏠 GG-Person</h2><span class="status-badge green" id="agtPersonBadge">● Online</span></div>
+        <div class="health-grid">
+          <div class="health-item"><span class="dot green" id="dotPersonReminder"></span><div><div class="name">Reminder</div><div class="detail" id="detailPersonReminder">--</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Monitor</div><div class="detail" id="detailPersonMonitor">--</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">System</div><div class="detail" id="detailPersonSys">--</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Disk</div><div class="detail" id="detailPersonDisk">--</div></div></div>
+        </div>
+      </div>
+      <div class="card full-width clickable" onclick="openSubpage('sub-agt-daemons')">
+        <div class="card-header"><h2>⚙️ All Daemons</h2><span style="font-size:10px;color:var(--text-dim)">Auto-refresh</span></div>
+        <div class="health-grid" id="agtDaemonList">
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Callback Daemon</div><div class="detail">Main</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Work Reminder</div><div class="detail">172.6.15.181</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Work Monitor</div><div class="detail">172.6.15.181</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Person Reminder</div><div class="detail">172.6.15.182</div></div></div>
+          <div class="health-item"><span class="dot green"></span><div><div class="name">Person Monitor</div><div class="detail">172.6.15.182</div></div></div>
+          <div class="health-item"><span class="dot" id="dotOpenClaw"></span><div><div class="name">OpenClaw Gateway</div><div class="detail">Stopped</div></div></div>
+        </div>
+      </div>
+      <div class="card full-width clickable" onclick="openSubpage('sub-agt-activity')">
+        <div class="card-header"><h2>📜 Agent Activity</h2><span style="font-size:10px;color:var(--text-dim)">Recent</span></div>
+        <div id="agtActivityLog">
+          <div class="log-line"><span class="log-time">16:07</span><span class="log-text">Callback daemon started</span></div>
+          <div class="log-line"><span class="log-time">16:06</span><span class="log-text">OpenClaw gateway stopped</span></div>
+          <div class="log-line"><span class="log-time">16:00</span><span class="log-text">G05 deployed to GitHub</span></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /page-agents -->
+
   <!-- FOOTER -->
   <div class="footer">
     🦾 GG Dashboard v1.1 · Data auto-refreshes
@@ -486,6 +563,10 @@
   <button class="nav-tab" data-tab="page-gg" onclick="switchTab(event, 'page-gg')">
     <span class="nav-icon">🦾</span>
     GG
+  </button>
+  <button class="nav-tab" data-tab="page-agents" onclick="switchTab(event, 'page-agents')">
+    <span class="nav-icon">🤖</span>
+    Agents
   </button>
 </nav>
 
