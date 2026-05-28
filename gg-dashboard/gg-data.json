@@ -1,9 +1,9 @@
 {
-  "ts": "07:00",
+  "ts": "07:30",
   "hour": 7,
-  "minute": 0,
+  "minute": 30,
   "system": {
-    "temp": 67,
+    "temp": 53,
     "memory": 15,
     "disk": 50,
     "load": "0.05",
