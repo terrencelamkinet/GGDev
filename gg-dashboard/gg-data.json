@@ -1,11 +1,11 @@
 {
-  "ts": "00:00",
+  "ts": "00:30",
   "hour": 0,
-  "minute": 0,
+  "minute": 30,
   "system": {
-    "temp": 57,
-    "memory": 69,
-    "disk": 49,
+    "temp": 66,
+    "memory": 66,
+    "disk": 50,
     "load": "0.00",
     "uptime": "9",
     "services": {
@@ -15,7 +15,7 @@
     }
   },
   "reminders": {
-    "total": 17,
+    "total": 21,
     "overdue": 0,
     "errors": 0
   },
