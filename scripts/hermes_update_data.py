@@ -4,7 +4,7 @@ import json, os, subprocess
 from datetime import datetime, timezone, timedelta
 
 HKT = timezone(timedelta(hours=8))
-DATA_DIR = os.path.expanduser("~/projects/gg-dashboard")
+DATA_DIR = os.path.expanduser("~/projects/ggdev-repo/gg-dashboard")
 DATA_FILE = os.path.join(DATA_DIR, "gg-data.json")
 
 
@@ -145,6 +145,18 @@ def get_cron_info():
     return 12
 
 
+def get_cost_estimates():
+    """Return estimated monthly costs (used when no real billing data exists)."""
+    return {
+        "deepseek": 12.50,
+        "perplexity": 5.00,
+        "digitalocean": 24.00,
+        "google_maps": 0.00,
+        "notion": 0.00,
+        "note": "Estimated — API billing not yet integrated",
+    }
+
+
 def main():
     now = datetime.now(HKT)
     ts = now.strftime("%H:%M")
@@ -175,17 +187,66 @@ def main():
         badge_color = "green"
         badge_text = "● All OK"
 
-    # Load existing costs + agent thoughts so they survive rewrite
+    # Load existing costs so they survive rewrite
     existing_costs = None
-    existing_agents = {}
+    existing = {}
     if os.path.exists(DATA_FILE):
         try:
             with open(DATA_FILE) as f:
                 existing = json.load(f)
                 existing_costs = existing.get("costs")
-                existing_agents = existing.get("agents", {})
         except:
             pass
+
+    # Pull agent status from local file + SSH
+    def load_agent_status(source, is_ssh=False):
+        if is_ssh and source:
+            raw = ssh(source, ["cat", "~/gg-dashboard/agent-status.json"])
+        elif not is_ssh:
+            try:
+                pth = os.path.expanduser(source)
+                with open(pth) as f:
+                    return json.load(f)
+            except:
+                return None
+        else:
+            return None
+        if raw:
+            try:
+                return json.loads(raw)
+            except:
+                return None
+        return None
+
+    main_status = load_agent_status("~/projects/ggdev-repo/gg-dashboard/agent-status.json")
+    work_status = load_agent_status("gg-work", is_ssh=True)
+    person_status = load_agent_status("gg-person", is_ssh=True)
+
+    # If SSH failed, try reading from existing data
+    if not work_status and existing.get("agents", {}).get("work"):
+        work_status = existing["agents"]["work"]
+        work_status = {
+            "thoughts": work_status.get("thoughts"),
+            "needs": work_status.get("needs"),
+            "learnings": work_status.get("learnings"),
+            "uncertainties": work_status.get("uncertainties"),
+        }
+    if not person_status and existing.get("agents", {}).get("person"):
+        person_status = existing["agents"]["person"]
+        person_status = {
+            "thoughts": person_status.get("thoughts"),
+            "needs": person_status.get("needs"),
+            "learnings": person_status.get("learnings"),
+            "uncertainties": person_status.get("uncertainties"),
+        }
+    if not main_status and existing.get("agents", {}).get("main"):
+        main_status = existing["agents"]["main"]
+        main_status = {
+            "thoughts": main_status.get("thoughts"),
+            "needs": main_status.get("needs"),
+            "learnings": main_status.get("learnings"),
+            "uncertainties": main_status.get("uncertainties"),
+        }
 
     data = {
         "ts": ts,
@@ -215,10 +276,10 @@ def main():
                 "daemons": main_stats["daemons"],
                 "online": main_stats["online"],
                 "cron_jobs": get_cron_info(),
-                "thoughts": (existing_agents.get("main", {}) or {}).get("thoughts"),
-                "needs": (existing_agents.get("main", {}) or {}).get("needs"),
-                "learnings": (existing_agents.get("main", {}) or {}).get("learnings"),
-                "uncertainties": (existing_agents.get("main", {}) or {}).get("uncertainties"),
+                "thoughts": main_status.get("thoughts") if main_status else None,
+                "needs": main_status.get("needs") if main_status else None,
+                "learnings": main_status.get("learnings") if main_status else None,
+                "uncertainties": main_status.get("uncertainties") if main_status else None,
             },
             "work": {
                 "cpu": work_stats["cpu"],
@@ -229,10 +290,10 @@ def main():
                 "daemons": work_stats["daemons"],
                 "online": work_stats["online"],
                 "ip": "172.6.15.181",
-                "thoughts": (existing_agents.get("work", {}) or {}).get("thoughts"),
-                "needs": (existing_agents.get("work", {}) or {}).get("needs"),
-                "learnings": (existing_agents.get("work", {}) or {}).get("learnings"),
-                "uncertainties": (existing_agents.get("work", {}) or {}).get("uncertainties"),
+                "thoughts": work_status.get("thoughts") if work_status else None,
+                "needs": work_status.get("needs") if work_status else None,
+                "learnings": work_status.get("learnings") if work_status else None,
+                "uncertainties": work_status.get("uncertainties") if work_status else None,
             },
             "person": {
                 "cpu": person_stats["cpu"],
@@ -243,15 +304,15 @@ def main():
                 "daemons": person_stats["daemons"],
                 "online": person_stats["online"],
                 "ip": "172.6.15.182",
-                "thoughts": (existing_agents.get("person", {}) or {}).get("thoughts"),
-                "needs": (existing_agents.get("person", {}) or {}).get("needs"),
-                "learnings": (existing_agents.get("person", {}) or {}).get("learnings"),
-                "uncertainties": (existing_agents.get("person", {}) or {}).get("uncertainties"),
+                "thoughts": person_status.get("thoughts") if person_status else None,
+                "needs": person_status.get("needs") if person_status else None,
+                "learnings": person_status.get("learnings") if person_status else None,
+                "uncertainties": person_status.get("uncertainties") if person_status else None,
             },
         },
         "badge_color": badge_color,
         "badge_text": badge_text,
-        "costs": existing_costs,
+        "costs": existing_costs if existing_costs else get_cost_estimates(),
         "update_source": "hermes_update_data.py",
     }
 

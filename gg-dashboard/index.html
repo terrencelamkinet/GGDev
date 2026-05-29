@@ -4,461 +4,619 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦾</text></svg>">
-  <title>Hermes Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>GG Dashboard</title>
+  <style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --text-muted: #6e7681;
+    --green: #3fb950;
+    --green-bg: rgba(63,185,80,0.12);
+    --orange: #d29922;
+    --orange-bg: rgba(210,153,34,0.12);
+    --red: #f85149;
+    --red-bg: rgba(248,81,73,0.12);
+    --purple: #a371f7;
+    --blue: #58a6ff;
+    --peach: #f0883e;
+    --lavender: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    padding-bottom: 68px;
+  }
+  .container { max-width: 480px; margin: 0 auto; padding: 10px 14px; }
+
+  /* ===== HEADER ===== */
+  .header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--border); margin-bottom: 14px;
+  }
+  .header h1 { font-size: 18px; font-weight: 700; }
+  .header h1 span { font-size: 11px; color: var(--text-dim); font-weight: 400; margin-left: 4px; }
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .time-label { font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; white-space: nowrap; }
+
+  /* ===== TAB PAGES ===== */
+  .tab-page { display: none; }
+  .tab-page.active { display: block; }
+  .page-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .page-sub { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px; margin-bottom: 10px;
+  }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .card-header h2 { font-size: 13px; font-weight: 700; }
+
+  /* ===== PAGE 1: SYSTEM STATUS ===== */
+  .machine-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; margin-bottom: 8px;
+  }
+  .machine-top {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+  }
+  .machine-icon { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; }
+  .machine-name { font-weight: 600; font-size: 13px; flex: 1; }
+  .machine-name .ip { color: var(--text-dim); font-weight: 400; font-size: 10px; margin-left: 4px; }
+  .machine-badge {
+    font-size: 10px; padding: 1px 8px; border-radius: 8px; font-weight: 600; flex-shrink: 0;
+  }
+  .machine-badge.online { background: var(--green-bg); color: var(--green); }
+  .machine-badge.offline { background: var(--red-bg); color: var(--red); }
+  .machine-stats {
+    display: flex; gap: 4px; flex-wrap: wrap; margin-left: 34px;
+  }
+  .stat {
+    font-size: 10px; padding: 1px 6px; border-radius: 4px; background: rgba(255,255,255,0.04);
+  }
+  .stat.cpu { color: var(--blue); }
+  .stat.mem { color: var(--peach); }
+  .stat.disk { color: var(--purple); }
+  .stat.up { color: var(--text-muted); }
+  .machine-uptime {
+    font-size: 10px; color: var(--text-muted); margin-left: 34px; margin-top: 3px;
+  }
+
+  /* Daemon strip */
+  .daemon-strip {
+    display: flex; flex-wrap: wrap; gap: 4px 8px; margin-top: 4px;
+  }
+  .daemon-item { font-size: 10px; }
+
+  /* Activity */
+  .activity-item {
+    font-size: 11px; color: var(--text-dim); padding: 3px 0;
+    border-bottom: 1px solid rgba(48,54,61,0.4);
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-item .atime { color: var(--text-muted); font-size: 10px; }
+
+  /* ===== PAGE 2: PERSONAL ===== */
+  .profile-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+  }
+  .profile-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--blue));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+  }
+  .profile-info { flex: 1; }
+  .profile-name { font-size: 16px; font-weight: 700; }
+  .profile-role { font-size: 12px; color: var(--text-dim); }
+  .profile-detail {
+    font-size: 12px; color: var(--text-dim); line-height: 1.7; margin-top: 6px;
+  }
+  .reminder-stat {
+    display: flex; gap: 16px; margin-top: 6px;
+  }
+  .reminder-stat-item {
+    text-align: center;
+  }
+  .reminder-stat-item .num {
+    font-size: 22px; font-weight: 700; display: block;
+  }
+  .reminder-stat-item .label {
+    font-size: 10px; color: var(--text-muted);
+  }
+
+  /* ===== PAGE 3: AGENT CENTER ===== */
+  .agent-section {
+    margin-bottom: 12px;
+  }
+  .agent-section:last-child { margin-bottom: 0; }
+  .agent-head {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+  .agent-head .icon { font-size: 18px; }
+  .agent-head .name { font-weight: 700; font-size: 14px; flex: 1; }
+  .agent-head .tag {
+    font-size: 10px; padding: 1px 8px; border-radius: 8px; font-weight: 600;
+  }
+  .agent-head .tag.needs { background: var(--orange-bg); color: var(--orange); }
+  .agent-head .tag.idle { background: var(--green-bg); color: var(--green); }
+
+  .agent-block {
+    background: rgba(255,255,255,0.03); border-radius: 6px;
+    padding: 8px 10px; margin-bottom: 6px;
+  }
+  .agent-block:last-child { margin-bottom: 0; }
+  .agent-block .alabel {
+    font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 2px;
+  }
+  .agent-block .avalue {
+    font-size: 13px; color: var(--text); line-height: 1.5;
+  }
+  .agent-block .avalue.none {
+    color: var(--text-muted); font-style: italic; font-size: 12px;
+  }
+  .agent-block .avalue.uncertain {
+    color: var(--orange);
+  }
+  .agent-meta {
+    display: flex; gap: 8px; margin-top: 6px; padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+  .agent-meta span {
+    font-size: 10px; color: var(--text-muted);
+  }
+
+  /* ===== PAGE 4: COST ===== */
+  .cost-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+  }
+  .cost-item:last-child { border-bottom: none; }
+  .cost-left { }
+  .cost-name { font-size: 13px; font-weight: 600; }
+  .cost-detail { font-size: 10px; color: var(--text-dim); }
+  .cost-amount { font-weight: 700; font-size: 14px; }
+  .cost-total {
+    margin-top: 10px; padding-top: 10px; border-top: 2px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cost-total .label { font-size: 14px; font-weight: 700; }
+  .cost-total .value { font-size: 18px; font-weight: 700; color: var(--green); }
+  .cost-note {
+    font-size: 10px; color: var(--text-muted); margin-top: 6px; text-align: right;
+  }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--card); border-top: 1px solid var(--border);
+    display: flex; padding: 3px 0;
+    padding-bottom: env(safe-area-inset-bottom, 3px);
+    z-index: 100;
+  }
+  .nav-tab {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 0;
+    background: none; border: none; color: var(--text-muted); font-size: 10px;
+    padding: 4px 0; cursor: pointer; transition: color 0.15s;
+    font-family: inherit;
+  }
+  .nav-tab.active { color: var(--green); }
+  .nav-tab .nav-icon { font-size: 18px; line-height: 1.2; }
+
+  /* ===== MISC ===== */
+  .update-note { font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 14px; }
+
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .loading { animation: pulse 1.5s ease-in-out infinite; color: var(--text-muted); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+  </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- HEADER -->
+  <!-- ===== HEADER ===== -->
   <div class="header">
-    <div class="header-left">
-      <div class="avatar">🦾</div>
-      <div>
-        <h1>Good Morning<span class="sub">Terrence · Personal Dashboard</span></h1>
-      </div>
-    </div>
+    <h1>🦾 GG <span id="greetingText">Dashboard</span></h1>
     <div class="header-right">
       <span class="time-label" id="lastUpdate">--:--</span>
-      <span class="badge" id="sysBadge">● OK</span>
+      <span class="badge" id="sysBadge" style="background:var(--green-bg);color:var(--green)">● OK</span>
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- PAGE 1: HOME (System)                                        -->
-  <!-- ============================================================ -->
+  <!-- ================================================================ -->
+  <!-- PAGE 1: SYSTEM STATUS  🖥️                                        -->
+  <!-- ================================================================ -->
   <div id="page-home" class="tab-page active">
-    <div class="greeting">
-      <h2 id="greetingText">System Overview</h2>
-      <div class="date" id="todayDate">Loading...</div>
+    <div class="page-title">🖥️ System Status</div>
+    <div class="page-sub" id="todayDate">Loading...</div>
+
+    <div id="machineCards"></div>
+
+    <div class="card" id="daemonCard">
+      <div class="card-header"><h2>⚡ Daemons</h2></div>
+      <div class="daemon-strip" id="daemonList"><span class="loading">Loading...</span></div>
     </div>
 
-    <!-- Metric Summary Cards -->
-    <div class="metric-summary">
-      <div class="metric-card">
-        <div class="icon">🖥️</div>
-        <div class="value green" id="sCpu">--</div>
-        <div class="label">CPU</div>
-      </div>
-      <div class="metric-card">
-        <div class="icon">💾</div>
-        <div class="value peach" id="sMem">--</div>
-        <div class="label">MEM</div>
-      </div>
-      <div class="metric-card">
-        <div class="icon">💿</div>
-        <div class="value purple" id="sDisk">--</div>
-        <div class="label">DISK</div>
-      </div>
+    <div class="card" id="activityCard">
+      <div class="card-header"><h2>📜 Recent Activity</h2></div>
+      <div id="activityLog"><div class="loading">Loading...</div></div>
     </div>
+  </div>
 
-    <!-- Hermes Main -->
-    <div class="section-title">🤖 Hermes Main</div>
-    <div class="card">
-      <div class="card-header">
-        <h2>🖥️ Hermes Main</h2>
-        <span class="tag green" id="badgeMain">● Online</span>
-      </div>
-      <div class="metric-row">
-        <div class="metric"><div class="val green" id="hCpu">--</div><div class="lbl">CPU</div></div>
-        <div class="metric"><div class="val peach" id="hMem">--</div><div class="lbl">MEM</div></div>
-        <div class="metric"><div class="val purple" id="hDisk">--</div><div class="lbl">DISK</div></div>
-        <div class="metric"><div style="font-size:12px;color:var(--text-dim)" id="hUp">--</div><div class="lbl">UPTIME</div></div>
-      </div>
-      <div style="font-size:13px;color:var(--text-muted)">
-        Cron: <span id="hCron" style="font-weight:600">--</span> · Callback: <span id="hCallback" style="font-weight:600">--</span>
-      </div>
-    </div>
-
-    <!-- OpenClaw Sub Agents -->
-    <div class="section-title">⚙️ OpenClaw Agents</div>
-    <div class="col2">
-      <div class="card">
-        <div class="card-header"><h2>💻 Work</h2><span class="tag lavender" id="badgeWork">● --</span></div>
-        <div class="metric-row">
-          <div class="metric"><div class="val green" id="wCpu">--</div><div class="lbl">CPU</div></div>
-          <div class="metric"><div class="val peach" id="wMem">--</div><div class="lbl">MEM</div></div>
-        </div>
-        <div style="font-size:12px;color:var(--text-dim)">
-          Reminder: <span id="wRem" style="font-weight:600">--</span> · Monitor: <span id="wMon" style="font-weight:600">--</span><br>
-          Disk: <span id="wDisk" style="font-weight:600">--</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><h2>🏠 Person</h2><span class="tag lavender" id="badgePerson">● --</span></div>
-        <div class="metric-row">
-          <div class="metric"><div class="val green" id="pCpu">--</div><div class="lbl">CPU</div></div>
-          <div class="metric"><div class="val peach" id="pMem">--</div><div class="lbl">MEM</div></div>
-        </div>
-        <div style="font-size:12px;color:var(--text-dim)">
-          Reminder: <span id="pRem" style="font-weight:600">--</span> · Monitor: <span id="pMon" style="font-weight:600">--</span><br>
-          Disk: <span id="pDisk" style="font-weight:600">--</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Daemons -->
-    <div class="section-title">⚡ Daemon Status</div>
-    <div class="card" id="daemonList">
-      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
-    </div>
-
-    <!-- Schedule Timeline -->
-    <div class="section-title">📅 Today's Schedule</div>
-    <div class="card" id="todaySchedule">
-      <div class="schedule-item">
-        <span class="schedule-time">09:30</span>
-        <span class="schedule-dot done"></span>
-        <div class="schedule-info">
-          <div class="schedule-title">CISP Class</div>
-          <div class="schedule-desc">Online · Until 16:30</div>
-        </div>
-      </div>
-      <div class="schedule-item">
-        <span class="schedule-time">16:00</span>
-        <span class="schedule-dot"></span>
-        <div class="schedule-info">
-          <div class="schedule-title">Security Discussion</div>
-          <div class="schedule-desc">Internal meeting</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Activity -->
-    <div class="section-title">📜 Recent Activity</div>
-    <div class="card" id="activityLog">
-      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
-    </div>
-  </div><!-- /page-home -->
-
-  <!-- ============================================================ -->
-  <!-- PAGE 2: PERSONAL                                            -->
-  <!-- ============================================================ -->
+  <!-- ================================================================ -->
+  <!-- PAGE 2: PERSONAL  👤                                             -->
+  <!-- ================================================================ -->
   <div id="page-personal" class="tab-page">
-    <div class="greeting">
-      <h2>Profile</h2>
-      <div class="date">Terrence Lam</div>
-    </div>
+    <div class="page-title">👤 Terrence Lam</div>
+    <div class="page-sub">Pre-Sales Consultant · AIA 31/F</div>
 
     <div class="card">
-      <div class="profile-card">
-        <div class="profile-avatar">👤</div>
+      <div class="profile-row">
+        <div class="profile-avatar">TL</div>
         <div class="profile-info">
-          <h3>Terrence Lam</h3>
-          <p>Pre-Sales Consultant · AIA 31/F</p>
+          <div class="profile-name">Terrence Lam</div>
+          <div class="profile-role">@terrencelamkinet · HK</div>
         </div>
       </div>
-      <div class="profile-tags">
-        <span class="tag-sm green">🇭🇰 Hong Kong</span>
-        <span class="tag-sm lavender">7w6</span>
-        <span class="tag-sm peach">UTC+8</span>
-        <span class="tag-sm green">⛪ Worship Leader</span>
-      </div>
-      <div style="font-size:13px;color:var(--text-muted);margin-top:12px;line-height:1.6">
+      <div class="profile-detail">
         🏠 錦田水尾村 · 👩‍👧‍👧 Aggie + 2 kids<br>
-        🚗 Toyota Sienta Hybrid 2018 · 🎸 敬拜隊隊長<br>
-        ⛪ 伯特利慈光堂 / 新蒲崗萬迪教會
+        🚗 Toyota Sienta Hybrid 2018 · 🎸 Worship Leader<br>
+        🧠 Enneagram 7w6 · 🇭🇰 UTC+8
       </div>
     </div>
 
-    <div class="section-title">📋 Reminders</div>
     <div class="card">
-      <div style="font-size:14px;color:var(--text-muted)">
-        Total: <strong id="remTotal" style="color:var(--text)">--</strong> · Overdue: <strong id="remOverdue" style="color:#e17055">--</strong>
-      </div>
-    </div>
-  </div><!-- /page-personal -->
-
-  <!-- ============================================================ -->
-  <!-- PAGE 3: GG                                                  -->
-  <!-- ============================================================ -->
-  <div id="page-gg" class="tab-page">
-    <div class="greeting">
-      <h2>Agent Center</h2>
-      <div class="date">OpenClaw · Hermes</div>
-    </div>
-
-    <!-- OpenClaw -->
-    <div class="gg-section">
-      <div class="gg-section-header">
-        <div class="icon green">⚡</div>
-        <h3>OpenClaw</h3>
-      </div>
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <span style="font-size:14px;font-weight:700">💻 GG-Work</span>
-          <span class="tag green" id="ggBadgeWork">● Online</span>
+      <div class="card-header"><h2>📋 Reminders</h2></div>
+      <div class="reminder-stat">
+        <div class="reminder-stat-item">
+          <span class="num" id="remTotal" style="color:var(--blue)">--</span>
+          <span class="label">Total</span>
         </div>
-        <div style="font-size:13px;color:var(--text-muted);line-height:1.8">
-          172.6.15.181<br>
-          Reminder: <span id="ggWRem" style="font-weight:600;color:var(--green-dark)">✓</span>
-          · Monitor: <span id="ggWMon" style="font-weight:600;color:var(--green-dark)">✓</span>
-          · OpenClaw: <span id="ggWOpen" style="font-weight:600;color:var(--green-dark)">✓</span><br>
-          CPU <span id="ggWCpu" style="font-weight:600">--</span> · MEM <span id="ggWMem" style="font-weight:600">--</span> · DISK <span id="ggWDisk" style="font-weight:600">--</span>
+        <div class="reminder-stat-item">
+          <span class="num" id="remOverdue" style="color:var(--orange)">--</span>
+          <span class="label">Overdue</span>
         </div>
-        <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
-          <span style="font-size:14px;font-weight:700">🏠 GG-Person</span>
-          <span class="tag green" id="ggBadgePerson">● Online</span>
-        </div>
-        <div style="font-size:13px;color:var(--text-muted);line-height:1.8;margin-top:8px">
-          172.6.15.182<br>
-          Reminder: <span id="ggPRem" style="font-weight:600;color:var(--green-dark)">✓</span>
-          · Monitor: <span id="ggPMon" style="font-weight:600;color:var(--green-dark)">✓</span>
-          · OpenClaw: <span id="ggPOpen" style="font-weight:600;color:var(--green-dark)">✓</span><br>
-          CPU <span id="ggPCpu" style="font-weight:600">--</span> · MEM <span id="ggPMem" style="font-weight:600">--</span> · DISK <span id="ggPDisk" style="font-weight:600">--</span>
+        <div class="reminder-stat-item">
+          <span class="num" id="remErrors" style="color:var(--red)">--</span>
+          <span class="label">Errors</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Hermes -->
-    <div class="gg-section">
-      <div class="gg-section-header">
-        <div class="icon lavender">🤖</div>
-        <h3>Hermes</h3>
-      </div>
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <span style="font-size:14px;font-weight:700">🤖 Hermes Main</span>
-          <span class="tag green" id="ggBadgeMain">● Online</span>
-        </div>
-        <div style="font-size:13px;color:var(--text-muted);line-height:1.8">
-          Model: deepseek/deepseek-chat · Provider: DeepSeek<br>
-          CPU <span id="ggHCpu" style="font-weight:600">--</span> · MEM <span id="ggHMem" style="font-weight:600">--</span> · DISK <span id="ggHDisk" style="font-weight:600">--</span> · Load <span id="ggHLoad" style="font-weight:600">--</span><br>
-          Cron Jobs: <span id="ggHCron" style="font-weight:600">--</span> · Calendar: <span id="ggHCal" style="font-weight:600;color:var(--green-dark)">Connected ✓</span>
-        </div>
-      </div>
-    </div>
-  </div><!-- /page-gg -->
+  <!-- ================================================================ -->
+  <!-- PAGE 3: AGENT CENTER  🦾  (TEXT-BASED — most important)          -->
+  <!-- ================================================================ -->
+  <div id="page-agents" class="tab-page">
+    <div class="page-title">🦾 Agent Center</div>
+    <div class="page-sub">每個 Agent 嘅思想狀態、升級需要、求助</div>
+    <div id="agentCards"><div class="loading">Loading...</div></div>
+  </div>
 
-  <!-- ============================================================ -->
-  <!-- PAGE 4: COST                                                -->
-  <!-- ============================================================ -->
+  <!-- ================================================================ -->
+  <!-- PAGE 4: COST  💰                                                 -->
+  <!-- ================================================================ -->
   <div id="page-cost" class="tab-page">
-    <div class="greeting">
-      <h2>API Costs</h2>
-      <div class="date">Monthly usage & spending</div>
-    </div>
+    <div class="page-title">💰 Cost Dashboard</div>
+    <div class="page-sub" id="costPeriod">This month · Estimated</div>
+    <div class="card" id="costList"><div class="loading">Loading...</div></div>
+  </div>
 
-    <div class="card">
-      <div class="cost-item">
-        <div class="cost-icon purple">Ｄ</div>
-        <div class="cost-info">
-          <div class="cost-name">DeepSeek Chat</div>
-          <div class="cost-detail">deepseek-chat · Main LLM</div>
-        </div>
-        <div class="cost-amount" style="color:#9b8ec4" id="costDeepSeek">$0.00</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-icon green">🗺️</div>
-        <div class="cost-info">
-          <div class="cost-name">Google Maps</div>
-          <div class="cost-detail">Traffic · Places · Geocoding</div>
-        </div>
-        <div class="cost-amount" style="color:var(--green-dark)" id="costMaps">$0.00</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-icon peach">📝</div>
-        <div class="cost-info">
-          <div class="cost-name">Notion API</div>
-          <div class="cost-detail">Memory · Tasks · Database</div>
-        </div>
-        <div class="cost-amount" style="color:var(--peach-dark)" id="costNotion">$0.00</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-icon purple">🔮</div>
-        <div class="cost-info">
-          <div class="cost-name">Perplexity</div>
-          <div class="cost-detail">Web Search · Research</div>
-        </div>
-        <div class="cost-amount" style="color:#9b8ec4" id="costPerplexity">$0.00</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-icon green">📅</div>
-        <div class="cost-info">
-          <div class="cost-name">Google Calendar</div>
-          <div class="cost-detail">Events · Schedule</div>
-        </div>
-        <div class="cost-amount" style="color:var(--green-dark)" id="costCalendar">$0.00</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-icon peach">☁️</div>
-        <div class="cost-info">
-          <div class="cost-name">DigitalOcean</div>
-          <div class="cost-detail">VM · Dashboard hosting</div>
-        </div>
-        <div class="cost-amount" style="color:var(--peach-dark)" id="costDO">$0.00</div>
-      </div>
-      <div class="cost-total">
-        <div class="total-label">Total Monthly Cost</div>
-        <div class="total-val" id="costTotal">$0.00</div>
-      </div>
-    </div>
-  </div><!-- /page-cost -->
+  <div class="update-note" id="updateNote">—</div>
 
 </div><!-- /container -->
 
 <!-- ===== BOTTOM NAV ===== -->
 <nav class="bottom-nav">
-  <button class="nav-tab active" data-tab="page-home" onclick="switchTab(event, 'page-home')">
-    <span class="nav-icon">🖥️</span> Home
+  <button class="nav-tab active" data-tab="page-home" onclick="switchTab(event,'page-home')">
+    <span class="nav-icon">🖥️</span> System
   </button>
-  <button class="nav-tab" data-tab="page-personal" onclick="switchTab(event, 'page-personal')">
-    <span class="nav-icon">👤</span> Profile
+  <button class="nav-tab" data-tab="page-personal" onclick="switchTab(event,'page-personal')">
+    <span class="nav-icon">👤</span> Personal
   </button>
-  <button class="nav-tab" data-tab="page-gg" onclick="switchTab(event, 'page-gg')">
+  <button class="nav-tab" data-tab="page-agents" onclick="switchTab(event,'page-agents')">
     <span class="nav-icon">🦾</span> Agents
   </button>
-  <button class="nav-tab" data-tab="page-cost" onclick="switchTab(event, 'page-cost')">
+  <button class="nav-tab" data-tab="page-cost" onclick="switchTab(event,'page-cost')">
     <span class="nav-icon">💰</span> Cost
   </button>
 </nav>
 
 <script>
 // ===== TAB SWITCHING =====
-function switchTab(event, tabId) {
-  if (event) event.preventDefault();
-  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  document.querySelectorAll('.bottom-nav .nav-tab').forEach(t => t.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+function switchTab(e, id) {
+  if (e) e.preventDefault();
+  document.querySelectorAll('.tab-page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (e) e.currentTarget.classList.add('active');
 }
 
 // ===== HELPERS =====
-function setVal(id, val, color) {
-  var el = document.getElementById(id);
-  if (el) { el.textContent = val; if (color) el.style.color = color; }
+function $(id) { return document.getElementById(id); }
+function val(id, text, color) {
+  var el = $(id);
+  if (el) { el.textContent = text; if (color) el.style.color = color; }
 }
-function setDetail(id, text) {
-  var el = document.getElementById(id);
-  if (el) el.textContent = text;
-}
+
 function escHtml(s) {
   if (!s) return '';
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// ===== DATA FETCH =====
+function pillColor(v) {
+  if (v == null || v === '--') return 'var(--text-dim)';
+  var n = parseInt(v);
+  if (isNaN(n)) return 'var(--text-dim)';
+  if (n < 50) return 'var(--green)';
+  if (n < 80) return 'var(--orange)';
+  return 'var(--red)';
+}
+
+function statColor(v, type) {
+  if (v == null) return 'var(--text-muted)';
+  var n = parseInt(v);
+  if (isNaN(n)) return 'var(--text-muted)';
+  if (n < 50) return 'var(--' + type + ')';
+  if (n < 80) return 'var(--orange)';
+  return 'var(--red)';
+}
+
+function noneVal(v) {
+  return (!v || v === 'None' || v === 'null') ? null : v;
+}
+
+// ===== FETCH DATA =====
 async function fetchData() {
   try {
     var r = await fetch('gg-data.json?_=' + Date.now());
     var d = await r.json();
     var ts = d.ts || '--:--';
+    val('lastUpdate', ts);
 
-    // Header
-    setDetail('lastUpdate', ts);
+    // Badge
+    var badge = $('sysBadge');
     if (d.badge_color) {
-      var badge = document.getElementById('sysBadge');
-      badge.className = 'badge' + (d.badge_color === 'red' ? ' warning' : '');
       badge.textContent = d.badge_text || '● OK';
+      if (d.badge_color === 'green') { badge.style.background = 'var(--green-bg)'; badge.style.color = 'var(--green)'; }
+      else if (d.badge_color === 'red') { badge.style.background = 'var(--red-bg)'; badge.style.color = 'var(--red)'; }
+      else { badge.style.background = 'var(--orange-bg)'; badge.style.color = 'var(--orange)'; }
     }
-
-    // Metric summary
-    var sys = d.system || {};
-    setVal('sCpu', (sys.temp || '--') + '%');
-    setVal('sMem', (sys.memory || '--') + '%');
-    setVal('sDisk', (sys.disk || '--') + '%');
 
     // Date/greeting
     var now = new Date();
     var h = now.getHours();
-    var greet = h < 12 ? 'Good Morning' : h < 18 ? 'Good Afternoon' : 'Good Evening';
-    setDetail('greetingText', greet);
-    setDetail('todayDate', now.toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric', timeZone:'Asia/Hong_Kong'}));
+    var greet = h < 12 ? '☀️ Morning' : h < 18 ? '🌤️ Afternoon' : '🌙 Evening';
+    val('greetingText', greet + ' · Terrence');
+    val('todayDate', now.toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric', timeZone:'Asia/Hong_Kong'}));
+    val('updateNote', 'Updated: ' + ts + ' HKT · Auto-refresh 30s');
 
     var a = d.agents;
     if (!a) return;
 
-    // Hermes Main
-    setVal('hCpu', a.main.cpu + '%');
-    setVal('hMem', a.main.mem + '%');
-    setVal('hDisk', a.main.disk + '%');
-    setDetail('hUp', a.main.uptime);
-    setDetail('hCron', a.main.cron_jobs + ' active');
-    setDetail('hCallback', a.main.online ? '✓ Running' : '✗ Stopped');
-    setTag('badgeMain', a.main.online);
-
-    // GG-Work
-    setVal('wCpu', a.work.cpu + '%');
-    setVal('wMem', a.work.mem + '%');
-    setDetail('wRem', a.work.daemons.reminder ? '✓' : '✗');
-    setDetail('wMon', a.work.daemons.monitor ? '✓' : '✗');
-    setDetail('wDisk', a.work.disk + '%');
-    setTag('badgeWork', a.work.online);
-
-    // GG-Person
-    setVal('pCpu', a.person.cpu + '%');
-    setVal('pMem', a.person.mem + '%');
-    setDetail('pRem', a.person.daemons.reminder ? '✓' : '✗');
-    setDetail('pMon', a.person.daemons.monitor ? '✓' : '✗');
-    setDetail('pDisk', a.person.disk + '%');
-    setTag('badgePerson', a.person.online);
-
-    // Daemon list
-    var daemons = [
-      {n:'Callback Daemon', loc:'Hermes Main', ok:a.main.online},
-      {n:'Work Reminder', loc:'172.6.15.181', ok:a.work.daemons.reminder},
-      {n:'Work Monitor', loc:'172.6.15.181', ok:a.work.daemons.monitor},
-      {n:'Person Reminder', loc:'172.6.15.182', ok:a.person.daemons.reminder},
-      {n:'Person Monitor', loc:'172.6.15.182', ok:a.person.daemons.monitor},
+    // ================================================================
+    // PAGE 1: SYSTEM STATUS — 3 machine cards
+    // ================================================================
+    var machines = [
+      { id:'main', icon:'🤖', name:'Hermes Main', ip:'', data:a.main },
+      { id:'work', icon:'💻', name:'GG-Work', ip:'172.6.15.181', data:a.work },
+      { id:'person', icon:'🏠', name:'GG-Person', ip:'172.6.15.182', data:a.person },
     ];
-    var dl = document.getElementById('daemonList');
-    dl.innerHTML = daemons.map(function(d) {
-      return '<div class="daemon-row"><span class="daemon-dot ' + (d.ok?'green':'red') + '"></span>' +
-        '<span class="daemon-name">' + d.n + '</span><span class="daemon-loc">' + d.loc + '</span></div>';
+    var mcHtml = '';
+    machines.forEach(function(m) {
+      var data = m.data;
+      if (!data) return;
+      var online = data.online;
+      var badgeClass = online ? 'online' : 'offline';
+      var badgeText = online ? '● Online' : '● Offline';
+      var uptime = data.uptime ? data.uptime.replace('up ','').slice(0,24) : '';
+      var ipHtml = m.ip ? '<span class="ip">' + m.ip + '</span>' : '';
+
+      mcHtml += '<div class="machine-card">';
+      mcHtml += '  <div class="machine-top">';
+      mcHtml += '    <span class="machine-icon">' + m.icon + '</span>';
+      mcHtml += '    <span class="machine-name">' + m.name + ' ' + ipHtml + '</span>';
+      mcHtml += '    <span class="machine-badge ' + badgeClass + '">' + badgeText + '</span>';
+      mcHtml += '  </div>';
+      mcHtml += '  <div class="machine-stats">';
+      mcHtml += '    <span class="stat cpu">CPU ' + (data.cpu||0) + '%</span>';
+      mcHtml += '    <span class="stat mem">MEM ' + (data.mem||0) + '%</span>';
+      mcHtml += '    <span class="stat disk">DISK ' + (data.disk||0) + '%</span>';
+      mcHtml += '    <span class="stat" style="color:' + statColor(data.cpu,'blue') + '">Load ' + (data.load||'0') + '</span>';
+      mcHtml += '  </div>';
+      if (uptime) {
+        mcHtml += '  <div class="machine-uptime">⏱ ' + uptime + '</div>';
+      }
+      mcHtml += '</div>';
+    });
+    $('machineCards').innerHTML = mcHtml || '<div class="loading">Loading machines...</div>';
+
+    // Daemons
+    var daemons = [
+      { n:'Reminder', loc:'Main', ok:a.main && a.main.daemons && a.main.daemons.reminder },
+      { n:'Monitor', loc:'Main', ok:a.main && a.main.daemons && a.main.daemons.monitor },
+      { n:'Reminder', loc:'Work', ok:a.work && a.work.daemons && a.work.daemons.reminder },
+      { n:'Monitor', loc:'Work', ok:a.work && a.work.daemons && a.work.daemons.monitor },
+      { n:'OpenClaw', loc:'Work', ok:a.work && a.work.daemons && a.work.daemons.openclaw },
+      { n:'Reminder', loc:'Person', ok:a.person && a.person.daemons && a.person.daemons.reminder },
+      { n:'Monitor', loc:'Person', ok:a.person && a.person.daemons && a.person.daemons.monitor },
+      { n:'OpenClaw', loc:'Person', ok:a.person && a.person.daemons && a.person.daemons.openclaw },
+    ];
+    var dl = $('daemonList');
+    dl.innerHTML = daemons.map(function(d){
+      return '<span class="daemon-item" style="color:' + (d.ok ? 'var(--green)' : 'var(--red)') + '">● ' + d.n + ' (' + d.loc + ')</span>';
     }).join('');
 
-    // Activity log
-    var log = document.getElementById('activityLog');
+    // Activity
+    var log = $('activityLog');
     log.innerHTML = '';
-    (d.activity || []).slice(0, 5).forEach(function(a) {
+    (d.activity || []).slice(0, 8).forEach(function(act) {
       var div = document.createElement('div');
-      div.className = 'log-line';
-      div.innerHTML = '<span class="log-icon">📌</span><span class="log-time">' + a.time + '</span><span class="log-text">' + escHtml(a.text) + '</span>';
+      div.className = 'activity-item';
+      div.innerHTML = '<span class="atime">' + escHtml(act.time || '--') + '</span>  ' + escHtml(act.text || '');
       log.appendChild(div);
     });
 
-    // === GG Page ===
-    setTag('ggBadgeWork', a.work.online);
-    setTag('ggBadgePerson', a.person.online);
-    setTag('ggBadgeMain', a.main.online);
-    setDetail('ggWRem', a.work.daemons.reminder ? '✓' : '✗');
-    setDetail('ggWMon', a.work.daemons.monitor ? '✓' : '✗');
-    setDetail('ggWOpen', a.work.daemons.openclaw ? '✓' : '✗');
-    setDetail('ggWCpu', a.work.cpu + '%');
-    setDetail('ggWMem', a.work.mem + '%');
-    setDetail('ggWDisk', a.work.disk + '%');
-    setDetail('ggPRem', a.person.daemons.reminder ? '✓' : '✗');
-    setDetail('ggPMon', a.person.daemons.monitor ? '✓' : '✗');
-    setDetail('ggPOpen', a.person.daemons.openclaw ? '✓' : '✗');
-    setDetail('ggPCpu', a.person.cpu + '%');
-    setDetail('ggPMem', a.person.mem + '%');
-    setDetail('ggPDisk', a.person.disk + '%');
-    setDetail('ggHCpu', a.main.cpu + '%');
-    setDetail('ggHMem', a.main.mem + '%');
-    setDetail('ggHDisk', a.main.disk + '%');
-    setDetail('ggHLoad', a.main.load);
-    setDetail('ggHCron', a.main.cron_jobs + ' active');
+    // ================================================================
+    // PAGE 2: PERSONAL — reminders
+    // ================================================================
+    val('remTotal', d.reminders ? d.reminders.total : '--');
+    val('remOverdue', d.reminders ? d.reminders.overdue : '--');
+    val('remErrors', d.reminders ? d.reminders.errors : '--');
 
-    // === Reminders ===
-    setDetail('remTotal', d.reminders ? d.reminders.total : '--');
-    setDetail('remOverdue', d.reminders ? d.reminders.overdue : '--');
+    // ================================================================
+    // PAGE 3: AGENT CENTER — TEXT-BASED thoughts/needs/upgrades
+    // ================================================================
+    renderAgentCards(a);
+
+    // ================================================================
+    // PAGE 4: COST
+    // ================================================================
+    renderCosts(d.costs);
 
   } catch(e) {
     console.log('Fetch error:', e);
   }
 }
 
-function setTag(id, online) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.className = 'tag ' + (online ? 'green' : 'peach');
-  el.textContent = online ? '● Online' : '● Offline';
+// ===== AGENT CARDS (TEXT-BASED) =====
+function renderAgentCards(agents) {
+  var agentsList = [
+    { id:'main', icon:'🤖', name:'Hermes Main' },
+    { id:'work', icon:'💻', name:'GG-Work' },
+    { id:'person', icon:'🏠', name:'GG-Person' },
+  ];
+
+  var html = '';
+  agentsList.forEach(function(ag) {
+    var data = agents[ag.id];
+    if (!data) return;
+
+    var thoughts = noneVal(data.thoughts);
+    var needs = noneVal(data.needs);
+    var learnings = noneVal(data.learnings);
+    var uncertainties = noneVal(data.uncertainties);
+    var hasNeeds = needs !== null;
+
+    var tagClass = hasNeeds ? 'needs' : 'idle';
+    var tagText = hasNeeds ? '⚠️ Needs help' : '● Idle';
+
+    html += '<div class="agent-section">';
+    html += '  <div class="agent-head">';
+    html += '    <span class="icon">' + ag.icon + '</span>';
+    html += '    <span class="name">' + ag.name + '</span>';
+    html += '    <span class="tag ' + tagClass + '">' + tagText + '</span>';
+    html += '  </div>';
+
+    // 💭 Thoughts — main content
+    html += '  <div class="agent-block">';
+    html += '    <span class="alabel">💭 諗緊咩（Thoughts）</span>';
+    if (thoughts) {
+      html += '    <div class="avalue">' + escHtml(thoughts) + '</div>';
+    } else {
+      html += '    <div class="avalue none">No current thoughts</div>';
+    }
+    html += '  </div>';
+
+    // 🆘 Needs / help request
+    html += '  <div class="agent-block">';
+    html += '    <span class="alabel">🆘 需要幫手（Needs Help?）</span>';
+    if (needs) {
+      html += '    <div class="avalue" style="color:var(--orange)">' + escHtml(needs) + '</div>';
+    } else {
+      html += '    <div class="avalue none">冇需要 · All good</div>';
+    }
+    html += '  </div>';
+
+    // 🔄 Upgrade / Learnings
+    html += '  <div class="agent-block">';
+    html += '    <span class="alabel">🔄 升級需要（Upgrades / Learnings）</span>';
+    if (learnings) {
+      html += '    <div class="avalue" style="color:var(--green)">📘 ' + escHtml(learnings) + '</div>';
+    } else {
+      html += '    <div class="avalue none">冇 · No upgrades needed</div>';
+    }
+    html += '  </div>';
+
+    // 🤔 Uncertainties
+    html += '  <div class="agent-block">';
+    html += '    <span class="alabel">🤔 唔肯定嘅嘢（Uncertainties）</span>';
+    if (uncertainties) {
+      html += '    <div class="avalue uncertain">' + escHtml(uncertainties) + '</div>';
+    } else {
+      html += '    <div class="avalue none">冇 · Nothing uncertain</div>';
+    }
+    html += '  </div>';
+
+    // System stats (compact/minimal at bottom)
+    html += '  <div class="agent-meta">';
+    html += '    <span>CPU ' + (data.cpu||0) + '%</span>';
+    html += '    <span>MEM ' + (data.mem||0) + '%</span>';
+    html += '    <span>DISK ' + (data.disk||0) + '%</span>';
+    if (data.uptime) html += '    <span>⏱ ' + data.uptime.replace('up ','').slice(0,16) + '</span>';
+    html += '  </div>';
+
+    html += '</div>';
+  });
+
+  $('agentCards').innerHTML = html || '<div style="color:var(--text-muted);font-size:13px">No agent data</div>';
+}
+
+// ===== COST =====
+function renderCosts(costs) {
+  var list = $('costList');
+  if (!costs) {
+    list.innerHTML = '<div style="color:var(--text-muted);font-size:13px">No cost data yet</div>';
+    return;
+  }
+
+  var items = [
+    { key:'deepseek', name:'DeepSeek Chat', detail:'Main LLM', color:'var(--purple)' },
+    { key:'perplexity', name:'Perplexity', detail:'Web Search', color:'var(--green)' },
+    { key:'digitalocean', name:'DigitalOcean', detail:'VM + Hosting', color:'var(--orange)' },
+    { key:'google_maps', name:'Google Maps API', detail:'Traffic/Places', color:'var(--peach)' },
+    { key:'notion', name:'Notion API', detail:'Database', color:'var(--lavender)' },
+  ];
+
+  var html = '';
+  var total = 0;
+  items.forEach(function(item) {
+    var amount = costs[item.key];
+    if (amount == null) amount = 0;
+    total += parseFloat(amount) || 0;
+    html += '<div class="cost-item">';
+    html += '  <div class="cost-left">';
+    html += '    <div class="cost-name">' + item.name + '</div>';
+    html += '    <div class="cost-detail">' + item.detail + '</div>';
+    html += '  </div>';
+    html += '  <div class="cost-amount" style="color:' + item.color + '">$' + (parseFloat(amount).toFixed(2)) + '</div>';
+    html += '</div>';
+  });
+
+  html += '<div class="cost-total">';
+  html += '  <span class="label">Total / month</span>';
+  html += '  <span class="value">$' + total.toFixed(2) + '</span>';
+  html += '</div>';
+
+  var note = costs.note || 'USD · Estimated monthly';
+  html += '<div class="cost-note">' + escHtml(note) + '</div>';
+
+  list.innerHTML = html;
 }
 
 // ===== INIT =====
 fetchData();
 setInterval(fetchData, 30000);
 </script>
-
 </body>
 </html>
