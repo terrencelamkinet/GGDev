@@ -6,133 +6,35 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>GG Dashboard</title>
+<link rel="stylesheet" href="styles.css">
 <style>
-/* === RESET & BASE === */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#f2f2f7;--card-bg:#fff;--text:#1c1c1e;--text-secondary:#3a3a3c;--text-tertiary:#8e8e93;--separator:#e5e5ea;--blue:#007aff;--green:#34c759;--orange:#ff9500;--red:#ff3b30;--purple:#af52de;--tab-bg:rgba(255,255,255,0.85);--safe-bottom:env(safe-area-inset-bottom,0px);--header-h:52px;--tab-h:50px}
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
-.shimmer-placeholder{height:80px;background:linear-gradient(90deg,rgba(128,128,128,0.1) 25%,rgba(128,128,128,0.05) 50%,rgba(128,128,128,0.1) 75%);background-size:200% 100%;animation:shimmerAnim 1.5s ease-in-out infinite;border-radius:10px;margin-bottom:12px}
-@keyframes shimmerAnim{0%{background-position:-200% 0}100%{background-position:200% 0}}
-
-/* === CONTAINER === */
-#container{display:block;width:100%;max-width:430px;margin:0 auto;padding-bottom:calc(var(--tab-h) + var(--safe-bottom) + 8px);min-height:100vh}
-
-/* === IOS HEADER === */
-.ios-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 4px;height:var(--header-h);background:var(--bg);position:sticky;top:0;z-index:100}
-.ios-header-title{font-size:28px;font-weight:700;letter-spacing:-0.5px}
-.ios-header-sub{font-size:13px;color:var(--text-tertiary);margin-top:1px}
-.ios-header-right{display:flex;align-items:center;gap:8px}
-.ios-status-dot{display:inline-block;width:8px;height:8px;border-radius:4px}
-.ios-status-dot.online{background:var(--green);box-shadow:0 0 6px rgba(52,199,89,0.5)}
-.ios-status-dot.busy{background:var(--orange)}
-.ios-status-dot.offline{background:var(--red)}
-
-/* === TAB PAGES === */
-.tab-page{display:none;padding:0 16px 20px;animation:fadeIn 0.25s ease}
-.tab-page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-/* === CARDS === */
-.ios-card{background:var(--card-bg);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
-.ios-card-header{font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:10px;letter-spacing:-0.2px}
-.ios-report-text{font-size:14px;line-height:1.5;color:var(--text-secondary)}
-.section-label{font-size:13px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px;margin:16px 0 8px;padding:0 2px}
-.section-divider{height:1px;background:var(--separator);margin:12px 0}
-
-/* === TIMELINE === */
-.timeline-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-left:2px solid var(--separator);margin-left:48px;padding-left:16px;position:relative;min-height:44px}
-.timeline-item:last-child{border-left-color:transparent}
-.timeline-time{position:absolute;left:-68px;top:8px;font-size:13px;color:var(--text-tertiary);width:56px;text-align:right;white-space:nowrap}
-.timeline-dot{position:absolute;left:-9px;top:12px;width:10px;height:10px;border-radius:5px;background:var(--separator);border:2px solid var(--bg)}
-.timeline-dot.current{background:var(--blue);border-color:var(--bg);box-shadow:0 0 0 3px rgba(0,122,255,0.2)}
-.timeline-dot.past{background:var(--separator);border-color:var(--bg)}
-.timeline-dot.upcoming{background:var(--green);border-color:var(--bg)}
-.timeline-info{flex:1;min-width:0}
-.timeline-title{font-size:14px;font-weight:500;color:var(--text)}
-.timeline-desc{font-size:12px;color:var(--text-tertiary);margin-top:2px}
-
-/* === PROFILE === */
-.profile-header{display:flex;flex-direction:column;align-items:center;padding:20px 0 16px}
-.profile-avatar-large{width:72px;height:72px;border-radius:36px;background:var(--blue);color:#fff;font-size:28px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
-.profile-name{font-size:20px;font-weight:600}
-.profile-role{font-size:14px;color:var(--text-tertiary);margin-top:2px}
-.profile-stats-grid{display:flex;gap:10px;margin-bottom:12px}
-.profile-stat-card{flex:1;background:var(--card-bg);border-radius:12px;padding:14px 8px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
-.profile-stat-value{font-size:20px;font-weight:700;color:var(--blue)}
-.profile-stat-label{font-size:11px;color:var(--text-tertiary);margin-top:2px;text-transform:uppercase;letter-spacing:0.3px}
-
-/* === IOS ROWS === */
-.ios-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--separator)}
-.ios-row:last-child{border-bottom:none}
-.ios-row-label{font-size:14px;color:var(--text-tertiary)}
-.ios-row-value{font-size:14px;color:var(--text);font-weight:450;text-align:right;max-width:60%;word-break:break-word}
-
-/* === COST === */
-.cost-summary{display:flex;gap:10px}
-.cost-summary-item{flex:1;text-align:center;padding:8px 4px}
-.cost-summary-value{font-size:22px;font-weight:700;color:var(--text)}
-.cost-summary-value.green{color:var(--green)}
-.cost-summary-value.red{color:var(--red)}
-.cost-summary-label{font-size:11px;color:var(--text-tertiary);margin-top:2px;text-transform:uppercase;letter-spacing:0.3px}
-.cost-agent-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--separator)}
-.cost-agent-row:last-child{border-bottom:none}
-.cost-agent-name{font-size:13px;font-weight:500;width:70px;flex-shrink:0}
-.cost-bar-wrap{flex:1;height:8px;background:var(--separator);border-radius:4px;overflow:hidden}
-.cost-bar-fill{height:100%;border-radius:4px;background:var(--blue);transition:width 0.5s ease}
-.cost-bar-fill.good{background:var(--green)}
-.cost-bar-fill.warning{background:var(--orange)}
-.cost-agent-detail{font-size:12px;color:var(--text-tertiary);width:80px;text-align:right;flex-shrink:0}
-
-/* === AGENT CARDS === */
-.agent-card{background:var(--card-bg);border-radius:12px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);transition:box-shadow 0.2s}
-.agent-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
-.agent-card-header:active{background:rgba(0,0,0,0.02)}
-.agent-avatar{width:40px;height:40px;border-radius:20px;background:var(--blue);color:#fff;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.agent-avatar.work{background:var(--orange)}
-.agent-avatar.person{background:var(--purple)}
-.agent-meta{flex:1;min-width:0}
-.agent-name{font-size:15px;font-weight:600}
-.agent-role{font-size:12px;color:var(--text-tertiary);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.agent-status-badge{font-size:11px;font-weight:500;padding:3px 8px;border-radius:10px;text-transform:capitalize}
-.agent-status-badge.active{background:rgba(52,199,89,0.15);color:var(--green)}
-.agent-status-badge.idle{background:rgba(255,149,0,0.15);color:var(--orange)}
-.agent-status-badge.offline{background:rgba(255,59,48,0.15);color:var(--red)}
-.agent-expand-icon{font-size:10px;color:var(--text-tertiary);transition:transform 0.25s}
-.agent-card.expanded .agent-expand-icon{transform:rotate(180deg)}
-.agent-card-body{max-height:0;overflow:hidden;transition:max-height 0.35s ease}
-.agent-card.expanded .agent-card-body{max-height:1200px}
-.agent-card-body-inner{padding:0 14px 14px;border-top:1px solid var(--separator);margin-top:0;padding-top:12px}
-.agent-stats-grid{display:flex;gap:8px;margin-bottom:10px}
-.agent-stat-item{flex:1;text-align:center;padding:6px 2px;background:var(--bg);border-radius:8px}
-.agent-stat-value{font-size:16px;font-weight:700}
-.agent-stat-label{font-size:10px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.2px;margin-top:1px}
-.agent-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
-.agent-tag{font-size:11px;padding:2px 8px;border-radius:8px;background:rgba(0,122,255,0.1);color:var(--blue)}
-.agent-thought-section{margin-bottom:8px}
-.agent-thought-label{font-size:11px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:4px}
-.agent-thought-text{font-size:13px;line-height:1.45;color:var(--text-secondary)}
-
-/* === BOTTOM TAB BAR === */
-.ios-tab-bar{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--tab-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.08);padding-bottom:var(--safe-bottom);z-index:200;height:calc(var(--tab-h) + var(--safe-bottom))}
-.ios-tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;cursor:pointer;padding:6px 0 2px;-webkit-tap-highlight-color:transparent;color:var(--text-tertiary);transition:color 0.2s;font-family:inherit}
-.ios-tab-item.active{color:var(--blue)}
-.ios-tab-icon{font-size:22px;line-height:1}
-.ios-tab-label{font-size:10px;font-weight:500;letter-spacing:0.2px}
-
-/* === UPDATE SECTION === */
-.update-section{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
-.update-icon{font-size:36px;margin-bottom:12px}
-.update-label{font-size:13px;color:var(--text-tertiary);margin-bottom:4px}
-.update-time{font-size:15px;font-weight:500;color:var(--text)}
-
-/* === CANVAS === */
-canvas#costChart{width:100% !important;height:180px !important;border-radius:8px}
-
-/* === UTILITIES === */
-.text-tertiary{color:var(--text-tertiary)}
+  /* Inline critical styles for first paint */
+  #lockScreen { position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(180deg,#1a1a2e,#16213e,#0f3460); }
+  #container { display:none; width:100%; max-width:430px; margin:0 auto; }
+  #container.unlocked { display:block; }
+  .tab-page { display:none; padding:0 16px 20px; }
+  .tab-page.active { display:block; }
+  .shimmer-placeholder { height:80px; background:linear-gradient(90deg, rgba(128,128,128,0.1) 25%, rgba(128,128,128,0.05) 50%, rgba(128,128,128,0.1) 75%); background-size:200% 100%; animation: shimmerAnim 1.5s ease-in-out infinite; border-radius:10px; margin-bottom:12px; }
+  @keyframes shimmerAnim { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
 </style>
 </head>
 <body>
+
+<!-- ===== LOCK SCREEN ===== -->
+<div id="lockScreen">
+  <div class="lock-time" id="lockTime">--:--</div>
+  <div class="lock-date" id="lockDate">-- 月 -- 日</div>
+  <div class="lock-avatar" id="lockAvatar">GG</div>
+  <div class="lock-name" id="lockName">GG Dashboard</div>
+  <div class="lock-sub">輸入密碼解鎖</div>
+  <form id="lockForm" onsubmit="return handleLockSubmit(event)">
+    <div class="lock-input-wrap">
+      <input type="password" id="lockInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••••" autocomplete="off">
+    </div>
+  </form>
+  <div class="lock-error" id="lockError">密碼錯誤，請再試一次</div>
+  <div class="lock-biometry" id="lockBio">&#x1F5A5;</div>
+</div>
 
 <!-- ===== MAIN APP ===== -->
 <div id="container">
@@ -284,6 +186,56 @@ canvas#costChart{width:100% !important;height:180px !important;border-radius:8px
    GG Dashboard - Main Application Script
    ============================================ */
 
+// --- Lock Screen ---
+var lockCode = localStorage.getItem('gg_lock') || '1234';
+var lockAttempts = 0;
+
+function handleLockSubmit(e) {
+  e.preventDefault();
+  var input = document.getElementById('lockInput');
+  var val = input.value;
+  var err = document.getElementById('lockError');
+  if (val === lockCode) {
+    document.getElementById('lockScreen').classList.add('hidden');
+    document.getElementById('container').classList.add('unlocked');
+    err.classList.remove('show');
+    input.value = '';
+    fetchData();
+    startAutoRefresh();
+  } else {
+    lockAttempts++;
+    err.classList.add('show');
+    input.value = '';
+    input.focus();
+  }
+  return false;
+}
+
+// Show time on lock screen
+function updateLockTime() {
+  var now = new Date();
+  var h = String(now.getHours()).padStart(2,'0');
+  var m = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('lockTime').textContent = h + ':' + m;
+  var months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  var days = ['日','一','二','三','四','五','六'];
+  document.getElementById('lockDate').textContent = months[now.getMonth()] + ' ' + now.getDate() + '日 星期' + days[now.getDay()];
+}
+updateLockTime();
+setInterval(updateLockTime, 30000);
+
+document.getElementById('lockInput').addEventListener('input', function() {
+  if (this.value.length >= 4) {
+    document.getElementById('lockForm').dispatchEvent(new Event('submit'));
+  }
+});
+
+// Biometry button
+document.getElementById('lockBio').addEventListener('click', function() {
+  document.getElementById('lockInput').value = lockCode;
+  document.getElementById('lockForm').dispatchEvent(new Event('submit'));
+});
+
 // --- Tabs ---
 var tabButtons = document.querySelectorAll('.ios-tab-item');
 tabButtons.forEach(function(btn) {
@@ -301,11 +253,11 @@ tabButtons.forEach(function(btn) {
 function escHtml(str) {
   if (!str) return '';
   return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+    .replace(/&/g, '\x26amp;')
+    .replace(/</g, '\x3C')
+    .replace(/>/g, '\x3E')
+    .replace(/"/g, '\x26quot;')
+    .replace(/'/g, '\x26#39;');
 }
 
 function setVal(id, val, suffix) {
@@ -440,12 +392,13 @@ function renderData(d) {
   var report = document.getElementById('dailyReport');
   if (report) report.textContent = d.dailyReport || '暫無報告';
 
-  // Schedule
+  // Schedule - READ FROM DATA, NO HARDCODING
   var sc = document.getElementById('todaySchedule');
   if (sc) {
     if (d.schedule && d.schedule.length) {
       sc.innerHTML = d.schedule.map(function(s, idx) {
         var statusClass = '';
+        // Determine dot status based on time
         if (s.time) {
           var now = new Date();
           var parts = s.time.split(':');
@@ -645,9 +598,21 @@ function startAutoRefresh() {
   refreshInterval = setInterval(fetchData, 30000);
 }
 
-// --- Start loading data immediately ---
-fetchData();
-startAutoRefresh();
+// --- Key shortcut for re-lock ---
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && e.shiftKey) {
+    document.getElementById('lockScreen').classList.remove('hidden');
+    document.getElementById('container').classList.remove('unlocked');
+    document.getElementById('lockInput').focus();
+  }
+});
+
+// --- Handle visibility change for background refresh ---
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden && document.getElementById('container').classList.contains('unlocked')) {
+    fetchData();
+  }
+});
 
 console.log('GG Dashboard loaded - iOS 18 redesign');
 </script>
