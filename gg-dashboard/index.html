@@ -400,6 +400,105 @@ html, body {
   100% { background-position: 200% 0; }
 }
 
+/* ===== FADE-IN ANIMATIONS (iOS-style) ===== */
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes statusPulse {
+  0% { box-shadow: 0 0 0 0 rgba(48,209,88,0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(48,209,88,0); }
+  100% { box-shadow: 0 0 0 0 rgba(48,209,88,0); }
+}
+@keyframes tabFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.tab-page.active {
+  display: block;
+  animation: tabFadeIn 0.2s ease;
+}
+.machine-card,
+.agent-card,
+.ios-card,
+.profile-header-card {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: cardFadeIn 0.4s ease forwards;
+}
+.machine-card:nth-child(1),
+.agent-card:nth-child(1) { animation-delay: 0.05s; }
+.machine-card:nth-child(2),
+.agent-card:nth-child(2) { animation-delay: 0.1s; }
+.machine-card:nth-child(3),
+.agent-card:nth-child(3) { animation-delay: 0.15s; }
+.machine-card:nth-child(4),
+.agent-card:nth-child(4) { animation-delay: 0.2s; }
+
+/* ===== AGENT THOUGHT HERO ===== */
+.agent-thought-hero {
+  background: rgba(0,122,255,0.06);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  position: relative;
+}
+@media (prefers-color-scheme: dark) {
+  .agent-thought-hero {
+    background: rgba(10,132,255,0.10);
+  }
+}
+.agent-thought-hero-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-style: italic;
+}
+.agent-thought-hero-quote {
+  font-size: 28px;
+  color: var(--blue);
+  opacity: 0.4;
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+.agent-thought-hero-inner {
+  padding-left: 20px;
+}
+.agent-metrics {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.2px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--separator);
+}
+.agent-needs-line {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 3px 0;
+  line-height: 1.4;
+}
+.agent-status-dot-pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.agent-status-dot-pulse.green {
+  background: var(--green);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+.agent-status-dot-pulse.red {
+  background: var(--red);
+}
+
 /* ===== TAB BAR ===== */
 .ios-tab-bar {
   position: fixed;
@@ -508,7 +607,7 @@ html, body {
 
   <!-- ===== TAB: AGENTS ===== -->
   <div class="tab-page" id="tabAgents">
-    <div id="agentThoughtCards"><div class="shimmer-placeholder"></div><div class="shimmer-placeholder"></div><div class="shimmer-placeholder"></div></div>
+    <div id="agentThoughtCards"><div class="shimmer-placeholder"></div><div class="shimmer-placeholder"></div><div class="shimmer-placeholder"></div><div class="shimmer-placeholder"></div></div>
   </div>
 
   <!-- ===== TAB: COST ===== -->
@@ -681,46 +780,58 @@ html, body {
 
     // ---- TAB: AGENTS ----
     var agentIds = ['main', 'work', 'person'];
-    var agentDisplayNames = { main: 'Hermes Main', work: 'GG-Work', person: 'GG-Person' };
-    var thoughtHtml = agentIds.map(function(id) {
+    var agentDisplayNames = { main: 'GG Fighter', work: 'GG-Work', person: 'GG-Person' };
+    var agentIcons = { main: '🤖', work: '💻', person: '🏠' };
+    var thoughtHtml = agentIds.map(function(id, idx) {
       var a = agents[id];
       if (!a) return '';
-      var hasThoughts = a.thoughts || a.needs || a.learnings || a.uncertainties;
-      if (!hasThoughts) return '';
-      var sections = '';
+      var online = a.online;
+      var statusDotClass = online ? 'agent-status-dot-pulse green' : 'agent-status-dot-pulse red';
+      var cpuPct = a.cpu || 0;
+      var memPct = a.mem || 0;
+      var diskPct = a.disk || 0;
+
+      // Hero thought bubble
+      var heroHtml = '';
       if (a.thoughts) {
-        sections += '<div class="agent-thought-section"><div class="agent-thought-label">Thoughts</div><div class="agent-thought-text">' + esc(a.thoughts) + '</div></div>';
+        heroHtml = '<div class="agent-thought-hero">' +
+          '<span class="agent-thought-hero-quote">"</span>' +
+          '<div class="agent-thought-hero-inner">' +
+          '<div class="agent-thought-hero-text">' + esc(a.thoughts) + '</div>' +
+          '</div></div>';
       }
+
+      // Needs / learnings / uncertainties as compact lines
+      var linesHtml = '';
       if (a.needs && a.needs !== 'None') {
-        sections += '<div class="agent-thought-section"><div class="agent-thought-label">Needs</div><div class="agent-thought-text">' + esc(a.needs) + '</div></div>';
+        linesHtml += '<div class="agent-needs-line">🆘 ' + esc(a.needs) + '</div>';
       }
       if (a.learnings && a.learnings !== 'None') {
-        sections += '<div class="agent-thought-section"><div class="agent-thought-label">Learnings</div><div class="agent-thought-text">' + esc(a.learnings) + '</div></div>';
+        linesHtml += '<div class="agent-needs-line">🔄 ' + esc(a.learnings) + '</div>';
       }
       if (a.uncertainties && a.uncertainties !== 'None') {
-        sections += '<div class="agent-thought-section"><div class="agent-thought-label">Uncertainties</div><div class="agent-thought-text">' + esc(a.uncertainties) + '</div></div>';
+        linesHtml += '<div class="agent-needs-line">❓ ' + esc(a.uncertainties) + '</div>';
       }
-      if (!sections) return '';
-      return '<div class="agent-card expanded">' +
+
+      // Metrics footnote
+      var metricsHtml = '<div class="agent-metrics">CPU ' + cpuPct + '% · MEM ' + memPct + '% · DISK ' + diskPct + '%</div>';
+
+      return '<div class="agent-card" style="animation-delay:' + (0.05 * (idx + 1)).toFixed(2) + 's">' +
         '<div class="agent-card-header">' +
-        '<div class="agent-avatar ' + id + '">' + esc(agentDisplayNames[id][0]) + '</div>' +
+        '<div class="agent-avatar ' + id + '">' + esc(agentIcons[id]) + '</div>' +
         '<div class="agent-meta">' +
         '<div class="agent-name">' + esc(agentDisplayNames[id]) + '</div>' +
-        '<div class="agent-role">' + (a.online ? 'Online' : 'Offline') + ' · CPU ' + (a.cpu || 0) + '%</div></div>' +
-        '<span class="agent-expand-icon">▼</span></div>' +
-        '<div class="agent-card-body"><div class="agent-card-body-inner">' +
-        sections + '</div></div></div>';
+        '<div class="agent-role"><span class="' + statusDotClass + '"></span>' + (online ? 'Online' : 'Offline') + '</div></div>' +
+        '</div>' +
+        '<div class="agent-card-body" style="max-height:1200px"><div class="agent-card-body-inner">' +
+        heroHtml +
+        linesHtml +
+        metricsHtml +
+        '</div></div></div>';
     }).join('');
     var agentEl = document.getElementById('agentThoughtCards');
     if (agentEl) {
       agentEl.innerHTML = thoughtHtml || '<div class="empty-state">No agent thoughts available</div>';
-      // Enable expansion toggle
-      agentEl.querySelectorAll('.agent-card-header').forEach(function(h) {
-        h.addEventListener('click', function() {
-          var card = this.closest('.agent-card');
-          if (card) card.classList.toggle('expanded');
-        });
-      });
     }
 
     // ---- TAB: COST ----
