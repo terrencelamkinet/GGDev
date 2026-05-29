@@ -1,0 +1,135 @@
+{
+  "ts": "18:39",
+  "hour": 18,
+  "minute": 39,
+  "system": {
+    "temp": 2,
+    "memory": 23,
+    "disk": 49,
+    "load": "0.22",
+    "uptime": "3 days, 36 minutes",
+    "services": {
+      "gg-reminder": "green",
+      "disk": "green",
+      "memory": "green"
+    }
+  },
+  "reminders": {
+    "total": 20,
+    "overdue": 0,
+    "errors": 0
+  },
+  "activity": [
+    {
+      "time": "18:39",
+      "text": "Dashboard data refresh"
+    },
+    {
+      "time": "23:01",
+      "text": "Cron: nightly_upgrade.log (375B)"
+    },
+    {
+      "time": "00:01",
+      "text": "Cron: nightly_report.txt (1639B)"
+    },
+    {
+      "time": "18:33",
+      "text": "Cron: memory_bridge.log (40221B)"
+    },
+    {
+      "time": "18:35",
+      "text": "Cron: guardian.log (66261B)"
+    },
+    {
+      "time": "18:39",
+      "text": "Cron: gateway.log (1056883B)"
+    },
+    {
+      "time": "09:40",
+      "text": "Cron: gateway-shutdown-diag.log (187120B)"
+    },
+    {
+      "time": "09:41",
+      "text": "Cron: gateway-exit-diag.log (42445B)"
+    },
+    {
+      "time": "18:39",
+      "text": "Cron: errors.log (848652B)"
+    },
+    {
+      "time": "13:13",
+      "text": "Cron: callback_daemon.log (134755B)"
+    }
+  ],
+  "agents": {
+    "main": {
+      "cpu": 2,
+      "mem": 23,
+      "disk": 49,
+      "load": "0.22",
+      "uptime": "3 days, 36 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": false
+      },
+      "online": true,
+      "cron_jobs": 12,
+      "thoughts": null,
+      "needs": null,
+      "learnings": null,
+      "uncertainties": null
+    },
+    "work": {
+      "cpu": 4,
+      "mem": 34,
+      "disk": 50,
+      "load": "0.10",
+      "uptime": "1 week, 3 days, 6 hours, 14 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181",
+      "thoughts": "Dashboard data collecting, monitoring cron jobs, waiting for tasks",
+      "needs": "None",
+      "learnings": "Git push to DO workflow added to .learnings",
+      "uncertainties": "None"
+    },
+    "person": {
+      "cpu": 9,
+      "mem": 30,
+      "disk": 61,
+      "load": "0.03",
+      "uptime": "1 week, 3 days, 6 hours, 14 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182",
+      "thoughts": "Awaiting Terrence or Aggie requests",
+      "needs": "None",
+      "learnings": "None",
+      "uncertainties": "None"
+    }
+  },
+  "badge_color": "green",
+  "badge_text": "● All OK",
+  "costs": {
+    "deepseek": 0.94,
+    "deepseek_balance_cny": 55.98,
+    "deepseek_tokens_30d": 6216652,
+    "daily": [],
+    "perplexity": 0,
+    "digitalocean": 0,
+    "google_maps": 0,
+    "notion": 0,
+    "total_month_cost_usd": 0.94,
+    "note": "from last known cost-data.json snapshot"
+  },
+  "update_source": "hermes_update_data.py"
+}
