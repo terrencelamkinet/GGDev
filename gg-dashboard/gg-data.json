@@ -1,12 +1,12 @@
 {
-  "ts": "00:55",
-  "hour": 0,
-  "minute": 55,
+  "ts": "01:00",
+  "hour": 1,
+  "minute": 0,
   "system": {
-    "temp": 76,
-    "memory": 33,
+    "temp": 61,
+    "memory": 34,
     "disk": 50,
-    "load": "0.16",
+    "load": "0.25",
     "uptime": "10",
     "services": {
       "gg-reminder": "yellow",
