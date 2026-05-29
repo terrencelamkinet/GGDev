@@ -1,22 +1,13 @@
 {
-  "ts": "18:17",
+  "ts": "18:29",
   "hour": 18,
-  "minute": 17,
-  "name": "GG System Dashboard",
-  "status": "online",
-  "time": "18:17",
-  "dailyReport": "系統正常運行。Memory 23%，Disk 49%，Load 0.22。所有服務正常。今日已處理 20 個提醒事項。",
-  "schedule": [
-    {"time": "09:00", "title": "Cron: 夜間升級", "location": "nightly_upgrade.log"},
-    {"time": "12:00", "title": "Dashboard 數據刷新", "location": "gg-data.json"},
-    {"time": "18:17", "title": "Dashboard data refresh", "location": "Auto-refresh cycle"}
-  ],
+  "minute": 29,
   "system": {
     "temp": 4,
     "memory": 23,
     "disk": 49,
-    "load": "0.22",
-    "uptime": "3 days, 13 minutes",
+    "load": "0.44",
+    "uptime": "3 days, 26 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -29,67 +20,102 @@
     "errors": 0
   },
   "activity": [
-    {"time": "18:17", "text": "Dashboard data refresh"},
-    {"time": "23:01", "text": "Cron: nightly_upgrade.log (375B)"},
-    {"time": "00:01", "text": "Cron: nightly_report.txt (1639B)"},
-    {"time": "18:05", "text": "Cron: memory_bridge.log (39973B)"},
-    {"time": "18:15", "text": "Cron: guardian.log (65949B)"},
-    {"time": "18:16", "text": "Cron: gateway.log (1053188B)"},
-    {"time": "09:40", "text": "Cron: gateway-shutdown-diag.log (187120B)"},
-    {"time": "09:41", "text": "Cron: gateway-exit-diag.log (42445B)"},
-    {"time": "18:16", "text": "Cron: errors.log (840602B)"},
-    {"time": "13:13", "text": "Cron: callback_daemon.log (134755B)"}
-  ],
-  "agents": [
     {
-      "id": "main",
-      "name": "GG Main",
-      "role": "系統總管",
-      "status": "active",
-      "tags": ["Telegram", "Dashboard", "System"],
-      "stats": {"CPU": "4%", "MEM": "23%", "任務": 12},
+      "time": "18:30",
+      "text": "Dashboard data refresh"
+    },
+    {
+      "time": "23:01",
+      "text": "Cron: nightly_upgrade.log (375B)"
+    },
+    {
+      "time": "00:01",
+      "text": "Cron: nightly_report.txt (1639B)"
+    },
+    {
+      "time": "18:05",
+      "text": "Cron: memory_bridge.log (39973B)"
+    },
+    {
+      "time": "18:30",
+      "text": "Cron: guardian.log (66152B)"
+    },
+    {
+      "time": "18:29",
+      "text": "Cron: gateway.log (1055229B)"
+    },
+    {
+      "time": "09:40",
+      "text": "Cron: gateway-shutdown-diag.log (187120B)"
+    },
+    {
+      "time": "09:41",
+      "text": "Cron: gateway-exit-diag.log (42445B)"
+    },
+    {
+      "time": "18:29",
+      "text": "Cron: errors.log (843437B)"
+    },
+    {
+      "time": "13:13",
+      "text": "Cron: callback_daemon.log (134755B)"
+    }
+  ],
+  "agents": {
+    "main": {
+      "cpu": 4,
+      "mem": 23,
+      "disk": 49,
+      "load": "0.44",
+      "uptime": "3 days, 26 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": false
+      },
+      "online": true,
+      "cron_jobs": 12,
       "thoughts": "Awaiting Terrence commands, managing dashboard, handling Telegram",
       "needs": "None",
       "learnings": "Dashboard redesign in progress - 3 pages: System, Agents, Cost",
       "uncertainties": "None"
     },
-    {
-      "id": "work",
-      "name": "GG Work",
-      "role": "工作 Agent",
-      "status": "active",
-      "tags": ["監控", "Cron", "Deploy"],
-      "stats": {"CPU": "4%", "MEM": "33%", "任務": 8},
+    "work": {
+      "cpu": 4,
+      "mem": 33,
+      "disk": 50,
+      "load": "0.04",
+      "uptime": "1 week, 3 days, 6 hours, 4 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181",
       "thoughts": "Dashboard data collecting, monitoring cron jobs, waiting for tasks",
       "needs": "None",
       "learnings": "Git push to DO workflow added to .learnings",
       "uncertainties": "None"
     },
-    {
-      "id": "person",
-      "name": "GG Person",
-      "role": "個人 Agent",
-      "status": "active",
-      "tags": ["個人", "助理", "排程"],
-      "stats": {"CPU": "8%", "MEM": "30%", "任務": 3},
+    "person": {
+      "cpu": 4,
+      "mem": 32,
+      "disk": 61,
+      "load": "0.13",
+      "uptime": "1 week, 3 days, 6 hours, 4 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182",
       "thoughts": "Awaiting Terrence or Aggie requests",
       "needs": "None",
       "learnings": "None",
       "uncertainties": "None"
     }
-  ],
-  "personal": {
-    "name": "Terrence",
-    "role": "Owner",
-    "team": "GG System",
-    "email": "terrence@ggsystem.io",
-    "phone": "+852 9553 5371",
-    "avatar": "TT",
-    "stats": [
-      {"label": "Agent 數", "value": "3"},
-      {"label": "運行天數", "value": "7"},
-      {"label": "提醒事項", "value": "20"}
-    ]
   },
   "badge_color": "green",
   "badge_text": "● All OK",
@@ -98,11 +124,36 @@
     "deepseek_balance_cny": 55.98,
     "deepseek_tokens_30d": 6216652,
     "daily": [
-      {"date": "2026-05-25", "cost": 0.13, "tokens": 852932, "sessions": 25},
-      {"date": "2026-05-26", "cost": 0.12, "tokens": 829853, "sessions": 13},
-      {"date": "2026-05-27", "cost": 0.17, "tokens": 1120924, "sessions": 22},
-      {"date": "2026-05-28", "cost": 0.25, "tokens": 1627513, "sessions": 45},
-      {"date": "2026-05-29", "cost": 0.27, "tokens": 1785430, "sessions": 64}
+      {
+        "date": "2026-05-25",
+        "cost": 0.13,
+        "tokens": 852932,
+        "sessions": 25
+      },
+      {
+        "date": "2026-05-26",
+        "cost": 0.12,
+        "tokens": 829853,
+        "sessions": 13
+      },
+      {
+        "date": "2026-05-27",
+        "cost": 0.17,
+        "tokens": 1120924,
+        "sessions": 22
+      },
+      {
+        "date": "2026-05-28",
+        "cost": 0.25,
+        "tokens": 1627513,
+        "sessions": 45
+      },
+      {
+        "date": "2026-05-29",
+        "cost": 0.27,
+        "tokens": 1785430,
+        "sessions": 64
+      }
     ],
     "perplexity": 0,
     "digitalocean": 0,
@@ -110,16 +161,6 @@
     "notion": 0,
     "total_month_cost_usd": 0.94,
     "note": "Real data from DeepSeek API balance endpoint"
-  },
-  "costAnalysis": {
-    "totalCost": 940,
-    "totalBudget": 2000,
-    "overallEfficiency": 88,
-    "agentCosts": [
-      {"agent": "Main", "cost": 350, "budget": 700},
-      {"agent": "Work", "cost": 300, "budget": 800},
-      {"agent": "Person", "cost": 290, "budget": 500}
-    ]
   },
   "update_source": "hermes_update_data.py"
 }
