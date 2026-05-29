@@ -1,13 +1,13 @@
 {
-  "ts": "18:47",
+  "ts": "18:53",
   "hour": 18,
-  "minute": 47,
+  "minute": 53,
   "system": {
     "temp": 2,
     "memory": 23,
     "disk": 49,
-    "load": "0.28",
-    "uptime": "3 days, 44 minutes",
+    "load": "0.10",
+    "uptime": "3 days, 49 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -21,7 +21,7 @@
   },
   "activity": [
     {
-      "time": "18:47",
+      "time": "18:53",
       "text": "Dashboard data refresh"
     },
     {
@@ -37,12 +37,12 @@
       "text": "Cron: memory_bridge.log (40221B)"
     },
     {
-      "time": "18:45",
-      "text": "Cron: guardian.log (66417B)"
+      "time": "18:50",
+      "text": "Cron: guardian.log (66495B)"
     },
     {
-      "time": "18:41",
-      "text": "Cron: gateway.log (1057245B)"
+      "time": "18:51",
+      "text": "Cron: gateway.log (1057960B)"
     },
     {
       "time": "09:40",
@@ -53,8 +53,8 @@
       "text": "Cron: gateway-exit-diag.log (42445B)"
     },
     {
-      "time": "18:41",
-      "text": "Cron: errors.log (848961B)"
+      "time": "18:51",
+      "text": "Cron: errors.log (849249B)"
     },
     {
       "time": "13:13",
@@ -66,8 +66,8 @@
       "cpu": 2,
       "mem": 23,
       "disk": 49,
-      "load": "0.28",
-      "uptime": "3 days, 44 minutes",
+      "load": "0.10",
+      "uptime": "3 days, 49 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -81,11 +81,11 @@
       "uncertainties": null
     },
     "work": {
-      "cpu": 0,
-      "mem": 33,
+      "cpu": 4,
+      "mem": 34,
       "disk": 50,
-      "load": "0.29",
-      "uptime": "1 week, 3 days, 6 hours, 22 minutes",
+      "load": "0.19",
+      "uptime": "1 week, 3 days, 6 hours, 27 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -99,11 +99,11 @@
       "uncertainties": "None"
     },
     "person": {
-      "cpu": 4,
+      "cpu": 8,
       "mem": 31,
       "disk": 61,
-      "load": "0.09",
-      "uptime": "1 week, 3 days, 6 hours, 22 minutes",
+      "load": "0.04",
+      "uptime": "1 week, 3 days, 6 hours, 27 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
