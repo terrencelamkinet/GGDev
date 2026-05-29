@@ -1,0 +1,17 @@
+{
+  "collected_at": "2026-05-29 18:01 HKT",
+  "deepseek_cost_7d": 0.94,
+  "deepseek_cost_30d": 0.94,
+  "deepseek_cost_month": 0.94,
+  "deepseek_tokens_30d": 6216652,
+  "daily": [
+    {"date": "2026-05-25", "cost": 0.13, "tokens": 852932, "sessions": 25},
+    {"date": "2026-05-26", "cost": 0.12, "tokens": 829853, "sessions": 13},
+    {"date": "2026-05-27", "cost": 0.17, "tokens": 1120924, "sessions": 22},
+    {"date": "2026-05-28", "cost": 0.25, "tokens": 1627513, "sessions": 45},
+    {"date": "2026-05-29", "cost": 0.27, "tokens": 1785430, "sessions": 64}
+  ],
+  "deepseek_balance_cny": 55.98,
+  "deepseek_balance_usd": -0.05,
+  "total_month_cost_usd": 0.94
+}
