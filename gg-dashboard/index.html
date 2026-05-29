@@ -14,25 +14,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text'
 .shimmer-placeholder{height:80px;background:linear-gradient(90deg,rgba(128,128,128,0.1) 25%,rgba(128,128,128,0.05) 50%,rgba(128,128,128,0.1) 75%);background-size:200% 100%;animation:shimmerAnim 1.5s ease-in-out infinite;border-radius:10px;margin-bottom:12px}
 @keyframes shimmerAnim{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
-/* === LOCK SCREEN === */
-#lockScreen{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#1a1a2e,#16213e,#0f3460);transition:opacity 0.4s,transform 0.4s}
-#lockScreen.hidden{opacity:0;pointer-events:none;transform:scale(1.05)}
-.lock-time{font-size:72px;font-weight:200;color:#fff;letter-spacing:4px;margin-bottom:4px}
-.lock-date{font-size:16px;color:rgba(255,255,255,0.6);margin-bottom:40px}
-.lock-avatar{width:72px;height:72px;border-radius:36px;background:var(--blue);color:#fff;font-size:28px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-.lock-name{font-size:20px;font-weight:600;color:#fff;margin-bottom:4px}
-.lock-sub{font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:24px}
-.lock-input-wrap{background:rgba(255,255,255,0.15);border-radius:12px;padding:4px 16px;backdrop-filter:blur(10px)}
-.lock-input-wrap input{background:transparent;border:none;outline:none;color:#fff;font-size:24px;letter-spacing:8px;text-align:center;width:180px;height:48px;font-family:inherit}
-.lock-input-wrap input::placeholder{color:rgba(255,255,255,0.3);letter-spacing:2px}
-.lock-error{color:var(--red);font-size:14px;margin-top:12px;opacity:0;transition:opacity 0.3s}
-.lock-error.show{opacity:1}
-.lock-biometry{width:44px;height:44px;border-radius:22px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:22px;margin-top:24px;cursor:pointer;transition:background 0.2s}
-.lock-biometry:active{background:rgba(255,255,255,0.2)}
-
 /* === CONTAINER === */
-#container{display:none;width:100%;max-width:430px;margin:0 auto;padding-bottom:calc(var(--tab-h) + var(--safe-bottom) + 8px);min-height:100vh}
-#container.unlocked{display:block}
+#container{display:block;width:100%;max-width:430px;margin:0 auto;padding-bottom:calc(var(--tab-h) + var(--safe-bottom) + 8px);min-height:100vh}
 
 /* === IOS HEADER === */
 .ios-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 4px;height:var(--header-h);background:var(--bg);position:sticky;top:0;z-index:100}
@@ -150,22 +133,6 @@ canvas#costChart{width:100% !important;height:180px !important;border-radius:8px
 </style>
 </head>
 <body>
-
-<!-- ===== LOCK SCREEN ===== -->
-<div id="lockScreen">
-  <div class="lock-time" id="lockTime">--:--</div>
-  <div class="lock-date" id="lockDate">-- 月 -- 日</div>
-  <div class="lock-avatar" id="lockAvatar">GG</div>
-  <div class="lock-name" id="lockName">GG Dashboard</div>
-  <div class="lock-sub">輸入密碼解鎖</div>
-  <form id="lockForm" onsubmit="return handleLockSubmit(event)">
-    <div class="lock-input-wrap">
-      <input type="password" id="lockInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••••" autocomplete="off">
-    </div>
-  </form>
-  <div class="lock-error" id="lockError">密碼錯誤，請再試一次</div>
-  <div class="lock-biometry" id="lockBio">&#x1F5A5;</div>
-</div>
 
 <!-- ===== MAIN APP ===== -->
 <div id="container">
@@ -316,56 +283,6 @@ canvas#costChart{width:100% !important;height:180px !important;border-radius:8px
 /* ============================================
    GG Dashboard - Main Application Script
    ============================================ */
-
-// --- Lock Screen ---
-var lockCode = localStorage.getItem('gg_lock') || '1234';
-var lockAttempts = 0;
-
-function handleLockSubmit(e) {
-  e.preventDefault();
-  var input = document.getElementById('lockInput');
-  var val = input.value;
-  var err = document.getElementById('lockError');
-  if (val === lockCode) {
-    document.getElementById('lockScreen').classList.add('hidden');
-    document.getElementById('container').classList.add('unlocked');
-    err.classList.remove('show');
-    input.value = '';
-    fetchData();
-    startAutoRefresh();
-  } else {
-    lockAttempts++;
-    err.classList.add('show');
-    input.value = '';
-    input.focus();
-  }
-  return false;
-}
-
-// Show time on lock screen
-function updateLockTime() {
-  var now = new Date();
-  var h = String(now.getHours()).padStart(2,'0');
-  var m = String(now.getMinutes()).padStart(2,'0');
-  document.getElementById('lockTime').textContent = h + ':' + m;
-  var months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
-  var days = ['日','一','二','三','四','五','六'];
-  document.getElementById('lockDate').textContent = months[now.getMonth()] + ' ' + now.getDate() + '日 星期' + days[now.getDay()];
-}
-updateLockTime();
-setInterval(updateLockTime, 30000);
-
-document.getElementById('lockInput').addEventListener('input', function() {
-  if (this.value.length >= 4) {
-    document.getElementById('lockForm').dispatchEvent(new Event('submit'));
-  }
-});
-
-// Biometry button
-document.getElementById('lockBio').addEventListener('click', function() {
-  document.getElementById('lockInput').value = lockCode;
-  document.getElementById('lockForm').dispatchEvent(new Event('submit'));
-});
 
 // --- Tabs ---
 var tabButtons = document.querySelectorAll('.ios-tab-item');
@@ -728,21 +645,9 @@ function startAutoRefresh() {
   refreshInterval = setInterval(fetchData, 30000);
 }
 
-// --- Key shortcut for re-lock ---
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape' && e.shiftKey) {
-    document.getElementById('lockScreen').classList.remove('hidden');
-    document.getElementById('container').classList.remove('unlocked');
-    document.getElementById('lockInput').focus();
-  }
-});
-
-// --- Handle visibility change for background refresh ---
-document.addEventListener('visibilitychange', function() {
-  if (!document.hidden && document.getElementById('container').classList.contains('unlocked')) {
-    fetchData();
-  }
-});
+// --- Start loading data immediately ---
+fetchData();
+startAutoRefresh();
 
 console.log('GG Dashboard loaded - iOS 18 redesign');
 </script>
