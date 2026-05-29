@@ -5,15 +5,458 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#0a0a0f">
 <title>GG Dashboard</title>
-
 <style>
-  /* Inline critical styles for first paint */
-  #container { display:block; width:100%; max-width:430px; margin:0 auto; }
-  .tab-page { display:none; padding:0 16px 20px; }
-  .tab-page.active { display:block; }
-  .shimmer-placeholder { height:80px; background:linear-gradient(90deg, rgba(128,128,128,0.1) 25%, rgba(128,128,128,0.05) 50%, rgba(128,128,128,0.1) 75%); background-size:200% 100%; animation: shimmerAnim 1.5s ease-in-out infinite; border-radius:10px; margin-bottom:12px; }
-  @keyframes shimmerAnim { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+/* ===== VARIABLES ===== */
+:root {
+  --bg: #f2f2f7;
+  --card-bg: #ffffff;
+  --card-radius: 14px;
+  --text-primary: #1c1c1e;
+  --text-secondary: #3a3a3c;
+  --text-tertiary: #8e8e93;
+  --separator: #c6c6c8;
+  --tab-bg: rgba(255,255,255,0.94);
+  --tab-border: rgba(0,0,0,0.1);
+  --green: #34c759;
+  --yellow: #ff9500;
+  --red: #ff3b30;
+  --blue: #007aff;
+  --system-font: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0a0f;
+    --card-bg: #1c1c1e;
+    --text-primary: #ffffff;
+    --text-secondary: #ebebf0;
+    --text-tertiary: #8e8e93;
+    --separator: #38383a;
+    --tab-bg: rgba(28,28,30,0.94);
+    --tab-border: rgba(255,255,255,0.08);
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: var(--system-font);
+  background: var(--bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ===== SAFE AREA ===== */
+#container {
+  max-width: 430px;
+  margin: 0 auto;
+  padding: env(safe-area-inset-top, 0px) 0 calc(env(safe-area-inset-bottom, 0px) + 88px) 0;
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.ios-header {
+  padding: 12px 20px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ios-header-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+.ios-header-sub {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+.ios-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ios-status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.ios-status-dot.green { background: var(--green); }
+.ios-status-dot.yellow { background: var(--yellow); }
+.ios-status-dot.red { background: var(--red); }
+.ios-status-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+}
+
+/* ===== SECTION LABEL ===== */
+.ios-section-label {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text-primary);
+  padding: 20px 20px 8px;
+}
+
+/* ===== CARDS ===== */
+.ios-card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  margin: 0 16px 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.ios-card-header {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+/* ===== MACHINE CARD ===== */
+.machine-card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  margin: 0 16px 10px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  position: relative;
+}
+.machine-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.machine-card-name {
+  font-size: 17px;
+  font-weight: 600;
+}
+.machine-card-status {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.machine-card-status.online { background: rgba(52,199,89,0.15); color: var(--green); }
+.machine-card-status.offline { background: rgba(255,59,48,0.15); color: var(--red); }
+.machine-stats {
+  display: flex;
+  gap: 12px;
+}
+.machine-stat {
+  flex: 1;
+}
+.machine-stat-bar {
+  height: 6px;
+  background: var(--separator);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.machine-stat-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+.machine-stat-fill.green { background: var(--green); }
+.machine-stat-fill.yellow { background: var(--yellow); }
+.machine-stat-fill.red { background: var(--red); }
+.machine-stat-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ===== AGENT CARD ===== */
+.agent-card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  margin: 0 16px 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+.agent-card-header {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+.agent-card-header:active {
+  opacity: 0.6;
+}
+.agent-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+.agent-avatar.main { background: linear-gradient(135deg, #007aff, #5856d6); }
+.agent-avatar.work { background: linear-gradient(135deg, #ff9500, #ff3b30); }
+.agent-avatar.person { background: linear-gradient(135deg, #34c759, #30b0c7); }
+.agent-meta {
+  flex: 1;
+  min-width: 0;
+}
+.agent-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+.agent-role {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+.agent-expand-icon {
+  color: var(--text-tertiary);
+  font-size: 12px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.agent-card.expanded .agent-expand-icon {
+  transform: rotate(180deg);
+}
+.agent-card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.agent-card.expanded .agent-card-body {
+  max-height: 1200px;
+}
+.agent-card-body-inner {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--separator);
+}
+.agent-thought-section {
+  padding: 10px 0;
+}
+.agent-thought-section + .agent-thought-section {
+  border-top: 1px solid var(--separator);
+}
+.agent-thought-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.agent-thought-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ===== ACTIVITY LIST ===== */
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 8px 0;
+  gap: 10px;
+}
+.activity-item + .activity-item {
+  border-top: 1px solid var(--separator);
+}
+.activity-time {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  min-width: 44px;
+  font-variant-numeric: tabular-nums;
+}
+.activity-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+/* ===== COST TAB ===== */
+.cost-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+.cost-header-row + .cost-header-row {
+  border-top: 1px solid var(--separator);
+}
+.cost-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.cost-value {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.cost-value.usd { color: var(--blue); }
+.cost-value.cny { color: var(--yellow); }
+.cost-value.green { color: var(--green); }
+.cost-note {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* ===== SYSTEM SUMMARY ===== */
+.sys-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+.sys-row + .sys-row {
+  border-top: 1px solid var(--separator);
+}
+.sys-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.sys-value {
+  font-weight: 600;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.sys-service-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.sys-service-dot.green { background: var(--green); }
+.sys-service-dot.yellow { background: var(--yellow); }
+.sys-service-dot.red { background: var(--red); }
+
+/* ===== PERSONAL TAB ===== */
+.profile-header-card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  margin: 0 16px 12px;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.profile-avatar-large {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #007aff, #5856d6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 auto 10px;
+}
+.profile-name {
+  font-size: 22px;
+  font-weight: 700;
+}
+.profile-role {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+.reminder-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+.reminder-row + .reminder-row {
+  border-top: 1px solid var(--separator);
+}
+
+/* ===== SHIMMER ===== */
+.shimmer-placeholder {
+  height: 80px;
+  background: linear-gradient(90deg, var(--card-bg) 25%, var(--separator) 50%, var(--card-bg) 75%);
+  background-size: 200% 100%;
+  animation: shimmerAnim 1.5s ease-in-out infinite;
+  border-radius: 10px;
+  margin: 0 16px 12px;
+}
+@keyframes shimmerAnim {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ===== TAB BAR ===== */
+.ios-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--tab-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid var(--tab-border);
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 4px 0 calc(env(safe-area-inset-bottom, 0px) + 4px);
+  z-index: 100;
+  max-width: 430px;
+  margin: 0 auto;
+}
+.ios-tab-item {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 12px;
+  min-width: 56px;
+  min-height: 44px;
+  transition: none;
+}
+.ios-tab-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+.ios-tab-label {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+.ios-tab-item.active .ios-tab-label {
+  color: var(--blue);
+}
+
+/* ===== TAB PAGES ===== */
+.tab-page { display: none; }
+.tab-page.active { display: block; }
+
+/* ===== NO DATA ===== */
+.empty-state {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text-tertiary);
+  font-size: 15px;
+}
 </style>
 </head>
 <body>
@@ -25,119 +468,58 @@
   <div class="ios-header">
     <div>
       <div class="ios-header-title">Dashboard</div>
-      <div class="ios-header-sub" id="headerSub">載入中...</div>
+      <div class="ios-header-sub" id="headerSub">Loading...</div>
     </div>
     <div class="ios-header-right">
-      <span class="ios-status-dot online" id="statusDot"></span>
+      <span class="ios-status-dot green" id="statusDot"></span>
+      <span class="ios-status-label" id="statusLabel">All OK</span>
     </div>
   </div>
 
-  <!-- ===== TAB: HOME ===== -->
-  <div class="tab-page active" id="tabHome">
-
-    <div class="ios-card">
-      <div class="ios-card-header">今日概覽</div>
-      <div class="ios-report-text" id="dailyReport">載入中...</div>
+  <!-- ===== TAB: SYSTEM ===== -->
+  <div class="tab-page active" id="tabSystem">
+    <div id="machineCards"></div>
+    <div class="ios-card" id="systemSummaryCard">
+      <div class="ios-card-header">System</div>
+      <div id="systemSummary"><div class="shimmer-placeholder"></div></div>
     </div>
-
-    <div class="ios-card">
-      <div class="ios-card-header">今日行程</div>
-      <div class="timeline" id="todaySchedule">
-        <div class="shimmer-placeholder"></div>
-      </div>
+    <div class="ios-card" id="activityCard">
+      <div class="ios-card-header">Activity</div>
+      <div id="activityList"><div class="shimmer-placeholder"></div></div>
     </div>
-
-  </div>
-
-  <!-- ===== TAB: AGENTS ===== -->
-  <div class="tab-page" id="tabAgents">
-
-    <div class="section-label">Agent 團隊</div>
-    <div id="agentList">
-      <div class="shimmer-placeholder"></div>
-      <div class="shimmer-placeholder"></div>
-      <div class="shimmer-placeholder"></div>
-    </div>
-
-    <!-- Agent Thoughts -->
-    <div class="section-label" style="margin-top:16px">Agent 思維</div>
-    <div class="ios-card" id="agentThoughtsCard">
-      <div id="hThoughts"></div>
-      <div id="wThoughts"></div>
-      <div id="pThoughts"></div>
-    </div>
-
-    <!-- Agent Needs -->
-    <div class="section-label">Agent 需求</div>
-    <div class="ios-card" id="agentNeedsCard">
-      <div id="hNeeds"></div>
-      <div id="pNeeds"></div>
-    </div>
-
-    <!-- Agent Growth -->
-    <div class="section-label">學習 &amp; 不確定性</div>
-    <div class="ios-card" id="agentGrowthCard">
-      <div id="hLearnings"></div>
-      <div id="hUncertainties"></div>
-    </div>
-
   </div>
 
   <!-- ===== TAB: PERSONAL ===== -->
   <div class="tab-page" id="tabPersonal">
-
-    <div class="profile-header">
-      <div class="profile-avatar-large" id="pAvatar">GG</div>
-      <div class="profile-name" id="pName">--</div>
-      <div class="profile-role" id="pRole">--</div>
+    <div class="profile-header-card" id="profileCard">
+      <div class="profile-avatar-large">GG</div>
+      <div class="profile-name">GG System</div>
+      <div class="profile-role" id="profileRole">Dashboard</div>
     </div>
-
-    <div class="ios-card">
-      <div class="ios-card-header">個人資料</div>
-      <div class="ios-row"><span class="ios-row-label">電郵</span><span class="ios-row-value" id="pEmail">--</span></div>
-      <div class="ios-row"><span class="ios-row-label">電話</span><span class="ios-row-value" id="pPhone">--</span></div>
-      <div class="ios-row"><span class="ios-row-label">團隊</span><span class="ios-row-value" id="pTeam">--</span></div>
+    <div class="ios-card" id="reminderCard">
+      <div class="ios-card-header">Reminders</div>
+      <div id="reminderSummary"><div class="shimmer-placeholder"></div></div>
     </div>
-
-    <div class="profile-stats-grid" id="pStatsGrid">
-      <div class="profile-stat-card"><div class="profile-stat-value">--</div><div class="profile-stat-label">--</div></div>
-      <div class="profile-stat-card"><div class="profile-stat-value">--</div><div class="profile-stat-label">--</div></div>
-      <div class="profile-stat-card"><div class="profile-stat-value">--</div><div class="profile-stat-label">--</div></div>
+    <div class="ios-card" id="upTimeCard">
+      <div class="ios-card-header">System Info</div>
+      <div id="systemInfo"><div class="shimmer-placeholder"></div></div>
     </div>
+  </div>
 
+  <!-- ===== TAB: AGENTS ===== -->
+  <div class="tab-page" id="tabAgents">
+    <div id="agentThoughtCards"><div class="shimmer-placeholder"></div><div class="shimmer-placeholder"></div><div class="shimmer-placeholder"></div></div>
   </div>
 
   <!-- ===== TAB: COST ===== -->
   <div class="tab-page" id="tabCost">
-
-    <div class="ios-card">
-      <div class="ios-card-header">成本摘要</div>
-      <div class="cost-summary" id="costSummary">
-        <div class="cost-summary-item"><div class="cost-summary-value">--</div><div class="cost-summary-label">總成本</div></div>
-        <div class="cost-summary-item"><div class="cost-summary-value">--</div><div class="cost-summary-label">預算</div></div>
-        <div class="cost-summary-item"><div class="cost-summary-value">--</div><div class="cost-summary-label">效率</div></div>
-      </div>
+    <div class="ios-card" id="costOverviewCard">
+      <div class="ios-card-header">Cost Overview</div>
+      <div id="costOverview"><div class="shimmer-placeholder"></div></div>
     </div>
-
-    <div class="ios-card">
-      <div class="ios-card-header">Agent 成本分佈</div>
-      <div id="costAgentList">
-        <div class="shimmer-placeholder"></div>
-      </div>
-      <div class="section-divider"></div>
-      <div style="margin-top:8px">
-        <canvas id="costChart" width="350" height="180" style="width:100%;height:180px;border-radius:8px;"></canvas>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ===== TAB: LAST UPDATE ===== -->
-  <div class="tab-page" id="tabLastUpdate">
-    <div class="update-section">
-      <div class="update-icon">&#x2705;</div>
-      <div class="update-label">最後更新</div>
-      <div class="update-time" id="lastUpdateTime">--</div>
+    <div class="ios-card" id="costDetailCard">
+      <div class="ios-card-header">DeepSeek Details</div>
+      <div id="costDetails"><div class="shimmer-placeholder"></div></div>
     </div>
   </div>
 
@@ -145,403 +527,273 @@
 
 <!-- ===== BOTTOM TAB BAR ===== -->
 <div class="ios-tab-bar" id="tabBar">
-  <button class="ios-tab-item active" data-tab="tabHome">
-    <span class="ios-tab-icon">&#x1F3E0;</span>
-    <span class="ios-tab-label">Home</span>
-  </button>
-  <button class="ios-tab-item" data-tab="tabAgents">
-    <span class="ios-tab-icon">&#x1F465;</span>
-    <span class="ios-tab-label">Agents</span>
+  <button class="ios-tab-item active" data-tab="tabSystem">
+    <span class="ios-tab-icon">🖥</span>
+    <span class="ios-tab-label">System</span>
   </button>
   <button class="ios-tab-item" data-tab="tabPersonal">
-    <span class="ios-tab-icon">&#x1F464;</span>
-    <span class="ios-tab-label">Profile</span>
+    <span class="ios-tab-icon">👤</span>
+    <span class="ios-tab-label">Personal</span>
+  </button>
+  <button class="ios-tab-item" data-tab="tabAgents">
+    <span class="ios-tab-icon">🤖</span>
+    <span class="ios-tab-label">Agents</span>
   </button>
   <button class="ios-tab-item" data-tab="tabCost">
-    <span class="ios-tab-icon">&#x1F4B0;</span>
+    <span class="ios-tab-icon">💰</span>
     <span class="ios-tab-label">Cost</span>
   </button>
 </div>
 
 <script>
-/* ============================================
-   GG Dashboard - Main Application Script
-   ============================================ */
+(function() {
+  'use strict';
 
-// --- Tabs ---
-var tabButtons = document.querySelectorAll('.ios-tab-item');
-tabButtons.forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    var tabId = this.getAttribute('data-tab');
-    tabButtons.forEach(function(b) { b.classList.remove('active'); });
-    this.classList.add('active');
-    document.querySelectorAll('.tab-page').forEach(function(p) { p.classList.remove('active'); });
-    var target = document.getElementById(tabId);
-    if (target) target.classList.add('active');
-  });
-});
-
-// --- Helpers ---
-function escHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '\x26amp;')
-    .replace(/</g, '\x3C')
-    .replace(/>/g, '\x3E')
-    .replace(/"/g, '\x26quot;')
-    .replace(/'/g, '\x26#39;');
-}
-
-function setVal(id, val, suffix) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = (val != null ? val : '--') + (suffix || '');
-}
-
-function setDetail(id, html) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.innerHTML = html;
-}
-
-function setSysTag(id, text, type) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = text || '';
-  if (type) el.className = 'ios-status-dot ' + type;
-}
-
-function setAgentTag(id, text) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = text || '';
-}
-
-function renderCostChart(data) {
-  var canvas = document.getElementById('costChart');
-  if (!canvas || !data || !data.length) return;
-  var ctx = canvas.getContext('2d');
-  var dpr = window.devicePixelRatio || 1;
-  var rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.scale(dpr, dpr);
-  var w = rect.width, h = rect.height;
-  var pad = { top: 10, bottom: 20, left: 10, right: 10 };
-  var chartW = w - pad.left - pad.right;
-  var chartH = h - pad.top - pad.bottom;
-  var maxVal = Math.max.apply(null, data.map(function(d) { return Math.max(d.cost || 0, d.budget || 0); }));
-  if (maxVal === 0) maxVal = 1;
-  var barW = chartW / data.length * 0.6;
-  var gap = chartW / data.length * 0.4;
-  var colors = ['#007aff', '#34c759', '#ff9500', '#af52de', '#ff3b30'];
-  ctx.clearRect(0, 0, w, h);
-  data.forEach(function(item, i) {
-    var x = pad.left + i * (barW + gap) + gap * 0.5;
-    var costH = (item.cost / maxVal) * chartH;
-    var budgH = (item.budget / maxVal) * chartH;
-    var yBase = pad.top + chartH;
-    // budget bar (lighter)
-    ctx.fillStyle = colors[i % colors.length] + '33';
-    ctx.beginPath();
-    ctx.roundRect(x, yBase - budgH, barW, budgH, [3,3,0,0]);
-    ctx.fill();
-    // cost bar
-    ctx.fillStyle = colors[i % colors.length];
-    ctx.beginPath();
-    ctx.roundRect(x + 2, yBase - costH, barW - 4, costH, [2,2,0,0]);
-    ctx.fill();
-    // label
-    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-tertiary').trim() || '#8e8e93';
-    ctx.font = '10px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(item.agent, x + barW / 2, h - 4);
-  });
-}
-
-// roundRect polyfill for canvas
-if (!CanvasRenderingContext2D.prototype.roundRect) {
-  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, radii) {
-    var r = Array.isArray(radii) ? radii : [radii, radii, radii, radii];
-    var tl = r[0] || 0, tr = r[1] || 0, br = r[2] || 0, bl = r[3] || 0;
-    this.moveTo(x + tl, y);
-    this.lineTo(x + w - tr, y);
-    this.quadraticCurveTo(x + w, y, x + w, y + tr);
-    this.lineTo(x + w, y + h - br);
-    this.quadraticCurveTo(x + w, y + h, x + w - br, y + h);
-    this.lineTo(x + bl, y + h);
-    this.quadraticCurveTo(x, y + h, x, y + h - bl);
-    this.lineTo(x, y + tl);
-    this.quadraticCurveTo(x, y, x + tl, y);
-    this.closePath();
-    return this;
-  };
-}
-
-// --- Agent Card Expansion ---
-function setupAgentCards() {
-  document.querySelectorAll('.agent-card-header').forEach(function(h) {
-    h.addEventListener('click', function() {
-      var card = this.closest('.agent-card');
-      if (card) card.classList.toggle('expanded');
+  // --- Tab Switching ---
+  var tabButtons = document.querySelectorAll('.ios-tab-item');
+  tabButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var tabId = this.getAttribute('data-tab');
+      tabButtons.forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      document.querySelectorAll('.tab-page').forEach(function(p) { p.classList.remove('active'); });
+      var target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
     });
   });
-}
 
-// --- Fetch Data ---
-function fetchData() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'gg-data.json', true);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      try {
-        var d = JSON.parse(xhr.responseText);
-        renderData(d);
-      } catch(e) {
-        console.log('JSON parse error', e);
-      }
-    }
-  };
-  xhr.onerror = function() {
-    console.log('Fetch error');
-  };
-  xhr.send();
-}
-
-function renderData(d) {
-  if (!d) return;
-
-  // Header
-  var sub = document.getElementById('headerSub');
-  if (sub) sub.textContent = d.name || 'GG Dashboard';
-
-  // Status dot
-  var dot = document.getElementById('statusDot');
-  if (dot) dot.className = 'ios-status-dot ' + (d.status || 'online');
-
-  // --- HOME TAB ---
-  // Daily report
-  var report = document.getElementById('dailyReport');
-  if (report) report.textContent = d.dailyReport || '暫無報告';
-
-  // Schedule - READ FROM DATA, NO HARDCODING
-  var sc = document.getElementById('todaySchedule');
-  if (sc) {
-    if (d.schedule && d.schedule.length) {
-      sc.innerHTML = d.schedule.map(function(s, idx) {
-        var statusClass = '';
-        // Determine dot status based on time
-        if (s.time) {
-          var now = new Date();
-          var parts = s.time.split(':');
-          var eventHour = parseInt(parts[0], 10);
-          var eventMin = parseInt(parts[1], 10);
-          var currentHour = now.getHours();
-          var currentMin = now.getMinutes();
-          var eventTotal = eventHour * 60 + eventMin;
-          var currentTotal = currentHour * 60 + currentMin;
-          if (eventTotal < currentTotal) statusClass = 'past';
-          else if (eventTotal <= currentTotal + 60) statusClass = 'current';
-          else statusClass = 'upcoming';
-        }
-        var locHtml = s.location ? '<div class="timeline-desc">' + escHtml(s.location) + '</div>' : '';
-        return '<div class="timeline-item">' +
-          '<span class="timeline-time">' + escHtml(s.time) + '</span>' +
-          '<span class="timeline-dot ' + statusClass + '"></span>' +
-          '<div class="timeline-info">' +
-          '<div class="timeline-title">' + escHtml(s.title) + '</div>' +
-          locHtml + '</div></div>';
-      }).join('');
-    } else {
-      sc.innerHTML = '<div class="ios-row"><span class="ios-row-label" style="color:var(--text-tertiary)">今日無行程</span></div>';
-    }
+  // --- Helpers ---
+  function esc(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
-  // --- AGENTS TAB ---
-  // Agent list cards
-  var agentList = document.getElementById('agentList');
-  if (agentList && d.agents && d.agents.length) {
-    agentList.innerHTML = d.agents.map(function(a) {
-      var statusBadge = a.status || 'active';
-      var avatarClasses = 'agent-avatar';
-      if (a.id) avatarClasses += ' ' + a.id;
+  function barClass(val) {
+    if (val >= 85) return 'red';
+    if (val >= 70) return 'yellow';
+    return 'green';
+  }
 
-      // Stats
-      var statsHtml = '';
-      if (a.stats) {
-        statsHtml = '<div class="agent-stats-grid">' +
-          Object.keys(a.stats).map(function(k) {
-            return '<div class="agent-stat-item"><div class="agent-stat-value">' +
-              escHtml(String(a.stats[k])) + '</div><div class="agent-stat-label">' +
-              escHtml(k) + '</div></div>';
-          }).join('') + '</div>';
-      }
+  // --- Render ---
+  function renderData(d) {
+    if (!d) return;
 
-      // Tags
-      var tagsHtml = '';
-      if (a.tags && a.tags.length) {
-        tagsHtml = '<div class="agent-tags">' +
-          a.tags.map(function(t) { return '<span class="agent-tag">' + escHtml(t) + '</span>'; }).join('') +
-          '</div>';
-      }
+    // Header
+    var headerSub = document.getElementById('headerSub');
+    if (headerSub) headerSub.textContent = 'Updated ' + (d.ts || '--');
 
-      // Thoughts
-      var thoughtHtml = '';
-      if (a.thoughts) {
-        thoughtHtml += '<div class="agent-thought-section"><div class="agent-thought-label">想法</div><div class="agent-thought-text">' + escHtml(a.thoughts) + '</div></div>';
-      }
-      if (a.needs) {
-        thoughtHtml += '<div class="agent-thought-section"><div class="agent-thought-label">需求</div><div class="agent-thought-text">' + escHtml(a.needs) + '</div></div>';
-      }
-      if (a.learnings) {
-        thoughtHtml += '<div class="agent-thought-section"><div class="agent-thought-label">學習</div><div class="agent-thought-text">' + escHtml(a.learnings) + '</div></div>';
-      }
-      if (a.uncertainties) {
-        thoughtHtml += '<div class="agent-thought-section"><div class="agent-thought-label">不確定性</div><div class="agent-thought-text">' + escHtml(a.uncertainties) + '</div></div>';
-      }
+    var dot = document.getElementById('statusDot');
+    if (dot) dot.className = 'ios-status-dot ' + (d.badge_color || 'green');
 
-      return '<div class="agent-card">' +
-        '<div class="agent-card-header">' +
-        '<div class="' + avatarClasses + '">' + escHtml((a.name || '?')[0]) + '</div>' +
-        '<div class="agent-meta">' +
-        '<div class="agent-name">' + escHtml(a.name) + '</div>' +
-        '<div class="agent-role">' + escHtml(a.role) + '</div></div>' +
-        '<span class="agent-status-badge ' + statusBadge + '">' +
-        (statusBadge === 'active' ? 'Active' : statusBadge === 'idle' ? 'Idle' : statusBadge) + '</span>' +
-        '<span class="agent-expand-icon">&#x25BC;</span></div>' +
-        '<div class="agent-card-body"><div class="agent-card-body-inner">' +
-        tagsHtml + statsHtml + thoughtHtml + '</div></div></div>';
+    var label = document.getElementById('statusLabel');
+    if (label) label.textContent = d.badge_text || 'All OK';
+
+    // ---- TAB: SYSTEM ----
+    var agents = d.agents || {};
+    var machineIds = ['main', 'work', 'person'];
+    var agentNames = { main: 'Hermes Main', work: 'GG-Work', person: 'GG-Person' };
+
+    var machineHtml = machineIds.map(function(id) {
+      var m = agents[id];
+      if (!m) return '';
+      var online = m.online;
+      var statusClass = online ? 'online' : 'offline';
+      var statusText = online ? 'Online' : 'Offline';
+      var cpuPct = m.cpu || 0;
+      var memPct = m.mem || 0;
+      var diskPct = m.disk || 0;
+      return '<div class="machine-card">' +
+        '<div class="machine-card-header">' +
+        '<div class="machine-card-name">' + esc(agentNames[id] || id) + '</div>' +
+        '<span class="machine-card-status ' + statusClass + '">' + statusText + '</span>' +
+        '</div>' +
+        '<div class="machine-stats">' +
+        '<div class="machine-stat">' +
+        '<div class="machine-stat-bar"><div class="machine-stat-fill ' + barClass(cpuPct) + '" style="width:' + cpuPct + '%"></div></div>' +
+        '<div class="machine-stat-label">CPU ' + cpuPct + '%</div>' +
+        '</div>' +
+        '<div class="machine-stat">' +
+        '<div class="machine-stat-bar"><div class="machine-stat-fill ' + barClass(memPct) + '" style="width:' + memPct + '%"></div></div>' +
+        '<div class="machine-stat-label">MEM ' + memPct + '%</div>' +
+        '</div>' +
+        '<div class="machine-stat">' +
+        '<div class="machine-stat-bar"><div class="machine-stat-fill ' + barClass(diskPct) + '" style="width:' + diskPct + '%"></div></div>' +
+        '<div class="machine-stat-label">DISK ' + diskPct + '%</div>' +
+        '</div>' +
+        '</div>' +
+        (m.uptime ? '<div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">Uptime: ' + esc(m.uptime) + '</div>' : '') +
+        '</div>';
     }).join('');
-    setupAgentCards();
-  }
+    var machineEl = document.getElementById('machineCards');
+    if (machineEl) machineEl.innerHTML = machineHtml;
 
-  // Agent Thoughts section
-  var hThoughts = document.getElementById('hThoughts');
-  var wThoughts = document.getElementById('wThoughts');
-  var pThoughts = document.getElementById('pThoughts');
+    // System summary
+    var sys = d.system;
+    var sysHtml = '';
+    if (sys) {
+      var services = sys.services || {};
+      sysHtml += '<div class="sys-row"><span class="sys-label">Load</span><span class="sys-value">' + esc(sys.load) + '</span></div>';
+      sysHtml += '<div class="sys-row"><span class="sys-label">Uptime</span><span class="sys-value">' + esc(sys.uptime) + '</span></div>';
+      Object.keys(services).forEach(function(k) {
+        var color = services[k] || 'green';
+        sysHtml += '<div class="sys-row"><span class="sys-label">' + esc(k) + '</span><span class="sys-value"><span class="sys-service-dot ' + color + '"></span>' + esc(color) + '</span></div>';
+      });
+    }
+    var sysEl = document.getElementById('systemSummary');
+    if (sysEl) sysEl.innerHTML = sysHtml || '<div class="empty-state">No system data</div>';
 
-  if (hThoughts && d.agents) {
-    var thoughtsList = d.agents.filter(function(a) { return a.thoughts; });
-    hThoughts.innerHTML = thoughtsList.length ? thoughtsList.map(function(a) {
-      return '<div class="agent-thought-section"><span style="font-weight:600">' + escHtml(a.name) + ':</span> ' + escHtml(a.thoughts) + '</div>';
-    }).join('') : '<div class="text-tertiary" style="font-size:14px">暫無想法</div>';
-  }
-  if (wThoughts) wThoughts.style.display = 'none';
-  if (pThoughts) pThoughts.style.display = 'none';
+    // Activity
+    var activity = d.activity || [];
+    var actHtml = activity.length
+      ? activity.map(function(a) {
+          return '<div class="activity-item"><span class="activity-time">' + esc(a.time) + '</span><span class="activity-text">' + esc(a.text) + '</span></div>';
+        }).join('')
+      : '<div class="empty-state">No recent activity</div>';
+    var actEl = document.getElementById('activityList');
+    if (actEl) actEl.innerHTML = actHtml;
 
-  // Agent Needs section
-  var hNeeds = document.getElementById('hNeeds');
-  var pNeeds = document.getElementById('pNeeds');
-  if (hNeeds && d.agents) {
-    var needsList = d.agents.filter(function(a) { return a.needs; });
-    hNeeds.innerHTML = needsList.length ? needsList.map(function(a) {
-      return '<div class="agent-thought-section"><span style="font-weight:600">' + escHtml(a.name) + ':</span> ' + escHtml(a.needs) + '</div>';
-    }).join('') : '<div class="text-tertiary" style="font-size:14px">暫無需求</div>';
-  }
-  if (pNeeds) pNeeds.style.display = 'none';
+    // ---- TAB: PERSONAL ----
+    var reminders = d.reminders || {};
+    var remHtml = '<div class="reminder-row"><span class="sys-label">Total</span><span class="sys-value">' + (reminders.total || 0) + '</span></div>' +
+      '<div class="reminder-row"><span class="sys-label">Overdue</span><span class="sys-value" style="color:' + ((reminders.overdue || 0) > 0 ? 'var(--red)' : 'var(--green)') + '">' + (reminders.overdue || 0) + '</span></div>' +
+      '<div class="reminder-row"><span class="sys-label">Errors</span><span class="sys-value" style="color:' + ((reminders.errors || 0) > 0 ? 'var(--red)' : 'var(--green)') + '">' + (reminders.errors || 0) + '</span></div>';
+    var remEl = document.getElementById('reminderSummary');
+    if (remEl) remEl.innerHTML = remHtml;
 
-  // Agent Growth section
-  var hLearnings = document.getElementById('hLearnings');
-  var hUncertainties = document.getElementById('hUncertainties');
-  if (hLearnings && d.agents) {
-    var learnList = d.agents.filter(function(a) { return a.learnings; });
-    hLearnings.innerHTML = '<div class="agent-thought-label">學習所得</div>' +
-      (learnList.length ? learnList.map(function(a) {
-        return '<div class="agent-thought-text" style="padding:4px 0"><span style="font-weight:600">' + escHtml(a.name) + ':</span> ' + escHtml(a.learnings) + '</div>';
-      }).join('') : '<div class="text-tertiary" style="font-size:14px;padding:4px 0">暫無記錄</div>');
-  }
-  if (hUncertainties && d.agents) {
-    var uncerList = d.agents.filter(function(a) { return a.uncertainties; });
-    hUncertainties.innerHTML = '<div class="agent-thought-label" style="margin-top:8px">不確定性</div>' +
-      (uncerList.length ? uncerList.map(function(a) {
-        return '<div class="agent-thought-text" style="padding:4px 0"><span style="font-weight:600">' + escHtml(a.name) + ':</span> ' + escHtml(a.uncertainties) + '</div>';
-      }).join('') : '<div class="text-tertiary" style="font-size:14px;padding:4px 0">暫無記錄</div>');
-  }
+    // System info for Personal tab
+    var infoHtml = '';
+    if (sys) {
+      infoHtml += '<div class="sys-row"><span class="sys-label">CPU Temp</span><span class="sys-value">' + esc(sys.temp) + '%</span></div>';
+      infoHtml += '<div class="sys-row"><span class="sys-label">Memory</span><span class="sys-value">' + esc(sys.memory) + '%</span></div>';
+      infoHtml += '<div class="sys-row"><span class="sys-label">Disk</span><span class="sys-value">' + esc(sys.disk) + '%</span></div>';
+      infoHtml += '<div class="sys-row"><span class="sys-label">Load</span><span class="sys-value">' + esc(sys.load) + '</span></div>';
+      infoHtml += '<div class="sys-row"><span class="sys-label">Uptime</span><span class="sys-value">' + esc(sys.uptime) + '</span></div>';
+    } else {
+      infoHtml = '<div class="empty-state">No system info</div>';
+    }
+    var infoEl = document.getElementById('systemInfo');
+    if (infoEl) infoEl.innerHTML = infoHtml;
 
-  // --- PERSONAL TAB ---
-  if (d.personal) {
-    var p = d.personal;
-    setVal('pName', p.name);
-    setVal('pRole', p.role ? p.role + (p.team ? ' - ' + p.team : '') : '');
-    setVal('pEmail', p.email);
-    setVal('pPhone', p.phone);
-    setVal('pTeam', p.team);
-    if (p.avatar) {
-      var av = document.getElementById('pAvatar');
-      if (av) av.textContent = p.avatar;
+    // ---- TAB: AGENTS ----
+    var agentIds = ['main', 'work', 'person'];
+    var agentDisplayNames = { main: 'Hermes Main', work: 'GG-Work', person: 'GG-Person' };
+    var thoughtHtml = agentIds.map(function(id) {
+      var a = agents[id];
+      if (!a) return '';
+      var hasThoughts = a.thoughts || a.needs || a.learnings || a.uncertainties;
+      if (!hasThoughts) return '';
+      var sections = '';
+      if (a.thoughts) {
+        sections += '<div class="agent-thought-section"><div class="agent-thought-label">Thoughts</div><div class="agent-thought-text">' + esc(a.thoughts) + '</div></div>';
+      }
+      if (a.needs && a.needs !== 'None') {
+        sections += '<div class="agent-thought-section"><div class="agent-thought-label">Needs</div><div class="agent-thought-text">' + esc(a.needs) + '</div></div>';
+      }
+      if (a.learnings && a.learnings !== 'None') {
+        sections += '<div class="agent-thought-section"><div class="agent-thought-label">Learnings</div><div class="agent-thought-text">' + esc(a.learnings) + '</div></div>';
+      }
+      if (a.uncertainties && a.uncertainties !== 'None') {
+        sections += '<div class="agent-thought-section"><div class="agent-thought-label">Uncertainties</div><div class="agent-thought-text">' + esc(a.uncertainties) + '</div></div>';
+      }
+      if (!sections) return '';
+      return '<div class="agent-card expanded">' +
+        '<div class="agent-card-header">' +
+        '<div class="agent-avatar ' + id + '">' + esc(agentDisplayNames[id][0]) + '</div>' +
+        '<div class="agent-meta">' +
+        '<div class="agent-name">' + esc(agentDisplayNames[id]) + '</div>' +
+        '<div class="agent-role">' + (a.online ? 'Online' : 'Offline') + ' · CPU ' + (a.cpu || 0) + '%</div></div>' +
+        '<span class="agent-expand-icon">▼</span></div>' +
+        '<div class="agent-card-body"><div class="agent-card-body-inner">' +
+        sections + '</div></div></div>';
+    }).join('');
+    var agentEl = document.getElementById('agentThoughtCards');
+    if (agentEl) {
+      agentEl.innerHTML = thoughtHtml || '<div class="empty-state">No agent thoughts available</div>';
+      // Enable expansion toggle
+      agentEl.querySelectorAll('.agent-card-header').forEach(function(h) {
+        h.addEventListener('click', function() {
+          var card = this.closest('.agent-card');
+          if (card) card.classList.toggle('expanded');
+        });
+      });
     }
 
-    var statsGrid = document.getElementById('pStatsGrid');
-    if (statsGrid && p.stats && p.stats.length) {
-      statsGrid.innerHTML = p.stats.map(function(s) {
-        return '<div class="profile-stat-card"><div class="profile-stat-value">' +
-          escHtml(s.value) + '</div><div class="profile-stat-label">' +
-          escHtml(s.label) + '</div></div>';
-      }).join('');
+    // ---- TAB: COST ----
+    var costs = d.costs || {};
+    var totalCost = costs.total_month_cost_usd || 0;
+    var totalCostHtml = '';
+    // Collect all cost items
+    var costItems = [];
+    if (costs.deepseek != null) costItems.push({ label: 'DeepSeek API', value: costs.deepseek, unit: 'USD', cls: 'usd' });
+    if (costs.perplexity != null) costItems.push({ label: 'Perplexity', value: costs.perplexity, unit: 'USD', cls: 'usd' });
+    if (costs.digitalocean != null) costItems.push({ label: 'DigitalOcean', value: costs.digitalocean, unit: 'USD', cls: 'usd' });
+    if (costs.google_maps != null) costItems.push({ label: 'Google Maps', value: costs.google_maps, unit: 'USD', cls: 'usd' });
+    if (costs.notion != null) costItems.push({ label: 'Notion', value: costs.notion, unit: 'USD', cls: 'usd' });
+
+    totalCostHtml = costItems.map(function(item) {
+      return '<div class="cost-header-row"><span class="cost-label">' + esc(item.label) + '</span><span class="cost-value ' + item.cls + '">$' + Number(item.value).toFixed(2) + '</span></div>';
+    }).join('');
+    totalCostHtml += '<div class="cost-header-row" style="border-top:2px solid var(--text-tertiary);margin-top:4px;padding-top:8px"><span class="cost-label" style="font-weight:600">Total Monthly</span><span class="cost-value usd" style="font-weight:700">$' + Number(totalCost).toFixed(2) + '</span></div>';
+
+    var costOvEl = document.getElementById('costOverview');
+    if (costOvEl) costOvEl.innerHTML = totalCostHtml || '<div class="empty-state">No cost data</div>';
+
+    // DeepSeek details
+    var dsHtml = '';
+    if (costs.deepseek_balance_cny != null) {
+      dsHtml += '<div class="cost-header-row"><span class="cost-label">Balance (CNY)</span><span class="cost-value cny">¥' + Number(costs.deepseek_balance_cny).toFixed(2) + '</span></div>';
     }
-  }
-
-  // --- COST TAB ---
-  if (d.costAnalysis) {
-    var c = d.costAnalysis;
-    var totalVal = c.totalCost || 0;
-    var budgetVal = c.totalBudget || 0;
-    var effVal = c.overallEfficiency || 0;
-
-    var summaryEl = document.getElementById('costSummary');
-    if (summaryEl) {
-      summaryEl.innerHTML =
-        '<div class="cost-summary-item"><div class="cost-summary-value">$' +
-        (totalVal / 1000).toFixed(1) + 'k</div><div class="cost-summary-label">總成本</div></div>' +
-        '<div class="cost-summary-item"><div class="cost-summary-value">$' +
-        (budgetVal / 1000).toFixed(1) + 'k</div><div class="cost-summary-label">預算</div></div>' +
-        '<div class="cost-summary-item"><div class="cost-summary-value ' +
-        (effVal >= 80 ? 'green' : effVal >= 60 ? '' : 'red') + '">' +
-        effVal + '%</div><div class="cost-summary-label">效率</div></div>';
+    if (costs.deepseek_tokens_30d != null) {
+      dsHtml += '<div class="cost-header-row"><span class="cost-label">Tokens (30d)</span><span class="cost-value">' + Number(costs.deepseek_tokens_30d).toLocaleString() + '</span></div>';
     }
-
-    // Agent cost rows
-    var costList = document.getElementById('costAgentList');
-    if (costList && c.agentCosts && c.agentCosts.length) {
-      costList.innerHTML = c.agentCosts.map(function(a) {
-        var pct = a.budget > 0 ? Math.round((a.cost / a.budget) * 100) : 0;
-        var barClass = pct > 90 ? 'warning' : pct > 75 ? '' : 'good';
-        return '<div class="cost-agent-row">' +
-          '<div class="cost-agent-name">' + escHtml(a.agent) + '</div>' +
-          '<div class="cost-bar-wrap"><div class="cost-bar-fill ' + barClass + '" style="width:' + pct + '%"></div></div>' +
-          '<div class="cost-agent-detail">$' + a.cost + ' / $' + a.budget + '</div></div>';
-      }).join('');
+    if (costs.note) {
+      dsHtml += '<div class="cost-note">' + esc(costs.note) + '</div>';
     }
-
-    // Chart
-    if (c.agentCosts) renderCostChart(c.agentCosts);
+    if (!dsHtml) dsHtml = '<div class="empty-state">No DeepSeek details</div>';
+    var dsEl = document.getElementById('costDetails');
+    if (dsEl) dsEl.innerHTML = dsHtml;
   }
 
-  // --- LAST UPDATE ---
-  var updateEl = document.getElementById('lastUpdateTime');
-  if (updateEl) {
-    updateEl.textContent = d.time || new Date().toLocaleString('zh-HK');
+  // --- Fetch Data ---
+  function fetchData() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'gg-data.json', true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          var d = JSON.parse(xhr.responseText);
+          renderData(d);
+        } catch(e) {
+          console.log('JSON parse error', e);
+        }
+      }
+    };
+    xhr.onerror = function() {
+      console.log('Fetch error');
+    };
+    xhr.send();
   }
-}
 
-// --- Auto Refresh ---
-var refreshInterval = null;
-function startAutoRefresh() {
-  refreshInterval = setInterval(fetchData, 30000);
-}
-
-// --- Handle visibility change for background refresh ---
-document.addEventListener('visibilitychange', function() {
-  if (!document.hidden) {
-    fetchData();
+  // --- Auto Refresh ---
+  function startAutoRefresh() {
+    setInterval(fetchData, 30000);
   }
-});
 
-// --- Startup ---
-fetchData();
-startAutoRefresh();
+  // --- Visibility ---
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) fetchData();
+  });
 
-console.log('GG Dashboard loaded - iOS 18 redesign');
+  // --- Startup ---
+  fetchData();
+  startAutoRefresh();
+  console.log('GG Dashboard v2 — iOS HIG redesign, matching backend schema');
+})();
 </script>
 </body>
 </html>
