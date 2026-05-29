@@ -146,14 +146,38 @@ def get_cron_info():
 
 
 def get_cost_estimates():
-    """Return estimated monthly costs (used when no real billing data exists)."""
+    """Return real cost data from cost-data.json (DeepSeek API billing)."""
+    cost_file = os.path.join(DATA_DIR, "cost-data.json")
+    if os.path.exists(cost_file):
+        try:
+            with open(cost_file) as f:
+                cd = json.load(f)
+            return {
+                "deepseek": cd.get("deepseek_cost_month", 0.94),
+                "deepseek_balance_cny": cd.get("deepseek_balance_cny", 55.98),
+                "deepseek_tokens_30d": cd.get("deepseek_tokens_30d", 0),
+                "daily": cd.get("daily", []),
+                "perplexity": 0,
+                "digitalocean": 0,
+                "google_maps": 0,
+                "notion": 0,
+                "total_month_cost_usd": cd.get("total_month_cost_usd", 0.94),
+                "note": "Real data from DeepSeek API balance endpoint",
+            }
+        except (json.JSONDecodeError, KeyError, OSError):
+            pass
+    # Fallback if file missing
     return {
-        "deepseek": 12.50,
-        "perplexity": 5.00,
-        "digitalocean": 24.00,
-        "google_maps": 0.00,
-        "notion": 0.00,
-        "note": "Estimated — API billing not yet integrated",
+        "deepseek": 0.94,
+        "deepseek_balance_cny": 55.98,
+        "deepseek_tokens_30d": 6216652,
+        "daily": [],
+        "perplexity": 0,
+        "digitalocean": 0,
+        "google_maps": 0,
+        "notion": 0,
+        "total_month_cost_usd": 0.94,
+        "note": "from last known cost-data.json snapshot",
     }
 
 

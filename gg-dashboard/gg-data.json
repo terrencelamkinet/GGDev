@@ -1,0 +1,166 @@
+{
+  "ts": "18:02",
+  "hour": 18,
+  "minute": 2,
+  "system": {
+    "temp": 2,
+    "memory": 23,
+    "disk": 49,
+    "load": "0.62",
+    "uptime": "2 days, 23 hours, 58 minutes",
+    "services": {
+      "gg-reminder": "green",
+      "disk": "green",
+      "memory": "green"
+    }
+  },
+  "reminders": {
+    "total": 20,
+    "overdue": 0,
+    "errors": 0
+  },
+  "activity": [
+    {
+      "time": "18:02",
+      "text": "Dashboard data refresh"
+    },
+    {
+      "time": "23:01",
+      "text": "Cron: nightly_upgrade.log (375B)"
+    },
+    {
+      "time": "00:01",
+      "text": "Cron: nightly_report.txt (1639B)"
+    },
+    {
+      "time": "17:33",
+      "text": "Cron: memory_bridge.log (39725B)"
+    },
+    {
+      "time": "18:00",
+      "text": "Cron: guardian.log (65715B)"
+    },
+    {
+      "time": "18:01",
+      "text": "Cron: gateway.log (1049242B)"
+    },
+    {
+      "time": "09:40",
+      "text": "Cron: gateway-shutdown-diag.log (187120B)"
+    },
+    {
+      "time": "09:41",
+      "text": "Cron: gateway-exit-diag.log (42445B)"
+    },
+    {
+      "time": "18:01",
+      "text": "Cron: errors.log (827020B)"
+    },
+    {
+      "time": "13:13",
+      "text": "Cron: callback_daemon.log (134755B)"
+    }
+  ],
+  "agents": {
+    "main": {
+      "cpu": 2,
+      "mem": 23,
+      "disk": 49,
+      "load": "0.62",
+      "uptime": "2 days, 23 hours, 58 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": false
+      },
+      "online": true,
+      "cron_jobs": 12,
+      "thoughts": "Awaiting Terrence commands, managing dashboard, handling Telegram",
+      "needs": "None",
+      "learnings": "Dashboard redesign in progress - 3 pages: System, Agents, Cost",
+      "uncertainties": "None"
+    },
+    "work": {
+      "cpu": 8,
+      "mem": 33,
+      "disk": 50,
+      "load": "0.13",
+      "uptime": "1 week, 3 days, 5 hours, 36 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181",
+      "thoughts": "Dashboard data collecting, monitoring cron jobs, waiting for tasks",
+      "needs": "None",
+      "learnings": "Git push to DO workflow added to .learnings",
+      "uncertainties": "None"
+    },
+    "person": {
+      "cpu": 4,
+      "mem": 31,
+      "disk": 61,
+      "load": "0.08",
+      "uptime": "1 week, 3 days, 5 hours, 36 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182",
+      "thoughts": "Awaiting Terrence or Aggie requests",
+      "needs": "None",
+      "learnings": "None",
+      "uncertainties": "None"
+    }
+  },
+  "badge_color": "green",
+  "badge_text": "● All OK",
+  "costs": {
+    "deepseek": 0.94,
+    "deepseek_balance_cny": 55.98,
+    "deepseek_tokens_30d": 6216652,
+    "daily": [
+      {
+        "date": "2026-05-25",
+        "cost": 0.13,
+        "tokens": 852932,
+        "sessions": 25
+      },
+      {
+        "date": "2026-05-26",
+        "cost": 0.12,
+        "tokens": 829853,
+        "sessions": 13
+      },
+      {
+        "date": "2026-05-27",
+        "cost": 0.17,
+        "tokens": 1120924,
+        "sessions": 22
+      },
+      {
+        "date": "2026-05-28",
+        "cost": 0.25,
+        "tokens": 1627513,
+        "sessions": 45
+      },
+      {
+        "date": "2026-05-29",
+        "cost": 0.27,
+        "tokens": 1785430,
+        "sessions": 64
+      }
+    ],
+    "perplexity": 0,
+    "digitalocean": 0,
+    "google_maps": 0,
+    "notion": 0,
+    "total_month_cost_usd": 0.94,
+    "note": "Real data from DeepSeek API balance endpoint"
+  },
+  "update_source": "hermes_update_data.py"
+}
