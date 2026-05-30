@@ -35,7 +35,7 @@
 - 改動 cron jobs
 
 ### 🔒 執行方式
-- Telegram channel 目前設為 `dmPolicy: open`（任何人都可以 send message）
+**已限制：`allowed_chats: '7380833889'`（只接受 Terrence DM）**
 - 但會根據 sender ID 限制權限
 - 如有陌生人 contact，會報告俾 Terrence
 
