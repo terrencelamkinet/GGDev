@@ -1,14 +1,14 @@
 {
-  "ts": "02:25",
+  "ts": "02:55",
   "hour": 2,
-  "minute": 25,
-  "pushed_at": "2026-05-31 02:30 HKT",
+  "minute": 55,
+  "pushed_at": "2026-05-31 03:00 HKT",
   "system": {
-    "cpu": 28,
-    "mem": 25,
+    "cpu": 21,
+    "mem": 26,
     "disk": 56,
-    "load": "0.21",
-    "uptime": "4 days, 8 hours, 21 minutes",
+    "load": "0.42",
+    "uptime": "4 days, 8 hours, 51 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "02:25",
+      "time": "02:55",
       "text": "Dashboard data refresh"
     },
     {
@@ -34,20 +34,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "02:05",
-      "text": "Cron: memory_bridge.log (52384B)"
+      "time": "02:33",
+      "text": "Cron: memory_bridge.log (52632B)"
     },
     {
       "time": "08:32",
       "text": "Cron: mcp-stderr.log (17308B)"
     },
     {
-      "time": "02:25",
-      "text": "Cron: guardian.log (95979B)"
+      "time": "02:55",
+      "text": "Cron: guardian.log (96447B)"
     },
     {
-      "time": "02:25",
-      "text": "Cron: gateway.log (1664220B)"
+      "time": "02:55",
+      "text": "Cron: gateway.log (1684516B)"
     },
     {
       "time": "09:40",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 28,
-      "mem": 25,
+      "cpu": 21,
+      "mem": 26,
       "disk": 56,
-      "load": "0.21",
-      "uptime": "4 days, 8 hours, 21 minutes",
+      "load": "0.42",
+      "uptime": "4 days, 8 hours, 51 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "\u6e05\u6668 \u2014 orchestrating 4% CPU. GG-Work(8%): \u6e05\u6668 \u2014 GG-Work VM, CPU 4%. Health beat \u904b\u884c\u4e2d\uff0ccron jobs \u5df2\u76e3\u63a7\u3002 Gate; GG-Person(0%): \u6e05\u6668 \u2014 GG-Person VM, CPU 4%. \u9592\u7f6e\u4e2d\u7b49\u7dca request\u3002 \u6e96\u5099\u8655\u7406 Aggie \u6216\u5bb6\u5ead\u76f8\u95dc\u5605\u4efb.",
+      "thoughts": "\u6e05\u6668 \u2014 orchestrating 28% CPU. GG-Work(8%): \u6e05\u6668 \u2014 GG-Work VM, CPU 8%. Health beat \u904b\u884c\u4e2d\uff0ccron jobs \u5df2\u76e3\u63a7\u3002 Gate; GG-Person(52%): \u6e05\u6668 \u2014 GG-Person VM, CPU 52%. \u9592\u7f6e\u4e2d\u7b49\u7dca request\u3002 \u6e96\u5099\u8655\u7406 Aggie \u6216\u5bb6\u5ead\u76f8\u95dc\u5605.",
       "needs": [
         "\u6709\u65b0\u4efb\u52d9\u6216\u512a\u5148\u7d1a\u8b8a\u66f4",
         "\u7cfb\u7d71\u8868\u73fe\u53cd\u994b",
@@ -91,11 +91,11 @@
       ]
     },
     "work": {
-      "cpu": 8,
+      "cpu": 4,
       "mem": 35,
       "disk": 51,
-      "load": "0.62",
-      "uptime": "1 week, 4 days, 13 hours, 59 minutes",
+      "load": "0.16",
+      "uptime": "1 week, 4 days, 14 hours, 29 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -120,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 52,
+      "cpu": 50,
       "mem": 32,
       "disk": 62,
-      "load": "0.20",
-      "uptime": "1 week, 4 days, 13 hours, 59 minutes",
+      "load": "0.34",
+      "uptime": "1 week, 4 days, 14 hours, 29 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -132,7 +132,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "\u6e05\u6668 \u2014 GG-Person VM, CPU 0%. \u9592\u7f6e\u4e2d\u7b49\u7dca request\u3002 \u6e96\u5099\u8655\u7406 Aggie \u6216\u5bb6\u5ead\u76f8\u95dc\u5605\u4efb\u52d9\u3002",
+      "thoughts": "\u6e05\u6668 \u2014 GG-Person VM, CPU 52%. \u9592\u7f6e\u4e2d\u7b49\u7dca request\u3002 \u6e96\u5099\u8655\u7406 Aggie \u6216\u5bb6\u5ead\u76f8\u95dc\u5605\u4efb\u52d9\u3002",
       "needs": [
         "\u66f4\u591a\u500b\u4eba\u4efb\u52d9\u8655\u7406\uff08\u5514\u53ea health check\uff09",
         "\u8655\u7406 Aggie \u76f8\u95dc\u4e8b\u9805\uff08\u63d0\u9192\u3001schedule\uff09",
