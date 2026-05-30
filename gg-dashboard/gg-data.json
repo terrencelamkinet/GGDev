@@ -1,0 +1,23 @@
+{
+  "ts": "14:05",
+  "hour": 14,
+  "minute": 5,
+  "system": {
+    "temp": 73,
+    "memory": 36,
+    "disk": 51,
+    "load": "0.01",
+    "uptime": "11",
+    "services": {
+      "gg-reminder": "yellow",
+      "disk": "green",
+      "memory": "green"
+    }
+  },
+  "reminders": {
+    "total": 22,
+    "overdue": 0,
+    "errors": 0
+  },
+  "activity": []
+}
