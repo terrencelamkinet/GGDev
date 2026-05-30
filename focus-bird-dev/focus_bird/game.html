@@ -2,47 +2,60 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=1920, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
 <title>專注飛鳥 v2.0 🦅</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     background: #1a3a5c;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     font-family: 'Segoe UI', sans-serif;
     color: #264653;
     touch-action: manipulation;
   }
   .game-wrapper {
-    position: relative;
-    border-radius: 16px;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
-    box-shadow: 0 0 40px rgba(26,107,90,0.5);
+    background: #1a3a5c;
   }
   canvas {
     display: block;
-    background: #1a3a5c;
+    width: 100vw;
+    height: 100vh;
     cursor: pointer;
-    border-radius: 16px;
   }
   .hud {
     position: absolute;
     top: 0; left: 0; right: 0;
-    padding: 10px 16px;
+    padding: clamp(6px, 1.2vh, 18px) clamp(10px, 1.5vw, 28px);
     display: flex;
     justify-content: space-between;
     align-items: center;
     pointer-events: none;
-    font-size: 15px;
+    font-size: clamp(13px, 1.8vh, 22px);
     color: #F4F9F9;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+  .hud-left {
+    display: flex;
+    gap: clamp(8px, 1.5vw, 24px);
+    align-items: center;
+  }
+  .hud-right {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1vw, 16px);
   }
   .focus-bar-outer {
-    width: 60px;
-    height: 14px;
+    width: clamp(80px, 12vw, 240px);
+    height: clamp(10px, 1.4vh, 20px);
     background: rgba(255,255,255,0.15);
     border-radius: 10px;
     overflow: hidden;
@@ -68,19 +81,19 @@
   .lv-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    max-width: 340px;
-    margin: 12px auto 0;
+    gap: clamp(6px, 0.8vh, 12px);
+    max-width: min(80vw, 600px);
+    margin: clamp(8px, 1.5vh, 20px) auto 0;
   }
   .lv-btn {
-    padding: 12px 4px;
+    padding: clamp(8px, 1.2vh, 18px) clamp(4px, 0.6vw, 10px);
     background: rgba(255,255,255,0.12);
     border: 1px solid rgba(46,196,182,0.3);
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: clamp(12px, 1.5vh, 18px);
     text-align: center;
-    color: #264653;
+    color: #F4F9F9;
     transition: 0.15s;
   }
   .lv-btn:hover { transform: scale(1.05); background: rgba(46,196,182,0.2); }
@@ -92,8 +105,9 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 10px;
-    padding: 20px;
+    gap: clamp(6px, 1vh, 16px);
+    padding: clamp(12px, 2vh, 32px);
+    z-index: 20;
   }
   /* Cream card base for overlay */
   #overlay.cream-overlay {
@@ -104,44 +118,45 @@
     background: rgba(26,58,92,0.85);
     color: #F4F9F9;
   }
-  #overlay.dark-overlay h1 { color: #F4F9F9; }
+  #overlay.dark-overlay h1 { color: #F4F9F9; font-size: clamp(22px, 4vh, 48px); }
+  #overlay.dark-overlay p { font-size: clamp(13px, 1.8vh, 20px); }
   #overlay.dark-overlay button.primary { background: #2EC4B6; color: #fff; }
   
   /* Cream card style for Game Over / Level Complete */
   #overlay.cream-overlay h1 { 
-    font-size: 36px; 
+    font-size: clamp(24px, 4vh, 42px); 
     color: #1a6b5a; 
   }
   #overlay.cream-overlay p { 
-    font-size: 16px; 
+    font-size: clamp(14px, 1.6vh, 20px); 
     opacity: 0.8; 
-    max-width: 300px; 
+    max-width: min(70vw, 500px); 
     color: #264653;
   }
   #overlay.cream-overlay .popup-card {
     background: #F4F9F9;
     border: 2px solid #2EC4B6;
-    border-radius: 20px;
-    padding: 30px;
-    max-width: 320px;
+    border-radius: clamp(12px, 2vh, 24px);
+    padding: clamp(18px, 3vh, 40px);
+    max-width: min(60vw, 500px);
     width: 100%;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   }
   #overlay.cream-overlay .card-header {
     background: #1a6b5a;
     color: #F4F9F9;
-    margin: -30px -30px 20px -30px;
-    padding: 18px;
-    border-radius: 18px 18px 0 0;
-    font-size: 22px;
+    margin: calc(-1 * clamp(18px, 3vh, 40px)) calc(-1 * clamp(18px, 3vh, 40px)) clamp(12px, 2vh, 24px) calc(-1 * clamp(18px, 3vh, 40px));
+    padding: clamp(12px, 2vh, 24px);
+    border-radius: clamp(10px, 1.8vh, 20px) clamp(10px, 1.8vh, 20px) 0 0;
+    font-size: clamp(16px, 2.5vh, 28px);
     font-weight: bold;
   }
   #overlay button {
-    margin-top: 6px;
-    padding: 12px 40px;
-    font-size: 18px;
+    margin-top: clamp(4px, 0.6vh, 10px);
+    padding: clamp(8px, 1.2vh, 16px) clamp(20px, 3vw, 50px);
+    font-size: clamp(14px, 1.8vh, 22px);
     border: none;
-    border-radius: 12px;
+    border-radius: clamp(8px, 1.2vh, 16px);
     background: #2EC4B6;
     color: #fff;
     font-weight: bold;
@@ -156,17 +171,41 @@
   }
   #overlay button.secondary:hover { background: #A8DADC; }
   .hidden { display: none !important; }
+
+  /* Fullscreen button */
+  #fsBtn {
+    position: absolute;
+    top: clamp(8px, 1.2vh, 16px);
+    right: clamp(8px, 1.2vh, 16px);
+    width: clamp(36px, 4vh, 52px);
+    height: clamp(36px, 4vh, 52px);
+    background: rgba(46, 196, 182, 0.25);
+    color: #F4F9F9;
+    border: 1px solid rgba(46,196,182,0.4);
+    border-radius: 50%;
+    font-size: clamp(16px, 2vh, 26px);
+    cursor: pointer;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    line-height: 1;
+  }
+  #fsBtn:hover { background: rgba(46, 196, 182, 0.5); transform: scale(1.1); }
+  #fsBtn svg { width: clamp(18px, 2.2vh, 30px); height: clamp(18px, 2.2vh, 30px); fill: currentColor; }
+
   #exitBtn {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 36px;
-    height: 36px;
+    top: clamp(8px, 1.2vh, 16px);
+    left: clamp(8px, 1.2vh, 16px);
+    width: clamp(36px, 4vh, 52px);
+    height: clamp(36px, 4vh, 52px);
     background: rgba(26,58,92,0.6);
     color: #F4F9F9;
     border: 1px solid rgba(46,196,182,0.3);
     border-radius: 50%;
-    font-size: 18px;
+    font-size: clamp(16px, 2vh, 26px);
     cursor: pointer;
     z-index: 20;
     display: flex;
@@ -177,9 +216,9 @@
   #exitBtn:hover { background: rgba(26,107,90,0.8); }
   .credits {
     position: absolute;
-    bottom: 8px;
-    right: 14px;
-    font-size: 10px;
+    bottom: clamp(4px, 0.6vh, 10px);
+    right: clamp(8px, 1vw, 18px);
+    font-size: clamp(8px, 1vh, 12px);
     opacity: 0.4;
     pointer-events: none;
     color: #A8DADC;
@@ -189,18 +228,24 @@
 <body>
 
 <div class="game-wrapper">
-  <canvas id="gameCanvas" width="400" height="500"></canvas>
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- Fullscreen button (top-right) -->
+  <button id="fsBtn" onclick="toggleFullscreen()" title="全螢幕 (F11)" aria-label="Fullscreen">
+    <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+  </button>
+
   <button id="exitBtn" class="hidden" onclick="showLevelSelect()">✕</button>
 
   <div class="hud">
-    <div>
+    <div class="hud-left">
       <span id="scoreDisplay">💰 0</span>
-      <span style="margin-left:14px;" id="levelDisplay">⭐ Lv.1</span>
-      <span style="margin-left:12px;font-size:14px;" id="targetDisplay">0/30</span>
+      <span id="levelDisplay">⭐ Lv.1</span>
+      <span id="targetDisplay">0/30</span>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span style="font-size:12px;">專注</span>
-      <div class="focus-bar-outer" style="margin-right:60px;">
+    <div class="hud-right">
+      <span style="font-size:clamp(10px,1.2vh,14px);">專注</span>
+      <div class="focus-bar-outer">
         <div class="focus-bar-inner focus-mid" id="focusBar" style="width:50%;"></div>
       </div>
     </div>
@@ -209,19 +254,27 @@
   <div id="overlay" class="dark-overlay">
     <h1>🦅 專注飛鳥 v2.0</h1>
     <p>拍 Space 下沉食金幣<br>預設向上浮</p>
-    <p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 預設上升</p>
+    <p style="font-size:clamp(11px,1.4vh,16px);opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 預設上升</p>
     <button class="primary" id="startBtn">開始遊戲</button>
   </div>
 
+  <div class="credits">Focus Bird v2.0</div>
 </div>
 
 <script>
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const W = 400, H = 500;
+
+// ===== Virtual coordinate system (original 400×500) =====
+const VIRTUAL_W = 400;
+const VIRTUAL_H = 500;
+
+// ===== Scaling state =====
+let scale = 1;
+let offsetX = 0;
+let offsetY = 0;
 
 // ===== Parallax Background =====
-// 三層背景偏移量：天空靜止，中景極慢，前景正常
 const bgOffsets = { sky: 0, hills: 0, ground: 0 };
 const BG_SPEEDS = { sky: 0, hills: 0.15, ground: 1.0 };
 
@@ -237,7 +290,7 @@ const state = {
   externalMode: false,
   ws: null,
   attention: 0,
-  bird: { x: 300, y: 250, vy: 0, displayAngle: 0 },
+  bird: { x: 200, y: 250, vy: 0, displayAngle: 0 },
   coins: [],
   effects: [],
   spawnTimer: 0,
@@ -249,6 +302,45 @@ const state = {
   lastCoinTime: 0,
   levelStartTime: 0,
 };
+
+// ===== Canvas Sizing =====
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  canvas.width = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+
+  // Calculate proportional scaling to fit virtual 400×500 into canvas
+  const sx = canvas.width / VIRTUAL_W;
+  const sy = canvas.height / VIRTUAL_H;
+  scale = Math.min(sx, sy);
+  offsetX = (canvas.width - VIRTUAL_W * scale) / 2;
+  offsetY = (canvas.height - VIRTUAL_H * scale) / 2;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// ===== Fullscreen =====
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(function(){});
+  } else {
+    document.exitFullscreen().catch(function(){});
+  }
+}
+document.addEventListener('dblclick', function(e) {
+  // Only on canvas area
+  toggleFullscreen();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'F11') {
+    e.preventDefault();
+    toggleFullscreen();
+  }
+});
+
 // ===== 音效 =====
 function playTone(freq, dur = 0.08) {
   try {
@@ -268,7 +360,7 @@ function coinSound() { playTone(880, 0.1); }
 function levelUpSound() { playTone(660, 0.1); setTimeout(()=>playTone(880,0.15),100); }
 function gameOverSound() { playTone(330, 0.2); setTimeout(()=>playTone(220,0.3),200); }
 
-// ===== 鳥嘅物理 (Space控制：按住下沉，放開上浮) =====
+// ===== 鳥嘅物理 =====
 function updateBird() {
   const b = state.bird;
   const cfg = getLevelConfig(state.level);
@@ -279,9 +371,8 @@ function updateBird() {
   }
   b.vy *= 0.95;
   b.y += b.vy;
-  if (b.y > H - 50) b.y = H - 50;
-  
-  // 更柔和嘅角度 easing (Section V)
+  if (b.y > VIRTUAL_H - 50) b.y = VIRTUAL_H - 50;
+
   const angle = Math.max(-0.25, Math.min(0.25, b.vy * 0.025));
   b.displayAngle = b.displayAngle * 0.85 + angle * 0.15;
 }
@@ -306,18 +397,16 @@ function setUnlockedLevel(lv) {
   } catch(e) {}
 }
 
-
 // ===== 金幣 =====
 function spawnCoin() {
   const cfg = getLevelConfig(state.level);
   const maxCoins = cfg.coinTarget + 5;
   if (state.coinsSpawned >= maxCoins) return;
-  state.coins.push({ x: W + 20, y: H - 40, size: 14, collected: false, value: 1 });
+  state.coins.push({ x: VIRTUAL_W + 20, y: VIRTUAL_H - 40, size: 14, collected: false, value: 1 });
   state.coinsSpawned++;
 }
 
 function spawnCoinEffect(x, y) {
-  // VFX：收集特效，最多18幀 (0.3s at 60fps)
   state.effects.push({
     x: x, y: y, frame: 0, type: 'coin',
   });
@@ -352,7 +441,6 @@ function updateCoins() {
 function updateEffects() {
   for (let i = state.effects.length - 1; i >= 0; i--) {
     state.effects[i].frame++;
-    // 超過 18 幀自動移除 (Section V: VFX時長控制)
     if (state.effects[i].frame > 18) {
       state.effects.splice(i, 1);
     }
@@ -377,24 +465,24 @@ function showLevelComplete() {
   const overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden', 'dark-overlay');
   overlay.classList.add('cream-overlay');
-  var lbHtml = '<div style="margin:10px 0 5px;font-size:13px;opacity:0.7;color:#264653;">📊 排行榜 TOP5</div>';
+  var lbHtml = '<div style="margin:clamp(6px,0.8vh,12px) 0 clamp(3px,0.4vh,6px);font-size:clamp(12px,1.4vh,16px);opacity:0.7;color:#264653;">📊 排行榜 TOP5</div>';
   for (var i = 0; i < Math.min(5, records.length); i++) {
     var medal = ['🥇','🥈','🥉'][i] || (i+1) + '.';
     var t = records[i].time;
     var ts = t >= 60 ? Math.floor(t/60) + 'm ' + (t%60) + 's' : t + 's';
-    lbHtml += '<div style="font-size:13px;color:#264653;">' + medal + ' ' + ts + (i === 0 ? ' 👑' : '') + '</div>';
+    lbHtml += '<div style="font-size:clamp(12px,1.4vh,16px);color:#264653;">' + medal + ' ' + ts + (i === 0 ? ' 👑' : '') + '</div>';
   }
 
   var canNext = state.level < cfg.maxLevel;
   overlay.innerHTML = 
     '<div class="popup-card">' +
     '<div class="card-header">🎉 第' + state.level + '關完成！</div>' +
-    '<p style="font-size:20px;color:#264653;">⏱ <strong>' + timeStr + '</strong></p>' +
-    '<p style="font-size:13px;opacity:0.6;color:#264653;">金幣：' + cfg.coinTarget + ' 個</p>' +
+    '<p style="font-size:clamp(18px,2.5vh,28px);color:#264653;">⏱ <strong>' + timeStr + '</strong></p>' +
+    '<p style="font-size:clamp(12px,1.4vh,16px);opacity:0.6;color:#264653;">金幣：' + cfg.coinTarget + ' 個</p>' +
     lbHtml +
-    '<button id="nextLevelBtn" style="margin-top:4px;">' + (canNext ? '➡️ 下一關 (Lv.' + (state.level + 1) + ')' : '🏆 全部完成！') + '</button>' +
-    '<button id="homeBtn" class="secondary" style="margin-top:8px;padding:8px 20px;font-size:14px;margin-right:8px;">🏠 主頁</button>' +
-    '<button id="restartLv1Btn" class="secondary" style="margin-top:8px;padding:8px 20px;font-size:14px;">🔄 重新開始</button>' +
+    '<button id="nextLevelBtn" style="margin-top:clamp(3px,0.4vh,6px);">' + (canNext ? '➡️ 下一關 (Lv.' + (state.level + 1) + ')' : '🏆 全部完成！') + '</button>' +
+    '<button id="homeBtn" class="secondary" style="margin-top:clamp(6px,0.8vh,10px);padding:clamp(6px,0.8vh,12px) clamp(14px,2vw,28px);font-size:clamp(12px,1.4vh,18px);margin-right:clamp(6px,0.8vw,12px);">🏠 主頁</button>' +
+    '<button id="restartLv1Btn" class="secondary" style="margin-top:clamp(6px,0.8vh,10px);padding:clamp(6px,0.8vh,12px) clamp(14px,2vw,28px);font-size:clamp(12px,1.4vh,18px);">🔄 重新開始</button>' +
     '</div>';
 
   document.getElementById('nextLevelBtn').onclick = canNext ? function(){ startLevel(state.level + 1); } : resetGame;
@@ -414,10 +502,10 @@ function showGameOver() {
   overlay.innerHTML = 
     '<div class="popup-card">' +
     '<div class="card-header" style="background:#264653;">💫 遊戲結束</div>' +
-    '<p style="color:#264653;">分數：💰 ' + state.score + ' | Lv.' + state.level + '</p>' +
-    '<p style="font-size:13px;opacity:0.6;color:#264653;">關卡進度：' + state.totalCoins + '/' + _cfg.coinTarget + '</p>' +
+    '<p style="color:#264653;font-size:clamp(14px,1.8vh,22px);">分數：💰 ' + state.score + ' | Lv.' + state.level + '</p>' +
+    '<p style="font-size:clamp(12px,1.4vh,16px);opacity:0.6;color:#264653;">關卡進度：' + state.totalCoins + '/' + _cfg.coinTarget + '</p>' +
     '<button id="restartBtn">再玩一次</button>' +
-    '<button id="homeBtn2" class="secondary" style="margin-top:8px;padding:8px 20px;font-size:14px;display:block;margin-left:auto;margin-right:auto;">🏠 主頁</button>' +
+    '<button id="homeBtn2" class="secondary" style="margin-top:clamp(6px,0.8vh,10px);padding:clamp(6px,0.8vh,12px) clamp(14px,2vw,28px);font-size:clamp(12px,1.4vh,18px);display:block;margin-left:auto;margin-right:auto;">🏠 主頁</button>' +
     '</div>';
   document.getElementById('restartBtn').onclick = resetGame;
   document.getElementById('homeBtn2').onclick = showLevelSelect;
@@ -452,9 +540,9 @@ function showLevelSelect() {
   }
   overlay.innerHTML = 
     '<h1>🦅 專注飛鳥 v2.0</h1>' +
-    '<p style="font-size:13px;opacity:0.6;color:#A8DADC;">科學化視覺優化 · 揀關卡開始</p>' +
+    '<p style="font-size:clamp(12px,1.5vh,18px);opacity:0.6;color:#A8DADC;">科學化視覺優化 · 揀關卡開始</p>' +
     '<div class="lv-grid">' + grid + '</div>';
-  ctx.clearRect(0, 0, W, H);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground(0);
   drawBird();
 }
@@ -462,23 +550,22 @@ function showLevelSelect() {
 // ===== 主遊戲 loop =====
 function drawBackground(frameOffset) {
   const f = frameOffset || state.frame;
-  
-  // ===== 天空 — 靜態 (Section VII: Parallax sky = static) =====
+  const W = VIRTUAL_W, H = VIRTUAL_H;
+
+  // ===== 天空 — 靜態 =====
   const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
-  skyGrad.addColorStop(0, '#1a3a5c');     // deep navy-teal
-  skyGrad.addColorStop(0.4, '#74B3CE');    // sky blue
-  skyGrad.addColorStop(0.7, '#A8DADC');    // mint
-  skyGrad.addColorStop(1, '#F4F9F9');      // cream
+  skyGrad.addColorStop(0, '#1a3a5c');
+  skyGrad.addColorStop(0.4, '#74B3CE');
+  skyGrad.addColorStop(0.7, '#A8DADC');
+  skyGrad.addColorStop(1, '#F4F9F9');
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, W, H);
 
   // ===== 太陽 =====
-  // 柔和琥珀色太陽，右上角
   ctx.beginPath();
   ctx.arc(W - 50, 45, 28, 0, Math.PI * 2);
   ctx.fillStyle = '#FFCB77';
   ctx.fill();
-  // 太陽光暈 — 3層
   ctx.beginPath();
   ctx.arc(W - 50, 45, 38, 0, Math.PI * 2);
   ctx.fillStyle = 'rgba(255, 203, 119, 0.12)';
@@ -489,20 +576,19 @@ function drawBackground(frameOffset) {
   ctx.fill();
 
   // ===== 白雲 =====
-  function drawCloud(cx, cy, scale) {
+  function drawCloud(cx, cy, s) {
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.beginPath(); ctx.arc(cx, cy, 12*scale, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+14*scale, cy-4*scale, 10*scale, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+28*scale, cy, 9*scale, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+14*scale, cy+4*scale, 8*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx, cy, 12*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*s, cy-4*s, 10*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+28*s, cy, 9*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*s, cy+4*s, 8*s, 0, Math.PI*2); ctx.fill();
   }
   drawCloud(50, 50, 1);
   drawCloud(160, 70, 0.8);
   drawCloud(290, 40, 1.1);
 
-  // ===== 中景山脈 (0.15x速度 — 極慢偏移) =====
+  // ===== 中景山脈 =====
   const hillOffset = -(bgOffsets.hills % (W * 2));
-  // 第一層深青綠山脈 (#1a6b5a)
   ctx.fillStyle = '#1a6b5a';
   ctx.beginPath();
   ctx.moveTo(0, H * 0.70);
@@ -515,7 +601,6 @@ function drawBackground(frameOffset) {
   ctx.closePath();
   ctx.fill();
 
-  // 第二層淺青綠山脈 (#2EC4B6)，重疊
   ctx.fillStyle = '#2EC4B6';
   ctx.beginPath();
   ctx.moveTo(0, H * 0.73);
@@ -528,7 +613,7 @@ function drawBackground(frameOffset) {
   ctx.closePath();
   ctx.fill();
 
-  // ===== 河流 (非橙色，用天藍色) =====
+  // ===== 河流 =====
   ctx.fillStyle = 'rgba(116, 179, 206, 0.3)';
   ctx.beginPath();
   ctx.moveTo(0, H - 25);
@@ -540,20 +625,17 @@ function drawBackground(frameOffset) {
   ctx.closePath();
   ctx.fill();
 
-  // 水面反光 (白色柔和)
   ctx.fillStyle = 'rgba(255,255,255,0.1)';
   for (let i = 0; i < 4; i++) {
     const rx = 30 + i * 90 + Math.sin(f * 0.03 + i) * 5;
     ctx.fillRect(rx, H-22, 15, 3);
   }
 
-  // ===== 前景草地 (1x速度) =====
+  // ===== 前景草地 =====
   const groundShift = -(bgOffsets.ground % W);
-  const groundColor = '#2EC4B6';
-  ctx.fillStyle = groundColor;
+  ctx.fillStyle = '#2EC4B6';
   ctx.fillRect(0, H-20, W, 20);
 
-  // 草地紋理（草葉）- 用 teal 色系
   ctx.strokeStyle = '#1a6b5a';
   ctx.lineWidth = 1;
   for (let i = 0; i < 30; i++) {
@@ -566,34 +648,29 @@ function drawBackground(frameOffset) {
     ctx.stroke();
   }
 
-  // ===== 花朵 (amber點綴，極少) =====
-  // 用amber (#FFCB77) 和 pale teal 交替，取代五彩繽紛
+  // ===== 花朵 =====
   const flowerColors = ['#FFCB77', '#A8DADC', '#FFCB77', '#A8DADC', '#FFCB77'];
   for (let i = 0; i < 5; i++) {
     let fx = (i * 75 + 20 + groundShift) % W;
     if (fx < 0) fx += W;
     const fy = H - 18;
     const fc = flowerColors[i % flowerColors.length];
-    // 花莖
     ctx.strokeStyle = '#1a6b5a';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(fx, fy);
     ctx.lineTo(fx, fy - 6 - Math.sin(i * 1.3) * 3);
     ctx.stroke();
-    // 花瓣 - 簡化為小圓點
     ctx.fillStyle = fc;
     ctx.beginPath();
     ctx.arc(fx, fy - 7, 2, 0, Math.PI * 2);
     ctx.fill();
-    // 花心
     ctx.fillStyle = '#FFCB77';
     ctx.beginPath();
     ctx.arc(fx, fy - 7, 1, 0, Math.PI * 2);
     ctx.fill();
   }
 
-  // ===== 金幣落地提示 =====
   ctx.fillStyle = 'rgba(255, 203, 119, 0.08)';
   ctx.fillRect(0, H-25, W, 5);
 }
@@ -605,23 +682,21 @@ function drawBird() {
 
   ctx.save();
   ctx.translate(b.x, b.y);
-
-  // 使用平滑 easing 嘅角度 (Section V)
   ctx.rotate(b.displayAngle);
 
-  // ===== 身體（橢圓形）- 改為 #2EC4B6 teal =====
+  // Body
   ctx.fillStyle = '#2EC4B6';
   ctx.beginPath();
   ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // 腹部淺色 - 改為 mint #A8DADC
+  // Belly
   ctx.fillStyle = '#A8DADC';
   ctx.beginPath();
   ctx.ellipse(2, 4, 10, 7, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // ===== 尾羽 - 深teal =====
+  // Tail
   const tailFlap = Math.sin(frame * 0.08) * 2;
   ctx.fillStyle = '#1a6b5a';
   ctx.beginPath();
@@ -632,10 +707,10 @@ function drawBird() {
   ctx.closePath();
   ctx.fill();
 
-  // ===== 右翼（前面，拍翼動畫）=====
+  // Right wing
   const wingUp = Math.sin(frame * 0.1) * 8;
   const wingTwist = Math.abs(Math.sin(frame * 0.1));
-  ctx.fillStyle = '#1a9b8a';  // slightly darker teal
+  ctx.fillStyle = '#1a9b8a';
   ctx.beginPath();
   ctx.moveTo(-4, -2);
   ctx.lineTo(-22, -16 + wingUp);
@@ -644,7 +719,6 @@ function drawBird() {
   ctx.closePath();
   ctx.fill();
 
-  // 翅膀光影
   ctx.fillStyle = 'rgba(255,255,255,0.1)';
   ctx.beginPath();
   ctx.moveTo(-6, -2);
@@ -653,7 +727,7 @@ function drawBird() {
   ctx.closePath();
   ctx.fill();
 
-  // ===== 左翼（後面）=====
+  // Left wing
   const wingUp2 = Math.sin(frame * 0.1 + Math.PI) * 6;
   ctx.fillStyle = '#1a6b5a';
   ctx.beginPath();
@@ -664,31 +738,31 @@ function drawBird() {
   ctx.closePath();
   ctx.fill();
 
-  // ===== 頭 =====
+  // Head
   ctx.fillStyle = '#2EC4B6';
   ctx.beginPath();
   ctx.arc(14, -4, 9, 0, Math.PI * 2);
   ctx.fill();
 
-  // ===== 眼（白）=====
+  // Eye
   ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.ellipse(18, -5, 4, 4.5, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // ===== 瞳孔 =====
+  // Pupil
   ctx.fillStyle = '#264653';
   ctx.beginPath();
   ctx.arc(19, -5, 2.5, 0, Math.PI * 2);
   ctx.fill();
 
-  // ===== 瞳孔高光 =====
+  // Highlight
   ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.arc(20, -6.5, 1, 0, Math.PI * 2);
   ctx.fill();
 
-  // ===== 嘴（amber #FFCB77 - 限量使用）=====
+  // Beak
   ctx.fillStyle = '#FFCB77';
   ctx.beginPath();
   ctx.moveTo(21, -2);
@@ -697,33 +771,29 @@ function drawBird() {
   ctx.closePath();
   ctx.fill();
 
-  // ===== 腮紅（柔和 amber）=====
+  // Blush
   ctx.fillStyle = 'rgba(255, 203, 119, 0.2)';
   ctx.beginPath();
   ctx.ellipse(14, 2, 5, 3, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // ===== 專注光環 (Focus Aura — Section V & VII) =====
+  // Focus Aura
   if (focus > 70) {
     const pulse = Math.sin(frame * 0.06) * 2;
-    // 外光環 — bright blue #4361EE
     ctx.beginPath();
     ctx.arc(0, 0, 34 + pulse, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 100 * 0.2})`;
     ctx.fill();
-    // 中間光環 — teal #2EC4B6 虛線效果
     ctx.beginPath();
     ctx.arc(0, 0, 30 + pulse, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(46, 196, 182, ${(focus - 70) / 100 * 0.15})`;
     ctx.fill();
-    // 內光環
     ctx.beginPath();
     ctx.arc(0, 0, 26 + pulse, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 100 * 0.08})`;
     ctx.fill();
   }
   if (focus < 25) {
-    // 低專注 — 柔和紅橙光環
     ctx.beginPath();
     ctx.arc(0, 0, 32, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(231, 111, 81, ${(25 - focus) / 100 * 0.15})`;
@@ -734,19 +804,18 @@ function drawBird() {
 }
 
 function drawCoin3D(c, rotAngle) {
-  // 3D 自轉金幣 — amber色系 ≤10%
   const r = c.size;
   const scaleX = Math.abs(Math.cos(rotAngle));
 
   ctx.save();
 
-  // 金幣陰影
+  // Shadow
   ctx.beginPath();
   ctx.ellipse(2, 2, r * scaleX, r, 0, 0, Math.PI * 2);
   ctx.fillStyle = 'rgba(0,0,0,0.15)';
   ctx.fill();
 
-  // 金幣本體 — amber色系 (#FFCB77 淺, #E8933A 深)
+  // Body
   ctx.beginPath();
   ctx.ellipse(0, 0, r * scaleX, r, 0, 0, Math.PI * 2);
   const grad = ctx.createLinearGradient(-r, 0, r, 0);
@@ -758,18 +827,15 @@ function drawCoin3D(c, rotAngle) {
   ctx.fillStyle = grad;
   ctx.fill();
 
-  // 邊框 — 深灰藍
   ctx.strokeStyle = '#264653';
   ctx.lineWidth = 1.5;
   ctx.stroke();
 
-  // 邊緣高光
   ctx.beginPath();
   ctx.ellipse(-r*0.3*scaleX, -r*0.3, r*0.5*scaleX, r*0.4, 0, 0, Math.PI * 2);
   ctx.fillStyle = 'rgba(255,255,255,0.3)';
   ctx.fill();
 
-  // 中間符號（只有正面先睇到）
   if (scaleX > 0.3) {
     const opacity = Math.min(1, (scaleX - 0.3) / 0.5);
     ctx.globalAlpha = opacity;
@@ -789,32 +855,25 @@ function drawCoins() {
     if (c.collected) continue;
     ctx.save();
     ctx.translate(c.x, c.y);
-
     const rot = state.frame * 0.05 + c.x * 0.02;
     drawCoin3D(c, rot);
-
     ctx.restore();
   }
 }
 
-// ===== VFX 繪製 =====
+// ===== VFX =====
 function drawEffects() {
   for (const e of state.effects) {
     if (e.type === 'coin') {
-      const p = e.frame / 18; // 0 to 1
+      const p = e.frame / 18;
       const alpha = 1 - p;
       const radius = 6 + p * 14;
-      
       ctx.save();
       ctx.globalAlpha = alpha;
-      
-      // 琥珀色光暈
       ctx.beginPath();
       ctx.arc(e.x, e.y, radius, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(232, 147, 58, 0.4)';
       ctx.fill();
-      
-      // teal色放射線
       for (let j = 0; j < 6; j++) {
         const a = (j / 6) * Math.PI * 2 + e.frame * 0.2;
         ctx.beginPath();
@@ -825,15 +884,12 @@ function drawEffects() {
         ctx.lineWidth = 1.5;
         ctx.stroke();
       }
-      
-      // 白色閃光 (中間)
       if (p < 0.4) {
         ctx.beginPath();
         ctx.arc(e.x, e.y, 4 * (1 - p / 0.4), 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255,255,255,0.7)';
         ctx.fill();
       }
-      
       ctx.restore();
     }
   }
@@ -844,12 +900,9 @@ function drawHUD() {
   document.getElementById('levelDisplay').textContent = `⭐ Lv.${state.level}`;
   const cfg = getLevelConfig(state.level);
   document.getElementById('targetDisplay').textContent = `${state.totalCoins}/${cfg.coinTarget}`;
-  
-  // Focus Bar 三狀態顏色更新 (Section V & VII)
+
   const bar = document.getElementById('focusBar');
   bar.style.width = `${state.focusLevel}%`;
-  
-  // 根據 focusLevel 設定 class
   bar.classList.remove('focus-low', 'focus-mid', 'focus-high');
   if (state.focusLevel < 35) {
     bar.classList.add('focus-low');
@@ -884,24 +937,30 @@ function gameLoop() {
   updateEffects();
   if (!state.running) return;
 
-  ctx.clearRect(0, 0, W, H);
-  
-  // 更新背景 parallax 偏移
-  // 天空 = 靜止，中景極慢，前景正常
-  bgOffsets.sky = 0; // 永遠靜止
+  // Clear full canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Apply scaling transform for virtual coordinate system
+  ctx.save();
+  ctx.setTransform(scale, 0, 0, scale, offsetX, offsetY);
+
+  // Update parallax offsets
+  bgOffsets.sky = 0;
   bgOffsets.hills += BG_SPEEDS.hills * Math.pow(1.05, state.level - 1);
   bgOffsets.ground += BG_SPEEDS.ground * Math.pow(1.05, state.level - 1);
-  
+
   drawBackground();
   drawCoins();
   drawEffects();
   drawBird();
+
+  ctx.restore();
   drawHUD();
 
   requestAnimationFrame(gameLoop);
 }
 
-// ===== 開始（或下一關）=====
+// ===== 開始 =====
 function startLevel(levelNum) {
   document.getElementById('overlay').classList.add('hidden');
   document.getElementById('overlay').classList.remove('cream-overlay', 'dark-overlay');
@@ -919,14 +978,13 @@ function startLevel(levelNum) {
   state.nextSpawn = 0;
   state.levelStartTime = Date.now();
   state.spacePressed = false;
-  // 重置背景偏移
   bgOffsets.sky = 0;
   bgOffsets.hills = 0;
   bgOffsets.ground = 0;
   gameLoop();
 }
 
-// ===== WebSocket (腦波 external mode) =====
+// ===== WebSocket =====
 function connectBrainLink(wsUrl) {
   state.externalMode = true;
   state.ws = new WebSocket(wsUrl);
@@ -946,7 +1004,6 @@ function connectBrainLink(wsUrl) {
   state.ws.onerror = function(){ state.ws.close(); };
 }
 
-// If URL has ?ws=...
 (function() {
   var params = new URLSearchParams(window.location.search);
   var wsUrl = params.get('ws');
@@ -986,8 +1043,7 @@ document.getElementById('gameCanvas').addEventListener('mousedown', function(e) 
 document.getElementById('gameCanvas').addEventListener('mouseup', function() { state.spacePressed = false; });
 document.getElementById('gameCanvas').addEventListener('mouseleave', function() { if (!state.externalMode) state.spacePressed = false; });
 
-// ===== 初始化畫面 (level select) =====
-// 綁定 startBtn (首頁開始按鈕)
+// ===== 初始化 =====
 document.getElementById('startBtn').addEventListener('click', function() {
   startLevel(1);
 });
