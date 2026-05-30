@@ -338,8 +338,19 @@ def main():
     data = merge_preserved(existing, data)
 
     os.makedirs(DATA_DIR, exist_ok=True)
-    with open(DATA_FILE, "w") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    # Atomic write: temp file + rename
+    import tempfile
+    tmp = tempfile.NamedTemporaryFile(
+        mode='w', dir=DATA_DIR, prefix='.tmp-', suffix='.json',
+        delete=False, encoding='utf-8'
+    )
+    try:
+        json.dump(data, tmp, ensure_ascii=False, indent=2)
+        tmp.close()
+        os.replace(tmp.name, DATA_FILE)
+    except:
+        os.unlink(tmp.name)
+        raise
 
     print(
         f"✅ gg-data.json updated — {ts}"
