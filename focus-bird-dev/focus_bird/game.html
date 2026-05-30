@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>專注飛鳥 v2.0 🦅</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a3a5c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    color: #264653;
+    touch-action: manipulation;
+  }
+  .game-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(26,107,90,0.5);
+  }
+  canvas {
+    display: block;
+    background: #1a3a5c;
+    cursor: pointer;
+    border-radius: 16px;
+  }
+  .hud {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    font-size: 15px;
+    color: #F4F9F9;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  .focus-bar-outer {
+    width: 60px;
+    height: 14px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .focus-bar-inner {
+    height: 100%;
+    width: 50%;
+    border-radius: 10px;
+    transition: width 0.3s ease, background 0.5s ease;
+  }
+  .focus-low {
+    background: linear-gradient(90deg, #E76F51, #E8933A);
+  }
+  .focus-mid {
+    background: linear-gradient(90deg, #2EC4B6, #74B3CE);
+  }
+  .focus-high {
+    background: linear-gradient(90deg, #4361EE, #2EC4B6);
+    box-shadow: 0 0 8px rgba(67,97,238,0.5);
+  }
+
+  .lv-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    max-width: 340px;
+    margin: 12px auto 0;
+  }
+  .lv-btn {
+    padding: 12px 4px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(46,196,182,0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    color: #264653;
+    transition: 0.15s;
+  }
+  .lv-btn:hover { transform: scale(1.05); background: rgba(46,196,182,0.2); }
+  #overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 20px;
+  }
+  /* Cream card base for overlay */
+  #overlay.cream-overlay {
+    background: rgba(244,249,249,0.95);
+  }
+  /* Dark overlay for initial state */
+  #overlay.dark-overlay {
+    background: rgba(26,58,92,0.85);
+    color: #F4F9F9;
+  }
+  #overlay.dark-overlay h1 { color: #F4F9F9; }
+  #overlay.dark-overlay button.primary { background: #2EC4B6; color: #fff; }
+  
+  /* Cream card style for Game Over / Level Complete */
+  #overlay.cream-overlay h1 { 
+    font-size: 36px; 
+    color: #1a6b5a; 
+  }
+  #overlay.cream-overlay p { 
+    font-size: 16px; 
+    opacity: 0.8; 
+    max-width: 300px; 
+    color: #264653;
+  }
+  #overlay.cream-overlay .popup-card {
+    background: #F4F9F9;
+    border: 2px solid #2EC4B6;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 320px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  #overlay.cream-overlay .card-header {
+    background: #1a6b5a;
+    color: #F4F9F9;
+    margin: -30px -30px 20px -30px;
+    padding: 18px;
+    border-radius: 18px 18px 0 0;
+    font-size: 22px;
+    font-weight: bold;
+  }
+  #overlay button {
+    margin-top: 6px;
+    padding: 12px 40px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    background: #2EC4B6;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  #overlay button:hover { transform: scale(1.05); }
+  #overlay button.secondary {
+    background: #F4F9F9;
+    color: #264653;
+    border: 1.5px solid #2EC4B6;
+  }
+  #overlay button.secondary:hover { background: #A8DADC; }
+  .hidden { display: none !important; }
+  #exitBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    background: rgba(26,58,92,0.6);
+    color: #F4F9F9;
+    border: 1px solid rgba(46,196,182,0.3);
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+  }
+  #exitBtn:hover { background: rgba(26,107,90,0.8); }
+  .credits {
+    position: absolute;
+    bottom: 8px;
+    right: 14px;
+    font-size: 10px;
+    opacity: 0.4;
+    pointer-events: none;
+    color: #A8DADC;
+  }
+</style>
+</head>
+<body>
+
+<div class="game-wrapper">
+  <canvas id="gameCanvas" width="400" height="500"></canvas>
+  <button id="exitBtn" class="hidden" onclick="showLevelSelect()">✕</button>
+
+  <div class="hud">
+    <div>
+      <span id="scoreDisplay">💰 0</span>
+      <span style="margin-left:14px;" id="levelDisplay">⭐ Lv.1</span>
+      <span style="margin-left:12px;font-size:14px;" id="targetDisplay">0/30</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:12px;">專注</span>
+      <div class="focus-bar-outer" style="margin-right:60px;">
+        <div class="focus-bar-inner focus-mid" id="focusBar" style="width:50%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="overlay" class="dark-overlay">
+    <h1>🦅 專注飛鳥 v2.0</h1>
+    <p>拍 Space 下沉食金幣<br>預設向上浮</p>
+    <p style="font-size:13px;opacity:0.6;">⎵ Space 下沉 &nbsp;|&nbsp; 預設上升</p>
+    <button class="primary" id="startBtn">開始遊戲</button>
+  </div>
+
+</div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const W = 400, H = 500;
+
+// ===== Parallax Background =====
+// 三層背景偏移量：天空靜止，中景極慢，前景正常
+const bgOffsets = { sky: 0, hills: 0, ground: 0 };
+const BG_SPEEDS = { sky: 0, hills: 0.15, ground: 1.0 };
+
+// ===== 遊戲狀態 =====
+const state = {
+  running: false,
+  gameOver: false,
+  score: 0,
+  level: 1,
+  focusLevel: 50,
+  targetFocus: 50,
+  spacePressed: false,
+  externalMode: false,
+  ws: null,
+  attention: 0,
+  bird: { x: 300, y: 250, vy: 0, displayAngle: 0 },
+  coins: [],
+  effects: [],
+  spawnTimer: 0,
+  nextSpawn: 0,
+  frame: 0,
+  comboCount: 0,
+  totalCoins: 0,
+  coinsSpawned: 0,
+  lastCoinTime: 0,
+  levelStartTime: 0,
+};
+// ===== 音效 =====
+function playTone(freq, dur = 0.08) {
+  try {
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.frequency.value = freq;
+    gain.gain.value = 0.12;
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+    osc.start();
+    osc.stop(ac.currentTime + dur);
+  } catch(e) {}
+}
+function coinSound() { playTone(880, 0.1); }
+function levelUpSound() { playTone(660, 0.1); setTimeout(()=>playTone(880,0.15),100); }
+function gameOverSound() { playTone(330, 0.2); setTimeout(()=>playTone(220,0.3),200); }
+
+// ===== 鳥嘅物理 (Space控制：按住下沉，放開上浮) =====
+function updateBird() {
+  const b = state.bird;
+  const cfg = getLevelConfig(state.level);
+  if (state.spacePressed) {
+    b.vy += 0.03 * cfg.gravityFactor;
+  } else {
+    b.vy -= 0.02 * cfg.gravityFactor;
+  }
+  b.vy *= 0.95;
+  b.y += b.vy;
+  if (b.y > H - 50) b.y = H - 50;
+  
+  // 更柔和嘅角度 easing (Section V)
+  const angle = Math.max(-0.25, Math.min(0.25, b.vy * 0.025));
+  b.displayAngle = b.displayAngle * 0.85 + angle * 0.15;
+}
+
+// ===== 關卡設定 =====
+function getLevelConfig(level) {
+  const maxLevel = 20;
+  const l = Math.min(level, maxLevel);
+  const coinTarget = 10 + (l - 1) * 5;
+  const gravityFactor = 1 + l * 0.06;
+  const coinInterval = 180 + Math.floor(Math.random() * 120);
+  return { coinTarget, gravityFactor, coinInterval, maxLevel };
+}
+
+function getUnlockedLevels() {
+  try { return parseInt(localStorage.getItem('focusBird_unlocked') || '1', 10); } catch(e) { return 1; }
+}
+function setUnlockedLevel(lv) {
+  try {
+    var cur = getUnlockedLevels();
+    if (lv > cur) localStorage.setItem('focusBird_unlocked', String(lv));
+  } catch(e) {}
+}
+
+
+// ===== 金幣 =====
+function spawnCoin() {
+  const cfg = getLevelConfig(state.level);
+  const maxCoins = cfg.coinTarget + 5;
+  if (state.coinsSpawned >= maxCoins) return;
+  state.coins.push({ x: W + 20, y: H - 40, size: 14, collected: false, value: 1 });
+  state.coinsSpawned++;
+}
+
+function spawnCoinEffect(x, y) {
+  // VFX：收集特效，最多18幀 (0.3s at 60fps)
+  state.effects.push({
+    x: x, y: y, frame: 0, type: 'coin',
+  });
+}
+
+function updateCoins() {
+  for (let i = state.coins.length - 1; i >= 0; i--) {
+    const c = state.coins[i];
+    if (c.collected) { state.coins.splice(i, 1); continue; }
+    c.x -= 1.2 * Math.pow(1.05, state.level - 1);
+    if (c.x < -40) { state.coins.splice(i, 1); continue; }
+    const b = state.bird;
+    const dx = c.x - b.x;
+    const dy = c.y - b.y;
+    if (Math.sqrt(dx*dx + dy*dy) < c.size + 18) {
+      c.collected = true;
+      state.score += c.value;
+      state.totalCoins++;
+      state.lastCoinTime = state.frame;
+      spawnCoinEffect(c.x, c.y);
+      coinSound();
+      const cfg = getLevelConfig(state.level);
+      if (state.totalCoins >= cfg.coinTarget) {
+        showLevelComplete();
+        return;
+      }
+    }
+  }
+}
+
+// ===== 更新 VFX =====
+function updateEffects() {
+  for (let i = state.effects.length - 1; i >= 0; i--) {
+    state.effects[i].frame++;
+    // 超過 18 幀自動移除 (Section V: VFX時長控制)
+    if (state.effects[i].frame > 18) {
+      state.effects.splice(i, 1);
+    }
+  }
+}
+
+// ===== 過關畫面 =====
+function showLevelComplete() {
+  state.running = false;
+  levelUpSound();
+  const cfg = getLevelConfig(state.level);
+  const elapsed = Math.floor((Date.now() - state.levelStartTime) / 1000);
+  const timeStr = elapsed >= 60 ? `${Math.floor(elapsed/60)}m ${elapsed%60}s` : `${elapsed}s`;
+  const key = 'leaderboard_lv' + state.level;
+  let records = [];
+  try { records = JSON.parse(localStorage.getItem(key) || '[]'); if(!Array.isArray(records)) records = []; } catch(e){}
+  records.push({ time: elapsed, date: new Date().toISOString().slice(0,10), coins: cfg.coinTarget });
+  records.sort(function(a,b){ return a.time - b.time; });
+  if (records.length > 10) records = records.slice(0,10);
+  localStorage.setItem(key, JSON.stringify(records));
+
+  const overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden', 'dark-overlay');
+  overlay.classList.add('cream-overlay');
+  var lbHtml = '<div style="margin:10px 0 5px;font-size:13px;opacity:0.7;color:#264653;">📊 排行榜 TOP5</div>';
+  for (var i = 0; i < Math.min(5, records.length); i++) {
+    var medal = ['🥇','🥈','🥉'][i] || (i+1) + '.';
+    var t = records[i].time;
+    var ts = t >= 60 ? Math.floor(t/60) + 'm ' + (t%60) + 's' : t + 's';
+    lbHtml += '<div style="font-size:13px;color:#264653;">' + medal + ' ' + ts + (i === 0 ? ' 👑' : '') + '</div>';
+  }
+
+  var canNext = state.level < cfg.maxLevel;
+  overlay.innerHTML = 
+    '<div class="popup-card">' +
+    '<div class="card-header">🎉 第' + state.level + '關完成！</div>' +
+    '<p style="font-size:20px;color:#264653;">⏱ <strong>' + timeStr + '</strong></p>' +
+    '<p style="font-size:13px;opacity:0.6;color:#264653;">金幣：' + cfg.coinTarget + ' 個</p>' +
+    lbHtml +
+    '<button id="nextLevelBtn" style="margin-top:4px;">' + (canNext ? '➡️ 下一關 (Lv.' + (state.level + 1) + ')' : '🏆 全部完成！') + '</button>' +
+    '<button id="homeBtn" class="secondary" style="margin-top:8px;padding:8px 20px;font-size:14px;margin-right:8px;">🏠 主頁</button>' +
+    '<button id="restartLv1Btn" class="secondary" style="margin-top:8px;padding:8px 20px;font-size:14px;">🔄 重新開始</button>' +
+    '</div>';
+
+  document.getElementById('nextLevelBtn').onclick = canNext ? function(){ startLevel(state.level + 1); } : resetGame;
+  document.getElementById('homeBtn').onclick = showLevelSelect;
+  document.getElementById('restartLv1Btn').onclick = resetGame;
+}
+
+// ===== Game Over =====
+function showGameOver() {
+  state.gameOver = true;
+  state.running = false;
+  gameOverSound();
+  var overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden', 'dark-overlay');
+  overlay.classList.add('cream-overlay');
+  var _cfg = getLevelConfig(state.level);
+  overlay.innerHTML = 
+    '<div class="popup-card">' +
+    '<div class="card-header" style="background:#264653;">💫 遊戲結束</div>' +
+    '<p style="color:#264653;">分數：💰 ' + state.score + ' | Lv.' + state.level + '</p>' +
+    '<p style="font-size:13px;opacity:0.6;color:#264653;">關卡進度：' + state.totalCoins + '/' + _cfg.coinTarget + '</p>' +
+    '<button id="restartBtn">再玩一次</button>' +
+    '<button id="homeBtn2" class="secondary" style="margin-top:8px;padding:8px 20px;font-size:14px;display:block;margin-left:auto;margin-right:auto;">🏠 主頁</button>' +
+    '</div>';
+  document.getElementById('restartBtn').onclick = resetGame;
+  document.getElementById('homeBtn2').onclick = showLevelSelect;
+}
+
+// ===== 重置 =====
+function resetGame() {
+  state.running = false;
+  state.gameOver = false;
+  state.score = 0;
+  state.level = 1;
+  state.focusLevel = 50;
+  state.spacePressed = false;
+  state.bird = { x: 200, y: 250, vy: 0, displayAngle: 0 };
+  state.coins = [];
+  state.effects = [];
+  state.comboCount = 0;
+  state.totalCoins = 0;
+  state.frame = 0;
+  showLevelSelect();
+}
+
+function showLevelSelect() {
+  state.running = false;
+  document.getElementById('exitBtn').classList.add('hidden');
+  var overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden', 'cream-overlay');
+  overlay.classList.add('dark-overlay');
+  var grid = '';
+  for (var i = 1; i <= 20; i++) {
+    grid += '<div class="lv-btn" data-lv="' + i + '" onclick="startLevel(' + i + ')">Lv.' + i + '</div>';
+  }
+  overlay.innerHTML = 
+    '<h1>🦅 專注飛鳥 v2.0</h1>' +
+    '<p style="font-size:13px;opacity:0.6;color:#A8DADC;">科學化視覺優化 · 揀關卡開始</p>' +
+    '<div class="lv-grid">' + grid + '</div>';
+  ctx.clearRect(0, 0, W, H);
+  drawBackground(0);
+  drawBird();
+}
+
+// ===== 主遊戲 loop =====
+function drawBackground(frameOffset) {
+  const f = frameOffset || state.frame;
+  
+  // ===== 天空 — 靜態 (Section VII: Parallax sky = static) =====
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+  skyGrad.addColorStop(0, '#1a3a5c');     // deep navy-teal
+  skyGrad.addColorStop(0.4, '#74B3CE');    // sky blue
+  skyGrad.addColorStop(0.7, '#A8DADC');    // mint
+  skyGrad.addColorStop(1, '#F4F9F9');      // cream
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // ===== 太陽 =====
+  // 柔和琥珀色太陽，右上角
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 28, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFCB77';
+  ctx.fill();
+  // 太陽光暈 — 3層
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 38, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 203, 119, 0.12)';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 50, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 203, 119, 0.06)';
+  ctx.fill();
+
+  // ===== 白雲 =====
+  function drawCloud(cx, cy, scale) {
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.beginPath(); ctx.arc(cx, cy, 12*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*scale, cy-4*scale, 10*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+28*scale, cy, 9*scale, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*scale, cy+4*scale, 8*scale, 0, Math.PI*2); ctx.fill();
+  }
+  drawCloud(50, 50, 1);
+  drawCloud(160, 70, 0.8);
+  drawCloud(290, 40, 1.1);
+
+  // ===== 中景山脈 (0.15x速度 — 極慢偏移) =====
+  const hillOffset = -(bgOffsets.hills % (W * 2));
+  // 第一層深青綠山脈 (#1a6b5a)
+  ctx.fillStyle = '#1a6b5a';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.70);
+  for (let x = 0; x <= W; x += 10) {
+    const nx = x + hillOffset;
+    const y = H * 0.70 - 15 - Math.sin(nx * 0.008) * 18 - Math.sin(nx * 0.015) * 10;
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(W, H * 0.75);
+  ctx.closePath();
+  ctx.fill();
+
+  // 第二層淺青綠山脈 (#2EC4B6)，重疊
+  ctx.fillStyle = '#2EC4B6';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.73);
+  for (let x = 0; x <= W; x += 10) {
+    const nx = x + hillOffset * 1.3;
+    const y = H * 0.73 - 10 - Math.sin(nx * 0.012 + 1.5) * 12 - Math.sin(nx * 0.02 + 0.5) * 6;
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(W, H * 0.75);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 河流 (非橙色，用天藍色) =====
+  ctx.fillStyle = 'rgba(116, 179, 206, 0.3)';
+  ctx.beginPath();
+  ctx.moveTo(0, H - 25);
+  ctx.quadraticCurveTo(W*0.25, H-35, W*0.5, H-25);
+  ctx.quadraticCurveTo(W*0.75, H-15, W, H-25);
+  ctx.lineTo(W, H-10);
+  ctx.quadraticCurveTo(W*0.75, H, W*0.5, H-12);
+  ctx.quadraticCurveTo(W*0.25, H-22, 0, H-10);
+  ctx.closePath();
+  ctx.fill();
+
+  // 水面反光 (白色柔和)
+  ctx.fillStyle = 'rgba(255,255,255,0.1)';
+  for (let i = 0; i < 4; i++) {
+    const rx = 30 + i * 90 + Math.sin(f * 0.03 + i) * 5;
+    ctx.fillRect(rx, H-22, 15, 3);
+  }
+
+  // ===== 前景草地 (1x速度) =====
+  const groundShift = -(bgOffsets.ground % W);
+  const groundColor = '#2EC4B6';
+  ctx.fillStyle = groundColor;
+  ctx.fillRect(0, H-20, W, 20);
+
+  // 草地紋理（草葉）- 用 teal 色系
+  ctx.strokeStyle = '#1a6b5a';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 30; i++) {
+    let gx = (i * 13 + groundShift) % W;
+    if (gx < 0) gx += W;
+    const gh = 5 + Math.sin(i * 2.7) * 3;
+    ctx.beginPath();
+    ctx.moveTo(gx, H-20);
+    ctx.lineTo(gx - 1, H-20 - gh);
+    ctx.stroke();
+  }
+
+  // ===== 花朵 (amber點綴，極少) =====
+  // 用amber (#FFCB77) 和 pale teal 交替，取代五彩繽紛
+  const flowerColors = ['#FFCB77', '#A8DADC', '#FFCB77', '#A8DADC', '#FFCB77'];
+  for (let i = 0; i < 5; i++) {
+    let fx = (i * 75 + 20 + groundShift) % W;
+    if (fx < 0) fx += W;
+    const fy = H - 18;
+    const fc = flowerColors[i % flowerColors.length];
+    // 花莖
+    ctx.strokeStyle = '#1a6b5a';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy);
+    ctx.lineTo(fx, fy - 6 - Math.sin(i * 1.3) * 3);
+    ctx.stroke();
+    // 花瓣 - 簡化為小圓點
+    ctx.fillStyle = fc;
+    ctx.beginPath();
+    ctx.arc(fx, fy - 7, 2, 0, Math.PI * 2);
+    ctx.fill();
+    // 花心
+    ctx.fillStyle = '#FFCB77';
+    ctx.beginPath();
+    ctx.arc(fx, fy - 7, 1, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // ===== 金幣落地提示 =====
+  ctx.fillStyle = 'rgba(255, 203, 119, 0.08)';
+  ctx.fillRect(0, H-25, W, 5);
+}
+
+function drawBird() {
+  const b = state.bird;
+  const focus = state.focusLevel;
+  const frame = state.frame;
+
+  ctx.save();
+  ctx.translate(b.x, b.y);
+
+  // 使用平滑 easing 嘅角度 (Section V)
+  ctx.rotate(b.displayAngle);
+
+  // ===== 身體（橢圓形）- 改為 #2EC4B6 teal =====
+  ctx.fillStyle = '#2EC4B6';
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 腹部淺色 - 改為 mint #A8DADC
+  ctx.fillStyle = '#A8DADC';
+  ctx.beginPath();
+  ctx.ellipse(2, 4, 10, 7, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 尾羽 - 深teal =====
+  const tailFlap = Math.sin(frame * 0.08) * 2;
+  ctx.fillStyle = '#1a6b5a';
+  ctx.beginPath();
+  ctx.moveTo(-16, -3);
+  ctx.lineTo(-28, -8 + tailFlap);
+  ctx.lineTo(-25, 2 - tailFlap);
+  ctx.lineTo(-16, 3);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 右翼（前面，拍翼動畫）=====
+  const wingUp = Math.sin(frame * 0.1) * 8;
+  const wingTwist = Math.abs(Math.sin(frame * 0.1));
+  ctx.fillStyle = '#1a9b8a';  // slightly darker teal
+  ctx.beginPath();
+  ctx.moveTo(-4, -2);
+  ctx.lineTo(-22, -16 + wingUp);
+  ctx.lineTo(-16 + wingTwist * 3, -6);
+  ctx.lineTo(-4, 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // 翅膀光影
+  ctx.fillStyle = 'rgba(255,255,255,0.1)';
+  ctx.beginPath();
+  ctx.moveTo(-6, -2);
+  ctx.lineTo(-20, -12 + wingUp);
+  ctx.lineTo(-15, -4);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 左翼（後面）=====
+  const wingUp2 = Math.sin(frame * 0.1 + Math.PI) * 6;
+  ctx.fillStyle = '#1a6b5a';
+  ctx.beginPath();
+  ctx.moveTo(-4, -1);
+  ctx.lineTo(-20, -12 + wingUp2);
+  ctx.lineTo(-14, -4);
+  ctx.lineTo(-4, 1);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 頭 =====
+  ctx.fillStyle = '#2EC4B6';
+  ctx.beginPath();
+  ctx.arc(14, -4, 9, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 眼（白）=====
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.ellipse(18, -5, 4, 4.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 瞳孔 =====
+  ctx.fillStyle = '#264653';
+  ctx.beginPath();
+  ctx.arc(19, -5, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 瞳孔高光 =====
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(20, -6.5, 1, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 嘴（amber #FFCB77 - 限量使用）=====
+  ctx.fillStyle = '#FFCB77';
+  ctx.beginPath();
+  ctx.moveTo(21, -2);
+  ctx.lineTo(32, -1);
+  ctx.lineTo(21, 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 腮紅（柔和 amber）=====
+  ctx.fillStyle = 'rgba(255, 203, 119, 0.2)';
+  ctx.beginPath();
+  ctx.ellipse(14, 2, 5, 3, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ===== 專注光環 (Focus Aura — Section V & VII) =====
+  if (focus > 70) {
+    const pulse = Math.sin(frame * 0.06) * 2;
+    // 外光環 — bright blue #4361EE
+    ctx.beginPath();
+    ctx.arc(0, 0, 34 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 100 * 0.2})`;
+    ctx.fill();
+    // 中間光環 — teal #2EC4B6 虛線效果
+    ctx.beginPath();
+    ctx.arc(0, 0, 30 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(46, 196, 182, ${(focus - 70) / 100 * 0.15})`;
+    ctx.fill();
+    // 內光環
+    ctx.beginPath();
+    ctx.arc(0, 0, 26 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 100 * 0.08})`;
+    ctx.fill();
+  }
+  if (focus < 25) {
+    // 低專注 — 柔和紅橙光環
+    ctx.beginPath();
+    ctx.arc(0, 0, 32, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(231, 111, 81, ${(25 - focus) / 100 * 0.15})`;
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function drawCoin3D(c, rotAngle) {
+  // 3D 自轉金幣 — amber色系 ≤10%
+  const r = c.size;
+  const scaleX = Math.abs(Math.cos(rotAngle));
+
+  ctx.save();
+
+  // 金幣陰影
+  ctx.beginPath();
+  ctx.ellipse(2, 2, r * scaleX, r, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(0,0,0,0.15)';
+  ctx.fill();
+
+  // 金幣本體 — amber色系 (#FFCB77 淺, #E8933A 深)
+  ctx.beginPath();
+  ctx.ellipse(0, 0, r * scaleX, r, 0, 0, Math.PI * 2);
+  const grad = ctx.createLinearGradient(-r, 0, r, 0);
+  grad.addColorStop(0, '#FFCB77');
+  grad.addColorStop(0.2, '#FFCB77');
+  grad.addColorStop(0.5, '#E8933A');
+  grad.addColorStop(0.8, '#FFCB77');
+  grad.addColorStop(1, '#E8933A');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // 邊框 — 深灰藍
+  ctx.strokeStyle = '#264653';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // 邊緣高光
+  ctx.beginPath();
+  ctx.ellipse(-r*0.3*scaleX, -r*0.3, r*0.5*scaleX, r*0.4, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fill();
+
+  // 中間符號（只有正面先睇到）
+  if (scaleX > 0.3) {
+    const opacity = Math.min(1, (scaleX - 0.3) / 0.5);
+    ctx.globalAlpha = opacity;
+    ctx.fillStyle = '#1a6b5a';
+    ctx.font = `bold ${Math.max(10, r * 1.1)}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('✦', 0, 1);
+    ctx.globalAlpha = 1;
+  }
+
+  ctx.restore();
+}
+
+function drawCoins() {
+  for (const c of state.coins) {
+    if (c.collected) continue;
+    ctx.save();
+    ctx.translate(c.x, c.y);
+
+    const rot = state.frame * 0.05 + c.x * 0.02;
+    drawCoin3D(c, rot);
+
+    ctx.restore();
+  }
+}
+
+// ===== VFX 繪製 =====
+function drawEffects() {
+  for (const e of state.effects) {
+    if (e.type === 'coin') {
+      const p = e.frame / 18; // 0 to 1
+      const alpha = 1 - p;
+      const radius = 6 + p * 14;
+      
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      
+      // 琥珀色光暈
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(232, 147, 58, 0.4)';
+      ctx.fill();
+      
+      // teal色放射線
+      for (let j = 0; j < 6; j++) {
+        const a = (j / 6) * Math.PI * 2 + e.frame * 0.2;
+        ctx.beginPath();
+        ctx.moveTo(e.x, e.y);
+        const len = (8 - p * 6) * (1 - p * 0.5);
+        ctx.lineTo(e.x + Math.cos(a) * len, e.y + Math.sin(a) * len);
+        ctx.strokeStyle = 'rgba(46, 196, 182, 0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+      
+      // 白色閃光 (中間)
+      if (p < 0.4) {
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, 4 * (1 - p / 0.4), 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.7)';
+        ctx.fill();
+      }
+      
+      ctx.restore();
+    }
+  }
+}
+
+function drawHUD() {
+  document.getElementById('scoreDisplay').textContent = `💰 ${state.score}`;
+  document.getElementById('levelDisplay').textContent = `⭐ Lv.${state.level}`;
+  const cfg = getLevelConfig(state.level);
+  document.getElementById('targetDisplay').textContent = `${state.totalCoins}/${cfg.coinTarget}`;
+  
+  // Focus Bar 三狀態顏色更新 (Section V & VII)
+  const bar = document.getElementById('focusBar');
+  bar.style.width = `${state.focusLevel}%`;
+  
+  // 根據 focusLevel 設定 class
+  bar.classList.remove('focus-low', 'focus-mid', 'focus-high');
+  if (state.focusLevel < 35) {
+    bar.classList.add('focus-low');
+  } else if (state.focusLevel < 70) {
+    bar.classList.add('focus-mid');
+  } else {
+    bar.classList.add('focus-high');
+  }
+}
+
+function gameLoop() {
+  if (!state.running) return;
+  state.frame++;
+
+  if (state.spacePressed) {
+    state.focusLevel = Math.min(100, state.focusLevel + 1.5);
+  } else {
+    state.focusLevel = Math.max(0, state.focusLevel - 0.5);
+  }
+  updateBird();
+
+  if (!state.nextSpawn) state.nextSpawn = 300;
+  state.spawnTimer++;
+  var cfg = getLevelConfig(state.level);
+  var maxCoins = cfg.coinTarget + 5;
+  if (state.coinsSpawned < maxCoins && state.spawnTimer >= state.nextSpawn) {
+    state.spawnTimer = 0;
+    state.nextSpawn = 180 + Math.floor(Math.random() * 120);
+    spawnCoin();
+  }
+  updateCoins();
+  updateEffects();
+  if (!state.running) return;
+
+  ctx.clearRect(0, 0, W, H);
+  
+  // 更新背景 parallax 偏移
+  // 天空 = 靜止，中景極慢，前景正常
+  bgOffsets.sky = 0; // 永遠靜止
+  bgOffsets.hills += BG_SPEEDS.hills * Math.pow(1.05, state.level - 1);
+  bgOffsets.ground += BG_SPEEDS.ground * Math.pow(1.05, state.level - 1);
+  
+  drawBackground();
+  drawCoins();
+  drawEffects();
+  drawBird();
+  drawHUD();
+
+  requestAnimationFrame(gameLoop);
+}
+
+// ===== 開始（或下一關）=====
+function startLevel(levelNum) {
+  document.getElementById('overlay').classList.add('hidden');
+  document.getElementById('overlay').classList.remove('cream-overlay', 'dark-overlay');
+  document.getElementById('exitBtn').classList.remove('hidden');
+  state.running = true;
+  state.gameOver = false;
+  state.level = levelNum;
+  state.totalCoins = 0;
+  state.coinsSpawned = 0;
+  state.focusLevel = 50;
+  state.bird = { x: 200, y: 250, vy: 0, displayAngle: 0 };
+  state.coins = [];
+  state.effects = [];
+  state.spawnTimer = 0;
+  state.nextSpawn = 0;
+  state.levelStartTime = Date.now();
+  state.spacePressed = false;
+  // 重置背景偏移
+  bgOffsets.sky = 0;
+  bgOffsets.hills = 0;
+  bgOffsets.ground = 0;
+  gameLoop();
+}
+
+// ===== WebSocket (腦波 external mode) =====
+function connectBrainLink(wsUrl) {
+  state.externalMode = true;
+  state.ws = new WebSocket(wsUrl);
+  state.ws.onopen = function(){ console.log('🧠 BrainLink connected'); };
+  state.ws.onmessage = function(event) {
+    try {
+      var data = JSON.parse(event.data);
+      state.attention = data.attention;
+      state.spacePressed = data.shouldDive;
+    } catch(e) {}
+  };
+  state.ws.onclose = function(){
+    console.log('🧠 BrainLink disconnected, retrying in 3s...');
+    state.externalMode = false;
+    setTimeout(function(){ connectBrainLink(wsUrl); }, 3000);
+  };
+  state.ws.onerror = function(){ state.ws.close(); };
+}
+
+// If URL has ?ws=...
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var wsUrl = params.get('ws');
+  if (wsUrl) connectBrainLink(wsUrl);
+})();
+
+// ===== 鍵盤控制 =====
+document.addEventListener('keydown', function(e) {
+  if (e.key === ' ') {
+    e.preventDefault();
+    if (!state.running && state.gameOver) resetGame();
+    if (!state.externalMode) state.spacePressed = true;
+  }
+});
+document.addEventListener('keyup', function(e) {
+  if (e.key === ' ') { e.preventDefault(); if (!state.externalMode) state.spacePressed = false; }
+});
+
+// Touch
+document.getElementById('gameCanvas').addEventListener('touchstart', function(e) {
+  e.preventDefault();
+  if (!state.running && state.gameOver) resetGame();
+  else state.spacePressed = true;
+});
+document.getElementById('gameCanvas').addEventListener('touchend', function(e) {
+  e.preventDefault(); state.spacePressed = false;
+});
+document.getElementById('gameCanvas').addEventListener('touchcancel', function(e) {
+  state.spacePressed = false;
+});
+
+// Mouse
+document.getElementById('gameCanvas').addEventListener('mousedown', function(e) {
+  if (!state.running && state.gameOver) resetGame();
+  else state.spacePressed = true;
+});
+document.getElementById('gameCanvas').addEventListener('mouseup', function() { state.spacePressed = false; });
+document.getElementById('gameCanvas').addEventListener('mouseleave', function() { if (!state.externalMode) state.spacePressed = false; });
+
+// ===== 初始化畫面 (level select) =====
+// 綁定 startBtn (首頁開始按鈕)
+document.getElementById('startBtn').addEventListener('click', function() {
+  startLevel(1);
+});
+showLevelSelect();
+</script>
+</body>
+</html>
