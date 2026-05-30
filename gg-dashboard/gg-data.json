@@ -1,14 +1,14 @@
 {
-  "ts": "01:57",
-  "hour": 1,
-  "minute": 57,
-  "pushed_at": "2026-05-31 02:00 HKT",
+  "ts": "02:25",
+  "hour": 2,
+  "minute": 25,
+  "pushed_at": "2026-05-31 02:30 HKT",
   "system": {
-    "cpu": 4,
+    "cpu": 28,
     "mem": 25,
-    "disk": 55,
-    "load": "0.24",
-    "uptime": "4 days, 7 hours, 53 minutes",
+    "disk": 56,
+    "load": "0.21",
+    "uptime": "4 days, 8 hours, 21 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "01:57",
+      "time": "02:25",
       "text": "Dashboard data refresh"
     },
     {
@@ -34,20 +34,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "01:34",
-      "text": "Cron: memory_bridge.log (52133B)"
+      "time": "02:05",
+      "text": "Cron: memory_bridge.log (52384B)"
     },
     {
       "time": "08:32",
       "text": "Cron: mcp-stderr.log (17308B)"
     },
     {
-      "time": "01:55",
-      "text": "Cron: guardian.log (95511B)"
+      "time": "02:25",
+      "text": "Cron: guardian.log (95979B)"
     },
     {
-      "time": "01:57",
-      "text": "Cron: gateway.log (1638536B)"
+      "time": "02:25",
+      "text": "Cron: gateway.log (1664220B)"
     },
     {
       "time": "09:40",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 4,
+      "cpu": 28,
       "mem": 25,
-      "disk": 55,
-      "load": "0.24",
-      "uptime": "4 days, 7 hours, 53 minutes",
+      "disk": 56,
+      "load": "0.21",
+      "uptime": "4 days, 8 hours, 21 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -92,10 +92,10 @@
     },
     "work": {
       "cpu": 8,
-      "mem": 36,
+      "mem": 35,
       "disk": 51,
-      "load": "0.13",
-      "uptime": "1 week, 4 days, 13 hours, 31 minutes",
+      "load": "0.62",
+      "uptime": "1 week, 4 days, 13 hours, 59 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -120,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 0,
-      "mem": 33,
+      "cpu": 52,
+      "mem": 32,
       "disk": 62,
-      "load": "0.11",
-      "uptime": "1 week, 4 days, 13 hours, 31 minutes",
+      "load": "0.20",
+      "uptime": "1 week, 4 days, 13 hours, 59 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
