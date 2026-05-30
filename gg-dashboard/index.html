@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦾</text></svg>">
+  <title>Hermes Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="avatar">🦾</div>
+      <div>
+        <h1>Good Morning<span class="sub">Terrence · Personal Dashboard</span></h1>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="time-label" id="lastUpdate">--:--</span>
+      <span class="badge" id="sysBadge">● OK</span>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE 1: HOME (System)                                        -->
+  <!-- ============================================================ -->
+  <div id="page-home" class="tab-page active">
+    <div class="greeting">
+      <h2 id="greetingText">System Overview</h2>
+      <div class="date" id="todayDate">Loading...</div>
+    </div>
+
+    <!-- Metric Summary Cards -->
+    <div class="metric-summary">
+      <div class="metric-card">
+        <div class="icon">🖥️</div>
+        <div class="value green" id="sCpu">--</div>
+        <div class="label">CPU</div>
+      </div>
+      <div class="metric-card">
+        <div class="icon">💾</div>
+        <div class="value peach" id="sMem">--</div>
+        <div class="label">MEM</div>
+      </div>
+      <div class="metric-card">
+        <div class="icon">💿</div>
+        <div class="value purple" id="sDisk">--</div>
+        <div class="label">DISK</div>
+      </div>
+    </div>
+
+    <!-- Hermes Main -->
+    <div class="section-title">🤖 Hermes Main</div>
+    <div class="card">
+      <div class="card-header">
+        <h2>🖥️ Hermes Main</h2>
+        <span class="tag green" id="badgeMain">● Online</span>
+      </div>
+      <div class="metric-row">
+        <div class="metric"><div class="val green" id="hCpu">--</div><div class="lbl">CPU</div></div>
+        <div class="metric"><div class="val peach" id="hMem">--</div><div class="lbl">MEM</div></div>
+        <div class="metric"><div class="val purple" id="hDisk">--</div><div class="lbl">DISK</div></div>
+        <div class="metric"><div style="font-size:12px;color:var(--text-dim)" id="hUp">--</div><div class="lbl">UPTIME</div></div>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted)">
+        Cron: <span id="hCron" style="font-weight:600">--</span> · Callback: <span id="hCallback" style="font-weight:600">--</span>
+      </div>
+    </div>
+
+    <!-- OpenClaw Sub Agents -->
+    <div class="section-title">⚙️ OpenClaw Agents</div>
+    <div class="col2">
+      <div class="card">
+        <div class="card-header"><h2>💻 Work</h2><span class="tag lavender" id="badgeWork">● --</span></div>
+        <div class="metric-row">
+          <div class="metric"><div class="val green" id="wCpu">--</div><div class="lbl">CPU</div></div>
+          <div class="metric"><div class="val peach" id="wMem">--</div><div class="lbl">MEM</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--text-dim)">
+          Reminder: <span id="wRem" style="font-weight:600">--</span> · Monitor: <span id="wMon" style="font-weight:600">--</span><br>
+          Disk: <span id="wDisk" style="font-weight:600">--</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>🏠 Person</h2><span class="tag lavender" id="badgePerson">● --</span></div>
+        <div class="metric-row">
+          <div class="metric"><div class="val green" id="pCpu">--</div><div class="lbl">CPU</div></div>
+          <div class="metric"><div class="val peach" id="pMem">--</div><div class="lbl">MEM</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--text-dim)">
+          Reminder: <span id="pRem" style="font-weight:600">--</span> · Monitor: <span id="pMon" style="font-weight:600">--</span><br>
+          Disk: <span id="pDisk" style="font-weight:600">--</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daemons -->
+    <div class="section-title">⚡ Daemon Status</div>
+    <div class="card" id="daemonList">
+      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
+    </div>
+
+    <!-- Schedule Timeline -->
+    <div class="section-title">📅 Today's Schedule</div>
+    <div class="card" id="todaySchedule">
+      <div class="schedule-item">
+        <span class="schedule-time">09:30</span>
+        <span class="schedule-dot done"></span>
+        <div class="schedule-info">
+          <div class="schedule-title">CISP Class</div>
+          <div class="schedule-desc">Online · Until 16:30</div>
+        </div>
+      </div>
+      <div class="schedule-item">
+        <span class="schedule-time">16:00</span>
+        <span class="schedule-dot"></span>
+        <div class="schedule-info">
+          <div class="schedule-title">Security Discussion</div>
+          <div class="schedule-desc">Internal meeting</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity -->
+    <div class="section-title">📜 Recent Activity</div>
+    <div class="card" id="activityLog">
+      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
+    </div>
+  </div><!-- /page-home -->
+
+  <!-- ============================================================ -->
+  <!-- PAGE 2: PERSONAL                                            -->
+  <!-- ============================================================ -->
+  <div id="page-personal" class="tab-page">
+    <div class="greeting">
+      <h2>Profile</h2>
+      <div class="date">Terrence Lam</div>
+    </div>
+
+    <div class="card">
+      <div class="profile-card">
+        <div class="profile-avatar">👤</div>
+        <div class="profile-info">
+          <h3>Terrence Lam</h3>
+          <p>Pre-Sales Consultant · AIA 31/F</p>
+        </div>
+      </div>
+      <div class="profile-tags">
+        <span class="tag-sm green">🇭🇰 Hong Kong</span>
+        <span class="tag-sm lavender">7w6</span>
+        <span class="tag-sm peach">UTC+8</span>
+        <span class="tag-sm green">⛪ Worship Leader</span>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:12px;line-height:1.6">
+        🏠 錦田水尾村 · 👩‍👧‍👧 Aggie + 2 kids<br>
+        🚗 Toyota Sienta Hybrid 2018 · 🎸 敬拜隊隊長<br>
+        ⛪ 伯特利慈光堂 / 新蒲崗萬迪教會
+      </div>
+    </div>
+
+    <div class="section-title">📋 Reminders</div>
+    <div class="card">
+      <div style="font-size:14px;color:var(--text-muted)">
+        Total: <strong id="remTotal" style="color:var(--text)">--</strong> · Overdue: <strong id="remOverdue" style="color:#e17055">--</strong>
+      </div>
+    </div>
+  </div><!-- /page-personal -->
+
+  <!-- ============================================================ -->
+  <!-- PAGE 3: GG                                                  -->
+  <!-- ============================================================ -->
+  <div id="page-gg" class="tab-page">
+    <div class="greeting">
+      <h2>Agent Center</h2>
+      <div class="date">OpenClaw · Hermes</div>
+    </div>
+
+    <!-- OpenClaw -->
+    <div class="gg-section">
+      <div class="gg-section-header">
+        <div class="icon green">⚡</div>
+        <h3>OpenClaw</h3>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span style="font-size:14px;font-weight:700">💻 GG-Work</span>
+          <span class="tag green" id="ggBadgeWork">● Online</span>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.8">
+          172.6.15.181<br>
+          Reminder: <span id="ggWRem" style="font-weight:600;color:var(--green-dark)">✓</span>
+          · Monitor: <span id="ggWMon" style="font-weight:600;color:var(--green-dark)">✓</span>
+          · OpenClaw: <span id="ggWOpen" style="font-weight:600;color:var(--green-dark)">✓</span><br>
+          CPU <span id="ggWCpu" style="font-weight:600">--</span> · MEM <span id="ggWMem" style="font-weight:600">--</span> · DISK <span id="ggWDisk" style="font-weight:600">--</span>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:14px;font-weight:700">🏠 GG-Person</span>
+          <span class="tag green" id="ggBadgePerson">● Online</span>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.8;margin-top:8px">
+          172.6.15.182<br>
+          Reminder: <span id="ggPRem" style="font-weight:600;color:var(--green-dark)">✓</span>
+          · Monitor: <span id="ggPMon" style="font-weight:600;color:var(--green-dark)">✓</span>
+          · OpenClaw: <span id="ggPOpen" style="font-weight:600;color:var(--green-dark)">✓</span><br>
+          CPU <span id="ggPCpu" style="font-weight:600">--</span> · MEM <span id="ggPMem" style="font-weight:600">--</span> · DISK <span id="ggPDisk" style="font-weight:600">--</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hermes -->
+    <div class="gg-section">
+      <div class="gg-section-header">
+        <div class="icon lavender">🤖</div>
+        <h3>Hermes</h3>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span style="font-size:14px;font-weight:700">🤖 Hermes Main</span>
+          <span class="tag green" id="ggBadgeMain">● Online</span>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.8">
+          Model: deepseek/deepseek-chat · Provider: DeepSeek<br>
+          CPU <span id="ggHCpu" style="font-weight:600">--</span> · MEM <span id="ggHMem" style="font-weight:600">--</span> · DISK <span id="ggHDisk" style="font-weight:600">--</span> · Load <span id="ggHLoad" style="font-weight:600">--</span><br>
+          Cron Jobs: <span id="ggHCron" style="font-weight:600">--</span> · Calendar: <span id="ggHCal" style="font-weight:600;color:var(--green-dark)">Connected ✓</span>
+        </div>
+      </div>
+    </div>
+  </div><!-- /page-gg -->
+
+  <!-- ============================================================ -->
+  <!-- PAGE 4: COST                                                -->
+  <!-- ============================================================ -->
+  <div id="page-cost" class="tab-page">
+    <div class="greeting">
+      <h2>API Costs</h2>
+      <div class="date">Monthly usage & spending</div>
+    </div>
+
+    <div class="card">
+      <div class="cost-item">
+        <div class="cost-icon purple">Ｄ</div>
+        <div class="cost-info">
+          <div class="cost-name">DeepSeek Chat</div>
+          <div class="cost-detail">deepseek-chat · Main LLM</div>
+        </div>
+        <div class="cost-amount" style="color:#9b8ec4" id="costDeepSeek">$0.00</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-icon green">🗺️</div>
+        <div class="cost-info">
+          <div class="cost-name">Google Maps</div>
+          <div class="cost-detail">Traffic · Places · Geocoding</div>
+        </div>
+        <div class="cost-amount" style="color:var(--green-dark)" id="costMaps">$0.00</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-icon peach">📝</div>
+        <div class="cost-info">
+          <div class="cost-name">Notion API</div>
+          <div class="cost-detail">Memory · Tasks · Database</div>
+        </div>
+        <div class="cost-amount" style="color:var(--peach-dark)" id="costNotion">$0.00</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-icon purple">🔮</div>
+        <div class="cost-info">
+          <div class="cost-name">Perplexity</div>
+          <div class="cost-detail">Web Search · Research</div>
+        </div>
+        <div class="cost-amount" style="color:#9b8ec4" id="costPerplexity">$0.00</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-icon green">📅</div>
+        <div class="cost-info">
+          <div class="cost-name">Google Calendar</div>
+          <div class="cost-detail">Events · Schedule</div>
+        </div>
+        <div class="cost-amount" style="color:var(--green-dark)" id="costCalendar">$0.00</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-icon peach">☁️</div>
+        <div class="cost-info">
+          <div class="cost-name">DigitalOcean</div>
+          <div class="cost-detail">VM · Dashboard hosting</div>
+        </div>
+        <div class="cost-amount" style="color:var(--peach-dark)" id="costDO">$0.00</div>
+      </div>
+      <div class="cost-total">
+        <div class="total-label">Total Monthly Cost</div>
+        <div class="total-val" id="costTotal">$0.00</div>
+      </div>
+    </div>
+  </div><!-- /page-cost -->
+
+</div><!-- /container -->
+
+<!-- ===== BOTTOM NAV ===== -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" data-tab="page-home" onclick="switchTab(event, 'page-home')">
+    <span class="nav-icon">🖥️</span> Home
+  </button>
+  <button class="nav-tab" data-tab="page-personal" onclick="switchTab(event, 'page-personal')">
+    <span class="nav-icon">👤</span> Profile
+  </button>
+  <button class="nav-tab" data-tab="page-gg" onclick="switchTab(event, 'page-gg')">
+    <span class="nav-icon">🦾</span> Agents
+  </button>
+  <button class="nav-tab" data-tab="page-cost" onclick="switchTab(event, 'page-cost')">
+    <span class="nav-icon">💰</span> Cost
+  </button>
+</nav>
+
+<script>
+// ===== TAB SWITCHING =====
+function switchTab(event, tabId) {
+  if (event) event.preventDefault();
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.querySelectorAll('.bottom-nav .nav-tab').forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// ===== HELPERS =====
+function setVal(id, val, color) {
+  var el = document.getElementById(id);
+  if (el) { el.textContent = val; if (color) el.style.color = color; }
+}
+function setDetail(id, text) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ===== DATA FETCH =====
+async function fetchData() {
+  try {
+    var r = await fetch('gg-data.json?_=' + Date.now());
+    var d = await r.json();
+    var ts = d.ts || '--:--';
+
+    // Header
+    setDetail('lastUpdate', ts);
+    if (d.badge_color) {
+      var badge = document.getElementById('sysBadge');
+      badge.className = 'badge' + (d.badge_color === 'red' ? ' warning' : '');
+      badge.textContent = d.badge_text || '● OK';
+    }
+
+    // Metric summary
+    var sys = d.system || {};
+    setVal('sCpu', (sys.temp || '--') + '%');
+    setVal('sMem', (sys.memory || '--') + '%');
+    setVal('sDisk', (sys.disk || '--') + '%');
+
+    // Date/greeting
+    var now = new Date();
+    var h = now.getHours();
+    var greet = h < 12 ? 'Good Morning' : h < 18 ? 'Good Afternoon' : 'Good Evening';
+    setDetail('greetingText', greet);
+    setDetail('todayDate', now.toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric', timeZone:'Asia/Hong_Kong'}));
+
+    var a = d.agents;
+    if (!a) return;
+
+    // Hermes Main
+    setVal('hCpu', a.main.cpu + '%');
+    setVal('hMem', a.main.mem + '%');
+    setVal('hDisk', a.main.disk + '%');
+    setDetail('hUp', a.main.uptime);
+    setDetail('hCron', a.main.cron_jobs + ' active');
+    setDetail('hCallback', a.main.online ? '✓ Running' : '✗ Stopped');
+    setTag('badgeMain', a.main.online);
+
+    // GG-Work
+    setVal('wCpu', a.work.cpu + '%');
+    setVal('wMem', a.work.mem + '%');
+    setDetail('wRem', a.work.daemons.reminder ? '✓' : '✗');
+    setDetail('wMon', a.work.daemons.monitor ? '✓' : '✗');
+    setDetail('wDisk', a.work.disk + '%');
+    setTag('badgeWork', a.work.online);
+
+    // GG-Person
+    setVal('pCpu', a.person.cpu + '%');
+    setVal('pMem', a.person.mem + '%');
+    setDetail('pRem', a.person.daemons.reminder ? '✓' : '✗');
+    setDetail('pMon', a.person.daemons.monitor ? '✓' : '✗');
+    setDetail('pDisk', a.person.disk + '%');
+    setTag('badgePerson', a.person.online);
+
+    // Daemon list
+    var daemons = [
+      {n:'Callback Daemon', loc:'Hermes Main', ok:a.main.online},
+      {n:'Work Reminder', loc:'172.6.15.181', ok:a.work.daemons.reminder},
+      {n:'Work Monitor', loc:'172.6.15.181', ok:a.work.daemons.monitor},
+      {n:'Person Reminder', loc:'172.6.15.182', ok:a.person.daemons.reminder},
+      {n:'Person Monitor', loc:'172.6.15.182', ok:a.person.daemons.monitor},
+    ];
+    var dl = document.getElementById('daemonList');
+    dl.innerHTML = daemons.map(function(d) {
+      return '<div class="daemon-row"><span class="daemon-dot ' + (d.ok?'green':'red') + '"></span>' +
+        '<span class="daemon-name">' + d.n + '</span><span class="daemon-loc">' + d.loc + '</span></div>';
+    }).join('');
+
+    // Activity log
+    var log = document.getElementById('activityLog');
+    log.innerHTML = '';
+    (d.activity || []).slice(0, 5).forEach(function(a) {
+      var div = document.createElement('div');
+      div.className = 'log-line';
+      div.innerHTML = '<span class="log-icon">📌</span><span class="log-time">' + a.time + '</span><span class="log-text">' + escHtml(a.text) + '</span>';
+      log.appendChild(div);
+    });
+
+    // === GG Page ===
+    setTag('ggBadgeWork', a.work.online);
+    setTag('ggBadgePerson', a.person.online);
+    setTag('ggBadgeMain', a.main.online);
+    setDetail('ggWRem', a.work.daemons.reminder ? '✓' : '✗');
+    setDetail('ggWMon', a.work.daemons.monitor ? '✓' : '✗');
+    setDetail('ggWOpen', a.work.daemons.openclaw ? '✓' : '✗');
+    setDetail('ggWCpu', a.work.cpu + '%');
+    setDetail('ggWMem', a.work.mem + '%');
+    setDetail('ggWDisk', a.work.disk + '%');
+    setDetail('ggPRem', a.person.daemons.reminder ? '✓' : '✗');
+    setDetail('ggPMon', a.person.daemons.monitor ? '✓' : '✗');
+    setDetail('ggPOpen', a.person.daemons.openclaw ? '✓' : '✗');
+    setDetail('ggPCpu', a.person.cpu + '%');
+    setDetail('ggPMem', a.person.mem + '%');
+    setDetail('ggPDisk', a.person.disk + '%');
+    setDetail('ggHCpu', a.main.cpu + '%');
+    setDetail('ggHMem', a.main.mem + '%');
+    setDetail('ggHDisk', a.main.disk + '%');
+    setDetail('ggHLoad', a.main.load);
+    setDetail('ggHCron', a.main.cron_jobs + ' active');
+
+    // === Reminders ===
+    setDetail('remTotal', d.reminders ? d.reminders.total : '--');
+    setDetail('remOverdue', d.reminders ? d.reminders.overdue : '--');
+
+  } catch(e) {
+    console.log('Fetch error:', e);
+  }
+}
+
+function setTag(id, online) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'tag ' + (online ? 'green' : 'peach');
+  el.textContent = online ? '● Online' : '● Offline';
+}
+
+// ===== INIT =====
+fetchData();
+setInterval(fetchData, 30000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<title>GG Bookmarklet</title>
+<style>
+body { background: #1a1a2e; color: #e0e0e0; font-family: system-ui; padding: 40px 20px; max-width: 600px; margin: 0 auto; }
+h1 { margin-bottom: 8px; }
+p { color: #999; line-height: 1.6; }
+.code { background: #16213e; border: 1px solid #333; border-radius: 8px; padding: 16px; margin: 16px 0; word-break: break-all; font-family: monospace; font-size: 12px; line-height: 1.5; color: #ccc; }
+.btn-bookmarklet { display: inline-block; background: #00d4aa; color: #0a0a1a; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 16px; cursor: grab; }
+.btn-bookmarklet:hover { background: #00ffcc; }
+.step { background: #0f3460; border-radius: 8px; padding: 12px 16px; margin: 8px 0; }
+.step-num { display: inline-block; background: #e94560; color: white; width: 24px; height: 24px; text-align: center; border-radius: 50%; line-height: 24px; margin-right: 8px; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>🦾 GG Bookmarklet Setup</h1>
+<p>Drag this button to your bookmarks bar:</p>
+<a class="btn-bookmarklet" href="#" id="bookmarklet">🚀 GG Dashboard</a>
+
+<div class="step"><span class="step-num">1</span> Drag the green button above to your bookmarks bar</div>
+<div class="step"><span class="step-num">2</span> Click it anytime to jump to the Dashboard</div>
+<div class="step"><span class="step-num">3</span> No login needed - token embedded ✅</div>
+
+<p style="margin-top:24px;color:#666;font-size:13px">
+  ⚠️ Token is embedded in the bookmarklet. Anyone with access to your bookmarks bar can use it.
+  Keep your browser locked.
+</p>
+
+<script>
+// The bookmarklet sets CF Access headers via fetch and redirects
+const CLIENT_ID = 'e4ed4be6ed5d8ca2b52a2105cc44e11f.access';
+const CLIENT_SECRET = '6c625cc482125f506318036596a423555a91d8d99bdec96dd892bce0d519c185';
+
+const code = `javascript:(function(){
+  var x=new XMLHttpRequest();
+  x.open('GET','https://gg.kinet-poc.com/gg-dashboard/',false);
+  x.setRequestHeader('CF-Access-Client-Id','${CLIENT_ID}');
+  x.setRequestHeader('CF-Access-Client-Secret','${CLIENT_SECRET}');
+  x.send();
+  if(x.status>=200&&x.status<400) window.location.href='https://gg.kinet-poc.com/gg-dashboard/';
+  else alert('Access denied: '+x.status);
+})()`;
+
+document.getElementById('bookmarklet').href = code;
+</script>
+</body>
+</html>

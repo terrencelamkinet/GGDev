@@ -1,0 +1,111 @@
+{
+  "ts": "00:46",
+  "hour": 0,
+  "minute": 46,
+  "system": {
+    "temp": 4,
+    "memory": 4,
+    "disk": 22,
+    "load": "0.13",
+    "uptime": "8 hours, 51 minutes",
+    "services": {
+      "gg-reminder": "green",
+      "disk": "green",
+      "memory": "green"
+    }
+  },
+  "reminders": {
+    "total": 20,
+    "overdue": 0,
+    "errors": 0
+  },
+  "activity": [
+    {
+      "time": "00:46",
+      "text": "Dashboard data refresh"
+    },
+    {
+      "time": "16:57",
+      "text": "Cron: nightly_report.txt (101B)"
+    },
+    {
+      "time": "00:44",
+      "text": "Cron: gateway.log (96319B)"
+    },
+    {
+      "time": "00:37",
+      "text": "Cron: gateway-shutdown-diag.log (10592B)"
+    },
+    {
+      "time": "00:38",
+      "text": "Cron: gateway-exit-diag.log (8765B)"
+    },
+    {
+      "time": "00:46",
+      "text": "Cron: errors.log (58075B)"
+    },
+    {
+      "time": "00:37",
+      "text": "Cron: callback_daemon.log (19894B)"
+    },
+    {
+      "time": "16:56",
+      "text": "Cron: api_test_results.json (130B)"
+    },
+    {
+      "time": "00:46",
+      "text": "Cron: agent.log (892831B)"
+    },
+    {
+      "time": "16:57",
+      "text": "Cron: .gitkeep (0B)"
+    }
+  ],
+  "agents": {
+    "main": {
+      "cpu": 4,
+      "mem": 4,
+      "disk": 22,
+      "load": "0.13",
+      "uptime": "8 hours, 51 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": false
+      },
+      "online": true,
+      "cron_jobs": 12
+    },
+    "work": {
+      "cpu": 4,
+      "mem": 13,
+      "disk": 48,
+      "load": "0.01",
+      "uptime": "4 days, 12 hours, 20 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181"
+    },
+    "person": {
+      "cpu": 83,
+      "mem": 23,
+      "disk": 58,
+      "load": "0.86",
+      "uptime": "4 days, 12 hours, 21 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182"
+    }
+  },
+  "badge_color": "green",
+  "badge_text": "● All OK",
+  "update_source": "hermes_update_data.py"
+}

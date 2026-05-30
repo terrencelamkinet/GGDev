@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "name": "exam-center",
+    "description": "IT 認證考試模擬系統 (SOC, NGFW, VCF)，含 shuffle bug fix、PDF answer verification、text format alignment",
+    "status": "live",
+    "created": "2026-05-11",
+    "last_activity": "2026-05-12 15:46",
+    "conversations": 12,
+    "files": [
+      "exam-center/index.html",
+      "exam-center/styles.css",
+      "exam-center/soc/quiz.html",
+      "exam-center/soc/questions.js",
+      "exam-center/ngfw/quiz.html",
+      "exam-center/ngfw/questions.js",
+      "exam-center/vcf/quiz.html",
+      "exam-center/vcf/questions.js"
+    ],
+    "notes": "DO App auto-deploy from git push to origin/main"
+  },
+  "context": {
+    "last_topic": "PDF line break cleaning (smart merge page wraps, keep intentional breaks)",
+    "key_points": [
+      "All 3 exams (SOC 90 / NGFW 121 / VCF ?) running on DO",
+      "Shuffle bug: fixed by shuffling whole choice objects + recalculating answer from correct texts",
+      "SOC 90 answers verified vs PDF: 0 mismatch (Q19 missing from PDF OCR)",
+      "NGFW 121 answers verified vs PDF: 0 mismatch"
+    ],
+    "pending_items": [
+      "VCF answer verification vs PDF (not done yet)"
+    ],
+    "decisions": [
+      "Shuffle method: whole choice objects, not just text strings",
+      "Line break policy: merge page wraps (no sentence-end punct), keep intentional breaks",
+      "Answer key page uses unshuffled array (no change needed)",
+      "Git push triggers DO auto-deploy"
+    ]
+  },
+  "conversations": [
+    {
+      "timestamp": "2026-05-11",
+      "text": "Initial setup: Terrence has a private 'exam' repo with VMware VCF quiz.html. Wants to build NGFW & SOC exam systems. Reference PDF: 'NGFW-Engineer Exam - Free Actual Q&As.pdf' (121 Qs) + SOC PDF (90 Qs). Created ngfw/quiz.html, soc/quiz.html, vcf/quiz.html with separate questions.js files."
+    },
+    {
+      "timestamp": "2026-05-11 14:50",
+      "text": "SHUFFLE BUG DISCOVERY: shuffleChoices() only shuffled text strings while q.answer stayed at original letter → wrong scoring. Fix: identify correct texts from original q.answer, shuffle whole choice objects, reassign A/B/C/D letters, recompute q.answer from shuffled positions. Verified with 6000 simulations (1000 seeds × 6 question types) — zero failures. Applied to all 3 quiz.html files."
+    },
+    {
+      "timestamp": "2026-05-12 12:00",
+      "text": "SOC 90 answer verification vs PDF: 88/89 matched, 1 mismatch → Q19 was PDF OCR missing 'Correct Answer:' line. REAL RESULT: 0 mismatch."
+    },
+    {
+      "timestamp": "2026-05-12 12:30",
+      "text": "NGFW 121 answer verification vs PDF: 121/121 matched, 0 mismatch."
+    },
+    {
+      "timestamp": "2026-05-12 14:40",
+      "text": "NGFW shuffleChoices dead code accidentally deleted from questions.js → restored via git checkout."
+    },
+    {
+      "timestamp": "2026-05-12 14:50",
+      "text": "VCF reference.html deleted + button removed from index.html."
+    },
+    {
+      "timestamp": "2026-05-12 15:14",
+      "text": "SOC text format alignment: 9 questions updated to match PDF (punctuation, commas, OCR typos)."
+    },
+    {
+      "timestamp": "2026-05-12 15:30",
+      "text": "NGFW text format alignment: 50 questions updated, then all 121 updated with PDF line breaks."
+    },
+    {
+      "timestamp": "2026-05-12 15:46",
+      "text": "Final clean: smart line break logic applied to NGFW 121 + SOC 90. Merges page-wrap lines (no sentence-end punctuation), keeps intentional breaks (period/colon-end + short lines). Q1 still has some merged lines due to OCR missing periods. Q15/Q90 OCR artifacts removed."
+    }
+  ]
+}

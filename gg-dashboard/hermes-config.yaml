@@ -1,0 +1,10 @@
+# Hermes AI — OpenClaw Configuration
+server:
+  host: '0.0.0.0'
+  port: 18789
+
+providers:
+  telegram:
+    enabled: true
+    botToken: '8868596479:AAFoju4Ly7qgzSJ4Aws7jSbi3u8Ic494IQ4'
+    channel: default
