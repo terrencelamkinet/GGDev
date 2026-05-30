@@ -1,0 +1,218 @@
+{
+  "messages": [
+    {
+      "ts": "2026-05-22T01:36:23.559607+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 52,
+      "topic": "correction",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.559982+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 4,
+      "topic": "confirm",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.560645+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 60,
+      "topic": "decision",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.563130+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 29,
+      "topic": "decision",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.565638+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 41,
+      "topic": "task",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.568122+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 28,
+      "topic": "validation",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.570698+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 8,
+      "topic": "query",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.573270+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 7,
+      "topic": "query",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.575835+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 4,
+      "topic": "confirm",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.578337+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 28,
+      "topic": "decision",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.581804+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 44,
+      "topic": "decision",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.584368+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 29,
+      "topic": "decision",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.586905+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 47,
+      "topic": "validation",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.589516+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 49,
+      "topic": "validation",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.592136+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 67,
+      "topic": "decision",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.594741+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 2,
+      "topic": "task",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.597310+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 21,
+      "topic": "correction",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.599941+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 11,
+      "topic": "task",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.602619+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 11,
+      "topic": "correction",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.605269+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 27,
+      "topic": "decision",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.607957+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 3,
+      "topic": "task",
+      "latency_min": null
+    },
+    {
+      "ts": "2026-05-22T01:36:23.610650+08:00",
+      "hour": 1,
+      "day": "Friday",
+      "text_len": 1,
+      "topic": "decision",
+      "latency_min": null
+    }
+  ],
+  "patterns": {
+    "busy_hours": {
+      "1": 22
+    },
+    "quick_replies": 2,
+    "avg_latency_by_hour": {},
+    "most_active_topics": {
+      "correction": 3,
+      "confirm": 2,
+      "decision": 8,
+      "task": 4,
+      "validation": 3,
+      "query": 2
+    },
+    "snooze_preferences": {},
+    "total_interactions": 22
+  },
+  "last_updated": "2026-05-22T01:36:23.610650+08:00",
+  "corrections": [
+    {
+      "ts": "2026-05-22T01:36:23.613361+08:00",
+      "topic": "snooze direction",
+      "old": "inverted (urgent=longer space)",
+      "new": "urgent=30min fastest, normal=720min"
+    },
+    {
+      "ts": "2026-05-22T01:36:23.616088+08:00",
+      "topic": "research citation method",
+      "old": "research backing cited from memory",
+      "new": "research-methodology skill — dynamic search, not static citations"
+    },
+    {
+      "ts": "2026-05-22T01:36:23.618816+08:00",
+      "topic": "definition source requirement",
+      "old": "definitions without source",
+      "new": "every definition needs source citation"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "e229d06f",
+  "target": "person",
+  "desc": "記錄 Terrence 2026-05-20 凌晨互動同個人事項：\n1. Terrence 指令：『你需要管理好真正要記嘅嘢，我需要一個有記性嘅管家！專門為我服務，你有咩需要幫手就搵Sub agent，再俾我見到你一個做晒，咁我就唔需要你啦』\n2. Terrence 授權：直到聽朝七點，升級唔需要授權，但必須控制 token 使用\n3. Terrence 要求：聽朝唔做好全面升級唔好見佢\n4. T",
+  "status": "done",
+  "created": "2026-05-20 00:43 HKT",
+  "result": "已記錄 ✅\n\n將 Terrence 嘅指令、授權範圍、deadline、風格洞察同技術注意事項全部寫入 `memory/2026-05-20.md`。\n\n重點 consolidate 咗：\n- **Terrence 要嘅係有記性嘅管家**，分工清晰，main GG 做 orchestrator 唔做 worker\n- **授權至 07:00**，但要慳 token\n- **Tunnel 斷線風險**要加 watch 機制\n- **07:00 前完成全面升級**係硬 deadline",
+  "completed": "2026-05-20 00:43 HKT"
+}
