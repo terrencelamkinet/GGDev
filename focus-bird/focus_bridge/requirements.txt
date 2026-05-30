@@ -1,6 +1,14 @@
 # BrainLink Bridge Requirements
 # Install: pip install -r requirements.txt
+#
+# brainlink_bridge.py (Windows X1, Python 3.11):
+#   cushy-serial — Bluetooth serial communication
+#   websockets  — WebSocket client (connect to Agent Relay)
+#   pyserial    — COM port scanning
+#
+# agent_relay_server.py (Linux VM):
+#   websockets  — WebSocket server (relay + game paths)
 
 cushy-serial>=1.0.0
-websockets>=12.0
+websockets>=11.0
 pyserial

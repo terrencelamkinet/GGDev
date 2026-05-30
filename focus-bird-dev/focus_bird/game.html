@@ -237,17 +237,19 @@
 
   <button id="exitBtn" class="hidden" onclick="showLevelSelect()">✕</button>
 
-  <div class="hud">
+    <div class="hud">
     <div class="hud-left">
       <span id="scoreDisplay">💰 0</span>
       <span id="levelDisplay">⭐ Lv.1</span>
       <span id="targetDisplay">0/30</span>
     </div>
     <div class="hud-right">
+      <span id="agentNoteDisplay" style="font-size:clamp(10px,1.2vh,14px);opacity:0.8;display:none;"></span>
       <span style="font-size:clamp(10px,1.2vh,14px);">專注</span>
       <div class="focus-bar-outer">
         <div class="focus-bar-inner focus-mid" id="focusBar" style="width:50%;"></div>
       </div>
+      <span id="wsStatus" title="BrainLink Connection" style="display:inline-block;width:clamp(10px,1.2vh,16px);height:clamp(10px,1.2vh,16px);border-radius:50%;background:#e74c3c;border:1px solid rgba(255,255,255,0.3);"></span>
     </div>
   </div>
 
@@ -984,30 +986,79 @@ function startLevel(levelNum) {
   gameLoop();
 }
 
-// ===== WebSocket =====
+// ===== WebSocket (Agent Relay Mode) =====
+let wsRetryTimer = null;
+
+function setWsStatus(connected) {
+  const dot = document.getElementById('wsStatus');
+  if (dot) {
+    dot.style.background = connected ? '#2ecc71' : '#e74c3c';
+    dot.style.boxShadow = connected ? '0 0 6px rgba(46,204,113,0.7)' : 'none';
+  }
+}
+
 function connectBrainLink(wsUrl) {
   state.externalMode = true;
   state.ws = new WebSocket(wsUrl);
-  state.ws.onopen = function(){ console.log('🧠 BrainLink connected'); };
+  console.log('🔌 BrainLink: 正在連接 ' + wsUrl);
+
+  state.ws.onopen = function(){
+    console.log('🧠 BrainLink via Agent connected');
+    setWsStatus(true);
+  };
+
   state.ws.onmessage = function(event) {
     try {
       var data = JSON.parse(event.data);
-      state.attention = data.attention;
-      state.spacePressed = data.shouldDive;
-    } catch(e) {}
+      state.attention = data.attention || 0;
+
+      // Use focusLevel from agent if available, otherwise use attention
+      if (data.focusLevel !== undefined) {
+        state.focusLevel = data.focusLevel;
+      } else {
+        state.focusLevel = state.attention;
+      }
+
+      state.spacePressed = data.attention > 50;
+
+      // Show agentNote if present
+      var agentNoteEl = document.getElementById('agentNoteDisplay');
+      if (data.agentNote && agentNoteEl) {
+        agentNoteEl.style.display = 'inline';
+        var noteLabels = {
+          'no_signal': '📡 訊號弱',
+          'low_focus': '😴 低專注',
+          'normal': '🙂 正常',
+          'high_focus': '🧘 高專注'
+        };
+        agentNoteEl.textContent = noteLabels[data.agentNote] || data.agentNote;
+      }
+    } catch(e) {
+      console.warn('⚠️ BrainLink data parse error:', e);
+    }
   };
+
   state.ws.onclose = function(){
     console.log('🧠 BrainLink disconnected, retrying in 3s...');
+    setWsStatus(false);
     state.externalMode = false;
-    setTimeout(function(){ connectBrainLink(wsUrl); }, 3000);
+    if (wsRetryTimer) clearTimeout(wsRetryTimer);
+    wsRetryTimer = setTimeout(function(){ connectBrainLink(wsUrl); }, 3000);
   };
-  state.ws.onerror = function(){ state.ws.close(); };
+
+  state.ws.onerror = function(e){
+    console.warn('⚠️ BrainLink WS error, closing...');
+    if (state.ws) state.ws.close();
+  };
 }
 
 (function() {
   var params = new URLSearchParams(window.location.search);
   var wsUrl = params.get('ws');
-  if (wsUrl) connectBrainLink(wsUrl);
+  if (wsUrl) {
+    console.log('🔌 BrainLink: ?ws= 參數偵測到: ' + wsUrl);
+    connectBrainLink(wsUrl);
+  }
 })();
 
 // ===== 鍵盤控制 =====
