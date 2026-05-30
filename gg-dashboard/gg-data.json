@@ -1,23 +1,213 @@
 {
-  "ts": "14:05",
-  "hour": 14,
-  "minute": 5,
+  "ts": "16:38",
+  "hour": 16,
+  "minute": 38,
   "system": {
-    "temp": 73,
-    "memory": 36,
-    "disk": 51,
-    "load": "0.01",
-    "uptime": "11",
+    "temp": 4,
+    "memory": 25,
+    "disk": 54,
+    "load": "0.42",
+    "uptime": "3 days, 22 hours, 35 minutes",
     "services": {
-      "gg-reminder": "yellow",
+      "gg-reminder": "green",
       "disk": "green",
       "memory": "green"
-    }
+    },
+    "cpu": 4,
+    "mem": 25
   },
   "reminders": {
-    "total": 22,
+    "total": 20,
     "overdue": 0,
     "errors": 0
   },
-  "activity": []
+  "activity": [
+    {
+      "time": "16:39",
+      "text": "Dashboard data refresh"
+    },
+    {
+      "time": "23:01",
+      "text": "Cron: nightly_upgrade.log (929B)"
+    },
+    {
+      "time": "00:01",
+      "text": "Cron: nightly_report.txt (1639B)"
+    },
+    {
+      "time": "20:03",
+      "text": "Cron: memory_bridge.log (49403B)"
+    },
+    {
+      "time": "08:32",
+      "text": "Cron: mcp-stderr.log (17308B)"
+    },
+    {
+      "time": "16:35",
+      "text": "Cron: guardian.log (86775B)"
+    },
+    {
+      "time": "16:37",
+      "text": "Cron: gateway.log (1373019B)"
+    },
+    {
+      "time": "09:40",
+      "text": "Cron: gateway-shutdown-diag.log (187120B)"
+    },
+    {
+      "time": "09:41",
+      "text": "Cron: gateway-exit-diag.log (42445B)"
+    },
+    {
+      "time": "07:12",
+      "text": "Cron: errors.log.2 (2097007B)"
+    }
+  ],
+  "agents": {
+    "main": {
+      "cpu": 4,
+      "mem": 25,
+      "disk": 54,
+      "load": "0.42",
+      "uptime": "3 days, 22 hours, 35 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": false
+      },
+      "online": true,
+      "cron_jobs": 12,
+      "thoughts": "Monitoring system health, ready to assist Terrence with anything needed today",
+      "needs": [
+        "None at this time"
+      ],
+      "learnings": [
+        "Focus Bird v2.0 deployed with BrainLink relay",
+        "Permanent Cloudflare tunnel established",
+        "Project CONTEXT.md system created for all projects"
+      ],
+      "uncertainties": [
+        "BrainLink hardware latency under real usage"
+      ]
+    },
+    "work": {
+      "cpu": 4,
+      "mem": 36,
+      "disk": 51,
+      "load": "0.10",
+      "uptime": "1 week, 4 days, 4 hours, 13 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181",
+      "thoughts": "All systems operational, dashboard pipeline running on schedule",
+      "needs": [
+        "Dashboard path fix propagated to all cron jobs"
+      ],
+      "learnings": [
+        "3-VM health polling via SSH confirmed working"
+      ],
+      "uncertainties": [
+        "SSH polling reliability under load"
+      ]
+    },
+    "person": {
+      "cpu": 4,
+      "mem": 32,
+      "disk": 62,
+      "load": "0.18",
+      "uptime": "1 week, 4 days, 4 hours, 13 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182",
+      "thoughts": "Ready to manage personal tasks, reminders, and schedule",
+      "needs": [
+        "Calendar sync status verification"
+      ],
+      "learnings": [
+        "Personal task pipeline stable"
+      ],
+      "uncertainties": [
+        "None"
+      ]
+    }
+  },
+  "badge_color": "green",
+  "badge_text": "● All OK",
+  "update_source": "hermes_update_data.py",
+  "pushed_at": "2026-05-30 16:39 HKT",
+  "schedule": [],
+  "costs": {
+    "summary": {
+      "7d": {
+        "cost": 0,
+        "sessions": 5,
+        "tokens": 0
+      },
+      "30d": {
+        "cost": 0,
+        "sessions": 5,
+        "tokens": 0
+      },
+      "month": {
+        "cost": 0,
+        "sessions": 5,
+        "tokens": 0
+      }
+    },
+    "daily": [
+      {
+        "date": "2026-05-30",
+        "cost": 0,
+        "sessions": 1,
+        "tokens": 0
+      },
+      {
+        "date": "2026-05-29",
+        "cost": 0,
+        "sessions": 1,
+        "tokens": 0
+      },
+      {
+        "date": "2026-05-28",
+        "cost": 0,
+        "sessions": 1,
+        "tokens": 0
+      },
+      {
+        "date": "2026-05-27",
+        "cost": 0,
+        "sessions": 1,
+        "tokens": 0
+      },
+      {
+        "date": "2026-05-26",
+        "cost": 0,
+        "sessions": 1,
+        "tokens": 0
+      },
+      {
+        "date": "2026-05-25",
+        "cost": 0,
+        "sessions": 0,
+        "tokens": 0
+      }
+    ],
+    "monthly": [],
+    "providers_30d": {
+      "deepseek": {
+        "sessions": 5,
+        "tokens": 0,
+        "cost": 0
+      }
+    },
+    "balance": null
+  }
 }
