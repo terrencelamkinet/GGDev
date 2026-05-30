@@ -4,7 +4,7 @@ import json, os, subprocess
 from datetime import datetime, timezone, timedelta
 
 HKT = timezone(timedelta(hours=8))
-DATA_DIR = os.path.expanduser("~/projects/gg-dashboard")
+DATA_DIR = os.path.expanduser("~/projects/ggdev-repo/gg-dashboard")
 DATA_FILE = os.path.join(DATA_DIR, "gg-data.json")
 
 
