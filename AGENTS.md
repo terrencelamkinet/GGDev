@@ -44,4 +44,4 @@
 2. 讀 NOTIFICATION_RULES.md → 喚醒通知規則
 3. 讀 WORKFLOW.md → 喚醒工作流程
 4. 讀 SECURITY.md → 喚醒安全設定
-5. Scan HEARTBEAT.md → project files → load relevant context
+5. Scan HEARTBEAT.md → project CONTEXT.md files → load relevant context
