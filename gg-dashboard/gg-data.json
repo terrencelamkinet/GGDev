@@ -1,20 +1,19 @@
 {
-  "ts": "16:38",
+  "ts": "16:48",
   "hour": 16,
-  "minute": 38,
+  "minute": 48,
+  "pushed_at": "2026-05-30 16:39 HKT",
   "system": {
-    "temp": 4,
-    "memory": 25,
+    "cpu": 4,
+    "mem": 25,
     "disk": 54,
-    "load": "0.42",
-    "uptime": "3 days, 22 hours, 35 minutes",
+    "load": "0.33",
+    "uptime": "3 days, 22 hours, 44 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
       "memory": "green"
-    },
-    "cpu": 4,
-    "mem": 25
+    }
   },
   "reminders": {
     "total": 20,
@@ -23,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "16:39",
+      "time": "16:48",
       "text": "Dashboard data refresh"
     },
     {
@@ -43,12 +42,12 @@
       "text": "Cron: mcp-stderr.log (17308B)"
     },
     {
-      "time": "16:35",
-      "text": "Cron: guardian.log (86775B)"
+      "time": "16:45",
+      "text": "Cron: guardian.log (86931B)"
     },
     {
-      "time": "16:37",
-      "text": "Cron: gateway.log (1373019B)"
+      "time": "16:47",
+      "text": "Cron: gateway.log (1373923B)"
     },
     {
       "time": "09:40",
@@ -68,8 +67,8 @@
       "cpu": 4,
       "mem": 25,
       "disk": 54,
-      "load": "0.42",
-      "uptime": "3 days, 22 hours, 35 minutes",
+      "load": "0.33",
+      "uptime": "3 days, 22 hours, 44 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -92,10 +91,10 @@
     },
     "work": {
       "cpu": 4,
-      "mem": 36,
+      "mem": 35,
       "disk": 51,
-      "load": "0.10",
-      "uptime": "1 week, 4 days, 4 hours, 13 minutes",
+      "load": "0.17",
+      "uptime": "1 week, 4 days, 4 hours, 22 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -116,10 +115,10 @@
     },
     "person": {
       "cpu": 4,
-      "mem": 32,
+      "mem": 33,
       "disk": 62,
-      "load": "0.18",
-      "uptime": "1 week, 4 days, 4 hours, 13 minutes",
+      "load": "0.09",
+      "uptime": "1 week, 4 days, 4 hours, 22 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -141,73 +140,72 @@
   },
   "badge_color": "green",
   "badge_text": "● All OK",
-  "update_source": "hermes_update_data.py",
-  "pushed_at": "2026-05-30 16:39 HKT",
-  "schedule": [],
   "costs": {
     "summary": {
       "7d": {
-        "cost": 0,
-        "sessions": 5,
-        "tokens": 0
+        "cost": 1.2431,
+        "sessions": 228,
+        "tokens": 8236144
       },
       "30d": {
-        "cost": 0,
-        "sessions": 5,
-        "tokens": 0
+        "cost": 1.2431,
+        "sessions": 228,
+        "tokens": 8236144
       },
       "month": {
-        "cost": 0,
-        "sessions": 5,
-        "tokens": 0
+        "cost": 1.2431,
+        "sessions": 228,
+        "tokens": 8236144
       }
     },
     "daily": [
       {
         "date": "2026-05-30",
-        "cost": 0,
-        "sessions": 1,
-        "tokens": 0
+        "cost": 0.3008,
+        "sessions": 59,
+        "tokens": 2019492
       },
       {
         "date": "2026-05-29",
-        "cost": 0,
-        "sessions": 1,
-        "tokens": 0
+        "cost": 0.273,
+        "sessions": 64,
+        "tokens": 1785430
       },
       {
         "date": "2026-05-28",
-        "cost": 0,
-        "sessions": 1,
-        "tokens": 0
+        "cost": 0.2464,
+        "sessions": 45,
+        "tokens": 1627513
       },
       {
         "date": "2026-05-27",
-        "cost": 0,
-        "sessions": 1,
-        "tokens": 0
+        "cost": 0.1727,
+        "sessions": 22,
+        "tokens": 1120924
       },
       {
         "date": "2026-05-26",
-        "cost": 0,
-        "sessions": 1,
-        "tokens": 0
+        "cost": 0.1244,
+        "sessions": 13,
+        "tokens": 829853
       },
       {
         "date": "2026-05-25",
-        "cost": 0,
-        "sessions": 0,
-        "tokens": 0
+        "cost": 0.1259,
+        "sessions": 25,
+        "tokens": 852932
       }
     ],
     "monthly": [],
     "providers_30d": {
       "deepseek": {
-        "sessions": 5,
-        "tokens": 0,
-        "cost": 0
+        "sessions": 228,
+        "tokens": 8236144,
+        "cost": 1.2431
       }
     },
     "balance": null
-  }
+  },
+  "schedule": [],
+  "update_source": "hermes_update_data.py"
 }
