@@ -1,14 +1,14 @@
 {
-  "ts": "12:58",
-  "hour": 12,
-  "minute": 58,
-  "pushed_at": "2026-05-31 13:00 HKT",
+  "ts": "13:29",
+  "hour": 13,
+  "minute": 29,
+  "pushed_at": "2026-05-31 13:30 HKT",
   "system": {
-    "cpu": 28,
+    "cpu": 8,
     "mem": 25,
     "disk": 56,
-    "load": "0.23",
-    "uptime": "4 days, 18 hours, 54 minutes",
+    "load": "0.16",
+    "uptime": "4 days, 19 hours, 25 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "12:58",
+      "time": "13:29",
       "text": "Dashboard data refresh"
     },
     {
@@ -34,16 +34,16 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "12:33",
-      "text": "Cron: memory_bridge.log (57589B)"
+      "time": "13:05",
+      "text": "Cron: memory_bridge.log (57837B)"
     },
     {
       "time": "08:32",
       "text": "Cron: mcp-stderr.log (17308B)"
     },
     {
-      "time": "12:55",
-      "text": "Cron: guardian.log (105807B)"
+      "time": "13:25",
+      "text": "Cron: guardian.log (106275B)"
     },
     {
       "time": "12:44",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 28,
+      "cpu": 8,
       "mem": 25,
       "disk": 56,
-      "load": "0.23",
-      "uptime": "4 days, 18 hours, 54 minutes",
+      "load": "0.16",
+      "uptime": "4 days, 19 hours, 25 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -91,11 +91,11 @@
       ]
     },
     "work": {
-      "cpu": 8,
+      "cpu": 12,
       "mem": 35,
       "disk": 52,
-      "load": "0.16",
-      "uptime": "1 week, 5 days, 32 minutes",
+      "load": "0.40",
+      "uptime": "1 week, 5 days, 1 hour, 3 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -120,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 13,
+      "cpu": 8,
       "mem": 33,
       "disk": 62,
-      "load": "0.02",
-      "uptime": "1 week, 5 days, 32 minutes",
+      "load": "0.00",
+      "uptime": "1 week, 5 days, 1 hour, 4 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
