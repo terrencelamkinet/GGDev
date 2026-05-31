@@ -1009,7 +1009,17 @@ def check_google_calendar():
 # TELEGRAM DELIVERY — push notifications to Terrence
 # ════════════════════════════════════════════════════════════════
 
-TELEGRAM_BOT_TOKEN = "8682669253:AAEjCwU5LmDZhxeejwVOFdFp3Xm5_PMHfug"
+def _get_bot_token():
+    """Read bot token from ~/.hermes/.env — NOT hardcoded."""
+    env_path = os.path.expanduser("~/.hermes/.env")
+    if os.path.exists(env_path):
+        with open(env_path) as f:
+            for line in f:
+                if line.startswith("TELEGRAM_BOT_TOKEN="):
+                    return line.split("=", 1)[1].strip()
+    return os.environ.get("TELEGRAM_BOT_TOKEN", "")
+
+TELEGRAM_BOT_TOKEN = _get_bot_token()
 TELEGRAM_CHAT_ID = "7380833889"
 DELIVERY_QUEUE_FILE = LOG_DIR / "pending_deliveries.jsonl"
 
