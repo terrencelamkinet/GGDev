@@ -252,6 +252,7 @@ def merge_preserved(existing, new_data):
 
 
 def main():
+    os.environ["PATH"] = "/usr/bin:/usr/local/bin:/bin:" + os.environ.get("PATH", "")
     now = datetime.now(HKT)
     ts = now.strftime("%H:%M")
     hour = now.hour
