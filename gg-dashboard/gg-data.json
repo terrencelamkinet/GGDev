@@ -1,16 +1,16 @@
 {
-  "ts": "00:55",
-  "hour": 0,
-  "minute": 55,
-  "pushed_at": "2026-06-01 01:00 HKT",
+  "ts": "01:27",
+  "hour": 1,
+  "minute": 27,
+  "pushed_at": "2026-06-01 01:30 HKT",
   "system": {
-    "cpu": 0,
-    "mem": 0,
-    "disk": 0,
-    "load": "0",
-    "uptime": "?",
+    "cpu": 13,
+    "mem": 22,
+    "disk": 57,
+    "load": "0.43",
+    "uptime": "5 days, 7 hours, 24 minutes",
     "services": {
-      "gg-reminder": "red",
+      "gg-reminder": "green",
       "disk": "green",
       "memory": "green"
     }
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "00:55",
+      "time": "01:27",
       "text": "Dashboard data refresh"
     },
     {
@@ -34,20 +34,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "00:35",
-      "text": "Cron: memory_bridge.log (63541B)"
+      "time": "01:05",
+      "text": "Cron: memory_bridge.log (63789B)"
     },
     {
       "time": "23:36",
       "text": "Cron: mcp-stderr.log (26873B)"
     },
     {
-      "time": "00:55",
-      "text": "Cron: guardian.log (117039B)"
+      "time": "01:25",
+      "text": "Cron: guardian.log (117507B)"
     },
     {
-      "time": "00:55",
-      "text": "Cron: gateway.log (2159015B)"
+      "time": "01:27",
+      "text": "Cron: gateway.log (2166011B)"
     },
     {
       "time": "15:21",
@@ -64,19 +64,19 @@
   ],
   "agents": {
     "main": {
-      "cpu": 0,
-      "mem": 0,
-      "disk": 0,
-      "load": "0",
-      "uptime": "?",
+      "cpu": 13,
+      "mem": 22,
+      "disk": 57,
+      "load": "0.43",
+      "uptime": "5 days, 7 hours, 24 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
         "openclaw": false
       },
-      "online": false,
+      "online": true,
       "cron_jobs": 12,
-      "thoughts": "清晨 — orchestrating 81% CPU. GG-Work(4%): 清晨 — GG-Work VM, CPU 4%. Health beat 運行中，cron jobs 已監控。 Gate; GG-Person(91%): 清晨 — GG-Person VM, CPU 68%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅.",
+      "thoughts": "清晨 — orchestrating 0% CPU. GG-Work(0%): 清晨 — GG-Work VM, CPU 4%. Health beat 運行中，cron jobs 已監控。 Gate; GG-Person(0%): 清晨 — GG-Person VM, CPU 91%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅.",
       "needs": [
         "有新任務或優先級變更",
         "系統表現反饋",
@@ -91,19 +91,19 @@
       ]
     },
     "work": {
-      "cpu": 0,
-      "mem": 0,
-      "disk": 0,
-      "load": "0",
-      "uptime": "?",
+      "cpu": 4,
+      "mem": 35,
+      "disk": 52,
+      "load": "0.11",
+      "uptime": "1 week, 5 days, 13 hours, 2 minutes",
       "daemons": {
-        "reminder": false,
-        "monitor": false,
-        "openclaw": false
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
       },
-      "online": false,
+      "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "清晨 — GG-Work VM, CPU 4%. Health beat 運行中，cron jobs 已監控。 Gateway tunnel 連接 Fighter 正常。",
+      "thoughts": "清晨 — GG-Work VM, CPU 0%. Health beat 運行中，cron jobs 已監控。 Gateway tunnel 連接 Fighter 正常。",
       "needs": [
         "清楚資源分配",
         "有冇漏咗嘅 task",
@@ -120,19 +120,19 @@
       ]
     },
     "person": {
-      "cpu": 0,
-      "mem": 0,
-      "disk": 0,
-      "load": "0",
-      "uptime": "?",
+      "cpu": 69,
+      "mem": 24,
+      "disk": 63,
+      "load": "0.42",
+      "uptime": "1 week, 5 days, 13 hours, 2 minutes",
       "daemons": {
-        "reminder": false,
-        "monitor": false,
-        "openclaw": false
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
       },
-      "online": false,
+      "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "清晨 — GG-Person VM, CPU 91%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
+      "thoughts": "清晨 — GG-Person VM, CPU 0%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
       "needs": [
         "更多個人任務處理（唔只 health check）",
         "處理 Aggie 相關事項（提醒、schedule）",
@@ -149,8 +149,8 @@
       ]
     }
   },
-  "badge_color": "red",
-  "badge_text": "● Offline",
+  "badge_color": "green",
+  "badge_text": "● All OK",
   "costs": {
     "summary": {
       "7d": {
