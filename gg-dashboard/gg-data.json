@@ -1,14 +1,14 @@
 {
-  "ts": "01:56",
-  "hour": 1,
-  "minute": 56,
-  "pushed_at": "2026-06-01 02:04 HKT",
+  "ts": "02:25",
+  "hour": 2,
+  "minute": 25,
+  "pushed_at": "2026-06-01 02:30 HKT",
   "system": {
-    "cpu": 4,
-    "mem": 22,
-    "disk": 57,
-    "load": "0.15",
-    "uptime": "5 days, 7 hours, 52 minutes",
+    "cpu": 26,
+    "mem": 9,
+    "disk": 58,
+    "load": "0.20",
+    "uptime": "5 days, 8 hours, 22 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "01:56",
+      "time": "02:25",
       "text": "Dashboard data refresh"
     },
     {
@@ -34,28 +34,28 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "01:34",
-      "text": "Cron: memory_bridge.log (64037B)"
+      "time": "02:04",
+      "text": "Cron: memory_bridge.log (64285B)"
     },
     {
-      "time": "23:36",
-      "text": "Cron: mcp-stderr.log (26873B)"
+      "time": "02:20",
+      "text": "Cron: mcp-stderr.log (28859B)"
     },
     {
-      "time": "01:55",
-      "text": "Cron: guardian.log (117975B)"
+      "time": "02:25",
+      "text": "Cron: guardian.log (118443B)"
     },
     {
-      "time": "01:56",
-      "text": "Cron: gateway.log (2171171B)"
+      "time": "02:22",
+      "text": "Cron: gateway.log (2178750B)"
     },
     {
-      "time": "15:21",
-      "text": "Cron: gateway-shutdown-diag.log (219327B)"
+      "time": "02:19",
+      "text": "Cron: gateway-shutdown-diag.log (224935B)"
     },
     {
-      "time": "15:23",
-      "text": "Cron: gateway-exit-diag.log (50900B)"
+      "time": "02:20",
+      "text": "Cron: gateway-exit-diag.log (52096B)"
     },
     {
       "time": "07:12",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 4,
-      "mem": 22,
-      "disk": 57,
-      "load": "0.15",
-      "uptime": "5 days, 7 hours, 52 minutes",
+      "cpu": 26,
+      "mem": 9,
+      "disk": 58,
+      "load": "0.20",
+      "uptime": "5 days, 8 hours, 22 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "清晨 — orchestrating 13% CPU. GG-Work(4%): 清晨 — GG-Work VM, CPU 0%. Health beat 運行中，cron jobs 已監控。 Gate; GG-Person(69%): 清晨 — GG-Person VM, CPU 0%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任.",
+      "thoughts": "清晨 — orchestrating 4% CPU. GG-Work(4%): 清晨 — GG-Work VM, CPU 4%. Health beat 運行中，cron jobs 已監控。 Gate; GG-Person(56%): 清晨 — GG-Person VM, CPU 69%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅.",
       "needs": [
         "有新任務或優先級變更",
         "系統表現反饋",
@@ -91,11 +91,11 @@
       ]
     },
     "work": {
-      "cpu": 4,
+      "cpu": 36,
       "mem": 35,
       "disk": 52,
-      "load": "0.39",
-      "uptime": "1 week, 5 days, 13 hours, 30 minutes",
+      "load": "0.83",
+      "uptime": "1 week, 5 days, 13 hours, 59 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -120,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 56,
+      "cpu": 82,
       "mem": 24,
       "disk": 63,
-      "load": "0.24",
-      "uptime": "1 week, 5 days, 13 hours, 30 minutes",
+      "load": "0.23",
+      "uptime": "1 week, 5 days, 14 hours, 0 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -132,7 +132,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "清晨 — GG-Person VM, CPU 69%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
+      "thoughts": "清晨 — GG-Person VM, CPU 56%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
       "needs": [
         "更多個人任務處理（唔只 health check）",
         "處理 Aggie 相關事項（提醒、schedule）",
