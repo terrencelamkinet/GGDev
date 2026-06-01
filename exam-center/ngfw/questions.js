@@ -236,7 +236,7 @@ const ngfwQuestions = [
         "text": "Enable IP routing between the interfaces and configure a Security policy to allow traffic between interfaces within the VLAN."
       }
     ],
-    "answer": "C",
+    "answer": "B",
     "type": "single"
   },
   {
@@ -2898,6 +2898,30 @@ const ngfwQuestions = [
     ],
     "answer": "B",
     "type": "single"
+  },
+  {
+    "num": 122,
+    "text": "A network administrator needs to set up firewall management access for a team of contractors who are authenticated via a dedicated TACACS+ server. For compliance reasons, all administrative access must first be attempted against the primary corporate LDAP server, and only if that fails should the contractor TACACS+ server be queried.\nWhich two items must be configured to implement this dual-authentication logic for administrative users?\n(Choose two answers)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Create an authentication profile for the TACACS+ server."
+      },
+      {
+        "letter": "B",
+        "text": "Configure dynamic group mapping from both the LDAP and TACACS+ servers to a single administrative group on the firewall."
+      },
+      {
+        "letter": "C",
+        "text": "Configure two separate administrator accounts, one for LDAP and one for TACACS+, and assign them the same role"
+      },
+      {
+        "letter": "D",
+        "text": "Create an authentication sequence that lists the LDAP profile first and the new TACACS+ profile second."
+      }
+    ],
+    "answer": "AD",
+    "type": "multi"
   }
 ];
 
