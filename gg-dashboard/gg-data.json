@@ -1,14 +1,14 @@
 {
-  "ts": "11:29",
+  "ts": "11:32",
   "hour": 11,
-  "minute": 29,
+  "minute": 32,
   "pushed_at": "2026-06-01 11:30 HKT",
   "system": {
     "cpu": 6,
     "mem": 13,
     "disk": 58,
-    "load": "0.16",
-    "uptime": "5 days, 17 hours, 25 minutes",
+    "load": "0.13",
+    "uptime": "5 days, 17 hours, 29 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "11:29",
+      "time": "11:32",
       "text": "Dashboard data refresh"
     },
     {
@@ -42,12 +42,12 @@
       "text": "Cron: mcp-stderr.log (28859B)"
     },
     {
-      "time": "11:25",
-      "text": "Cron: guardian.log (126867B)"
+      "time": "11:30",
+      "text": "Cron: guardian.log (126945B)"
     },
     {
-      "time": "11:29",
-      "text": "Cron: gateway.log (2298744B)"
+      "time": "11:31",
+      "text": "Cron: gateway.log (2300474B)"
     },
     {
       "time": "02:19",
@@ -67,8 +67,8 @@
       "cpu": 6,
       "mem": 13,
       "disk": 58,
-      "load": "0.16",
-      "uptime": "5 days, 17 hours, 25 minutes",
+      "load": "0.13",
+      "uptime": "5 days, 17 hours, 29 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -94,8 +94,8 @@
       "cpu": 4,
       "mem": 35,
       "disk": 52,
-      "load": "0.17",
-      "uptime": "1 week, 5 days, 23 hours, 3 minutes",
+      "load": "0.08",
+      "uptime": "1 week, 5 days, 23 hours, 6 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -120,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 68,
-      "mem": 25,
+      "cpu": 73,
+      "mem": 24,
       "disk": 63,
-      "load": "0.07",
-      "uptime": "1 week, 5 days, 23 hours, 3 minutes",
+      "load": "0.04",
+      "uptime": "1 week, 5 days, 23 hours, 7 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
