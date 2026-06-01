@@ -3090,6 +3090,30 @@ const ngfwQuestions = [
     ],
     "answer": "BC",
     "type": "multi"
+  },
+  {
+    "num": 130,
+    "text": "A security team is upgrading VPN infrastructure to be \"crypto-agile\" and to protect against future threats from quantum computers. The team needs to configure site-to-site VPNs between Palo Alto Networks firewalls using post-quantum cryptography (PQC).\nWhich two configurations will achieve this objective?\n(Choose two answers)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "In the IPSec Crypto profile, select a PQC algorithm from the ESP Encryption drop-down menu"
+      },
+      {
+        "letter": "B",
+        "text": "Set the IKE Gateway version to IKEv2 and enable post-quantum pre-shared key (PPK)."
+      },
+      {
+        "letter": "C",
+        "text": "Set the IKE Gateway version to IKEv2 preferred mode and enable post-quantum pre-shared key (PPK) for IKEv1 common options"
+      },
+      {
+        "letter": "D",
+        "text": "Enable the post-quantum key exchange mechanism in the IKE Gateway and select at least one quantum-resistant algorithm in the associated IKE Crypto profile."
+      }
+    ],
+    "answer": "BD",
+    "type": "multi"
   }
 ];
 
