@@ -3066,6 +3066,30 @@ const ngfwQuestions = [
     ],
     "answer": "D",
     "type": "single"
+  },
+  {
+    "num": 129,
+    "text": "A healthcare provider must deploy a HIPAA-compliant, fully managed firewall solution in AWS and Azure. All Security policies must be centrally managed via Panorama to ensure consistency.\n\u00b7 AWS uses a Transit Gateway to connect all virtual private clouds (VPCs).\n\u00b7 Azure uses a Virtual WAN (vWAN) hub to connect all virtual networks (VNets).\nWhich two Cloud NGFW deployment models align with these existing hub-and-spoke architectures and requirements?\n(Choose two answers)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Azure VNet injection model, where Cloud NGFW is deployed into each spoke VNet, ignoring the vWAN hub"
+      },
+      {
+        "letter": "B",
+        "text": "AWS centralized model, where Cloud NGFW is deployed in a dedicated security VPC and attached to the Transit Gateway for traffic inspection"
+      },
+      {
+        "letter": "C",
+        "text": "Azure vWAN integration, where Cloud NGFW is deployed into the hub and configured as the security provider for internet and inter-VNet traffic"
+      },
+      {
+        "letter": "D",
+        "text": "AWS distributed model, where Cloud NGFW is deployed in each VPC individually"
+      }
+    ],
+    "answer": "BC",
+    "type": "multi"
   }
 ];
 
