@@ -3138,6 +3138,30 @@ const ngfwQuestions = [
     ],
     "answer": "A",
     "type": "single"
+  },
+  {
+    "num": 132,
+    "text": "A security operations team is responsible for managing a large fleet of Palo Alto Networks VM-Series and PA-Series firewalls. The team needs to implement a solution that allows programmatic and consistent Security policy updates and configuration changes across all devices from a central point.\nWhich third-party tool is specifically designed for this type of configuration automation?\n(Choose one answer)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Panorama"
+      },
+      {
+        "letter": "B",
+        "text": "Git"
+      },
+      {
+        "letter": "C",
+        "text": "Terraform"
+      },
+      {
+        "letter": "D",
+        "text": "Ansible"
+      }
+    ],
+    "answer": "D",
+    "type": "single"
   }
 ];
 

@@ -1,14 +1,14 @@
 {
-  "ts": "11:40",
+  "ts": "11:41",
   "hour": 11,
-  "minute": 40,
+  "minute": 41,
   "pushed_at": "2026-06-01 11:30 HKT",
   "system": {
-    "cpu": 17,
+    "cpu": 6,
     "mem": 13,
     "disk": 58,
-    "load": "0.34",
-    "uptime": "5 days, 17 hours, 36 minutes",
+    "load": "0.46",
+    "uptime": "5 days, 17 hours, 38 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "11:40",
+      "time": "11:41",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,8 +46,8 @@
       "text": "Cron: guardian.log (127101B)"
     },
     {
-      "time": "11:40",
-      "text": "Cron: gateway.log (2305516B)"
+      "time": "11:41",
+      "text": "Cron: gateway.log (2306669B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 17,
+      "cpu": 6,
       "mem": 13,
       "disk": 58,
-      "load": "0.34",
-      "uptime": "5 days, 17 hours, 36 minutes",
+      "load": "0.46",
+      "uptime": "5 days, 17 hours, 38 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -91,11 +91,11 @@
       ]
     },
     "work": {
-      "cpu": 4,
-      "mem": 36,
+      "cpu": 8,
+      "mem": 35,
       "disk": 52,
-      "load": "0.18",
-      "uptime": "1 week, 5 days, 23 hours, 14 minutes",
+      "load": "0.20",
+      "uptime": "1 week, 5 days, 23 hours, 15 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -120,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 95,
+      "cpu": 69,
       "mem": 24,
       "disk": 63,
-      "load": "0.93",
-      "uptime": "1 week, 5 days, 23 hours, 14 minutes",
+      "load": "0.61",
+      "uptime": "1 week, 5 days, 23 hours, 16 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
