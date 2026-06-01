@@ -14,7 +14,7 @@
 | 007 | AD | ✅ AD | Zone types: Tap, Virtual Wire, Layer2, Layer3, External, Tunnel |
 | 008 | A | ✅ A | SAML auth: IdP required first, must register firewall+IdP |
 | 009 | C | ✅ B | Panorama duplicate logging: Log Forwarding Profile→Forward Method→"Panorama/Cloud Logging" |
-| 010 | C | ✅ A | L2 interfaces: assign same VLAN object to multiple subinterfaces for L2 switching |
+| 010 | C→**B** | 🔄 User-corrected | Assign each interface to the appropriate Layer 2 zone and configure a policy that allows traffic within the VLAN |
 | 013 | B | ✅ B | Proxy IDs: exact match required for third-party VPN devices (IKEv1) |
 | 017 | AB | ✅ AB | Tunnel IP: needed for dynamic routing + tunnel monitoring |
 | 021 | D | ❌→**C** | User-ID: Group Mapping Settings must be configured for policy rules based on users/groups |
