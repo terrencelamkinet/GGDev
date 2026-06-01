@@ -1,14 +1,14 @@
 {
-  "ts": "20:29",
+  "ts": "20:33",
   "hour": 20,
-  "minute": 29,
-  "pushed_at": "2026-06-01 20:30 HKT",
+  "minute": 33,
+  "pushed_at": "2026-06-01 20:33 HKT",
   "system": {
-    "cpu": 6,
+    "cpu": 4,
     "mem": 13,
     "disk": 58,
-    "load": "0.17",
-    "uptime": "6 days, 2 hours, 25 minutes",
+    "load": "0.16",
+    "uptime": "6 days, 2 hours, 30 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:29",
+      "time": "20:33",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,12 +46,12 @@
       "text": "Cron: mcp-stderr.log (32394B)"
     },
     {
-      "time": "20:25",
-      "text": "Cron: guardian.log (135291B)"
+      "time": "20:30",
+      "text": "Cron: guardian.log (135369B)"
     },
     {
-      "time": "20:29",
-      "text": "Cron: gateway.log (2449381B)"
+      "time": "20:30",
+      "text": "Cron: gateway.log (2449725B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 6,
+      "cpu": 4,
       "mem": 13,
       "disk": 58,
-      "load": "0.17",
-      "uptime": "6 days, 2 hours, 25 minutes",
+      "load": "0.16",
+      "uptime": "6 days, 2 hours, 30 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "夜晚 — orchestrating 6% CPU. GG-Work(8%): 夜晚 — GG-Work VM, CPU 8%. Health beat 運行中，cron jobs 已監控。 Gate; GG-Person(69%): 夜晚 — GG-Person VM, CPU 65%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅.",
+      "thoughts": "夜晚 — 系統穩定 4% CPU，三 AI 全部在線。五月成本 $1.24 可控。Person 閒置 CPU 66% 偏高，需排期排查。G07 同跨 agent 自救架構未落地，defer 到下次 Terrence 互動開題。",
       "needs": [
         "有新任務或優先級變更",
         "系統表現反饋",
@@ -91,11 +91,11 @@
       ]
     },
     "work": {
-      "cpu": 8,
+      "cpu": 4,
       "mem": 35,
       "disk": 52,
-      "load": "0.00",
-      "uptime": "1 week, 6 days, 8 hours, 3 minutes",
+      "load": "0.10",
+      "uptime": "1 week, 6 days, 8 hours, 7 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -120,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 69,
-      "mem": 25,
+      "cpu": 66,
+      "mem": 24,
       "disk": 64,
-      "load": "0.62",
-      "uptime": "1 week, 6 days, 8 hours, 3 minutes",
+      "load": "0.18",
+      "uptime": "1 week, 6 days, 8 hours, 8 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
