@@ -3042,6 +3042,30 @@ const ngfwQuestions = [
     ],
     "answer": "A",
     "type": "single"
+  },
+  {
+    "num": 128,
+    "text": "When configuring split tunneling in the GlobalProtect portal's agent configuration, an administrator adds several internal domains to the \"Domain and DNS\" split tunnel list.\nWhat is the primary purpose of this configuration?\n(Choose one answer)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "To configure the endpoint's DNS suffix search list to include the specified domains"
+      },
+      {
+        "letter": "B",
+        "text": "To bypass DNS Security inspection for the specified internal domains"
+      },
+      {
+        "letter": "C",
+        "text": "To allow access to these domains only when the user is connected to the GlobalProtect VPN, while unconnected users are directed to additional DNS Security features"
+      },
+      {
+        "letter": "D",
+        "text": "To direct DNS queries for specified domains to the private DNS servers pushed by the gateway, while other queries use the public DNS servers on the user's workstation"
+      }
+    ],
+    "answer": "D",
+    "type": "single"
   }
 ];
 
