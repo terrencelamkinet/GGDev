@@ -3114,6 +3114,30 @@ const ngfwQuestions = [
     ],
     "answer": "BD",
     "type": "multi"
+  },
+  {
+    "num": 131,
+    "text": "An administrator was responsible for upgrading an active/passive high availability (HA) pair of firewalls during a maintenance window. To begin, the administrator upgraded the software on the passive firewall. After the passive firewall rebooted, the administrator suspended the active firewall to initiate a failover. However, this action resulted in a brief network outage.\nWhat should have been done differently to prevent the outage?\n(Choose one answer)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "The administrator should have verified HA synchronization was complete before suspending the active firewall."
+      },
+      {
+        "letter": "B",
+        "text": "The administrator should have upgraded the active firewall first, not the passive one."
+      },
+      {
+        "letter": "C",
+        "text": "The HA cluster should have been placed in maintenance mode from Panorama before starting any upgrade activity."
+      },
+      {
+        "letter": "D",
+        "text": "The active/passive HA pair of firewalls should have been rebooted simultaneously after the passive unit was upgraded to force a new HA election."
+      }
+    ],
+    "answer": "A",
+    "type": "single"
   }
 ];
 
