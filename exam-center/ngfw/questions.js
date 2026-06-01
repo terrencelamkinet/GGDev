@@ -1888,7 +1888,7 @@ const ngfwQuestions = [
         "text": "The default interzone-default security policy is sufficient to allow the tunnel negotiation traffic between the firewall and the remote peer."
       }
     ],
-    "answer": "BC",
+    "answer": "AC",
     "type": "multi"
   },
   {
