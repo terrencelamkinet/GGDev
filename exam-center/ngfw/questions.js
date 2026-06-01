@@ -1069,7 +1069,11 @@ const ngfwQuestions = [
       },
       {
         "letter": "C",
-        "text": "In any single Collector Group, all the Log Collectors must run on the same Panorama model. D. The maximum number of Log Collectors in a Log Collector Group is 18 plus two hot spares."
+        "text": "The maximum number of Log Collectors in a Log Collector Group is 18 plus two hot spares."
+      },
+      {
+        "letter": "D",
+        "text": "In any single Collector Group, all the Log Collectors must run on the same Panorama model."
       }
     ],
     "answer": "C",
