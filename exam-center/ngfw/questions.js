@@ -2994,6 +2994,30 @@ const ngfwQuestions = [
     ],
     "answer": "B",
     "type": "single"
+  },
+  {
+    "num": 126,
+    "text": "An engineer is troubleshooting a failed inter-VSYS communication path between a DMZ-VSYS and an Internal-VSYS. The configuration includes separate virtual routers with next-vr static routes and appropriate Security policies within each VSYS allowing traffic to and from their external zones.\nGiven that all routing and policy configurations within each individual VSYS are correct, what is the probable cause of the failure?\n(Choose one answer)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "The intrazone-default policy is blocking the traffic because the two external zones are logically connected."
+      },
+      {
+        "letter": "B",
+        "text": "A tunnel interface is required to connect the two virtual routers instead of using the next-vr option."
+      },
+      {
+        "letter": "C",
+        "text": "The administrator did not configure Visible Virtual System."
+      },
+      {
+        "letter": "D",
+        "text": "The external zones were not assigned the External zone type, preventing them from connecting."
+      }
+    ],
+    "answer": "C",
+    "type": "single"
   }
 ];
 
