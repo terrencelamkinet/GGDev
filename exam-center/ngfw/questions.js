@@ -3018,6 +3018,30 @@ const ngfwQuestions = [
     ],
     "answer": "C",
     "type": "single"
+  },
+  {
+    "num": 127,
+    "text": "A network security administrator needs to create a new administrator account for an external audit team. The auditors require read-only access to the firewall's policy configuration and system logs but must be prohibited from committing any changes or modifying any settings.\nHow can the administrator enforce these specific access limitations?\n(Choose one answer)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Configure a custom Admin Role profile that defines the required permissions."
+      },
+      {
+        "letter": "B",
+        "text": "Enable global read-only mode for the firewall's management plane."
+      },
+      {
+        "letter": "C",
+        "text": "Assign the auditors to a dedicated VSYS."
+      },
+      {
+        "letter": "D",
+        "text": "Apply a Panorama template that restricts commit operations."
+      }
+    ],
+    "answer": "A",
+    "type": "single"
   }
 ];
 
