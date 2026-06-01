@@ -2922,6 +2922,30 @@ const ngfwQuestions = [
     ],
     "answer": "AD",
     "type": "multi"
+  },
+  {
+    "num": 123,
+    "text": "An administrator is deploying a firewall with multiple Layer 2 interfaces to connect various segments of a guest wireless network. All interfaces are part of the same broadcast domain (VLAN 100).\nWhich action should the administrator take to allow all guest devices to communicate freely with each other regardless of their interface connection?\n(Choose one answer)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Create a virtual wire object that pairs all of the guest-facing interfaces together."
+      },
+      {
+        "letter": "B",
+        "text": "Configure a separate Layer 2 zone for each interface and create bidirectional Security policies between all zones."
+      },
+      {
+        "letter": "C",
+        "text": "Configure a single Layer 2 zone and assign all guest-facing Layer 2 interfaces to it."
+      },
+      {
+        "letter": "D",
+        "text": "Assign a Policy-Based Forwarding (PBF) rule to the interfaces to forward all traffic to the next-hop switch."
+      }
+    ],
+    "answer": "C",
+    "type": "single"
   }
 ];
 
