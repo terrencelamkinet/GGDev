@@ -2946,6 +2946,30 @@ const ngfwQuestions = [
     ],
     "answer": "C",
     "type": "single"
+  },
+  {
+    "num": 124,
+    "text": "A network engineer is configuring SSL Forward Proxy decryption on a Palo Alto Networks firewall. The company's internal clients trust a corporate root certificate authority (CA). To ensure the firewall can properly validate the certificates of external web servers, the engineer must configure a specific component.\nWhich component defines the mechanism for Online Certificate Status Protocol (OCSP) / certificate revocation list (CRL) status?\n(Choose one answer)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Certificate revocation checking"
+      },
+      {
+        "letter": "B",
+        "text": "SSL/TLS service profile"
+      },
+      {
+        "letter": "C",
+        "text": "Decryption profile"
+      },
+      {
+        "letter": "D",
+        "text": "Forward trust certificate"
+      }
+    ],
+    "answer": "A",
+    "type": "single"
   }
 ];
 
