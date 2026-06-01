@@ -2970,6 +2970,30 @@ const ngfwQuestions = [
     ],
     "answer": "A",
     "type": "single"
+  },
+  {
+    "num": 125,
+    "text": "For a remote workforce, which method provides the most deterministic mapping of a user to an IP address?\n(Choose one answer)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Port mapping with Terminal Server agent"
+      },
+      {
+        "letter": "B",
+        "text": "GlobalProtect client"
+      },
+      {
+        "letter": "C",
+        "text": "On-premises User-ID agent"
+      },
+      {
+        "letter": "D",
+        "text": "XMLAPI"
+      }
+    ],
+    "answer": "B",
+    "type": "single"
   }
 ];
 
