@@ -1,14 +1,14 @@
 {
-  "ts": "05:50",
-  "hour": 5,
-  "minute": 50,
-  "pushed_at": "2026-06-03 06:01 HKT",
+  "ts": "06:22",
+  "hour": 6,
+  "minute": 22,
+  "pushed_at": "2026-06-03 06:30 HKT",
   "system": {
-    "cpu": 4,
+    "cpu": 10,
     "mem": 14,
     "disk": 59,
-    "load": "0.34",
-    "uptime": "1 week, 11 hours, 46 minutes",
+    "load": "0.30",
+    "uptime": "1 week, 12 hours, 18 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "05:50",
+      "time": "06:22",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "05:34",
-      "text": "Cron: memory_bridge.log (89833B)"
+      "time": "06:05",
+      "text": "Cron: memory_bridge.log (90081B)"
     },
     {
       "time": "20:04",
       "text": "Cron: mcp-stderr.log (33874B)"
     },
     {
-      "time": "05:50",
-      "text": "Cron: guardian.log (166569B)"
+      "time": "06:20",
+      "text": "Cron: guardian.log (167037B)"
     },
     {
-      "time": "05:50",
-      "text": "Cron: gateway.log (2934625B)"
+      "time": "06:22",
+      "text": "Cron: gateway.log (2942537B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 4,
+      "cpu": 10,
       "mem": 14,
       "disk": 59,
-      "load": "0.34",
-      "uptime": "1 week, 11 hours, 46 minutes",
+      "load": "0.30",
+      "uptime": "1 week, 12 hours, 18 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "清晨 — orchestrating 17% CPU. GG-Work(62%): 清晨 — GG-Work VM, CPU 62%. Health beat 運行中，cron jobs 已監控。 Gat; GG-Person(72%): 清晨 — GG-Person VM, CPU 72%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅.",
+      "thoughts": "清晨 — orchestrating 4% CPU. GG-Work(65%): 清晨 — GG-Work VM, CPU 65%. Health beat 運行中，cron jobs 已監控。 Gat; GG-Person(95%): 清晨 — GG-Person VM, CPU 95%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅.",
       "needs": [
         "有新任務或優先級變更",
         "系統表現反饋",
@@ -91,11 +91,11 @@
       ]
     },
     "work": {
-      "cpu": 65,
-      "mem": 30,
+      "cpu": 92,
+      "mem": 21,
       "disk": 54,
-      "load": "0.79",
-      "uptime": "2 weeks, 17 hours, 24 minutes",
+      "load": "0.95",
+      "uptime": "2 weeks, 17 hours, 56 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -103,7 +103,7 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "清晨 — GG-Work VM, CPU 62%. Health beat 運行中，cron jobs 已監控。 Gateway tunnel 連接 Fighter 正常。",
+      "thoughts": "清晨 — GG-Work VM, CPU 65%. Health beat 運行中，cron jobs 已監控。 Gateway tunnel 連接 Fighter 正常。",
       "needs": [
         "清楚資源分配",
         "有冇漏咗嘅 task",
@@ -120,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 95,
+      "cpu": 65,
       "mem": 25,
       "disk": 64,
-      "load": "0.13",
-      "uptime": "2 weeks, 17 hours, 24 minutes",
+      "load": "0.22",
+      "uptime": "2 weeks, 17 hours, 56 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -132,7 +132,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "清晨 — GG-Person VM, CPU 72%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
+      "thoughts": "清晨 — GG-Person VM, CPU 95%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
       "needs": [
         "更多個人任務處理（唔只 health check）",
         "處理 Aggie 相關事項（提醒、schedule）",
