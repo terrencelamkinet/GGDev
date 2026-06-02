@@ -1,14 +1,14 @@
 {
-  "ts": "20:23",
+  "ts": "20:31",
   "hour": 20,
-  "minute": 23,
+  "minute": 31,
   "pushed_at": "2026-06-02 20:31 HKT",
   "system": {
     "cpu": 6,
     "mem": 14,
     "disk": 59,
-    "load": "0.13",
-    "uptime": "1 week, 2 hours, 20 minutes",
+    "load": "0.46",
+    "uptime": "1 week, 2 hours, 28 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:23",
+      "time": "20:32",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,12 +46,12 @@
       "text": "Cron: mcp-stderr.log (33874B)"
     },
     {
-      "time": "20:20",
-      "text": "Cron: guardian.log (157677B)"
+      "time": "20:30",
+      "text": "Cron: guardian.log (157833B)"
     },
     {
-      "time": "20:23",
-      "text": "Cron: gateway.log (2800984B)"
+      "time": "20:31",
+      "text": "Cron: gateway.log (2803048B)"
     },
     {
       "time": "02:19",
@@ -67,8 +67,8 @@
       "cpu": 6,
       "mem": 14,
       "disk": 59,
-      "load": "0.13",
-      "uptime": "1 week, 2 hours, 20 minutes",
+      "load": "0.46",
+      "uptime": "1 week, 2 hours, 28 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,26 +76,25 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "夜晚 — orchestrating 4% CPU. GG-Work(69%): 夜晚 — GG-Work VM, CPU 72%. Health beat 運行中，cron jobs 已監控。 Gat; GG-Person(13%): 夜晚 — GG-Person VM, CPU 66%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅.",
+      "thoughts": "夜晚 — 402 事件根因係 Notification Dispatcher prompt 設錯每分鐘掃描，一個 config 拖冧 13 個 cron。已修復、恢復所有 jobs、建立 token-spend-monitor 預警。聽日 gatekeeper review 全部 cron prompt，防止同類 anomaly。",
       "needs": [
-        "有新任務或優先級變更",
-        "系統表現反饋",
-        "今日終前覆核 cross-agent 狀態"
+        "聽日 review 全部 cron prompt config",
+        "修復 Calendar OAuth expired（P2，6月1日起）",
+        "Dashboard 今晚 sync 正常"
       ],
       "learnings": [
-        "三個 AI 全部在線通訊正常"
+        "402 唔係餘額問題 — 係 config 問題，一個 prompt 設錯可以拖冧成堆 cron"
       ],
       "uncertainties": [
-        "Dashboard refresh 頻率應唔應該按活動量調整？",
-        "Cross-agent trigger 門檻夠唔夠？"
+        "Calendar OAuth 有 refresh_token 但未自動續期，需搵時間手動授權"
       ]
     },
     "work": {
-      "cpu": 69,
+      "cpu": 95,
       "mem": 20,
       "disk": 53,
-      "load": "0.55",
-      "uptime": "2 weeks, 7 hours, 58 minutes",
+      "load": "0.45",
+      "uptime": "2 weeks, 8 hours, 6 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -120,11 +119,11 @@
       ]
     },
     "person": {
-      "cpu": 72,
+      "cpu": 91,
       "mem": 24,
       "disk": 64,
-      "load": "0.01",
-      "uptime": "2 weeks, 7 hours, 58 minutes",
+      "load": "0.62",
+      "uptime": "2 weeks, 8 hours, 6 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -132,7 +131,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "夜晚 — GG-Person VM, CPU 13%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
+      "thoughts": "夜晚 — GG-Person VM, CPU 72%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
       "needs": [
         "更多個人任務處理（唔只 health check）",
         "處理 Aggie 相關事項（提醒、schedule）",
