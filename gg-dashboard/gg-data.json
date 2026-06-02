@@ -1,14 +1,14 @@
 {
-  "ts": "20:31",
+  "ts": "20:55",
   "hour": 20,
-  "minute": 31,
-  "pushed_at": "2026-06-02 20:31 HKT",
+  "minute": 55,
+  "pushed_at": "2026-06-02 21:00 HKT",
   "system": {
-    "cpu": 6,
+    "cpu": 2,
     "mem": 14,
     "disk": 59,
-    "load": "0.46",
-    "uptime": "1 week, 2 hours, 28 minutes",
+    "load": "0.11",
+    "uptime": "1 week, 2 hours, 52 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:32",
+      "time": "20:55",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "20:08",
-      "text": "Cron: memory_bridge.log (85121B)"
+      "time": "20:35",
+      "text": "Cron: memory_bridge.log (85369B)"
     },
     {
       "time": "20:04",
       "text": "Cron: mcp-stderr.log (33874B)"
     },
     {
-      "time": "20:30",
-      "text": "Cron: guardian.log (157833B)"
+      "time": "20:55",
+      "text": "Cron: guardian.log (158223B)"
     },
     {
-      "time": "20:31",
-      "text": "Cron: gateway.log (2803048B)"
+      "time": "20:55",
+      "text": "Cron: gateway.log (2808896B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 6,
+      "cpu": 2,
       "mem": 14,
       "disk": 59,
-      "load": "0.46",
-      "uptime": "1 week, 2 hours, 28 minutes",
+      "load": "0.11",
+      "uptime": "1 week, 2 hours, 52 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,25 +76,26 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "夜晚 — 402 事件根因係 Notification Dispatcher prompt 設錯每分鐘掃描，一個 config 拖冧 13 個 cron。已修復、恢復所有 jobs、建立 token-spend-monitor 預警。聽日 gatekeeper review 全部 cron prompt，防止同類 anomaly。",
+      "thoughts": "夜晚 — orchestrating 6% CPU. GG-Work(95%): 夜晚 — GG-Work VM, CPU 69%. Health beat 運行中，cron jobs 已監控。 Gat; GG-Person(91%): 夜晚 — GG-Person VM, CPU 72%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅.",
       "needs": [
-        "聽日 review 全部 cron prompt config",
-        "修復 Calendar OAuth expired（P2，6月1日起）",
-        "Dashboard 今晚 sync 正常"
+        "有新任務或優先級變更",
+        "系統表現反饋",
+        "今日終前覆核 cross-agent 狀態"
       ],
       "learnings": [
-        "402 唔係餘額問題 — 係 config 問題，一個 prompt 設錯可以拖冧成堆 cron"
+        "三個 AI 全部在線通訊正常"
       ],
       "uncertainties": [
-        "Calendar OAuth 有 refresh_token 但未自動續期，需搵時間手動授權"
+        "Dashboard refresh 頻率應唔應該按活動量調整？",
+        "Cross-agent trigger 門檻夠唔夠？"
       ]
     },
     "work": {
       "cpu": 95,
       "mem": 20,
       "disk": 53,
-      "load": "0.45",
-      "uptime": "2 weeks, 8 hours, 6 minutes",
+      "load": "0.97",
+      "uptime": "2 weeks, 8 hours, 29 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -102,7 +103,7 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "夜晚 — GG-Work VM, CPU 69%. Health beat 運行中，cron jobs 已監控。 Gateway tunnel 連接 Fighter 正常。",
+      "thoughts": "夜晚 — GG-Work VM, CPU 95%. Health beat 運行中，cron jobs 已監控。 Gateway tunnel 連接 Fighter 正常。",
       "needs": [
         "清楚資源分配",
         "有冇漏咗嘅 task",
@@ -119,11 +120,11 @@
       ]
     },
     "person": {
-      "cpu": 91,
+      "cpu": 86,
       "mem": 24,
       "disk": 64,
-      "load": "0.62",
-      "uptime": "2 weeks, 8 hours, 6 minutes",
+      "load": "0.09",
+      "uptime": "2 weeks, 8 hours, 30 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -131,7 +132,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "夜晚 — GG-Person VM, CPU 72%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
+      "thoughts": "夜晚 — GG-Person VM, CPU 91%. 閒置中等緊 request。 準備處理 Aggie 或家庭相關嘅任務。",
       "needs": [
         "更多個人任務處理（唔只 health check）",
         "處理 Aggie 相關事項（提醒、schedule）",
