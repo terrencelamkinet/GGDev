@@ -1,14 +1,14 @@
 {
-  "ts": "06:30",
-  "hour": 6,
-  "minute": 30,
-  "pushed_at": "2026-06-04 07:00 HKT",
+  "ts": "07:15",
+  "hour": 7,
+  "minute": 15,
+  "pushed_at": "2026-06-04 07:30 HKT",
   "system": {
-    "cpu": 91,
+    "cpu": 66,
     "mem": 25,
     "disk": 61,
-    "load": "0.18",
-    "uptime": "1 week, 1 day, 12 hours, 27 minutes",
+    "load": "0.40",
+    "uptime": "1 week, 1 day, 13 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "06:30",
+      "time": "07:15",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,16 +38,16 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "06:08",
-      "text": "Cron: memory_bridge.log (101988B)"
+      "time": "07:04",
+      "text": "Cron: memory_bridge.log (102484B)"
     },
     {
       "time": "23:03",
       "text": "Cron: mcp-stderr.log (38100B)"
     },
     {
-      "time": "06:30",
-      "text": "Cron: guardian.log (189735B)"
+      "time": "07:15",
+      "text": "Cron: guardian.log (190437B)"
     },
     {
       "time": "00:38",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 91,
+      "cpu": 66,
       "mem": 25,
       "disk": 61,
-      "load": "0.18",
-      "uptime": "1 week, 1 day, 12 hours, 27 minutes",
+      "load": "0.40",
+      "uptime": "1 week, 1 day, 13 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 82,
+      "cpu": 95,
       "mem": 23,
       "disk": 54,
-      "load": "0.80",
-      "uptime": "2 weeks, 1 day, 18 hours, 5 minutes",
+      "load": "0.49",
+      "uptime": "2 weeks, 1 day, 18 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -114,10 +114,10 @@
     },
     "person": {
       "cpu": 100,
-      "mem": 28,
-      "disk": 67,
-      "load": "0.89",
-      "uptime": "2 weeks, 1 day, 18 hours, 5 minutes",
+      "mem": 25,
+      "disk": 65,
+      "load": "0.21",
+      "uptime": "2 weeks, 1 day, 18 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -239,7 +239,7 @@
     "today_events": 4,
     "upcoming": 19,
     "reminders_pending": 0,
-    "last_updated": "2026-06-04T06:30:58",
+    "last_updated": "2026-06-04T07:00:31",
     "today_list": [
       {
         "summary": "Ftrans POC Review ",
@@ -264,6 +264,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "06:30"
+    "last_check": "07:15"
   }
 }
