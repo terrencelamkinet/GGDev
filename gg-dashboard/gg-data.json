@@ -1,14 +1,14 @@
 {
-  "ts": "11:45",
-  "hour": 11,
-  "minute": 45,
-  "pushed_at": "2026-06-03 12:00 HKT",
+  "ts": "12:00",
+  "hour": 12,
+  "minute": 0,
+  "pushed_at": "2026-06-03 12:30 HKT",
   "system": {
-    "cpu": 20,
-    "mem": 14,
+    "cpu": 97,
+    "mem": 15,
     "disk": 60,
-    "load": "0.30",
-    "uptime": "1 week, 17 hours, 41 minutes",
+    "load": "0.23",
+    "uptime": "1 week, 17 hours, 56 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "11:45",
+      "time": "12:00",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,12 +46,12 @@
       "text": "Cron: mcp-stderr.log (35876B)"
     },
     {
-      "time": "11:45",
-      "text": "Cron: guardian.log (172185B)"
+      "time": "12:00",
+      "text": "Cron: guardian.log (172419B)"
     },
     {
-      "time": "11:45",
-      "text": "Cron: gateway.log (3043088B)"
+      "time": "12:00",
+      "text": "Cron: gateway.log (3051532B)"
     },
     {
       "time": "02:19",
@@ -64,15 +64,15 @@
   ],
   "agents": {
     "main": {
-      "cpu": 20,
-      "mem": 14,
+      "cpu": 97,
+      "mem": 15,
       "disk": 60,
-      "load": "0.30",
-      "uptime": "1 week, 17 hours, 41 minutes",
+      "load": "0.23",
+      "uptime": "1 week, 17 hours, 56 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": false
+        "openclaw": true
       },
       "online": true,
       "cron_jobs": 12,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 4,
-      "mem": 27,
+      "cpu": 91,
+      "mem": 20,
       "disk": 54,
-      "load": "0.83",
-      "uptime": "2 weeks, 23 hours, 19 minutes",
+      "load": "0.47",
+      "uptime": "2 weeks, 23 hours, 34 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 4,
-      "mem": 32,
+      "cpu": 86,
+      "mem": 27,
       "disk": 65,
-      "load": "0.73",
-      "uptime": "2 weeks, 23 hours, 19 minutes",
+      "load": "0.82",
+      "uptime": "2 weeks, 23 hours, 34 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -231,8 +231,8 @@
         "topped_up_balance": "19.33"
       }
     ],
-    "balance_cny": 79.1,
-    "balance_usd": 10.84
+    "balance_cny": 78.62,
+    "balance_usd": 10.77
   },
   "schedule": {
     "total_events": 35,
@@ -247,6 +247,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "11:45"
+    "last_check": "12:00"
   }
 }
