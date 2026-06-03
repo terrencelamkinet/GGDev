@@ -1,14 +1,14 @@
 {
-  "ts": "20:46",
-  "hour": 20,
-  "minute": 46,
-  "pushed_at": "2026-06-03 21:00 HKT",
+  "ts": "21:16",
+  "hour": 21,
+  "minute": 16,
+  "pushed_at": "2026-06-03 21:30 HKT",
   "system": {
-    "cpu": 26,
+    "cpu": 20,
     "mem": 25,
     "disk": 60,
-    "load": "0.13",
-    "uptime": "1 week, 1 day, 2 hours, 42 minutes",
+    "load": "0.09",
+    "uptime": "1 week, 1 day, 3 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:46",
+      "time": "21:16",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "20:36",
-      "text": "Cron: memory_bridge.log (97276B)"
+      "time": "21:05",
+      "text": "Cron: memory_bridge.log (97524B)"
     },
     {
       "time": "19:09",
       "text": "Cron: mcp-stderr.log (37927B)"
     },
     {
-      "time": "20:45",
-      "text": "Cron: guardian.log (180609B)"
+      "time": "21:15",
+      "text": "Cron: guardian.log (181077B)"
     },
     {
-      "time": "20:46",
-      "text": "Cron: gateway.log (3203845B)"
+      "time": "21:16",
+      "text": "Cron: gateway.log (3211069B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 26,
+      "cpu": 20,
       "mem": 25,
       "disk": 60,
-      "load": "0.13",
-      "uptime": "1 week, 1 day, 2 hours, 42 minutes",
+      "load": "0.09",
+      "uptime": "1 week, 1 day, 3 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 60,
-      "mem": 23,
+      "cpu": 66,
+      "mem": 21,
       "disk": 54,
-      "load": "0.82",
-      "uptime": "2 weeks, 1 day, 8 hours, 20 minutes",
+      "load": "0.73",
+      "uptime": "2 weeks, 1 day, 8 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 71,
+      "cpu": 68,
       "mem": 25,
       "disk": 66,
-      "load": "0.48",
-      "uptime": "2 weeks, 1 day, 8 hours, 20 minutes",
+      "load": "0.23",
+      "uptime": "2 weeks, 1 day, 8 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -231,15 +231,15 @@
         "topped_up_balance": "19.33"
       }
     ],
-    "balance_cny": 72.94,
-    "balance_usd": 9.99
+    "balance_cny": 72.81,
+    "balance_usd": 9.97
   },
   "schedule": {
     "total_events": 36,
     "today_events": 0,
     "upcoming": 18,
     "reminders_pending": 0,
-    "last_updated": "2026-06-03T20:30:33",
+    "last_updated": "2026-06-03T21:03:24",
     "today_list": []
   },
   "update_source": "hermes_update_data.py",
@@ -247,6 +247,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "20:46"
+    "last_check": "21:16"
   }
 }
