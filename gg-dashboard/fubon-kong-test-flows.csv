@@ -1,0 +1,119 @@
+Test Case ID,Category,Title,Description,Test Steps,Expected Results,Status,Actual Results,Feature Checklist
+Flow_01,POC-1 Architecture & Connectivity,Infrastructure Setup (CP+DP+K8s+PostgreSQL),"Verify CP Admin API, DP proxy flow, K8s deployment, and PostgreSQL persistence","1. kubectl get pods - verify CP and DP running
+2. Hit CP Admin API - verify DB connected
+3. Deploy a service+route - send request via DP
+4. Verify demo server receives proxied request
+5. Restart CP pod - check config persists
+6. Check K8s service endpoints",Both CP and DP healthy. Traffic flows. Config persists across CP restart.,Not Started,,"HA Support, Container Support (K8s), REST Support, Backend Protocol (HTTP)"
+Flow_02,POC-1 Architecture & Connectivity,Upstream Load Balancing,Verify Kong distributes requests across multiple upstream targets,"1. Configure upstream with 2 demo server instances
+2. Send 10 requests
+3. Check round-robin distribution across targets",Requests distributed round-robin across all healthy upstream targets.,Not Started,,HA Support
+Flow_03,POC-1 Architecture & Connectivity,HA Failover,Verify Kong fails over when one upstream target goes down,"1. Configure upstream with 2 instances
+2. Take one target down
+3. Continue sending requests
+4. Verify 0 dropped requests, remaining target handles all traffic",0 dropped requests. Traffic routes to remaining healthy target only.,Not Started,,HA Support
+Flow_04,POC-2 Security & Authentication,API Key Authentication,Verify Kong key-auth plugin enforces API key on routes,"1. Enable key-auth plugin on route
+2. Create consumer with API key
+3. Test: valid key -> 200, invalid key -> 401, no key -> 401","Valid key 200, invalid 401, missing 401.",Not Started,,Subscription Mgmt
+Flow_05,POC-2 Security & Authentication,JWT Validation,Verify Kong jwt plugin validates RS256 JWT tokens,"1. Enable jwt plugin on route
+2. Generate RS256 JWT with proper claims
+3. Test: valid JWT -> 200, expired -> 401, tampered -> 401","Valid JWT 200, expired/tampered 401/403.",Not Started,,"OAuth2/OIDC, JWT Validation"
+Flow_06,POC-2 Security & Authentication,JWT Scope Enforcement,Verify Kong enforces scope-based access via JWT claims,"1. Issue JWT with scope=read_only and scope=write
+2. Test read_only: GET -> 200, POST -> 403
+3. Test write scope: GET+POST -> both 200","read_only: read allowed, write denied. write: both allowed.",Not Started,,"Scope Enforcement, Claim-based Routing"
+Flow_07,POC-2 Security & Authentication,mTLS Client Certificate,Verify mTLS authentication for client certificate auth,"1. Enable mTLS on route
+2. Generate test client cert
+3. Test: valid cert -> 200, expired cert -> 401, no cert -> 401","Valid cert 200, invalid/no cert 401.",Not Started,,mTLS Support
+Flow_08,POC-2 Security & Authentication,IP Whitelisting,Verify Kong enforces IP-based access restrictions,"1. Configure IP restriction plugin (allow specific CIDR)
+2. Send from allowed IP -> 200
+3. Send from blocked IP -> 403","Allowed IP 200, blocked IP 403.",Not Started,,IP Whitelisting
+Flow_09,POC-2 Security & Authentication,Deny-by-default,Verify unmatched routes return 403,"1. Delete all routes from Kong
+2. Hit any path against DP
+3. Verify returns 403",Unmatched routes return 403.,Not Started,,Deny-by-default
+Flow_10,POC-2 Security & Authentication,CORS Configuration,Verify Kong handles CORS preflight requests and origin validation,"1. Enable CORS plugin on a route
+2. Send OPTIONS from allowed origin -> correct headers
+3. Send from disallowed origin -> no CORS headers",CORS headers correct for allowed origins. Disallowed origins rejected.,Not Started,,CORS
+Flow_11,POC-3 Traffic Management,Rate Limiting,Verify per-consumer rate limiting,"1. Enable rate-limiting plugin (5 req/min per consumer)
+2. Send 7 requests as same consumer
+3. First 5 -> 200, 6th+7th -> 429
+4. Wait 1 min - verify limit resets",First 5 -> 200. 6th+7th -> 429. Limit resets after cooldown.,Not Started,,Rate Limiting
+Flow_12,POC-3 Traffic Management,Quota Management,Verify route-level daily quota across all consumers,"1. Configure route-level quota plugin (daily 500 req)
+2. Multiple consumers hit same route
+3. Exceed daily aggregate quota
+4. Verify 429 returned",Aggregate quota across all consumers. Exceed -> 429. Resets daily.,Not Started,,Quota Management
+Flow_13,POC-3 Traffic Management,Throttling,Verify sustained traffic smoothing,"1. Configure rate-limiting with sustained=2/sec
+2. Send sustained traffic at 5/sec
+3. Observe actual throughput rate",Traffic smoothed to configured rate. Excess requests queued or rejected.,Not Started,,"Throttling, DDoS Protection"
+Flow_14,POC-3 Traffic Management,Spike Arrest,Verify burst control,"1. Configure rate-limiting with burst=10
+2. Send 20 requests in 1 second
+3. Observe throughput - first 10 pass, remaining limited",First 10 pass immediately (burst). Remaining requests throttled.,Not Started,,Spike Arrest
+Flow_15,POC-3 Traffic Management,Circuit Breaker,Verify Kong opens circuit when backend repeatedly fails,"1. Configure circuit breaker (5 failures / 30s)
+2. Make demo server unresponsive
+3. Send multiple requests
+4. After threshold -> circuit opens -> 503
+5. Cooldown -> half-open -> retry -> circuit closes",Circuit opens after 5 failures -> 503. Cooldown -> half-open -> retry.,Not Started,,Circuit Breaker
+Flow_16,POC-3 Traffic Management,Backend Retry,Verify Kong retries failed requests before giving up,"1. Configure retry plugin (2 attempts)
+2. Make demo server intermittently fail
+3. Send request
+4. Verify Kong retries before returning error",Kong retries configured number of times before returning error.,Not Started,,Backend Retry
+Flow_17,POC-3 Traffic Management,Response Caching,Verify Kong caches responses to reduce backend load,"1. Enable proxy-cache plugin
+2. Send same GET request twice
+3. Compare latency and X-Cache-Status header","First: Miss. Second: Hit, lower latency, X-Cache-Status: Hit.",Not Started,,Caching
+Flow_18,POC-4 Observability,Access Logging,Verify Kong logs all proxy requests with complete fields,"1. Enable http-log plugin (stdout or file)
+2. Send several test requests
+3. Check log fields: timestamp, IP, method, path, status, latency, consumer_id",Complete request log for every request with all required fields.,Not Started,,Access Logging
+Flow_19,POC-4 Observability,Correlation ID Tracing,Verify end-to-end trace via correlation ID header,"1. Enable correlation-id plugin
+2. Send request with custom correlation ID header
+3. Check same ID appears in Kong logs",Correlation ID propagates through Kong and appears in access logs.,Not Started,,Correlation ID
+Flow_20,POC-4 Observability,Prometheus Metrics,Verify Kong exposes Prometheus metrics,"1. Enable prometheus plugin
+2. Hit /metrics endpoint
+3. Verify fields: requests_total, latency_ms, status codes, connections, memory","Metrics available at /metrics with request count, latency histogram, status breakdown.",Not Started,,Metrics (Prometheus)
+Flow_21,POC-4 Observability,Alerting,Verify Kong alerts when error rate exceeds threshold,"1. Configure alert threshold on error rate > 5%
+2. Trigger 50% errors (make backend fail)
+3. Verify alert triggers",Alert triggers when error rate exceeds configured threshold.,Not Started,,"Alerting, Policy Audit Trail"
+Flow_22,POC-5 Routing & Integration,Path-based Routing,Verify Kong routes based on request path,"1. Configure /api/demo1 -> endpoint A
+2. Configure /api/demo2 -> endpoint B
+3. Send requests to each path - verify correct backend",Each path routes to its correct backend endpoint.,Not Started,,REST Support
+Flow_23,POC-5 Routing & Integration,Host-based Routing,Verify Kong routes based on Host header for multi-tenant support,"1. Configure api.fubon.com -> backend A
+2. Configure portal.fubon.com -> backend B
+3. Send with different Host headers - verify correct backend",Each hostname routes to correct backend. Supports multi-tenant routing.,Not Started,,Multi-tenant support
+Flow_24,POC-5 Routing & Integration,Request Transformation,Verify Kong transforms headers and body before forwarding,"1. Enable header-transformation plugin
+2. Add, remove, modify request headers
+3. Verify backend receives modified headers",Headers modified as configured before reaching backend.,Not Started,,Transformation (JSON/XML)
+Flow_25,POC-5 Routing & Integration,Backend Protocol (HTTPS/TCP),Verify Kong routes to HTTPS and TCP backends,"1. Configure route to HTTPS backend with TLS cert
+2. Verify TLS termination works
+3. Configure route to TCP backend (non-HTTP)
+4. Verify raw TCP proxied correctly",HTTPS: TLS terminated at Kong. TCP: raw TCP proxied correctly.,Not Started,,Backend Protocol (HTTPS TCP)
+Flow_26,POC-5 Routing & Integration,API Versioning,Verify multiple API versions coexist and deprecated versions removed safely,"1. Deploy /v1/accounts and /v2/accounts with different backends
+2. Call both versions - both serve correctly
+3. Deprecate v1 route - v2 still works",Both versions serve correctly. v1 deprecated without breaking v2.,Not Started,,API Versioning / Version Control
+Flow_27,POC-6 DevOps & Configuration,GitOps Config Management (decK),"Verify declarative config via decK: export, validate, sync, rollback","1. Export Kong config via decK to YAML
+2. Modify YAML - add new route
+3. Run deck validate - catches syntax errors
+4. Run deck sync - import config
+5. Apply broken config - deck validate rejects
+6. Rollback to previous config - services restored",Export -> modify -> validate -> sync cycle works. decK catches errors. Rollback restores state.,Not Started,,"Config as Code, CI/CD Integration (GitOps), Policy Versioning, Rollback, Config Validation"
+Flow_28,POC-6 DevOps & Configuration,Blue/Green Deployment,Verify zero-downtime upstream switch between blue and green backends,"1. Configure blue upstream + green upstream
+2. Switch from blue to green
+3. Monitor for dropped requests
+4. Verify green handles all traffic
+5. Revert to blue seamlessly",0 dropped requests during switch. Green handles traffic immediately. Can revert.,Not Started,,Blue/Green Deployment
+Flow_29,POC-7 Advanced Features,Claim-based Routing,Verify Kong routes requests based on JWT claims,"1. Create consumer with role=admin claim
+2. Configure /admin route to require role=admin
+3. Test admin JWT -> /admin 200
+4. Test user JWT -> /admin 403",admin JWT: admin route 200. user JWT: admin route 403.,Not Started,,Claim-based Routing
+Flow_30,POC-7 Advanced Features,ABAC / RBAC Access Control,Verify role-based access control via JWT claims,"1. Create consumers with role=admin and role=user
+2. Configure different permissions per role
+3. Test admin -> all routes allowed
+4. Test user -> restricted routes 403",admin: full access. user: restricted routes return 403.,Not Started,,ABAC/RBAC
+Flow_31,POC-7 Advanced Features,Context-based Decision,Verify Kong uses dynamic request context for access decisions,"1. Configure plugin to check transaction amount header
+2. TXN > 10000 requires extra auth
+3. Test small txn -> passes
+4. Test large txn -> blocked without extra auth",Small txn passes. Large txn (>10K) requires additional authorization.,Not Started,,Context-based Decision
+Flow_32,POC-9 Performance,Latency Benchmark,"Measure Kong added latency overhead (p50, p95, p99)","1. Ping demo server directly (no Kong) - baseline
+2. Send same request via Kong DP
+3. Calculate delta
+4. Record p50, p95, p99 latency",Kong overhead < 5ms at p99.,Not Started,,Latency Performance
+Flow_33,POC-9 Performance,Throughput Test,Verify Kong handles target TPS without resource exhaustion,"1. Ramp up parallel requests from low to target (500 TPS)
+2. Monitor for errors at each load level
+3. Check Kong CPU and memory on K8s","0 errors at expected TPS. CPU < 70%, memory stable.",Not Started,,Latency Performance
