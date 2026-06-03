@@ -103,25 +103,16 @@
       <div style="color:var(--text-dim);font-size:13px">Loading...</div>
     </div>
 
+    <!-- AI Sync Status -->
+    <div class="section-title">🔄 AI Sync Status</div>
+    <div class="card" id="aiSyncStatus">
+      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
+    </div>
+
     <!-- Schedule Timeline -->
     <div class="section-title">📅 Today's Schedule</div>
     <div class="card" id="todaySchedule">
-      <div class="schedule-item">
-        <span class="schedule-time">09:30</span>
-        <span class="schedule-dot done"></span>
-        <div class="schedule-info">
-          <div class="schedule-title">CISP Class</div>
-          <div class="schedule-desc">Online · Until 16:30</div>
-        </div>
-      </div>
-      <div class="schedule-item">
-        <span class="schedule-time">16:00</span>
-        <span class="schedule-dot"></span>
-        <div class="schedule-info">
-          <div class="schedule-title">Security Discussion</div>
-          <div class="schedule-desc">Internal meeting</div>
-        </div>
-      </div>
+      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
     </div>
 
     <!-- Activity -->
@@ -262,10 +253,11 @@
       </div>
     </div>
 
+    <!-- Agent Needs (prominent - Terrence's main feature) -->
     <div class="gg-section">
       <div class="gg-section-header">
-        <div class="icon lavender">🎯</div>
-        <h3>They Need Your Help With</h3>
+        <div class="icon green">🎯</div>
+        <h3>🤖 3 AIs — What They Need From You</h3>
       </div>
       <div class="card">
         <div id="ggNeedsAll" style="color:var(--text-dim);font-size:13px">No requests at this time</div>
@@ -279,6 +271,16 @@
       </div>
       <div class="card">
         <div id="ggLearningsAll" style="color:var(--text-dim);font-size:13px">No recent updates</div>
+      </div>
+    </div>
+
+    <div class="gg-section">
+      <div class="gg-section-header">
+        <div class="icon lavender">❓</div>
+        <h3>Uncertainties</h3>
+      </div>
+      <div class="card">
+        <div id="ggUncertaintiesAll" style="color:var(--text-dim);font-size:13px">No uncertainties reported</div>
       </div>
     </div>
   </div><!-- /page-gg -->
@@ -513,18 +515,22 @@ async function fetchData() {
     setDetail('ggThoughtsWork', a.work.thoughts || 'No thoughts recorded');
     setDetail('ggThoughtsPerson', a.person.thoughts || 'No thoughts recorded');
 
-    // Needs — collect non-empty needs from all agents
+    // Needs — collect non-empty needs from all agents (PROMINENT)
     var allNeeds = [];
-    if (a.main.needs && a.main.needs.length) allNeeds.push({agent:'GG Fighter', items:a.main.needs});
-    if (a.work.needs && a.work.needs.length) allNeeds.push({agent:'GG-Work', items:a.work.needs});
-    if (a.person.needs && a.person.needs.length) allNeeds.push({agent:'GG-Person', items:a.person.needs});
+    if (a.main.needs && a.main.needs.length) allNeeds.push({agent:'GG Fighter 🤖', items:a.main.needs});
+    if (a.work.needs && a.work.needs.length) allNeeds.push({agent:'GG-Work 🦾⚙️', items:a.work.needs});
+    if (a.person.needs && a.person.needs.length) allNeeds.push({agent:'GG-Person 🦾❤️', items:a.person.needs});
     var needsEl = document.getElementById('ggNeedsAll');
     if (allNeeds.length) {
       needsEl.innerHTML = allNeeds.map(function(n) {
-        return '<div style="margin-bottom:8px"><strong>'+n.agent+':</strong> '+n.items.join(', ')+'</div>';
+        return '<div style="margin-bottom:12px;padding:8px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:3px solid var(--green-dark)">' +
+          '<div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--accent)">' + n.agent + '</div>' +
+          '<ul style="margin:0 0 0 16px;padding:0">' +
+          n.items.map(function(i) { return '<li style="margin-bottom:3px;font-size:13px;color:var(--text-muted)">' + escHtml(i) + '</li>'; }).join('') +
+          '</ul></div>';
       }).join('');
     } else {
-      needsEl.textContent = 'No requests at this time';
+      needsEl.innerHTML = '<div style="text-align:center;padding:12px;color:var(--green-dark);font-size:14px">✅ All agents are satisfied — no urgent needs</div>';
     }
 
     // Learnings — collect non-empty learnings from all agents
@@ -540,6 +546,53 @@ async function fetchData() {
       }).join('');
     } else {
       learnEl.textContent = 'No recent updates';
+    }
+
+    // Uncertainties — collect non-empty uncertainties from all agents
+    var allUncertainties = [];
+    if (a.main.uncertainties && a.main.uncertainties.length) allUncertainties.push({agent:'GG Fighter', items:a.main.uncertainties});
+    if (a.work.uncertainties && a.work.uncertainties.length) allUncertainties.push({agent:'GG-Work', items:a.work.uncertainties});
+    if (a.person.uncertainties && a.person.uncertainties.length) allUncertainties.push({agent:'GG-Person', items:a.person.uncertainties});
+    var uncertEl = document.getElementById('ggUncertaintiesAll');
+    if (allUncertainties.length) {
+      uncertEl.innerHTML = allUncertainties.map(function(n) {
+        return '<div style="margin-bottom:8px"><strong>'+n.agent+':</strong><ul style="margin:4px 0 8px 16px;padding:0">'+
+          n.items.map(function(i) { return '<li style="margin-bottom:2px">'+escHtml(i)+'</li>'; }).join('')+'</ul></div>';
+      }).join('');
+    } else {
+      uncertEl.textContent = 'No uncertainties reported';
+    }
+
+    // === Schedule ===
+    var scheduleEl = document.getElementById('todaySchedule');
+    if (scheduleEl) {
+      var sched = d.schedule;
+      if (sched && sched.today_list && sched.today_list.length > 0) {
+        scheduleEl.innerHTML = sched.today_list.map(function(e) {
+          return '<div class="schedule-item"><span class="schedule-time">' + escHtml(e.time) + '</span><span class="schedule-dot"></span><div class="schedule-info"><div class="schedule-title">' + escHtml(e.summary) + '</div></div></div>';
+        }).join('') +
+        '<div style="font-size:12px;color:var(--text-dim);margin-top:8px;text-align:center;padding-top:8px;border-top:1px solid var(--border)">📅 ' + (sched.upcoming || 0) + ' upcoming · Total: ' + (sched.total_events || 0) + ' events in cache</div>';
+      } else {
+        scheduleEl.innerHTML = '<div style="color:var(--text-dim);font-size:13px;text-align:center;padding:12px 0">✅ No events today · ' + (sched ? sched.upcoming : 0) + ' upcoming</div>';
+      }
+    }
+
+    // === AI Sync Status ===
+    var syncEl = document.getElementById('aiSyncStatus');
+    if (syncEl && d.ai_sync) {
+      var sync = d.ai_sync;
+      var pct = sync.total_checkpoints > 0 ? Math.round(sync.synced / sync.total_checkpoints * 100) : 0;
+      var allGreen = sync.pending === 0;
+      syncEl.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+          '<span style="font-size:14px;font-weight:700">' + (allGreen ? '🟢' : '🟡') + ' Checkpoint Sync</span>' +
+          '<span class="tag ' + (allGreen ? 'green' : 'peach') + '">' + (allGreen ? '● All Synced' : '● ' + sync.pending + ' pending') + '</span>' +
+        '</div>' +
+        '<div style="display:flex;gap:20px;font-size:13px;color:var(--text-muted);flex-wrap:wrap">' +
+          '<span>Progress: <strong style="color:var(--text)">' + sync.synced + '/' + sync.total_checkpoints + '</strong></span>' +
+          '<span>Pending: <strong style="color:' + (allGreen ? 'var(--green-dark)' : '#e17055') + '">' + sync.pending + '</strong></span>' +
+          '<span>Last check: <strong style="color:var(--text)">' + (sync.last_check || '--') + '</strong></span>' +
+        '</div>';
     }
 
     // === Cost Data ===
