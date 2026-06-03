@@ -1,14 +1,14 @@
 {
-  "ts": "19:46",
-  "hour": 19,
-  "minute": 46,
-  "pushed_at": "2026-06-03 20:00 HKT",
+  "ts": "20:15",
+  "hour": 20,
+  "minute": 15,
+  "pushed_at": "2026-06-03 20:30 HKT",
   "system": {
-    "cpu": 27,
+    "cpu": 72,
     "mem": 25,
     "disk": 60,
-    "load": "0.13",
-    "uptime": "1 week, 1 day, 1 hour, 42 minutes",
+    "load": "0.08",
+    "uptime": "1 week, 1 day, 2 hours, 11 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "19:46",
+      "time": "20:15",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "19:34",
-      "text": "Cron: memory_bridge.log (96780B)"
+      "time": "20:10",
+      "text": "Cron: memory_bridge.log (97028B)"
     },
     {
       "time": "19:09",
       "text": "Cron: mcp-stderr.log (37927B)"
     },
     {
-      "time": "19:45",
-      "text": "Cron: guardian.log (179673B)"
+      "time": "20:15",
+      "text": "Cron: guardian.log (180141B)"
     },
     {
-      "time": "19:46",
-      "text": "Cron: gateway.log (3191117B)"
+      "time": "20:15",
+      "text": "Cron: gateway.log (3196621B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 27,
+      "cpu": 72,
       "mem": 25,
       "disk": 60,
-      "load": "0.13",
-      "uptime": "1 week, 1 day, 1 hour, 42 minutes",
+      "load": "0.08",
+      "uptime": "1 week, 1 day, 2 hours, 11 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "下午 — CPU load 0.4 — 閒置; 已運行 8 日; 1 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 8 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 60,
-      "mem": 24,
+      "cpu": 80,
+      "mem": 22,
       "disk": 54,
-      "load": "0.34",
-      "uptime": "2 weeks, 1 day, 7 hours, 20 minutes",
+      "load": "0.64",
+      "uptime": "2 weeks, 1 day, 7 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -100,7 +100,7 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "下午 — CPU load 0.3 — 閒置; 已運行 15 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 15 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 69,
-      "mem": 25,
+      "cpu": 100,
+      "mem": 28,
       "disk": 66,
-      "load": "0.26",
-      "uptime": "2 weeks, 1 day, 7 hours, 20 minutes",
+      "load": "0.77",
+      "uptime": "2 weeks, 1 day, 7 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -125,7 +125,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "下午 — CPU load 0.2 — 閒置; 已運行 15 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 15 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -231,15 +231,15 @@
         "topped_up_balance": "19.33"
       }
     ],
-    "balance_cny": 73.41,
-    "balance_usd": 10.06
+    "balance_cny": 73.3,
+    "balance_usd": 10.04
   },
   "schedule": {
     "total_events": 37,
     "today_events": 0,
     "upcoming": 18,
     "reminders_pending": 2,
-    "last_updated": "2026-06-03T19:30:20",
+    "last_updated": "2026-06-03T20:06:27",
     "today_list": []
   },
   "update_source": "hermes_update_data.py",
@@ -247,6 +247,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "19:46"
+    "last_check": "20:15"
   }
 }
