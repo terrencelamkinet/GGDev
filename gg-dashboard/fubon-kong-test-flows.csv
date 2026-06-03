@@ -1,17 +1,20 @@
 Test Case ID,Category,Title,Description,Test Steps,Expected Results,Status,Actual Results,Feature Checklist
-Flow_01,POC-1 Architecture & Connectivity,Infrastructure Setup (CP+DP+K8s+PostgreSQL),"Verify CP Admin API, DP proxy flow, K8s deployment, and PostgreSQL persistence","1. kubectl get pods - verify CP and DP running
+Flow_01,POC-1 Architecture & Connectivity,Infrastructure Setup (CP+DP+K8s+PostgreSQL),"Verify CP Admin API, multiple DP pods, K8s deployment, and PostgreSQL persistence","1. kubectl get pods - verify multiple CP and DP pods are running
 2. Hit CP Admin API - verify DB connected
-3. Deploy a service+route - send request via DP
+3. Deploy a service+route via Admin API - send request via DP
 4. Verify demo server receives proxied request
-5. Restart CP pod - check config persists
-6. Check K8s service endpoints",Both CP and DP healthy. Traffic flows. Config persists across CP restart.,Not Started,,"HA Support, Container Support (K8s), REST Support, Backend Protocol (HTTP)"
-Flow_02,POC-1 Architecture & Connectivity,Upstream Load Balancing,Verify Kong distributes requests across multiple upstream targets,"1. Configure upstream with 2 demo server instances
-2. Send 10 requests
-3. Check round-robin distribution across targets",Requests distributed round-robin across all healthy upstream targets.,Not Started,,HA Support
-Flow_03,POC-1 Architecture & Connectivity,HA Failover,Verify Kong fails over when one upstream target goes down,"1. Configure upstream with 2 instances
-2. Take one target down
+5. Kill one DP pod - verify other DP pod still serves traffic
+6. Restart CP pod - check config persists in PostgreSQL",Multiple CP/DP pods healthy. Traffic flows: Workstation -> Kong DP -> Demo Server. DP pod failure: other pod takes over. Config persists across CP restart.,Not Started,,"HA Support, Container Support (K8s), REST Support, Backend Protocol (HTTP)"
+Flow_02,POC-1 Architecture & Connectivity,Upstream Load Balancing,Verify Kong distributes requests across 2 backend instances on same VM,"1. Start demo server on port 8080
+2. Start simple echo server on port 8081 (python3 -m http.server 8081 or static response)
+3. Configure Kong upstream with targets: 10.x.x.x:8080 and 10.x.x.x:8081
+4. Send 10 requests
+5. Check distribution across both targets",Requests distributed across both backend ports. Each target receives ~50% of traffic.,Not Started,,HA Support
+Flow_03,POC-1 Architecture & Connectivity,HA Failover,Verify Kong routes to remaining target when one backend goes down,"1. Configure upstream with 2 targets: demo server (8080) + echo server (8081)
+2. Kill echo server
 3. Continue sending requests
-4. Verify 0 dropped requests, remaining target handles all traffic",0 dropped requests. Traffic routes to remaining healthy target only.,Not Started,,HA Support
+4. Verify 0 dropped requests, all traffic goes to demo server (8080)
+5. Restart echo server - verify traffic resumes to both",0 dropped requests when one target down. All traffic to remaining target. Auto-resumes when target recovers.,Not Started,,HA Support
 Flow_04,POC-2 Security & Authentication,API Key Authentication,Verify Kong key-auth plugin enforces API key on routes,"1. Enable key-auth plugin on route
 2. Create consumer with API key
 3. Test: valid key -> 200, invalid key -> 401, no key -> 401","Valid key 200, invalid 401, missing 401.",Not Started,,Subscription Mgmt
@@ -71,12 +74,12 @@ Flow_20,POC-4 Observability,Prometheus Metrics,Verify Kong exposes Prometheus me
 Flow_21,POC-4 Observability,Alerting,Verify Kong alerts when error rate exceeds threshold,"1. Configure alert threshold on error rate > 5%
 2. Trigger 50% errors (make backend fail)
 3. Verify alert triggers",Alert triggers when error rate exceeds configured threshold.,Not Started,,"Alerting, Policy Audit Trail"
-Flow_22,POC-5 Routing & Integration,Path-based Routing,Verify Kong routes based on request path,"1. Configure /api/demo1 -> endpoint A
-2. Configure /api/demo2 -> endpoint B
-3. Send requests to each path - verify correct backend",Each path routes to its correct backend endpoint.,Not Started,,REST Support
-Flow_23,POC-5 Routing & Integration,Host-based Routing,Verify Kong routes based on Host header for multi-tenant support,"1. Configure api.fubon.com -> backend A
-2. Configure portal.fubon.com -> backend B
-3. Send with different Host headers - verify correct backend",Each hostname routes to correct backend. Supports multi-tenant routing.,Not Started,,Multi-tenant support
+Flow_22,POC-5 Routing & Integration,Path-based Routing,Verify Kong routes based on request path,"1. Configure /api/endpointA -> demo server
+2. Configure /api/endpointB -> demo server (different path)
+3. Send requests to each path - verify correct routing",Each path routes correctly. Kong resolves path to configured backend.,Not Started,,REST Support
+Flow_23,POC-5 Routing & Integration,Host-based Routing,Verify Kong routes based on Host header for multi-tenant support,"1. Configure api.fubon.com -> demo server
+2. Configure portal.fubon.com -> demo server
+3. Send with different Host headers - verify correct virtual host routing",Each hostname routes correctly. Supports multi-tenant routing.,Not Started,,Multi-tenant support
 Flow_24,POC-5 Routing & Integration,Request Transformation,Verify Kong transforms headers and body before forwarding,"1. Enable header-transformation plugin
 2. Add, remove, modify request headers
 3. Verify backend receives modified headers",Headers modified as configured before reaching backend.,Not Started,,Transformation (JSON/XML)
@@ -84,16 +87,16 @@ Flow_25,POC-5 Routing & Integration,Backend Protocol (HTTPS/TCP),Verify Kong rou
 2. Verify TLS termination works
 3. Configure route to TCP backend (non-HTTP)
 4. Verify raw TCP proxied correctly",HTTPS: TLS terminated at Kong. TCP: raw TCP proxied correctly.,Not Started,,Backend Protocol (HTTPS TCP)
-Flow_26,POC-5 Routing & Integration,API Versioning,Verify multiple API versions coexist and deprecated versions removed safely,"1. Deploy /v1/accounts and /v2/accounts with different backends
-2. Call both versions - both serve correctly
-3. Deprecate v1 route - v2 still works",Both versions serve correctly. v1 deprecated without breaking v2.,Not Started,,API Versioning / Version Control
+Flow_26,POC-5 Routing & Integration,API Versioning,Verify multiple API versions coexist and deprecated versions removed safely,"1. Configure /v1/accounts and /v2/accounts on same demo server
+2. Call both versions - verify both serve correctly
+3. Deprecate v1 route - verify v2 still works",Both versions serve correctly. v1 deprecated without breaking v2.,Not Started,,API Versioning / Version Control
 Flow_27,POC-6 DevOps & Configuration,GitOps Config Management (decK),"Verify declarative config via decK: export, validate, sync, rollback","1. Export Kong config via decK to YAML
 2. Modify YAML - add new route
 3. Run deck validate - catches syntax errors
 4. Run deck sync - import config
 5. Apply broken config - deck validate rejects
 6. Rollback to previous config - services restored",Export -> modify -> validate -> sync cycle works. decK catches errors. Rollback restores state.,Not Started,,"Config as Code, CI/CD Integration (GitOps), Policy Versioning, Rollback, Config Validation"
-Flow_28,POC-6 DevOps & Configuration,Blue/Green Deployment,Verify zero-downtime upstream switch between blue and green backends,"1. Configure blue upstream + green upstream
+Flow_28,POC-6 DevOps & Configuration,Blue/Green Deployment,Verify zero-downtime upstream switch between blue and green backends on same VM,"1. Configure blue upstream (demo server :8080) + green upstream (same demo server :8081 different response)
 2. Switch from blue to green
 3. Monitor for dropped requests
 4. Verify green handles all traffic
