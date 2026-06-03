@@ -1,14 +1,14 @@
 {
-  "ts": "20:35",
+  "ts": "20:46",
   "hour": 20,
-  "minute": 35,
-  "pushed_at": "2026-06-03 20:30 HKT",
+  "minute": 46,
+  "pushed_at": "2026-06-03 21:00 HKT",
   "system": {
-    "cpu": 6,
-    "mem": 24,
+    "cpu": 26,
+    "mem": 25,
     "disk": 60,
-    "load": "0.15",
-    "uptime": "1 week, 1 day, 2 hours, 31 minutes",
+    "load": "0.13",
+    "uptime": "1 week, 1 day, 2 hours, 42 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:35",
+      "time": "20:46",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "20:10",
-      "text": "Cron: memory_bridge.log (97028B)"
+      "time": "20:36",
+      "text": "Cron: memory_bridge.log (97276B)"
     },
     {
       "time": "19:09",
       "text": "Cron: mcp-stderr.log (37927B)"
     },
     {
-      "time": "20:35",
-      "text": "Cron: guardian.log (180453B)"
+      "time": "20:45",
+      "text": "Cron: guardian.log (180609B)"
     },
     {
-      "time": "20:30",
-      "text": "Cron: gateway.log (3201209B)"
+      "time": "20:46",
+      "text": "Cron: gateway.log (3203845B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 6,
-      "mem": 24,
+      "cpu": 26,
+      "mem": 25,
       "disk": 60,
-      "load": "0.15",
-      "uptime": "1 week, 1 day, 2 hours, 31 minutes",
+      "load": "0.13",
+      "uptime": "1 week, 1 day, 2 hours, 42 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "夜晚 — Google Contacts API 搞掂，San Chung 已入 Google。Work 同 Person CPU 飆到 95%，需排期排查。USD 戶口 -$0.05，聽日 recharge。",
+      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 8 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 95,
-      "mem": 20,
+      "cpu": 60,
+      "mem": 23,
       "disk": 54,
-      "load": "0.56",
-      "uptime": "2 weeks, 1 day, 8 hours, 9 minutes",
+      "load": "0.82",
+      "uptime": "2 weeks, 1 day, 8 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 96,
-      "mem": 27,
+      "cpu": 71,
+      "mem": 25,
       "disk": 66,
-      "load": "0.41",
-      "uptime": "2 weeks, 1 day, 8 hours, 9 minutes",
+      "load": "0.48",
+      "uptime": "2 weeks, 1 day, 8 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -231,8 +231,8 @@
         "topped_up_balance": "19.33"
       }
     ],
-    "balance_cny": 73.3,
-    "balance_usd": 10.04
+    "balance_cny": 72.94,
+    "balance_usd": 9.99
   },
   "schedule": {
     "total_events": 36,
@@ -242,5 +242,11 @@
     "last_updated": "2026-06-03T20:30:33",
     "today_list": []
   },
-  "update_source": "hermes_update_data.py"
+  "update_source": "hermes_update_data.py",
+  "ai_sync": {
+    "total_checkpoints": 8,
+    "synced": 8,
+    "pending": 0,
+    "last_check": "20:46"
+  }
 }
