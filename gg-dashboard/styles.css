@@ -77,6 +77,7 @@ body {
 .metric-card .value.green { color: var(--green-dark); }
 .metric-card .value.peach { color: var(--peach-dark); }
 .metric-card .value.purple { color: #9b8ec4; }
+.metric-card .value.gold { color: #f0b429; }
 .metric-card .label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; font-weight: 600; }
 
 /* ===== SECTION TITLE ===== */

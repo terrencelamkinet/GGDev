@@ -184,8 +184,7 @@
           172.6.15.181<br>
           Reminder: <span id="ggWRem" style="font-weight:600;color:var(--green-dark)">✓</span>
           · Monitor: <span id="ggWMon" style="font-weight:600;color:var(--green-dark)">✓</span>
-          · OpenClaw: <span id="ggWOpen" style="font-weight:600;color:var(--green-dark)">✓</span><br>
-          CPU <span id="ggWCpu" style="font-weight:600">--</span> · MEM <span id="ggWMem" style="font-weight:600">--</span> · DISK <span id="ggWDisk" style="font-weight:600">--</span>
+          · OpenClaw: <span id="ggWOpen" style="font-weight:600;color:var(--green-dark)">✓</span>
         </div>
         <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
           <span style="font-size:14px;font-weight:700">🏠 GG-Person</span>
@@ -195,8 +194,7 @@
           172.6.15.182<br>
           Reminder: <span id="ggPRem" style="font-weight:600;color:var(--green-dark)">✓</span>
           · Monitor: <span id="ggPMon" style="font-weight:600;color:var(--green-dark)">✓</span>
-          · OpenClaw: <span id="ggPOpen" style="font-weight:600;color:var(--green-dark)">✓</span><br>
-          CPU <span id="ggPCpu" style="font-weight:600">--</span> · MEM <span id="ggPMem" style="font-weight:600">--</span> · DISK <span id="ggPDisk" style="font-weight:600">--</span>
+          · OpenClaw: <span id="ggPOpen" style="font-weight:600;color:var(--green-dark)">✓</span>
         </div>
       </div>
     </div>
@@ -308,6 +306,11 @@
         <div class="value purple" id="costMonth">$0.00</div>
         <div class="label">This Month</div>
       </div>
+      <div class="metric-card">
+        <div class="icon">💰</div>
+        <div class="value gold" id="costBalance">¥81.4</div>
+        <div class="label">Balance</div>
+      </div>
     </div>
 
     <div class="card">
@@ -320,44 +323,20 @@
         <div class="cost-amount" style="color:#9b8ec4" id="costDeepSeek">$0.00</div>
       </div>
       <div class="cost-item">
-        <div class="cost-icon green">🗺️</div>
-        <div class="cost-info">
-          <div class="cost-name">Google Maps</div>
-          <div class="cost-detail">Traffic · Places · Geocoding</div>
-        </div>
-        <div class="cost-amount" style="color:var(--green-dark)" id="costMaps">$0.00</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-icon peach">📝</div>
-        <div class="cost-info">
-          <div class="cost-name">Notion API</div>
-          <div class="cost-detail">Memory · Tasks · Database</div>
-        </div>
-        <div class="cost-amount" style="color:var(--peach-dark)" id="costNotion">$0.00</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-icon purple">🔮</div>
-        <div class="cost-info">
-          <div class="cost-name">Perplexity</div>
-          <div class="cost-detail">Web Search · Research</div>
-        </div>
-        <div class="cost-amount" style="color:#9b8ec4" id="costPerplexity">$0.00</div>
-      </div>
-      <div class="cost-item">
         <div class="cost-icon green">📅</div>
         <div class="cost-info">
           <div class="cost-name">Google Calendar</div>
           <div class="cost-detail">Events · Schedule</div>
         </div>
-        <div class="cost-amount" style="color:var(--green-dark)" id="costCalendar">$0.00</div>
+        <div class="cost-amount" style="color:var(--green-dark)" id="costCalendar">¥0.00</div>
       </div>
       <div class="cost-item">
-        <div class="cost-icon peach">☁️</div>
+        <div class="cost-icon" style="background:rgba(208,200,240,0.2);color:#9b8ec4">🆓</div>
         <div class="cost-info">
-          <div class="cost-name">DigitalOcean</div>
-          <div class="cost-detail">VM · Dashboard hosting</div>
+          <div class="cost-name">Free APIs</div>
+          <div class="cost-detail">Google Maps · Notion · Perplexity · DO</div>
         </div>
-        <div class="cost-amount" style="color:var(--peach-dark)" id="costDO">$0.00</div>
+        <div class="cost-amount" style="color:var(--text-dim)" id="costFree">¥0.00</div>
       </div>
       <div class="cost-total">
         <div class="total-label">Total Monthly Cost</div>
@@ -478,10 +457,20 @@ async function fetchData() {
         '<span class="daemon-name">' + d.n + '</span><span class="daemon-loc">' + d.loc + '</span></div>';
     }).join('');
 
-    // Activity log
+    // Activity log — filter out cron noise, show meaningful entries
     var log = document.getElementById('activityLog');
     log.innerHTML = '';
-    (d.activity || []).slice(0, 5).forEach(function(a) {
+    var meaningful = (d.activity || []).filter(function(a) {
+      var t = a.text || '';
+      if (t.indexOf('cron') >= 0 || t.indexOf('.log') >= 0) return false;
+      return true;
+    }).map(function(a) {
+      var t = a.text || '';
+      if (t.indexOf('Dashboard data refresh') >= 0) t = '🔄 Dashboard updated';
+      return {time: a.time, text: t};
+    });
+    var toShow = meaningful.length > 0 ? meaningful.slice(0, 5) : [{time: '--', text: '🔄 Dashboard updated'}];
+    toShow.forEach(function(a) {
       var div = document.createElement('div');
       div.className = 'log-line';
       div.innerHTML = '<span class="log-icon">📌</span><span class="log-time">' + a.time + '</span><span class="log-text">' + escHtml(a.text) + '</span>';
@@ -495,15 +484,9 @@ async function fetchData() {
     setDetail('ggWRem', a.work.daemons.reminder ? '✓' : '✗');
     setDetail('ggWMon', a.work.daemons.monitor ? '✓' : '✗');
     setDetail('ggWOpen', a.work.daemons.openclaw ? '✓' : '✗');
-    setDetail('ggWCpu', a.work.cpu + '%');
-    setDetail('ggWMem', a.work.mem + '%');
-    setDetail('ggWDisk', a.work.disk + '%');
     setDetail('ggPRem', a.person.daemons.reminder ? '✓' : '✗');
     setDetail('ggPMon', a.person.daemons.monitor ? '✓' : '✗');
     setDetail('ggPOpen', a.person.daemons.openclaw ? '✓' : '✗');
-    setDetail('ggPCpu', a.person.cpu + '%');
-    setDetail('ggPMem', a.person.mem + '%');
-    setDetail('ggPDisk', a.person.disk + '%');
     setDetail('ggHCpu', a.main.cpu + '%');
     setDetail('ggHMem', a.main.mem + '%');
     setDetail('ggHDisk', a.main.disk + '%');
@@ -567,14 +550,22 @@ async function fetchData() {
     var scheduleEl = document.getElementById('todaySchedule');
     if (scheduleEl) {
       var sched = d.schedule;
+      var upcomingCount = sched ? (sched.upcoming || 0) : 0;
+      var totalEvents = sched ? (sched.total_events || 0) : 0;
+      var html = '';
       if (sched && sched.today_list && sched.today_list.length > 0) {
-        scheduleEl.innerHTML = sched.today_list.map(function(e) {
+        html += sched.today_list.map(function(e) {
           return '<div class="schedule-item"><span class="schedule-time">' + escHtml(e.time) + '</span><span class="schedule-dot"></span><div class="schedule-info"><div class="schedule-title">' + escHtml(e.summary) + '</div></div></div>';
-        }).join('') +
-        '<div style="font-size:12px;color:var(--text-dim);margin-top:8px;text-align:center;padding-top:8px;border-top:1px solid var(--border)">📅 ' + (sched.upcoming || 0) + ' upcoming · Total: ' + (sched.total_events || 0) + ' events in cache</div>';
+        }).join('');
       } else {
-        scheduleEl.innerHTML = '<div style="color:var(--text-dim);font-size:13px;text-align:center;padding:12px 0">✅ No events today · ' + (sched ? sched.upcoming : 0) + ' upcoming</div>';
+        html += '<div style="color:var(--text-dim);font-size:13px;text-align:center;padding:8px 0">✅ No events today</div>';
       }
+      html += '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">' +
+        '<span style="font-size:13px;color:var(--text-muted)">📅 Upcoming events</span>' +
+        '<span style="font-size:20px;font-weight:800;color:var(--green-dark)">' + upcomingCount + '</span>' +
+        '</div>' +
+        '<div style="font-size:11px;color:var(--text-dim);text-align:center;margin-top:4px">Total: ' + totalEvents + ' events in cache</div>';
+      scheduleEl.innerHTML = html;
     }
 
     // === AI Sync Status ===
@@ -601,11 +592,14 @@ async function fetchData() {
     var s7d = summary['7d'] || {};
     var s30 = summary['30d'] || {};
     var sm = summary.month || {};
-    setDetail('costDeepSeek', '$' + (s30.cost || 0).toFixed(4));
-    setDetail('costTotal', '$' + (sm.cost || s30.cost || 0).toFixed(4));
-    setDetail('cost7d', '$' + (s7d.cost || 0).toFixed(4));
-    setDetail('cost30d', '$' + (s30.cost || 0).toFixed(4));
-    setDetail('costMonth', '$' + (sm.cost || 0).toFixed(4));
+    var rate = 7.3;
+    setDetail('costDeepSeek', '¥' + (s30.cost * rate || 0).toFixed(2));
+    setDetail('costTotal', '¥' + (sm.cost * rate || s30.cost * rate || 0).toFixed(2));
+    setDetail('cost7d', '¥' + (s7d.cost * rate || 0).toFixed(2));
+    setDetail('cost30d', '¥' + (s30.cost * rate || 0).toFixed(2));
+    setDetail('costMonth', '¥' + (sm.cost * rate || 0).toFixed(2));
+    // Balance in ¥
+    setDetail('costBalance', '¥' + ((c.balance_cny || 0)).toFixed(1));
 
     // === Reminders ===
     setDetail('remTotal', d.reminders ? d.reminders.total : '--');
