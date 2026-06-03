@@ -1,14 +1,14 @@
 {
-  "ts": "08:41",
+  "ts": "08:53",
   "hour": 8,
-  "minute": 41,
-  "pushed_at": "2026-06-03 08:30 HKT",
+  "minute": 53,
+  "pushed_at": "2026-06-03 09:00 HKT",
   "system": {
-    "cpu": 2,
+    "cpu": 4,
     "mem": 14,
     "disk": 60,
-    "load": "0.24",
-    "uptime": "1 week, 14 hours, 37 minutes",
+    "load": "0.09",
+    "uptime": "1 week, 14 hours, 49 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "08:41",
+      "time": "08:53",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,12 +46,12 @@
       "text": "Cron: mcp-stderr.log (34541B)"
     },
     {
-      "time": "08:40",
-      "text": "Cron: guardian.log (169299B)"
+      "time": "08:50",
+      "text": "Cron: guardian.log (169455B)"
     },
     {
-      "time": "08:41",
-      "text": "Cron: gateway.log (2977038B)"
+      "time": "08:53",
+      "text": "Cron: gateway.log (2981963B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 2,
+      "cpu": 4,
       "mem": 14,
       "disk": 60,
-      "load": "0.24",
-      "uptime": "1 week, 14 hours, 37 minutes",
+      "load": "0.09",
+      "uptime": "1 week, 14 hours, 49 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 87,
+      "cpu": 68,
       "mem": 20,
       "disk": 53,
-      "load": "0.54",
-      "uptime": "2 weeks, 20 hours, 15 minutes",
+      "load": "0.72",
+      "uptime": "2 weeks, 20 hours, 27 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 87,
+      "cpu": 63,
       "mem": 25,
       "disk": 65,
-      "load": "0.25",
-      "uptime": "2 weeks, 20 hours, 15 minutes",
+      "load": "0.19",
+      "uptime": "2 weeks, 20 hours, 27 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -232,6 +232,19 @@
       }
     ]
   },
-  "schedule": [],
-  "update_source": "hermes_update_data.py"
+  "schedule": {
+    "total_events": 35,
+    "today_events": 0,
+    "upcoming": 15,
+    "reminders_pending": 0,
+    "last_updated": "2026-06-03T08:33:43",
+    "today_list": []
+  },
+  "update_source": "hermes_update_data.py",
+  "ai_sync": {
+    "total_checkpoints": 8,
+    "synced": 8,
+    "pending": 0,
+    "last_check": "08:53"
+  }
 }
