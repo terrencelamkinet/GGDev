@@ -1,14 +1,14 @@
 {
-  "ts": "22:45",
-  "hour": 22,
-  "minute": 45,
+  "ts": "23:00",
+  "hour": 23,
+  "minute": 0,
   "pushed_at": "2026-06-04 23:00 HKT",
   "system": {
-    "cpu": 23,
+    "cpu": 56,
     "mem": 25,
     "disk": 61,
-    "load": "0.10",
-    "uptime": "1 week, 2 days, 4 hours, 42 minutes",
+    "load": "0.13",
+    "uptime": "1 week, 2 days, 4 hours, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "22:45",
+      "time": "23:01",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,8 +46,8 @@
       "text": "Cron: mcp-stderr.log (53478B)"
     },
     {
-      "time": "22:45",
-      "text": "Cron: guardian.log (204945B)"
+      "time": "23:00",
+      "text": "Cron: guardian.log (205179B)"
     },
     {
       "time": "22:31",
@@ -64,15 +64,15 @@
   ],
   "agents": {
     "main": {
-      "cpu": 23,
+      "cpu": 56,
       "mem": 25,
       "disk": 61,
-      "load": "0.10",
-      "uptime": "1 week, 2 days, 4 hours, 42 minutes",
+      "load": "0.13",
+      "uptime": "1 week, 2 days, 4 hours, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": false
+        "openclaw": true
       },
       "online": true,
       "cron_jobs": 12,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 95,
+      "cpu": 60,
       "mem": 25,
       "disk": 55,
-      "load": "0.56",
-      "uptime": "2 weeks, 2 days, 10 hours, 20 minutes",
+      "load": "0.31",
+      "uptime": "2 weeks, 2 days, 10 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 96,
-      "mem": 24,
+      "cpu": 66,
+      "mem": 28,
       "disk": 65,
-      "load": "0.78",
-      "uptime": "2 weeks, 2 days, 10 hours, 20 minutes",
+      "load": "0.48",
+      "uptime": "2 weeks, 2 days, 10 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -264,6 +264,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "22:45"
+    "last_check": "23:01"
   }
 }
