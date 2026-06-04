@@ -1,14 +1,14 @@
 {
-  "ts": "17:15",
+  "ts": "17:30",
   "hour": 17,
-  "minute": 15,
-  "pushed_at": "2026-06-04 17:30 HKT",
+  "minute": 30,
+  "pushed_at": "2026-06-04 18:00 HKT",
   "system": {
-    "cpu": 55,
+    "cpu": 77,
     "mem": 25,
     "disk": 61,
-    "load": "0.21",
-    "uptime": "1 week, 1 day, 23 hours, 12 minutes",
+    "load": "0.16",
+    "uptime": "1 week, 1 day, 23 hours, 27 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "17:15",
+      "time": "17:31",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,8 +46,8 @@
       "text": "Cron: mcp-stderr.log (53478B)"
     },
     {
-      "time": "17:15",
-      "text": "Cron: guardian.log (199797B)"
+      "time": "17:30",
+      "text": "Cron: guardian.log (200031B)"
     },
     {
       "time": "15:04",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 55,
+      "cpu": 77,
       "mem": 25,
       "disk": 61,
-      "load": "0.21",
-      "uptime": "1 week, 1 day, 23 hours, 12 minutes",
+      "load": "0.16",
+      "uptime": "1 week, 1 day, 23 hours, 27 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 96,
+      "cpu": 95,
       "mem": 22,
       "disk": 55,
-      "load": "0.33",
-      "uptime": "2 weeks, 2 days, 4 hours, 50 minutes",
+      "load": "0.36",
+      "uptime": "2 weeks, 2 days, 5 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 100,
-      "mem": 24,
+      "cpu": 68,
+      "mem": 25,
       "disk": 65,
-      "load": "0.44",
-      "uptime": "2 weeks, 2 days, 4 hours, 50 minutes",
+      "load": "0.54",
+      "uptime": "2 weeks, 2 days, 5 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -264,6 +264,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "17:15"
+    "last_check": "17:31"
   }
 }
