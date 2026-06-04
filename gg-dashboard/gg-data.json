@@ -1,14 +1,14 @@
 {
-  "ts": "21:45",
-  "hour": 21,
-  "minute": 45,
-  "pushed_at": "2026-06-04 22:00 HKT",
+  "ts": "22:00",
+  "hour": 22,
+  "minute": 0,
+  "pushed_at": "2026-06-04 22:30 HKT",
   "system": {
-    "cpu": 39,
+    "cpu": 76,
     "mem": 25,
     "disk": 61,
-    "load": "0.21",
-    "uptime": "1 week, 2 days, 3 hours, 41 minutes",
+    "load": "0.27",
+    "uptime": "1 week, 2 days, 3 hours, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "21:45",
+      "time": "22:00",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,8 +46,8 @@
       "text": "Cron: mcp-stderr.log (53478B)"
     },
     {
-      "time": "21:45",
-      "text": "Cron: guardian.log (204009B)"
+      "time": "22:00",
+      "text": "Cron: guardian.log (204243B)"
     },
     {
       "time": "18:32",
@@ -64,15 +64,15 @@
   ],
   "agents": {
     "main": {
-      "cpu": 39,
+      "cpu": 76,
       "mem": 25,
       "disk": 61,
-      "load": "0.21",
-      "uptime": "1 week, 2 days, 3 hours, 41 minutes",
+      "load": "0.27",
+      "uptime": "1 week, 2 days, 3 hours, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": false
+        "openclaw": true
       },
       "online": true,
       "cron_jobs": 12,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 91,
-      "mem": 25,
+      "cpu": 63,
+      "mem": 26,
       "disk": 55,
-      "load": "1.44",
-      "uptime": "2 weeks, 2 days, 9 hours, 19 minutes",
+      "load": "0.61",
+      "uptime": "2 weeks, 2 days, 9 hours, 34 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 100,
-      "mem": 24,
+      "cpu": 69,
+      "mem": 28,
       "disk": 65,
-      "load": "0.86",
-      "uptime": "2 weeks, 2 days, 9 hours, 19 minutes",
+      "load": "0.85",
+      "uptime": "2 weeks, 2 days, 9 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -264,6 +264,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "21:45"
+    "last_check": "22:00"
   }
 }
