@@ -1,14 +1,14 @@
 {
-  "ts": "16:15",
+  "ts": "16:30",
   "hour": 16,
-  "minute": 15,
-  "pushed_at": "2026-06-04 16:30 HKT",
+  "minute": 30,
+  "pushed_at": "2026-06-04 17:00 HKT",
   "system": {
-    "cpu": 58,
-    "mem": 25,
+    "cpu": 87,
+    "mem": 26,
     "disk": 61,
-    "load": "0.16",
-    "uptime": "1 week, 1 day, 22 hours, 12 minutes",
+    "load": "0.15",
+    "uptime": "1 week, 1 day, 22 hours, 27 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "16:15",
+      "time": "16:31",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,8 +46,8 @@
       "text": "Cron: mcp-stderr.log (53478B)"
     },
     {
-      "time": "16:15",
-      "text": "Cron: guardian.log (198861B)"
+      "time": "16:30",
+      "text": "Cron: guardian.log (199095B)"
     },
     {
       "time": "15:04",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 58,
-      "mem": 25,
+      "cpu": 87,
+      "mem": 26,
       "disk": 61,
-      "load": "0.16",
-      "uptime": "1 week, 1 day, 22 hours, 12 minutes",
+      "load": "0.15",
+      "uptime": "1 week, 1 day, 22 hours, 27 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 95,
+      "cpu": 100,
       "mem": 22,
       "disk": 55,
-      "load": "0.48",
-      "uptime": "2 weeks, 2 days, 3 hours, 49 minutes",
+      "load": "0.46",
+      "uptime": "2 weeks, 2 days, 4 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 95,
+      "cpu": 91,
       "mem": 24,
       "disk": 65,
-      "load": "0.47",
-      "uptime": "2 weeks, 2 days, 3 hours, 50 minutes",
+      "load": "0.35",
+      "uptime": "2 weeks, 2 days, 4 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -239,7 +239,7 @@
     "today_events": 4,
     "upcoming": 20,
     "reminders_pending": 0,
-    "last_updated": "2026-06-04T16:06:28",
+    "last_updated": "2026-06-04T16:31:01",
     "today_list": [
       {
         "summary": "Ftrans POC Review ",
@@ -264,6 +264,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "16:15"
+    "last_check": "16:31"
   }
 }
