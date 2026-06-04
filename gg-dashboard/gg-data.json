@@ -1,0 +1,261 @@
+{
+  "ts": "00:17",
+  "hour": 0,
+  "minute": 17,
+  "pushed_at": "2026-06-05 00:30 HKT",
+  "system": {
+    "cpu": 68,
+    "mem": 26,
+    "disk": 61,
+    "load": "0.21",
+    "uptime": "1 week, 2 days, 6 hours, 13 minutes",
+    "services": {
+      "gg-reminder": "green",
+      "disk": "green",
+      "memory": "green"
+    }
+  },
+  "reminders": {
+    "total": 20,
+    "overdue": 0,
+    "errors": 0
+  },
+  "activity": [
+    {
+      "time": "00:17",
+      "text": "Dashboard data refresh"
+    },
+    {
+      "time": "09:17",
+      "text": "Cron: token_health_report.md (777B)"
+    },
+    {
+      "time": "22:31",
+      "text": "Cron: nightly_upgrade.log (4751B)"
+    },
+    {
+      "time": "00:01",
+      "text": "Cron: nightly_report.txt (1639B)"
+    },
+    {
+      "time": "00:17",
+      "text": "Cron: memory_bridge.log (110751B)"
+    },
+    {
+      "time": "23:11",
+      "text": "Cron: mcp-stderr.log (54129B)"
+    },
+    {
+      "time": "00:15",
+      "text": "Cron: guardian.log (206349B)"
+    },
+    {
+      "time": "00:17",
+      "text": "Cron: gateway.log (3302959B)"
+    },
+    {
+      "time": "02:19",
+      "text": "Cron: gateway-shutdown-diag.log (224935B)"
+    },
+    {
+      "time": "02:20",
+      "text": "Cron: gateway-exit-diag.log (52096B)"
+    }
+  ],
+  "agents": {
+    "main": {
+      "cpu": 68,
+      "mem": 26,
+      "disk": 61,
+      "load": "0.21",
+      "uptime": "1 week, 2 days, 6 hours, 13 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": false
+      },
+      "online": true,
+      "cron_jobs": 12,
+      "thoughts": "傍晚 — CPU load 0.0 — 閒置; 已運行 9 日; 1 個 daemon 運行中",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "最近 24h 有 2 個 session error — 已記錄"
+      ],
+      "uncertainties": [
+        "等待 GG Fighter 下一個任務"
+      ]
+    },
+    "work": {
+      "cpu": 69,
+      "mem": 24,
+      "disk": 55,
+      "load": "0.55",
+      "uptime": "2 weeks, 2 days, 11 hours, 51 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181",
+      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 16 日 — 穩定; 5 個 daemon 運行中",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "VM 已穩定運行 16 日",
+        "GG-Work 所有 daemon 正常"
+      ],
+      "uncertainties": [
+        "等待 GG-Work 下一個任務"
+      ]
+    },
+    "person": {
+      "cpu": 72,
+      "mem": 25,
+      "disk": 65,
+      "load": "0.12",
+      "uptime": "2 weeks, 2 days, 11 hours, 51 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182",
+      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 16 日 — 穩定; 5 個 daemon 運行中",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "VM 已穩定運行 16 日",
+        "GG-Person 所有 daemon 正常"
+      ],
+      "uncertainties": [
+        "等待 GG-Person 下一個任務"
+      ]
+    }
+  },
+  "badge_color": "green",
+  "badge_text": "● All OK",
+  "costs": {
+    "summary": {
+      "7d": {
+        "cost": 1.243109,
+        "sessions": 228,
+        "tokens": 8236144
+      },
+      "30d": {
+        "cost": 1.243109,
+        "sessions": 228,
+        "tokens": 8236144
+      },
+      "month": {
+        "cost": 1.243109,
+        "sessions": 228,
+        "tokens": 8236144
+      }
+    },
+    "daily": [
+      {
+        "date": "2026-05-25",
+        "cost": 0.125887,
+        "sessions": 25,
+        "tokens": 852932
+      },
+      {
+        "date": "2026-05-26",
+        "cost": 0.124377,
+        "sessions": 13,
+        "tokens": 829853
+      },
+      {
+        "date": "2026-05-27",
+        "cost": 0.172686,
+        "sessions": 22,
+        "tokens": 1120924
+      },
+      {
+        "date": "2026-05-28",
+        "cost": 0.246377,
+        "sessions": 45,
+        "tokens": 1627513
+      },
+      {
+        "date": "2026-05-29",
+        "cost": 0.272977,
+        "sessions": 64,
+        "tokens": 1785430
+      },
+      {
+        "date": "2026-05-30",
+        "cost": 0.300805,
+        "sessions": 59,
+        "tokens": 2019492
+      },
+      {
+        "date": "2026-05-31",
+        "cost": 0.0,
+        "sessions": 0,
+        "tokens": 0
+      }
+    ],
+    "monthly": [
+      {
+        "date": "2026-05",
+        "cost": 1.243109,
+        "sessions": 228,
+        "tokens": 8236144
+      }
+    ],
+    "providers_30d": {
+      "deepseek": {
+        "sessions": 228,
+        "tokens": 8236144,
+        "cost": 1.243109
+      }
+    },
+    "balance": [
+      {
+        "currency": "USD",
+        "total_balance": "-0.05",
+        "granted_balance": "0.00",
+        "topped_up_balance": "-0.05"
+      },
+      {
+        "currency": "CNY",
+        "total_balance": "19.33",
+        "granted_balance": "0.00",
+        "topped_up_balance": "19.33"
+      }
+    ],
+    "balance_cny": 71.53,
+    "balance_usd": 9.8
+  },
+  "schedule": {
+    "total_events": 35,
+    "today_events": 2,
+    "upcoming": 16,
+    "reminders_pending": 0,
+    "last_updated": "2026-06-05T00:13:11",
+    "today_list": [
+      {
+        "summary": "🚗 港車北上 — 抽籤日",
+        "time": "all-day"
+      },
+      {
+        "summary": "展彩到永遠",
+        "time": "19:30"
+      }
+    ]
+  },
+  "update_source": "hermes_update_data.py",
+  "ai_sync": {
+    "total_checkpoints": 8,
+    "synced": 8,
+    "pending": 0,
+    "last_check": "00:17"
+  }
+}
