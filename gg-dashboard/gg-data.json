@@ -1,14 +1,14 @@
 {
-  "ts": "20:15",
+  "ts": "20:35",
   "hour": 20,
-  "minute": 15,
-  "pushed_at": "2026-06-04 20:30 HKT",
+  "minute": 34,
+  "pushed_at": "2026-06-04 20:35 HKT",
   "system": {
-    "cpu": 27,
+    "cpu": 4,
     "mem": 25,
     "disk": 61,
-    "load": "0.27",
-    "uptime": "1 week, 2 days, 2 hours, 11 minutes",
+    "load": "0.11",
+    "uptime": "1 week, 2 days, 2 hours, 31 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:15",
+      "time": "20:34",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,8 +46,8 @@
       "text": "Cron: mcp-stderr.log (53478B)"
     },
     {
-      "time": "20:15",
-      "text": "Cron: guardian.log (202605B)"
+      "time": "20:30",
+      "text": "Cron: guardian.log (202839B)"
     },
     {
       "time": "18:32",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 27,
+      "cpu": 4,
       "mem": 25,
       "disk": 61,
-      "load": "0.27",
-      "uptime": "1 week, 2 days, 2 hours, 11 minutes",
+      "load": "0.11",
+      "uptime": "1 week, 2 days, 2 hours, 31 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "傍晚 — CPU load 0.0 — 閒置; 已運行 9 日; 1 個 daemon 運行中",
+      "thoughts": "夜晚 — Ftrans POC同Kinetix job scheduler今日完咗，祈禱會後好好休息。Work同Person daemon全綠，穩定冇問題。聽日跟進Ftrans feedback同namecard autoscan OAuth問題。",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 95,
+      "cpu": 87,
       "mem": 25,
       "disk": 55,
-      "load": "1.00",
-      "uptime": "2 weeks, 2 days, 7 hours, 49 minutes",
+      "load": "0.28",
+      "uptime": "2 weeks, 2 days, 8 hours, 9 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 95,
-      "mem": 24,
+      "cpu": 56,
+      "mem": 25,
       "disk": 65,
-      "load": "0.82",
-      "uptime": "2 weeks, 2 days, 7 hours, 49 minutes",
+      "load": "0.09",
+      "uptime": "2 weeks, 2 days, 8 hours, 9 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -238,8 +238,8 @@
     "total_events": 36,
     "today_events": 4,
     "upcoming": 20,
-    "reminders_pending": 1,
-    "last_updated": "2026-06-04T20:00:20",
+    "reminders_pending": 0,
+    "last_updated": "2026-06-04T20:30:45",
     "today_list": [
       {
         "summary": "Ftrans POC Review ",
@@ -261,9 +261,9 @@
   },
   "update_source": "hermes_update_data.py",
   "ai_sync": {
-    "total_checkpoints": 8,
-    "synced": 8,
+    "total_checkpoints": 9,
+    "synced": 9,
     "pending": 0,
-    "last_check": "20:15"
+    "last_check": "20:35"
   }
 }
