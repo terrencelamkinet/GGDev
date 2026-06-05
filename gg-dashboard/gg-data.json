@@ -1,14 +1,14 @@
 {
-  "ts": "20:35",
+  "ts": "20:45",
   "hour": 20,
-  "minute": 35,
-  "pushed_at": "2026-06-05 20:35 HKT",
+  "minute": 45,
+  "pushed_at": "2026-06-05 21:00 HKT",
   "system": {
-    "cpu": 4,
+    "cpu": 46,
     "mem": 12,
     "disk": 62,
-    "load": "0.31",
-    "uptime": "1 week, 3 days, 2 hours, 31 minutes",
+    "load": "0.16",
+    "uptime": "1 week, 3 days, 2 hours, 41 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:35",
+      "time": "20:45",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "20:11",
-      "text": "Cron: memory_bridge.log (119627B)"
+      "time": "20:37",
+      "text": "Cron: memory_bridge.log (119859B)"
     },
     {
       "time": "18:33",
       "text": "Cron: mcp-stderr.log (211890B)"
     },
     {
-      "time": "20:35",
-      "text": "Cron: guardian.log (225350B)"
+      "time": "20:45",
+      "text": "Cron: guardian.log (225537B)"
     },
     {
-      "time": "20:30",
-      "text": "Cron: gateway.log (3543587B)"
+      "time": "20:45",
+      "text": "Cron: gateway.log (3545879B)"
     },
     {
       "time": "18:33",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 4,
+      "cpu": 46,
       "mem": 12,
       "disk": 62,
-      "load": "0.31",
-      "uptime": "1 week, 3 days, 2 hours, 31 minutes",
+      "load": "0.16",
+      "uptime": "1 week, 3 days, 2 hours, 41 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "週五夜晚 — 港車北上抽籤日，展彩聚會中。三AI在線穩定，Work同Person daemon全綠（17日），DeepSeek CNY ¥19.33 充足。琴日Ftrans同Kinetix完咗，上週Cloudflare tunnel + taskboard password已就位。namecard autoscan OAuth未解決 — 下週開題搞。週末放鬆，系統我睇住。",
+      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 10 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 95,
-      "mem": 23,
+      "cpu": 100,
+      "mem": 32,
       "disk": 56,
-      "load": "0.51",
-      "uptime": "2 weeks, 3 days, 8 hours, 9 minutes",
+      "load": "0.31",
+      "uptime": "2 weeks, 3 days, 8 hours, 19 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 60,
-      "mem": 24,
+      "cpu": 4,
+      "mem": 31,
       "disk": 66,
-      "load": "0.00",
-      "uptime": "2 weeks, 3 days, 8 hours, 9 minutes",
+      "load": "0.14",
+      "uptime": "2 weeks, 3 days, 8 hours, 19 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -239,7 +239,7 @@
     "today_events": 2,
     "upcoming": 18,
     "reminders_pending": 0,
-    "last_updated": "2026-06-05T20:06:25",
+    "last_updated": "2026-06-05T20:33:20",
     "today_list": [
       {
         "summary": "🚗 港車北上 — 抽籤日",
@@ -251,5 +251,11 @@
       }
     ]
   },
-  "update_source": "hermes_update_data.py"
+  "update_source": "hermes_update_data.py",
+  "ai_sync": {
+    "total_checkpoints": 8,
+    "synced": 8,
+    "pending": 0,
+    "last_check": "20:45"
+  }
 }
