@@ -1,14 +1,14 @@
 {
-  "ts": "00:45",
-  "hour": 0,
-  "minute": 45,
-  "pushed_at": "2026-06-06 01:00 HKT",
+  "ts": "01:00",
+  "hour": 1,
+  "minute": 0,
+  "pushed_at": "2026-06-06 01:30 HKT",
   "system": {
-    "cpu": 83,
+    "cpu": 84,
     "mem": 13,
     "disk": 62,
-    "load": "0.98",
-    "uptime": "1 week, 3 days, 6 hours, 41 minutes",
+    "load": "0.80",
+    "uptime": "1 week, 3 days, 6 hours, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "00:45",
+      "time": "01:01",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,12 +46,12 @@
       "text": "Cron: mcp-stderr.log (488573B)"
     },
     {
-      "time": "00:45",
-      "text": "Cron: guardian.log (229281B)"
+      "time": "01:00",
+      "text": "Cron: guardian.log (229515B)"
     },
     {
-      "time": "00:45",
-      "text": "Cron: gateway.log (3616646B)"
+      "time": "01:00",
+      "text": "Cron: gateway.log (3621118B)"
     },
     {
       "time": "18:33",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 83,
+      "cpu": 84,
       "mem": 13,
       "disk": 62,
-      "load": "0.98",
-      "uptime": "1 week, 3 days, 6 hours, 41 minutes",
+      "load": "0.80",
+      "uptime": "1 week, 3 days, 6 hours, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 90,
-      "mem": 23,
+      "cpu": 62,
+      "mem": 24,
       "disk": 56,
-      "load": "0.75",
-      "uptime": "2 weeks, 3 days, 12 hours, 19 minutes",
+      "load": "0.91",
+      "uptime": "2 weeks, 3 days, 12 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 91,
-      "mem": 24,
+      "cpu": 68,
+      "mem": 28,
       "disk": 66,
-      "load": "0.24",
-      "uptime": "2 weeks, 3 days, 12 hours, 19 minutes",
+      "load": "0.79",
+      "uptime": "2 weeks, 3 days, 12 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -268,6 +268,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "00:45"
+    "last_check": "01:01"
   }
 }
