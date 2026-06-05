@@ -1,14 +1,14 @@
 {
-  "ts": "13:31",
-  "hour": 13,
-  "minute": 31,
-  "pushed_at": "2026-06-05 14:00 HKT",
+  "ts": "14:00",
+  "hour": 14,
+  "minute": 0,
+  "pushed_at": "2026-06-05 14:30 HKT",
   "system": {
-    "cpu": 94,
+    "cpu": 46,
     "mem": 30,
     "disk": 62,
-    "load": "0.11",
-    "uptime": "1 week, 2 days, 19 hours, 27 minutes",
+    "load": "0.17",
+    "uptime": "1 week, 2 days, 19 hours, 56 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "13:31",
+      "time": "14:00",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "13:11",
-      "text": "Cron: memory_bridge.log (116518B)"
+      "time": "13:33",
+      "text": "Cron: memory_bridge.log (116766B)"
     },
     {
-      "time": "12:42",
-      "text": "Cron: mcp-stderr.log (143163B)"
+      "time": "13:55",
+      "text": "Cron: mcp-stderr.log (161135B)"
     },
     {
-      "time": "13:30",
-      "text": "Cron: guardian.log (218751B)"
+      "time": "14:00",
+      "text": "Cron: guardian.log (219219B)"
     },
     {
-      "time": "13:31",
-      "text": "Cron: gateway.log (3412305B)"
+      "time": "14:00",
+      "text": "Cron: gateway.log (3425947B)"
     },
     {
       "time": "02:19",
@@ -64,15 +64,15 @@
   ],
   "agents": {
     "main": {
-      "cpu": 94,
+      "cpu": 46,
       "mem": 30,
       "disk": 62,
-      "load": "0.11",
-      "uptime": "1 week, 2 days, 19 hours, 27 minutes",
+      "load": "0.17",
+      "uptime": "1 week, 2 days, 19 hours, 56 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": false
+        "openclaw": true
       },
       "online": true,
       "cron_jobs": 12,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 59,
-      "mem": 27,
+      "cpu": 64,
+      "mem": 23,
       "disk": 55,
-      "load": "0.34",
-      "uptime": "2 weeks, 3 days, 1 hour, 5 minutes",
+      "load": "0.62",
+      "uptime": "2 weeks, 3 days, 1 hour, 34 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 69,
-      "mem": 25,
+      "cpu": 95,
+      "mem": 27,
       "disk": 66,
-      "load": "0.44",
-      "uptime": "2 weeks, 3 days, 1 hour, 5 minutes",
+      "load": "0.97",
+      "uptime": "2 weeks, 3 days, 1 hour, 34 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -256,6 +256,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "13:31"
+    "last_check": "14:00"
   }
 }
