@@ -1,14 +1,14 @@
 {
-  "ts": "14:46",
-  "hour": 14,
-  "minute": 46,
-  "pushed_at": "2026-06-05 15:00 HKT",
+  "ts": "15:15",
+  "hour": 15,
+  "minute": 15,
+  "pushed_at": "2026-06-05 15:30 HKT",
   "system": {
-    "cpu": 54,
+    "cpu": 30,
     "mem": 30,
     "disk": 62,
-    "load": "0.19",
-    "uptime": "1 week, 2 days, 20 hours, 42 minutes",
+    "load": "0.33",
+    "uptime": "1 week, 2 days, 21 hours, 11 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "14:46",
+      "time": "15:15",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "14:38",
-      "text": "Cron: memory_bridge.log (117014B)"
+      "time": "15:04",
+      "text": "Cron: memory_bridge.log (117259B)"
     },
     {
       "time": "13:55",
       "text": "Cron: mcp-stderr.log (161135B)"
     },
     {
-      "time": "14:45",
-      "text": "Cron: guardian.log (219921B)"
+      "time": "15:15",
+      "text": "Cron: guardian.log (220389B)"
     },
     {
-      "time": "14:46",
-      "text": "Cron: gateway.log (3432033B)"
+      "time": "15:15",
+      "text": "Cron: gateway.log (3439347B)"
     },
     {
       "time": "02:19",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 54,
+      "cpu": 30,
       "mem": 30,
       "disk": 62,
-      "load": "0.19",
-      "uptime": "1 week, 2 days, 20 hours, 42 minutes",
+      "load": "0.33",
+      "uptime": "1 week, 2 days, 21 hours, 11 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 45,
-      "mem": 32,
+      "cpu": 4,
+      "mem": 33,
       "disk": 55,
-      "load": "0.27",
-      "uptime": "2 weeks, 3 days, 2 hours, 20 minutes",
+      "load": "0.73",
+      "uptime": "2 weeks, 3 days, 2 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 54,
-      "mem": 25,
+      "cpu": 87,
+      "mem": 24,
       "disk": 66,
-      "load": "0.59",
-      "uptime": "2 weeks, 3 days, 2 hours, 20 minutes",
+      "load": "0.51",
+      "uptime": "2 weeks, 3 days, 2 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -239,7 +239,7 @@
     "today_events": 2,
     "upcoming": 17,
     "reminders_pending": 0,
-    "last_updated": "2026-06-05T14:37:01",
+    "last_updated": "2026-06-05T15:03:48",
     "today_list": [
       {
         "summary": "🚗 港車北上 — 抽籤日",
@@ -256,6 +256,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "14:46"
+    "last_check": "15:15"
   }
 }
