@@ -1,14 +1,14 @@
 {
-  "ts": "20:15",
+  "ts": "20:35",
   "hour": 20,
-  "minute": 15,
-  "pushed_at": "2026-06-05 20:30 HKT",
+  "minute": 35,
+  "pushed_at": "2026-06-05 20:35 HKT",
   "system": {
-    "cpu": 48,
+    "cpu": 4,
     "mem": 12,
     "disk": 62,
-    "load": "0.24",
-    "uptime": "1 week, 3 days, 2 hours, 12 minutes",
+    "load": "0.31",
+    "uptime": "1 week, 3 days, 2 hours, 31 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:16",
+      "time": "20:35",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,12 +46,12 @@
       "text": "Cron: mcp-stderr.log (211890B)"
     },
     {
-      "time": "20:15",
-      "text": "Cron: guardian.log (225069B)"
+      "time": "20:35",
+      "text": "Cron: guardian.log (225350B)"
     },
     {
-      "time": "20:15",
-      "text": "Cron: gateway.log (3539133B)"
+      "time": "20:30",
+      "text": "Cron: gateway.log (3543587B)"
     },
     {
       "time": "18:33",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 48,
+      "cpu": 4,
       "mem": 12,
       "disk": 62,
-      "load": "0.24",
-      "uptime": "1 week, 3 days, 2 hours, 12 minutes",
+      "load": "0.31",
+      "uptime": "1 week, 3 days, 2 hours, 31 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 10 日; 1 個 daemon 運行中",
+      "thoughts": "週五夜晚 — 港車北上抽籤日，展彩聚會中。三AI在線穩定，Work同Person daemon全綠（17日），DeepSeek CNY ¥19.33 充足。琴日Ftrans同Kinetix完咗，上週Cloudflare tunnel + taskboard password已就位。namecard autoscan OAuth未解決 — 下週開題搞。週末放鬆，系統我睇住。",
       "needs": [
         "無 urgent 需求"
       ],
@@ -91,8 +91,8 @@
       "cpu": 95,
       "mem": 23,
       "disk": 56,
-      "load": "0.72",
-      "uptime": "2 weeks, 3 days, 7 hours, 50 minutes",
+      "load": "0.51",
+      "uptime": "2 weeks, 3 days, 8 hours, 9 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 95,
+      "cpu": 60,
       "mem": 24,
       "disk": 66,
-      "load": "0.42",
-      "uptime": "2 weeks, 3 days, 7 hours, 50 minutes",
+      "load": "0.00",
+      "uptime": "2 weeks, 3 days, 8 hours, 9 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -251,11 +251,5 @@
       }
     ]
   },
-  "update_source": "hermes_update_data.py",
-  "ai_sync": {
-    "total_checkpoints": 8,
-    "synced": 8,
-    "pending": 0,
-    "last_check": "20:16"
-  }
+  "update_source": "hermes_update_data.py"
 }
