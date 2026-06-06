@@ -1,14 +1,14 @@
 {
-  "ts": "14:15",
+  "ts": "14:45",
   "hour": 14,
-  "minute": 15,
-  "pushed_at": "2026-06-06 14:30 HKT",
+  "minute": 45,
+  "pushed_at": "2026-06-06 15:00 HKT",
   "system": {
-    "cpu": 71,
+    "cpu": 44,
     "mem": 14,
     "disk": 62,
-    "load": "0.86",
-    "uptime": "1 week, 3 days, 20 hours, 11 minutes",
+    "load": "1.00",
+    "uptime": "1 week, 3 days, 20 hours, 42 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "14:15",
+      "time": "14:46",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "14:08",
-      "text": "Cron: memory_bridge.log (128066B)"
+      "time": "14:34",
+      "text": "Cron: memory_bridge.log (128296B)"
     },
     {
       "time": "00:27",
       "text": "Cron: mcp-stderr.log (488573B)"
     },
     {
-      "time": "14:15",
-      "text": "Cron: guardian.log (241917B)"
+      "time": "14:45",
+      "text": "Cron: guardian.log (242385B)"
     },
     {
-      "time": "14:15",
-      "text": "Cron: gateway.log (3827032B)"
+      "time": "14:45",
+      "text": "Cron: gateway.log (3835976B)"
     },
     {
       "time": "18:33",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 71,
+      "cpu": 44,
       "mem": 14,
       "disk": 62,
-      "load": "0.86",
-      "uptime": "1 week, 3 days, 20 hours, 11 minutes",
+      "load": "1.00",
+      "uptime": "1 week, 3 days, 20 hours, 42 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 56,
-      "mem": 31,
+      "cpu": 91,
+      "mem": 24,
       "disk": 56,
-      "load": "0.82",
-      "uptime": "2 weeks, 4 days, 1 hour, 49 minutes",
+      "load": "0.62",
+      "uptime": "2 weeks, 4 days, 2 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 100,
-      "mem": 31,
+      "cpu": 96,
+      "mem": 24,
       "disk": 66,
-      "load": "0.45",
-      "uptime": "2 weeks, 4 days, 1 hour, 49 minutes",
+      "load": "0.15",
+      "uptime": "2 weeks, 4 days, 2 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -239,7 +239,7 @@
     "today_events": 5,
     "upcoming": 16,
     "reminders_pending": 0,
-    "last_updated": "2026-06-06T14:03:20",
+    "last_updated": "2026-06-06T14:30:40",
     "today_list": [
       {
         "summary": "畢業典禮彩排",
@@ -268,6 +268,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "14:15"
+    "last_check": "14:46"
   }
 }
