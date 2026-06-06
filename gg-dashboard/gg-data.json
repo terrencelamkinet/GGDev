@@ -1,14 +1,14 @@
 {
-  "ts": "07:45",
-  "hour": 7,
-  "minute": 45,
-  "pushed_at": "2026-06-06 08:00 HKT",
+  "ts": "08:15",
+  "hour": 8,
+  "minute": 15,
+  "pushed_at": "2026-06-06 08:30 HKT",
   "system": {
-    "cpu": 98,
-    "mem": 14,
+    "cpu": 58,
+    "mem": 13,
     "disk": 62,
-    "load": "0.95",
-    "uptime": "1 week, 3 days, 13 hours, 41 minutes",
+    "load": "0.84",
+    "uptime": "1 week, 3 days, 14 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "07:45",
+      "time": "08:16",
       "text": "Dashboard data refresh"
     },
     {
@@ -38,20 +38,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "07:34",
-      "text": "Cron: memory_bridge.log (125025B)"
+      "time": "08:11",
+      "text": "Cron: memory_bridge.log (125269B)"
     },
     {
       "time": "00:27",
       "text": "Cron: mcp-stderr.log (488573B)"
     },
     {
-      "time": "07:45",
-      "text": "Cron: guardian.log (235833B)"
+      "time": "08:15",
+      "text": "Cron: guardian.log (236301B)"
     },
     {
-      "time": "07:45",
-      "text": "Cron: gateway.log (3724353B)"
+      "time": "08:15",
+      "text": "Cron: gateway.log (3730545B)"
     },
     {
       "time": "18:33",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 98,
-      "mem": 14,
+      "cpu": 58,
+      "mem": 13,
       "disk": 62,
-      "load": "0.95",
-      "uptime": "1 week, 3 days, 13 hours, 41 minutes",
+      "load": "0.84",
+      "uptime": "1 week, 3 days, 14 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,23 +76,23 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 10 日; 1 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.8 — 閒置; 已運行 11 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "沒有新發現"
+        "最近 24h 有 1 個 session error — 已記錄"
       ],
       "uncertainties": [
         "等待 GG Fighter 下一個任務"
       ]
     },
     "work": {
-      "cpu": 80,
-      "mem": 25,
+      "cpu": 87,
+      "mem": 23,
       "disk": 56,
-      "load": "0.63",
-      "uptime": "2 weeks, 3 days, 19 hours, 19 minutes",
+      "load": "0.81",
+      "uptime": "2 weeks, 3 days, 19 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -100,12 +100,12 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 17 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.7 — 閒置; 已運行 18 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 17 日",
+        "VM 已穩定運行 18 日",
         "GG-Work 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 78,
-      "mem": 28,
+      "cpu": 90,
+      "mem": 25,
       "disk": 66,
-      "load": "0.16",
-      "uptime": "2 weeks, 3 days, 19 hours, 19 minutes",
+      "load": "0.54",
+      "uptime": "2 weeks, 3 days, 19 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -125,12 +125,12 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "傍晚 — CPU load 0.1 — 閒置; 已運行 17 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.4 — 閒置; 已運行 18 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 17 日",
+        "VM 已穩定運行 18 日",
         "GG-Person 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -238,8 +238,8 @@
     "total_events": 32,
     "today_events": 5,
     "upcoming": 16,
-    "reminders_pending": 0,
-    "last_updated": "2026-06-06T07:33:13",
+    "reminders_pending": 1,
+    "last_updated": "2026-06-06T08:09:32",
     "today_list": [
       {
         "summary": "畢業典禮彩排",
@@ -268,6 +268,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "07:45"
+    "last_check": "08:16"
   }
 }
