@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1920, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<title>專注飛鳥 v2.4 🦅</title>
+<title>專注飛鳥 v2.5 🦅</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
@@ -254,13 +254,13 @@
   </div>
 
   <div id="overlay" class="dark-overlay">
-    <h1>🦅 專注飛鳥 v2.4</h1>
+    <h1>🦅 專注飛鳥 v2.5</h1>
     <p>🧠 BrainLink 腦波控制<br>專注→下沉 &nbsp;|&nbsp; 放鬆→上升</p>
     <p style="font-size:clamp(11px,1.4vh,16px);opacity:0.6;">🧠 腦波控制 &nbsp;|&nbsp; ⎵ Space 備用</p>
     <button class="primary" id="startBtn">開始遊戲</button>
   </div>
 
-  <div class="credits">Focus Bird v2.4 · BrainLink</div>
+  <div class="credits">Focus Bird v2.5 · BrainLink</div>
 </div>
 
 <script>
@@ -551,7 +551,7 @@ function showLevelSelect() {
     grid += '<div class="lv-btn" data-lv="' + i + '" onclick="startLevel(' + i + ')">Lv.' + i + '</div>';
   }
   overlay.innerHTML = 
-    '<h1>🦅 專注飛鳥 v2.4</h1>' +
+    '<h1>🦅 專注飛鳥 v2.5</h1>' +
     '<p style="font-size:clamp(12px,1.5vh,18px);opacity:0.6;color:#A8DADC;">科學化視覺優化 · 揀關卡開始</p>' +
     '<div class="lv-grid">' + grid + '</div>';
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1027,9 +1027,9 @@ function connectBrainLink(wsUrl) {
 
       // Smooth focusLevel to prevent jitter from raw attention
       if (data.focusLevel !== undefined) {
-        state.focusLevel = state.focusLevel * 0.9 + data.focusLevel * 0.1;
+        state.focusLevel = state.focusLevel * 0.95 + data.focusLevel * 0.05;
       } else {
-        state.focusLevel = state.focusLevel * 0.9 + state.attention * 0.1;
+        state.focusLevel = state.focusLevel * 0.95 + state.attention * 0.05;
       }
 
       state.spacePressed = data.attention > 50;
