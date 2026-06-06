@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1920, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<title>專注飛鳥 v2.5 🦅</title>
+<title>專注飛鳥 v2.6 🦅</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
@@ -240,6 +240,7 @@
     <div class="hud">
     <div class="hud-left">
       <span id="scoreDisplay">💰 0</span>
+      <span id="timerDisplay" style="font-size:clamp(10px,1.2vh,14px);opacity:0.8;">⏱ 00:00</span>
       <span id="levelDisplay">⭐ Lv.1</span>
       <span id="targetDisplay">0/30</span>
     </div>
@@ -254,13 +255,13 @@
   </div>
 
   <div id="overlay" class="dark-overlay">
-    <h1>🦅 專注飛鳥 v2.5</h1>
+    <h1>🦅 專注飛鳥 v2.6</h1>
     <p>🧠 BrainLink 腦波控制<br>專注→下沉 &nbsp;|&nbsp; 放鬆→上升</p>
     <p style="font-size:clamp(11px,1.4vh,16px);opacity:0.6;">🧠 腦波控制 &nbsp;|&nbsp; ⎵ Space 備用</p>
     <button class="primary" id="startBtn">開始遊戲</button>
   </div>
 
-  <div class="credits">Focus Bird v2.5 · BrainLink</div>
+  <div class="credits">Focus Bird v2.6 · BrainLink</div>
 </div>
 
 <script>
@@ -268,8 +269,8 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 // ===== Virtual coordinate system (original 400×500) =====
-const VIRTUAL_W = 400;
-const VIRTUAL_H = 500;
+const VIRTUAL_W = 800;
+const VIRTUAL_H = 450;
 
 // ===== Scaling state =====
 let scale = 1;
@@ -292,7 +293,7 @@ const state = {
   externalMode: false,
   ws: null,
   attention: 0,
-  bird: { x: 200, y: 250, vy: 0, displayAngle: 0 },
+  bird: { x: 200, y: 220, vy: 0, displayAngle: 0 },
   coins: [],
   effects: [],
   spawnTimer: 0,
@@ -302,6 +303,7 @@ const state = {
   totalCoins: 0,
   coinsSpawned: 0,
   lastCoinTime: 0,
+  timer: 0,
   levelStartTime: 0,
 };
 
@@ -369,7 +371,9 @@ function updateBird() {
     // BrainLink mode: map attention to bird Y
     // HIGH focus → BOTTOM (near coins at y=460)
     // LOW focus → TOP (floating up)
-    var targetY = 460 - ((100 - state.focusLevel) / 100) * 410;
+    // Lower difficulty by 10: user only needs 90 focus to reach bottom
+    var adjFocus = Math.min(100, state.focusLevel + 10);
+    var targetY = (VIRTUAL_H - 40) - ((100 - adjFocus) / 100) * (VIRTUAL_H - 80);
     b.y += (targetY - b.y) * 0.15;
     b.vy = 0;
     b.displayAngle = b.displayAngle * 0.85 + 0 * 0.15;
@@ -393,7 +397,7 @@ function updateBird() {
 function getLevelConfig(level) {
   const maxLevel = 20;
   const l = Math.min(level, maxLevel);
-  const coinTarget = 10 + (l - 1) * 5;
+  const coinTarget = 20 + (l - 1) * 5;
   const gravityFactor = 1 + l * 0.06;
   const coinInterval = 180 + Math.floor(Math.random() * 120);
   return { coinTarget, gravityFactor, coinInterval, maxLevel };
@@ -536,6 +540,7 @@ function resetGame() {
   state.effects = [];
   state.comboCount = 0;
   state.totalCoins = 0;
+  state.timer = 0;
   state.frame = 0;
   showLevelSelect();
 }
@@ -551,7 +556,7 @@ function showLevelSelect() {
     grid += '<div class="lv-btn" data-lv="' + i + '" onclick="startLevel(' + i + ')">Lv.' + i + '</div>';
   }
   overlay.innerHTML = 
-    '<h1>🦅 專注飛鳥 v2.5</h1>' +
+    '<h1>🦅 專注飛鳥 v2.6</h1>' +
     '<p style="font-size:clamp(12px,1.5vh,18px);opacity:0.6;color:#A8DADC;">科學化視覺優化 · 揀關卡開始</p>' +
     '<div class="lv-grid">' + grid + '</div>';
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -794,21 +799,21 @@ function drawBird() {
     const pulse = Math.sin(frame * 0.06) * 2;
     ctx.beginPath();
     ctx.arc(0, 0, 34 + pulse, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 100 * 0.2})`;
+    ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 200 * 0.12})`;
     ctx.fill();
     ctx.beginPath();
     ctx.arc(0, 0, 30 + pulse, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(46, 196, 182, ${(focus - 70) / 100 * 0.15})`;
+    ctx.fillStyle = `rgba(46, 196, 182, ${(focus - 70) / 200 * 0.10})`;
     ctx.fill();
     ctx.beginPath();
     ctx.arc(0, 0, 26 + pulse, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 100 * 0.08})`;
+    ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 200 * 0.05})`;
     ctx.fill();
   }
   if (focus < 25) {
     ctx.beginPath();
     ctx.arc(0, 0, 32, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(231, 111, 81, ${(25 - focus) / 100 * 0.15})`;
+    ctx.fillStyle = `rgba(231, 111, 81, ${(25 - focus) / 200 * 0.10})`;
     ctx.fill();
   }
 
@@ -909,6 +914,10 @@ function drawEffects() {
 
 function drawHUD() {
   document.getElementById('scoreDisplay').textContent = `💰 ${state.score}`;
+  var elapsed = Math.floor((Date.now() - state.levelStartTime) / 1000);
+  var min = Math.floor(elapsed / 60);
+  var sec = elapsed % 60;
+  document.getElementById('timerDisplay').textContent = `⏱ ${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
   document.getElementById('levelDisplay').textContent = `⭐ Lv.${state.level}`;
   const cfg = getLevelConfig(state.level);
   document.getElementById('targetDisplay').textContent = `${state.totalCoins}/${cfg.coinTarget}`;
@@ -942,13 +951,18 @@ function gameLoop() {
   if (!state.nextSpawn) state.nextSpawn = 300;
   state.spawnTimer++;
   var cfg = getLevelConfig(state.level);
-  var maxCoins = cfg.coinTarget + 5;
+  var maxCoins = cfg.coinTarget * 2 + 5;
   if (state.coinsSpawned < maxCoins && state.spawnTimer >= state.nextSpawn) {
     state.spawnTimer = 0;
     state.nextSpawn = 180 + Math.floor(Math.random() * 120);
     spawnCoin();
   }
   updateCoins();
+  // Game over when all coins are gone (spawned and none left on screen)
+  if (state.coinsSpawned >= maxCoins && state.coins.length === 0 && state.coinsSpawned > 0) {
+    showGameOver();
+    return;
+  }
   updateEffects();
   if (!state.running) return;
 
@@ -991,6 +1005,7 @@ function startLevel(levelNum) {
   state.effects = [];
   state.spawnTimer = 0;
   state.nextSpawn = 0;
+  state.timer = 0;
   state.levelStartTime = Date.now();
   state.spacePressed = false;
   bgOffsets.sky = 0;
