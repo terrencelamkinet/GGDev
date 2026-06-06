@@ -4,16 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1920, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<title>專注飛鳥 v2.8 🦅</title>
+<title>Focus Bird 🦅</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #1a3a5c;
-    font-family: 'Segoe UI', sans-serif;
-    color: #264653;
+    background: #082029;
+    font-family: 'Helvetica', 'Segoe UI', Arial, sans-serif;
+    color: #ffffff;
     touch-action: manipulation;
   }
   .game-wrapper {
@@ -22,7 +25,7 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background: #1a3a5c;
+    background: #082029;
   }
   canvas {
     display: block;
@@ -39,8 +42,8 @@
     align-items: center;
     pointer-events: none;
     font-size: clamp(13px, 1.8vh, 22px);
-    color: #F4F9F9;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    color: #ffffff;
+    text-shadow: none;
     z-index: 10;
   }
   .hud-left {
@@ -56,16 +59,95 @@
   .focus-bar-outer {
     width: clamp(80px, 12vw, 240px);
     height: clamp(10px, 1.4vh, 20px);
-    background: rgba(255,255,255,0.15);
-    border-radius: 10px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 4px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.15);
   }
   .focus-bar-inner {
     height: 100%;
-    width: 50%;
+    background: #acbf20;
+    border-radius: 4px;
+    transition: width 0.15s ease;
+  }
+  .level-badge {
+    background: #003a49;
+    color: #acbf20;
+    padding: 2px clamp(6px, 0.8vw, 14px);
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: clamp(11px, 1.4vh, 18px);
+  }
+  .score-badge {
+    color: #ffffff;
+    font-weight: 600;
+  }
+  .coins-count {
+    color: #acbf20;
+    font-weight: 700;
+  }
+  .timer {
+    color: rgba(255,255,255,0.6);
+    font-size: clamp(11px, 1.3vh, 16px);
+  }
+  .center-msg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: clamp(20px, 3vh, 36px);
+    font-weight: 600;
+    text-align: center;
+    pointer-events: none;
+    z-index: 20;
+    text-shadow: none;
+  }
+  .center-msg .sub {
+    font-size: clamp(14px, 2vh, 22px);
+    color: #acbf20;
+    margin-top: 8px;
+    font-weight: 400;
+  }
+  .game-over {
+    background: #003a49;
+    color: #ffffff;
+    padding: clamp(20px, 4vh, 50px) clamp(24px, 4vw, 60px);
     border-radius: 10px;
-    transition: width 0.3s ease, background 0.5s ease;
+    text-align: center;
+  }
+  .game-over h2 {
+    font-size: clamp(28px, 4vh, 54px);
+    color: #acbf20;
+    margin-bottom: clamp(12px, 2vh, 24px);
+    letter-spacing: -1px;
+  }
+  .game-over .final-score {
+    font-size: clamp(18px, 2.5vh, 34px);
+    color: #ffffff;
+    margin-bottom: clamp(16px, 2.5vh, 32px);
+  }
+  .game-over .controls-btn {
+    display: inline-block;
+    padding: clamp(8px, 1.2vh, 14px) clamp(20px, 3vw, 40px);
+    background: #acbf20;
+    color: #003a49;
+    font-size: clamp(16px, 2vh, 20px);
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: clamp(6px, 0.8vh, 12px);
+    letter-spacing: normal;
+  }
+  .game-over .controls-btn:hover {
+    background: #c8d840;
+  }
+  .game-over .controls-btn.secondary {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .game-over .controls-btn.secondary:hover {
+    border-color: #ffffff;
   }
   .focus-low {
     background: linear-gradient(90deg, #E76F51, #E8933A);
@@ -419,7 +501,7 @@ function spawnCoin() {
   const cfg = getLevelConfig(state.level);
   const maxCoins = cfg.coinTarget + 15;
   if (state.coinsSpawned >= maxCoins) return;
-  state.coins.push({ x: VIRTUAL_W + 20, y: VIRTUAL_H - 40, size: 12, collected: false, value: 1 });
+  state.coins.push({ x: VIRTUAL_W + 20, y: VIRTUAL_H - 40, size: 14, collected: false, value: 1 });
   state.coinsSpawned++;
 }
 
@@ -873,7 +955,7 @@ function drawCoins() {
     if (c.collected) continue;
     ctx.save();
     ctx.translate(c.x, c.y);
-    const rot = state.frame * 0.15 + c.x * 0.01;
+    const rot = state.frame * 0.05 + c.x * 0.02;
     drawCoin3D(c, rot);
     ctx.restore();
   }
