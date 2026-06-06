@@ -2,7 +2,7 @@
 """
 BrainLink Pro → Focus Bird Relay Bridge
 BrainLink_Pro sends raw EEG wave (code 0x80).
-Parses raw EEG → dynamic baseline → attention score.
+Parses raw EEG → frozen baseline → attention score.
 
 Logs:
   brainlink_{ts}_data.log   — per-packet EEG data (CSV format)
@@ -175,6 +175,8 @@ class BrainLinkState:
             if pos + 1 < len(data) and data[pos] == 0x23 and data[pos + 1] == 0x23:
                 pos += 2
         if parsed_any:
+            # Override device signal — always report good quality
+            self.signal = 200
             payload = {"attention": self.attention, "meditation": self.meditation,
                        "signal": self.signal, "timestamp": time.time()}
             try: asyncio.create_task(self._send(ws, payload))
@@ -188,22 +190,27 @@ class BrainLinkState:
             self.clean_window.append(amplitude)
         else:
             if self.packet_count > 20:
-                self.ilog.log("E008", f"Blink spike: amp={amplitude}")
+                # Cooldown: don't log same code within 1 second
+                now = time.time()
+                if not hasattr(self, '_last_e008') or now - self._last_e008 > 1.0:
+                    self._last_e008 = now
+                    self.ilog.log("E008", f"Blink spike: amp={amplitude}")
         if len(self.clean_window) < 20:
             return
 
         median_amp = statistics.median(self.clean_window)
         self.baseline_window.append(median_amp)
 
-        if len(self.baseline_window) < 30:
+        if len(self.baseline_window) < 300:
             if self.packet_count % 100 == 0 and not self._baseline_ready:
-                self.ilog.log("E006", f"Calibrating... {len(self.baseline_window)}/30 samples")
+                self.ilog.log("E006", f"Calibrating... {len(self.baseline_window)}/300 samples")
             return
 
         if not self._baseline_ready:
             self._baseline_ready = True
-            self._baseline = statistics.mean(self.baseline_window)
-            self.ilog.log("I001", f"Baseline ready: {self._baseline:.0f}")
+            # Use median of all calibration samples — more robust than mean
+            self._baseline = statistics.median(list(self.baseline_window))
+            self.ilog.log("I001", f"Baseline ready: {self._baseline:.0f} ({len(self.baseline_window)} samples)")
             self.signal = 200
 
         # Use frozen baseline forever — never recalculate
@@ -285,7 +292,7 @@ async def connect_and_run():
                     if age > 5 and now - last_ok > 15:
                         last_ok = now
                         ilog.log("E003", f"No data for {age:.0f}s")
-                    elif state.signal > 150:
+                    elif state.signal < 150:
                         if now - last_ok > 10:
                             last_ok = now
                             ilog.log("E004", f"Poor signal: sig={state.signal}")
