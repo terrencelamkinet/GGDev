@@ -398,7 +398,7 @@ function updateBird() {
 function getLevelConfig(level) {
   const maxLevel = 20;
   const l = Math.min(level, maxLevel);
-  const coinTarget = 10 + (l - 1) * 5;
+  const coinTarget = 15;
   const gravityFactor = 1 + l * 0.06;
   const coinInterval = 180 + Math.floor(Math.random() * 120);
   return { coinTarget, gravityFactor, coinInterval, maxLevel };
@@ -1041,11 +1041,12 @@ function connectBrainLink(wsUrl) {
       var data = JSON.parse(event.data);
       state.attention = data.attention || 0;
 
-      // Smooth focusLevel to prevent jitter from raw attention
+      // Dynamic sensitivity: Lv.1=200ms (alpha 0.025), Lv.20=100ms (alpha 0.050)
+      var alpha = 0.025 + Math.min(state.level - 1, 19) / 19 * 0.025;
       if (data.focusLevel !== undefined) {
-        state.focusLevel = state.focusLevel * 0.95 + data.focusLevel * 0.05;
+        state.focusLevel = state.focusLevel * (1 - alpha) + data.focusLevel * alpha;
       } else {
-        state.focusLevel = state.focusLevel * 0.95 + state.attention * 0.05;
+        state.focusLevel = state.focusLevel * (1 - alpha) + state.attention * alpha;
       }
 
       state.spacePressed = data.attention > 50;
