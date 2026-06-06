@@ -1,14 +1,14 @@
 {
-  "ts": "20:15",
+  "ts": "20:31",
   "hour": 20,
-  "minute": 15,
-  "pushed_at": "2026-06-06 20:30 HKT",
+  "minute": 31,
+  "pushed_at": "2026-06-06 20:31 HKT",
   "system": {
-    "cpu": 50,
+    "cpu": 54,
     "mem": 14,
     "disk": 62,
-    "load": "1.13",
-    "uptime": "1 week, 4 days, 2 hours, 11 minutes",
+    "load": "1.01",
+    "uptime": "1 week, 4 days, 2 hours, 27 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:15",
+      "time": "20:30",
       "text": "Dashboard data refresh"
     },
     {
@@ -46,12 +46,12 @@
       "text": "Cron: mcp-stderr.log (526889B)"
     },
     {
-      "time": "20:15",
-      "text": "Cron: guardian.log (247533B)"
+      "time": "20:30",
+      "text": "Cron: guardian.log (247767B)"
     },
     {
-      "time": "20:15",
-      "text": "Cron: gateway.log (3947466B)"
+      "time": "20:30",
+      "text": "Cron: gateway.log (3956944B)"
     },
     {
       "time": "18:33",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 50,
+      "cpu": 54,
       "mem": 14,
       "disk": 62,
-      "load": "1.13",
-      "uptime": "1 week, 4 days, 2 hours, 11 minutes",
+      "load": "1.01",
+      "uptime": "1 week, 4 days, 2 hours, 27 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "傍晚 — CPU load 1.2 — 閒置; 已運行 11 日; 1 個 daemon 運行中",
+      "thoughts": "週末夜 — 三位穩定。今日Terrence跑足全日（董事會→安息禮→教會練習），系統無需打擾。批准GG-Work/GG-Person繼續閒置待命。星期一朝做一次完整health check。",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 4,
-      "mem": 33,
+      "cpu": 100,
+      "mem": 24,
       "disk": 56,
-      "load": "0.78",
-      "uptime": "2 weeks, 4 days, 7 hours, 49 minutes",
+      "load": "0.53",
+      "uptime": "2 weeks, 4 days, 8 hours, 4 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 4,
-      "mem": 31,
+      "cpu": 100,
+      "mem": 24,
       "disk": 66,
-      "load": "0.43",
-      "uptime": "2 weeks, 4 days, 7 hours, 49 minutes",
+      "load": "0.14",
+      "uptime": "2 weeks, 4 days, 8 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -263,11 +263,5 @@
       }
     ]
   },
-  "update_source": "hermes_update_data.py",
-  "ai_sync": {
-    "total_checkpoints": 8,
-    "synced": 8,
-    "pending": 0,
-    "last_check": "20:15"
-  }
+  "update_source": "hermes_update_data.py"
 }
