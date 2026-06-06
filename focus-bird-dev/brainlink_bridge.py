@@ -28,7 +28,7 @@ BRAINLINK_MAC = "C0:E2:FC:2D:AF:C0"
 # ===== Smoothing =====
 MEDIAN_WINDOW = 80
 BASELINE_WINDOW = 300
-SENSITIVITY = 2.0
+SENSITIVITY = 1.5
 BLINK_THRESHOLD = 250
 LOG_INTERVAL = 10
 
@@ -207,7 +207,7 @@ class BrainLinkState:
 
         baseline = statistics.mean(self.baseline_window)
         delta = (median_amp - baseline) / max(baseline, 1)
-        norm = 0.5 + delta * SENSITIVITY * 0.1
+        norm = 0.5 + delta * SENSITIVITY
         norm = max(0.0, min(1.0, norm))
         self.attention = max(0, min(100, int(norm * 100)))
 
