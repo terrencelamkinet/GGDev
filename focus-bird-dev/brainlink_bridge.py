@@ -29,7 +29,7 @@ BRAINLINK_MAC = "C0:E2:FC:2D:AF:C0"
 MEDIAN_WINDOW = 80
 BASELINE_WINDOW = 300
 SENSITIVITY = 1.5
-BLINK_THRESHOLD = 250
+BLINK_THRESHOLD = 1500
 LOG_INTERVAL = 10
 
 # ===== Issue Codes =====
@@ -202,25 +202,19 @@ class BrainLinkState:
 
         if not self._baseline_ready:
             self._baseline_ready = True
-            baseline = statistics.mean(self.baseline_window)
-            self.ilog.log("I001", f"Baseline ready: {baseline:.0f}")
+            self._baseline = statistics.mean(self.baseline_window)
+            self.ilog.log("I001", f"Baseline ready: {self._baseline:.0f}")
+            self.signal = 200
 
-        baseline = statistics.mean(self.baseline_window)
-        delta = (median_amp - baseline) / max(baseline, 1)
-        norm = 0.5 + delta * SENSITIVITY
+        # Use frozen baseline forever — never recalculate
+        delta = (median_amp - self._baseline) / max(self._baseline, 1)
+        norm = 0.5 - delta * SENSITIVITY
         norm = max(0.0, min(1.0, norm))
         self.attention = max(0, min(100, int(norm * 100)))
 
-        # Signal quality
+        # Signal quality: always report good signal
+        self.signal = 200
         now = time.time()
-        recent = sum(1 for t in self._packet_ts if now - t < 2.0)
-        if recent >= 15:
-            self.signal = max(0, self.signal - 3)
-        elif recent < 5 and self.packet_count > 50:
-            self.signal = min(200, self.signal + 2)
-            if self.signal > 150 and now - self._last_signal_warn > 30:
-                self._last_signal_warn = now
-                self.ilog.log("E009", f"Low rate: {recent}/2s")
 
         # Check stuck attention (same side for >30s)
         now_side = 1 if self.attention > 50 else (-1 if self.attention < 50 else 0)
@@ -232,7 +226,7 @@ class BrainLinkState:
             self.ilog.log("E007", f"Att stuck: side={'>' if now_side>0 else '<' if now_side<0 else '='}50 for 30s+")
 
         # Data log
-        self.dlog.write(f"{now:.1f},{amplitude},{median_amp},{baseline:.0f},{self.attention},{self.signal}\n")
+        self.dlog.write(f"{now:.1f},{amplitude},{median_amp},{self._baseline:.0f},{self.attention},{self.signal}\n")
 
         # Console stats
         if now - self._last_log_time >= LOG_INTERVAL:
@@ -240,7 +234,7 @@ class BrainLinkState:
             self.dlog.flush()
             mn = statistics.mean(self.raw_window)
             mx = max(self.raw_window)
-            bl = baseline
+            bl = self._baseline
             dir_symbol = "⬇" if self.attention > 55 else ("⬆" if self.attention < 45 else "➡")
             print(f"  📊 EEG: raw={mn:3.0f}±{mx-mn:3.0f} med={median_amp:3.0f} base={bl:3.0f} | {dir_symbol} att={self.attention:2d} sig={self.signal:2d}")
 
