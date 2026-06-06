@@ -419,7 +419,7 @@ function spawnCoin() {
   const cfg = getLevelConfig(state.level);
   const maxCoins = cfg.coinTarget + 15;
   if (state.coinsSpawned >= maxCoins) return;
-  state.coins.push({ x: VIRTUAL_W + 20, y: VIRTUAL_H - 40, size: 22, collected: false, value: 1 });
+  state.coins.push({ x: VIRTUAL_W + 20, y: VIRTUAL_H - 40, size: 14, collected: false, value: 1 });
   state.coinsSpawned++;
 }
 
@@ -873,7 +873,7 @@ function drawCoins() {
     if (c.collected) continue;
     ctx.save();
     ctx.translate(c.x, c.y);
-    const rot = state.frame * 0.03 + c.x * 0.01;
+    const rot = state.frame * 0.15 + c.x * 0.01;
     drawCoin3D(c, rot);
     ctx.restore();
   }
