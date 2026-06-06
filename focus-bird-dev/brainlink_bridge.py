@@ -4,7 +4,7 @@ BrainLink Pro → Focus Bird Relay Bridge
 BrainLink_Pro sends raw EEG wave (code 0x80), not processed attention/meditation.
 This script parses raw EEG and computes a focus score from signal amplitude.
 """
-import asyncio, json, sys, time
+import asyncio, json, sys, time, statistics
 from collections import deque
 
 try:
@@ -25,26 +25,27 @@ BRAINLINK_MAC = "C0:E2:FC:2D:AF:C0"
 NUS_RX_UUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
 
 # ===== Raw EEG → Focus Score =====
-# Raw EEG amplitude (absolute value) maps to attention roughly:
-#   quiet/relaxed → small amplitude (0-50)
-#   focused/active → larger amplitude (50-200+)
-# Normalize and smooth with EMA.
-EMA_ALPHA = 0.15        # smoothing factor
-AMPLITUDE_WINDOW = 100  # rolling window for baseline
-AMPLITUDE_MIN = 3       # noise floor
-AMPLITUDE_MAX = 150     # saturation
+# Use rolling median + strong EMA for smooth output.
+# Raw EEG amplitude is naturally spiky; median suppresses blink/movement artifacts.
+MEDIAN_WINDOW = 80      # ~8 seconds at 10Hz — median suppresses artifacts
+EMA_ALPHA = 0.03        # very slow EMA on top of median
+AMPLITUDE_MIN = 3
+AMPLITUDE_MAX = 200     # wider range to accommodate spikes
+BLINK_THRESHOLD = 250   # ignore single samples above this (blinks)
+LOG_INTERVAL = 10        # print stats every N seconds
 
 class BrainLinkState:
     def __init__(self):
         self.attention = 50
         self.meditation = 50
-        self.signal = 200           # 0=good, 200=no contact
+        self.signal = 200
         self.last_packet = 0.0
-        self.smooth_focus = 0.5     # normalized 0.0-1.0
-        self.raw_buffer = deque(maxlen=AMPLITUDE_WINDOW)
+        self.smooth_focus = 0.5      # 0.0-1.0 after median + EMA
+        self.raw_window = deque(maxlen=MEDIAN_WINDOW)
+        self.clean_window = deque(maxlen=MEDIAN_WINDOW)  # after blink rejection
         self.packet_count = 0
-        self.packet_rate = 0        # packets/sec
-        self._rate_tracker = deque(maxlen=20)  # timestamps of last 20 packets
+        self._last_log_time = 0
+        self._rate_tracker = deque(maxlen=20)
 
     def parse(self, data: bytes, ws) -> bool:
         """Parse BrainLink_Pro packet stream.
@@ -141,25 +142,46 @@ class BrainLinkState:
     def _process_raw_eeg(self, amplitude: int):
         """Convert raw EEG amplitude to attention score."""
         self.packet_count += 1
-        self.raw_buffer.append(amplitude)
+        self.raw_window.append(amplitude)
 
-        # Clamp to expected range
-        clamped = max(AMPLITUDE_MIN, min(AMPLITUDE_MAX, amplitude))
+        # Reject blinks/artifacts (single massive spikes)
+        if amplitude < BLINK_THRESHOLD:
+            self.clean_window.append(amplitude)
 
-        # Normalize to 0.0-1.0
+        # Need minimum samples for median
+        if len(self.clean_window) < 20:
+            return
+
+        # Median of clean window (robust to remaining artifacts)
+        median_amp = statistics.median(self.clean_window)
+
+        # Clamp + normalize to 0.0-1.0
+        clamped = max(AMPLITUDE_MIN, min(AMPLITUDE_MAX, median_amp))
         norm = (clamped - AMPLITUDE_MIN) / (AMPLITUDE_MAX - AMPLITUDE_MIN)
 
-        # EMA smoothing
+        # Very slow EMA on top of median
         self.smooth_focus = EMA_ALPHA * norm + (1 - EMA_ALPHA) * self.smooth_focus
 
-        # Map to 0-100 attention
+        # Map to 0-100
         self.attention = max(0, min(100, int(self.smooth_focus * 100)))
 
-        # Better contact = more packets arriving = lower signal value
-        if self.packet_rate > 20:  # ~50 packets/sec = good contact
+        # Signal quality from packet rate + amplitude stability
+        now = time.time()
+        rate = len(self._rate_tracker) / max(0.01, now - list(self._rate_tracker)[0]) if len(self._rate_tracker) >= 5 else 0
+        if rate > 8 and median_amp < 100:
             self.signal = max(0, self.signal - 2)
-        elif self.packet_count > 50 and self.packet_rate < 5:
+        else:
             self.signal = min(200, self.signal + 1)
+
+        # Logging every LOG_INTERVAL seconds
+        if now - self._last_log_time >= LOG_INTERVAL:
+            self._last_log_time = now
+            mn = statistics.mean(self.raw_window)
+            mx = max(self.raw_window)
+            md = median_amp if len(self.clean_window) > 0 else 0
+            # Focus direction indicator
+            dir_symbol = "⬇" if self.attention > 55 else ("⬆" if self.attention < 45 else "➡")
+            print(f"  📊 EEG raw: min={min(self.raw_window):3d} mean={mn:3.0f} median={md:3d} max={mx:3d} | {dir_symbol} att={self.attention:2d} sig={self.signal:2d}")
 
     async def _send(self, ws, payload):
         try:
