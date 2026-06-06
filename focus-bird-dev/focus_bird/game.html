@@ -370,7 +370,7 @@ function updateBird() {
     // HIGH focus → BOTTOM (near coins at y=460)
     // LOW focus → TOP (floating up)
     var targetY = 460 - ((100 - state.focusLevel) / 100) * 410;
-    b.y += (targetY - b.y) * 0.06;
+    b.y += (targetY - b.y) * 0.15;
     b.vy = 0;
     b.displayAngle = b.displayAngle * 0.85 + 0 * 0.15;
     return;
