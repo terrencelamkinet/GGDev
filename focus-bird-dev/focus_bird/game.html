@@ -365,6 +365,15 @@ function gameOverSound() { playTone(330, 0.2); setTimeout(()=>playTone(220,0.3),
 // ===== 鳥嘅物理 =====
 function updateBird() {
   const b = state.bird;
+  if (state.externalMode) {
+    // BrainLink mode: map attention directly to bird Y position
+    // att 0-100 → bottom(420) to top(60) of virtual screen
+    var targetY = 420 - (state.focusLevel / 100) * 360;
+    b.y += (targetY - b.y) * 0.08;
+    b.vy = 0;
+    b.displayAngle = b.displayAngle * 0.85 + 0 * 0.15;
+    return;
+  }
   const cfg = getLevelConfig(state.level);
   if (state.spacePressed) {
     b.vy += 0.03 * cfg.gravityFactor;
@@ -919,10 +928,13 @@ function gameLoop() {
   if (!state.running) return;
   state.frame++;
 
-  if (state.spacePressed) {
-    state.focusLevel = Math.min(100, state.focusLevel + 1.5);
-  } else {
-    state.focusLevel = Math.max(0, state.focusLevel - 0.5);
+  // Focus level: BrainLink mode uses WebSocket value, keyboard mode uses spacePressed
+  if (!state.externalMode) {
+    if (state.spacePressed) {
+      state.focusLevel = Math.min(100, state.focusLevel + 1.5);
+    } else {
+      state.focusLevel = Math.max(0, state.focusLevel - 0.5);
+    }
   }
   updateBird();
 
