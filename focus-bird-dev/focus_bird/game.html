@@ -419,7 +419,7 @@ function spawnCoin() {
   const cfg = getLevelConfig(state.level);
   const maxCoins = cfg.coinTarget + 15;
   if (state.coinsSpawned >= maxCoins) return;
-  state.coins.push({ x: VIRTUAL_W + 20, y: VIRTUAL_H - 40, size: 14, collected: false, value: 1 });
+  state.coins.push({ x: VIRTUAL_W + 20, y: VIRTUAL_H - 40, size: 12, collected: false, value: 1 });
   state.coinsSpawned++;
 }
 
