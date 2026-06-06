@@ -1065,12 +1065,12 @@ function connectBrainLink(wsUrl) {
 }
 
 (function() {
+  // Auto-connect to BrainLink relay via WebSocket
+  // Can override with ?ws=YOUR_URL in the URL
   var params = new URLSearchParams(window.location.search);
-  var wsUrl = params.get('ws');
-  if (wsUrl) {
-    console.log('🔌 BrainLink: ?ws= 參數偵測到: ' + wsUrl);
-    connectBrainLink(wsUrl);
-  }
+  var wsUrl = params.get('ws') || 'wss://brainlink.kinet-poc.com/game';
+  console.log('🔌 BrainLink: 自動連接 ' + wsUrl);
+  connectBrainLink(wsUrl);
 })();
 
 // ===== 鍵盤控制 =====
