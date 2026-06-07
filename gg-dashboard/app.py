@@ -97,6 +97,19 @@ def api_data():
         return jsonify(data)
     
     try:
+        # System data from agents or defaults
+        main_agent = data.get("agents", {}).get("main", {}) or {}
+        work_agent = data.get("agents", {}).get("work", {}) or {}
+        person_agent = data.get("agents", {}).get("person", {}) or {}
+        data["system"] = {
+            "cpu": main_agent.get("cpu") or work_agent.get("cpu") or 0,
+            "mem": main_agent.get("mem") or work_agent.get("mem") or 0,
+            "disk": main_agent.get("disk") or work_agent.get("disk") or 0,
+            "load": main_agent.get("load") or "0.5",
+            "uptime": main_agent.get("uptime") or "N/A",
+            "services": {"gg-reminder": "green", "disk": "green", "memory": "green"}
+        }
+        
         # Tasks from PG
         cur.execute("""
             SELECT id, title, priority::text, status::text, 
@@ -348,28 +361,71 @@ def api_status():
     })
 
 
-# ===== SERVE TEMPLATES =====
+# ===== SERVE TEMPLATES (Webapp Version — NOT DO Static) =====
+
+TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+
+TEMPLATE_MAP = {
+    "/": "home.html",
+    "/home": "home.html",
+    "/intel": "intel.html",
+    "/tasks": "tasks.html",
+    "/agents": "agents.html",
+    "/profile": "profile.html",
+}
 
 @app.route("/")
 def index():
-    return send_from_directory(".", "index.html")
+    return send_from_directory(TEMPLATES_DIR, "home.html")
 
-@app.route("/legacy")
-def legacy():
-    return send_from_directory(".", "index.html")
+@app.route("/home")
+def home():
+    return send_from_directory(TEMPLATES_DIR, "home.html")
 
-# Serve static files
+@app.route("/intel")
+def intel():
+    return send_from_directory(TEMPLATES_DIR, "intel.html")
+
+@app.route("/tasks")
+def tasks():
+    return send_from_directory(TEMPLATES_DIR, "tasks.html")
+
+@app.route("/agents")
+def agents():
+    return send_from_directory(TEMPLATES_DIR, "agents.html")
+
+@app.route("/profile")
+def profile():
+    return send_from_directory(TEMPLATES_DIR, "profile.html")
+
+@app.route("/agent/<name>")
+def agent_detail(name):
+    safe_name = name.replace("/", "").replace("\\", "")
+    p = os.path.join(TEMPLATES_DIR, "agent_detail.html")
+    if os.path.exists(p):
+        html = open(p).read()
+        return html.replace("{{agent_name}}", safe_name)
+    return "Agent detail template not found", 404
+
+# Serve static files (icons, CSS)
 @app.route("/static/<path:filename>")
 def serve_static(filename):
-    return send_from_directory(os.path.join(os.path.dirname(__file__), "static"), filename)
+    return send_from_directory(STATIC_DIR, filename)
 
+# Catch-all: try templates/, then root/ files, else 404
 @app.route("/<path:filename>")
 def serve_other(filename):
-    # Skip template files — they're broken, use index.html instead
-    if filename.startswith("templates/"):
+    # Skip if already handled
+    if filename.startswith("static/") or filename.startswith("templates/"):
         return "", 404
-    path = os.path.join(os.path.dirname(__file__), filename)
-    if os.path.exists(path) and os.path.isfile(path):
+    # Try templates first
+    tp = os.path.join(TEMPLATES_DIR, filename)
+    if os.path.exists(tp) and os.path.isfile(tp):
+        return send_from_directory(TEMPLATES_DIR, filename)
+    # Then root
+    rp = os.path.join(os.path.dirname(__file__), filename)
+    if os.path.exists(rp) and os.path.isfile(rp):
         return send_from_directory(".", filename)
     return "", 404
 

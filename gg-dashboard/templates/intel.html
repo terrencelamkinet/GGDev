@@ -1,16 +1,85 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><title>GG Intel</title><link rel="stylesheet" href="/static/styles.css"></head><body>
+<!DOCTYPE html><html lang="zh-HK"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>GG Intel</title><link rel="stylesheet" href="/static/styles.css">
+<style>
+.section-toggle{cursor:pointer;display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:none;color:inherit;padding:10px 0;font-weight:700;font-size:14px;text-align:left}
+.section-toggle svg{transition:transform .2s;width:18px;height:18px;color:var(--text-dim)}
+.section-toggle.open svg{transform:rotate(90deg)}
+.collapse-section{overflow:hidden;max-height:0;transition:max-height .3s ease}
+.collapse-section.open{max-height:2000px}
+.voice-card{background:var(--surface);border-radius:12px;padding:14px;margin-bottom:8px;border:1px solid var(--border);cursor:pointer}
+.voice-card .voice-header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.voice-card .voice-name{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
+.voice-card .voice-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.voice-card .voice-time{font-size:10px;color:var(--text-dim)}
+.voice-card .voice-thought{font-size:12px;color:var(--text-muted);margin-top:8px;line-height:1.5;display:none}
+.voice-card.expanded .voice-thought{display:block}
+.activity-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.activity-item:last-child{border:none}
+.activity-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.activity-text{flex:1;font-size:12px;line-height:1.5;color:var(--text-muted)}
+.activity-text strong{color:var(--text)}
+.activity-time{font-size:10px;color:var(--text-dim);white-space:nowrap;flex-shrink:0}
+.entry-card{font-size:12px;line-height:1.5;padding:8px 0;border-bottom:1px solid var(--border);color:var(--text-muted)}
+.entry-card:last-child{border:none}
+.entry-card .entry-ts{font-size:10px;color:var(--text-dim)}
+.filter-row{display:flex;gap:6px;overflow-x:auto;padding:8px 0;margin-bottom:8px}
+.filter-chip{padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);white-space:nowrap;transition:all .15s}
+.filter-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.empty-state{text-align:center;padding:20px;color:var(--text-dim);font-size:12px}
+</style>
+</head><body>
 <div class="app-shell">
-<header class="top-bar"><svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-brain"/></svg><div><h1 class="page-title">Intelligence</h1><span class="page-subtitle">GG Family Hub</span></div><span class="time-label">--:--</span></header>
+<header class="top-bar">
+  <svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-brain"/></svg>
+  <div><h1 class="page-title">Intelligence</h1><span class="page-subtitle" id="intelSubtitle">GG Family Hub</span></div>
+  <span class="time-label" id="lastIntelUpdate">--:--</span>
+</header>
+
 <main class="scroll-content">
-  <div class="section-title">GG Voices</div>
+
+  <!-- 🗣️ GG VOICES -->
+  <div class="section-title">🗣️ GG Voices</div>
   <div class="col3" id="ggVoices">
-    <div class="card"><div style="font-size:11px;color:var(--text-dim)">Loading...</div></div>
+    <div class="voice-card"><div class="voice-header"><span class="voice-name"><span class="voice-dot" style="background:var(--orange)"></span>Fighter</span><span class="voice-time">thinking...</span></div></div>
+    <div class="voice-card"><div class="voice-header"><span class="voice-name"><span class="voice-dot" style="background:var(--blue)"></span>Work</span><span class="voice-time">thinking...</span></div></div>
+    <div class="voice-card"><div class="voice-header"><span class="voice-name"><span class="voice-dot" style="background:var(--pink)"></span>Person</span><span class="voice-time">thinking...</span></div></div>
   </div>
-  <div class="section-title">Discoveries</div>
-  <div class="card" id="discoveries"><div style="font-size:12px;color:var(--text-dim)">Collecting intelligence...</div></div>
-  <div class="section-title">Activity Stream</div>
-  <div class="card" id="activityStream"><div style="font-size:12px;color:var(--text-dim)">Loading...</div></div>
+
+  <!-- 🔍 DISCOVERIES -->
+  <div class="section-title">🔍 Discoveries</div>
+  <div class="card" id="discoveriesSection"><div class="empty-state">Collecting intelligence...</div></div>
+
+  <!-- ⬆️ SUGGESTIONS -->
+  <div class="section-title">⬆️ Suggestions</div>
+  <div class="card" id="suggestionsSection"><div class="empty-state">Analyzing needs...</div></div>
+
+  <!-- 📡 GG ACTIVITY (source filter tabs) -->
+  <div class="section-title">📡 GG Activity</div>
+  <div class="filter-row" id="activityFilters"></div>
+  <div class="card" id="activitySection"><div class="empty-state">Loading activity...</div></div>
+
+  <!-- ⚙️ Work Dynamics -->
+  <div class="section-title">⚙️ Work Dynamics</div>
+  <div class="card" id="workDynamics"><div class="empty-state">Awaiting Work data...</div></div>
+
+  <!-- ❤️ Person Dynamics -->
+  <div class="section-title">❤️ Person Dynamics</div>
+  <div class="card" id="personDynamics"><div class="empty-state">Awaiting Person data...</div></div>
+
+  <!-- 🔮 PERPLEXITY (collapsible) -->
+  <div class="section-title" onclick="togglePerplexity()" style="cursor:pointer;display:flex;align-items:center;gap:8px">
+    <span>🔮 Perplexity</span>
+    <svg id="perpChevron" style="width:16px;height:16px;color:var(--text-dim);transition:transform .2s"><use href="/static/icons.svg#icon-chevron-right"/></svg>
+  </div>
+  <div class="collapse-section" id="perplexitySection">
+    <div class="card" id="perplexityContent">
+      <div class="empty-state">🔒 Collapsed. Open to view Perplexity queries.</div>
+    </div>
+  </div>
+
 </main>
+
 <nav class="bottom-nav">
   <a href="/home" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
   <a href="/tasks" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
@@ -19,25 +88,174 @@
   <a href="/profile" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
 </nav>
 </div>
+
 <script>
-fetch('/api/insights?_='+Date.now()).then(r=>r.json()).then(function(d){
-  var e=d.entries||[];
-  var dis=document.getElementById('discoveries');
-  if(dis){
-    var disc=e.filter(function(x){return x.type==='discovery'||x.type==='trend'}).slice(0,8);
-    if(disc.length) disc.innerHTML='<div style="font-size:12px;color:var(--text-dim)">'+disc.map(function(x){return '<div class="activity-item"><span class="activity-dot" style="background:var(--accent)"></span><span class="activity-text"><strong>'+esc(x.msg||'')+'</strong><br>'+ (x.ts||'')+'</span></div>';}).join('')+'</div>';
-    else dis.innerHTML='<div style="text-align:center;padding:12px;color:var(--text-dim)"><p>No discoveries yet — collector runs every 15min</p></div>';
-  }
-  var act=document.getElementById('activityStream');
-  if(act){
-    var recent=e.slice(-15).reverse();
-    if(recent.length) act.innerHTML=recent.map(function(x){
-      var c={'fighter':'var(--orange)','work':'var(--blue)','person':'var(--pink)','system':'var(--accent)'};
-      return '<div class="activity-item"><span class="activity-dot" style="background:'+(c[x.source]||'var(--text-dim)')+'"></span><span class="activity-text">'+esc(x.msg||'')+'</span><span class="activity-time">'+(x.ts||'').substring(11,16)+'</span></div>';
+// === TOGGLES ===
+function togglePerplexity(){
+  var s=document.getElementById('perplexitySection'),c=document.getElementById('perpChevron');
+  s.classList.toggle('open');c.style.transform=s.classList.contains('open')?'rotate(90deg)':'rotate(0deg)';
+}
+function toggleVoice(el){el.classList.toggle('expanded');}
+
+// === DATA ===
+var ALL_ENTRIES = []; var DYNAMICS = {}; var AGENTS = {};
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
+
+function render(){
+  var now=new Date(); var h=now.getHours();
+  document.getElementById('intelSubtitle').textContent= 'GG Family Hub';
+  document.getElementById('lastIntelUpdate').textContent=
+    now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Hong_Kong'});
+
+  // 🗣️ GG Voices
+  renderVoices();
+
+  // 🔍 Discoveries
+  var discEl=document.getElementById('discoveriesSection');
+  var disc=ALL_ENTRIES.filter(function(e){return e.type==='discovery'||e.type==='trend'});
+  if(disc.length){
+    discEl.innerHTML=disc.map(function(e){
+      var c=e.source==='fighter'?'var(--orange)':e.source==='work'?'var(--blue)':e.source==='person'?'var(--pink)':'var(--accent)';
+      return '<div class="activity-item"><span class="activity-dot" style="background:'+c+'"></span><span class="activity-text">'+esc(e.msg)+'<br><span class="entry-ts">'+esc(e.ts||'')+'</span></span></div>';
     }).join('');
-    else act.innerHTML='<div style="text-align:center;padding:12px;color:var(--text-dim)">Awaiting first data collection...</div>';
-  }
-}).catch(function(){});
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;')}
+  } else discEl.innerHTML='<div class="empty-state">No discoveries yet — collector runs every 15min</div>';
+
+  // ⬆️ Suggestions
+  var sugEl=document.getElementById('suggestionsSection');
+  var sug=ALL_ENTRIES.filter(function(e){return e.type==='suggestion'});
+  if(sug.length){
+    sugEl.innerHTML=sug.map(function(e){
+      var c=e.source==='fighter'?'var(--orange)':e.source==='work'?'var(--blue)':e.source==='person'?'var(--pink)':'var(--accent)';
+      return '<div class="activity-item"><span class="activity-dot" style="background:'+c+'"></span><span class="activity-text"><strong>'+esc(e.msg.slice(0,60))+'</strong><br><span class="entry-ts">'+esc(e.ts||'')+'</span></span></div>';
+    }).join('');
+  } else sugEl.innerHTML='<div class="empty-state">No suggestions yet</div>';
+
+  // 📡 GG Activity with filters
+  renderActivity();
+
+  // ⚙️ Work Dynamics
+  renderDynamics('work','Work Dynamics');
+  // ❤️ Person Dynamics
+  renderDynamics('person','Person Dynamics');
+
+  // 🔮 Perplexity placeholder
+  var pCount=ALL_ENTRIES.filter(function(e){return e.type==='perplexity'||(e.msg||'').toLowerCase().indexOf('perplexity')>=0}).length;
+  document.getElementById('perplexityContent').innerHTML=
+    pCount ? '<div class="entry-card">'+pCount+' Perplexity-related entries found</div>'
+           : '<div class="empty-state">🔒 No Perplexity queries yet. Use the search to start exploring.</div>';
+}
+
+function renderVoices(){
+  var vEl=document.getElementById('ggVoices');
+  var voices={'fighter':{label:'Fighter',color:'var(--orange)',thought:'Observing the day ahead...',time:''},
+              'work':{label:'Work',color:'var(--blue)',thought:'Ready for scheduled tasks.',time:''},
+              'person':{label:'Person',color:'var(--pink)',thought:'Here when you need me.',time:''}};
+
+  // Try to get thoughts from agent data
+  AGENTS=AGENTS||{};
+  var agentMap={main:'fighter',work:'work',person:'person'};
+  Object.keys(agentMap).forEach(function(k){
+    var a=AGENTS[k]||{};
+    if(a.thoughts){voices[agentMap[k]].thought=a.thoughts;}
+    if(a.uptime){voices[agentMap[k]].time=a.uptime;}
+  });
+
+  // Also pull from insights — last activity per source
+  var lastActive={};
+  ALL_ENTRIES.forEach(function(e){
+    var s=e.source||'';
+    if(!lastActive[s]||e.ts>lastActive[s].ts) lastActive[s]=e;
+  });
+  Object.keys(lastActive).forEach(function(k){
+    if(voices[k]&&lastActive[k].msg){voices[k].activity=lastActive[k].msg;}
+  });
+
+  vEl.innerHTML=Object.keys(voices).map(function(k){
+    var v=voices[k];
+    return '<div class="voice-card" onclick="toggleVoice(this)">'+
+      '<div class="voice-header">'+
+        '<span class="voice-name"><span class="voice-dot" style="background:'+v.color+'"></span>'+v.label+'</span>'+
+        '<span class="voice-time">'+(v.time||'just now')+'</span>'+
+      '</div>'+
+      '<div class="voice-thought">'+esc(v.thought||'')+'</div>'+
+      (v.activity?'<div class="voice-thought" style="color:var(--text-dim);font-size:11px;margin-top:4px">💬 '+esc(v.activity)+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+
+function renderActivity(){
+  var filterEl=document.getElementById('activityFilters');
+  var actEl=document.getElementById('activitySection');
+  var sources={};
+  ALL_ENTRIES.forEach(function(e){if(e.source)sources[e.source]=true;});
+  var srcList=Object.keys(sources);
+  if(srcList.indexOf('system')<0)srcList.unshift('system');
+  if(srcList.indexOf('fighter')<0)srcList.unshift('fighter');
+  if(srcList.indexOf('work')<0)srcList.push('work');
+  if(srcList.indexOf('person')<0)srcList.push('person');
+
+  var activeFilter=sessionStorage.getItem('intelActivityFilter')||'all';
+
+  filterEl.innerHTML='<span class="filter-chip'+(activeFilter==='all'?' active':'')+'" onclick="setActivityFilter(\'all\')">All</span>'+
+    srcList.map(function(s){
+      var label={fighter:'Fighter',work:'Work',person:'Person',system:'System'}[s]||s;
+      return '<span class="filter-chip'+(activeFilter===s?' active':'')+'" onclick="setActivityFilter(\''+s+'\')">'+label+'</span>';
+    }).join('');
+
+  var filtered=activeFilter==='all'?ALL_ENTRIES:ALL_ENTRIES.filter(function(e){return e.source===activeFilter;});
+  filtered=filtered.slice(-30).reverse();
+
+  if(filtered.length){
+    actEl.innerHTML=filtered.map(function(e){
+      var c=e.source==='fighter'?'var(--orange)':e.source==='work'?'var(--blue)':e.source==='person'?'var(--pink)':'var(--accent)';
+      var icon={'activity':'📋','discovery':'🔍','trend':'📊','suggestion':'🎯','milestone':'✨','perplexity':'🔮'}[e.type]||'📌';
+      return '<div class="activity-item"><span class="activity-dot" style="background:'+c+'"></span><span class="activity-text">'+icon+' '+esc(e.msg)+'</span><span class="activity-time">'+(e.ts||'').substring(11,16)+'</span></div>';
+    }).join('');
+  } else actEl.innerHTML='<div class="empty-state">No '+(activeFilter==='all'?'':'<strong>'+activeFilter+'</strong> ')+'activity yet</div>';
+}
+
+function setActivityFilter(filter){
+  sessionStorage.setItem('intelActivityFilter',filter);
+  renderActivity();
+}
+
+function renderDynamics(source,label){
+  var el=document.getElementById(source==='work'?'workDynamics':'personDynamics');
+  var entries=ALL_ENTRIES.filter(function(e){return e.source===source}).slice(-10).reverse();
+  if(entries.length){
+    el.innerHTML=entries.map(function(e){
+      return '<div class="entry-card">'+esc(e.msg)+'<br><span class="entry-ts">'+esc(e.ts||'')+'</span></div>';
+    }).join('');
+  } else el.innerHTML='<div class="empty-state">No '+label+' activity yet</div>';
+}
+
+// === FETCH DATA ===
+function fetchData(){
+  var p1=fetch('/api/insights?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
+    ALL_ENTRIES=d.entries||[]; DYNAMICS=d.dynamics||{};
+  }).catch(function(){});
+
+  var p2=fetch('/api/data?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
+    AGENTS=d.agents||{};
+    // Save thoughts from agents data for voice rendering
+    var agentsData=d.agents||{};
+    ['main','work','person'].forEach(function(k){
+      var a=agentsData[k]||{};
+      if(!a.thoughts&&a.online){
+        var label={main:'fighter',work:'work',person:'person'}[k]||k;
+        // fallback thought from recent activity
+        var recent=ALL_ENTRIES.filter(function(e){return e.source===label}).slice(-1);
+        if(recent.length) a.thoughts=recent[0].msg;
+      }
+    });
+  }).catch(function(){});
+
+  Promise.all([p1,p2]).then(function(){render();});
+}
+
+fetchData();
+// Auto refresh every 60s
+setInterval(fetchData,60000);
 </script>
 </body></html>
