@@ -1,14 +1,14 @@
 {
-  "ts": "23:30",
-  "hour": 23,
-  "minute": 30,
-  "pushed_at": "2026-06-08 00:01 HKT",
+  "ts": "00:01",
+  "hour": 0,
+  "minute": 1,
+  "pushed_at": "2026-06-08 00:30 HKT",
   "system": {
     "cpu": 72,
-    "mem": 19,
+    "mem": 20,
     "disk": 66,
-    "load": "0.44",
-    "uptime": "1 week, 5 days, 5 hours, 27 minutes",
+    "load": "0.36",
+    "uptime": "1 week, 5 days, 5 hours, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "23:31",
+      "time": "00:01",
       "text": "Dashboard data refresh"
     },
     {
@@ -30,8 +30,8 @@
       "text": "Cron: webapp_commands.log (25B)"
     },
     {
-      "time": "20:07",
-      "text": "Cron: token_health_report.md (232B)"
+      "time": "23:53",
+      "text": "Cron: token_health_report.md (487B)"
     },
     {
       "time": "22:38",
@@ -42,20 +42,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "23:05",
-      "text": "Cron: memory_bridge.log (143253B)"
+      "time": "23:36",
+      "text": "Cron: memory_bridge.log (143502B)"
     },
     {
-      "time": "23:04",
-      "text": "Cron: mcp-stderr.log (938882B)"
+      "time": "23:34",
+      "text": "Cron: mcp-stderr.log (939228B)"
     },
     {
-      "time": "23:30",
-      "text": "Cron: guardian.log (273039B)"
+      "time": "00:00",
+      "text": "Cron: guardian.log (273507B)"
     },
     {
-      "time": "23:30",
-      "text": "Cron: gateway.log (5173390B)"
+      "time": "00:01",
+      "text": "Cron: gateway.log (5203964B)"
     },
     {
       "time": "18:33",
@@ -65,14 +65,14 @@
   "agents": {
     "main": {
       "cpu": 72,
-      "mem": 19,
+      "mem": 20,
       "disk": 66,
-      "load": "0.44",
-      "uptime": "1 week, 5 days, 5 hours, 27 minutes",
+      "load": "0.36",
+      "uptime": "1 week, 5 days, 5 hours, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": false
+        "openclaw": true
       },
       "online": true,
       "cron_jobs": 12,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 95,
-      "mem": 25,
+      "cpu": 79,
+      "mem": 29,
       "disk": 57,
-      "load": "0.67",
-      "uptime": "2 weeks, 5 days, 11 hours, 5 minutes",
+      "load": "0.37",
+      "uptime": "2 weeks, 5 days, 11 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 91,
-      "mem": 25,
+      "cpu": 90,
+      "mem": 27,
       "disk": 66,
-      "load": "0.35",
-      "uptime": "2 weeks, 5 days, 11 hours, 5 minutes",
+      "load": "0.55",
+      "uptime": "2 weeks, 5 days, 11 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -236,17 +236,26 @@
   },
   "schedule": {
     "total_events": 36,
-    "today_events": 0,
+    "today_events": 2,
     "upcoming": 14,
     "reminders_pending": 0,
     "last_updated": "2026-06-07T23:31:04",
-    "today_list": []
+    "today_list": [
+      {
+        "summary": "Weekly Sales Team Meeting with DLam",
+        "time": "11:00"
+      },
+      {
+        "summary": "Confirmation: Equinix x Kinetix Solution",
+        "time": "16:00"
+      }
+    ]
   },
   "update_source": "hermes_update_data.py",
   "ai_sync": {
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "23:31"
+    "last_check": "00:01"
   }
 }
