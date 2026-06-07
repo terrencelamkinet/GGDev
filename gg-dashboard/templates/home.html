@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="zh-HK"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>GG Platform</title><link rel="stylesheet" href="/static/styles.css">
+</head><body>
+<div class="app-shell">
+<header class="top-bar">
+  <svg class="icon-lg" style="color:var(--gold)"><use href="/static/icons.svg#icon-house"/></svg>
+  <div><h1 class="page-title">Good Morning</h1><span class="page-subtitle" id="todayDate">Loading...</span></div>
+  <span class="time-label" id="lastUpdate">--:--</span>
+</header>
+
+<main class="scroll-content">
+  <!-- Master Stats — 4 key numbers only -->
+  <div class="stat-grid-4">
+    <div class="stat-card"><div class="stat-value accent" id="hTasks">--</div><div class="stat-label">Tasks</div></div>
+    <div class="stat-card"><div class="stat-value" id="hOverdue" style="color:var(--peach)">0</div><div class="stat-label">Overdue</div></div>
+    <div class="stat-card"><div class="stat-value gold" id="hUrgent">0</div><div class="stat-label">Urgent</div></div>
+    <div class="stat-card"><div class="stat-value peach" id="hCpu">--</div><div class="stat-label">CPU</div></div>
+  </div>
+
+  <!-- AI Suggestions — dynamic, task-driven -->
+  <div class="section-title">AI Suggestions</div>
+  <div class="card" id="homeSuggestions">
+    <div style="font-size:12px;color:var(--text-dim)">Analyzing...</div>
+  </div>
+
+  <!-- Quick Actions — 4 action cards -->
+  <div class="section-title">Quick Actions</div>
+  <div class="col2">
+    <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="location.href='/tasks'">
+      <svg class="icon-lg" style="color:var(--accent);margin:0 auto;display:block"><use href="/static/icons.svg#icon-list"/></svg>
+      <div style="font-size:12px;font-weight:600;margin-top:6px">Tasks</div>
+    </div>
+    <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="location.href='/intel'">
+      <svg class="icon-lg" style="color:var(--gold);margin:0 auto;display:block"><use href="/static/icons.svg#icon-brain"/></svg>
+      <div style="font-size:12px;font-weight:600;margin-top:6px">Intel</div>
+    </div>
+    <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="location.href='/agents'">
+      <svg class="icon-lg" style="color:var(--orange);margin:0 auto;display:block"><use href="/static/icons.svg#icon-server"/></svg>
+      <div style="font-size:12px;font-weight:600;margin-top:6px">Agents</div>
+    </div>
+    <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="toggleChat()">
+      <svg class="icon-lg" style="color:var(--pink);margin:0 auto;display:block"><use href="/static/icons.svg#icon-sparkles"/></svg>
+      <div style="font-size:12px;font-weight:600;margin-top:6px">Ask AI</div>
+    </div>
+  </div>
+
+  <!-- AI Presence Strip — minimal, just names + status dots -->
+  <div class="section-title">Servants</div>
+  <div class="card" style="display:flex;justify-content:space-around;padding:10px">
+    <div style="text-align:center;cursor:pointer" onclick="location.href='/agents/fighter'">
+      <span class="dot-breathe" id="fighterDot" style="background:var(--orange);margin:0 auto 4px"></span>
+      <div style="font-size:12px;font-weight:600">Fighter</div>
+      <div style="font-size:10px;color:var(--text-dim)" id="fighterStatus">Online</div>
+    </div>
+    <div style="text-align:center;cursor:pointer" onclick="location.href='/agents/work'">
+      <span class="dot-breathe" id="workDot" style="background:var(--blue);margin:0 auto 4px"></span>
+      <div style="font-size:12px;font-weight:600">Work</div>
+      <div style="font-size:10px;color:var(--text-dim)" id="workStatus">Online</div>
+    </div>
+    <div style="text-align:center;cursor:pointer" onclick="location.href='/agents/person'">
+      <span class="dot-breathe" id="personDot" style="background:var(--pink);margin:0 auto 4px"></span>
+      <div style="font-size:12px;font-weight:600">Person</div>
+      <div style="font-size:10px;color:var(--text-dim)" id="personStatus">Online</div>
+    </div>
+  </div>
+</main>
+
+<nav class="bottom-nav">
+  <a href="/home" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
+</div>
+
+<!-- Chat bubble -->
+<div id="chatBubble" onclick="toggleChat()" style="position:fixed;bottom:80px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#a29bfe);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(108,92,231,0.4);z-index:998">🤖</div>
+<div id="chatOverlay" style="display:none;position:fixed;bottom:140px;right:20px;left:20px;max-width:353px;margin:0 auto;background:var(--surface);border-radius:16px;border:1px solid var(--border);z-index:997;overflow:hidden">
+  <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+    <span style="font-weight:700;font-size:14px">Ask GG Fighter</span>
+    <span onclick="toggleChat()" style="cursor:pointer;color:var(--text-dim)">✕</span>
+  </div>
+  <div id="chatMessages" style="padding:12px 16px;max-height:200px;overflow-y:auto;font-size:12px;color:var(--text-muted)">💬 Hi! What would you like to do?</div>
+  <form onsubmit="sendChat();return false" style="display:flex;padding:8px 12px;border-top:1px solid var(--border);gap:8px">
+    <input type="text" id="chatInput" placeholder="Ask anything..." style="flex:1;padding:8px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:13px;outline:none">
+    <button type="submit" style="padding:8px 14px;border-radius:20px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer">Send</button>
+  </form>
+</div>
+
+<script>
+function toggleChat(){var o=document.getElementById('chatOverlay');o.style.display=o.style.display==='none'?'block':'none';}
+function sendChat(){var i=document.getElementById('chatInput'),msg=i.value.trim();if(!msg)return;var m=document.getElementById('chatMessages');m.innerHTML+='<div style="text-align:right;margin:2px 0"><span style="background:rgba(108,92,231,0.2);padding:4px 10px;border-radius:10px;display:inline-block;font-size:12px">'+esc(msg)+'</span></div>';i.value='';i.disabled=true;
+fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})}).then(function(r){return r.json()}).then(function(r){m.innerHTML+='<div style="margin:2px 0"><span style="background:rgba(255,255,255,0.06);padding:4px 10px;border-radius:10px;display:inline-block;font-size:12px">🤖 '+(r.message||'Got it')+'</span></div>';}).catch(function(){}).finally(function(){i.disabled=false;i.focus();});}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
+
+fetch('/api/data?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
+  // Greeting
+  var h=new Date().getHours();
+  document.querySelector('.page-title').textContent = h<12?'Good Morning':h<18?'Good Afternoon':'Good Evening';
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric',timeZone:'Asia/Hong_Kong'});
+  document.getElementById('lastUpdate').textContent = d.ts||'--:--';
+  // Stats
+  var t=d.tasks||{}; document.getElementById('hTasks').textContent=t.total||0; document.getElementById('hOverdue').textContent=t.overdue||0; document.getElementById('hUrgent').textContent=t.q1_count||0;
+  var s=d.system||{}; document.getElementById('hCpu').textContent=(s.cpu||'--')+'%';
+  // Suggestions
+  var sug=document.getElementById('homeSuggestions');
+  var items=[];
+  if(t.overdue>0) items.push('Overdue <strong>'+t.overdue+' tasks</strong> — check <a href="/tasks" style="color:var(--accent)">Tasks</a>');
+  if(t.q1_count>0) items.push('<strong>'+t.q1_count+' urgent</strong> tasks waiting');
+  if(t.due_today>0) items.push('<strong>'+t.due_today+' tasks due today</strong>');
+  sug.innerHTML = items.length ? items.map(function(x){return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5">'+x+'</div>';}).join('') : '<div style="text-align:center;padding:10px;color:var(--green);font-size:13px">All clear</div>';
+  // AI status dots
+  var a=d.agents||{};
+  ['fighter','work','person'].forEach(function(k){
+    var key=k==='fighter'?'main':k;
+    var ag=(a[key]||{});
+    document.getElementById(k+'Status').textContent = ag.online?'Online':'Offline';
+    document.getElementById(k+'Dot').style.background = ag.online?(k==='fighter'?'var(--orange)':k==='work'?'var(--blue)':'var(--pink)'):'var(--border)';
+  });
+}).catch(function(){});
+</script>
+</body></html>

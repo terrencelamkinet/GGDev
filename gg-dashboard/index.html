@@ -522,7 +522,7 @@ function escHtml(s) {
 // ===== DATA FETCH =====
 async function fetchData() {
   try {
-    var r = await fetch('gg-data.json?_=' + Date.now());
+    var r = await fetch('/api/data?_=' + Date.now());
     var d = await r.json();
     var ts = d.ts || '--:--';
 
@@ -534,8 +534,8 @@ async function fetchData() {
       badge.textContent = d.badge_text || '● OK';
     }
 
-    // Metric summary
-    var sys = d.system || {};
+    // Metric summary — fall through to agents.main if no separate system key
+    var sys = d.system || (a ? {cpu: a.main.cpu, mem: a.main.mem, disk: a.main.disk} : {});
     setVal('sCpu', (sys.cpu || '--') + '%');
     setVal('sMem', (sys.mem || '--') + '%');
     setVal('sDisk', (sys.disk || '--') + '%');
@@ -555,7 +555,7 @@ async function fetchData() {
     setVal('hMem', a.main.mem + '%');
     setVal('hDisk', a.main.disk + '%');
     setDetail('hUp', a.main.uptime);
-    setDetail('hCron', a.main.cron_jobs + ' active');
+    setDetail('hCron', (a.main.cron_jobs || '0') + ' active');
     setDetail('hCallback', a.main.online ? '✓ Running' : '✗ Stopped');
     setTag('badgeMain', a.main.online);
 
@@ -622,8 +622,8 @@ async function fetchData() {
     setDetail('ggHCpu', a.main.cpu + '%');
     setDetail('ggHMem', a.main.mem + '%');
     setDetail('ggHDisk', a.main.disk + '%');
-    setDetail('ggHLoad', a.main.load);
-    setDetail('ggHCron', a.main.cron_jobs + ' active');
+    setDetail('ggHLoad', a.main.load || '--');
+    setDetail('ggHCron', (a.main.cron_jobs || '0') + ' active');
 
     // === Agent Personalities ===
     setDetail('ggThoughtsMain', a.main.thoughts || 'No thoughts recorded');
@@ -702,20 +702,24 @@ async function fetchData() {
 
     // === AI Sync Status ===
     var syncEl = document.getElementById('aiSyncStatus');
-    if (syncEl && d.ai_sync) {
-      var sync = d.ai_sync;
-      var pct = sync.total_checkpoints > 0 ? Math.round(sync.synced / sync.total_checkpoints * 100) : 0;
-      var allGreen = sync.pending === 0;
-      syncEl.innerHTML =
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
-          '<span style="font-size:14px;font-weight:700">' + (allGreen ? '🟢' : '🟡') + ' Checkpoint Sync</span>' +
-          '<span class="tag ' + (allGreen ? 'green' : 'peach') + '">' + (allGreen ? '● All Synced' : '● ' + sync.pending + ' pending') + '</span>' +
-        '</div>' +
-        '<div style="display:flex;gap:20px;font-size:13px;color:var(--text-muted);flex-wrap:wrap">' +
-          '<span>Progress: <strong style="color:var(--text)">' + sync.synced + '/' + sync.total_checkpoints + '</strong></span>' +
-          '<span>Pending: <strong style="color:' + (allGreen ? 'var(--green-dark)' : '#e17055') + '">' + sync.pending + '</strong></span>' +
-          '<span>Last check: <strong style="color:var(--text)">' + (sync.last_check || '--') + '</strong></span>' +
-        '</div>';
+    if (syncEl) {
+      if (d.ai_sync) {
+        var sync = d.ai_sync;
+        var pct = sync.total_checkpoints > 0 ? Math.round(sync.synced / sync.total_checkpoints * 100) : 0;
+        var allGreen = sync.pending === 0;
+        syncEl.innerHTML =
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+            '<span style="font-size:14px;font-weight:700">' + (allGreen ? '🟢' : '🟡') + ' Checkpoint Sync</span>' +
+            '<span class="tag ' + (allGreen ? 'green' : 'peach') + '">' + (allGreen ? '● All Synced' : '● ' + sync.pending + ' pending') + '</span>' +
+          '</div>' +
+          '<div style="display:flex;gap:20px;font-size:13px;color:var(--text-muted);flex-wrap:wrap">' +
+            '<span>Progress: <strong style="color:var(--text)">' + sync.synced + '/' + sync.total_checkpoints + '</strong></span>' +
+            '<span>Pending: <strong style="color:' + (allGreen ? 'var(--green-dark)' : '#e17055') + '">' + sync.pending + '</strong></span>' +
+            '<span>Last check: <strong style="color:var(--text)">' + (sync.last_check || '--') + '</strong></span>' +
+          '</div>';
+      } else {
+        syncEl.innerHTML = '<div style="font-size:13px;color:var(--text-dim);text-align:center;padding:8px 0">ℹ️ Sync status not available from this data source</div>';
+      }
     }
 
     // === Cost Data ===
@@ -759,12 +763,14 @@ function setTag(id, online) {
   el.textContent = online ? '● Online' : '● Offline';
 }
 
-// ===== TASK RENDERING =====
+// ===== TASK RENDERING (Interactive — expandable + action buttons) =====
 var _allTasks = [];
 var _activeFilter = 'all';
+var _expandedTask = null;
 
 function filterTasks(filter, btn) {
   _activeFilter = filter;
+  _expandedTask = null;
   document.querySelectorAll('.filter-tab').forEach(function(t) {
     t.style.background = 'rgba(255,255,255,0.06)';
     t.style.color = 'var(--text-muted)';
@@ -774,6 +780,50 @@ function filterTasks(filter, btn) {
     btn.style.color = 'var(--bg)';
   }
   renderTasks(_allTasks);
+}
+
+function toggleTaskDetail(idx) {
+  _expandedTask = _expandedTask === idx ? null : idx;
+  renderTasks(_allTasks);
+}
+
+function doTaskAction(pageId, action, value, btnEl) {
+  if (!pageId) { showToast('No Notion link — read-only view', '#e17055'); return; }
+  if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳'; }
+  
+  fetch('/api/task/action', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({page_id: pageId, action: action, value: value || ''})
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(resp) {
+    if (resp.ok) {
+      showToast(resp.message || '✅ Done', '#00b894');
+      setTimeout(fetchData, 1000);
+    } else {
+      showToast('❌ ' + (resp.error || 'Failed'), '#e17055');
+      if (btnEl) btnEl.disabled = false;
+    }
+  })
+  .catch(function(err) {
+    showToast('❌ Network error', '#e17055');
+    if (btnEl) btnEl.disabled = false;
+  });
+}
+
+function showToast(msg, color) {
+  var el = document.getElementById('toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'toast';
+    el.style.cssText = 'position:fixed;bottom:80px;left:20px;right:20px;max-width:353px;margin:0 auto;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;text-align:center;z-index:999;transition:opacity 0.3s;background:' + (color || '#00b894') + ';color:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.3)';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = '1';
+  el.style.display = 'block';
+  setTimeout(function() { el.style.opacity = '0'; setTimeout(function() { el.style.display = 'none'; }, 300); }, 2500);
 }
 
 function renderTasks(items) {
@@ -794,62 +844,75 @@ function renderTasks(items) {
   var now = new Date();
   var today = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
 
-  el.innerHTML = filtered.map(function(t) {
+  el.innerHTML = filtered.map(function(t, idx) {
     var title = t.title || 'Untitled';
-    var status = t.status || 'Not started';
+    var rawStatus = t.status || 'Not started';
+    // Normalize API statuses
+    var status = rawStatus === 'active' ? 'Not started' : rawStatus === 'in_progress' ? 'In progress' : rawStatus;
     var priority = t.priority || '';
     var area = t.area || '';
     var due = t.due || '';
     var notes = t.notes || '';
+    var pageId = t.page_id || '';
+    var isExpanded = _expandedTask === idx;
+    var tid = 'task-' + idx;
 
-    // Status color
-    var statusColor = '#6c5ce7';
-    if (status === 'Done') statusColor = '#00b894';
-    else if (status === 'In progress') statusColor = '#fdcb6e';
-    else if (status === 'Blocked') statusColor = '#e17055';
-
-    // Priority badge
-    var prioLabel = '';
-    var prioColor = '';
+    // Priority label + color
+    var prioLabel = ''; var prioColor = '';
     if (priority.indexOf('Q1') >= 0) { prioLabel = 'Q1'; prioColor = '#e17055'; }
     else if (priority.indexOf('Q2') >= 0) { prioLabel = 'Q2'; prioColor = '#fdcb6e'; }
     else if (priority.indexOf('Q3') >= 0) { prioLabel = 'Q3'; prioColor = '#6c5ce7'; }
 
     // Due badge
-    var dueLabel = '';
-    var dueColor = 'var(--text-dim)';
+    var dueLabel = ''; var dueColor = 'var(--text-dim)';
     if (due) {
       if (due < today) { dueLabel = '⚠️ ' + due; dueColor = '#e17055'; }
       else if (due === today) { dueLabel = '📅 TODAY'; dueColor = '#fdcb6e'; }
-      else { dueLabel = '📅 ' + due; dueColor = 'var(--text-dim)'; }
+      else { dueLabel = '📅 ' + due; }
     }
 
     // Area icon
-    var areaIcon = '📋';
-    if (area.indexOf('Work') >= 0) areaIcon = '💼';
-    else if (area.indexOf('Personal') >= 0) areaIcon = '🏠';
-    else if (area.indexOf('Learning') >= 0) areaIcon = '📚';
-    else if (area.indexOf('Jesus') >= 0) areaIcon = '✝️';
+    var areaIcon = area.indexOf('Work') >= 0 ? '💼' : area.indexOf('Personal') >= 0 ? '🏠' : area.indexOf('Learning') >= 0 ? '📚' : area.indexOf('Jesus') >= 0 ? '✝️' : '📋';
 
-    // Notes snippet (first 80 chars)
-    var notesSnippet = notes ? notes.substring(0, 80) + (notes.length > 80 ? '...' : '') : '';
-
-    // Status pill
+    // Status display
     var statusDot = status === 'In progress' ? '🟡' : status === 'Done' ? '🟢' : '⚪';
 
-    return '<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid ' + prioColor + '">' +
+    // Notes snippet
+    var notesSnippet = notes ? notes.substring(0, 80) + (notes.length > 80 ? '...' : '') : '';
+
+    return '<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid ' + prioColor + ';cursor:pointer" onclick="toggleTaskDetail(' + idx + ')">' +
+      // Header row
       '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">' +
         '<div style="font-weight:700;font-size:14px;flex:1;line-height:1.4">' + escHtml(title) + '</div>' +
         '<div style="display:flex;gap:4px;flex-shrink:0;margin-left:8px">' +
           (prioLabel ? '<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:' + prioColor + '20;color:' + prioColor + ';font-weight:700">' + prioLabel + '</span>' : '') +
+          '<span style="font-size:11px;color:var(--text-dim)">' + (isExpanded ? '▲' : '▼') + '</span>' +
         '</div>' +
       '</div>' +
+      // Meta row
       '<div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11px;color:var(--text-muted);margin-bottom:4px">' +
         '<span>' + areaIcon + ' ' + escHtml(area) + '</span>' +
         '<span>' + statusDot + ' ' + escHtml(status) + '</span>' +
         (dueLabel ? '<span style="color:' + dueColor + ';font-weight:' + (due === today ? '700' : '400') + '">' + dueLabel + '</span>' : '') +
       '</div>' +
-      (notesSnippet ? '<div style="font-size:12px;color:var(--text-dim);line-height:1.4;border-top:1px solid var(--border);padding-top:6px;margin-top:4px">' + escHtml(notesSnippet) + '</div>' : '') +
+      // Notes snippet (collapsed)
+      (!isExpanded && notesSnippet ? '<div style="font-size:12px;color:var(--text-dim);line-height:1.4;border-top:1px solid var(--border);padding-top:6px;margin-top:4px">' + escHtml(notesSnippet) + '</div>' : '') +
+      // === EXPANDED DETAIL ===
+      (isExpanded ? '<div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">' +
+        // Full notes
+        (notes ? '<div style="font-size:12px;color:var(--text);line-height:1.6;margin-bottom:10px;background:rgba(255,255,255,0.03);padding:8px;border-radius:8px">📝 ' + escHtml(notes) + '</div>' : '') +
+        // Action buttons
+        '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+          (status !== 'Done' ? '<button onclick="event.stopPropagation();doTaskAction(\'' + pageId + '\',\'mark_done\',\'\',this)" style="flex:1;padding:8px;border:none;border-radius:8px;background:#00b894;color:#fff;font-size:13px;font-weight:600;cursor:pointer;min-height:36px">✅ Done</button>' : '') +
+          (status !== 'In progress' ? '<button onclick="event.stopPropagation();doTaskAction(\'' + pageId + '\',\'set_status\',\'In progress\',this)" style="flex:1;padding:8px;border:none;border-radius:8px;background:#fdcb6e;color:#2d3436;font-size:13px;font-weight:600;cursor:pointer;min-height:36px">⏸️ In Progress</button>' : '') +
+          (status !== 'Not started' ? '<button onclick="event.stopPropagation();doTaskAction(\'' + pageId + '\',\'set_status\',\'Not started\',this)" style="flex:1;padding:8px;border:none;border-radius:8px;background:rgba(255,255,255,0.1);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;min-height:36px">↩️ Reset</button>' : '') +
+        '</div>' +
+        // Footer info
+        '<div style="font-size:10px;color:var(--text-dim);margin-top:8px;text-align:center">' +
+          (pageId ? '🔗 Synced to Notion' : '📄 Local only') +
+          (t.last_edited ? ' · Last edited: ' + (t.last_edited.substring(0,10)) : '') +
+        '</div>' +
+      '</div>' : '') +
     '</div>';
   }).join('');
 }
@@ -857,6 +920,66 @@ function renderTasks(items) {
 // ===== INIT =====
 fetchData();
 setInterval(fetchData, 30000);
+</script>
+
+<!-- ===== AI CHAT BUBBLE ===== -->
+<div id="chatBubble" onclick="toggleChat()" style="position:fixed;bottom:80px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(108,92,231,0.4);z-index:998;transition:transform 0.2s" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+  🤖
+</div>
+
+<!-- Chat Overlay -->
+<div id="chatOverlay" style="display:none;position:fixed;bottom:140px;right:20px;left:20px;max-width:353px;margin:0 auto;background:var(--card-bg);border-radius:16px;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:997;overflow:hidden">
+  <div style="padding:12px 16px;background:rgba(108,92,231,0.15);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:700;font-size:15px">🤖 Ask GG Fighter</span>
+    <span onclick="toggleChat()" style="cursor:pointer;font-size:18px;color:var(--text-dim)">✕</span>
+  </div>
+  <div id="chatMessages" style="padding:12px 16px;max-height:250px;overflow-y:auto;font-size:13px;color:var(--text-muted);line-height:1.6">
+    <div style="margin-bottom:8px">💬 Hi! What would you like to do?</div>
+    <div style="font-size:11px;color:var(--text-dim)">• Mark a task done<br>• Change task priority<br>• Ask about system status<br>• Anything else</div>
+  </div>
+  <form onsubmit="sendChatMessage();return false" style="display:flex;padding:8px 12px;border-top:1px solid var(--border);gap:8px">
+    <input type="text" id="chatInput" placeholder="Ask anything..." style="flex:1;padding:8px 12px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,0.05);color:var(--text);font-size:13px;outline:none">
+    <button type="submit" style="padding:8px 14px;border-radius:20px;border:none;background:#6c5ce7;color:#fff;font-size:13px;font-weight:600;cursor:pointer">Send</button>
+  </form>
+</div>
+
+<script>
+function toggleChat() {
+  var overlay = document.getElementById('chatOverlay');
+  overlay.style.display = overlay.style.display === 'none' ? 'block' : 'none';
+}
+
+function sendChatMessage() {
+  var input = document.getElementById('chatInput');
+  var msg = input.value.trim();
+  if (!msg) return;
+  
+  var msgs = document.getElementById('chatMessages');
+  msgs.innerHTML += '<div style="text-align:right;margin:4px 0"><span style="background:rgba(108,92,231,0.2);padding:6px 12px;border-radius:12px;display:inline-block">' + escHtml(msg) + '</span></div>';
+  msgs.innerHTML += '<div style="text-align:center;margin:4px 0;font-size:11px;color:var(--text-dim)">⏳ Sending...</div>';
+  msgs.scrollTop = msgs.scrollHeight;
+  input.value = '';
+  input.disabled = true;
+  
+  fetch('/api/chat', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({message: msg})
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(resp) {
+    msgs.innerHTML = msgs.innerHTML.replace(/⏳ Sending.../, '');
+    msgs.innerHTML += '<div style="margin:4px 0"><span style="background:rgba(255,255,255,0.06);padding:6px 12px;border-radius:12px;display:inline-block">🤖 ' + escHtml(resp.message || 'Got it!') + '</span></div>';
+    msgs.scrollTop = msgs.scrollHeight;
+  })
+  .catch(function(err) {
+    msgs.innerHTML = msgs.innerHTML.replace(/⏳ Sending.../, '');
+  })
+  .finally(function() {
+    input.disabled = false;
+    input.focus();
+  });
+}
 </script>
 
 </body>

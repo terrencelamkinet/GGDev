@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{% block title %}GG Platform{% endblock %}</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text',system-ui,sans-serif; }
+    .container { max-width:393px; margin:0 auto; padding:0 20px; min-height:100dvh; display:flex; flex-direction:column; }
+    .header { padding:12px 0 8px; display:flex; justify-content:space-between; align-items:center; }
+    .header h1 { font-size:20px; font-weight:700; margin:0; }
+    .header .sub { font-size:12px; font-weight:400; color:var(--text-dim); display:block; }
+    .header-right { display:flex; align-items:center; gap:8px; }
+    .time-label { font-size:11px; color:var(--text-dim); }
+    .badge { font-size:11px; padding:2px 8px; border-radius:10px; background:rgba(0,184,148,0.15); color:#00b894; font-weight:600; }
+    .badge.warning { background:rgba(225,112,85,0.15); color:#e17055; }
+    .greeting h2 { font-size:22px; font-weight:700; margin:4px 0; }
+    .greeting .date { font-size:13px; color:var(--text-dim); margin-bottom:12px; }
+    .section-title { font-size:14px; font-weight:700; color:var(--text-muted); margin:12px 0 8px; }
+    .card { background:var(--card-bg); border-radius:12px; padding:12px; margin-bottom:8px; border:1px solid var(--border); }
+    .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .card-header h2 { font-size:14px; font-weight:700; margin:0; }
+    .tag { font-size:10px; padding:2px 6px; border-radius:8px; font-weight:600; }
+    .tag.green { background:rgba(0,184,148,0.15); color:#00b894; }
+    .tag.peach { background:rgba(225,112,85,0.15); color:#e17055; }
+    .tag.lavender { background:rgba(108,92,231,0.15); color:#6c5ce7; }
+    .metric-summary { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:16px; }
+    .metric-card { background:var(--card-bg); border-radius:12px; padding:10px 6px; text-align:center; border:1px solid var(--border); }
+    .metric-card .icon { font-size:18px; margin-bottom:4px; }
+    .metric-card .value { font-size:20px; font-weight:800; }
+    .metric-card .value.green { color:#00b894; }
+    .metric-card .value.peach { color:#e17055; }
+    .metric-card .value.purple { color:#6c5ce7; }
+    .metric-card .value.gold { color:#fdcb6e; }
+    .metric-card .label { font-size:10px; color:var(--text-dim); margin-top:2px; }
+    .col2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .col3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+    .filter-tab { padding:4px 10px; border-radius:12px; border:none; font-size:12px; background:rgba(255,255,255,0.06); color:var(--text-muted); cursor:pointer; font-weight:600; }
+    .filter-tab.active { background:var(--accent); color:var(--bg); }
+    a { color:var(--accent); text-decoration:none; }
+    :root { --bg:#1a1a2e; --card-bg:rgba(255,255,255,0.04); --text:#e8e8f0; --text-muted:#a0a0b8; --text-dim:#707088; --border:rgba(255,255,255,0.08); --accent:#6c5ce7; --green-dark:#00b894; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <div>
+      <h1>{% block heading %}GG Platform{% endblock %}</h1>
+      <span class="sub" id="headerSub">{{ page_subtitle or 'Interactive AI Platform' }}</span>
+    </div>
+    <div class="header-right">
+      <span class="time-label" id="lastUpdate">--:--</span>
+      <span class="badge" id="sysBadge">● Online</span>
+    </div>
+  </div>
+
+  <!-- ===== PAGE CONTENT ===== -->
+  {% block content %}{% endblock %}
+
+</div>
+
+<!-- ===== BOTTOM NAV ===== -->
+<nav style="position:fixed;bottom:0;left:0;right:0;background:rgba(26,26,46,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,8px);z-index:100">
+  <div style="max-width:393px;margin:0 auto;display:flex;justify-content:space-around">
+    {% set nav = [('/', '🏠', 'Home'), ('/tasks', '📋', 'Tasks'), ('/intel', '🧠', 'Intel'), ('/agents', '🦾', 'Agents'), ('/profile', '👤', 'Profile')] %}
+    {% for href, icon, label in nav %}
+    <a href="{{ href }}" style="text-align:center;color:{{ 'var(--accent)' if request.path == href else 'var(--text-dim)' }};text-decoration:none;padding:4px 8px;border-radius:8px;background:{{ 'rgba(108,92,231,0.1)' if request.path == href else 'transparent' }}">
+      <div style="font-size:22px;margin-bottom:1px">{{ icon }}</div>
+      <div style="font-size:10px;font-weight:600">{{ label }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</nav>
+
+<!-- ===== AI CHAT BUBBLE ===== -->
+<div id="chatBubble" onclick="toggleChat()" style="position:fixed;bottom:80px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(108,92,231,0.4);z-index:998">🤖</div>
+
+<div id="chatOverlay" style="display:none;position:fixed;bottom:140px;right:20px;left:20px;max-width:353px;margin:0 auto;background:var(--card-bg);border-radius:16px;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:997;overflow:hidden">
+  <div style="padding:12px 16px;background:rgba(108,92,231,0.15);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:700;font-size:15px">🤖 Ask GG Fighter</span>
+    <span onclick="toggleChat()" style="cursor:pointer;font-size:18px;color:var(--text-dim)">✕</span>
+  </div>
+  <div id="chatMessages" style="padding:12px 16px;max-height:250px;overflow-y:auto;font-size:13px;color:var(--text-muted);line-height:1.6">
+    <div>💬 Hi! What would you like to do?</div>
+  </div>
+  <form onsubmit="sendChat();return false" style="display:flex;padding:8px 12px;border-top:1px solid var(--border);gap:8px">
+    <input type="text" id="chatInput" placeholder="Ask anything..." style="flex:1;padding:8px 12px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,0.05);color:var(--text);font-size:13px;outline:none">
+    <button type="submit" style="padding:8px 14px;border-radius:20px;border:none;background:#6c5ce7;color:#fff;font-size:13px;font-weight:600;cursor:pointer">Send</button>
+  </form>
+</div>
+
+<script>
+function toggleChat() {
+  var o = document.getElementById('chatOverlay');
+  o.style.display = o.style.display === 'none' ? 'block' : 'none';
+}
+function sendChat() {
+  var inp = document.getElementById('chatInput');
+  var msg = inp.value.trim(); if (!msg) return;
+  var m = document.getElementById('chatMessages');
+  m.innerHTML += '<div style="text-align:right;margin:4px 0"><span style="background:rgba(108,92,231,0.2);padding:6px 12px;border-radius:12px;display:inline-block">' + esc(msg) + '</span></div>';
+  inp.value = ''; inp.disabled = true;
+  fetch('/api/chat', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})})
+  .then(r=>r.json()).then(function(r) {
+    m.innerHTML += '<div style="margin:4px 0"><span style="background:rgba(255,255,255,0.06);padding:6px 12px;border-radius:12px;display:inline-block">🤖 ' + (r.message||'Got it!') + '</span></div>';
+  }).catch(function(){})
+  .finally(function(){inp.disabled=false;inp.focus();});
+}
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;'); }
+function showToast(msg,clr) {
+  var e=document.getElementById('toast');
+  if(!e){e=document.createElement('div');e.id='toast';e.style.cssText='position:fixed;bottom:80px;left:20px;right:20px;max-width:353px;margin:0 auto;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;text-align:center;z-index:999;color:#fff';document.body.appendChild(e);}
+  e.textContent=msg;e.style.background=clr||'#00b894';e.style.display='block';e.style.opacity='1';
+  setTimeout(function(){e.style.opacity='0';setTimeout(function(){e.style.display='none';},300);},2500);
+}
+function loadData() {
+  fetch('/api/data?_='+Date.now()).then(r=>r.json()).then(function(d){
+    var e=document.getElementById('lastUpdate');if(e)e.textContent=d.ts||'--:--';
+    var b=document.getElementById('sysBadge');if(b){b.textContent=d.badge_text||'● OK';b.className='badge'+(d.badge_color==='red'?' warning':'');}
+  }).catch(function(){});
+}
+loadData();
+setInterval(loadData, 30000);
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
