@@ -1,14 +1,14 @@
 {
-  "ts": "20:15",
+  "ts": "20:32",
   "hour": 20,
-  "minute": 15,
-  "pushed_at": "2026-06-07 20:31 HKT",
+  "minute": 32,
+  "pushed_at": "2026-06-07 20:32 HKT",
   "system": {
-    "cpu": 41,
+    "cpu": 4,
     "mem": 19,
     "disk": 66,
-    "load": "0.58",
-    "uptime": "1 week, 5 days, 2 hours, 12 minutes",
+    "load": "0.50",
+    "uptime": "1 week, 5 days, 2 hours, 28 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:15",
+      "time": "20:31",
       "text": "Dashboard data refresh"
     },
     {
@@ -50,12 +50,12 @@
       "text": "Cron: mcp-stderr.log (839353B)"
     },
     {
-      "time": "20:15",
-      "text": "Cron: guardian.log (269997B)"
+      "time": "20:30",
+      "text": "Cron: guardian.log (270231B)"
     },
     {
-      "time": "20:15",
-      "text": "Cron: gateway.log (4974462B)"
+      "time": "20:31",
+      "text": "Cron: gateway.log (4990738B)"
     },
     {
       "time": "18:33",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 41,
+      "cpu": 4,
       "mem": 19,
       "disk": 66,
-      "load": "0.58",
-      "uptime": "1 week, 5 days, 2 hours, 12 minutes",
+      "load": "0.50",
+      "uptime": "1 week, 5 days, 2 hours, 28 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "傍晚 — CPU load 0.6 — 閒置; 已運行 12 日; 1 個 daemon 運行中",
+      "thoughts": "夜晚 — 三AI全綠。Work/Person 運行19日穩定。主機CPU 90%疑似cron峰值，load得0.26毋須擔心。明早check token_health fix進度。",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 90,
+      "cpu": 100,
       "mem": 25,
       "disk": 57,
-      "load": "0.58",
-      "uptime": "2 weeks, 5 days, 7 hours, 50 minutes",
+      "load": "1.08",
+      "uptime": "2 weeks, 5 days, 8 hours, 6 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 95,
+      "cpu": 91,
       "mem": 25,
       "disk": 66,
-      "load": "0.54",
-      "uptime": "2 weeks, 5 days, 7 hours, 50 minutes",
+      "load": "0.21",
+      "uptime": "2 weeks, 5 days, 8 hours, 6 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -239,14 +239,8 @@
     "today_events": 0,
     "upcoming": 14,
     "reminders_pending": 0,
-    "last_updated": "2026-06-07T20:06:24",
+    "last_updated": "2026-06-07T20:31:11",
     "today_list": []
   },
-  "update_source": "hermes_update_data.py",
-  "ai_sync": {
-    "total_checkpoints": 8,
-    "synced": 8,
-    "pending": 0,
-    "last_check": "20:15"
-  }
+  "update_source": "three-ai-sync"
 }
