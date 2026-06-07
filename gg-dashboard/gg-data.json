@@ -1,14 +1,14 @@
 {
-  "ts": "13:31",
-  "hour": 13,
-  "minute": 31,
-  "pushed_at": "2026-06-07 14:00 HKT",
+  "ts": "14:00",
+  "hour": 14,
+  "minute": 0,
+  "pushed_at": "2026-06-07 14:30 HKT",
   "system": {
-    "cpu": 78,
+    "cpu": 52,
     "mem": 19,
     "disk": 66,
-    "load": "0.54",
-    "uptime": "1 week, 4 days, 19 hours, 27 minutes",
+    "load": "0.51",
+    "uptime": "1 week, 4 days, 19 hours, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "13:31",
+      "time": "14:00",
       "text": "Dashboard data refresh"
     },
     {
@@ -42,20 +42,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "13:03",
-      "text": "Cron: memory_bridge.log (138988B)"
+      "time": "13:33",
+      "text": "Cron: memory_bridge.log (139218B)"
     },
     {
       "time": "12:56",
       "text": "Cron: mcp-stderr.log (831220B)"
     },
     {
-      "time": "13:30",
-      "text": "Cron: guardian.log (263679B)"
+      "time": "14:00",
+      "text": "Cron: guardian.log (264147B)"
     },
     {
-      "time": "13:31",
-      "text": "Cron: gateway.log (4573343B)"
+      "time": "14:00",
+      "text": "Cron: gateway.log (4603487B)"
     },
     {
       "time": "18:33",
@@ -64,19 +64,19 @@
   ],
   "agents": {
     "main": {
-      "cpu": 78,
+      "cpu": 52,
       "mem": 19,
       "disk": 66,
-      "load": "0.54",
-      "uptime": "1 week, 4 days, 19 hours, 27 minutes",
+      "load": "0.51",
+      "uptime": "1 week, 4 days, 19 hours, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": false
+        "openclaw": true
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "清晨 — CPU load 0.5 — 閒置; 已運行 12 日; 1 個 daemon 運行中",
+      "thoughts": "下午 — CPU load 0.4 — 閒置; 已運行 12 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 100,
-      "mem": 25,
-      "disk": 56,
-      "load": "0.51",
-      "uptime": "2 weeks, 5 days, 1 hour, 5 minutes",
+      "cpu": 73,
+      "mem": 26,
+      "disk": 57,
+      "load": "0.27",
+      "uptime": "2 weeks, 5 days, 1 hour, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -100,7 +100,7 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "清晨 — CPU load 0.5 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "下午 — CPU load 0.8 — 閒置; 已運行 19 日 — 穩定; 7 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 72,
-      "mem": 25,
+      "cpu": 63,
+      "mem": 27,
       "disk": 66,
-      "load": "0.29",
-      "uptime": "2 weeks, 5 days, 1 hour, 5 minutes",
+      "load": "0.68",
+      "uptime": "2 weeks, 5 days, 1 hour, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -125,7 +125,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "清晨 — CPU load 0.3 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "下午 — CPU load 0.2 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -247,6 +247,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "13:31"
+    "last_check": "14:00"
   }
 }
