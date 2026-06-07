@@ -1,16 +1,16 @@
 {
-  "ts": "00:01",
+  "ts": "00:30",
   "hour": 0,
-  "minute": 1,
-  "pushed_at": "2026-06-08 00:30 HKT",
+  "minute": 30,
+  "pushed_at": "2026-06-08 01:00 HKT",
   "system": {
-    "cpu": 72,
-    "mem": 20,
+    "cpu": 95,
+    "mem": 19,
     "disk": 66,
-    "load": "0.36",
-    "uptime": "1 week, 5 days, 5 hours, 57 minutes",
+    "load": "1.73",
+    "uptime": "1 week, 5 days, 6 hours, 27 minutes",
     "services": {
-      "gg-reminder": "green",
+      "gg-reminder": "red",
       "disk": "green",
       "memory": "green"
     }
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "00:01",
+      "time": "00:30",
       "text": "Dashboard data refresh"
     },
     {
@@ -42,20 +42,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "23:36",
-      "text": "Cron: memory_bridge.log (143502B)"
+      "time": "00:15",
+      "text": "Cron: memory_bridge.log (143747B)"
     },
     {
-      "time": "23:34",
-      "text": "Cron: mcp-stderr.log (939228B)"
+      "time": "00:18",
+      "text": "Cron: mcp-stderr.log (945218B)"
     },
     {
-      "time": "00:00",
-      "text": "Cron: guardian.log (273507B)"
+      "time": "00:30",
+      "text": "Cron: guardian.log (273975B)"
     },
     {
-      "time": "00:01",
-      "text": "Cron: gateway.log (5203964B)"
+      "time": "00:30",
+      "text": "Cron: gateway.log (5230705B)"
     },
     {
       "time": "18:33",
@@ -64,15 +64,15 @@
   ],
   "agents": {
     "main": {
-      "cpu": 72,
-      "mem": 20,
+      "cpu": 95,
+      "mem": 19,
       "disk": 66,
-      "load": "0.36",
-      "uptime": "1 week, 5 days, 5 hours, 57 minutes",
+      "load": "1.73",
+      "uptime": "1 week, 5 days, 6 hours, 27 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": true
+        "openclaw": false
       },
       "online": true,
       "cron_jobs": 12,
@@ -88,15 +88,15 @@
       ]
     },
     "work": {
-      "cpu": 79,
-      "mem": 29,
+      "cpu": 40,
+      "mem": 22,
       "disk": 57,
-      "load": "0.37",
-      "uptime": "2 weeks, 5 days, 11 hours, 35 minutes",
+      "load": "0.74",
+      "uptime": "2 weeks, 5 days, 12 hours, 5 minutes",
       "daemons": {
-        "reminder": true,
-        "monitor": true,
-        "openclaw": true
+        "reminder": false,
+        "monitor": false,
+        "openclaw": false
       },
       "online": true,
       "ip": "172.6.15.181",
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 90,
+      "cpu": 60,
       "mem": 27,
       "disk": 66,
-      "load": "0.55",
-      "uptime": "2 weeks, 5 days, 11 hours, 35 minutes",
+      "load": "1.16",
+      "uptime": "2 weeks, 5 days, 12 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -235,11 +235,11 @@
     "balance_usd": 9.8
   },
   "schedule": {
-    "total_events": 36,
+    "total_events": 35,
     "today_events": 2,
     "upcoming": 14,
     "reminders_pending": 0,
-    "last_updated": "2026-06-07T23:31:04",
+    "last_updated": "2026-06-08T00:13:21",
     "today_list": [
       {
         "summary": "Weekly Sales Team Meeting with DLam",
@@ -256,6 +256,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "00:01"
+    "last_check": "00:30"
   }
 }
