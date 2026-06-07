@@ -1,14 +1,14 @@
 {
-  "ts": "19:45",
-  "hour": 19,
-  "minute": 45,
-  "pushed_at": "2026-06-07 20:00 HKT",
+  "ts": "20:15",
+  "hour": 20,
+  "minute": 15,
+  "pushed_at": "2026-06-07 20:31 HKT",
   "system": {
-    "cpu": 29,
+    "cpu": 41,
     "mem": 19,
     "disk": 66,
-    "load": "0.37",
-    "uptime": "1 week, 5 days, 1 hour, 42 minutes",
+    "load": "0.58",
+    "uptime": "1 week, 5 days, 2 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "19:46",
+      "time": "20:15",
       "text": "Dashboard data refresh"
     },
     {
@@ -30,7 +30,7 @@
       "text": "Cron: webapp_commands.log (25B)"
     },
     {
-      "time": "09:13",
+      "time": "20:07",
       "text": "Cron: token_health_report.md (232B)"
     },
     {
@@ -42,20 +42,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "19:34",
-      "text": "Cron: memory_bridge.log (142034B)"
+      "time": "20:10",
+      "text": "Cron: memory_bridge.log (142279B)"
     },
     {
       "time": "16:53",
       "text": "Cron: mcp-stderr.log (839353B)"
     },
     {
-      "time": "19:45",
-      "text": "Cron: guardian.log (269529B)"
+      "time": "20:15",
+      "text": "Cron: guardian.log (269997B)"
     },
     {
-      "time": "19:45",
-      "text": "Cron: gateway.log (4947709B)"
+      "time": "20:15",
+      "text": "Cron: gateway.log (4974462B)"
     },
     {
       "time": "18:33",
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 29,
+      "cpu": 41,
       "mem": 19,
       "disk": 66,
-      "load": "0.37",
-      "uptime": "1 week, 5 days, 1 hour, 42 minutes",
+      "load": "0.58",
+      "uptime": "1 week, 5 days, 2 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,23 +76,23 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "下午 — CPU load 0.4 — 閒置; 已運行 12 日; 1 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.6 — 閒置; 已運行 12 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "最近 24h 有 1 個 session error — 已記錄"
+        "沒有新發現"
       ],
       "uncertainties": [
         "等待 GG Fighter 下一個任務"
       ]
     },
     "work": {
-      "cpu": 83,
+      "cpu": 90,
       "mem": 25,
       "disk": 57,
-      "load": "0.71",
-      "uptime": "2 weeks, 5 days, 7 hours, 20 minutes",
+      "load": "0.58",
+      "uptime": "2 weeks, 5 days, 7 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -100,7 +100,7 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "下午 — CPU load 0.8 — 閒置; 已運行 19 日 — 穩定; 7 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -114,10 +114,10 @@
     },
     "person": {
       "cpu": 95,
-      "mem": 24,
+      "mem": 25,
       "disk": 66,
-      "load": "0.46",
-      "uptime": "2 weeks, 5 days, 7 hours, 20 minutes",
+      "load": "0.54",
+      "uptime": "2 weeks, 5 days, 7 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -125,7 +125,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "下午 — CPU load 0.2 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -239,7 +239,7 @@
     "today_events": 0,
     "upcoming": 14,
     "reminders_pending": 0,
-    "last_updated": "2026-06-07T19:30:46",
+    "last_updated": "2026-06-07T20:06:24",
     "today_list": []
   },
   "update_source": "hermes_update_data.py",
@@ -247,6 +247,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "19:46"
+    "last_check": "20:15"
   }
 }
