@@ -214,6 +214,41 @@ def build_costs():
     }
 
 
+def build_tasks():
+    """Read tasks from task_sync_state.json for the dashboard."""
+    tasks_path = os.path.expanduser("~/.hermes/task_sync_state.json")
+    if not os.path.exists(tasks_path):
+        return {"items": [], "total": 0, "source": "no_file"}
+    try:
+        with open(tasks_path) as f:
+            ts_data = json.load(f)
+        tasks_list = list(ts_data.get("tasks", {}).values())
+        # Sort: overdue first, then by due date, then by priority
+        def sort_key(t):
+            due = t.get("due") or ""
+            prio = {"Q1 · Do Now": 0, "Q2 · Schedule": 1, "Q3 · Delegate": 2, "Q4 · Eliminate": 3}
+            p = prio.get(t.get("priority"), 99)
+            return (due if due else "9999-99-99", p)
+        tasks_list.sort(key=sort_key)
+        # Compute summary
+        now = datetime.now(HKT).strftime("%Y-%m-%d")
+        overdue = sum(1 for t in tasks_list if t.get("due") and t["due"] < now and t.get("status") != "Done")
+        due_today = sum(1 for t in tasks_list if t.get("due") == now)
+        in_progress = sum(1 for t in tasks_list if t.get("status") == "In progress")
+        q1_count = sum(1 for t in tasks_list if t.get("priority") == "Q1 · Do Now")
+        return {
+            "items": tasks_list,
+            "total": len(tasks_list),
+            "overdue": overdue,
+            "due_today": due_today,
+            "in_progress": in_progress,
+            "q1_count": q1_count,
+            "source": "task_sync_state"
+        }
+    except Exception as e:
+        return {"items": [], "total": 0, "overdue": 0, "due_today": 0, "in_progress": 0, "q1_count": 0, "source": f"error: {e}"}
+
+
 def merge_preserved(existing, new_data):
     """Preserve fields from existing file that aren't in the new data."""
     if existing is None:
@@ -230,6 +265,14 @@ def merge_preserved(existing, new_data):
     # Preserve pushed_at (override with current time later)
     if existing.get("pushed_at"):
         new_data["pushed_at"] = existing["pushed_at"]
+
+    # Preserve tasks
+    if existing.get("tasks"):
+        new_data["tasks"] = existing["tasks"]
+
+    # Preserve insights (from stacking collector)
+    if existing.get("insights"):
+        new_data["insights"] = existing["insights"]
 
     # Preserve agent introspection fields
     if "agents" in existing:
@@ -331,6 +374,7 @@ def main():
         "badge_color": badge_color,
         "badge_text": badge_text,
         "costs": build_costs(),
+        "tasks": build_tasks(),
         "schedule": existing.get("schedule", []) if existing else [],
         "update_source": "hermes_update_data.py",
     }

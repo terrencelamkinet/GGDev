@@ -1,0 +1,164 @@
+{
+  "entries": [
+    {
+      "id": 0,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "milestone",
+      "msg": "🔧 Intelligence system initialized"
+    },
+    {
+      "id": 1,
+      "ts": "2026-06-08 04:43",
+      "source": "fighter",
+      "type": "discovery",
+      "msg": "🔍 Learned: 沒有新發現"
+    },
+    {
+      "id": 2,
+      "ts": "2026-06-08 04:43",
+      "source": "fighter",
+      "type": "suggestion",
+      "msg": "🎯 New need: 無 urgent 需求"
+    },
+    {
+      "id": 3,
+      "ts": "2026-06-08 04:43",
+      "source": "work",
+      "type": "discovery",
+      "msg": "🔍 Learned: VM 已穩定運行 19 日"
+    },
+    {
+      "id": 4,
+      "ts": "2026-06-08 04:43",
+      "source": "work",
+      "type": "discovery",
+      "msg": "🔍 Learned: GG-Work 所有 daemon 正常"
+    },
+    {
+      "id": 5,
+      "ts": "2026-06-08 04:43",
+      "source": "work",
+      "type": "suggestion",
+      "msg": "🎯 New need: 無 urgent 需求"
+    },
+    {
+      "id": 6,
+      "ts": "2026-06-08 04:43",
+      "source": "person",
+      "type": "discovery",
+      "msg": "🔍 Learned: VM 已穩定運行 19 日"
+    },
+    {
+      "id": 7,
+      "ts": "2026-06-08 04:43",
+      "source": "person",
+      "type": "discovery",
+      "msg": "🔍 Learned: GG-Person 所有 daemon 正常"
+    },
+    {
+      "id": 8,
+      "ts": "2026-06-08 04:43",
+      "source": "person",
+      "type": "suggestion",
+      "msg": "🎯 New need: 無 urgent 需求"
+    },
+    {
+      "id": 9,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (114KB)"
+    },
+    {
+      "id": 10,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 11,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 12,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: output (4KB)"
+    },
+    {
+      "id": 13,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (1197KB)"
+    },
+    {
+      "id": 14,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (209KB)"
+    },
+    {
+      "id": 15,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (1861KB)"
+    },
+    {
+      "id": 16,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (271KB)"
+    },
+    {
+      "id": 17,
+      "ts": "2026-06-08 04:43",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: mcp-stderr.log (935KB)"
+    }
+  ],
+  "dynamics": {
+    "fighter": {
+      "last_active": "2026-06-08 04:43",
+      "tasks_today": 2,
+      "discoveries_today": 1,
+      "status": "online"
+    },
+    "work": {
+      "last_active": "2026-06-08 04:43",
+      "tasks_today": 3,
+      "status": "online",
+      "tasks_24h": [
+        "🎯 New need: 無 urgent 需求",
+        "🔍 Learned: GG-Work 所有 daemon 正常",
+        "🔍 Learned: VM 已穩定運行 19 日"
+      ]
+    },
+    "person": {
+      "last_active": "2026-06-08 04:43",
+      "tasks_today": 3,
+      "status": "online",
+      "tasks_24h": [
+        "🎯 New need: 無 urgent 需求",
+        "🔍 Learned: GG-Person 所有 daemon 正常",
+        "🔍 Learned: VM 已穩定運行 19 日"
+      ]
+    }
+  },
+  "meta": {
+    "total_entries": 18,
+    "last_push_ts": null,
+    "last_collect_ts": "2026-06-08 04:43",
+    "version": 1
+  }
+}

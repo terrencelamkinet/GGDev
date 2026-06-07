@@ -282,6 +282,84 @@
       </div>
     </div>
   </div><!-- /page-gg -->
+
+  <!-- ============================================================ -->
+  <!-- PAGE 4: INSIGHTS (Stacking Intelligence)                     -->
+  <!-- ============================================================ -->
+  <div id="page-insights" class="tab-page">
+    <div class="greeting">
+      <h2>🧠 Intelligence</h2>
+      <div class="date">Stacking insights · GG Family Hub</div>
+    </div>
+
+    <!-- Error banner -->
+    <div id="insightsError" class="card" style="display:none;border-left:3px solid #e17055">
+      <div style="color:#e17055;font-size:13px">⚠️ Insights data not available yet — collector starts within 15 min</div>
+    </div>
+
+    <!-- Lately (compact, newest first) -->
+    <div class="section-title">✨ Lately</div>
+    <div class="card" id="insightsLately">
+      <div style="color:var(--text-dim);font-size:13px">Collecting...</div>
+    </div>
+
+    <!-- Dynamics Cards: 3 AI family -->
+    <div class="section-title">🗣️ GG Voices</div>
+    <div class="col3">
+      <div class="card">
+        <div class="card-header"><h2>🔥 Fighter</h2><span class="tag green" id="insFighterStatus">● Live</span></div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.5">
+          <div id="insFighterThought" style="color:var(--text);font-weight:600;margin-bottom:6px">--</div>
+          <div>Today: <span id="insFighterTasks" style="color:var(--green-dark)">0</span> insights</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>⚙️ Work</h2><span class="tag green" id="insWorkStatus">● Live</span></div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.5">
+          <div id="insWorkThought" style="color:var(--text);font-weight:600;margin-bottom:6px">--</div>
+          <div>Today: <span id="insWorkTasks" style="color:var(--green-dark)">0</span> activities</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>❤️ Person</h2><span class="tag green" id="insPersonStatus">● Live</span></div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.5">
+          <div id="insPersonThought" style="color:var(--text);font-weight:600;margin-bottom:6px">--</div>
+          <div>Today: <span id="insPersonTasks" style="color:var(--green-dark)">0</span> activities</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Work Dynamics -->
+    <div class="section-title">⚙️ Work Dynamics</div>
+    <div class="card" id="insWorkDynamics">
+      <div style="color:var(--text-dim);font-size:13px">Collecting...</div>
+    </div>
+
+    <!-- Person Dynamics -->
+    <div class="section-title">❤️ Person Dynamics</div>
+    <div class="card" id="insPersonDynamics">
+      <div style="color:var(--text-dim);font-size:13px">Collecting...</div>
+    </div>
+
+    <!-- Discoveries & Trends -->
+    <div class="section-title">💡 Discoveries & Trends</div>
+    <div class="card" id="insDiscoveries">
+      <div style="color:var(--text-dim);font-size:13px">Collecting...</div>
+    </div>
+
+    <!-- Full Activity Stream (collapsible) -->
+    <div class="section-title" style="cursor:pointer" onclick="toggleInsightsStream()">
+      🕐 Activity Stream <span id="insStreamToggle" style="font-size:12px;color:var(--text-dim)">▸ show</span>
+    </div>
+    <div class="card" id="insActivityStream" style="display:none">
+      <div style="color:var(--text-dim);font-size:13px">Loading...</div>
+    </div>
+
+    <div style="text-align:center;padding:10px;font-size:11px;color:var(--text-dim)">
+      📊 <span id="insTotal">0</span> entries accumulated · auto-updates every min
+    </div>
+  </div><!-- /page-insights -->
+
   <!-- ============================================================ -->
   <div id="page-cost" class="tab-page">
     <div class="greeting">
@@ -345,6 +423,54 @@
     </div>
   </div><!-- /page-cost -->
 
+  <!-- ============================================================ -->
+  <!-- PAGE: TASKS                                                  -->
+  <!-- ============================================================ -->
+  <div id="page-tasks" class="tab-page">
+    <div class="greeting">
+      <h2>📋 Tasks</h2>
+      <div class="date" id="taskSubtitle">Notion Task Center</div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="metric-summary">
+      <div class="metric-card">
+        <div class="icon">📋</div>
+        <div class="value green" id="taskTotal">--</div>
+        <div class="label">Active</div>
+      </div>
+      <div class="metric-card">
+        <div class="icon">🔴</div>
+        <div class="value peach" id="taskOverdue">0</div>
+        <div class="label">Overdue</div>
+      </div>
+      <div class="metric-card">
+        <div class="icon">📅</div>
+        <div class="value purple" id="taskDueToday">0</div>
+        <div class="label">Due Today</div>
+      </div>
+      <div class="metric-card">
+        <div class="icon">⚡</div>
+        <div class="value gold" id="taskQ1">0</div>
+        <div class="label">Q1 Do Now</div>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="filter-tabs" style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="filter-tab active" data-filter="all" onclick="filterTasks('all', this)" style="padding:4px 10px;border-radius:12px;border:none;font-size:12px;background:var(--accent);color:var(--bg);font-weight:600">All</button>
+      <button class="filter-tab" data-filter="💼 Work" onclick="filterTasks('💼 Work', this)" style="padding:4px 10px;border-radius:12px;border:none;font-size:12px;background:rgba(255,255,255,0.06);color:var(--text-muted);cursor:pointer">💼 Work</button>
+      <button class="filter-tab" data-filter="🏠 Personal" onclick="filterTasks('🏠 Personal', this)" style="padding:4px 10px;border-radius:12px;border:none;font-size:12px;background:rgba(255,255,255,0.06);color:var(--text-muted);cursor:pointer">🏠 Personal</button>
+      <button class="filter-tab" data-filter="📚 Learning" onclick="filterTasks('📚 Learning', this)" style="padding:4px 10px;border-radius:12px;border:none;font-size:12px;background:rgba(255,255,255,0.06);color:var(--text-muted);cursor:pointer">📚 Learning</button>
+      <button class="filter-tab" data-filter="✝️ Jesus" onclick="filterTasks('✝️ Jesus', this)" style="padding:4px 10px;border-radius:12px;border:none;font-size:12px;background:rgba(255,255,255,0.06);color:var(--text-muted);cursor:pointer">✝️ Jesus</button>
+    </div>
+
+    <!-- Task List -->
+    <div id="taskList">
+      <div style="color:var(--text-dim);font-size:13px;text-align:center;padding:20px">Loading tasks...</div>
+    </div>
+  </div><!-- /page-tasks -->
+
 </div><!-- /container -->
 
 <!-- ===== BOTTOM NAV ===== -->
@@ -358,8 +484,14 @@
   <button class="nav-tab" data-tab="page-gg" onclick="switchTab(event, 'page-gg')">
     <span class="nav-icon">🦾</span> Agents
   </button>
+  <button class="nav-tab" data-tab="page-insights" onclick="switchTab(event, 'page-insights')">
+    <span class="nav-icon">🧠</span> Intel
+  </button>
   <button class="nav-tab" data-tab="page-cost" onclick="switchTab(event, 'page-cost')">
     <span class="nav-icon">💰</span> Cost
+  </button>
+  <button class="nav-tab" data-tab="page-tasks" onclick="switchTab(event, 'page-tasks')">
+    <span class="nav-icon">📋</span> Tasks
   </button>
 </nav>
 
@@ -605,6 +737,16 @@ async function fetchData() {
     setDetail('remTotal', d.reminders ? d.reminders.total : '--');
     setDetail('remOverdue', d.reminders ? d.reminders.overdue : '--');
 
+    // === Tasks ===
+    var tasks = d.tasks || {};
+    var items = tasks.items || [];
+    setDetail('taskTotal', tasks.total || 0);
+    setDetail('taskOverdue', tasks.overdue || 0);
+    setDetail('taskDueToday', tasks.due_today || 0);
+    setDetail('taskQ1', tasks.q1_count || 0);
+    setDetail('taskSubtitle', tasks.total + ' tasks · ' + (tasks.source || 'Notion'));
+    renderTasks(items);
+
   } catch(e) {
     console.log('Fetch error:', e);
   }
@@ -615,6 +757,101 @@ function setTag(id, online) {
   if (!el) return;
   el.className = 'tag ' + (online ? 'green' : 'peach');
   el.textContent = online ? '● Online' : '● Offline';
+}
+
+// ===== TASK RENDERING =====
+var _allTasks = [];
+var _activeFilter = 'all';
+
+function filterTasks(filter, btn) {
+  _activeFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(function(t) {
+    t.style.background = 'rgba(255,255,255,0.06)';
+    t.style.color = 'var(--text-muted)';
+  });
+  if (btn) {
+    btn.style.background = 'var(--accent)';
+    btn.style.color = 'var(--bg)';
+  }
+  renderTasks(_allTasks);
+}
+
+function renderTasks(items) {
+  _allTasks = items;
+  var el = document.getElementById('taskList');
+  if (!el) return;
+
+  var filtered = items;
+  if (_activeFilter !== 'all') {
+    filtered = items.filter(function(t) { return t.area === _activeFilter; });
+  }
+
+  if (!filtered.length) {
+    el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-dim);font-size:14px">✅ No ' + (_activeFilter === 'all' ? 'tasks' : _activeFilter + ' tasks') + '</div>';
+    return;
+  }
+
+  var now = new Date();
+  var today = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+
+  el.innerHTML = filtered.map(function(t) {
+    var title = t.title || 'Untitled';
+    var status = t.status || 'Not started';
+    var priority = t.priority || '';
+    var area = t.area || '';
+    var due = t.due || '';
+    var notes = t.notes || '';
+
+    // Status color
+    var statusColor = '#6c5ce7';
+    if (status === 'Done') statusColor = '#00b894';
+    else if (status === 'In progress') statusColor = '#fdcb6e';
+    else if (status === 'Blocked') statusColor = '#e17055';
+
+    // Priority badge
+    var prioLabel = '';
+    var prioColor = '';
+    if (priority.indexOf('Q1') >= 0) { prioLabel = 'Q1'; prioColor = '#e17055'; }
+    else if (priority.indexOf('Q2') >= 0) { prioLabel = 'Q2'; prioColor = '#fdcb6e'; }
+    else if (priority.indexOf('Q3') >= 0) { prioLabel = 'Q3'; prioColor = '#6c5ce7'; }
+
+    // Due badge
+    var dueLabel = '';
+    var dueColor = 'var(--text-dim)';
+    if (due) {
+      if (due < today) { dueLabel = '⚠️ ' + due; dueColor = '#e17055'; }
+      else if (due === today) { dueLabel = '📅 TODAY'; dueColor = '#fdcb6e'; }
+      else { dueLabel = '📅 ' + due; dueColor = 'var(--text-dim)'; }
+    }
+
+    // Area icon
+    var areaIcon = '📋';
+    if (area.indexOf('Work') >= 0) areaIcon = '💼';
+    else if (area.indexOf('Personal') >= 0) areaIcon = '🏠';
+    else if (area.indexOf('Learning') >= 0) areaIcon = '📚';
+    else if (area.indexOf('Jesus') >= 0) areaIcon = '✝️';
+
+    // Notes snippet (first 80 chars)
+    var notesSnippet = notes ? notes.substring(0, 80) + (notes.length > 80 ? '...' : '') : '';
+
+    // Status pill
+    var statusDot = status === 'In progress' ? '🟡' : status === 'Done' ? '🟢' : '⚪';
+
+    return '<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid ' + prioColor + '">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">' +
+        '<div style="font-weight:700;font-size:14px;flex:1;line-height:1.4">' + escHtml(title) + '</div>' +
+        '<div style="display:flex;gap:4px;flex-shrink:0;margin-left:8px">' +
+          (prioLabel ? '<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:' + prioColor + '20;color:' + prioColor + ';font-weight:700">' + prioLabel + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11px;color:var(--text-muted);margin-bottom:4px">' +
+        '<span>' + areaIcon + ' ' + escHtml(area) + '</span>' +
+        '<span>' + statusDot + ' ' + escHtml(status) + '</span>' +
+        (dueLabel ? '<span style="color:' + dueColor + ';font-weight:' + (due === today ? '700' : '400') + '">' + dueLabel + '</span>' : '') +
+      '</div>' +
+      (notesSnippet ? '<div style="font-size:12px;color:var(--text-dim);line-height:1.4;border-top:1px solid var(--border);padding-top:6px;margin-top:4px">' + escHtml(notesSnippet) + '</div>' : '') +
+    '</div>';
+  }).join('');
 }
 
 // ===== INIT =====
