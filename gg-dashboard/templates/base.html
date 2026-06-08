@@ -64,7 +64,7 @@
 <!-- ===== BOTTOM NAV ===== -->
 <nav style="position:fixed;bottom:0;left:0;right:0;background:rgba(26,26,46,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,8px);z-index:100">
   <div style="max-width:393px;margin:0 auto;display:flex;justify-content:space-around">
-    {% set nav = [('/', '🏠', 'Home'), ('/tasks', '📋', 'Tasks'), ('/intel', '🧠', 'Intel'), ('/agents', '🦾', 'Servants'), ('/profile', '⚙️', 'System')] %}
+    {% set nav = [('/', '🏠', 'Home'), ('/tasks', '📋', 'Tasks'), ('/intel', '🧠', 'Intel'), ('/agents', '🦾', 'Agents'), ('/profile', '👤', 'Profile')] %}
     {% for href, icon, label in nav %}
     <a href="{{ href }}" style="text-align:center;color:{{ 'var(--accent)' if request.path == href else 'var(--text-dim)' }};text-decoration:none;padding:4px 8px;border-radius:8px;background:{{ 'rgba(108,92,231,0.1)' if request.path == href else 'transparent' }}">
       <div style="font-size:22px;margin-bottom:1px">{{ icon }}</div>
