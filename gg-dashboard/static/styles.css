@@ -24,6 +24,11 @@
   --surface-2: #f8f9fc;
   --accent: #6c5ce7;
   --gold: #fdcb6e;
+  --gold-sub: #f9ca24;
+  --orange: #FF6B35;
+  --blue: #5E5CE6;
+  --pink: #FF375F;
+  --card-bg: #ffffff;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -31,14 +36,13 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  padding-bottom: calc(var(--nav-h) + 20px);
   -webkit-font-smoothing: antialiased;
 }
 .container { max-width: 393px; margin: 0 auto; padding: 0 20px; }
 
 .time-label { font-size: 12px; color: var(--text); font-weight: 500; background: var(--border); padding: 5px 12px; border-radius: 20px; }
 
-/* ===== BOTTOM NAV ===== */
+/* ===== BOTTOM NAV (mobile only) ===== */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
@@ -53,10 +57,7 @@ body {
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-@media (min-width: 768px) {
-  .container { max-width: 720px; }
-}
-
+/* ===== DARK MODE ===== */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0f1117;
@@ -71,7 +72,73 @@ body {
     --surface-2: #14161c;
     --accent: #a29bfe;
     --gold: #ffeaa7;
+    --gold-sub: #f9ca24;
+    --orange: #FF8C5A;
+    --blue: #7C7AFF;
+    --pink: #FF6B8A;
+    --card-bg: #1a1d26;
   }
   .time-label { background: rgba(99,110,114,0.15); }
   .bottom-nav { box-shadow: 0 -2px 20px rgba(0,0,0,0.3); background: rgba(26,29,38,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+}
+
+/* ===== iPhone 14 Pro (393×852) ===== */
+@media (min-width: 0px) and (max-width: 767px) {
+  body { padding-bottom: calc(var(--nav-h) + 20px); }
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 393px;
+  }
+}
+
+/* ===== iPad / Tablet (768–1023) ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container { max-width: 680px; }
+  .bottom-nav { max-width: 680px; }
+  body { padding-bottom: calc(var(--nav-h) + 20px); }
+}
+
+/* ===== Desktop 1920×1080 (1024px+) ===== */
+@media (min-width: 1024px) {
+  body {
+    background: linear-gradient(135deg, #e8ecf4 0%, #f0f2f8 50%, #e8ecf4 100%);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 40px 20px; min-height: 100vh;
+  }
+  .container {
+    max-width: 860px; margin: 0; padding: 0;
+    width: 100%;
+  }
+  /* Wrap content in a subtle card for desktop */
+  .app-shell {
+    background: var(--card); border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    padding: 0 32px; max-width: 860px !important;
+    min-height: auto !important;
+  }
+  .scroll-content { padding-bottom: 20px !important; }
+  /* Desktop: move nav to sidebar-style top tabs */
+  .bottom-nav {
+    position: static; transform: none;
+    background: transparent; backdrop-filter: none;
+    box-shadow: none; border-radius: 0;
+    height: auto; padding: 16px 0;
+    justify-content: flex-start; gap: 4px;
+    border-bottom: 1px solid var(--border);
+    max-width: 100% !important;
+  }
+  .bottom-nav .nav-item {
+    padding: 8px 16px; border-radius: 10px;
+    flex-direction: row; gap: 6px; font-size: 13px;
+  }
+  .bottom-nav .nav-item .icon-nav { width: 18px; height: 18px; }
+  .bottom-nav .nav-item.active { background: rgba(108,92,231,0.1); }
+  body { padding-bottom: 0 !important; }
+}
+
+/* ===== DARK MODE DESKTOP ===== */
+@media (prefers-color-scheme: dark) and (min-width: 1024px) {
+  body { background: linear-gradient(135deg, #0a0c12 0%, #11131c 50%, #0a0c12 100%); }
+  .app-shell { background: #1a1d26; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .bottom-nav .nav-item.active { background: rgba(162,155,254,0.1); }
 }
