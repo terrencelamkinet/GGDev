@@ -20,6 +20,10 @@
   --nav-h: 72px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --surface: #ffffff;
+  --surface-2: #f8f9fc;
+  --accent: #6c5ce7;
+  --gold: #fdcb6e;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -32,7 +36,20 @@ body {
 }
 .container { max-width: 393px; margin: 0 auto; padding: 0 20px; }
 
-.time-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+.time-label { font-size: 12px; color: var(--text); font-weight: 500; background: var(--border); padding: 5px 12px; border-radius: 20px; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: none;
+  box-shadow: 0 -2px 20px rgba(0,0,0,0.06);
+  display: flex; justify-content: space-around; align-items: center;
+  height: var(--nav-h); padding-bottom: var(--safe-bottom);
+  z-index: 100; max-width: 393px; margin: 0 auto;
+  border-radius: 24px 24px 0 0;
+}
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -50,5 +67,11 @@ body {
     --border: rgba(255,255,255,0.06);
     --shadow: 0 4px 12px rgba(0,0,0,0.3);
     --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+    --surface: #1a1d26;
+    --surface-2: #14161c;
+    --accent: #a29bfe;
+    --gold: #ffeaa7;
   }
+  .time-label { background: rgba(99,110,114,0.15); }
+  .bottom-nav { box-shadow: 0 -2px 20px rgba(0,0,0,0.3); background: rgba(26,29,38,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 }
