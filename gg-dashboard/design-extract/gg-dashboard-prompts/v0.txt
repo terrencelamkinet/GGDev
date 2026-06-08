@@ -1,0 +1,28 @@
+Build a landing page with this exact visual language.
+COLORS:
+  #3c3c43
+  #000000
+  #ffffff
+  #34c759
+  #787880
+  #ff3b30
+  #5856d6
+  #e5e5ea
+  #ff6b35
+  #af52de
+  #ff9500
+  #ff2d55
+  #f2f2f7
+  #c6c6c8
+FONTS: [object Object], [object Object], [object Object]
+SPACING: 1, 20, 27, 32, 48, 444
+RADIUS: 10, 13, 50, 999
+SHADOWS: rgb(175, 82, 222) 0px 0px 8px 0px
+MATERIAL LANGUAGE: material-you
+VOICE: Tone: neutral · Headings: unknown · CTA verbs: [object Object], [object Object], [object Object], [object Object], [object Object]
+SECTIONS (in order):
+- hero
+- features
+- cta
+- footer
+Use Tailwind. Match these tokens exactly. Keep the material language consistent.

@@ -1,0 +1,12 @@
+Clone the design language of this landing page and build a fresh equivalent.
+Visual feel: material-you. Tone: neutral · Headings: unknown · CTA verbs: [object Object], [object Object], [object Object], [object Object], [object Object]
+Primary palette: #3c3c43, #000000, #ffffff, #34c759, #787880.
+Typography: [object Object], [object Object], [object Object].
+Corner radius vocabulary: 10, 13, 50, 999.
+Shadow vocabulary: rgb(175, 82, 222) 0px 0px 8px 0px.
+Page structure:
+- hero
+- features
+- social proof
+- cta
+- footer
