@@ -1,14 +1,14 @@
 {
-  "ts": "05:15",
-  "hour": 5,
-  "minute": 15,
+  "ts": "10:46",
+  "hour": 10,
+  "minute": 46,
   "pushed_at": "2026-06-08 05:30 HKT",
   "system": {
-    "cpu": 78,
+    "cpu": 98,
     "mem": 20,
     "disk": 66,
-    "load": "0.94",
-    "uptime": "1 week, 5 days, 11 hours, 12 minutes",
+    "load": "0.82",
+    "uptime": "1 week, 5 days, 16 hours, 42 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "05:16",
+      "time": "10:46",
       "text": "Dashboard data refresh"
     },
     {
@@ -30,8 +30,8 @@
       "text": "Cron: webapp_commands.log (25B)"
     },
     {
-      "time": "23:53",
-      "text": "Cron: token_health_report.md (487B)"
+      "time": "09:20",
+      "text": "Cron: token_health_report.md (342B)"
     },
     {
       "time": "22:38",
@@ -42,33 +42,33 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "04:15",
-      "text": "Cron: memory_bridge.log (145183B)"
+      "time": "10:34",
+      "text": "Cron: memory_bridge.log (146927B)"
     },
     {
-      "time": "04:58",
-      "text": "Cron: mcp-stderr.log (966702B)"
+      "time": "05:36",
+      "text": "Cron: mcp-stderr.log (966875B)"
     },
     {
-      "time": "05:15",
-      "text": "Cron: guardian.log (278421B)"
+      "time": "10:45",
+      "text": "Cron: guardian.log (283569B)"
     },
     {
       "time": "00:42",
       "text": "Cron: gateway.log.1 (5242786B)"
     },
     {
-      "time": "05:15",
-      "text": "Cron: gateway.log (248861B)"
+      "time": "10:46",
+      "text": "Cron: gateway.log (559560B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 78,
+      "cpu": 98,
       "mem": 20,
       "disk": 66,
-      "load": "0.94",
-      "uptime": "1 week, 5 days, 11 hours, 12 minutes",
+      "load": "0.82",
+      "uptime": "1 week, 5 days, 16 hours, 42 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "傍晚 — CPU load 0.6 — 閒置; 已運行 12 日; 1 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.4 — 閒置; 已運行 13 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 77,
-      "mem": 26,
+      "cpu": 91,
+      "mem": 33,
       "disk": 57,
-      "load": "0.77",
-      "uptime": "2 weeks, 5 days, 16 hours, 50 minutes",
+      "load": "0.50",
+      "uptime": "2 weeks, 5 days, 22 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -100,12 +100,12 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.4 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 19 日",
+        "VM 已穩定運行 20 日",
         "GG-Work 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 59,
+      "cpu": 60,
       "mem": 27,
       "disk": 67,
-      "load": "0.24",
-      "uptime": "2 weeks, 5 days, 16 hours, 50 minutes",
+      "load": "0.48",
+      "uptime": "2 weeks, 5 days, 22 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -125,12 +125,12 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.3 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 19 日",
+        "VM 已穩定運行 20 日",
         "GG-Person 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -395,11 +395,11 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 35,
+    "total_events": 34,
     "today_events": 2,
     "upcoming": 14,
-    "reminders_pending": 0,
-    "last_updated": "2026-06-08T05:07:47",
+    "reminders_pending": 1,
+    "last_updated": "2026-06-08T10:33:28",
     "today_list": [
       {
         "summary": "Weekly Sales Team Meeting with DLam",
@@ -416,6 +416,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "05:16"
+    "last_check": "10:46"
   }
 }
