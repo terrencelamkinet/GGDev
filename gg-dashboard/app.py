@@ -262,6 +262,25 @@ def task_action():
                 return jsonify({"ok": False, "error": f"Invalid priority: {value}"}), 400
             props = {"Priority": {"select": {"name": valid[value]}}}
         
+        elif action == "archive":
+            # Archive the page (move to trash)
+            url = f"https://api.notion.com/v1/pages/{page_id}"
+            resp = requests.patch(url, headers=headers, json={"archived": True}, timeout=15)
+            if resp.status_code in (200, 201):
+                cur, conn = pg_cur()
+                if cur:
+                    try:
+                        cur.execute("UPDATE tasks SET status='cancelled', updated_at=NOW() WHERE notion_page_id=%s", (page_id,))
+                        cur.execute("INSERT INTO action_log (action_type, entity_ref, detail) VALUES (%s, %s, %s)",
+                                   ("task_archive", "platform", json.dumps({"page_id": page_id})))
+                        conn.commit()
+                    except Exception as e:
+                        print(f"PG archive error: {e}")
+                    finally:
+                        if conn: conn.close()
+                return jsonify({"ok": True, "message": "Task archived"})
+            return jsonify({"ok": False, "error": f"Notion API error: {resp.status_code}"}), 502
+        
         else:
             return jsonify({"ok": False, "error": f"Unknown action: {action}"}), 400
         
@@ -283,7 +302,7 @@ def task_action():
                                    (pg_status, page_id))
                     
                     # Log action
-                    cur.execute("""INSERT INTO action_log (action_type, entity_ref, details)
+                    cur.execute("""INSERT INTO action_log (action_type, entity_ref, detail)
                         VALUES (%s, %s, %s)""", (f"task_{action}", "platform", 
                         json.dumps({"page_id": page_id, "value": value})))
                     conn.commit()
@@ -300,6 +319,126 @@ def task_action():
         return jsonify({"ok": False, "error": str(e)}), 500
 
 
+# ===== API: CREATE TASK (local PG + optionally Notion) =====
+
+@app.route("/api/task/create", methods=["POST"])
+def api_task_create():
+    """Create a new task in PG. Notion sync bridge will pick it up."""
+    body = request.get_json() or {}
+    title = (body.get("title") or "").strip()
+    if not title:
+        return jsonify({"ok": False, "error": "Title required"}), 400
+    
+    project = (body.get("project") or "").strip()
+    priority = (body.get("priority") or "Q2 · Schedule").strip()
+    due = (body.get("due") or "").strip()
+    notes = (body.get("notes") or "").strip()
+    
+    # Map display priority to PG priority
+    prio_map = {"Q1 · Do Now": "P0", "Q2 · Schedule": "P2", "Q3 · Delegate": "P3", "Q4 · Eliminate": "P3"}
+    pg_priority = prio_map.get(priority, "P2")
+    
+    # Map display priority to quadrant
+    quad_map = {"Q1 · Do Now": "Q1", "Q2 · Schedule": "Q2", "Q3 · Delegate": "Q3", "Q4 · Eliminate": "Q4"}
+    quadrant = quad_map.get(priority, "Q2")
+    
+    cur, conn = pg_cur()
+    if not cur:
+        return jsonify({"ok": False, "error": "PG unavailable"}), 500
+    
+    try:
+        import uuid as _uuid
+        page_id = str(_uuid.uuid4())
+        due_val = due if due else None
+        
+        cur.execute("""
+            INSERT INTO tasks (title, priority, quadrant, project, due_date, notes, notion_page_id, status, suggested_delegate)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, 'active', 'self')
+            RETURNING id
+        """, (title, pg_priority, quadrant, project, due_val, notes, page_id))
+        task_id = cur.fetchone()[0]
+        
+        cur.execute("INSERT INTO action_log (action_type, entity_ref, detail) VALUES (%s, %s, %s)",
+                   ("task_create", "platform", json.dumps({"title": title, "project": project})))
+        conn.commit()
+        
+        return jsonify({"ok": True, "id": task_id, "page_id": page_id, "message": f"Task created: {title[:30]}"})
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"ok": False, "error": str(e)}), 500
+    finally:
+        if conn: conn.close()
+
+
+# ===== API: UPDATE TASK =====
+
+@app.route("/api/task/update", methods=["POST"])
+def api_task_update():
+    """Update task detail in PG and Notion."""
+    body = request.get_json() or {}
+    page_id = (body.get("page_id") or "").strip()
+    if not page_id:
+        return jsonify({"ok": False, "error": "Missing page_id"}), 400
+    
+    title = (body.get("title") or "").strip()
+    notes = (body.get("notes") or "").strip()
+    due = (body.get("due") or "").strip()
+    priority = (body.get("priority") or "").strip()
+    
+    # Update PG
+    cur, conn = pg_cur()
+    if cur:
+        try:
+            sets = []
+            vals = []
+            if title:
+                sets.append("title=%s"); vals.append(title)
+            if notes:
+                sets.append("notes=%s"); vals.append(notes)
+            if due:
+                sets.append("due_date=%s"); vals.append(due)
+            if priority:
+                prio_map = {"Q1 · Do Now": "P0", "Q2 · Schedule": "P2", "Q3 · Delegate": "P3", "Q4 · Eliminate": "P3"}
+                quad_map = {"Q1 · Do Now": "Q1", "Q2 · Schedule": "Q2", "Q3 · Delegate": "Q3", "Q4 · Eliminate": "Q4"}
+                pg_p = prio_map.get(priority, "P2")
+                pg_q = quad_map.get(priority, "Q2")
+                sets.append("priority=%s::priority_level, quadrant=%s::quadrant_type")
+                vals.extend([pg_p, pg_q])
+            if sets:
+                sets.append("updated_at=NOW()")
+                vals.append(page_id)
+                cur.execute("UPDATE tasks SET " + ", ".join(sets) + " WHERE notion_page_id=%s", vals)
+                cur.execute("INSERT INTO action_log (action_type, entity_ref, detail) VALUES (%s, %s, %s)",
+                           ("task_update", "platform", json.dumps({"page_id": page_id})))
+                conn.commit()
+        except Exception as e:
+            conn.rollback()
+            print(f"PG update error: {e}")
+        finally:
+            if conn: conn.close()
+    
+    # Also update Notion if token available
+    if NOTION_TOKEN and (title or due or priority):
+        headers = {"Authorization": f"Bearer {NOTION_TOKEN}", "Content-Type": "application/json", "Notion-Version": "2022-06-28"}
+        props = {}
+        if title:
+            props["Name"] = {"title": [{"text": {"content": title}}]}
+        if due:
+            props["Due Date"] = {"date": {"start": due}}
+        if priority:
+            prio_map = {"Q1 · Do Now": "Q1 · Do Now", "Q2 · Schedule": "Q2 · Schedule",
+                        "Q3 · Delegate": "Q3 · Delegate", "Q4 · Eliminate": "Q4 · Eliminate"}
+            props["Priority"] = {"select": {"name": prio_map.get(priority, "Q2 · Schedule")}}
+        if props:
+            try:
+                requests.patch(f"https://api.notion.com/v1/pages/{page_id}", headers=headers,
+                              json={"properties": props}, timeout=15)
+            except:
+                pass
+    
+    return jsonify({"ok": True, "message": "Task updated"})
+
+
 # ===== API: AI CHAT (simple prompt relay) =====
 
 @app.route("/api/chat", methods=["POST"])
@@ -314,7 +453,7 @@ def api_chat():
     cur, conn = pg_cur()
     if cur:
         try:
-            cur.execute("""INSERT INTO action_log (action_type, entity_ref, details)
+            cur.execute("""INSERT INTO action_log (action_type, entity_ref, detail)
                 VALUES ('chat_request', 'platform', %s)""", 
                        (json.dumps({"message": message, "from": "dashboard"}),))
             conn.commit()
@@ -373,6 +512,7 @@ TEMPLATE_MAP = {
     "/tasks": "tasks.html",
     "/agents": "agents.html",
     "/profile": "profile.html",
+    "/system": "profile.html",
 }
 
 @app.route("/")
@@ -397,6 +537,10 @@ def agents():
 
 @app.route("/profile")
 def profile():
+    return send_from_directory(TEMPLATES_DIR, "profile.html")
+
+@app.route("/system")
+def system():
     return send_from_directory(TEMPLATES_DIR, "profile.html")
 
 @app.route("/agent/<name>")

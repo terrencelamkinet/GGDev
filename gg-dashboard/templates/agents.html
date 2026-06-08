@@ -1,6 +1,19 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><title>GG Agents</title><link rel="stylesheet" href="/static/styles.css"></head><body>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><title>GG Servants</title><link rel="stylesheet" href="/static/styles.css">
+<style>
+.app-shell{max-width:393px;margin:0 auto;padding:0 20px;min-height:100dvh;display:flex;flex-direction:column}
+.top-bar{display:flex;align-items:center;gap:10px;padding:16px 0 8px}
+.top-bar .icon-lg{width:24px;height:24px;flex-shrink:0}
+.page-title{font-size:20px;font-weight:700;margin:0;line-height:1.2}
+.page-subtitle{font-size:12px;color:var(--text-dim);display:block}
+.scroll-content{flex:1;padding-bottom:88px;overflow-y:auto}
+.col3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.ai-thought{font-size:12px;color:var(--text-muted);margin-top:4px}
+.nav-item{text-align:center;color:var(--text-dim);text-decoration:none;padding:4px 6px;border-radius:8px;font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:1px}
+.nav-item.active{color:var(--accent);background:rgba(108,92,231,0.1)}
+.icon-nav{width:22px;height:22px}
+</style></head><body>
 <div class="app-shell">
-<header class="top-bar"><svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-server"/></svg><div><h1 class="page-title">Agent Center</h1><span class="page-subtitle">Three AI Servants</span></div><span class="time-label" id="lastUpdate">--:--</span></header>
+<header class="top-bar"><svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-server"/></svg><div><h1 class="page-title">Servants</h1><span class="page-subtitle">Three AI Servants</span></div><span class="time-label" id="lastUpdate">--:--</span></header>
 <main class="scroll-content">
   <div class="col3" id="agentCards">
     <div class="card" onclick="location.href='/agents/fighter'" style="cursor:pointer;border-top:3px solid var(--orange)">
@@ -25,8 +38,8 @@
   <a href="/home" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
   <a href="/tasks" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
   <a href="/intel" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
-  <a href="/agents" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
-  <a href="/profile" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+  <a href="/agents" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Servants</span></a>
+  <a href="/profile" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>System</span></a>
 </nav>
 </div>
 <script>

@@ -1,139 +1,231 @@
-<!DOCTYPE html>
-<html lang="zh-HK">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-  <title>GG Platform | Tasks</title>
-  <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body>
+<!DOCTYPE html><html lang="zh-HK"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>GG Tasks</title><link rel="stylesheet" href="/static/styles.css">
+<style>
+.group-header{font-size:13px;font-weight:700;color:var(--text-muted);padding:12px 0 4px;display:flex;align-items:center;gap:6px}
+.group-header .count{font-size:11px;color:var(--text-dim);font-weight:400}
+.task-card{background:var(--surface);border-radius:12px;margin-bottom:6px;border:1px solid var(--border);overflow:hidden;transition:border-color .15s}
+.task-card:hover{border-color:var(--accent)}
+.task-main{padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.task-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;background:transparent}
+.task-check.done{background:var(--green);border-color:var(--green)}
+.task-check.done svg{color:#fff;width:12px;height:12px}
+.task-body{flex:1;min-width:0}
+.task-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.4}
+.task-title.done{text-decoration:line-through;color:var(--text-dim)}
+.task-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;align-items:center}
+.meta-tag{font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600;white-space:nowrap}
+.meta-tag.urgent{background:rgba(225,112,85,0.15);color:#e17055}
+.meta-tag.schedule{background:rgba(253,203,110,0.15);color:#fdcb6e}
+.meta-tag.delegate{background:rgba(108,92,231,0.15);color:#6c5ce7}
+.meta-tag.default{background:rgba(0,184,148,0.15);color:#00b894}
+.meta-tag.overdue{background:rgba(225,112,85,0.2);color:#e17055;font-weight:700}
+.meta-tag.today{background:rgba(253,203,110,0.2);color:#fdcb6e;font-weight:700}
+.meta-tag.area{background:rgba(255,255,255,0.06);color:var(--text-dim)}
+.task-detail{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.task-detail.open{max-height:600px}
+.detail-inner{padding:0 12px 12px;border-top:1px solid var(--border)}
+.notes-box{background:var(--surface-2);border-radius:8px;padding:8px 10px;margin:8px 0;font-size:12px;color:var(--text-muted);line-height:1.5;white-space:pre-wrap}
+.action-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.action-row button{font-size:11px;padding:5px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-weight:600;transition:all .12s}
+.action-row button:hover{opacity:.8}
+.action-row button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.action-row button.danger{color:#e17055;border-color:rgba(225,112,85,0.3)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--surface);border-radius:16px;padding:20px;width:100%;max-width:353px;max-height:80vh;overflow-y:auto}
+.modal-box h2{font-size:16px;margin:0 0 12px}
+.modal-box label{font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin:8px 0 4px}
+.modal-box input,.modal-box select,.modal-box textarea{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:13px;outline:none;box-sizing:border-box}
+.modal-box textarea{min-height:60px;resize:vertical}
+.modal-box .modal-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+.modal-box .modal-actions button{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+.modal-box .modal-actions .cancel{background:var(--surface-2);color:var(--text)}
+.modal-box .modal-actions .submit{background:var(--accent);color:#fff}
+#addFloating{position:fixed;bottom:90px;right:20px;width:48px;height:48px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(108,92,231,0.4);z-index:100;font-size:22px;font-weight:300;border:none}
+.toast{position:fixed;bottom:150px;left:50%;transform:translateX(-50%);padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;z-index:1001;display:none;background:var(--surface);border:1px solid var(--border);color:var(--text)}
+</style>
+</head><body>
 <div class="app-shell">
-  <!-- Header -->
-  <header class="top-bar">
-    <svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-list"/></svg>
-    <div>
-      <h1 class="page-title">Tasks</h1>
-      <span class="page-subtitle">Notion Task Center</span>
-    </div>
-    <span class="time-label" id="lastUpdate">--:--</span>
-  </header>
-
-  <main class="scroll-content">
-    <!-- Summary cards -->
-    <div class="stat-grid-4">
-      <div class="stat-card"><div class="stat-value green" id="taskTotal">--</div><div class="stat-label">Active</div></div>
-      <div class="stat-card"><div class="stat-value peach" id="taskOverdue">0</div><div class="stat-label">Overdue</div></div>
-      <div class="stat-card"><div class="stat-value gold" id="taskDueToday">0</div><div class="stat-label">Due Today</div></div>
-      <div class="stat-card"><div class="stat-value accent" id="taskQ1">0</div><div class="stat-label">Urgent</div></div>
-    </div>
-
-    <!-- Filters -->
-    <div class="filter-row" id="filterRow">
-      <button class="filter-chip active" data-f="all" onclick="filterTasks(this)">All</button>
-      <button class="filter-chip" data-f="Work" onclick="filterTasks(this)">Work</button>
-      <button class="filter-chip" data-f="Personal" onclick="filterTasks(this)">Personal</button>
-      <button class="filter-chip" data-f="Learning" onclick="filterTasks(this)">Learning</button>
-    </div>
-
-    <!-- Task list -->
-    <div id="taskList" class="card-stack"></div>
-  </main>
-
-  <!-- Bottom Nav -->
-  <nav class="bottom-nav">
-    <a href="/home" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
-    <a href="/tasks" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
-    <a href="/intel" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
-    <a href="/agents" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
-    <a href="/profile" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
-  </nav>
+<header class="top-bar">
+  <svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-list"/></svg>
+  <div><h1 class="page-title">Tasks</h1><span class="page-subtitle" id="taskSubtitle">Notion Task Center</span></div>
+  <span class="time-label" id="lastTaskUpdate">--:--</span>
+</header>
+<main class="scroll-content">
+  <div class="stat-grid-4" style="margin-bottom:8px">
+    <div class="stat-card"><div class="stat-value green" id="tTotal">--</div><div class="stat-label">Active</div></div>
+    <div class="stat-card"><div class="stat-value peach" id="tOverdue">0</div><div class="stat-label">Overdue</div></div>
+    <div class="stat-card"><div class="stat-value gold" id="tToday">0</div><div class="stat-label">Due Today</div></div>
+    <div class="stat-card"><div class="stat-value accent" id="tUrgent">0</div><div class="stat-label">Urgent</div></div>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div id="taskList"></div>
+  <div id="emptyState" class="empty-state" style="display:none"><p>No tasks match filters</p></div>
+</main>
+<nav class="bottom-nav">
+  <a href="/home" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
+</div>
+<button id="addFloating" onclick="openAddModal()">+</button>
+<div id="toast" class="toast"></div>
+<div id="addModal" class="modal-overlay" onclick="if(event.target===this)closeAddModal()">
+  <div class="modal-box">
+    <h2>New Task</h2>
+    <label>Title *</label><input id="addTitle" placeholder="What needs doing?"/>
+    <label>Project</label>
+    <select id="addProject"><option value="">None</option><option>💼 Work</option><option>🏠 Personal</option><option>📚 Learning</option></select>
+    <label>Priority</label>
+    <select id="addPriority"><option>Q2 · Schedule</option><option>Q1 · Do Now</option><option>Q3 · Delegate</option><option>Q4 · Eliminate</option></select>
+    <label>Due Date</label><input id="addDue" type="date"/>
+    <label>Notes</label><textarea id="addNotes" placeholder="Details..."></textarea>
+    <div class="modal-actions"><button class="cancel" onclick="closeAddModal()">Cancel</button><button class="submit" onclick="submitTask()">Create</button></div>
+  </div>
+</div>
+<div id="editModal" class="modal-overlay" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal-box">
+    <h2>Edit Task</h2>
+    <label>Title</label><input id="editTitle"/>
+    <label>Notes</label><textarea id="editNotes" style="min-height:80px"></textarea>
+    <label>Due Date</label><input id="editDue" type="date"/>
+    <label>Priority</label>
+    <select id="editPriority"><option>Q1 · Do Now</option><option>Q2 · Schedule</option><option>Q3 · Delegate</option><option>Q4 · Eliminate</option></select>
+    <div class="modal-actions"><button class="cancel" onclick="closeEditModal()">Cancel</button><button class="submit" onclick="saveEdit()">Save</button></div>
+  </div>
 </div>
 
-<script src="/static/app.js"></script>
 <script>
-var _allTasks = [], _activeFilter = 'all', _expandedTask = null;
+var _tasks=[], _filter='all', _expanded=null, _editIdx=-1;
 
-function filterTasks(btn) {
-  _activeFilter = btn ? btn.getAttribute('data-f') || 'all' : 'all';
-  _expandedTask = null;
-  document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});
-  if (btn) btn.classList.add('active');
-  renderTasks();
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;')}
+
+function showToast(m,c){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';t.style.borderColor=c||'var(--border)';setTimeout(function(){t.style.display='none'},2500)}
+
+function openAddModal(){document.getElementById('addModal').classList.add('open')}
+function closeAddModal(){document.getElementById('addModal').classList.remove('open')}
+function openEditModal(idx){_editIdx=idx;var t=_tasks[idx];document.getElementById('editTitle').value=t.title;document.getElementById('editNotes').value=t.notes||'';document.getElementById('editDue').value=t.due||'';document.getElementById('editPriority').value=t.priority||'Q2 · Schedule';document.getElementById('editModal').classList.add('open')}
+function closeEditModal(){document.getElementById('editModal').classList.remove('open');_editIdx=-1}
+
+function submitTask(){
+  var title=document.getElementById('addTitle').value.trim();if(!title){showToast('Title required','#e17055');return}
+  var body={title:title,project:document.getElementById('addProject').value,priority:document.getElementById('addPriority').value,due:document.getElementById('addDue').value,notes:document.getElementById('addNotes').value.trim()}
+  fetch('/api/task/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json()}).then(function(resp){
+    if(resp.ok){showToast(resp.message||'Created!','var(--green)');closeAddModal();document.getElementById('addTitle').value='';document.getElementById('addNotes').value='';loadTasks()}
+    else showToast(resp.error||'Failed','#e17055')
+  }).catch(function(){showToast('Network error','#e17055')})
 }
 
-function toggleDetail(idx) {
-  _expandedTask = _expandedTask === idx ? null : idx;
-  renderTasks();
+function saveEdit(){
+  var t=_tasks[_editIdx];if(!t||!t.page_id){showToast('Cannot edit — no Notion link','#e17055');return}
+  var title=document.getElementById('editTitle').value.trim();if(!title){showToast('Title required','#e17055');return}
+  var body={page_id:t.page_id,title:title,notes:document.getElementById('editNotes').value,due:document.getElementById('editDue').value,priority:document.getElementById('editPriority').value}
+  fetch('/api/task/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json()}).then(function(resp){
+    if(resp.ok){showToast('Updated!','var(--green)');closeEditModal();loadTasks()}
+    else showToast(resp.error||'Failed','#e17055')
+  }).catch(function(){showToast('Network error','#e17055')})
 }
 
-function doAction(pageId, action, value, btn) {
-  if (!pageId) { showToast('Read-only — no Notion link', 'var(--peach)'); return; }
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>'; }
-  fetch('/api/task/action', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({page_id:pageId, action:action, value:value||''})
-  }).then(function(r){return r.json()}).then(function(resp){
-    if (resp.ok) { showToast(resp.message||'Done','var(--green)'); setTimeout(loadTasks,1000); }
-    else { showToast(resp.error||'Failed','var(--peach)'); if(btn)btn.disabled=false; }
-  }).catch(function(){showToast('Network error','var(--peach)');if(btn)btn.disabled=false;});
+function toggleExpand(i){_expanded=_expanded===i?null:i;render()}
+function setFilter(f){_filter=f;render()}
+
+function markDone(i){
+  var t=_tasks[i];if(!t||!t.page_id){showToast('Local task — mark in Notion','#fdcb6e');return}
+  fetch('/api/task/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page_id:t.page_id,action:'mark_done'})}).then(function(r){return r.json()}).then(function(resp){
+    if(resp.ok){showToast('Done! ✓','var(--green)');loadTasks()}else showToast(resp.error||'Failed','#e17055')
+  }).catch(function(){showToast('Network error','#e17055')})
 }
 
-function loadTasks() {
+function archiveTask(i){
+  var t=_tasks[i];if(!t||!t.page_id){showToast('Local task — use Notion','#fdcb6e');return}
+  if(!confirm('Archive "'+(t.title||'')+'"?'))return
+  fetch('/api/task/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page_id:t.page_id,action:'archive'})}).then(function(r){return r.json()}).then(function(resp){
+    if(resp.ok){showToast('Archived','var(--green)');loadTasks()}else showToast(resp.error||'Failed','#e17055')
+  }).catch(function(){showToast('Network error','#e17055')})
+}
+
+function loadTasks(){
   fetch('/api/data?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
-    var t = d.tasks || {};
-    document.getElementById('taskTotal').textContent = t.total || 0;
-    document.getElementById('taskOverdue').textContent = t.overdue || 0;
-    document.getElementById('taskDueToday').textContent = t.due_today || 0;
-    document.getElementById('taskQ1').textContent = t.q1_count || 0;
-    document.getElementById('lastUpdate').textContent = d.ts || '--:--';
-    if (document.getElementById('headerTime')) document.getElementById('headerTime').textContent = d.ts || '--:--';
-    _allTasks = t.items || [];
-    renderTasks();
-  }).catch(function(){});
+    var t=d.tasks||{};var items=t.items||[]
+    document.getElementById('tTotal').textContent=t.total||0
+    document.getElementById('tOverdue').textContent=t.overdue||0
+    document.getElementById('tToday').textContent=t.due_today||0
+    document.getElementById('tUrgent').textContent=t.q1_count||0
+    document.getElementById('lastTaskUpdate').textContent=d.ts||'--:--'
+    _tasks=items;renderFilters();render()
+  }).catch(function(){})
 }
 
-function renderTasks() {
-  var el = document.getElementById('taskList');
-  if (!el) return;
-  var items = _activeFilter === 'all' ? _allTasks : _allTasks.filter(function(t){return (t.area||'').indexOf(_activeFilter)>=0});
-  if (!items.length) {
-    el.innerHTML = '<div class="empty-state"><svg class="icon-state accent"><use href="/static/icons.svg#icon-list"/></svg><p>No ' + (_activeFilter==='all'?'tasks':_activeFilter+' tasks') + '</p></div>';
-    return;
-  }
-  var today = new Date(); var todayStr = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-  el.innerHTML = items.map(function(t,i){
-    var expanded = _expandedTask === i;
-    var p = t.priority || ''; var pc = p.indexOf('Q1')>=0?'var(--orange)':p.indexOf('Q2')>=0?'var(--gold)':p.indexOf('Q3')>=0?'var(--accent)':'var(--border)';
-    var d = t.due||''; var dl='',dc=''; if(d){if(d<todayStr){dl='Overdue '+d;dc='var(--peach)'}else if(d===todayStr){dl='Today';dc='var(--gold)'}else{dl=d;dc='var(--text-dim)'}}
-    var s = t.status||''; var sd = s==='In progress'?'var(--gold)':s==='Done'?'var(--green)':'var(--text-dim)';
-    var notes = t.notes||''; var ns = notes.substring(0,80)+(notes.length>80?'...':'');
-    return '<div class="task-card" style="border-left-color:'+pc+'" onclick="toggleDetail('+i+')">'+
-      '<div class="task-header"><div class="task-title">'+esc(t.title)+'</div>'+
-        '<div style="display:flex;gap:4px;align-items:center">'+
-          '<span class="prio-badge" style="background:'+pc+'20;color:'+pc+'">'+(p.indexOf('Q1')>=0?'U':p.indexOf('Q2')>=0?'S':p.indexOf('Q3')>=0?'D':'')+'</span>'+
-          '<svg class="icon-xs" style="color:var(--text-dim);transform:rotate('+(expanded?'180':'0')+'deg)"><use href="/static/icons.svg#icon-chevron-right"/></svg>'+
-        '</div></div>'+
-      '<div class="task-meta"><span class="status-dot" style="background:'+sd+'"></span><span>'+s+'</span>'+
-        (dl?'<span style="color:'+dc+';font-weight:'+(d===todayStr?'700':'400')+'">'+dl+'</span>':'')+
-      '</div>'+
-      (!expanded && ns ? '<div class="task-notes">'+esc(ns)+'</div>' : '')+
-      (expanded ? '<div class="task-detail">'+
-        (notes?'<div class="notes-box">'+esc(notes)+'</div>':'')+
-        '<div class="action-row">'+
-          (s!=='Done'?'<button class="btn green" onclick="event.stopPropagation();doAction(\''+(t.page_id||'')+'\',\'mark_done\',\'\',this)"><svg class="icon-sm"><use href="/static/icons.svg#icon-check"/></svg> Done</button>':'')+
-          (s!=='In progress'?'<button class="btn gold" onclick="event.stopPropagation();doAction(\''+(t.page_id||'')+'\',\'set_status\',\'In progress\',this)">Running</button>':'')+
-          (s!=='Not started'?'<button class="btn ghost" onclick="event.stopPropagation();doAction(\''+(t.page_id||'')+'\',\'set_status\',\'Not started\',this)">Reset</button>':'')+
-        '</div>'+
-        '<div class="detail-footer">'+
-          (t.page_id?'<svg class="icon-xs"><use href="/static/icons.svg#icon-refresh"/></svg> Notion linked':'<svg class="icon-xs"><use href="/static/icons.svg#icon-server"/></svg> Local')+
-          (t.last_edited?' &middot; '+(t.last_edited.substring(0,10)):'')+
-        '</div>'+
-      '</div>' : '')+
-    '</div>';
-  }).join('');
+function renderFilters(){
+  var areas={};_tasks.forEach(function(t){var a=t.area||'Other';if(a)areas[a]=true})
+  var keys=Object.keys(areas);if(keys.indexOf('💼 Work')<0)keys.unshift('💼 Work');if(keys.indexOf('🏠 Personal')<0)keys.push('🏠 Personal');if(keys.indexOf('📚 Learning')<0)keys.push('📚 Learning')
+  keys.unshift('all')
+  document.getElementById('filterRow').innerHTML=keys.map(function(k){
+    var label=k==='all'?'All':k
+    return '<span class="filter-chip'+(k===_filter?' active':'')+'" onclick="setFilter(\''+k+'\')">'+label+'</span>'
+  }).join('')
 }
 
-loadTasks();
-setInterval(loadTasks, 30000);
+function getGroup(t){return t.priority&&t.priority.indexOf('Q1')>=0?'urgent':t.priority&&t.priority.indexOf('Q2')>=0?'schedule':t.priority&&t.priority.indexOf('Q3')>=0?'delegate':'other'}
+function getGroupLabel(g){return g==='urgent'?'Q1 · Urgent':g==='schedule'?'Q2 · Schedule':g==='delegate'?'Q3 · Delegate':'Q4 · Other'}
+function getGroupColor(g){return g==='urgent'?'var(--peach)':g==='schedule'?'var(--gold)':g==='delegate'?'var(--accent)':'var(--text-dim)'}
+
+function render(){
+  var el=document.getElementById('taskList');var es=document.getElementById('emptyState')
+  var items=_filter==='all'?_tasks:_tasks.filter(function(t){var a=t.area||'';return a.indexOf(_filter)>=0})
+  if(!items.length){el.innerHTML='';es.style.display='block';return}
+  es.style.display='none'
+  var groups={'urgent':[],'schedule':[],'delegate':[],'other':[]}
+  var todayStr=new Date().toISOString().slice(0,10)
+  items.forEach(function(t){var g=getGroup(t);if(groups[g])groups[g].push(t)})
+  var html=''
+  Object.keys(groups).forEach(function(g){
+    var list=groups[g];if(!list.length)return
+    html+='<div class="group-header" style="color:'+getGroupColor(g)+'">'+
+      '<span>⬥</span> '+getGroupLabel(g)+' <span class="count">'+list.length+'</span></div>'
+    list.forEach(function(t,i){
+      var globalIdx=_tasks.indexOf(t)
+      var expanded=_expanded===globalIdx
+      var pc=getGroupColor(g)
+      var d=t.due||'';var dl='',dc=''
+      if(d){if(d<todayStr){dl='Overdue '+d;dc='var(--peach)'}else if(d===todayStr){dl='Today';dc='var(--gold)'}else{dl=d;dc='var(--text-dim)'}}
+      var s=t.status||''
+      html+='<div class="task-card">'+
+        '<div class="task-main" onclick="toggleExpand('+globalIdx+')">'+
+          '<div class="task-check'+(s==='Done'?' done':'')+'" onclick="event.stopPropagation();markDone('+globalIdx+')">'+
+            (s==='Done'?'<svg><use href="/static/icons.svg#icon-check"/></svg>':'')+
+          '</div>'+
+          '<div class="task-body">'+
+            '<div class="task-title'+(s==='Done'?' done':'')+'">'+esc(t.title)+'</div>'+
+            '<div class="task-meta">'+
+              (pc!=='var(--text-dim)'?'<span class="meta-tag '+(g==='urgent'?'urgent':g==='schedule'?'schedule':g==='delegate'?'delegate':'default')+'">'+{urgent:'U',schedule:'S',delegate:'D',other:'O'}[g]+'</span>':'')+
+              (dl?'<span class="meta-tag '+(d===todayStr?'today':d<todayStr?'overdue':'')+'">'+dl+'</span>':'')+
+              (s==='In progress'?'<span class="meta-tag" style="background:rgba(253,203,110,0.15);color:#fdcb6e">Running</span>':'')+
+              (t.area?'<span class="meta-tag area">'+esc(t.area.substring(0,10))+'</span>':'')+
+            '</div>'+
+          '</div>'+
+          '<svg class="icon-xs" style="color:var(--text-dim);transform:rotate('+(expanded?'180':'0')+'deg);transition:transform .2s;flex-shrink:0"><use href="/static/icons.svg#icon-chevron-right"/></svg>'+
+        '</div>'+
+        '<div class="task-detail'+(expanded?' open':'')+'">'+
+          '<div class="detail-inner">'+
+            (t.notes?'<div class="notes-box">'+esc(t.notes)+'</div>':'')+
+            '<div class="action-row">'+
+              '<button class="primary" onclick="event.stopPropagation();openEditModal('+globalIdx+')">✎ Edit</button>'+
+              (s!=='Done'?'<button onclick="event.stopPropagation();markDone('+globalIdx+')">✓ Done</button>':'')+
+              '<button class="danger" onclick="event.stopPropagation();archiveTask('+globalIdx+')">🗑 Archive</button>'+
+            '</div>'+
+            (t.page_id?'<div style="font-size:10px;color:var(--text-dim)">Notion linked'+(t.last_edited?' · '+t.last_edited.substring(0,10):'')+'</div>':'<div style="font-size:10px;color:var(--text-dim)">Local task</div>')+
+          '</div>'+
+        '</div>'+
+      '</div>'
+    })
+  })
+  el.innerHTML=html
+}
+
+loadTasks();setInterval(loadTasks,15000)
 </script>
-</body>
-</html>
+</body></html>

@@ -1,6 +1,29 @@
 <!DOCTYPE html><html lang="zh-HK"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>GG Platform</title><link rel="stylesheet" href="/static/styles.css">
+<style>
+.app-shell{max-width:393px;margin:0 auto;padding:0 20px;min-height:100dvh;display:flex;flex-direction:column}
+.top-bar{display:flex;align-items:center;gap:10px;padding:16px 0 8px}
+.top-bar .icon-lg{width:24px;height:24px;flex-shrink:0}
+.page-title{font-size:20px;font-weight:700;margin:0;line-height:1.2}
+.page-subtitle{font-size:12px;color:var(--text-dim);display:block}
+.scroll-content{flex:1;padding-bottom:88px;overflow-y:auto}
+.stat-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.stat-card{background:var(--card);border-radius:12px;padding:12px 6px;text-align:center;border:1px solid var(--border)}
+.stat-value{font-size:22px;font-weight:800}
+.stat-value.green{color:#00b894}
+.stat-value.peach{color:#e17055}
+.stat-value.gold{color:#fdcb6e}
+.stat-value.accent{color:#6c5ce7}
+.stat-label{font-size:10px;color:var(--text-dim);margin-top:2px;font-weight:600}
+.ov-card{background:var(--surface);border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid var(--border)}
+.ov-card .ov-title{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px}
+.ov-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.4}
+.ov-item:last-child{border:none}
+.ov-prio{width:3px;height:24px;border-radius:2px;flex-shrink:0}
+.ov-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ov-meeting{display:flex;align-items:center;gap:6px;padding:4px 0;font-size:12px;color:var(--text-muted)}
+</style>
 </head><body>
 <div class="app-shell">
 <header class="top-bar">
@@ -10,21 +33,27 @@
 </header>
 
 <main class="scroll-content">
-  <!-- Master Stats — 4 key numbers only -->
-  <div class="stat-grid-4">
-    <div class="stat-card"><div class="stat-value accent" id="hTasks">--</div><div class="stat-label">Tasks</div></div>
-    <div class="stat-card"><div class="stat-value" id="hOverdue" style="color:var(--peach)">0</div><div class="stat-label">Overdue</div></div>
-    <div class="stat-card"><div class="stat-value gold" id="hUrgent">0</div><div class="stat-label">Urgent</div></div>
-    <div class="stat-card"><div class="stat-value peach" id="hCpu">--</div><div class="stat-label">CPU</div></div>
+  <!-- 📋 TASKS OVERVIEW — Morning Briefing style, pinned top -->
+  <div id="taskOverview" class="ov-card" style="margin-top:4px">
+    <div class="ov-title">📋 Tasks Overview</div>
+    <div id="ovContent" style="font-size:12px;color:var(--text-dim)">Loading...</div>
   </div>
 
-  <!-- AI Suggestions — dynamic, task-driven -->
-  <div class="section-title">AI Suggestions</div>
+  <!-- Quick Overview — 4 stat summary -->
+  <div class="stat-grid-4" style="margin-bottom:4px">
+    <div class="stat-card"><div class="stat-value green" id="hTasks">--</div><div class="stat-label">Active</div></div>
+    <div class="stat-card"><div class="stat-value peach" id="hOverdue">0</div><div class="stat-label">Overdue</div></div>
+    <div class="stat-card"><div class="stat-value gold" id="hToday">0</div><div class="stat-label">Due Today</div></div>
+    <div class="stat-card"><div class="stat-value accent" id="hUrgent">0</div><div class="stat-label">Urgent</div></div>
+  </div>
+
+  <!-- AI Suggestions -->
+  <div class="section-title">Suggestions</div>
   <div class="card" id="homeSuggestions">
     <div style="font-size:12px;color:var(--text-dim)">Analyzing...</div>
   </div>
 
-  <!-- Quick Actions — 4 action cards -->
+  <!-- Quick Actions -->
   <div class="section-title">Quick Actions</div>
   <div class="col2">
     <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="location.href='/tasks'">
@@ -45,7 +74,7 @@
     </div>
   </div>
 
-  <!-- AI Presence Strip — minimal, just names + status dots -->
+  <!-- Servants -->
   <div class="section-title">Servants</div>
   <div class="card" style="display:flex;justify-content:space-around;padding:10px">
     <div style="text-align:center;cursor:pointer" onclick="location.href='/agents/fighter'">
@@ -75,7 +104,6 @@
 </nav>
 </div>
 
-<!-- Chat bubble -->
 <div id="chatBubble" onclick="toggleChat()" style="position:fixed;bottom:80px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#a29bfe);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(108,92,231,0.4);z-index:998">🤖</div>
 <div id="chatOverlay" style="display:none;position:fixed;bottom:140px;right:20px;left:20px;max-width:353px;margin:0 auto;background:var(--surface);border-radius:16px;border:1px solid var(--border);z-index:997;overflow:hidden">
   <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
@@ -96,22 +124,63 @@ fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},bod
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
 
 fetch('/api/data?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
-  // Greeting
   var h=new Date().getHours();
   document.querySelector('.page-title').textContent = h<12?'Good Morning':h<18?'Good Afternoon':'Good Evening';
   document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric',timeZone:'Asia/Hong_Kong'});
   document.getElementById('lastUpdate').textContent = d.ts||'--:--';
-  // Stats
-  var t=d.tasks||{}; document.getElementById('hTasks').textContent=t.total||0; document.getElementById('hOverdue').textContent=t.overdue||0; document.getElementById('hUrgent').textContent=t.q1_count||0;
-  var s=d.system||{}; document.getElementById('hCpu').textContent=(s.cpu||'--')+'%';
+
+  // Tasks overview — briefing style
+  var t=d.tasks||{}; var items=t.items||[];
+  var todayStr=new Date().toISOString().slice(0,10);
+  var overdue=items.filter(function(x){return x.due&&x.due<todayStr&&x.status!=='Done';});
+  var dueToday=items.filter(function(x){return x.due===todayStr;});
+  var urgent=items.filter(function(x){var p=x.priority||'';return p.indexOf('Q1')>=0||p.indexOf('P0')>=0||p.indexOf('P1')>=0;});
+  
+  var ovHtml='';
+  if(overdue.length) ovHtml+='<div style="color:var(--peach);font-weight:700;margin-bottom:4px">⚠️ '+overdue.length+' overdue</div>';
+  overdue.slice(0,3).forEach(function(x){
+    ovHtml+='<div class="ov-item"><div class="ov-prio" style="background:var(--peach)"></div><strong style="flex:1">'+esc(x.title)+'</strong><span style="color:var(--peach);font-size:11px">'+esc(x.due)+'</span></div>';
+  });
+  
+  if(dueToday.length) ovHtml+='<div style="color:var(--gold);font-weight:700;margin:6px 0 4px">📌 Due today</div>';
+  dueToday.slice(0,3).forEach(function(x){
+    ovHtml+='<div class="ov-item"><div class="ov-prio" style="background:var(--gold)"></div><strong style="flex:1">'+esc(x.title)+'</strong><span style="color:var(--gold);font-size:11px">Today</span></div>';
+  });
+  
+  if(urgent.length&&!dueToday.length){
+    ovHtml+='<div style="color:var(--accent);font-weight:700;margin:6px 0 4px">🔴 Priority: '+urgent.length+' urgent</div>';
+    urgent.slice(0,3).forEach(function(x){
+      ovHtml+='<div class="ov-item"><div class="ov-prio" style="background:var(--accent)"></div><strong style="flex:1">'+esc(x.title)+'</strong><span style="font-size:11px;color:var(--text-dim)">'+esc(x.priority||'')+'</span></div>';
+    });
+  }
+  
+  // Today's meetings from schedule
+  var sched=d.schedule||{}; var meetings=sched.today_list||[];
+  if(meetings.length){
+    ovHtml+='<div style="font-weight:700;margin:8px 0 4px;color:var(--text-dim);font-size:13px">📅 Today</div>';
+    meetings.forEach(function(m){
+      ovHtml+='<div class="ov-meeting"><span class="ov-dot" style="background:var(--gold)"></span>'+esc(m.time||'')+' '+esc(m.title||'')+'</div>';
+    });
+  }
+
+  if(!ovHtml) ovHtml='<div style="text-align:center;padding:10px;color:var(--green);font-size:13px">✅ All clear — no overdue or urgent tasks</div>';
+  document.getElementById('ovContent').innerHTML=ovHtml;
+
+  // Quick stats
+  document.getElementById('hTasks').textContent=t.total||0;
+  document.getElementById('hOverdue').textContent=t.overdue||0;
+  document.getElementById('hToday').textContent=t.due_today||0;
+  document.getElementById('hUrgent').textContent=t.q1_count||0;
+
   // Suggestions
   var sug=document.getElementById('homeSuggestions');
-  var items=[];
-  if(t.overdue>0) items.push('Overdue <strong>'+t.overdue+' tasks</strong> — check <a href="/tasks" style="color:var(--accent)">Tasks</a>');
-  if(t.q1_count>0) items.push('<strong>'+t.q1_count+' urgent</strong> tasks waiting');
-  if(t.due_today>0) items.push('<strong>'+t.due_today+' tasks due today</strong>');
-  sug.innerHTML = items.length ? items.map(function(x){return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5">'+x+'</div>';}).join('') : '<div style="text-align:center;padding:10px;color:var(--green);font-size:13px">All clear</div>';
-  // AI status dots
+  var items2=[];
+  if(t.overdue>0) items2.push('Overdue <strong>'+t.overdue+' tasks</strong> — check <a href="/tasks" style="color:var(--accent)">Tasks</a>');
+  if(t.q1_count>0) items2.push('<strong>'+t.q1_count+' urgent</strong> tasks waiting');
+  if(t.due_today>0) items2.push('<strong>'+t.due_today+' tasks due today</strong>');
+  sug.innerHTML = items2.length ? items2.map(function(x){return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5">'+x+'</div>';}).join('') : '<div style="text-align:center;padding:10px;color:var(--green);font-size:13px">All clear</div>';
+
+  // AI status
   var a=d.agents||{};
   ['fighter','work','person'].forEach(function(k){
     var key=k==='fighter'?'main':k;

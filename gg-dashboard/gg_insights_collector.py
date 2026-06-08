@@ -128,38 +128,7 @@ def collect_agent_activity(data, prev_agents):
 
     return entries, agents
 
-# === COLLECT CRON LOGS FOR RECENT ACTIVITY ===
-
-def collect_cron_logs():
-    """Check cron log dirs for recently written files."""
-    entries = []
-    log_dirs = [
-        Path.home() / ".hermes" / "cron",
-        Path.home() / ".hermes" / "logs"
-    ]
-    cutoff = datetime.datetime.now(HKT) - datetime.timedelta(hours=2)
-    cutoff_ts = cutoff.timestamp()
-
-    for log_dir in log_dirs:
-        if not log_dir.exists():
-            continue
-        try:
-            for f in sorted(log_dir.iterdir(), key=lambda x: x.stat().st_mtime, reverse=True)[:5]:
-                mtime = f.stat().st_mtime
-                if mtime > cutoff_ts:
-                    fsize = f.stat().st_size
-                    fname = f.name
-                    entries.append({
-                        "id": None, "ts": NOW,
-                        "source": "system", "type": "activity",
-                        "msg": f"📄 Cron output: {fname} ({fsize//1024}KB)"
-                    })
-        except:
-            pass
-
-    return entries
-
-# === PUSH LOGIC ===
+# === COLLECT WORK/PERSON VM ACTIVITY ===
 
 def collect_work_person_vm_activity():
     """SSH to Work/Person VMs for their latest activity (lightweight)."""
@@ -225,14 +194,9 @@ def main():
             e["id"] = next_id; next_id += 1
         new_entries.append(e)
 
-    # 3. Collect cron log activity
-    cron_entries = collect_cron_logs()
-    for e in cron_entries:
-        if e["id"] is None:
-            e["id"] = next_id; next_id += 1
-        new_entries.append(e)
-
-    # 4. Collect Work/Person VM activity (lightweight SSH)
+    # [REMOVED] collect_cron_logs() — produced 89% noise entries, no intelligence value
+    
+    # 3. Collect Work/Person VM activity (lightweight SSH)
     vm_entries = collect_work_person_vm_activity()
     for e in vm_entries:
         if e["id"] is None:

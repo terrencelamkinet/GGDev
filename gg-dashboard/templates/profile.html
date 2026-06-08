@@ -1,7 +1,19 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><title>GG Profile</title><link rel="stylesheet" href="/static/styles.css"></head><body>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><title>GG System</title><link rel="stylesheet" href="/static/styles.css">
+<style>
+.app-shell{max-width:393px;margin:0 auto;padding:0 20px;min-height:100dvh;display:flex;flex-direction:column}
+.top-bar{display:flex;align-items:center;gap:10px;padding:16px 0 8px}
+.top-bar .icon-lg{width:24px;height:24px;flex-shrink:0}
+.page-title{font-size:20px;font-weight:700;margin:0;line-height:1.2}
+.page-subtitle{font-size:12px;color:var(--text-dim);display:block}
+.scroll-content{flex:1;padding-bottom:88px;overflow-y:auto}
+.nav-item{text-align:center;color:var(--text-dim);text-decoration:none;padding:4px 6px;border-radius:8px;font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:1px}
+.nav-item.active{color:var(--accent);background:rgba(108,92,231,0.1)}
+.icon-nav{width:22px;height:22px}
+</style></head><body>
 <div class="app-shell">
-<header class="top-bar"><svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-user"/></svg><div><h1 class="page-title">Profile</h1><span class="page-subtitle">Terrence Lam</span></div></header>
+<header class="top-bar"><svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-user"/></svg><div><h1 class="page-title">System</h1><span class="page-subtitle">Status &amp; Configuration</span></div></header>
 <main class="scroll-content">
+  <div class="section-title">Person</div>
   <div class="card">
     <div style="display:flex;align-items:center;gap:12px">
       <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));display:flex;align-items:center;justify-content:center">
@@ -22,8 +34,12 @@
       <div>Vehicle: Toyota Sienta Hybrid 2018</div>
     </div>
   </div>
-  <div class="section-title">System</div>
+  <div class="section-title">System Resources</div>
   <div class="card" id="sysInfo">
+    <div style="font-size:13px;color:var(--text-dim)">Loading...</div>
+  </div>
+  <div class="section-title">Services</div>
+  <div class="card" id="svcInfo">
     <div style="font-size:13px;color:var(--text-dim)">Loading...</div>
   </div>
 </main>
@@ -31,19 +47,33 @@
   <a href="/home" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
   <a href="/tasks" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
   <a href="/intel" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
-  <a href="/agents" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
-  <a href="/profile" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+  <a href="/agents" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Servants</span></a>
+  <a href="/profile" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>System</span></a>
 </nav>
 </div>
 <script>
 fetch('/api/data?_='+Date.now()).then(r=>r.json()).then(function(d){
   var el=document.getElementById('sysInfo');
   if(el) el.innerHTML='<div style="font-size:13px;color:var(--text-muted);line-height:1.8">'+
-    '<div>CPU: <strong>'+(d.system?d.system.cpu:'--')+'%</strong></div>'+
-    '<div>Memory: <strong>'+(d.system?d.system.mem:'--')+'%</strong></div>'+
-    '<div>Disk: <strong>'+(d.system?d.system.disk:'--')+'%</strong></div>'+
-    '<div>Mode: <strong>Local + PG</strong></div>'+
-    '<div>Updated: <strong>'+(d.ts||'--:--')+'</strong></div></div>';
+    '<div style="display:flex;justify-content:space-between;padding:4px 0"><span>CPU</span><strong>'+(d.system?d.system.cpu:'--')+'%</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:4px 0"><span>Memory</span><strong>'+(d.system?d.system.mem:'--')+'%</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:4px 0"><span>Disk</span><strong>'+(d.system?d.system.disk:'--')+'%</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:4px 0"><span>Load</span><strong>'+(d.system?d.system.load:'0.5')+'</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:4px 0"><span>Uptime</span><strong>'+(d.system?d.system.uptime:'N/A')+'</strong></div></div>';
+  var s=document.getElementById('svcInfo');
+  if(s){
+    var svcs=d.system&&d.system.services?d.system.services:{};
+    var html='<div style="font-size:13px;color:var(--text-muted);line-height:1.8">';
+    for(var k in svcs){
+      var dot=svcs[k]==='green'?'<span style="color:#00b894">●</span>':'<span style="color:#e17055">●</span>';
+      html+='<div style="display:flex;justify-content:space-between;padding:4px 0"><span>'+k+'</span>'+dot+'</div>';
+    }
+    if(Object.keys(svcs).length===0) html+='<div style="color:var(--text-dim)">No service data</div>';
+    html+='<div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);margin-top:4px;padding-top:8px">'+
+      '<span>Mode</span><strong>Local + PG</strong></div>'+
+      '<div style="display:flex;justify-content:space-between;padding:4px 0"><span>Updated</span><strong>'+(d.ts||'--:--')+'</strong></div></div>';
+    s.innerHTML=html;
+  }
 }).catch(function(){});
 </script>
 </body></html>
