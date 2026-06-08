@@ -1,24 +1,24 @@
 {
   "metrics": {
-    "cpu": 55,
-    "mem": 19,
+    "cpu": 98,
+    "mem": 20,
     "disk": 66
   },
   "agents": {
     "main": {
-      "cpu": 55,
-      "mem": 19,
+      "cpu": 98,
+      "mem": 20,
       "disk": 66,
-      "load": "0.52",
-      "uptime": "1 week, 5 days, 9 hours, 56 minutes",
+      "load": "0.82",
+      "uptime": "1 week, 5 days, 16 hours, 42 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": true
+        "openclaw": false
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "傍晚 — CPU load 0.6 — 閒置; 已運行 12 日; 1 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.4 — 閒置; 已運行 13 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -30,24 +30,24 @@
       ]
     },
     "work": {
-      "cpu": 27,
-      "mem": 22,
+      "cpu": 91,
+      "mem": 33,
       "disk": 57,
-      "load": "0.60",
-      "uptime": "2 weeks, 5 days, 15 hours, 34 minutes",
+      "load": "0.50",
+      "uptime": "2 weeks, 5 days, 22 hours, 20 minutes",
       "daemons": {
-        "reminder": false,
-        "monitor": false,
-        "openclaw": false
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.4 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 19 日",
+        "VM 已穩定運行 20 日",
         "GG-Work 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -55,11 +55,11 @@
       ]
     },
     "person": {
-      "cpu": 70,
+      "cpu": 60,
       "mem": 27,
       "disk": 67,
-      "load": "0.65",
-      "uptime": "2 weeks, 5 days, 15 hours, 34 minutes",
+      "load": "0.48",
+      "uptime": "2 weeks, 5 days, 22 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -67,12 +67,12 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 19 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.3 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 19 日",
+        "VM 已穩定運行 20 日",
         "GG-Person 所有 daemon 正常"
       ],
       "uncertainties": [
