@@ -4,21 +4,65 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
   <title>GG Platform | Tasks</title>
   <link rel="stylesheet" href="/static/styles.css?v=1.1">
+  <style>
+/* Task table — mobile-first responsive */
+.task-table { width:100%; border-collapse:collapse; font-size:12px }
+.task-table th { text-align:left; padding:8px 10px; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-dim); border-bottom:2px solid var(--border); position:sticky; top:0; background:var(--bg); z-index:1 }
+.task-table td { padding:10px 8px; border-bottom:1px solid var(--border); vertical-align:middle }
+.task-table tr { cursor:pointer; transition:background 0.15s }
+.task-table tr:hover { background:rgba(255,255,255,0.03) }
+.task-table tr.done td { opacity:0.45 }
+.td-check { width:30px; text-align:center }
+.td-title { min-width:0; word-break:break-word }
+.td-status { width:55px }
+.td-prio { width:60px }
+.td-due { width:70px }
+.td-project { display:none } /* hidden on mobile, shown on wider screens */
+
+/* Checkbox circle */
+.chk-circle { width:18px;height:18px;border-radius:50%;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.2s }
+.chk-circle:hover { border-color:var(--accent) }
+.chk-circle.done { background:var(--green);border-color:var(--green) }
+
+/* Status badge inline */
+.stat-badge { display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600 }
+.stat-badge.active { background:rgba(0,184,148,0.12);color:#00b894 }
+.stat-badge.in_progress { background:rgba(253,203,110,0.15);color:#d4a017 }
+.stat-badge.done { background:rgba(116,125,140,0.15);color:#747d8c }
+
+/* Prio indicator */
+.prio-dot { display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle }
+
+/* Detail overlay */
+.detail-grid { display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;font-size:12px }
+.detail-grid .dg-label { font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.3px }
+.detail-grid .dg-value { font-weight:500;color:var(--text-muted) }
+.detail-grid .dg-full { grid-column:1/-1 }
+.detail-notes { background:var(--surface);border-radius:8px;padding:10px;font-size:12px;line-height:1.6;white-space:pre-wrap;margin-top:4px }
+
+/* Edit panel — slide up from bottom */
+.edit-panel { position:fixed;bottom:0;left:0;width:100%;background:var(--bg);border-radius:16px 16px 0 0;z-index:1002;box-shadow:0 -4px 20px rgba(0,0,0,0.15);max-height:85vh;overflow-y:auto;transition:transform 0.25s }
+.edit-panel.hidden { transform:translateY(100%) }
+.edit-panel .handle { width:36px;height:4px;border-radius:2px;background:var(--border);margin:10px auto }
+
+/* Responsive: show project column on wider screens */
+@media (min-width:420px) {
+  .td-project { display:table-cell;width:65px }
+}
+</style>
 </head>
 <body>
 <div class="app-shell">
-  <!-- Header -->
   <header class="top-bar">
     <svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-list"/></svg>
     <div>
       <h1 class="page-title">Tasks</h1>
-      <span class="page-subtitle">Notion Task Center</span>
+      <span class="page-subtitle" id="taskSource">Notion Task Center</span>
     </div>
     <span class="time-label" id="lastUpdate">--:--</span>
   </header>
 
   <main class="scroll-content">
-    <!-- Summary cards -->
     <div class="stat-grid-4">
       <div class="stat-card"><div class="stat-value green" id="taskTotal">--</div><div class="stat-label">Active</div></div>
       <div class="stat-card"><div class="stat-value peach" id="taskOverdue">0</div><div class="stat-label">Overdue</div></div>
@@ -26,19 +70,33 @@
       <div class="stat-card"><div class="stat-value accent" id="taskQ1">0</div><div class="stat-label">Urgent</div></div>
     </div>
 
-    <!-- Filters -->
     <div class="filter-row" id="filterRow">
-      <button class="filter-chip active" data-f="all" onclick="filterTasks(this)">All</button>
-      <button class="filter-chip" data-f="Work" onclick="filterTasks(this)">Work</button>
-      <button class="filter-chip" data-f="Personal" onclick="filterTasks(this)">Personal</button>
-      <button class="filter-chip" data-f="Learning" onclick="filterTasks(this)">Learning</button>
+      <button class="filter-chip active" data-f="all" onclick="filterTasks('all',this)">All</button>
+      <button class="filter-chip" data-f="💼 Work" onclick="filterTasks('💼 Work',this)">Work</button>
+      <button class="filter-chip" data-f="🏠 Personal" onclick="filterTasks('🏠 Personal',this)">Personal</button>
+      <button class="filter-chip" data-f="📚 Learning" onclick="filterTasks('📚 Learning',this)">Learning</button>
     </div>
 
-    <!-- Task list -->
-    <div id="taskList" class="card-stack"></div>
+    <!-- Task Table -->
+    <div style="overflow-x:auto">
+      <table class="task-table" id="taskTable">
+        <thead>
+          <tr>
+            <th class="td-check"></th>
+            <th class="td-title">Title</th>
+            <th class="td-status">Status</th>
+            <th class="td-prio">Prio</th>
+            <th class="td-due">Due</th>
+            <th class="td-project">Project</th>
+          </tr>
+        </thead>
+        <tbody id="taskBody">
+          <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-dim);font-size:13px">Loading tasks...</td></tr>
+        </tbody>
+      </table>
+    </div>
   </main>
 
-  <!-- Bottom Nav -->
   <nav class="bottom-nav">
     <a href="/home" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
     <a href="/tasks" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
@@ -48,35 +106,87 @@
   </nav>
 </div>
 
-<script src="/static/app.js"></script>
+<!-- Detail Overlay -->
+<div id="detailOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;overflow-y:auto">
+  <div style="max-width:393px;margin:0 auto;padding:60px 20px 100px">
+    <div class="card" style="position:relative">
+      <div onclick="closeDetail()" style="position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--text-dim)">✕</div>
+      <div class="card-header" style="padding-right:36px"><h2 id="dtTitle">Task</h2></div>
+      <div style="margin-top:8px">
+        <div class="detail-grid" id="dtGrid"></div>
+        <div style="margin-top:8px"><span class="dg-label">Notes</span><div class="detail-notes" id="dtNotes">—</div></div>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
+        <button id="dtDoneBtn" class="btn green" onclick="markDetailDone()"><svg class="icon-sm"><use href="/static/icons.svg#icon-check"/></svg> Done</button>
+        <button class="btn gold" onclick="openEditPanel()">✏️ Edit</button>
+        <button id="dtSyncBtn" class="btn ghost" onclick="verifyDetailSync()">🔄 Verify Sync</button>
+      </div>
+      <div id="dtSyncStatus" style="font-size:11px;color:var(--text-dim);margin-top:8px;display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Panel (slide up) -->
+<div id="editPanel" class="edit-panel">
+  <div class="handle"></div>
+  <div style="padding:0 16px 20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span style="font-weight:700;font-size:15px">Edit Task</span>
+      <span onclick="closeEditPanel()" style="cursor:pointer;color:var(--text-dim);font-size:18px">✕</span>
+    </div>
+    <div style="font-size:13px">
+      <div style="margin-bottom:10px">
+        <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Title</label>
+        <input id="edTitle" type="text" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;outline:none;box-sizing:border-box">
+      </div>
+      <div style="margin-bottom:10px">
+        <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Notes</label>
+        <textarea id="edNotes" rows="3" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div>
+          <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Priority</label>
+          <select id="edPriority" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;box-sizing:border-box">
+            <option value="Q1 · Do Now">Q1 · Do Now</option>
+            <option value="Q2 · Schedule">Q2 · Schedule</option>
+            <option value="Q3 · Delegate">Q3 · Delegate</option>
+            <option value="Q4 · Eliminate">Q4 · Eliminate</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Due Date</label>
+          <input id="edDue" type="date" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;box-sizing:border-box">
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn green" onclick="saveEdit()" style="flex:1;padding:10px">💾 Save</button>
+      <button class="btn ghost" onclick="closeEditPanel()" style="flex:1;padding:10px">Cancel</button>
+    </div>
+    <div id="edStatus" style="font-size:11px;color:var(--text-dim);margin-top:8px;display:none;text-align:center"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" style="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);max-width:353px;width:90%;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:500;color:#fff;text-align:center;z-index:1005;opacity:0;transition:opacity 0.25s;pointer-events:none"></div>
+
 <script>
-var _allTasks = [], _activeFilter = 'all', _expandedTask = null;
+/* ===== STATE ===== */
+var _tasks = [];          // all tasks from API
+var _filter = 'all';      // current filter
+var _current = null;      // task currently in detail overlay
+var _sortCol = null;      // sort column
+var _sortDir = 1;         // 1 = asc, -1 = desc
 
-function filterTasks(btn) {
-  _activeFilter = btn ? btn.getAttribute('data-f') || 'all' : 'all';
-  _expandedTask = null;
-  document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});
-  if (btn) btn.classList.add('active');
-  renderTasks();
-}
+/* ===== ESC key ===== */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    closeDetail();
+    closeEditPanel();
+  }
+});
 
-function toggleDetail(idx) {
-  _expandedTask = _expandedTask === idx ? null : idx;
-  renderTasks();
-}
-
-function doAction(pageId, action, value, btn) {
-  if (!pageId) { showToast('Read-only — no Notion link', 'var(--peach)'); return; }
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>'; }
-  fetch('/api/task/action', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({page_id:pageId, action:action, value:value||''})
-  }).then(function(r){return r.json()}).then(function(resp){
-    if (resp.ok) { showToast(resp.message||'Done','var(--green)'); setTimeout(loadTasks,1000); }
-    else { showToast(resp.error||'Failed','var(--peach)'); if(btn)btn.disabled=false; }
-  }).catch(function(){showToast('Network error','var(--peach)');if(btn)btn.disabled=false;});
-}
-
+/* ===== API CALLS ===== */
 function loadTasks() {
   fetch('/api/data?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
     var t = d.tasks || {};
@@ -85,53 +195,215 @@ function loadTasks() {
     document.getElementById('taskDueToday').textContent = t.due_today || 0;
     document.getElementById('taskQ1').textContent = t.q1_count || 0;
     document.getElementById('lastUpdate').textContent = d.ts || '--:--';
-    if (document.getElementById('headerTime')) document.getElementById('headerTime').textContent = d.ts || '--:--';
-    _allTasks = t.items || [];
-    renderTasks();
+    _tasks = t.items || [];
+    renderTable();
   }).catch(function(){});
 }
 
-function renderTasks() {
-  var el = document.getElementById('taskList');
-  if (!el) return;
-  var items = _activeFilter === 'all' ? _allTasks : _allTasks.filter(function(t){return (t.area||'').indexOf(_activeFilter)>=0});
-  if (!items.length) {
-    el.innerHTML = '<div class="empty-state"><svg class="icon-state accent"><use href="/static/icons.svg#icon-list"/></svg><p>No ' + (_activeFilter==='all'?'tasks':_activeFilter+' tasks') + '</p></div>';
+function doAction(pageId, action, value, btn) {
+  if (!pageId) { toast('Read-only — no Notion link', 'var(--peach)'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+  fetch('/api/task/action', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({page_id:pageId, action:action, value:value||''})
+  }).then(function(r){return r.json()}).then(function(r){
+    if (r.ok) {
+      toast(r.message||'Done','var(--green)');
+      if(_current && _current.page_id === pageId && action === 'mark_done'){
+        _current.status = 'done';
+        renderDetail();
+        closeDetail();
+      }
+      setTimeout(loadTasks, 800);
+    } else {
+      toast(r.error||'Failed','var(--peach)');
+      if(btn){btn.disabled=false;btn.innerHTML='<svg class=\"icon-sm\"><use href=\"/static/icons.svg#icon-check\"/></svg> Done';}
+    }
+  }).catch(function(){toast('Network error','var(--peach)');if(btn)btn.disabled=false;});
+}
+
+/* ===== FILTER + SORT ===== */
+function filterTasks(f, btn) {
+  _filter = f;
+  document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});
+  if (btn) btn.classList.add('active');
+  renderTable();
+}
+
+function sortTable(col) {
+  if (_sortCol === col) { _sortDir *= -1; } else { _sortCol = col; _sortDir = 1; }
+  renderTable();
+}
+
+function filterAndSort(src) {
+  var out = (_filter === 'all') ? src.slice() : src.filter(function(t){return (t.project||'').indexOf(_filter)>=0});
+  if (_sortCol) {
+    out.sort(function(a,b){
+      var va = (a[_sortCol]||'').toString().toLowerCase();
+      var vb = (b[_sortCol]||'').toString().toLowerCase();
+      if (va < vb) return -1 * _sortDir;
+      if (va > vb) return 1 * _sortDir;
+      return 0;
+    });
+  }
+  return out;
+}
+
+/* ===== RENDER TABLE ===== */
+function renderTable() {
+  var tbody = document.getElementById('taskBody');
+  if (!tbody) return;
+  var list = filterAndSort(_tasks);
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-dim);font-size:13px">No ' + (_filter==='all'?'tasks':_filter+' tasks') + '</td></tr>';
     return;
   }
-  var today = new Date(); var todayStr = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-  el.innerHTML = items.map(function(t,i){
-    var expanded = _expandedTask === i;
-    var p = t.priority || ''; var pc = p.indexOf('Q1')>=0?'var(--orange)':p.indexOf('Q2')>=0?'var(--gold)':p.indexOf('Q3')>=0?'var(--accent)':'var(--border)';
-    var d = t.due||''; var dl='',dc=''; if(d){if(d<todayStr){dl='Overdue '+d;dc='var(--peach)'}else if(d===todayStr){dl='Today';dc='var(--gold)'}else{dl=d;dc='var(--text-dim)'}}
-    var s = t.status||''; var sd = s==='In progress'?'var(--gold)':s==='Done'?'var(--green)':'var(--text-dim)';
-    var notes = t.notes||''; var ns = notes.substring(0,80)+(notes.length>80?'...':'');
-    return '<div class="task-card" style="border-left-color:'+pc+'" onclick="toggleDetail('+i+')">'+
-      '<div class="task-header"><div class="task-title">'+esc(t.title)+'</div>'+
-        '<div style="display:flex;gap:4px;align-items:center">'+
-          '<span class="prio-badge" style="background:'+pc+'20;color:'+pc+'">'+(p.indexOf('Q1')>=0?'U':p.indexOf('Q2')>=0?'S':p.indexOf('Q3')>=0?'D':'')+'</span>'+
-          '<svg class="icon-xs" style="color:var(--text-dim);transform:rotate('+(expanded?'180':'0')+'deg)"><use href="/static/icons.svg#icon-chevron-right"/></svg>'+
-        '</div></div>'+
-      '<div class="task-meta"><span class="status-dot" style="background:'+sd+'"></span><span>'+s+'</span>'+
-        (dl?'<span style="color:'+dc+';font-weight:'+(d===todayStr?'700':'400')+'">'+dl+'</span>':'')+
-      '</div>'+
-      (!expanded && ns ? '<div class="task-notes">'+esc(ns)+'</div>' : '')+
-      (expanded ? '<div class="task-detail">'+
-        (notes?'<div class="notes-box">'+esc(notes)+'</div>':'')+
-        '<div class="action-row">'+
-          (s!=='Done'?'<button class="btn green" onclick="event.stopPropagation();doAction(\''+(t.page_id||'')+'\',\'mark_done\',\'\',this)"><svg class="icon-sm"><use href="/static/icons.svg#icon-check"/></svg> Done</button>':'')+
-          (s!=='In progress'?'<button class="btn gold" onclick="event.stopPropagation();doAction(\''+(t.page_id||'')+'\',\'set_status\',\'In progress\',this)">Running</button>':'')+
-          (s!=='Not started'?'<button class="btn ghost" onclick="event.stopPropagation();doAction(\''+(t.page_id||'')+'\',\'set_status\',\'Not started\',this)">Reset</button>':'')+
-        '</div>'+
-        '<div class="detail-footer">'+
-          (t.page_id?'<svg class="icon-xs"><use href="/static/icons.svg#icon-refresh"/></svg> Notion linked':'<svg class="icon-xs"><use href="/static/icons.svg#icon-server"/></svg> Local')+
-          (t.last_edited?' &middot; '+(t.last_edited.substring(0,10)):'')+
-        '</div>'+
-      '</div>' : '')+
-    '</div>';
+  var today = new Date(); var ts = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+
+  tbody.innerHTML = list.map(function(t, idx){
+    var pg = t.priority || '';
+    var pc = pg.indexOf('Q1')>=0?'var(--orange)':pg.indexOf('Q2')>=0?'var(--gold)':pg.indexOf('Q3')>=0?'var(--accent)':'var(--border)';
+    var d = t.due||''; var dd='',dc=''; if(d){var d10=d.substring(0,10);if(d10<ts){dd=d10;dc='var(--peach)'}else if(d10===ts){dd='Today';dc='var(--gold)'}else{dd=d10;dc='var(--text-dim)'}}
+    var s = t.status||'active'; var isDone = s==='done'||s==='cancelled';
+    var sid = 'chk_' + (t.page_id || idx);
+
+    return '<tr class="'+(isDone?'done':'')+'" onclick="openDetail('+idx+')" data-idx="' + idx + '">'+
+      '<td class="td-check" onclick="event.stopPropagation()">'+
+        '<span id="'+sid+'" class="chk-circle'+(isDone?' done':'')+'" onclick="doAction(\''+(t.page_id||'')+'\',\'mark_done\',\'\',this)">'+
+          (isDone?'<svg style="width:10px;height:10px;color:#fff"><use href="/static/icons.svg#icon-check"/></svg>':'')+
+        '</span>'+
+      '</td>'+
+      '<td class="td-title"><strong>' + esc(t.title) + '</strong></td>'+
+      '<td class="td-status"><span class="stat-badge '+(isDone?'done':s)+'">'+(isDone?'Done':s==='in_progress'?'Run':s==='active'?'Active':'—')+'</span></td>'+
+      '<td class="td-prio"><span class="prio-dot" style="background:'+pc+'"></span>'+(pg.indexOf('Q1')>=0?'U':pg.indexOf('Q2')>=0?'S':pg.indexOf('Q3')>=0?'D':'')+'</td>'+
+      '<td class="td-due" style="color:'+dc+';font-weight:'+(dd==='Today'?'700':'400')+'">'+esc(dd)+'</td>'+
+      '<td class="td-project" style="color:var(--text-dim)">'+esc((t.project||'').replace(/^[^\s]*\s/,''))+'</td>'+
+    '</tr>';
   }).join('');
 }
 
+/* ===== DETAIL OVERLAY ===== */
+function openDetail(idx) {
+  var t = _tasks[idx];
+  if (!t) return;
+  _current = t;
+  document.getElementById('detailOverlay').style.display = 'block';
+  document.getElementById('dtTitle').textContent = esc(t.title);
+  renderDetail();
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').style.display = 'none';
+  _current = null;
+}
+
+function renderDetail() {
+  var t = _current;
+  if (!t) return;
+  var s = t.status || 'active'; var isDone = s==='done'||s==='cancelled';
+  var sc = isDone?'var(--green)':s==='in_progress'?'var(--gold)':'var(--text-dim)';
+  var pg = t.priority || '';
+  var d = t.due || '';
+
+  document.getElementById('dtGrid').innerHTML =
+    '<div><div class="dg-label">Status</div><div class="dg-value" style="color:'+sc+'">'+(isDone?'Done':s)+'</div></div>'+
+    '<div><div class="dg-label">Priority</div><div class="dg-value">'+pg+'</div></div>'+
+    '<div><div class="dg-label">Due</div><div class="dg-value">'+(d?d.substring(0,10):'—')+'</div></div>'+
+    '<div><div class="dg-label">Project</div><div class="dg-value">'+esc(t.project||'—')+'</div></div>'+
+    '<div><div class="dg-label">Area</div><div class="dg-value">'+esc(t.area||'—')+'</div></div>'+
+    '<div><div class="dg-label">Delegate</div><div class="dg-value">'+esc(t.delegate||'—')+'</div></div>';
+
+  document.getElementById('dtNotes').textContent = t.notes || '(no notes)';
+  document.getElementById('dtDoneBtn').style.display = isDone ? 'none' : 'inline-flex';
+}
+
+function markDetailDone() {
+  if (!_current || !_current.page_id) return;
+  doAction(_current.page_id, 'mark_done', '', document.getElementById('dtDoneBtn'));
+}
+
+function verifyDetailSync() {
+  var t = _current;
+  if (!t || !t.page_id) return;
+  var el = document.getElementById('dtSyncStatus');
+  el.style.display = 'block'; el.textContent = '🔄 Checking...'; el.style.color = 'var(--text-dim)';
+  fetch('/api/task/sync-verify', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({page_id: t.page_id})
+  }).then(function(r){return r.json()}).then(function(d){
+    if (d.ok && d.in_sync) {
+      el.textContent = '✅ PG: '+(d.pg_status||'?')+' ↔ Notion: '+(d.notion_status||'?')+' — In sync';
+      el.style.color = 'var(--green)';
+    } else if (d.ok) {
+      el.textContent = '⚠️ Mismatch — PG: '+(d.pg_status||'?')+' vs Notion: '+(d.notion_status||'?');
+      el.style.color = 'var(--orange)';
+    } else {
+      el.textContent = '❌ '+(d.error||'Failed');
+    }
+  }).catch(function(){el.textContent='❌ Network error';});
+}
+
+/* ===== EDIT PANEL ===== */
+function openEditPanel() {
+  var t = _current;
+  if (!t) return;
+  document.getElementById('edTitle').value = t.title || '';
+  document.getElementById('edNotes').value = t.notes || '';
+  document.getElementById('edPriority').value = t.priority || 'Q2 · Schedule';
+  document.getElementById('edDue').value = t.due ? t.due.substring(0,10) : '';
+  document.getElementById('edStatus').style.display = 'none';
+  document.getElementById('editPanel').classList.remove('hidden');
+}
+
+function closeEditPanel() {
+  document.getElementById('editPanel').classList.add('hidden');
+}
+
+function saveEdit() {
+  var t = _current;
+  if (!t || !t.page_id) { toast('Cannot edit — no Notion link', 'var(--peach)'); return; }
+  var title = document.getElementById('edTitle').value.trim();
+  if (!title) { toast('Title required', 'var(--peach)'); return; }
+  var status = document.getElementById('edStatus');
+  status.style.display = 'block'; status.textContent = '💾 Saving to Notion...'; status.style.color = 'var(--text-dim)';
+
+  fetch('/api/task/update', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      page_id: t.page_id,
+      title: title,
+      notes: document.getElementById('edNotes').value.trim(),
+      priority: document.getElementById('edPriority').value,
+      due: document.getElementById('edDue').value
+    })
+  }).then(function(r){return r.json()}).then(function(d){
+    if (d.ok) {
+      status.textContent = '✅ Saved — Notion + PG synced';
+      status.style.color = 'var(--green)';
+      t.title = title; t.notes = document.getElementById('edNotes').value.trim();
+      t.priority = document.getElementById('edPriority').value;
+      t.due = document.getElementById('edDue').value;
+      document.getElementById('dtTitle').textContent = esc(title);
+      renderDetail();
+      renderTable();
+      setTimeout(closeEditPanel, 1200);
+    } else {
+      status.textContent = '❌ '+(d.error||'Save failed');
+      status.style.color = 'var(--peach)';
+    }
+  }).catch(function(){status.textContent='❌ Network error';});
+}
+
+/* ===== UTILS ===== */
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
+function toast(msg, bg){
+  var t = document.getElementById('toast');
+  t.style.background = bg || 'rgba(0,0,0,0.85)';
+  t.textContent = msg; t.style.opacity = '1';
+  setTimeout(function(){t.style.opacity='0';}, 2500);
+}
+
+/* ===== INIT ===== */
 loadTasks();
 setInterval(loadTasks, 30000);
 </script>

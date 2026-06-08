@@ -18,34 +18,13 @@
     <div class="stat-card"><div class="stat-value peach" id="hCpu">--</div><div class="stat-label">CPU</div></div>
   </div>
 
-  <!-- AI Suggestions — dynamic, task-driven -->
+  <!-- AI Suggestions — Perplexity-powered intelligence -->
   <div class="section-title">AI Suggestions</div>
   <div class="card" id="homeSuggestions">
     <div style="font-size:12px;color:var(--text-dim)">Analyzing...</div>
   </div>
 
-  <!-- Quick Actions — 4 action cards -->
-  <div class="section-title">Quick Actions</div>
-  <div class="col2">
-    <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="location.href='/tasks'">
-      <svg class="icon-lg" style="color:var(--accent);margin:0 auto;display:block"><use href="/static/icons.svg#icon-list"/></svg>
-      <div style="font-size:12px;font-weight:600;margin-top:6px">Tasks</div>
-    </div>
-    <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="location.href='/intel'">
-      <svg class="icon-lg" style="color:var(--gold);margin:0 auto;display:block"><use href="/static/icons.svg#icon-brain"/></svg>
-      <div style="font-size:12px;font-weight:600;margin-top:6px">Intel</div>
-    </div>
-    <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="location.href='/agents'">
-      <svg class="icon-lg" style="color:var(--orange);margin:0 auto;display:block"><use href="/static/icons.svg#icon-server"/></svg>
-      <div style="font-size:12px;font-weight:600;margin-top:6px">Agents</div>
-    </div>
-    <div class="card" style="cursor:pointer;text-align:center;padding:14px" onclick="toggleChat()">
-      <svg class="icon-lg" style="color:var(--pink);margin:0 auto;display:block"><use href="/static/icons.svg#icon-sparkles"/></svg>
-      <div style="font-size:12px;font-weight:600;margin-top:6px">Ask AI</div>
-    </div>
-  </div>
-
-  <!-- AI Presence Strip — minimal, just names + status dots -->
+  <!-- AI Presence Strip — Servants status -->
   <div class="section-title">Servants</div>
   <div class="card" style="display:flex;justify-content:space-around;padding:10px">
     <div style="text-align:center;cursor:pointer" onclick="location.href='/agents/fighter'">
@@ -95,30 +74,57 @@ function sendChat(){var i=document.getElementById('chatInput'),msg=i.value.trim(
 fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})}).then(function(r){return r.json()}).then(function(r){m.innerHTML+='<div style="margin:2px 0"><span style="background:rgba(255,255,255,0.06);padding:4px 10px;border-radius:10px;display:inline-block;font-size:12px">🤖 '+(r.message||'Got it')+'</span></div>';}).catch(function(){}).finally(function(){i.disabled=false;i.focus();});}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
 
-fetch('/api/data?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
-  // Greeting
-  var h=new Date().getHours();
-  document.querySelector('.page-title').textContent = h<12?'Good Morning':h<18?'Good Afternoon':'Good Evening';
-  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric',timeZone:'Asia/Hong_Kong'});
-  document.getElementById('lastUpdate').textContent = d.ts||'--:--';
-  // Stats
-  var t=d.tasks||{}; document.getElementById('hTasks').textContent=t.total||0; document.getElementById('hOverdue').textContent=t.overdue||0; document.getElementById('hUrgent').textContent=t.q1_count||0;
-  var s=d.system||{}; document.getElementById('hCpu').textContent=(s.cpu||'--')+'%';
-  // Suggestions
+function loadHome(){
+  fetch('/api/data?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
+    var h=new Date().getHours();
+    document.querySelector('.page-title').textContent = h<12?'Good Morning':h<18?'Good Afternoon':'Good Evening';
+    document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric',timeZone:'Asia/Hong_Kong'});
+    document.getElementById('lastUpdate').textContent = d.ts||'--:--';
+    var t=d.tasks||{}; document.getElementById('hTasks').textContent=t.total||0; document.getElementById('hOverdue').textContent=t.overdue||0; document.getElementById('hUrgent').textContent=t.q1_count||0;
+    var sys=d.system||{}; document.getElementById('hCpu').textContent=(sys.cpu||'--')+'%';
+
+    // Servants status — green=online, red=offline + time
+    var a=d.agents||{};
+    ['fighter','work','person'].forEach(function(k){
+      var key=k==='fighter'?'main':k;
+      var ag=(a[key]||{});
+      var el=document.getElementById(k+'Status');
+      var dot=document.getElementById(k+'Dot');
+      if(ag.online){
+        el.textContent='Online';
+        el.style.color='var(--green-dark)';
+        dot.style.background=k==='fighter'?'var(--orange)':k==='work'?'var(--blue)':'var(--pink)';
+      } else {
+        el.textContent='Offline since '+(ag.last_heartbeat||'--:--');
+        el.style.color='#e74c3c';
+        dot.style.background='#e74c3c';
+      }
+    });
+
+    // AI Suggestions — call Perplexity intel-summary
+    fetch('/api/intel-summary?_='+Date.now()).then(function(r){return r.json()}).then(function(d2){
+      var sug=document.getElementById('homeSuggestions');
+      if(d2.ok && d2.summary){
+        sug.innerHTML = '<div style="font-size:13px;color:var(--text-muted);line-height:1.7">' + esc(d2.summary) + '</div>';
+      } else {
+        // Fallback to basic stats
+        renderFallbackSuggestions(d.tasks||{});
+      }
+    }).catch(function(){
+      renderFallbackSuggestions(d.tasks||{});
+    });
+  }).catch(function(){});
+}
+
+function renderFallbackSuggestions(t){
   var sug=document.getElementById('homeSuggestions');
   var items=[];
-  if(t.overdue>0) items.push('Overdue <strong>'+t.overdue+' tasks</strong> — check <a href="/tasks" style="color:var(--accent)">Tasks</a>');
-  if(t.q1_count>0) items.push('<strong>'+t.q1_count+' urgent</strong> tasks waiting');
-  if(t.due_today>0) items.push('<strong>'+t.due_today+' tasks due today</strong>');
-  sug.innerHTML = items.length ? items.map(function(x){return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5">'+x+'</div>';}).join('') : '<div style="text-align:center;padding:10px;color:var(--green);font-size:13px">All clear</div>';
-  // AI status dots
-  var a=d.agents||{};
-  ['fighter','work','person'].forEach(function(k){
-    var key=k==='fighter'?'main':k;
-    var ag=(a[key]||{});
-    document.getElementById(k+'Status').textContent = ag.online?'Online':'Offline';
-    document.getElementById(k+'Dot').style.background = ag.online?(k==='fighter'?'var(--orange)':k==='work'?'var(--blue)':'var(--pink)'):'var(--border)';
-  });
-}).catch(function(){});
+  if(t.overdue>0) items.push('⚠️ Overdue <strong>'+t.overdue+' tasks</strong> — check <a href="/tasks" style="color:var(--accent)">Tasks</a>');
+  if(t.q1_count>0) items.push('🎯 <strong>'+t.q1_count+' urgent</strong> tasks waiting');
+  if(t.due_today>0) items.push('📅 <strong>'+t.due_today+' tasks due today</strong>');
+  sug.innerHTML = items.length ? items.map(function(x){return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5">'+x+'</div>';}).join('') : '<div style="text-align:center;padding:10px;color:var(--green-dark);font-size:13px">✅ All clear — no pressing items</div>';
+}
+
+loadHome();
 </script>
 </body></html>

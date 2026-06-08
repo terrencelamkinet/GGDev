@@ -1,16 +1,16 @@
 {
   "metrics": {
-    "cpu": 98,
-    "mem": 20,
-    "disk": 66
+    "cpu": 95,
+    "mem": 15,
+    "disk": 67
   },
   "agents": {
     "main": {
-      "cpu": 98,
-      "mem": 20,
-      "disk": 66,
+      "cpu": 95,
+      "mem": 15,
+      "disk": 67,
       "load": "0.82",
-      "uptime": "1 week, 5 days, 16 hours, 42 minutes",
+      "uptime": "1 week, 6 days, 2 hours, 11 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -18,7 +18,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "清晨 — CPU load 0.4 — 閒置; 已運行 13 日; 1 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 13 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -30,11 +30,11 @@
       ]
     },
     "work": {
-      "cpu": 91,
-      "mem": 33,
-      "disk": 57,
-      "load": "0.50",
-      "uptime": "2 weeks, 5 days, 22 hours, 20 minutes",
+      "cpu": 54,
+      "mem": 32,
+      "disk": 58,
+      "load": "0.59",
+      "uptime": "2 weeks, 6 days, 7 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -42,7 +42,7 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "清晨 — CPU load 0.4 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -55,11 +55,11 @@
       ]
     },
     "person": {
-      "cpu": 60,
-      "mem": 27,
+      "cpu": 96,
+      "mem": 32,
       "disk": 67,
-      "load": "0.48",
-      "uptime": "2 weeks, 5 days, 22 hours, 20 minutes",
+      "load": "0.54",
+      "uptime": "2 weeks, 6 days, 7 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -67,7 +67,7 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "清晨 — CPU load 0.3 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],

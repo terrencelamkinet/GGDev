@@ -20,6 +20,14 @@ with open(ENV_PATH) as f:
         elif line.startswith("PG_PASSWORD="):
             PG_CONFIG["password"] = line.split("=", 1)[1]
 
+# Perplexity API key
+PERPLEXITY_API_KEY = ""
+with open(ENV_PATH) as f:
+    for line in f:
+        if line.startswith("PERPLEXITY_API_KEY="):
+            PERPLEXITY_API_KEY = line.split("=", 1)[1].strip().strip('"').strip("'")
+            break
+
 # Notion config
 NOTION_TOKEN = ""
 NOTION_DB = "c5d6a00c-b4ab-40e5-ae83-505facd37be0"
@@ -51,7 +59,7 @@ except:
 
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-import requests
+import requests, psutil
 
 app = Flask(__name__, static_folder=".", static_url_path="")
 CORS(app)
@@ -97,18 +105,23 @@ def api_data():
         return jsonify(data)
     
     try:
-        # System data from agents or defaults
-        main_agent = data.get("agents", {}).get("main", {}) or {}
-        work_agent = data.get("agents", {}).get("work", {}) or {}
-        person_agent = data.get("agents", {}).get("person", {}) or {}
-        data["system"] = {
-            "cpu": main_agent.get("cpu") or work_agent.get("cpu") or 0,
-            "mem": main_agent.get("mem") or work_agent.get("mem") or 0,
-            "disk": main_agent.get("disk") or work_agent.get("disk") or 0,
-            "load": main_agent.get("load") or "0.5",
-            "uptime": main_agent.get("uptime") or "N/A",
-            "services": {"gg-reminder": "green", "disk": "green", "memory": "green"}
-        }
+        # Real system data from psutil (local VM)
+        try:
+            _cpu = psutil.cpu_percent(interval=0.5)
+            _mem = psutil.virtual_memory().percent
+            _disk = psutil.disk_usage("/").percent
+            _load = open("/proc/loadavg").read().split()[:3]
+            _uptime_s = float(open("/proc/uptime").read().split()[0])
+            _uptime = str(timedelta(seconds=int(_uptime_s)))
+            data["system"] = {
+                "cpu": round(_cpu, 1), "mem": round(_mem, 1), "disk": round(_disk, 1),
+                "load": " ".join(_load), "uptime": _uptime,
+                "services": {"flask-webapp": "green", "pg": "green" if HAS_PG else "red",
+                             "cloudflared": "green"}
+            }
+        except Exception:
+            data["system"] = {"cpu": 0, "mem": 0, "disk": 0, "load": "N/A",
+                              "uptime": "N/A", "services": {}}
         
         # Tasks from PG
         cur.execute("""
@@ -193,20 +206,39 @@ def api_data():
             for r in cur.fetchall()
         ]
         
-        # AI health
+        # AI health — latest snapshot per agent
         cur.execute("""
-            SELECT ai_name, status, cpu, mem, disk, uptime, recorded_at::text
-            FROM ai_snapshot ORDER BY recorded_at DESC LIMIT 3
+            SELECT DISTINCT ON (ai_name)
+                ai_name, status, cpu, mem, disk, uptime,
+                to_char(recorded_at, 'YYYY-MM-DD HH24:MI:SSTZH:TZM') as recorded_at
+            FROM ai_snapshot
+            ORDER BY ai_name, recorded_at DESC
         """)
         agents = {}
+        now_ts = now.strftime("%Y-%m-%d %H:%M")
         for r in cur.fetchall():
             aname, status, cpu, mem, disk, uptime, ts = r
             key = "main" if "main" in (aname or "") or "fighter" in (aname or "") else \
                   "work" if "work" in (aname or "") else "person"
-            if key not in agents:
-                agents[key] = {"cpu": cpu or 0, "mem": mem or 0, "disk": disk or 0,
-                              "uptime": uptime or "", "online": status == "online",
-                              "daemons": {"reminder": False, "monitor": False}}
+            # Determine if recently online (< 15 min, snapshots every ~15min)
+            try:
+                snap_ts = datetime.strptime(ts, "%Y-%m-%d %H:%M:%S%z") if ts else None
+                recent = (now - snap_ts).total_seconds() < 900 if snap_ts else False
+            except:
+                recent = False
+            agents[key] = {
+                "cpu": cpu or 0, "mem": mem or 0, "disk": disk or 0,
+                "uptime": uptime or "", "online": recent,
+                "last_heartbeat": (ts or now_ts)[11:16],
+                "thoughts": f"{'🟢' if recent else '🔴'} {status or 'unknown'} · CPU {cpu or 0}% · MEM {mem or 0}%",
+                "daemons": {"reminder": True, "monitor": True}
+            }
+        # Fill any missing agents with defaults
+        for k in ["main", "work", "person"]:
+            if k not in agents:
+                agents[k] = {"cpu": 0, "mem": 0, "disk": 0, "uptime": "N/A",
+                             "online": False, "last_heartbeat": "--:--",
+                             "thoughts": "Offline", "daemons": {}}
         data["agents"] = agents
         
     except Exception as e:
@@ -374,18 +406,61 @@ def api_task_create():
 
 @app.route("/api/task/update", methods=["POST"])
 def api_task_update():
-    """Update task detail in PG and Notion."""
+    """Update task detail — Notion FIRST (source of truth), then PG."""
     body = request.get_json() or {}
     page_id = (body.get("page_id") or "").strip()
     if not page_id:
         return jsonify({"ok": False, "error": "Missing page_id"}), 400
-    
+
     title = (body.get("title") or "").strip()
     notes = (body.get("notes") or "").strip()
     due = (body.get("due") or "").strip()
     priority = (body.get("priority") or "").strip()
-    
-    # Update PG
+
+    notion_ok = True
+    notion_props = {}
+
+    if title:
+        notion_props["Name"] = {"title": [{"text": {"content": title}}]}
+    if due:
+        notion_props["Due Date"] = {"date": {"start": due}}
+    elif "due" in body and not due:
+        notion_props["Due Date"] = None  # clear date
+    if priority:
+        prio_map = {"Q1 · Do Now": "Q1 · Do Now", "Q2 · Schedule": "Q2 · Schedule",
+                    "Q3 · Delegate": "Q3 · Delegate", "Q4 · Eliminate": "Q4 · Eliminate"}
+        notion_props["Priority"] = {"select": {"name": prio_map.get(priority, "Q2 · Schedule")}}
+    if notes:
+        setattr  # placeholder for notes in Notion (may be a rich_text property)
+
+    # 1. Update Notion FIRST (source of truth)
+    if NOTION_TOKEN and notion_props:
+        headers = {
+            "Authorization": f"Bearer {NOTION_TOKEN}",
+            "Content-Type": "application/json",
+            "Notion-Version": "2022-06-28"
+        }
+        try:
+            nr = requests.patch(
+                f"https://api.notion.com/v1/pages/{page_id}",
+                headers=headers,
+                json={"properties": notion_props, "archived": False},
+                timeout=15
+            )
+            if nr.status_code not in (200, 201):
+                notion_ok = False
+                print(f"Notion update failed: {nr.status_code} {nr.text[:200]}")
+        except Exception as e:
+            notion_ok = False
+            print(f"Notion update error: {e}")
+
+    if not notion_ok:
+        return jsonify({
+            "ok": False, "error": "Notion update failed — PG not modified to avoid drift",
+            "note": "Retry or check Notion API status"
+        }), 502
+
+    # 2. Only if Notion succeeded, update PG
     cur, conn = pg_cur()
     if cur:
         try:
@@ -395,11 +470,13 @@ def api_task_update():
                 sets.append("title=%s"); vals.append(title)
             if notes:
                 sets.append("notes=%s"); vals.append(notes)
-            if due:
-                sets.append("due_date=%s"); vals.append(due)
+            if "due" in body:
+                sets.append("due_date=%s"); vals.append(due if due else None)
             if priority:
-                prio_map = {"Q1 · Do Now": "P0", "Q2 · Schedule": "P2", "Q3 · Delegate": "P3", "Q4 · Eliminate": "P3"}
-                quad_map = {"Q1 · Do Now": "Q1", "Q2 · Schedule": "Q2", "Q3 · Delegate": "Q3", "Q4 · Eliminate": "Q4"}
+                prio_map = {"Q1 · Do Now": "P0", "Q2 · Schedule": "P2",
+                            "Q3 · Delegate": "P3", "Q4 · Eliminate": "P3"}
+                quad_map = {"Q1 · Do Now": "Q1", "Q2 · Schedule": "Q2",
+                            "Q3 · Delegate": "Q3", "Q4 · Eliminate": "Q4"}
                 pg_p = prio_map.get(priority, "P2")
                 pg_q = quad_map.get(priority, "Q2")
                 sets.append("priority=%s::priority_level, quadrant=%s::quadrant_type")
@@ -414,29 +491,118 @@ def api_task_update():
         except Exception as e:
             conn.rollback()
             print(f"PG update error: {e}")
+            return jsonify({
+                "ok": False, "error": f"Notion updated but PG failed: {str(e)[:100]}",
+                "note": "Task sync may be inconsistent — run sync-verify"
+            }), 500
         finally:
             if conn: conn.close()
-    
-    # Also update Notion if token available
-    if NOTION_TOKEN and (title or due or priority):
-        headers = {"Authorization": f"Bearer {NOTION_TOKEN}", "Content-Type": "application/json", "Notion-Version": "2022-06-28"}
-        props = {}
-        if title:
-            props["Name"] = {"title": [{"text": {"content": title}}]}
-        if due:
-            props["Due Date"] = {"date": {"start": due}}
-        if priority:
-            prio_map = {"Q1 · Do Now": "Q1 · Do Now", "Q2 · Schedule": "Q2 · Schedule",
-                        "Q3 · Delegate": "Q3 · Delegate", "Q4 · Eliminate": "Q4 · Eliminate"}
-            props["Priority"] = {"select": {"name": prio_map.get(priority, "Q2 · Schedule")}}
-        if props:
-            try:
-                requests.patch(f"https://api.notion.com/v1/pages/{page_id}", headers=headers,
-                              json={"properties": props}, timeout=15)
-            except:
-                pass
-    
-    return jsonify({"ok": True, "message": "Task updated"})
+
+    return jsonify({"ok": True, "message": "Task updated — Notion + PG synced"})
+
+
+# ===== API: TASK SYNC VERIFY =====
+
+@app.route("/api/task/sync-verify", methods=["POST"])
+def api_task_sync_verify():
+    """Verify a task's status matches between PG and Notion."""
+    body = request.get_json() or {}
+    page_id = (body.get("page_id") or "").strip()
+    if not page_id:
+        return jsonify({"ok": False, "error": "Missing page_id"}), 400
+
+    pg_status = None
+    cur, conn = pg_cur()
+    if cur:
+        try:
+            cur.execute("SELECT status, title, updated_at::text FROM tasks WHERE notion_page_id=%s", (page_id,))
+            r = cur.fetchone()
+            if r:
+                pg_status = r[0]
+                title = r[1]
+                pg_updated = r[2] or ""
+        except:
+            pass
+        finally:
+            if conn: conn.close()
+
+    notion_status = None
+    if NOTION_TOKEN:
+        try:
+            nr = requests.get(
+                f"https://api.notion.com/v1/pages/{page_id}",
+                headers={
+                    "Authorization": f"Bearer {NOTION_TOKEN}",
+                    "Notion-Version": "2022-06-28"
+                },
+                timeout=10
+            )
+            if nr.status_code == 200:
+                nd = nr.json()
+                # Extract status from Notion
+                props = nd.get("properties", {})
+                status_prop = props.get("Status", {})
+                notion_status = (status_prop.get("status") or {}).get("name")
+        except:
+            pass
+
+    in_sync = (pg_status in ("done", "cancelled") and notion_status in ("Done", "Cancelled")) or \
+              (pg_status not in ("done", "cancelled") and notion_status not in ("Done", "Cancelled"))
+
+    return jsonify({
+        "ok": True,
+        "page_id": page_id,
+        "pg_status": pg_status,
+        "notion_status": notion_status,
+        "in_sync": in_sync,
+        "note": "In sync" if in_sync else "Mismatch — may need manual alignment"
+    })
+
+
+# ===== API: TASK DETAIL =====
+
+@app.route("/api/task/detail", methods=["POST"])
+def api_task_detail():
+    """Return full PG detail for a single task by page_id."""
+    body = request.get_json() or {}
+    page_id = (body.get("page_id") or "").strip()
+    if not page_id:
+        return jsonify({"ok": False, "error": "Missing page_id"}), 400
+
+    cur, conn = pg_cur()
+    if not cur:
+        return jsonify({"ok": False, "error": "PG unavailable"}), 500
+
+    try:
+        cur.execute("""
+            SELECT id, title, priority::text, status::text, quadrant::text,
+                   suggested_delegate, project, due_date::text, notes,
+                   notion_page_id, created_at::text, updated_at::text
+            FROM tasks WHERE notion_page_id=%s
+        """, (page_id,))
+        r = cur.fetchone()
+        if not r:
+            return jsonify({"ok": False, "error": "Task not found"}), 404
+
+        # Map PG priority levels (P0-P3) to display format
+        pg_prio = r[2] or ""
+        prio_display_map = {"P0": "Q1 · Do Now", "P1": "Q1 · Do Now",
+                            "P2": "Q2 · Schedule", "P3": "Q2 · Schedule"}
+        disp_prio = prio_display_map.get(pg_prio, pg_prio)
+
+        return jsonify({
+            "ok": True,
+            "task": {
+                "id": r[0], "title": r[1], "priority": disp_prio, "status": r[3],
+                "quadrant": r[4], "delegate": r[5], "project": r[6],
+                "due": r[7] or "", "notes": r[8] or "",
+                "page_id": r[9], "created_at": r[10] or "", "updated_at": r[11] or ""
+            }
+        })
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+    finally:
+        if conn: conn.close()
 
 
 # ===== API: AI CHAT (simple prompt relay) =====
@@ -469,21 +635,188 @@ def api_chat():
     })
 
 
+# ===== API: PERPLEXITY RESEARCH =====
+
+@app.route("/api/research", methods=["POST"])
+def api_research():
+    """Run Perplexity research query and store result as insight."""
+    body = request.get_json() or {}
+    query = body.get("query", "").strip()
+    mode = body.get("mode", "quick")  # quick or deep
+
+    if not query:
+        return jsonify({"ok": False, "error": "Empty query"}), 400
+    if not PERPLEXITY_API_KEY:
+        return jsonify({"ok": False, "error": "Perplexity API key not configured"}), 500
+
+    model = "sonar-deep-research" if mode == "deep" else "sonar-pro"
+    sys_prompt = "You are GG Intelligence, an AI analyst integrated into Terrence's personal dashboard. Give concise, specific, actionable insights. Use bullet points. Never be vague."
+
+    try:
+        resp = requests.post(
+            "https://api.perplexity.ai/chat/completions",
+            headers={
+                "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": sys_prompt},
+                    {"role": "user", "content": query}
+                ]
+            },
+            timeout=90
+        )
+        resp.raise_for_status()
+        result = resp.json()
+        content = (result.get("choices") or [{}])[0].get("message", {}).get("content", "")
+        citations = result.get("citations", [])
+
+        if not content:
+            return jsonify({"ok": False, "error": "Empty response from Perplexity"}), 502
+
+        # Store in gg_insights
+        cur, conn = pg_cur()
+        if cur:
+            try:
+                cur.execute("""
+                    INSERT INTO gg_insights (insight_type, source, title, summary, significance, metadata)
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """, (
+                    "research", "perplexity",
+                    f"🔍 {query[:80]}",
+                    content[:800],
+                    "medium",
+                    json.dumps({"query": query, "mode": mode, "model": model,
+                                "full_length": len(content), "citations": len(citations)})
+                ))
+                conn.commit()
+            except Exception as e:
+                print(f"PG insight store error: {e}")
+            finally:
+                if conn: conn.close()
+
+        return jsonify({
+            "ok": True, "query": query, "content": content,
+            "citations": citations, "model": model
+        })
+
+    except requests.exceptions.Timeout:
+        return jsonify({"ok": False, "error": "Perplexity request timed out"}), 504
+    except requests.exceptions.RequestException as e:
+        return jsonify({"ok": False, "error": f"API error: {str(e)[:200]}"}), 502
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)[:200]}), 500
+
+
+# ===== API: INTEL SUMMARY (auto-generated by Perplexity from current state) =====
+
+@app.route("/api/intel-summary")
+def api_intel_summary():
+    """Generate a quick AI summary of current dashboard state."""
+    if not PERPLEXITY_API_KEY:
+        return jsonify({"ok": False, "error": "No Perplexity key"}), 500
+
+    cur, conn = pg_cur()
+    if not cur:
+        return jsonify({"ok": False, "error": "PG unavailable"}), 500
+
+    try:
+        # Gather context
+        cur.execute("SELECT COUNT(*) FROM tasks WHERE status NOT IN ('done','cancelled')")
+        active_tasks = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM tasks WHERE due_date < NOW() AND status NOT IN ('done','cancelled')")
+        overdue = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM tasks WHERE status='in_progress'")
+        in_progress = cur.fetchone()[0]
+        cur.execute("SELECT title FROM tasks WHERE status='in_progress' ORDER BY updated_at DESC LIMIT 3")
+        current = [r[0] for r in cur.fetchall()]
+
+        prompt = (
+            f"Current system state: {active_tasks} active tasks, "
+            f"{overdue} overdue, {in_progress} in progress.\n"
+            f"Currently working on: {', '.join(current) if current else 'nothing specific'}.\n"
+            f"Generate 2-3 brief, actionable observations. Keep each under 30 words."
+        )
+
+        resp = requests.post(
+            "https://api.perplexity.ai/chat/completions",
+            headers={
+                "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": "sonar-pro",
+                "messages": [
+                    {"role": "system", "content": "You are GG Intelligence. Be concise, specific, actionable. Max 3 bullet points."},
+                    {"role": "user", "content": prompt}
+                ]
+            },
+            timeout=30
+        )
+        resp.raise_for_status()
+        result = resp.json()
+        content = (result.get("choices") or [{}])[0].get("message", {}).get("content", "")
+
+        return jsonify({"ok": True, "summary": content, "context": {
+            "active": active_tasks, "overdue": overdue, "in_progress": in_progress
+        }})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)[:200]}), 502
+    finally:
+        if conn: conn.close()
+
+
 # ===== API: INSIGHTS =====
 
 @app.route("/api/insights")
 def api_insights():
-    """Return stacking insights from gg-insights.json."""
+    """Return stacking insights from PG gg_insights table."""
+    # Try file-based first for compatibility
     insights_path = os.path.join(os.path.dirname(__file__), "gg-insights.json")
     if os.path.exists(insights_path):
         try:
             with open(insights_path) as f:
                 return jsonify(json.load(f))
-        except (json.JSONDecodeError, IOError) as e:
-            print(f"Insights file read error: {e}")
-            return jsonify({"entries": [], "dynamics": {}, "meta": {"total_entries": 0},
-                            "error": "Corrupted insights file"}), 500
-    return jsonify({"entries": [], "dynamics": {}, "meta": {"total_entries": 0}})
+        except (json.JSONDecodeError, IOError):
+            pass
+    
+    # Fallback: read from PG
+    cur, conn = pg_cur()
+    if not cur:
+        return jsonify({"entries": [], "dynamics": {}, "meta": {"total_entries": 0, "source": "none"}})
+    
+    try:
+        cur.execute("""
+            SELECT id, insight_type, source, title, summary, significance, metadata::text, created_at::text
+            FROM gg_insights
+            ORDER BY created_at DESC
+            LIMIT 100
+        """)
+        entries = []
+        for r in cur.fetchall():
+            mid, itype, src, title, summary, sig, meta, ts = r
+            try:
+                meta_obj = json.loads(meta) if meta else {}
+            except:
+                meta_obj = {}
+            entries.append({
+                "id": mid, "type": itype or "note", "source": src or "system",
+                "msg": title or "", "detail": summary or "",
+                "significance": sig or "low", "meta": meta_obj,
+                "ts": (ts or "")[:16] if ts else ""
+            })
+        return jsonify({
+            "entries": entries,
+            "dynamics": {},
+            "meta": {"total_entries": len(entries), "source": "pg"}
+        })
+    except Exception as e:
+        print(f"Insights PG error: {e}")
+        return jsonify({"entries": [], "dynamics": {}, "meta": {"total_entries": 0, "error": str(e)}}), 500
+    finally:
+        if conn: conn.close()
 
 
 # ===== API: STATUS =====

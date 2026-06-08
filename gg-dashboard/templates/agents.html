@@ -32,8 +32,8 @@
 <script>
 fetch('/api/data?_='+Date.now()).then(r=>r.json()).then(function(d){
   var a=d.agents||{};
-  function setTag(id,v){var e=document.getElementById(id);if(e){e.textContent=v?'● Online':'● Offline';e.className='tag'+(v?' green':' peach');}}
-  setTag('agFighterStatus',a.main&&a.main.online);setTag('agWorkStatus',a.work&&a.work.online);setTag('agPersonStatus',a.person&&a.person.online);
+  function setTag(id,v,hb){var e=document.getElementById(id);if(e){e.textContent=v?'● Online':'● Offline since '+(hb||'--:--');e.className='tag'+(v?' green':'');e.style.background=v?'':'rgba(231,76,60,0.15)';e.style.color=v?'':'#e74c3c';e.style.border='1px solid '+(v?'transparent':'rgba(231,76,60,0.3)');}}
+  setTag('agFighterStatus',a.main&&a.main.online,a.main&&a.main.last_heartbeat);setTag('agWorkStatus',a.work&&a.work.online,a.work&&a.work.last_heartbeat);setTag('agPersonStatus',a.person&&a.person.online,a.person&&a.person.last_heartbeat);
   var ft=document.getElementById('agFighterThought');if(ft)ft.textContent=(a.main&&a.main.thoughts)||'Idle';
   var wt=document.getElementById('agWorkThought');if(wt)wt.textContent=(a.work&&a.work.thoughts)||'On standby';
   var pt=document.getElementById('agPersonThought');if(pt)pt.textContent=(a.person&&a.person.thoughts)||'Ready';
