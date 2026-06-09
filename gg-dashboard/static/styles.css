@@ -242,8 +242,7 @@ body {
   box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
   display: flex; justify-content: space-around; align-items: center;
   height: var(--nav-h); padding-bottom: var(--safe-bottom);
-  z-index: 100; max-width: 393px; margin: 0 auto;
-  border-radius: 24px 24px 0 0;
+  z-index: 100;
 }
 .nav-tab {
   flex: 1; display: flex; flex-direction: column; align-items: center;
@@ -275,8 +274,4 @@ body {
   }
   .time-label { background: var(--border); }
   .badge { box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-  .card { backdrop-filter: none; background: var(--card); }
-  .stat-card { backdrop-filter: none; background: var(--card); }
-  .task-card { backdrop-filter: none; background: var(--card); }
-  .metric-card { backdrop-filter: none; background: var(--card); }
 }
