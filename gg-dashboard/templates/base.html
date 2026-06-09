@@ -4,43 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>{% block title %}GG Platform{% endblock %}</title>
-  <link rel="stylesheet" href="/styles.css">
-  <style>
-    body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text',system-ui,sans-serif; }
-    .container { max-width:393px; margin:0 auto; padding:0 20px; min-height:100dvh; display:flex; flex-direction:column; }
-    .header { padding:12px 0 8px; display:flex; justify-content:space-between; align-items:center; }
-    .header h1 { font-size:20px; font-weight:700; margin:0; }
-    .header .sub { font-size:12px; font-weight:400; color:var(--text-dim); display:block; }
-    .header-right { display:flex; align-items:center; gap:8px; }
-    .time-label { font-size:11px; color:var(--text-dim); }
-    .badge { font-size:11px; padding:2px 8px; border-radius:10px; background:rgba(0,184,148,0.15); color:#00b894; font-weight:600; }
-    .badge.warning { background:rgba(225,112,85,0.15); color:#e17055; }
-    .greeting h2 { font-size:22px; font-weight:700; margin:4px 0; }
-    .greeting .date { font-size:13px; color:var(--text-dim); margin-bottom:12px; }
-    .section-title { font-size:14px; font-weight:700; color:var(--text-muted); margin:12px 0 8px; }
-    .card { background:var(--card-bg); border-radius:12px; padding:12px; margin-bottom:8px; border:1px solid var(--border); }
-    .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-    .card-header h2 { font-size:14px; font-weight:700; margin:0; }
-    .tag { font-size:10px; padding:2px 6px; border-radius:8px; font-weight:600; }
-    .tag.green { background:rgba(0,184,148,0.15); color:#00b894; }
-    .tag.peach { background:rgba(225,112,85,0.15); color:#e17055; }
-    .tag.lavender { background:rgba(108,92,231,0.15); color:#6c5ce7; }
-    .metric-summary { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:16px; }
-    .metric-card { background:var(--card-bg); border-radius:12px; padding:10px 6px; text-align:center; border:1px solid var(--border); }
-    .metric-card .icon { font-size:18px; margin-bottom:4px; }
-    .metric-card .value { font-size:20px; font-weight:800; }
-    .metric-card .value.green { color:#00b894; }
-    .metric-card .value.peach { color:#e17055; }
-    .metric-card .value.purple { color:#6c5ce7; }
-    .metric-card .value.gold { color:#fdcb6e; }
-    .metric-card .label { font-size:10px; color:var(--text-dim); margin-top:2px; }
-    .col2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-    .col3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
-    .filter-tab { padding:4px 10px; border-radius:12px; border:none; font-size:12px; background:rgba(255,255,255,0.06); color:var(--text-muted); cursor:pointer; font-weight:600; }
-    .filter-tab.active { background:var(--accent); color:var(--bg); }
-    a { color:var(--accent); text-decoration:none; }
-    :root { --bg:#1a1a2e; --card-bg:rgba(255,255,255,0.04); --text:#e8e8f0; --text-muted:#a0a0b8; --text-dim:#707088; --border:rgba(255,255,255,0.08); --accent:#6c5ce7; --green-dark:#00b894; }
-  </style>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 <div class="container">

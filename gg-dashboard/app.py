@@ -431,7 +431,7 @@ def api_task_update():
                     "Q3 · Delegate": "Q3 · Delegate", "Q4 · Eliminate": "Q4 · Eliminate"}
         notion_props["Priority"] = {"select": {"name": prio_map.get(priority, "Q2 · Schedule")}}
     if notes:
-        setattr  # placeholder for notes in Notion (may be a rich_text property)
+        pass  # Notes stored in PG only; Notion bridge handles sync
 
     # 1. Update Notion FIRST (source of truth)
     if NOTION_TOKEN and notion_props:
