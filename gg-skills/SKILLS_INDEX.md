@@ -17,6 +17,7 @@
 | Notion CRM | `gg-skills/notion-crm-integration/SKILL.md` | CRM / Notion / Project / Company / Contact |
 | Apple HIG Spec Designer | `gg-skills/apple-hig-spec-designer.skill.md` | iOS / macOS / Apple / app spec / HIG / mobile design / screen specs / UI |
 | iPhone 14 Pro WebApp Guideline | `gg-skills/iphone-14-pro-webapp-guideline.skill.md` | iPhone 14 Pro / 393x852 / viewport / mobile-first / safe-area / WebApp / iOS Safari / 44px touch target / mobile design / touch target / Apple mobile |
+| OpenCode Product Architecture | `gg-skills/opencode-product-architecture.skill.md` | OpenCode / Crush / product / tech stack / FastAPI / React / TypeScript / Tailwind / shadcn / PostgreSQL / Redis / Mac Mini / Docker / product architecture / fullstack / 開發架構 |
 
 ## Load Rules
 - Load skill file at start of conversation when trigger matches
