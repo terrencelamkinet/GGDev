@@ -1,0 +1,1 @@
+/home/airoot/projects/ggdev-repo/gg-dashboard/gg_insights_pusher.py
