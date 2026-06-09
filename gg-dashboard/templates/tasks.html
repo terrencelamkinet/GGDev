@@ -137,16 +137,16 @@
     <div style="font-size:13px">
       <div style="margin-bottom:10px">
         <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Title</label>
-        <input id="edTitle" type="text" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;outline:none;box-sizing:border-box">
+        <input id="edTitle" type="text" oninput="autoSave()" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;outline:none;box-sizing:border-box">
       </div>
       <div style="margin-bottom:10px">
         <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Notes</label>
-        <textarea id="edNotes" rows="3" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+        <textarea id="edNotes" rows="3" oninput="autoSave()" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;resize:vertical;box-sizing:border-box"></textarea>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
         <div>
           <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Priority</label>
-          <select id="edPriority" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;box-sizing:border-box">
+          <select id="edPriority" onchange="autoSave()" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;box-sizing:border-box">
             <option value="Q1 · Do Now">Q1 · Do Now</option>
             <option value="Q2 · Schedule">Q2 · Schedule</option>
             <option value="Q3 · Delegate">Q3 · Delegate</option>
@@ -155,13 +155,9 @@
         </div>
         <div>
           <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Due Date</label>
-          <input id="edDue" type="date" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;box-sizing:border-box">
+          <input id="edDue" type="date" onchange="autoSave()" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;box-sizing:border-box">
         </div>
       </div>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn green" onclick="saveEdit()" style="flex:1;padding:10px">💾 Save</button>
-      <button class="btn ghost" onclick="closeEditPanel()" style="flex:1;padding:10px">Cancel</button>
     </div>
     <div id="edStatus" style="font-size:11px;color:var(--text-dim);margin-top:8px;display:none;text-align:center"></div>
   </div>
@@ -343,7 +339,7 @@ function verifyDetailSync() {
   }).catch(function(){el.textContent='❌ Network error';});
 }
 
-/* ===== EDIT PANEL ===== */
+/* ===== EDIT PANEL - AUTO SAVE ===== */
 function openEditPanel() {
   var t = _current;
   if (!t) return;
@@ -356,16 +352,30 @@ function openEditPanel() {
 }
 
 function closeEditPanel() {
+  if (_saveTimer) clearTimeout(_saveTimer);
   document.getElementById('editPanel').classList.add('hidden');
 }
 
-function saveEdit() {
-  var t = _current;
-  if (!t || !t.page_id) { toast('Cannot edit — no Notion link', 'var(--peach)'); return; }
-  var title = document.getElementById('edTitle').value.trim();
-  if (!title) { toast('Title required', 'var(--peach)'); return; }
+var _saveTimer = null;
+var _saving = false;
+
+function autoSave() {
+  if (_saveTimer) clearTimeout(_saveTimer);
   var status = document.getElementById('edStatus');
-  status.style.display = 'block'; status.textContent = '💾 Saving to Notion...'; status.style.color = 'var(--text-dim)';
+  status.style.display = 'block';
+  status.textContent = '⏳ Auto-saving...';
+  status.style.color = 'var(--text-dim)';
+  _saveTimer = setTimeout(doSave, 1500);
+}
+
+function doSave() {
+  var t = _current;
+  if (!t || !t.page_id) { return; }
+  if (_saving) return;
+  _saving = true;
+
+  var title = document.getElementById('edTitle').value.trim();
+  if (!title) { document.getElementById('edStatus').textContent = '⚠️ Title required'; _saving = false; return; }
 
   fetch('/api/task/update', {
     method:'POST', headers:{'Content-Type':'application/json'},
@@ -377,21 +387,25 @@ function saveEdit() {
       due: document.getElementById('edDue').value
     })
   }).then(function(r){return r.json()}).then(function(d){
+    var status = document.getElementById('edStatus');
     if (d.ok) {
-      status.textContent = '✅ Saved — Notion + PG synced';
+      status.textContent = '✅ Saved to Notion';
       status.style.color = 'var(--green)';
-      t.title = title; t.notes = document.getElementById('edNotes').value.trim();
+      t.title = title;
+      t.notes = document.getElementById('edNotes').value.trim();
       t.priority = document.getElementById('edPriority').value;
       t.due = document.getElementById('edDue').value;
       document.getElementById('dtTitle').textContent = esc(title);
       renderDetail();
       renderTable();
-      setTimeout(closeEditPanel, 1200);
     } else {
       status.textContent = '❌ '+(d.error||'Save failed');
       status.style.color = 'var(--peach)';
     }
-  }).catch(function(){status.textContent='❌ Network error';});
+  }).catch(function(){
+    document.getElementById('edStatus').textContent = '❌ Network error';
+    document.getElementById('edStatus').style.color = 'var(--peach)';
+  }).finally(function(){ _saving = false; });
 }
 
 /* ===== UTILS ===== */
