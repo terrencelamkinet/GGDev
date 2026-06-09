@@ -9,8 +9,8 @@
       "cpu": 93,
       "mem": 16,
       "disk": 67,
-      "load": "1.38",
-      "uptime": "1 week, 6 days, 17 hours, 11 minutes",
+      "load": "0.34",
+      "uptime": "1 week, 6 days, 17 hours, 42 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -30,11 +30,11 @@
       ]
     },
     "work": {
-      "cpu": 96,
-      "mem": 28,
+      "cpu": 77,
+      "mem": 24,
       "disk": 62,
-      "load": "0.78",
-      "uptime": "2 weeks, 6 days, 22 hours, 49 minutes",
+      "load": "0.61",
+      "uptime": "2 weeks, 6 days, 23 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -55,11 +55,11 @@
       ]
     },
     "person": {
-      "cpu": 69,
-      "mem": 33,
+      "cpu": 61,
+      "mem": 29,
       "disk": 67,
-      "load": "1.11",
-      "uptime": "2 weeks, 6 days, 22 hours, 49 minutes",
+      "load": "0.64",
+      "uptime": "2 weeks, 6 days, 23 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
