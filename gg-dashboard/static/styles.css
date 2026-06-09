@@ -98,53 +98,57 @@
 .col3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 .ai-thought { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
 .dot-breathe { width: 10px; height: 10px; border-radius: 50%; display: block; animation: breathe 2s ease-in-out infinite; }
-@keyframes breathe { 0%, 100% { opacity: 0.4; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } }
+.filter-chip.active { background: var(--accent); color: white; }
 
-/* ===== TASKS PAGE ===== */
+/* Filter row */
 .filter-row { display: flex; gap: 6px; padding: 8px 0; overflow-x: auto; }
 .filter-chip {
   padding: 6px 12px; border-radius: 14px; border: none; font-size: 13px;
   font-weight: 600; cursor: pointer; background: var(--border); color: var(--text-muted);
 }
-.filter-chip.active { background: var(--accent); color: white; }
+
+/* ===== TASK CARDS ===== */
+.task-list { display:flex; flex-direction:column; gap:8px; padding-bottom:12px; }
 .task-card {
-  background: var(--card); border-radius: 14px; margin-bottom: 8px;
-  border: 1px solid var(--border); overflow: hidden;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  transition: transform 220ms cubic-bezier(.22,1,.36,1), box-shadow 220ms cubic-bezier(.22,1,.36,1);
+  display:grid; grid-template-columns:28px 1fr auto; gap:10px;
+  align-items:center; background:var(--card); border-radius:12px;
+  padding:10px 12px; border:1px solid var(--border); cursor:pointer;
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  transition:transform 220ms cubic-bezier(.22,1,.36,1), box-shadow 220ms cubic-bezier(.22,1,.36,1);
 }
-.task-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(0,210,160,0.12);
+.task-card:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(0,210,160,0.08); }
+.task-card.done { opacity:0.55; }
+.task-card.done .task-title { text-decoration:line-through; }
+.task-card.checked .chk-circle { background:var(--accent); border-color:var(--accent); animation:check-pop 260ms cubic-bezier(.22,1,.36,1); }
+.task-card.checked .chk-circle svg { display:block; }
+.chk-circle {
+  width:22px; height:22px; border-radius:50%; border:2px solid var(--border);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  flex-shrink:0; transition:all 0.2s; background:transparent;
 }
-.task-header { display: flex; align-items: center; gap: 8px; padding: 12px 14px; cursor: pointer; }
-.task-title { font-size: 15px; font-weight: 500; flex: 1; line-height: 1.4; }
-.task-title.done { text-decoration: line-through; color: var(--text-dim); }
-.task-meta { display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--text-dim); flex-shrink: 0; }
-.prio-badge { font-size: 11px; padding: 2px 8px; border-radius: 8px; font-weight: 700; }
-.prio-badge.accent { background: var(--accent-dim); color: var(--accent); }
-.prio-badge.gold { background: rgba(253,203,110,0.2); color: #f0b429; }
-.prio-badge.green { background: var(--green-light); color: var(--green-dark); }
-.prio-badge.peach { background: rgba(225,112,85,0.15); color: #e17055; }
-.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.status-dot.green { background: #00b894; }
-.status-dot.peach { background: #e17055; }
-.status-dot.gold { background: #fdcb6e; }
-.status-dot.accent { background: var(--accent); }
-.task-detail { padding: 0 14px 12px; font-size: 14px; color: var(--text-muted); line-height: 1.5; }
-.task-notes { background: var(--surface-2); border-radius: 8px; padding: 8px; margin-top: 6px; font-size: 13px; }
-.detail-footer { display: flex; gap: 8px; padding: 6px 0; }
-.notes-box { background: var(--surface-2); border-radius: 8px; padding: 8px; font-size: 14px; color: var(--text-muted); margin-top: 4px; }
-.action-row { display: flex; gap: 6px; margin-top: 6px; }
+.chk-circle:hover { border-color:var(--accent); }
+.chk-circle svg { width:12px; height:12px; color:var(--bg); display:none; }
+.chk-circle.done { background:var(--accent); border-color:var(--accent); }
+.chk-circle.done svg { display:block; }
+.task-body { min-width:0; }
+.task-title { font-size:14px; font-weight:600; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.task-meta { font-size:11px; color:var(--text-dim); margin-top:2px; display:flex; gap:8px; align-items:center; }
+.task-meta .project { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:120px; }
+.task-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
+.task-prio { font-size:9px; padding:2px 6px; border-radius:6px; font-weight:700; }
+.task-prio.U { background:rgba(225,112,85,0.15); color:#e17055; }
+.task-prio.S { background:rgba(253,203,110,0.2); color:#f0b429; }
+.task-prio.D { background:var(--accent-dim); color:var(--accent); }
+.task-due { font-size:10px; color:var(--text-dim); white-space:nowrap; }
+.task-due.overdue { color:#e17055; font-weight:700; }
+.task-due.today { color:#f0b429; font-weight:700; }
+.task-card.entering { animation:card-in 280ms cubic-bezier(.22,1,.36,1); }
+.task-card.bump { animation:bump 140ms cubic-bezier(.22,1,.36,1); }
+
+/* ===== MICRO-ANIMATIONS ===== */
 .btn { padding: 6px 12px; border-radius: 10px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
 .btn.accent { background: var(--accent); color: white; }
 .btn.ghost { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
-.empty-state { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 15px; }
-.card-stack { margin-bottom: 12px; }
-.spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; margin: 0 auto; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ===== MICRO-ANIMATIONS ===== */
 .task-card.entering { animation: card-in 280ms cubic-bezier(.22,1,.36,1); }
 .task-card.bump { animation: bump 140ms cubic-bezier(.22,1,.36,1); }
 .task-card.checked .check-btn { animation: check-pop 260ms cubic-bezier(.22,1,.36,1); }

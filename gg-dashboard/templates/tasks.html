@@ -77,24 +77,8 @@
       <button class="filter-chip" data-f="📚 Learning" onclick="filterTasks('📚 Learning',this)">Learning</button>
     </div>
 
-    <!-- Task Table -->
-    <div style="overflow-x:auto">
-      <table class="task-table" id="taskTable">
-        <thead>
-          <tr>
-            <th class="td-check"></th>
-            <th class="td-title">Title</th>
-            <th class="td-status">Status</th>
-            <th class="td-prio">Prio</th>
-            <th class="td-due">Due</th>
-            <th class="td-project">Project</th>
-          </tr>
-        </thead>
-        <tbody id="taskBody">
-          <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-dim);font-size:13px">Loading tasks...</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <!-- Task Cards -->
+    <div class="task-list" id="taskList"></div>
   </main>
 
   <nav class="bottom-nav">
@@ -245,36 +229,34 @@ function filterAndSort(src) {
   return out;
 }
 
-/* ===== RENDER TABLE ===== */
+/* ===== RENDER CARDS ===== */
 function renderTable() {
-  var tbody = document.getElementById('taskBody');
-  if (!tbody) return;
-  var list = filterAndSort(_tasks);
-  if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-dim);font-size:13px">No ' + (_filter==='all'?'tasks':_filter+' tasks') + '</td></tr>';
+  var list = document.getElementById('taskList');
+  if (!list) return;
+  var data = filterAndSort(_tasks);
+  if (!data.length) {
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-dim);font-size:13px">No ' + (_filter==='all'?'tasks':_filter+' tasks') + '</div>';
     return;
   }
   var today = new Date(); var ts = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-
-  tbody.innerHTML = list.map(function(t, idx){
+  list.innerHTML = data.map(function(t, idx){
     var pg = t.priority || '';
-    var pc = pg.indexOf('Q1')>=0?'var(--orange)':pg.indexOf('Q2')>=0?'var(--gold)':pg.indexOf('Q3')>=0?'var(--accent)':'var(--border)';
-    var d = t.due||''; var dd='',dc=''; if(d){var d10=d.substring(0,10);if(d10<ts){dd=d10;dc='var(--peach)'}else if(d10===ts){dd='Today';dc='var(--gold)'}else{dd=d10;dc='var(--text-dim)'}}
+    var pClass = pg.indexOf('Q1')>=0?'U':pg.indexOf('Q2')>=0?'S':pg.indexOf('Q3')>=0?'D':'';
+    var d = t.due||''; var dd='',dc=''; if(d){var d10=d.substring(0,10);if(d10<ts){dd=d10;dc='overdue'}else if(d10===ts){dd='Today';dc='today'}else{dd=d10;dc=''}}
     var s = t.status||'active'; var isDone = s==='done'||s==='cancelled';
-    var sid = 'chk_' + (t.page_id || idx);
-
-    return '<tr class="'+(isDone?'done':'')+'" onclick="openDetail('+idx+')" data-idx="' + idx + '">'+
-      '<td class="td-check" onclick="event.stopPropagation()">'+
-        '<span id="'+sid+'" class="chk-circle'+(isDone?' done':'')+'" onclick="doAction(\''+(t.page_id||'')+'\',\'mark_done\',\'\',this)">'+
-          (isDone?'<svg style="width:10px;height:10px;color:#fff"><use href="/static/icons.svg#icon-check"/></svg>':'')+
-        '</span>'+
-      '</td>'+
-      '<td class="td-title"><strong>' + esc(t.title) + '</strong></td>'+
-      '<td class="td-status"><span class="stat-badge '+(isDone?'done':s)+'">'+(isDone?'Done':s==='in_progress'?'Run':s==='active'?'Active':'—')+'</span></td>'+
-      '<td class="td-prio"><span class="prio-dot" style="background:'+pc+'"></span>'+(pg.indexOf('Q1')>=0?'U':pg.indexOf('Q2')>=0?'S':pg.indexOf('Q3')>=0?'D':'')+'</td>'+
-      '<td class="td-due" style="color:'+dc+';font-weight:'+(dd==='Today'?'700':'400')+'">'+esc(dd)+'</td>'+
-      '<td class="td-project" style="color:var(--text-dim)">'+esc((t.project||'').replace(/^[^\s]*\s/,''))+'</td>'+
-    '</tr>';
+    var pid = t.page_id || '';
+    var proj = (t.project||'').replace(/^[^\s]*\s/,'');
+    return '<div class="task-card'+(isDone?' done':'')+'" onclick="openDetail('+idx+')" data-idx="'+idx+'">'+
+      '<span class="chk-circle'+(isDone?' done':'')+'" onclick="event.stopPropagation();doAction(\''+pid+'\',\'mark_done\',\'\',this)">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg>'+
+      '</span>'+
+      '<div class="task-body"><div class="task-title">'+esc(t.title)+'</div>'+
+        '<div class="task-meta">'+(proj?'<span class="project">'+esc(proj)+'</span>':'<span style="color:var(--text-dim)">'+(s==='in_progress'?'▶ Running':'○ Active')+'</span>')+
+        '</div></div>'+
+      '<div class="task-right">'+
+        (pClass?'<span class="task-prio '+pClass+'">'+pClass+'</span>':'')+
+        (dd?'<span class="task-due '+dc+'">'+esc(dd)+'</span>':'')+
+      '</div></div>';
   }).join('');
 }
 
@@ -289,8 +271,8 @@ function openDetail(idx) {
   renderDetail();
   
   // WAAPI expand animation from card position
-  var rows = document.querySelectorAll('#taskBody tr');
-  var trigger = rows[idx];
+  var cards = document.querySelectorAll('.task-card');
+  var trigger = cards[idx];
   if (trigger && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     var start = trigger.getBoundingClientRect();
     var card = overlay.querySelector('.card');
