@@ -1,0 +1,1 @@
+/home/airoot/projects/ggdev-repo/gg-dashboard/update-data.sh
