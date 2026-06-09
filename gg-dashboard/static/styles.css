@@ -1,34 +1,67 @@
-/* Hermes Dashboard v3.0 — Dribbble healthcare app style (A8D5B5, F4C7A8, D0C8F0) */
+/* Hermes Dashboard v3.0 — Dark glass default (Apple HIG style) */
 :root {
-  --bg: #f8f9fc;
-  --card: #ffffff;
-  --green: #A8D5B5;
-  --green-dark: #7bc08f;
-  --peach: #F4C7A8;
-  --peach-dark: #e8b08a;
-  --lavender: #D0C8F0;
-  --lavender-dark: #b8add6;
-  --white: #ffffff;
-  --text: #2D3436;
-  --text-dim: #b2bec3;
-  --text-muted: #636e72;
-  --border: #f0f0f5;
-  --shadow: 0 4px 12px rgba(0,0,0,0.06);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+  --bg: #0f1117;
+  --card: #1a1d26;
+  --text: #dfe6e9;
+  --text-dim: #636e72;
+  --text-muted: #b2bec3;
+  --border: rgba(255,255,255,0.06);
+  --shadow: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --accent: #00d2a0;
+  --accent-dim: rgba(0,210,160,0.15);
+  --gold: #ffeaa7;
+  --gold-sub: #f9ca24;
+  --orange: #FF8C5A;
+  --blue: #7C7AFF;
+  --pink: #FF6B8A;
+  --green: #00d2a0;
+  --green-dark: #00b894;
+  --green-light: rgba(0,210,160,0.1);
+  --peach: #e17055;
+  --peach-dark: #e17055;
+  --lavender: #9b8ec4;
+  --lavender-dark: #9b8ec4;
+  --card-bg: #1a1d26;
+  --surface: #1a1d26;
+  --surface-2: #14161c;
+  --white: #1a1d26;
   --radius: 20px;
   --radius-sm: 12px;
   --nav-h: 72px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --accent: #6c5ce7;
-  --gold: #fdcb6e;
-  --gold-sub: #f9ca24;
-  --orange: #FF6B35;
-  --blue: #5E5CE6;
-  --pink: #FF375F;
-  --card-bg: #ffffff;
-  --surface: #ffffff;
-  --surface-2: #f8f9fc;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f8f9fc;
+    --card: #ffffff;
+    --text: #2D3436;
+    --text-dim: #b2bec3;
+    --text-muted: #636e72;
+    --border: #f0f0f5;
+    --shadow: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+    --accent: #00b894;
+    --accent-dim: rgba(0,184,148,0.1);
+    --gold: #fdcb6e;
+    --gold-sub: #f9ca24;
+    --orange: #FF6B35;
+    --blue: #5E5CE6;
+    --pink: #FF375F;
+    --green: #A8D5B5;
+    --green-dark: #7bc08f;
+    --green-light: rgba(168,213,181,0.15);
+    --peach: #F4C7A8;
+    --peach-dark: #e8b08a;
+    --lavender: #D0C8F0;
+    --lavender-dark: #b8add6;
+    --card-bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f8f9fc;
+    --white: #ffffff;
+  }
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -48,7 +81,7 @@
 .stat-label { font-size: 10px; color: var(--text-dim); margin-top: 2px; font-weight: 600; }
 
 .nav-item { text-align: center; color: var(--text-dim); text-decoration: none; padding: 4px 6px; border-radius: 8px; font-size: 10px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 1px; }
-.nav-item.active { color: var(--accent); background: rgba(108,92,231,0.1); }
+.nav-item.active { color: var(--accent); background: var(--accent-dim); }
 
 .col3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 .ai-thought { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
@@ -175,10 +208,11 @@ body {
 /* ===== BOTTOM NAV ===== */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
-  background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(15,17,23,0.92); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: none;
-  box-shadow: 0 -2px 20px rgba(0,0,0,0.06);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
   display: flex; justify-content: space-around; align-items: center;
   height: var(--nav-h); padding-bottom: var(--safe-bottom);
   z-index: 100; max-width: 393px; margin: 0 auto;
@@ -205,31 +239,16 @@ body {
   .container { max-width: 720px; }
 }
 
-/* ===== DARK MODE ===== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1117;
-    --card: #1a1d26;
-    --text: #dfe6e9;
-    --text-dim: #636e72;
-    --text-muted: #b2bec3;
-    --border: rgba(255,255,255,0.06);
-    --shadow: 0 4px 12px rgba(0,0,0,0.3);
-    --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
-    --accent: #a29bfe;
-    --gold: #ffeaa7;
-    --gold-sub: #f9ca24;
-    --orange: #FF8C5A;
-    --blue: #7C7AFF;
-    --pink: #FF6B8A;
-    --card-bg: #1a1d26;
-    --surface: #1a1d26;
-    --surface-2: #14161c;
+/* ===== LIGHT MODE OVERRIDES (dark is default) ===== */
+@media (prefers-color-scheme: light) {
+  .bottom-nav {
+    box-shadow: 0 -2px 20px rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   }
-  .bottom-nav { box-shadow: 0 -2px 20px rgba(0,0,0,0.3); background: rgba(26,29,38,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-  .time-label { background: rgba(99,110,114,0.15); }
-  .badge { box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-  .tag.green { background: rgba(168,213,181,0.12); }
-  .tag.lavender { background: rgba(208,200,240,0.12); }
-  .tag.peach { background: rgba(244,199,168,0.12); }
+  .time-label { background: var(--border); }
+  .badge { box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .tag.green { background: rgba(168,213,181,0.15); }
+  .tag.lavender { background: rgba(208,200,240,0.15); }
+  .tag.peach { background: rgba(244,199,168,0.15); }
 }
