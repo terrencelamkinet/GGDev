@@ -15,6 +15,8 @@
 | Terrence Patterns | `gg-skills/terrence-patterns.json` | User behaviour analysis / pattern detection |
 | Terrence Profile | `gg-skills/terrence-profile.md` | User personality / communication style / preferences |
 | Notion CRM | `gg-skills/notion-crm-integration/SKILL.md` | CRM / Notion / Project / Company / Contact |
+| Apple HIG Spec Designer | `gg-skills/apple-hig-spec-designer.skill.md` | iOS / macOS / Apple / app spec / HIG / mobile design / screen specs / UI |
+| iPhone 14 Pro WebApp Guideline | `gg-skills/iphone-14-pro-webapp-guideline.skill.md` | iPhone 14 Pro / 393x852 / viewport / mobile-first / safe-area / WebApp / iOS Safari / 44px touch target / mobile design / touch target / Apple mobile |
 
 ## Load Rules
 - Load skill file at start of conversation when trigger matches

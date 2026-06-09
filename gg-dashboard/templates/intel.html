@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><title>GG Intel</title><link rel="stylesheet" href="/static/styles.css?v=1.1"></head><body>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="GG Platform"><title>GG Intel</title><link rel="stylesheet" href="/static/styles.css?v=1.1"></head><body>
 <div class="app-shell">
 <header class="top-bar"><svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-brain"/></svg><div><h1 class="page-title">Intelligence</h1><span class="page-subtitle">GG Family Hub</span></div><span class="time-label" id="lastUpdate">--:--</span></header>
 <main class="scroll-content">
@@ -6,9 +6,9 @@
   <!-- Research Bar -->
   <div class="card" style="padding:8px 12px">
     <div style="display:flex;gap:8px;align-items:center">
-      <input id="researchInput" type="text" placeholder="Ask Perplexity..." onkeydown="if(event.key==='Enter') runResearch()" style="flex:1;border:none;background:var(--surface);padding:10px 14px;border-radius:12px;font-size:14px;outline:none;color:var(--text)">
-      <button id="researchBtn" onclick="runResearch()" style="background:var(--accent);border:none;border-radius:10px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;white-space:nowrap">Search</button>
-      <button id="researchDeepBtn" onclick="toggleDeep()" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:11px;color:var(--text-dim);white-space:nowrap">Quick</button>
+      <input id="researchInput" type="text" placeholder="Ask Perplexity..." onkeydown="if(event.key==='Enter') runResearch()" style="flex:1;border:none;background:var(--surface);padding:10px 14px;border-radius:12px;font-size:17px;outline:none;color:var(--text)">
+      <button id="researchBtn" onclick="runResearch()" style="background:var(--accent);border:none;border-radius:10px;padding:12px 16px;min-height:44px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;white-space:nowrap">Search</button>
+      <button id="researchDeepBtn" onclick="toggleDeep()" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;min-height:44px;cursor:pointer;font-size:11px;color:var(--text-dim);white-space:nowrap">Quick</button>
     </div>
     <div id="researchStatus" style="font-size:11px;color:var(--text-dim);margin-top:6px;display:none"></div>
   </div>
@@ -29,11 +29,11 @@
   <div class="card" id="activityStream"><div style="font-size:12px;color:var(--text-dim)">Loading...</div></div>
 </main>
 <nav class="bottom-nav">
-  <a href="/home" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
-  <a href="/tasks" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
-  <a href="/intel" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
-  <a href="/agents" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
-  <a href="/profile" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+  <a href="/home" class="nav-item"><svg class="icon-nav" role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="nav-item"><svg class="icon-nav" role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="nav-item active"><svg class="icon-nav" role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="nav-item"><svg class="icon-nav" role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="nav-item"><svg class="icon-nav" role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
 </nav>
 </div>
 

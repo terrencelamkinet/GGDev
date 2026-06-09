@@ -1,5 +1,8 @@
 <!DOCTYPE html><html lang="zh-HK"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="GG Platform">
 <title>GG Platform</title><link rel="stylesheet" href="/static/styles.css?v=1.1">
 </head><body>
 <div class="app-shell">
@@ -57,11 +60,11 @@
 </div>
 
 <nav class="bottom-nav">
-  <a href="/home" class="nav-item active"><svg class="icon-nav"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
-  <a href="/tasks" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
-  <a href="/intel" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
-  <a href="/agents" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
-  <a href="/profile" class="nav-item"><svg class="icon-nav"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+  <a href="/home" class="nav-item active"><svg class="icon-nav" role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="nav-item"><svg class="icon-nav" role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="nav-item"><svg class="icon-nav" role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="nav-item"><svg class="icon-nav" role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="nav-item"><svg class="icon-nav" role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
 </nav>
 </div>
 
@@ -74,7 +77,7 @@
   </div>
   <div id="chatMessages" style="padding:12px 16px;max-height:200px;overflow-y:auto;font-size:12px;color:var(--text-muted)">💬 Hi! What would you like to do?</div>
   <form onsubmit="sendChat();return false" style="display:flex;padding:8px 12px;border-top:1px solid var(--border);gap:8px">
-    <input type="text" id="chatInput" placeholder="Ask anything..." style="flex:1;padding:8px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:13px;outline:none">
+    <input type="text" id="chatInput" placeholder="Ask anything..." style="flex:1;padding:8px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:17px;outline:none">
     <button type="submit" style="padding:8px 14px;border-radius:20px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer">Send</button>
   </form>
 </div>
@@ -153,6 +156,10 @@ function toggleNotices(){
 /* ===== CARD ANIMATION (WAAPI) ===== */
 setTimeout(function(){
   var cards = document.querySelectorAll('.stat-card, .card');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    cards.forEach(function(el){ el.style.opacity = '1'; el.style.transform = ''; });
+    return;
+  }
   cards.forEach(function(el, i) {
     if (!el.dataset.animated) {
       el.dataset.animated = '1';

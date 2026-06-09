@@ -64,11 +64,11 @@
   }
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 /* ===== LAYOUT ===== */
 .app-shell { max-width: 393px; margin: 0 auto; padding: 0 20px; min-height: 100dvh; display: flex; flex-direction: column; }
-.top-bar { display: flex; align-items: center; gap: 10px; padding: 16px 0 8px; }
+.top-bar { display: flex; align-items: center; gap: 10px; padding: calc(16px + var(--safe-top)) 0 8px; position: sticky; top: 0; z-index: 10; background: var(--bg); }
 .top-bar .icon-lg { width: 24px; height: 24px; flex-shrink: 0; }
 .page-title { font-size: 22px; font-weight: 700; margin: 0; line-height: 1.2; }
 .page-subtitle { font-size: 14px; color: var(--text-dim); display: block; }
@@ -103,7 +103,7 @@
 /* Filter row */
 .filter-row { display: flex; gap: 6px; padding: 8px 0; overflow-x: auto; }
 .filter-chip {
-  padding: 6px 12px; border-radius: 14px; border: none; font-size: 13px;
+  padding: 10px 14px; min-height: 44px; border-radius: 14px; border: none; font-size: 13px;
   font-weight: 600; cursor: pointer; background: var(--border); color: var(--text-muted);
 }
 
@@ -121,12 +121,13 @@
 .task-card.done .task-title { text-decoration:line-through; }
 .task-card.checked .chk-circle { background:var(--accent); border-color:var(--accent); animation:check-pop 260ms cubic-bezier(.22,1,.36,1); }
 .task-card.checked .chk-circle svg { display:block; }
+.chk-wrap { width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; }
 .chk-circle {
   width:22px; height:22px; border-radius:50%; border:2px solid var(--border);
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  flex-shrink:0; transition:all 0.2s; background:transparent;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:all 0.2s; background:transparent; pointer-events:none;
 }
-.chk-circle:hover { border-color:var(--accent); }
+.chk-wrap:hover .chk-circle { border-color:var(--accent); }
 .chk-circle svg { width:12px; height:12px; color:var(--bg); display:none; }
 .chk-circle.done { background:var(--accent); border-color:var(--accent); }
 .chk-circle.done svg { display:block; }
@@ -146,7 +147,7 @@
 .task-card.bump { animation:bump 140ms cubic-bezier(.22,1,.36,1); }
 
 /* ===== MICRO-ANIMATIONS ===== */
-.btn { padding: 6px 12px; border-radius: 10px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn { padding: 10px 16px; min-height: 44px; border-radius: 10px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
 .btn.accent { background: var(--accent); color: white; }
 .btn.ghost { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
 .task-card.entering { animation: card-in 280ms cubic-bezier(.22,1,.36,1); }
@@ -168,12 +169,15 @@
 /* ===== BODY ===== */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: 17px;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
   padding-bottom: calc(var(--nav-h) + 20px);
   -webkit-font-smoothing: antialiased;
 }
+
+input, textarea, select { -webkit-appearance: none; appearance: none; font-size: 17px; }
 .container { max-width: 393px; margin: 0 auto; padding: 0 20px; }
 
 /* ===== HEADER ===== */
@@ -282,11 +286,20 @@ body {
   .container { max-width: 720px; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ===== RESPONSIVE GRID ===== */
+@media (max-width: 420px) {
+  .col3 { grid-template-columns: 1fr; }
+}
+
 /* ===== LIGHT MODE OVERRIDES ===== */
 @media (prefers-color-scheme: light) {
   .bottom-nav {
     box-shadow: 0 -2px 20px rgba(0,0,0,0.08);
-    background: rgba(255,255,255,0.85);
+    background: rgba(248,249,252,0.92);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   }
   .time-label { background: var(--border); }

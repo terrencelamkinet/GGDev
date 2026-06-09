@@ -1,3 +1,25 @@
+# GG Dashboard v1.2
+
+**Release:** 2026-06-09
+**Previous:** v1.1 (CSS refactor + WCAG AA fix)
+**Purpose:** Apple HIG + iPhone 14 Pro guideline compliance (14 fixes)
+
+## v1.2 Changes
+- **CRITICAL — Input font-size 17px**: All input/textarea/select set to 17px (iOS zoom prevention). Global `body { font-size: 17px }` added. `-webkit-appearance: none; appearance: none;` applied to all form elements.
+- **CRITICAL — Touch targets 44px**: `.filter-chip`, `.btn` given `min-height: 44px`. Detail close button → 44×44px. Intel search/deep buttons → `min-height: 44px`. Checkbox wrapped in `.chk-wrap` (44×44px hit area).
+- **CRITICAL — Top-bar sticky + safe-area**: `.top-bar` now `position: sticky; top: 0; z-index: 10` with `calc(16px + var(--safe-top))` padding.
+- **CRITICAL — Responsive grid**: `.col3` now switches to 1-column on ≤420px viewports. Agents cards + GG Voices stack vertically on mobile.
+- **CRITICAL — Checkbox hit-area**: `.chk-wrap` (44×44px flex-centered wrapper) encloses `.chk-circle` with `pointer-events: none` for visual.
+- **CRITICAL — Light mode bottom nav contrast**: Background changed from `rgba(255,255,255,0.85)` to `rgba(248,249,252,0.92)`.
+- **HIGH — Edit panel safe area**: `padding-bottom: calc(20px + var(--sab))`.
+- **HIGH — Detail overlay safe area**: `padding: max(60px, var(--sat)) 20px max(100px, var(--sab))`.
+- **HIGH — Tap highlight disabled**: `-webkit-tap-highlight-color: transparent` on universal selector.
+- **HIGH — Reduced motion**: WAAPI card animation checks `prefers-reduced-motion: reduce` and skips if active. CSS `@media (prefers-reduced-motion: reduce)` zeroes all animation/transition durations.
+- **MEDIUM — WebApp meta tags**: `apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style`, `apple-mobile-web-app-title` added to all 5 page templates.
+- **MEDIUM — SVG aria-labels**: All 25 bottom-nav `<svg class="icon-nav">` elements given `role="img"` and `aria-label="Home|Tasks|Intel|Agents|Profile"`.
+
+---
+
 # GG Dashboard v1.1
 
 **Release:** 2026-06-08  
