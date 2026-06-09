@@ -87,6 +87,22 @@ function loadData() {
 }
 loadData();
 setInterval(loadData, 30000);
+
+/* ===== CARD ANIMATION (WAAPI) ===== */
+function animateCards() {
+  var cards = document.querySelectorAll('.card, .stat-card, .task-card, .metric-card');
+  cards.forEach(function(el, i) {
+    if (!el.dataset.animated) {
+      el.dataset.animated = '1';
+      el.animate([
+        { opacity: '0', transform: 'translateY(20px)' },
+        { opacity: '1', transform: 'translateY(0)' }
+      ], { duration: 400, easing: 'ease-out', delay: i * 60, fill: 'forwards' });
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', animateCards);
+setTimeout(animateCards, 100);
 </script>
 {% block scripts %}{% endblock %}
 </body>

@@ -278,14 +278,28 @@ function renderTable() {
   }).join('');
 }
 
-/* ===== DETAIL OVERLAY ===== */
+/* ===== DETAIL OVERLAY (WAAPI expand) ===== */
 function openDetail(idx) {
   var t = _tasks[idx];
   if (!t) return;
   _current = t;
-  document.getElementById('detailOverlay').style.display = 'block';
+  var overlay = document.getElementById('detailOverlay');
+  overlay.style.display = 'block';
   document.getElementById('dtTitle').textContent = esc(t.title);
   renderDetail();
+  
+  // WAAPI expand animation from card position
+  var rows = document.querySelectorAll('#taskBody tr');
+  var trigger = rows[idx];
+  if (trigger && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var start = trigger.getBoundingClientRect();
+    var card = overlay.querySelector('.card');
+    var end = card.getBoundingClientRect();
+    card.animate([
+      { transform: 'translateY(' + (start.top - end.top) + 'px) scale(' + (start.width/end.width) + ', 0.3)', opacity: '0.5', borderRadius: '14px' },
+      { transform: 'translateY(0) scale(1,1)', opacity: '1', borderRadius: '20px' }
+    ], { duration: 360, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both' });
+  }
 }
 
 function closeDetail() {
