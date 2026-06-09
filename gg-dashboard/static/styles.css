@@ -111,6 +111,7 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   padding: calc(20px + var(--safe-top)) 0 24px;
 }
+.header .sub { font-size:12px; font-weight:400; color:var(--text-dim); display:block; }
 .header-right { display: flex; align-items: center; gap: 8px; }
 .badge {
   font-size: 11px; padding: 5px 14px; border-radius: 20px; font-weight: 600;
