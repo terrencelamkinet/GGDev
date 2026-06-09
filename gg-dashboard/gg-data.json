@@ -1,14 +1,14 @@
 {
-  "ts": "20:37",
-  "hour": 20,
-  "minute": 37,
+  "ts": "11:15",
+  "hour": 11,
+  "minute": 15,
   "pushed_at": "2026-06-08 20:37 HKT",
   "system": {
-    "cpu": 4,
-    "mem": 15,
+    "cpu": 93,
+    "mem": 16,
     "disk": 67,
-    "load": "0.44",
-    "uptime": "1 week, 6 days, 2 hours, 33 minutes",
+    "load": "1.38",
+    "uptime": "1 week, 6 days, 17 hours, 11 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:37",
+      "time": "11:15",
       "text": "Dashboard data refresh"
     },
     {
@@ -30,45 +30,45 @@
       "text": "Cron: webapp_commands.log (25B)"
     },
     {
-      "time": "14:07",
+      "time": "09:10",
       "text": "Cron: token_health_report.md (342B)"
     },
     {
-      "time": "22:38",
-      "text": "Cron: nightly_upgrade.log (1368B)"
+      "time": "22:32",
+      "text": "Cron: nightly_upgrade.log (3104B)"
     },
     {
       "time": "00:01",
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "20:05",
-      "text": "Cron: memory_bridge.log (150972B)"
+      "time": "11:04",
+      "text": "Cron: memory_bridge.log (156279B)"
     },
     {
-      "time": "19:14",
-      "text": "Cron: mcp-stderr.log (1009692B)"
+      "time": "11:08",
+      "text": "Cron: mcp-stderr.log (1077632B)"
     },
     {
-      "time": "20:35",
-      "text": "Cron: guardian.log (292773B)"
+      "time": "11:15",
+      "text": "Cron: guardian.log (306501B)"
+    },
+    {
+      "time": "11:14",
+      "text": "Cron: gg-dashboard.log (5589B)"
     },
     {
       "time": "00:42",
       "text": "Cron: gateway.log.1 (5242786B)"
-    },
-    {
-      "time": "20:30",
-      "text": "Cron: gateway.log (757267B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 4,
-      "mem": 15,
+      "cpu": 93,
+      "mem": 16,
       "disk": 67,
-      "load": "0.44",
-      "uptime": "1 week, 6 days, 2 hours, 33 minutes",
+      "load": "1.38",
+      "uptime": "1 week, 6 days, 17 hours, 11 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "夜晚 — 聽日關鍵：港車北上遞交申請到期（文件已準備中）。今早有Sales Meeting + Equinix Confirmation。兩位VM穩定運行20日，cron成功率96.7%。聽日priority：港車北上Deadline，然後Kong API Feature Review。",
+      "thoughts": "清晨 — CPU load 0.6 — 閒置; 已運行 14 日; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 100,
-      "mem": 26,
-      "disk": 58,
-      "load": "0.60",
-      "uptime": "2 weeks, 6 days, 8 hours, 11 minutes",
+      "cpu": 96,
+      "mem": 28,
+      "disk": 62,
+      "load": "0.78",
+      "uptime": "2 weeks, 6 days, 22 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -100,12 +100,12 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.2 — 閒置; 已運行 21 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 20 日",
+        "VM 已穩定運行 21 日",
         "GG-Work 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -114,10 +114,10 @@
     },
     "person": {
       "cpu": 69,
-      "mem": 26,
+      "mem": 33,
       "disk": 67,
-      "load": "0.33",
-      "uptime": "2 weeks, 6 days, 8 hours, 11 minutes",
+      "load": "1.11",
+      "uptime": "2 weeks, 6 days, 22 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -125,12 +125,12 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "傍晚 — CPU load 0.3 — 閒置; 已運行 20 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "清晨 — CPU load 0.1 — 閒置; 已運行 21 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 20 日",
+        "VM 已穩定運行 21 日",
         "GG-Person 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -234,22 +234,198 @@
     "balance_cny": 71.53,
     "balance_usd": 9.8
   },
+  "tasks": {
+    "items": [
+      {
+        "page_id": "376783d5-93e7-8168-8aa2-cf49653e2b94",
+        "title": "🚗 港車北上 - 遞交申請",
+        "status": "Not started",
+        "due": "2026-06-10",
+        "priority": "Q1 · Do Now",
+        "area": "🏠 Personal",
+        "notes": "登入 https://qfs1.td.gov.hk/hzmbz/\n抽籤編號: 7272606016020883\nID前4位: P861\n\n步驟：\n1. 登入系統\n2. 確認申請人資料\n3. 輸入車輛資料 (ZF3617 Sienta Hybrid)\n4. 上載文件 (已準備)\n5. 選取指定出行日期\n6. 確認及繳費\n7. 提交\n\n約需60分鐘完成。\n查詢熱線: 2804 2600",
+        "last_edited": "2026-06-08T10:05:00.000Z"
+      },
+      {
+        "page_id": "376783d5-93e7-810b-9ba1-d0f01b505e06",
+        "title": "📄 港車北上 - 準備文件 (掃描+拍照)",
+        "status": "In progress",
+        "due": "2026-06-10",
+        "priority": "Q2 · Schedule",
+        "area": "🏠 Personal",
+        "notes": "需準備：\n- 身份證/護照 正反面掃描\n- 車輛登記文件 (VE牌簿) 掃描\n- 有效的第三者風險保險證明掃描\n- 車輛照片 (車頭、車尾、車側，共3張)\n- 信用卡 (準備繳費)\n\n約需30分鐘準備",
+        "last_edited": "2026-06-08T10:05:00.000Z"
+      },
+      {
+        "page_id": "378783d5-93e7-8192-b437-d9ceac7eaf43",
+        "title": "Kong API Feature Review + Fubon Test Cases",
+        "status": "Not started",
+        "due": "2026-06-12",
+        "priority": "Q1 · Do Now",
+        "area": "💼 Work",
+        "notes": "1) 確認Kong API Gateway feature list。2) 撰寫Fubon API integration test cases。",
+        "last_edited": "2026-06-07T16:01:00.000Z"
+      },
+      {
+        "page_id": "376783d5-93e7-81ae-9118-eaba934ce312",
+        "title": "Send Moia solution to Manulife Derek",
+        "status": "In progress",
+        "due": "2026-06-12",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Send Moia (PAM) solution proposal to Derek at Manulife.",
+        "last_edited": "2026-06-07T16:02:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-81be-9b68-e78313c44719",
+        "title": "📋 CISP: 交CV+工作證明俾HKIIT (13 Jun)",
+        "status": "Not started",
+        "due": "2026-06-13",
+        "priority": "Q1 · Do Now",
+        "area": "📚 Learning",
+        "notes": "電郵 hkiit-skillsup@vtc.edu.hk。只限需要HKIIT簽Part3推薦意見。13 Jun Lesson 3前",
+        "last_edited": "2026-06-07T16:02:00.000Z"
+      },
+      {
+        "page_id": "36d783d5-93e7-8076-bafe-c26cf74e0d98",
+        "title": "Schedule Rankez Meeting",
+        "status": "Not started",
+        "due": "2026-06-19",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Rankez is a PAM (Privileged Access Management) product. Meeting to discuss/schedule.",
+        "last_edited": "2026-06-05T08:30:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-81ed-9d02-d0df1c812b9a",
+        "title": "📋 CISP: 準備申請表文件（身份證+學歷+相片）1",
+        "status": "Not started",
+        "due": "2026-06-20",
+        "priority": "Q1 · Do Now",
+        "area": "📚 Learning",
+        "notes": "需預備：①身份證正反面複印件(註明副本COPY) ②最高學歷複印件(HD或以上) ③Part1+2填妥 ④Part4簽名",
+        "last_edited": "2026-06-07T16:02:00.000Z"
+      },
+      {
+        "page_id": "376783d5-93e7-802f-a03d-f9c88b73c99a",
+        "title": "港車北上 - 指定遞交申請時段通知",
+        "status": "Not started",
+        "due": "2026-06-20",
+        "priority": "Q1 · Do Now",
+        "area": "🏠 Personal",
+        "notes": "港車北上申請 — 所需資料及步驟\n\n【系統】HZMBZ Closed Road Permit for Quota Free Scheme\n【網站】https://qfs1.td.gov.hk/hzmbz/\n【時段】08/06/2026 (一) - 20/06/2026 (六)\n【需時】約60分鐘\n【查詢熱線】2804 2600\n\n【登入資料】\n• 抽籤編號: 7272606016020883\n• 身份證明文件號碼前4位: P861\n\n【所需文件(建議預先準備)】\n- 香港身份證 / 護照\n- 車輛登記文件 (VE牌簿) - ZF3617\n- 有效的香港車輛牌照\n- 有效的第三者風險保險證明\n- 內地機動車駕駛證 (如有)\n- 車輛照片 (車頭、車尾、車側)\n- 信用卡/繳費靈 (繳付申請費)\n\n【申請步驟】\n1. 登入系統 (輸入抽籤編號 + 身份證號碼)\n2. 確認申請人資料\n3. 輸入車輛資料 (ZF3617 Toyota Sienta Hybrid)\n4. 上載所需文件\n5. 選取指定出行日期\n6. 確認及繳費\n7. 提交申請\n\n【建議Schedule】\n- 06/06 (六) — 準備好所有文件電子版\n- 08/06 (一) 上午 — 登入系統提交 (窗口首日)",
+        "last_edited": "2026-06-07T16:02:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-81f8-ab6e-d45d00a6ad38",
+        "title": "📋 CISP: 數碼相片上載Moodle (20 Jun)",
+        "status": "Not started",
+        "due": "2026-06-20",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "藍底2吋彩色相 JPG 20-200KB。via Moodle on/before 20 Jun 2026",
+        "last_edited": "2026-06-01T07:56:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-812b-86c7-f7afbb0d6f96",
+        "title": "📋 CISP: 提交申請表硬拷貝 (20 Jun)",
+        "status": "Not started",
+        "due": "2026-06-20",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "Lesson 4上堂交。需填妥+貼相+Part3推薦人簽署+公司蓋章+Part4簽字。身份證+學歷副本放前面",
+        "last_edited": "2026-06-01T07:56:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-81f7-ad5a-f8467aad331d",
+        "title": "📋 CISP: EA考試+CA截止 (27 Jun)",
+        "status": "Not started",
+        "due": "2026-06-27",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "EA 15:00-16:30 Closed book MCQ+SQ+LQ 佔60%。CA佔40% via Moodle 23:59前。缺席=0分",
+        "last_edited": "2026-06-01T07:56:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-8179-b7cf-ce1cad0506b5",
+        "title": "📋 CISP: 確認Exam Type (CISE/CISO) via CA (27 Jun)",
+        "status": "Not started",
+        "due": "2026-06-27",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "CISE/CISO final confirmation via CA第一條問題。提交後不能更改",
+        "last_edited": "2026-06-01T07:56:00.000Z"
+      },
+      {
+        "page_id": "36d783d5-93e7-809d-94a7-e8cc448b69cb",
+        "title": "PoC for FTrans",
+        "status": "In progress",
+        "due": "2026-06-30",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "FTrans company project — proof of concept required.",
+        "last_edited": "2026-06-05T08:30:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-8186-ad88-fd0b4158bce3",
+        "title": "📋 CISP: 正式考試 (25 Jul 待確認)",
+        "status": "Not started",
+        "due": "2026-07-25",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "100 MCQs 繁體中文。帶2B鉛筆+黑原子筆+擦膠+身份證。25 Jul待CNITSEC確認",
+        "last_edited": "2026-05-30T03:51:00.000Z"
+      },
+      {
+        "page_id": "379783d5-93e7-807d-8816-c9d12748d8bb",
+        "title": "CISP: Asiaworld-Expo Refer Letter",
+        "status": "Not started",
+        "due": null,
+        "priority": "Q1 · Do Now",
+        "area": "",
+        "notes": "",
+        "last_edited": "2026-06-08T06:43:00.000Z"
+      },
+      {
+        "page_id": "376783d5-93e7-8143-92b5-f389efede06c",
+        "title": "✅ 港車北上 - 跟進審批結果",
+        "status": "Not started",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "🏠 Personal",
+        "notes": "遞交後跟進：\n- 確認收到申請確認電郵/通知\n- 等待審批 (一般需時數週)\n- 留意收取 Closed Road Permit\n- 最後遞交期限: 20/06 (六)",
+        "last_edited": "2026-06-05T08:30:00.000Z"
+      }
+    ],
+    "total": 16,
+    "overdue": 0,
+    "due_today": 0,
+    "in_progress": 3,
+    "q1_count": 6,
+    "source": "task_sync_state"
+  },
   "schedule": {
     "total_events": 31,
     "today_events": 2,
-    "upcoming": 15,
+    "upcoming": 13,
     "reminders_pending": 0,
-    "last_updated": "2026-06-08T20:03:27",
+    "last_updated": "2026-06-09T11:03:20",
     "today_list": [
       {
-        "summary": "Weekly Sales Team Meeting with DLam",
-        "time": "11:00"
+        "summary": "畢業典禮",
+        "time": "all-day"
       },
       {
-        "summary": "Confirmation: Equinix x Kinetix Solution",
-        "time": "16:00"
+        "summary": "Terrence AL",
+        "time": "all-day"
       }
     ]
   },
-  "update_source": "three-ai-sync"
+  "update_source": "hermes_update_data.py",
+  "ai_sync": {
+    "total_checkpoints": 8,
+    "synced": 8,
+    "pending": 0,
+    "last_check": "11:15"
+  }
 }
