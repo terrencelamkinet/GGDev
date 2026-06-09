@@ -1,9 +1,11 @@
 ---
 name: opencode-product-architecture
-version: 1
-description: 完整產品開發架構指南 — 用 OpenCode (Crush) 由零開發 product。Terrence 只會提出要求，唔會打 code 或 command。你要預判佢需要咩，自動完成所有 coding/command 工作，並將製成品完美展示。
-summary: 完整產品開發架構指南 — 用 OpenCode (Crush) 由零開發 product。Terrence 只會提出要求，唔會打 code 或 command。你要預判佢需要咩，自動完成所有 coding/command 工作，並將製成品完美展示。
+version: 2
+description: 完整產品開發架構指南 — 用 OpenCode (Crush) 由零開發 product。包括完整 OpenCode 系統教學（Antigravity、MyOpenCode、UltraW、Session、Ralph Loop、MCP、GitHub Action）。Terrence 只會提出要求，唔會打 code 或 command。你要預判佢需要咩，自動完成所有 coding/command 工作，並將製成品完美展示。
+summary: 完整產品開發架構 + OpenCode 深度教學。Terrence 只提要求，你自動完成一切。
 license: Internal
+references:
+  - references/opencode-full-guide.md
 ---
 
 # OpenCode Product Architecture Guide
