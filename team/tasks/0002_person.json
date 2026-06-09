@@ -1,0 +1,10 @@
+{
+  "id": 2,
+  "target": "person",
+  "description": "記錄：2026-05-20 00:30 HKT — Terrence 決定正式整合兩個 VM sub-agent 入日常 workflow。佢要求每次 briefing 同報告都要 query GG-Person（個人記憶）同 GG-Work（工作記憶），唔可以由 main GG 自己記晒。Terrence 話『我唔係幫你整兩個agent有咩用？』",
+  "status": "done",
+  "created": "2026-05-20 00:32:39 HKT",
+  "assigned": "2026-05-20 00:32:39 HKT",
+  "completed": "2026-05-20 00:32:59 HKT",
+  "result": "✅ 完成。已經記錄晒：\n\n1. **memory_index.md** — 更新咗近期大事，列出兩個 VM sub-agent 整合決定\n2. **memory/2026-05-20.md** — 詳細記錄 Terrence 原話、決定內容、workflow implications 同跟進事項\n3. **memory/2026-05-20-reflect.md** — 晚間反省，包括學到 Terrence 重視分工呢點\n\n下次你俾任何 briefing/report task，我會自動 spawn query 埋 GG-Work 嘅記憶再做 merge 💪"
+}

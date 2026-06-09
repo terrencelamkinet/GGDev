@@ -1,0 +1,214 @@
+{
+  "$metadata": {
+    "generator": "designlang",
+    "version": "7.0.0",
+    "spec": "https://design-tokens.github.io/community-group/format/",
+    "source": "http://localhost:7870",
+    "generatedAt": "2026-06-08T01:59:49.037Z"
+  },
+  "primitive": {
+    "color": {
+      "brand": {
+        "primary": {
+          "$value": "#af52de",
+          "$type": "color"
+        },
+        "secondary": {
+          "$value": "#5856d6",
+          "$type": "color"
+        }
+      },
+      "neutral": {
+        "n100": {
+          "$value": "#3c3c43",
+          "$type": "color"
+        },
+        "n200": {
+          "$value": "#000000",
+          "$type": "color"
+        },
+        "n300": {
+          "$value": "#ffffff",
+          "$type": "color"
+        },
+        "n400": {
+          "$value": "#787880",
+          "$type": "color"
+        },
+        "n500": {
+          "$value": "#e5e5ea",
+          "$type": "color"
+        },
+        "n600": {
+          "$value": "#f2f2f7",
+          "$type": "color"
+        },
+        "n700": {
+          "$value": "#c6c6c8",
+          "$type": "color"
+        }
+      },
+      "background": {
+        "bg0": {
+          "$value": "#f2f2f7",
+          "$type": "color"
+        }
+      },
+      "text": {
+        "text0": {
+          "$value": "#000000",
+          "$type": "color"
+        },
+        "text1": {
+          "$value": "#ffffff",
+          "$type": "color"
+        },
+        "text2": {
+          "$value": "#3c3c43",
+          "$type": "color"
+        },
+        "text3": {
+          "$value": "#af52de",
+          "$type": "color"
+        },
+        "text4": {
+          "$value": "#34c759",
+          "$type": "color"
+        },
+        "text5": {
+          "$value": "#ff6b35",
+          "$type": "color"
+        },
+        "text6": {
+          "$value": "#5856d6",
+          "$type": "color"
+        },
+        "text7": {
+          "$value": "#ff2d55",
+          "$type": "color"
+        },
+        "text8": {
+          "$value": "#ff9500",
+          "$type": "color"
+        },
+        "text9": {
+          "$value": "#ff3b30",
+          "$type": "color"
+        }
+      }
+    },
+    "spacing": {
+      "s0": {
+        "$value": "1px",
+        "$type": "dimension"
+      },
+      "s1": {
+        "$value": "20px",
+        "$type": "dimension"
+      },
+      "s2": {
+        "$value": "27px",
+        "$type": "dimension"
+      },
+      "s3": {
+        "$value": "32px",
+        "$type": "dimension"
+      },
+      "s4": {
+        "$value": "48px",
+        "$type": "dimension"
+      },
+      "s5": {
+        "$value": "444px",
+        "$type": "dimension"
+      }
+    },
+    "radius": {
+      "r0": {
+        "$value": "10px",
+        "$type": "dimension"
+      },
+      "r1": {
+        "$value": "13px",
+        "$type": "dimension"
+      },
+      "r2": {
+        "$value": "50px",
+        "$type": "dimension"
+      },
+      "r3": {
+        "$value": "999px",
+        "$type": "dimension"
+      }
+    },
+    "shadow": {
+      "sh0": {
+        "$value": "rgb(175, 82, 222) 0px 0px 8px 0px",
+        "$type": "shadow"
+      }
+    },
+    "fontFamily": {
+      "f0": {
+        "$value": "Arial",
+        "$type": "fontFamily"
+      },
+      "f1": {
+        "$value": "SF Mono",
+        "$type": "fontFamily"
+      },
+      "f2": {
+        "$value": "Times New Roman",
+        "$type": "fontFamily"
+      }
+    }
+  },
+  "semantic": {
+    "color": {
+      "action": {
+        "primary": {
+          "$value": "{primitive.color.brand.primary}",
+          "$type": "color"
+        },
+        "secondary": {
+          "$value": "{primitive.color.brand.secondary}",
+          "$type": "color"
+        }
+      },
+      "surface": {
+        "default": {
+          "$value": "{primitive.color.background.bg0}",
+          "$type": "color"
+        }
+      },
+      "text": {
+        "body": {
+          "$value": "{primitive.color.text.text0}",
+          "$type": "color"
+        }
+      }
+    },
+    "typography": {
+      "body": {
+        "$value": {
+          "fontFamily": "Arial",
+          "fontSize": "28px",
+          "fontWeight": "700",
+          "lineHeight": "33.6px"
+        },
+        "$type": "typography"
+      }
+    },
+    "radius": {
+      "control": {
+        "$value": "{primitive.radius.r0}",
+        "$type": "dimension"
+      }
+    },
+    "shadow": {
+      "elevated": {
+        "$value": "{primitive.shadow.sh0}",
+        "$type": "shadow"
+      }
+    }
+  }
+}

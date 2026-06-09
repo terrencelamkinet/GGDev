@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="GG Platform"><title>GG Profile</title><link rel="stylesheet" href="/static/styles.css?v=2.0"></head><body>
+<div class="app-shell">
+
+<!-- iOS Nav Bar -->
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <h1 class="page-title">Profile</h1>
+      <span class="page-subtitle">Terrence Lam</span>
+    </div>
+  </div>
+</nav>
+
+<main class="scroll-content">
+
+  <!-- Identity Card -->
+  <div class="ios-section">
+    <div class="ios-group">
+      <div class="ios-row" style="padding:16px;gap:14px">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg class="icon-lg" style="color:#fff"><use href="/static/icons.svg#icon-user"/></svg>
+        </div>
+        <div class="ios-row-content">
+          <div class="ios-row-label">Terrence Lam</div>
+          <div class="ios-row-meta" style="font-size:15px">Pre-Sales Consultant · AIA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personal Info -->
+  <div class="ios-section">
+    <div class="ios-header">Personal</div>
+    <div class="ios-group">
+      <div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Location</div></div><div class="ios-row-trailing"><span class="ios-row-meta">Hong Kong (HKT UTC+8)</span></div></div>
+      <div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Family</div></div><div class="ios-row-trailing"><span class="ios-row-meta">Aggie + 2 children</span></div></div>
+      <div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Church</div></div><div class="ios-row-trailing"><span class="ios-row-meta">Worship Leader</span></div></div>
+      <div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Vehicle</div></div><div class="ios-row-trailing"><span class="ios-row-meta">Toyota Sienta Hybrid 2018</span></div></div>
+    </div>
+  </div>
+
+  <!-- System Info -->
+  <div class="ios-section">
+    <div class="ios-header">System</div>
+    <div class="ios-group" id="sysInfo">
+      <div class="ios-row"><div class="ios-row-content"><div class="ios-row-meta" style="color:var(--secondary-label)">Loading...</div></div></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- iOS Tab Bar -->
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab active"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
+</div>
+
+<script>
+fetch('/api/data?_='+Date.now()).then(r=>r.json()).then(function(d){
+  var el=document.getElementById('sysInfo');
+  if(el) el.innerHTML =
+    '<div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">CPU</div></div><div class="ios-row-trailing"><span class="ios-row-meta">'+(d.system?d.system.cpu:'--')+'%</span></div></div>'+
+    '<div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Memory</div></div><div class="ios-row-trailing"><span class="ios-row-meta">'+(d.system?d.system.mem:'--')+'%</span></div></div>'+
+    '<div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Disk</div></div><div class="ios-row-trailing"><span class="ios-row-meta">'+(d.system?d.system.disk:'--')+'%</span></div></div>'+
+    '<div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Mode</div></div><div class="ios-row-trailing"><span class="ios-row-meta">Local + PG</span></div></div>'+
+    '<div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Updated</div></div><div class="ios-row-trailing"><span class="ios-row-meta">'+(d.ts||'--:--')+'</span></div></div>';
+}).catch(function(){});
+</script>
+</body></html>

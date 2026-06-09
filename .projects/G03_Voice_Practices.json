@@ -1,0 +1,37 @@
+{
+  "project": "G03 Voice Practices",
+  "status": "planning",
+  "created": "2026-05-22T09:00:00+08:00",
+  "owner": "Terrence",
+  "description": "AI English Speaking Coach — 手機 web app，voice conversation + pronunciation checker",
+  "architecture": {
+    "frontend": "HTML + JS (mobile browser, MediaRecorder API)",
+    "backend": "FastAPI + Uvicorn (Python venv)",
+    "stt": "OpenAI Whisper (tiny model, CPU)",
+    "tts": "Edge-TTS (Microsoft Azure voices, free)",
+    "llm": "SiliconFlow / DeepSeek API for grammar correction + conversation",
+    "pronunciation": "gruut/phonemizer IPA compare for word-level feedback",
+    "deploy": "172.6.15.180:8080 + Cloudflare Tunnel for public mobile access",
+    "style": "Reference Focus Bird / Exam Center internal web app pattern"
+  },
+  "features": {
+    "mvp": [
+      "Voice record → STT → LLM response → TTS play loop",
+      "Auto-detect voice end (silence detection)",
+      "Chat-like conversation UI",
+      "Pronunciation feedback per word"
+    ],
+    "v2": [
+      "Multiple conversation scenarios",
+      "Progress tracking (common errors)",
+      "Multi-user (Aggie)"
+    ]
+  },
+  "key_decisions": [
+    "Option A: 似傾偈咁 auto-detect + auto-answer + pron checker",
+    "CPU Whisper tiny model (~5s latency, acceptable for practice)",
+    "Edge-TTS for natural voice response (~0.4s)",
+    "Cloudflare Tunnel for public mobile HTTPS access"
+  ],
+  "timeline": "~2.5 days total (P0-P4)"
+}

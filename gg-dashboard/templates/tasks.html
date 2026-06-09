@@ -1,0 +1,392 @@
+<!DOCTYPE html><html lang="zh-HK"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="GG Platform">
+<title>GG Platform | Tasks</title>
+<link rel="stylesheet" href="/static/styles.css?v=2.0">
+</head><body>
+<div class="app-shell">
+
+<!-- iOS Navigation Bar -->
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <h1 class="page-title">Tasks</h1>
+      <span class="page-subtitle" id="taskSource">Notion Task Center</span>
+    </div>
+    <div class="nav-actions">
+      <span class="nav-action-btn" id="lastUpdate" style="font-size:13px;font-weight:500;width:auto;padding:0 12px;background:var(--fill);border-radius:8px;min-height:36px;display:flex;align-items:center;gap:4px">--:--</span>
+    </div>
+  </div>
+</nav>
+
+<main class="scroll-content">
+
+  <!-- Stats -->
+  <div class="ios-stats">
+    <div class="ios-stat"><div class="ios-stat-value accent" id="taskTotal">--</div><div class="ios-stat-label">Active</div></div>
+    <div class="ios-stat"><div class="ios-stat-value red" id="taskOverdue">0</div><div class="ios-stat-label">Overdue</div></div>
+    <div class="ios-stat"><div class="ios-stat-value gold" id="taskDueToday">0</div><div class="ios-stat-label">Due Today</div></div>
+    <div class="ios-stat"><div class="ios-stat-value accent" id="taskQ1">0</div><div class="ios-stat-label">Urgent</div></div>
+  </div>
+
+  <!-- iOS Filter Chips -->
+  <div class="ios-filter-row" id="filterRow">
+    <button class="ios-chip active" data-f="all" onclick="filterTasks('all',this)">All</button>
+    <button class="ios-chip" data-f="💼 Work" onclick="filterTasks('💼 Work',this)">Work</button>
+    <button class="ios-chip" data-f="🏠 Personal" onclick="filterTasks('🏠 Personal',this)">Personal</button>
+    <button class="ios-chip" data-f="📚 Learning" onclick="filterTasks('📚 Learning',this)">Learning</button>
+  </div>
+
+  <!-- Task List as iOS Rows -->
+  <div class="ios-section">
+    <div class="ios-group task-list" id="taskList">
+      <div style="padding:16px;text-align:center;color:var(--secondary-label)">Loading...</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- iOS Tab Bar -->
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab active"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
+</div>
+
+<!-- Detail Overlay -->
+<div id="detailOverlay" class="detail-overlay" style="display:none">
+  <div class="detail-sheet">
+    <div style="background:var(--tertiary-background);border-radius:10px;margin:0 16px;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+        <h2 id="dtTitle" class="ios-title-3" style="flex:1;padding-right:16px">Task</h2>
+        <button class="detail-close" onclick="closeDetail()" aria-label="Close">✕</button>
+      </div>
+      <div class="detail-grid" id="dtGrid" style="margin-bottom:12px"></div>
+      <div style="margin-bottom:12px">
+        <div class="dg-label">Notes</div>
+        <div class="detail-notes" id="dtNotes">—</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button id="dtDoneBtn" class="btn accent" onclick="markDetailDone()"><svg class="icon-sm"><use href="/static/icons.svg#icon-check"/></svg> Done</button>
+        <button class="btn ghost" onclick="openEditPanel()">✏️ Edit</button>
+        <button id="dtSyncBtn" class="btn ghost" onclick="verifyDetailSync()">🔄 Verify Sync</button>
+      </div>
+      <div id="dtSyncStatus" style="font-size:13px;color:var(--secondary-label);margin-top:12px;display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Panel (bottom sheet) -->
+<div id="editPanel" class="edit-panel hidden" style="padding-bottom:calc(20px + var(--safe-bottom))">
+  <div class="handle"></div>
+  <div style="padding:0 16px 20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <span class="ios-title-3">Edit Task</span>
+      <button onclick="closeEditPanel()" style="cursor:pointer;background:none;border:none;color:var(--secondary-label);font-size:20px;padding:8px;min-width:44px">✕</button>
+    </div>
+    <div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:13px;color:var(--secondary-label);display:block;margin-bottom:4px">Title</label>
+        <input id="edTitle" type="text" oninput="autoSave()" style="width:100%;padding:12px;border-radius:10px;border:0.5px solid var(--separator);background:var(--secondary-background);color:var(--label);font-size:17px;outline:none;box-sizing:border-box">
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:13px;color:var(--secondary-label);display:block;margin-bottom:4px">Notes</label>
+        <textarea id="edNotes" rows="3" oninput="autoSave()" style="width:100%;padding:12px;border-radius:10px;border:0.5px solid var(--separator);background:var(--secondary-background);color:var(--label);font-size:17px;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div>
+          <label style="font-size:13px;color:var(--secondary-label);display:block;margin-bottom:4px">Priority</label>
+          <select id="edPriority" onchange="autoSave()" style="width:100%;padding:12px;border-radius:10px;border:0.5px solid var(--separator);background:var(--secondary-background);color:var(--label);font-size:17px;outline:none;box-sizing:border-box">
+            <option value="Q1 · Do Now">Q1 · Do Now</option>
+            <option value="Q2 · Schedule">Q2 · Schedule</option>
+            <option value="Q3 · Delegate">Q3 · Delegate</option>
+            <option value="Q4 · Eliminate">Q4 · Eliminate</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:13px;color:var(--secondary-label);display:block;margin-bottom:4px">Due Date</label>
+          <input id="edDue" type="date" onchange="autoSave()" style="width:100%;padding:12px;border-radius:10px;border:0.5px solid var(--separator);background:var(--secondary-background);color:var(--label);font-size:17px;outline:none;box-sizing:border-box">
+        </div>
+      </div>
+    </div>
+    <div id="edStatus" style="font-size:13px;color:var(--secondary-label);margin-top:8px;display:none;text-align:center"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="ios-toast" style="opacity:0"></div>
+
+<script>
+/* ===== STATE ===== */
+var _tasks = [];
+var _filter = 'all';
+var _current = null;
+var _sortCol = null;
+var _sortDir = 1;
+
+/* ===== ESC key ===== */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    closeDetail();
+    closeEditPanel();
+  }
+});
+
+/* ===== API CALLS ===== */
+function loadTasks() {
+  fetch('/api/data?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
+    var t = d.tasks || {};
+    document.getElementById('taskTotal').textContent = t.total || 0;
+    document.getElementById('taskOverdue').textContent = t.overdue || 0;
+    document.getElementById('taskDueToday').textContent = t.due_today || 0;
+    document.getElementById('taskQ1').textContent = t.q1_count || 0;
+    document.getElementById('lastUpdate').textContent = d.ts || '--:--';
+    _tasks = t.items || [];
+    renderTable();
+  }).catch(function(){});
+}
+
+function doAction(pageId, action, value, btn) {
+  if (!pageId) { toast('Read-only — no Notion link', 'var(--orange)'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+  fetch('/api/task/action', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({page_id:pageId, action:action, value:value||''})
+  }).then(function(r){return r.json()}).then(function(r){
+    if (r.ok) {
+      toast(r.message||'Done','var(--accent)');
+      if(_current && _current.page_id === pageId && action === 'mark_done'){
+        _current.status = 'done';
+        renderDetail();
+        closeDetail();
+      }
+      setTimeout(loadTasks, 800);
+    } else {
+      toast(r.error||'Failed','var(--orange)');
+      if(btn){btn.disabled=false;btn.textContent='Done';}
+    }
+  }).catch(function(){toast('Network error','var(--orange)');if(btn)btn.disabled=false;});
+}
+
+/* ===== FILTER + SORT ===== */
+function filterTasks(f, btn) {
+  _filter = f;
+  document.querySelectorAll('.ios-chip').forEach(function(c){c.classList.remove('active')});
+  if (btn) btn.classList.add('active');
+  renderTable();
+}
+
+function sortTable(col) {
+  if (_sortCol === col) { _sortDir *= -1; } else { _sortCol = col; _sortDir = 1; }
+  renderTable();
+}
+
+function filterAndSort(src) {
+  var out = (_filter === 'all') ? src.slice() : src.filter(function(t){return (t.project||'').indexOf(_filter)>=0});
+  if (_sortCol) {
+    out.sort(function(a,b){
+      var va = (a[_sortCol]||'').toString().toLowerCase();
+      var vb = (b[_sortCol]||'').toString().toLowerCase();
+      if (va < vb) return -1 * _sortDir;
+      if (va > vb) return 1 * _sortDir;
+      return 0;
+    });
+  }
+  return out;
+}
+
+/* ===== RENDER iOS ROWS ===== */
+function renderTable() {
+  var list = document.getElementById('taskList');
+  if (!list) return;
+  var data = filterAndSort(_tasks);
+  if (!data.length) {
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--secondary-label);font-size:15px">No ' + (_filter==='all'?'tasks':_filter+' tasks') + '</div>';
+    return;
+  }
+  var today = new Date(); var ts = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  list.innerHTML = data.map(function(t, idx){
+    var pg = t.priority || '';
+    var pClass = pg.indexOf('Q1')>=0?'U':pg.indexOf('Q2')>=0?'S':pg.indexOf('Q3')>=0?'D':'';
+    var d = t.due||''; var dd='',dc=''; if(d){var d10=d.substring(0,10);if(d10<ts){dd=d10;dc='overdue'}else if(d10===ts){dd='Today';dc='today'}else{dd=d10;dc=''}}
+    var s = t.status||'active'; var isDone = s==='done'||s==='cancelled';
+    var pid = t.page_id || '';
+    var proj = (t.project||'').replace(/^[^\s]*\s/,'');
+    return '<div class="ios-row'+(isDone?' done':'')+'" onclick="openDetail('+idx+')" data-idx="'+idx+'">'+
+      '<span class="chk-wrap" onclick="event.stopPropagation();doAction(\''+pid+'\',\'mark_done\',\'\',this)"><span class="chk-circle'+(isDone?' done':'')+'">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg>'+
+      '</span></span>'+
+      '<div class="ios-row-content"><div class="task-title">'+esc(t.title)+'</div>'+
+        '<div class="task-meta">'+(proj?'<span class="project">'+esc(proj)+'</span>':'<span style="color:var(--secondary-label)">'+(s==='in_progress'?'▶ Running':'○ Active')+'</span>')+
+        '</div></div>'+
+      '<div class="task-right">'+
+        (pClass?'<span class="task-prio '+pClass+'">'+pClass+'</span>':'')+
+        (dd?'<span class="task-due '+dc+'">'+esc(dd)+'</span>':'')+
+      '</div></div>';
+  }).join('');
+}
+
+/* ===== DETAIL OVERLAY ===== */
+function openDetail(idx) {
+  var t = _tasks[idx];
+  if (!t) return;
+  _current = t;
+  var overlay = document.getElementById('detailOverlay');
+  overlay.style.display = 'block';
+  document.getElementById('dtTitle').textContent = esc(t.title);
+  renderDetail();
+  // WAAPI expand
+  var triggers = document.querySelectorAll('.ios-row');
+  var trigger = triggers[idx];
+  if (trigger && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var start = trigger.getBoundingClientRect();
+    var sheet = overlay.querySelector('[style*="border-radius:10px"]');
+    if (sheet) {
+      var end = sheet.getBoundingClientRect();
+      sheet.animate([
+        { transform: 'translateY(' + (start.top - end.top) + 'px) scale(' + (start.width/end.width) + ', 0.3)', opacity: '0.5', borderRadius: '10px' },
+        { transform: 'translateY(0) scale(1,1)', opacity: '1', borderRadius: '10px' }
+      ], { duration: 700, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both' });
+    }
+  }
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').style.display = 'none';
+  _current = null;
+}
+
+function renderDetail() {
+  var t = _current;
+  if (!t) return;
+  var s = t.status || 'active'; var isDone = s==='done'||s==='cancelled';
+  var sc = isDone?'var(--accent)':s==='in_progress'?'var(--gold)':'var(--secondary-label)';
+  var pg = t.priority || '';
+  var d = t.due || '';
+
+  document.getElementById('dtGrid').innerHTML =
+    '<div><div class="dg-label">Status</div><div class="dg-value" style="color:'+sc+'">'+(isDone?'Done':s)+'</div></div>'+
+    '<div><div class="dg-label">Priority</div><div class="dg-value">'+pg+'</div></div>'+
+    '<div><div class="dg-label">Due</div><div class="dg-value">'+(d?d.substring(0,10):'—')+'</div></div>'+
+    '<div><div class="dg-label">Project</div><div class="dg-value">'+esc(t.project||'—')+'</div></div>'+
+    '<div><div class="dg-label">Area</div><div class="dg-value">'+esc(t.area||'—')+'</div></div>'+
+    '<div><div class="dg-label">Delegate</div><div class="dg-value">'+esc(t.delegate||'—')+'</div></div>';
+
+  document.getElementById('dtNotes').textContent = t.notes || '(no notes)';
+  document.getElementById('dtDoneBtn').style.display = isDone ? 'none' : 'inline-flex';
+}
+
+function markDetailDone() {
+  if (!_current || !_current.page_id) return;
+  doAction(_current.page_id, 'mark_done', '', document.getElementById('dtDoneBtn'));
+}
+
+function verifyDetailSync() {
+  var t = _current;
+  if (!t || !t.page_id) return;
+  var el = document.getElementById('dtSyncStatus');
+  el.style.display = 'block'; el.textContent = '🔄 Checking...'; el.style.color = 'var(--secondary-label)';
+  fetch('/api/task/sync-verify', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({page_id: t.page_id})
+  }).then(function(r){return r.json()}).then(function(d){
+    if (d.ok && d.in_sync) {
+      el.textContent = '✅ PG: '+(d.pg_status||'?')+' ↔ Notion: '+(d.notion_status||'?')+' — In sync';
+      el.style.color = 'var(--accent)';
+    } else if (d.ok) {
+      el.textContent = '⚠️ Mismatch — PG: '+(d.pg_status||'?')+' vs Notion: '+(d.notion_status||'?');
+      el.style.color = 'var(--orange)';
+    } else {
+      el.textContent = '❌ '+(d.error||'Failed');
+    }
+  }).catch(function(){el.textContent='❌ Network error';});
+}
+
+/* ===== EDIT PANEL ===== */
+function openEditPanel() {
+  var t = _current;
+  if (!t) return;
+  document.getElementById('edTitle').value = t.title || '';
+  document.getElementById('edNotes').value = t.notes || '';
+  document.getElementById('edPriority').value = t.priority || 'Q2 · Schedule';
+  document.getElementById('edDue').value = t.due ? t.due.substring(0,10) : '';
+  document.getElementById('edStatus').style.display = 'none';
+  document.getElementById('editPanel').classList.remove('hidden');
+}
+
+function closeEditPanel() {
+  if (_saveTimer) clearTimeout(_saveTimer);
+  document.getElementById('editPanel').classList.add('hidden');
+}
+
+var _saveTimer = null;
+var _saving = false;
+
+function autoSave() {
+  if (_saveTimer) clearTimeout(_saveTimer);
+  var status = document.getElementById('edStatus');
+  status.style.display = 'block';
+  status.textContent = '⏳ Auto-saving...';
+  status.style.color = 'var(--secondary-label)';
+  _saveTimer = setTimeout(doSave, 1500);
+}
+
+function doSave() {
+  var t = _current;
+  if (!t || !t.page_id) { return; }
+  if (_saving) return;
+  _saving = true;
+
+  var title = document.getElementById('edTitle').value.trim();
+  if (!title) { document.getElementById('edStatus').textContent = '⚠️ Title required'; _saving = false; return; }
+
+  fetch('/api/task/update', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      page_id: t.page_id,
+      title: title,
+      notes: document.getElementById('edNotes').value.trim(),
+      priority: document.getElementById('edPriority').value,
+      due: document.getElementById('edDue').value
+    })
+  }).then(function(r){return r.json()}).then(function(d){
+    var status = document.getElementById('edStatus');
+    if (d.ok) {
+      status.textContent = '✅ Saved to Notion';
+      status.style.color = 'var(--accent)';
+      t.title = title;
+      t.notes = document.getElementById('edNotes').value.trim();
+      t.priority = document.getElementById('edPriority').value;
+      t.due = document.getElementById('edDue').value;
+      document.getElementById('dtTitle').textContent = esc(title);
+      renderDetail();
+      renderTable();
+    } else {
+      status.textContent = '❌ '+(d.error||'Save failed');
+      status.style.color = 'var(--orange)';
+    }
+  }).catch(function(){
+    document.getElementById('edStatus').textContent = '❌ Network error';
+    document.getElementById('edStatus').style.color = 'var(--orange)';
+  }).finally(function(){ _saving = false; });
+}
+
+/* ===== UTILS ===== */
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
+function toast(msg, bg){
+  var t = document.getElementById('toast');
+  t.style.background = bg || 'rgba(0,0,0,0.85)';
+  t.textContent = msg; t.style.opacity = '1';
+  setTimeout(function(){t.style.opacity='0';}, 2500);
+}
+
+/* ===== INIT ===== */
+loadTasks();
+setInterval(loadTasks, 30000);
+</script>
+</body></html>

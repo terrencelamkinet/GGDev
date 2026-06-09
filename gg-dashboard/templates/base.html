@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-HK"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="GG Platform">
+<title>{% block title %}GG Platform{% endblock %}</title>
+<link rel="stylesheet" href="/static/styles.css?v=2.0">
+</head><body>
+<div class="app-shell">
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <h1 class="page-title">{% block heading %}GG Platform{% endblock %}</h1>
+      <span class="page-subtitle">{{ page_subtitle or 'Interactive AI Platform' }}</span>
+    </div>
+    <div class="nav-actions">
+      <span class="nav-action-btn" id="lastUpdate" style="font-size:13px;font-weight:500;width:auto;padding:0 12px;background:var(--fill);border-radius:8px;min-height:36px;display:flex;align-items:center;gap:4px">--:--</span>
+    </div>
+  </div>
+</nav>
+<main class="scroll-content">
+{% block content %}{% endblock %}
+</main>
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab{% if request.path=='/' or request.path=='/home' %} active{% endif %}"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab{% if request.path=='/tasks' %} active{% endif %}"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab{% if request.path=='/intel' %} active{% endif %}"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab{% if request.path=='/agents' %} active{% endif %}"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab{% if request.path=='/profile' %} active{% endif %}"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
+</div>
+{% block scripts %}{% endblock %}
+</body></html>

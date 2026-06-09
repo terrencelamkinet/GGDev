@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="GG Platform"><title>GG Agent | {{agent_name}}</title><link rel="stylesheet" href="/static/styles.css?v=2.0"></head><body>
+<div class="app-shell">
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <h1 class="page-title">{{agent_name}}</h1>
+      <span class="page-subtitle">AI Servant</span>
+    </div>
+    <div class="nav-actions">
+      <span class="nav-action-btn" id="lastUpdate" style="font-size:13px;font-weight:500;width:auto;padding:0 12px;background:var(--fill);border-radius:8px;min-height:36px;display:flex;align-items:center;gap:4px">--:--</span>
+    </div>
+  </div>
+</nav>
+<main class="scroll-content">
+  <div class="ios-section">
+    <div class="ios-group" id="agDetail">
+      <div style="padding:16px;font-size:15px;color:var(--secondary-label)" id="agDetailContent">Loading agent data...</div>
+    </div>
+  </div>
+  <div class="ios-section">
+    <div class="ios-header">Recent Activity</div>
+    <div class="ios-group" id="agActivity">
+      <div style="padding:16px;font-size:15px;color:var(--secondary-label)">Loading...</div>
+    </div>
+  </div>
+</main>
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
+</div>
+<script>
+fetch('/api/data?_='+Date.now()).then(r=>r.json()).then(function(d){
+  var name = window.location.pathname.split('/').pop() || 'fighter';
+  var key = name === 'fighter' ? 'main' : name;
+  var a = (d.agents||{})[key] || {};
+  var colors = {fighter:'var(--orange)',work:'var(--blue)',person:'var(--pink)'};
+  var el = document.getElementById('agDetailContent');
+  if (el) {
+    el.innerHTML =
+      '<div class="ios-row" style="border-left:3px solid '+(colors[name]||'var(--accent)')+'"><div class="ios-row-content"><div class="ios-row-label" style="font-weight:600;font-size:20px;margin-bottom:8px">' + name.charAt(0).toUpperCase()+name.slice(1) + '</div>'+
+      '<div class="ios-row-meta" style="font-size:15px;line-height:1.8">'+
+      '<div>Status: <strong>' + (a.online?'🟢 Online':'🔴 Offline') + '</strong></div>'+
+      '<div>CPU: <strong>'+(a.cpu||'--')+'%</strong> · MEM: <strong>'+(a.mem||'--')+'%</strong></div>'+
+      '<div>Uptime: <strong>'+(a.uptime||'--')+'</strong></div>'+
+      (a.thoughts ? '<div style="margin-top:8px;font-style:italic;color:var(--secondary-label)">' + esc(a.thoughts) + '</div>' : '')+
+      '</div></div></div>';
+  }
+  document.getElementById('lastUpdate').textContent = d.ts||'--:--';
+}).catch(function(){});
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
+</script>
+</body></html>

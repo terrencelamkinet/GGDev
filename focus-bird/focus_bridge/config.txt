@@ -1,0 +1,11 @@
+# BrainLink Bridge Configuration
+# 請根據你嘅 Lenovo X1 環境修改
+
+# BrainLink 藍牙 COM Port (Outgoing port!)
+# 用 setup_once.bat 或 python brainlink_bridge.py --scan 掃描
+BLUETOOTH_COM=COM5
+
+# Agent Relay Server WebSocket URL (wss:// 必須！)
+# 透過 Cloudflare Tunnel 或其他方式公開 wss://
+# 格式: wss://YOUR_SERVER:PORT/brainlink
+AGENT_WS_URL=wss://your-agent-server.com:8765/brainlink

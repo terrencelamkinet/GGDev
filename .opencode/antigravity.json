@@ -1,0 +1,30 @@
+{
+  "name": "antigravity",
+  "version": "1.0.0",
+  "description": "Free AI models — Gemini 1.5 Pro + Claude 3.5 Sonnet via OAuth (Google provider)",
+  "models": {
+    "gemini-1.5-pro": {
+      "provider": "google-generative-ai",
+      "auth": "oauth",
+      "oauthProvider": "google",
+      "free": true,
+      "description": "Google Gemini 1.5 Pro — free via Antigravity OAuth"
+    },
+    "claude-sonnet-3.5": {
+      "provider": "anthropic",
+      "auth": "oauth",
+      "oauthProvider": "google",
+      "free": true,
+      "description": "Claude 3.5 Sonnet — free via Antigravity OAuth"
+    }
+  },
+  "install": {
+    "steps": [
+      "1. Copy the Antigravity prompt from GitHub into OpenCode chat",
+      "2. OpenCode auto-installs the plugin",
+      "3. Run 'opencode auth' in a new terminal",
+      "4. Select Google provider → complete OAuth flow",
+      "5. Restart OpenCode → /models shows Gemini + Claude as free options"
+    ]
+  }
+}

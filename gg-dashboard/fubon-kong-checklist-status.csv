@@ -1,0 +1,72 @@
+Category,Feature,Description,PoC Status,Test Flow ID
+
+=== Security ===,,,,
+Security,OAuth2 / OIDC Support,Support for standard auth protocols,COVERED,Flow_05
+Security,JWT Validation,"Signature, expiry, claims validation",COVERED,Flow_05
+Security,Scope Enforcement,Basic scope check at gateway,COVERED,Flow_06
+Security,mTLS Support,Mutual TLS for client authentication,COVERED,Flow_07
+Security,WAF Integration,Protection against OWASP threats,OUTSTANDING,Phase 2
+Security,DDoS Protection,Rate limiting + attack mitigation,COVERED,Flow_13
+Security,IP Whitelisting,Source IP restriction,COVERED,Flow_08
+=== Authorization & Policy ===,,,,
+Authorization & Policy,Claim-based Routing,Route decisions using JWT claims,COVERED,"Flow_06, Flow_29"
+Authorization & Policy,Fine-grained Policy Support,ABAC/RBAC (not only scope-based),COVERED,Flow_30
+Authorization & Policy,External Policy Engine Integration,OPA / PDP integration,OUTSTANDING,Phase 2
+Authorization & Policy,Policy Versioning,Track and rollback policies,COVERED,Flow_27
+Authorization & Policy,Policy Audit Trail,Who changed what policy,COVERED,Flow_21
+Authorization & Policy,Context-based Decision,"Support dynamic inputs (txn amount, region)",COVERED,Flow_31
+Authorization & Policy,Deny-by-default Mode,Default security posture,COVERED,Flow_09
+=== Traffic Management & Protection ===,,,,
+Traffic Management & Protection,Rate Limiting,Per API / per client,COVERED,Flow_11
+Traffic Management & Protection,Throttling,Burst vs sustained control,COVERED,Flow_13
+Traffic Management & Protection,Quota Management,Daily / monthly quotas,COVERED,Flow_12
+Traffic Management & Protection,Spike Arrest,Protection from sudden burst,COVERED,Flow_14
+Traffic Management & Protection,Backend Retry,Retry on failure,COVERED,Flow_16
+Traffic Management & Protection,Circuit Breaker,Protect backend systems,COVERED,Flow_15
+Traffic Management & Protection,Caching,Response caching support,COVERED,Flow_17
+=== Integration ===,,,,
+Integration,REST Support,Standard HTTP APIs,COVERED,"Flow_01, Flow_22"
+Integration,SOAP Support,Legacy integration,OUTSTANDING,Phase 2
+Integration,gRPC Support,High-performance internal APIs,OUTSTANDING,Phase 2
+Integration,Message Queue Integration,Kafka / MQ support,OUTSTANDING,Phase 2
+Integration,Transformation,JSON ↔ XML transformation,COVERED,Flow_24
+Integration,Backend Protocol Support,"HTTP, HTTPS, TCP",COVERED,"Flow_01, Flow_25"
+=== Observability ===,,,,
+Observability,Access Logging,Full request/response logging,COVERED,Flow_18
+Observability,Audit Trail,Config changes tracking,COVERED,Flow_21
+Observability,Correlation ID,End-to-end tracing,COVERED,Flow_19
+Observability,Metrics,"Latency, TPS, error rates",COVERED,Flow_20
+Observability,SIEM Integration,Splunk / ELK integration,OUTSTANDING,Phase 2
+Observability,Alerting,Threshold-based alert,COVERED,Flow_21
+=== DevOps & API LifeCycle ===,,,,
+DevOps & API LifeCycle,CI/CD Integration,Git-based deployment,COVERED,Flow_27
+DevOps & API LifeCycle,Config as Code,YAML / declarative config,COVERED,Flow_27
+DevOps & API LifeCycle,Environment Promotion,Dev → UAT → Prod,OUTSTANDING,Phase 2
+DevOps & API LifeCycle,Version Control,API version management,COVERED,Flow_26
+DevOps & API LifeCycle,Rollback,Quick rollback capability,COVERED,Flow_27
+DevOps & API LifeCycle,Blue/Green Deployment,Zero downtime release,COVERED,Flow_28
+=== Dev Portal ===,,,,
+Dev Portal,API Portal,Developer self-service,OUTSTANDING,Phase 2
+Dev Portal,API Documentation,Swagger / OpenAPI,OUTSTANDING,Phase 2
+Dev Portal,API Testing Tools,Built-in test console,OUTSTANDING,Phase 2
+Dev Portal,SDK Generation,Auto client generation,OUTSTANDING,Phase 2
+Dev Portal,Subscription Mgmt,API key / access request,COVERED,Flow_04
+=== Deployment & Architecture ===,,,,
+Deployment & Architecture,HA Support,Active-active / clustering,COVERED,"Flow_01, Flow_02, Flow_03"
+Deployment & Architecture,Multi-Region,DR capability,OUTSTANDING,Phase 2
+Deployment & Architecture,Container Support,Kubernetes deployment,COVERED,Flow_01
+Deployment & Architecture,Hybrid Deployment,On-prem + cloud,OUTSTANDING,Phase 2
+Deployment & Architecture,Latency Performance,SLA metrics,COVERED,"Flow_32, Flow_33"
+=== Governance ===,,,,
+Governance,Role-Based Access Control,Admin segregation,COVERED,Flow_30
+Governance,Maker-Checker Workflow,Approval for changes,OUTSTANDING,Phase 2
+Governance,Policy Segregation,Dev vs Ops ownership,OUTSTANDING,Phase 2
+Governance,Audit Export,Export logs for audit,COVERED,Flow_21
+Governance,Data Masking,Sensitive data protection,OUTSTANDING,Phase 2
+Governance,Compliance Alignment,HKMA / PCI support,OUTSTANDING,Phase 2
+=== Licensing ===,,,,
+Licensing,Model,Per API / per call / per node,BUSINESS (N/A),business assessment
+Licensing,Cost Scaling,Cost vs transaction volume,BUSINESS (N/A),business assessment
+Licensing,Environment Cost,Dev/UAT pricing,BUSINESS (N/A),business assessment
+Licensing,Support Model,SLA / response time,BUSINESS (N/A),business assessment
+Licensing,Vendor Lock-in Risk,Portability,BUSINESS (N/A),business assessment

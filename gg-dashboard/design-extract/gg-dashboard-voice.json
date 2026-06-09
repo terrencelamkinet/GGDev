@@ -1,0 +1,55 @@
+{
+  "tone": "neutral",
+  "pronoun": "third-person",
+  "headingStyle": "unknown",
+  "headingLengthClass": "tight",
+  "ctaVerbs": [
+    {
+      "value": "home",
+      "count": 1
+    },
+    {
+      "value": "intelligence",
+      "count": 1
+    },
+    {
+      "value": "tasks",
+      "count": 1
+    },
+    {
+      "value": "connection",
+      "count": 1
+    },
+    {
+      "value": "settings",
+      "count": 1
+    }
+  ],
+  "buttonPatterns": [
+    {
+      "value": "home",
+      "count": 1
+    },
+    {
+      "value": "intelligence",
+      "count": 1
+    },
+    {
+      "value": "tasks",
+      "count": 1
+    },
+    {
+      "value": "connection",
+      "count": 1
+    },
+    {
+      "value": "settings",
+      "count": 1
+    }
+  ],
+  "sampleHeadings": [],
+  "stats": {
+    "buttons": 5,
+    "headings": 0
+  }
+}

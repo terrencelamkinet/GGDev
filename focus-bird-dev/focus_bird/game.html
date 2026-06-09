@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Focus Bird 🦅</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #082029;
+    font-family: 'Helvetica', 'Segoe UI', Arial, sans-serif;
+    color: #ffffff;
+    touch-action: manipulation;
+  }
+  .game-wrapper {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #082029;
+  }
+  canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    cursor: pointer;
+  }
+  .hud {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: clamp(6px, 1.2vh, 18px) clamp(10px, 1.5vw, 28px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    font-size: clamp(13px, 1.8vh, 22px);
+    color: #ffffff;
+    text-shadow: none;
+    z-index: 10;
+  }
+  .hud-left {
+    display: flex;
+    gap: clamp(8px, 1.5vw, 24px);
+    align-items: center;
+  }
+  .hud-right {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1vw, 16px);
+  }
+  .focus-bar-outer {
+    width: clamp(80px, 12vw, 240px);
+    height: clamp(10px, 1.4vh, 20px);
+    background: rgba(255,255,255,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .focus-bar-inner {
+    height: 100%;
+    background: #acbf20;
+    border-radius: 4px;
+    transition: width 0.15s ease;
+  }
+  .level-badge {
+    background: #003a49;
+    color: #acbf20;
+    padding: 2px clamp(6px, 0.8vw, 14px);
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: clamp(11px, 1.4vh, 18px);
+  }
+  .score-badge {
+    color: #ffffff;
+    font-weight: 600;
+  }
+  .coins-count {
+    color: #acbf20;
+    font-weight: 700;
+  }
+  .timer {
+    color: rgba(255,255,255,0.6);
+    font-size: clamp(11px, 1.3vh, 16px);
+  }
+  .center-msg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: clamp(20px, 3vh, 36px);
+    font-weight: 600;
+    text-align: center;
+    pointer-events: none;
+    z-index: 20;
+    text-shadow: none;
+  }
+  .center-msg .sub {
+    font-size: clamp(14px, 2vh, 22px);
+    color: #acbf20;
+    margin-top: 8px;
+    font-weight: 400;
+  }
+  .game-over {
+    background: #003a49;
+    color: #ffffff;
+    padding: clamp(20px, 4vh, 50px) clamp(24px, 4vw, 60px);
+    border-radius: 10px;
+    text-align: center;
+  }
+  .game-over h2 {
+    font-size: clamp(28px, 4vh, 54px);
+    color: #acbf20;
+    margin-bottom: clamp(12px, 2vh, 24px);
+    letter-spacing: -1px;
+  }
+  .game-over .final-score {
+    font-size: clamp(18px, 2.5vh, 34px);
+    color: #ffffff;
+    margin-bottom: clamp(16px, 2.5vh, 32px);
+  }
+  .game-over .controls-btn {
+    display: inline-block;
+    padding: clamp(8px, 1.2vh, 14px) clamp(20px, 3vw, 40px);
+    background: #acbf20;
+    color: #003a49;
+    font-size: clamp(16px, 2vh, 20px);
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: clamp(6px, 0.8vh, 12px);
+    letter-spacing: normal;
+  }
+  .game-over .controls-btn:hover {
+    background: #c8d840;
+  }
+  .game-over .controls-btn.secondary {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .game-over .controls-btn.secondary:hover {
+    border-color: #ffffff;
+  }
+  .focus-low {
+    background: linear-gradient(90deg, #E76F51, #E8933A);
+  }
+  .focus-mid {
+    background: linear-gradient(90deg, #2EC4B6, #74B3CE);
+  }
+  .focus-high {
+    background: linear-gradient(90deg, #4361EE, #2EC4B6);
+    box-shadow: 0 0 8px rgba(67,97,238,0.5);
+  }
+
+  .lv-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(6px, 0.8vh, 12px);
+    max-width: min(80vw, 600px);
+    margin: clamp(8px, 1.5vh, 20px) auto 0;
+  }
+  .lv-btn {
+    padding: clamp(8px, 1.2vh, 18px) clamp(4px, 0.6vw, 10px);
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(46,196,182,0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: clamp(12px, 1.5vh, 18px);
+    text-align: center;
+    color: #F4F9F9;
+    transition: 0.15s;
+  }
+  .lv-btn:hover { transform: scale(1.05); background: rgba(46,196,182,0.2); }
+  #overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: clamp(6px, 1vh, 16px);
+    padding: clamp(12px, 2vh, 32px);
+    z-index: 20;
+  }
+  /* Cream card base for overlay */
+  #overlay.cream-overlay {
+    background: rgba(244,249,249,0.95);
+  }
+  /* Dark overlay for initial state */
+  #overlay.dark-overlay {
+    background: rgba(26,58,92,0.85);
+    color: #F4F9F9;
+  }
+  #overlay.dark-overlay h1 { color: #F4F9F9; font-size: clamp(22px, 4vh, 48px); }
+  #overlay.dark-overlay p { font-size: clamp(13px, 1.8vh, 20px); }
+  #overlay.dark-overlay button.primary { background: #2EC4B6; color: #fff; }
+  
+  /* Cream card style for Game Over / Level Complete */
+  #overlay.cream-overlay h1 { 
+    font-size: clamp(24px, 4vh, 42px); 
+    color: #1a6b5a; 
+  }
+  #overlay.cream-overlay p { 
+    font-size: clamp(14px, 1.6vh, 20px); 
+    opacity: 0.8; 
+    max-width: min(70vw, 500px); 
+    color: #264653;
+  }
+  #overlay.cream-overlay .popup-card {
+    background: #F4F9F9;
+    border: 2px solid #2EC4B6;
+    border-radius: clamp(12px, 2vh, 24px);
+    padding: clamp(18px, 3vh, 40px);
+    max-width: min(60vw, 500px);
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  #overlay.cream-overlay .card-header {
+    background: #1a6b5a;
+    color: #F4F9F9;
+    margin: calc(-1 * clamp(18px, 3vh, 40px)) calc(-1 * clamp(18px, 3vh, 40px)) clamp(12px, 2vh, 24px) calc(-1 * clamp(18px, 3vh, 40px));
+    padding: clamp(12px, 2vh, 24px);
+    border-radius: clamp(10px, 1.8vh, 20px) clamp(10px, 1.8vh, 20px) 0 0;
+    font-size: clamp(16px, 2.5vh, 28px);
+    font-weight: bold;
+  }
+  #overlay button {
+    margin-top: clamp(4px, 0.6vh, 10px);
+    padding: clamp(8px, 1.2vh, 16px) clamp(20px, 3vw, 50px);
+    font-size: clamp(14px, 1.8vh, 22px);
+    border: none;
+    border-radius: clamp(8px, 1.2vh, 16px);
+    background: #2EC4B6;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  #overlay button:hover { transform: scale(1.05); }
+  #overlay button.secondary {
+    background: #F4F9F9;
+    color: #264653;
+    border: 1.5px solid #2EC4B6;
+  }
+  #overlay button.secondary:hover { background: #A8DADC; }
+  .hidden { display: none !important; }
+
+  /* Fullscreen button */
+  #fsBtn {
+    position: absolute;
+    top: clamp(8px, 1.2vh, 16px);
+    right: clamp(8px, 1.2vh, 16px);
+    width: clamp(36px, 4vh, 52px);
+    height: clamp(36px, 4vh, 52px);
+    background: rgba(46, 196, 182, 0.25);
+    color: #F4F9F9;
+    border: 1px solid rgba(46,196,182,0.4);
+    border-radius: 50%;
+    font-size: clamp(16px, 2vh, 26px);
+    cursor: pointer;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    line-height: 1;
+  }
+  #fsBtn:hover { background: rgba(46, 196, 182, 0.5); transform: scale(1.1); }
+  #fsBtn svg { width: clamp(18px, 2.2vh, 30px); height: clamp(18px, 2.2vh, 30px); fill: currentColor; }
+
+  #exitBtn {
+    position: absolute;
+    top: clamp(8px, 1.2vh, 16px);
+    left: clamp(8px, 1.2vh, 16px);
+    width: clamp(36px, 4vh, 52px);
+    height: clamp(36px, 4vh, 52px);
+    background: rgba(26,58,92,0.6);
+    color: #F4F9F9;
+    border: 1px solid rgba(46,196,182,0.3);
+    border-radius: 50%;
+    font-size: clamp(16px, 2vh, 26px);
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+  }
+  #exitBtn:hover { background: rgba(26,107,90,0.8); }
+  .credits {
+    position: absolute;
+    bottom: clamp(4px, 0.6vh, 10px);
+    right: clamp(8px, 1vw, 18px);
+    font-size: clamp(8px, 1vh, 12px);
+    opacity: 0.4;
+    pointer-events: none;
+    color: #A8DADC;
+  }
+</style>
+</head>
+<body>
+
+<div class="game-wrapper">
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- Fullscreen button (top-right) -->
+  <button id="fsBtn" onclick="toggleFullscreen()" title="全螢幕 (F11)" aria-label="Fullscreen">
+    <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+  </button>
+
+  <button id="exitBtn" class="hidden" onclick="showLevelSelect()">✕</button>
+
+    <div class="hud">
+    <div class="hud-left">
+      <span id="scoreDisplay">💰 0</span>
+      <span id="timerDisplay" style="font-size:clamp(10px,1.2vh,14px);opacity:0.8;">⏱ 00:00</span>
+      <span id="levelDisplay">⭐ Lv.1</span>
+      <span id="targetDisplay">0/30</span>
+    </div>
+    <div class="hud-right">
+      <span id="agentNoteDisplay" style="font-size:clamp(10px,1.2vh,14px);opacity:0.8;display:none;"></span>
+      <span style="font-size:clamp(10px,1.2vh,14px);">專注</span>
+      <div class="focus-bar-outer">
+        <div class="focus-bar-inner focus-mid" id="focusBar" style="width:50%;"></div>
+      </div>
+      <span id="wsStatus" title="BrainLink Connection" style="display:inline-block;width:clamp(10px,1.2vh,16px);height:clamp(10px,1.2vh,16px);border-radius:50%;background:#e74c3c;border:1px solid rgba(255,255,255,0.3);"></span>
+    </div>
+  </div>
+
+  <div id="overlay" class="dark-overlay">
+    <h1>🦅 專注飛鳥 v2.8</h1>
+    <p>🧠 BrainLink 腦波控制<br>專注→下沉 &nbsp;|&nbsp; 放鬆→上升</p>
+    <p style="font-size:clamp(11px,1.4vh,16px);opacity:0.6;">🧠 腦波控制 &nbsp;|&nbsp; ⎵ Space 備用</p>
+    <button class="primary" id="startBtn">開始遊戲</button>
+  </div>
+
+  <div class="credits">Focus Bird v2.8 · BrainLink</div>
+</div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+// ===== Virtual coordinate system (original 400×500) =====
+const VIRTUAL_W = 800;
+const VIRTUAL_H = 450;
+
+// ===== Scaling state =====
+let scale = 1;
+let offsetX = 0;
+let offsetY = 0;
+
+// ===== Parallax Background =====
+const bgOffsets = { sky: 0, hills: 0, ground: 0 };
+const BG_SPEEDS = { sky: 0, hills: 0.15, ground: 1.0 };
+
+// ===== 遊戲狀態 =====
+const state = {
+  running: false,
+  gameOver: false,
+  score: 0,
+  level: 1,
+  focusLevel: 50,
+  targetFocus: 50,
+  spacePressed: false,
+  externalMode: false,
+  ws: null,
+  attention: 0,
+  bird: { x: 200, y: 220, vy: 0, displayAngle: 0 },
+  coins: [],
+  effects: [],
+  spawnTimer: 0,
+  nextSpawn: 0,
+  frame: 0,
+  comboCount: 0,
+  totalCoins: 0,
+  coinsSpawned: 0,
+  lastCoinTime: 0,
+  timer: 0,
+  levelStartTime: 0,
+};
+
+// ===== Canvas Sizing =====
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  canvas.width = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+
+  // Calculate proportional scaling to fit virtual 400×500 into canvas
+  const sx = canvas.width / VIRTUAL_W;
+  const sy = canvas.height / VIRTUAL_H;
+  scale = Math.min(sx, sy);
+  offsetX = (canvas.width - VIRTUAL_W * scale) / 2;
+  offsetY = (canvas.height - VIRTUAL_H * scale) / 2;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// ===== Fullscreen =====
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(function(){});
+  } else {
+    document.exitFullscreen().catch(function(){});
+  }
+}
+document.addEventListener('dblclick', function(e) {
+  // Only on canvas area
+  toggleFullscreen();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'F11') {
+    e.preventDefault();
+    toggleFullscreen();
+  }
+});
+
+// ===== 音效 =====
+function playTone(freq, dur = 0.08) {
+  try {
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.frequency.value = freq;
+    gain.gain.value = 0.12;
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+    osc.start();
+    osc.stop(ac.currentTime + dur);
+  } catch(e) {}
+}
+function coinSound() { playTone(880, 0.1); }
+function levelUpSound() { playTone(660, 0.1); setTimeout(()=>playTone(880,0.15),100); }
+function gameOverSound() { playTone(330, 0.2); setTimeout(()=>playTone(220,0.3),200); }
+
+// ===== 鳥嘅物理 =====
+function updateBird() {
+  const b = state.bird;
+  if (state.externalMode) {
+    // BrainLink mode: map attention to bird Y
+    // HIGH focus → BOTTOM (near coins at y=460)
+    // LOW focus → TOP (floating up)
+    // Lower difficulty by 10: user only needs 90 focus to reach bottom
+    // Base focus bonus -20, each level adds +1 penalty
+    var adjFocus = Math.min(100, Math.max(0, state.focusLevel + 20 - (state.level - 1) * 1));
+    var targetY = (VIRTUAL_H - 40) - ((100 - adjFocus) / 100) * (VIRTUAL_H - 80);
+    b.y += (targetY - b.y) * 0.15;
+    b.vy = 0;
+    b.displayAngle = b.displayAngle * 0.85 + 0 * 0.15;
+    return;
+  }
+  const cfg = getLevelConfig(state.level);
+  if (state.spacePressed) {
+    b.vy += 0.03 * cfg.gravityFactor;
+  } else {
+    b.vy -= 0.02 * cfg.gravityFactor;
+  }
+  b.vy *= 0.95;
+  b.y += b.vy;
+  if (b.y > VIRTUAL_H - 50) b.y = VIRTUAL_H - 50;
+
+  const angle = Math.max(-0.25, Math.min(0.25, b.vy * 0.025));
+  b.displayAngle = b.displayAngle * 0.85 + angle * 0.15;
+}
+
+// ===== 關卡設定 =====
+function getLevelConfig(level) {
+  const maxLevel = 20;
+  const l = Math.min(level, maxLevel);
+  const coinTarget = 15;
+  const gravityFactor = 1 + l * 0.06;
+  const coinInterval = 180 + Math.floor(Math.random() * 120);
+  return { coinTarget, gravityFactor, coinInterval, maxLevel };
+}
+
+function getUnlockedLevels() {
+  try { return parseInt(localStorage.getItem('focusBird_unlocked') || '1', 10); } catch(e) { return 1; }
+}
+function setUnlockedLevel(lv) {
+  try {
+    var cur = getUnlockedLevels();
+    if (lv > cur) localStorage.setItem('focusBird_unlocked', String(lv));
+  } catch(e) {}
+}
+
+// ===== 金幣 =====
+function spawnCoin() {
+  const cfg = getLevelConfig(state.level);
+  const maxCoins = cfg.coinTarget + 15;
+  if (state.coinsSpawned >= maxCoins) return;
+  state.coins.push({ x: VIRTUAL_W + 20, y: VIRTUAL_H - 40, size: 14, collected: false, value: 1 });
+  state.coinsSpawned++;
+}
+
+function spawnCoinEffect(x, y) {
+  state.effects.push({
+    x: x, y: y, frame: 0, type: 'coin',
+  });
+}
+
+function updateCoins() {
+  for (let i = state.coins.length - 1; i >= 0; i--) {
+    const c = state.coins[i];
+    if (c.collected) { state.coins.splice(i, 1); continue; }
+    c.x -= 1.2 * Math.pow(1.05, state.level - 1);
+    if (c.x < -40) { state.coins.splice(i, 1); continue; }
+    const b = state.bird;
+    const dx = c.x - b.x;
+    const dy = c.y - b.y;
+    if (Math.sqrt(dx*dx + dy*dy) < c.size + 48) {
+      c.collected = true;
+      state.score += c.value;
+      state.totalCoins++;
+      state.lastCoinTime = state.frame;
+      spawnCoinEffect(c.x, c.y);
+      coinSound();
+      const cfg = getLevelConfig(state.level);
+      if (state.totalCoins >= cfg.coinTarget) {
+        showLevelComplete();
+        return;
+      }
+    }
+  }
+}
+
+// ===== 更新 VFX =====
+function updateEffects() {
+  for (let i = state.effects.length - 1; i >= 0; i--) {
+    state.effects[i].frame++;
+    if (state.effects[i].frame > 18) {
+      state.effects.splice(i, 1);
+    }
+  }
+}
+
+// ===== 過關畫面 =====
+function showLevelComplete() {
+  state.running = false;
+  levelUpSound();
+  const cfg = getLevelConfig(state.level);
+  const elapsed = Math.floor((Date.now() - state.levelStartTime) / 1000);
+  const timeStr = elapsed >= 60 ? `${Math.floor(elapsed/60)}m ${elapsed%60}s` : `${elapsed}s`;
+  const key = 'leaderboard_lv' + state.level;
+  let records = [];
+  try { records = JSON.parse(localStorage.getItem(key) || '[]'); if(!Array.isArray(records)) records = []; } catch(e){}
+  records.push({ time: elapsed, date: new Date().toISOString().slice(0,10), coins: cfg.coinTarget });
+  records.sort(function(a,b){ return a.time - b.time; });
+  if (records.length > 10) records = records.slice(0,10);
+  localStorage.setItem(key, JSON.stringify(records));
+
+  const overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden', 'dark-overlay');
+  overlay.classList.add('cream-overlay');
+  var lbHtml = '<div style="margin:clamp(6px,0.8vh,12px) 0 clamp(3px,0.4vh,6px);font-size:clamp(12px,1.4vh,16px);opacity:0.7;color:#264653;">📊 排行榜 TOP5</div>';
+  for (var i = 0; i < Math.min(5, records.length); i++) {
+    var medal = ['🥇','🥈','🥉'][i] || (i+1) + '.';
+    var t = records[i].time;
+    var ts = t >= 60 ? Math.floor(t/60) + 'm ' + (t%60) + 's' : t + 's';
+    lbHtml += '<div style="font-size:clamp(12px,1.4vh,16px);color:#264653;">' + medal + ' ' + ts + (i === 0 ? ' 👑' : '') + '</div>';
+  }
+
+  var canNext = state.level < cfg.maxLevel;
+  overlay.innerHTML = 
+    '<div class="popup-card">' +
+    '<div class="card-header">🎉 第' + state.level + '關完成！</div>' +
+    '<p style="font-size:clamp(18px,2.5vh,28px);color:#264653;">⏱ <strong>' + timeStr + '</strong></p>' +
+    '<p style="font-size:clamp(12px,1.4vh,16px);opacity:0.6;color:#264653;">金幣：' + cfg.coinTarget + ' 個</p>' +
+    lbHtml +
+    '<button id="nextLevelBtn" style="margin-top:clamp(3px,0.4vh,6px);">' + (canNext ? '➡️ 下一關 (Lv.' + (state.level + 1) + ')' : '🏆 全部完成！') + '</button>' +
+    '<button id="homeBtn" class="secondary" style="margin-top:clamp(6px,0.8vh,10px);padding:clamp(6px,0.8vh,12px) clamp(14px,2vw,28px);font-size:clamp(12px,1.4vh,18px);margin-right:clamp(6px,0.8vw,12px);">🏠 主頁</button>' +
+    '<button id="restartLv1Btn" class="secondary" style="margin-top:clamp(6px,0.8vh,10px);padding:clamp(6px,0.8vh,12px) clamp(14px,2vw,28px);font-size:clamp(12px,1.4vh,18px);">🔄 重新開始</button>' +
+    '</div>';
+
+  document.getElementById('nextLevelBtn').onclick = canNext ? function(){ startLevel(state.level + 1); } : resetGame;
+  document.getElementById('homeBtn').onclick = showLevelSelect;
+  document.getElementById('restartLv1Btn').onclick = resetGame;
+}
+
+// ===== Game Over =====
+function showGameOver() {
+  state.gameOver = true;
+  state.running = false;
+  gameOverSound();
+  var overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden', 'dark-overlay');
+  overlay.classList.add('cream-overlay');
+  var _cfg = getLevelConfig(state.level);
+  overlay.innerHTML = 
+    '<div class="popup-card">' +
+    '<div class="card-header" style="background:#264653;">💫 遊戲結束</div>' +
+    '<p style="color:#264653;font-size:clamp(14px,1.8vh,22px);">分數：💰 ' + state.score + ' | Lv.' + state.level + '</p>' +
+    '<p style="font-size:clamp(12px,1.4vh,16px);opacity:0.6;color:#264653;">關卡進度：' + state.totalCoins + '/' + _cfg.coinTarget + '</p>' +
+    '<button id="restartBtn">再玩一次</button>' +
+    '<button id="homeBtn2" class="secondary" style="margin-top:clamp(6px,0.8vh,10px);padding:clamp(6px,0.8vh,12px) clamp(14px,2vw,28px);font-size:clamp(12px,1.4vh,18px);display:block;margin-left:auto;margin-right:auto;">🏠 主頁</button>' +
+    '</div>';
+  document.getElementById('restartBtn').onclick = resetGame;
+  document.getElementById('homeBtn2').onclick = showLevelSelect;
+}
+
+// ===== 重置 =====
+function resetGame() {
+  state.running = false;
+  state.gameOver = false;
+  state.score = 0;
+  state.level = 1;
+  state.focusLevel = 50;
+  state.spacePressed = false;
+  state.bird = { x: 200, y: 250, vy: 0, displayAngle: 0 };
+  state.coins = [];
+  state.effects = [];
+  state.comboCount = 0;
+  state.totalCoins = 0;
+  state.timer = 0;
+  state.frame = 0;
+  showLevelSelect();
+}
+
+function showLevelSelect() {
+  state.running = false;
+  document.getElementById('exitBtn').classList.add('hidden');
+  var overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden', 'cream-overlay');
+  overlay.classList.add('dark-overlay');
+  var grid = '';
+  for (var i = 1; i <= 20; i++) {
+    grid += '<div class="lv-btn" data-lv="' + i + '" onclick="startLevel(' + i + ')">Lv.' + i + '</div>';
+  }
+  overlay.innerHTML = 
+    '<h1>🦅 專注飛鳥 v2.8</h1>' +
+    '<p style="font-size:clamp(12px,1.5vh,18px);opacity:0.6;color:#A8DADC;">科學化視覺優化 · 揀關卡開始</p>' +
+    '<div class="lv-grid">' + grid + '</div>';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground(0);
+  drawBird();
+}
+
+// ===== 主遊戲 loop =====
+function drawBackground(frameOffset) {
+  const f = frameOffset || state.frame;
+  const W = VIRTUAL_W, H = VIRTUAL_H;
+
+  // ===== 天空 — 靜態 =====
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+  skyGrad.addColorStop(0, '#1a3a5c');
+  skyGrad.addColorStop(0.4, '#74B3CE');
+  skyGrad.addColorStop(0.7, '#A8DADC');
+  skyGrad.addColorStop(1, '#F4F9F9');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // ===== 太陽 =====
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 28, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFCB77';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 38, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 203, 119, 0.12)';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(W - 50, 45, 50, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 203, 119, 0.06)';
+  ctx.fill();
+
+  // ===== 白雲 =====
+  function drawCloud(cx, cy, s) {
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.beginPath(); ctx.arc(cx, cy, 12*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*s, cy-4*s, 10*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+28*s, cy, 9*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+14*s, cy+4*s, 8*s, 0, Math.PI*2); ctx.fill();
+  }
+  drawCloud(50, 50, 1);
+  drawCloud(160, 70, 0.8);
+  drawCloud(290, 40, 1.1);
+
+  // ===== 中景山脈 =====
+  const hillOffset = -(bgOffsets.hills % (W * 2));
+  ctx.fillStyle = '#1a6b5a';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.70);
+  for (let x = 0; x <= W; x += 10) {
+    const nx = x + hillOffset;
+    const y = H * 0.70 - 15 - Math.sin(nx * 0.008) * 18 - Math.sin(nx * 0.015) * 10;
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(W, H * 0.75);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = '#2EC4B6';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.73);
+  for (let x = 0; x <= W; x += 10) {
+    const nx = x + hillOffset * 1.3;
+    const y = H * 0.73 - 10 - Math.sin(nx * 0.012 + 1.5) * 12 - Math.sin(nx * 0.02 + 0.5) * 6;
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(W, H * 0.75);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== 河流 =====
+  ctx.fillStyle = 'rgba(116, 179, 206, 0.3)';
+  ctx.beginPath();
+  ctx.moveTo(0, H - 25);
+  ctx.quadraticCurveTo(W*0.25, H-35, W*0.5, H-25);
+  ctx.quadraticCurveTo(W*0.75, H-15, W, H-25);
+  ctx.lineTo(W, H-10);
+  ctx.quadraticCurveTo(W*0.75, H, W*0.5, H-12);
+  ctx.quadraticCurveTo(W*0.25, H-22, 0, H-10);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = 'rgba(255,255,255,0.1)';
+  for (let i = 0; i < 4; i++) {
+    const rx = 30 + i * 90 + Math.sin(f * 0.03 + i) * 5;
+    ctx.fillRect(rx, H-22, 15, 3);
+  }
+
+  // ===== 前景草地 =====
+  const groundShift = -(bgOffsets.ground % W);
+  ctx.fillStyle = '#2EC4B6';
+  ctx.fillRect(0, H-20, W, 20);
+
+  ctx.strokeStyle = '#1a6b5a';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 30; i++) {
+    let gx = (i * 13 + groundShift) % W;
+    if (gx < 0) gx += W;
+    const gh = 5 + Math.sin(i * 2.7) * 3;
+    ctx.beginPath();
+    ctx.moveTo(gx, H-20);
+    ctx.lineTo(gx - 1, H-20 - gh);
+    ctx.stroke();
+  }
+
+  // ===== 花朵 =====
+  const flowerColors = ['#FFCB77', '#A8DADC', '#FFCB77', '#A8DADC', '#FFCB77'];
+  for (let i = 0; i < 5; i++) {
+    let fx = (i * 75 + 20 + groundShift) % W;
+    if (fx < 0) fx += W;
+    const fy = H - 18;
+    const fc = flowerColors[i % flowerColors.length];
+    ctx.strokeStyle = '#1a6b5a';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy);
+    ctx.lineTo(fx, fy - 6 - Math.sin(i * 1.3) * 3);
+    ctx.stroke();
+    ctx.fillStyle = fc;
+    ctx.beginPath();
+    ctx.arc(fx, fy - 7, 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#FFCB77';
+    ctx.beginPath();
+    ctx.arc(fx, fy - 7, 1, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = 'rgba(255, 203, 119, 0.08)';
+  ctx.fillRect(0, H-25, W, 5);
+}
+
+function drawBird() {
+  const b = state.bird;
+  const focus = state.focusLevel;
+  const frame = state.frame;
+
+  ctx.save();
+  ctx.translate(b.x, b.y);
+  ctx.rotate(b.displayAngle);
+
+  // Body
+  ctx.fillStyle = '#2EC4B6';
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Belly
+  ctx.fillStyle = '#A8DADC';
+  ctx.beginPath();
+  ctx.ellipse(2, 4, 10, 7, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Tail
+  const tailFlap = Math.sin(frame * 0.08) * 2;
+  ctx.fillStyle = '#1a6b5a';
+  ctx.beginPath();
+  ctx.moveTo(-16, -3);
+  ctx.lineTo(-28, -8 + tailFlap);
+  ctx.lineTo(-25, 2 - tailFlap);
+  ctx.lineTo(-16, 3);
+  ctx.closePath();
+  ctx.fill();
+
+  // Right wing
+  const wingUp = Math.sin(frame * 0.1) * 8;
+  const wingTwist = Math.abs(Math.sin(frame * 0.1));
+  ctx.fillStyle = '#1a9b8a';
+  ctx.beginPath();
+  ctx.moveTo(-4, -2);
+  ctx.lineTo(-22, -16 + wingUp);
+  ctx.lineTo(-16 + wingTwist * 3, -6);
+  ctx.lineTo(-4, 2);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = 'rgba(255,255,255,0.1)';
+  ctx.beginPath();
+  ctx.moveTo(-6, -2);
+  ctx.lineTo(-20, -12 + wingUp);
+  ctx.lineTo(-15, -4);
+  ctx.closePath();
+  ctx.fill();
+
+  // Left wing
+  const wingUp2 = Math.sin(frame * 0.1 + Math.PI) * 6;
+  ctx.fillStyle = '#1a6b5a';
+  ctx.beginPath();
+  ctx.moveTo(-4, -1);
+  ctx.lineTo(-20, -12 + wingUp2);
+  ctx.lineTo(-14, -4);
+  ctx.lineTo(-4, 1);
+  ctx.closePath();
+  ctx.fill();
+
+  // Head
+  ctx.fillStyle = '#2EC4B6';
+  ctx.beginPath();
+  ctx.arc(14, -4, 9, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Eye
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.ellipse(18, -5, 4, 4.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Pupil
+  ctx.fillStyle = '#264653';
+  ctx.beginPath();
+  ctx.arc(19, -5, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Highlight
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(20, -6.5, 1, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Beak
+  ctx.fillStyle = '#FFCB77';
+  ctx.beginPath();
+  ctx.moveTo(21, -2);
+  ctx.lineTo(32, -1);
+  ctx.lineTo(21, 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // Blush
+  ctx.fillStyle = 'rgba(255, 203, 119, 0.2)';
+  ctx.beginPath();
+  ctx.ellipse(14, 2, 5, 3, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Focus Aura
+  if (focus > 70) {
+    const pulse = Math.sin(frame * 0.06) * 2;
+    ctx.beginPath();
+    ctx.arc(0, 0, 34 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 200 * 0.12})`;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(0, 0, 30 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(46, 196, 182, ${(focus - 70) / 200 * 0.10})`;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(0, 0, 26 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(67, 97, 238, ${(focus - 70) / 200 * 0.05})`;
+    ctx.fill();
+  }
+  if (focus < 25) {
+    ctx.beginPath();
+    ctx.arc(0, 0, 32, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(231, 111, 81, ${(25 - focus) / 200 * 0.10})`;
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function drawCoin3D(c, rotAngle) {
+  const r = c.size;
+  const scaleX = Math.abs(Math.cos(rotAngle));
+
+  ctx.save();
+
+  // Shadow
+  ctx.beginPath();
+  ctx.ellipse(2, 2, r * scaleX, r, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(0,0,0,0.15)';
+  ctx.fill();
+
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(0, 0, r * scaleX, r, 0, 0, Math.PI * 2);
+  const grad = ctx.createLinearGradient(-r, 0, r, 0);
+  grad.addColorStop(0, '#FFCB77');
+  grad.addColorStop(0.2, '#FFCB77');
+  grad.addColorStop(0.5, '#E8933A');
+  grad.addColorStop(0.8, '#FFCB77');
+  grad.addColorStop(1, '#E8933A');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  ctx.strokeStyle = '#264653';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.ellipse(-r*0.3*scaleX, -r*0.3, r*0.5*scaleX, r*0.4, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fill();
+
+  if (scaleX > 0.3) {
+    const opacity = Math.min(1, (scaleX - 0.3) / 0.5);
+    ctx.globalAlpha = opacity;
+    ctx.fillStyle = '#1a6b5a';
+    ctx.font = `bold ${Math.max(10, r * 1.1)}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('✦', 0, 1);
+    ctx.globalAlpha = 1;
+  }
+
+  ctx.restore();
+}
+
+function drawCoins() {
+  for (const c of state.coins) {
+    if (c.collected) continue;
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    const rot = state.frame * 0.05 + c.x * 0.02;
+    drawCoin3D(c, rot);
+    ctx.restore();
+  }
+}
+
+// ===== VFX =====
+function drawEffects() {
+  for (const e of state.effects) {
+    if (e.type === 'coin') {
+      const p = e.frame / 18;
+      const alpha = 1 - p;
+      const radius = 6 + p * 14;
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(232, 147, 58, 0.4)';
+      ctx.fill();
+      for (let j = 0; j < 6; j++) {
+        const a = (j / 6) * Math.PI * 2 + e.frame * 0.2;
+        ctx.beginPath();
+        ctx.moveTo(e.x, e.y);
+        const len = (8 - p * 6) * (1 - p * 0.5);
+        ctx.lineTo(e.x + Math.cos(a) * len, e.y + Math.sin(a) * len);
+        ctx.strokeStyle = 'rgba(46, 196, 182, 0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+      if (p < 0.4) {
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, 4 * (1 - p / 0.4), 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.7)';
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+}
+
+function drawHUD() {
+  document.getElementById('scoreDisplay').textContent = `💰 ${state.score}`;
+  var elapsed = Math.floor((Date.now() - state.levelStartTime) / 1000);
+  var min = Math.floor(elapsed / 60);
+  var sec = elapsed % 60;
+  document.getElementById('timerDisplay').textContent = `⏱ ${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  document.getElementById('levelDisplay').textContent = `⭐ Lv.${state.level}`;
+  const cfg = getLevelConfig(state.level);
+  document.getElementById('targetDisplay').textContent = `${state.totalCoins}/${cfg.coinTarget}`;
+
+  const bar = document.getElementById('focusBar');
+  bar.style.width = `${state.focusLevel}%`;
+  bar.classList.remove('focus-low', 'focus-mid', 'focus-high');
+  if (state.focusLevel < 35) {
+    bar.classList.add('focus-low');
+  } else if (state.focusLevel < 70) {
+    bar.classList.add('focus-mid');
+  } else {
+    bar.classList.add('focus-high');
+  }
+}
+
+function gameLoop() {
+  if (!state.running) return;
+  state.frame++;
+
+  // Focus level: BrainLink mode uses WebSocket value, keyboard mode uses spacePressed
+  if (!state.externalMode) {
+    if (state.spacePressed) {
+      state.focusLevel = Math.min(100, state.focusLevel + 1.5);
+    } else {
+      state.focusLevel = Math.max(0, state.focusLevel - 0.5);
+    }
+  }
+  updateBird();
+
+  if (!state.nextSpawn) state.nextSpawn = 300;
+  state.spawnTimer++;
+  var cfg = getLevelConfig(state.level);
+  var maxCoins = cfg.coinTarget + 15;
+  if (state.coinsSpawned < maxCoins && state.spawnTimer >= state.nextSpawn) {
+    state.spawnTimer = 0;
+    state.nextSpawn = 180 + Math.floor(Math.random() * 120);
+    spawnCoin();
+  }
+  updateCoins();
+  // Game over when all coins are gone (spawned and none left on screen)
+  if (state.coinsSpawned >= maxCoins && state.coins.length === 0 && state.coinsSpawned > 0) {
+    showGameOver();
+    return;
+  }
+  updateEffects();
+  if (!state.running) return;
+
+  // Clear full canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Apply scaling transform for virtual coordinate system
+  ctx.save();
+  ctx.setTransform(scale, 0, 0, scale, offsetX, offsetY);
+
+  // Update parallax offsets
+  bgOffsets.sky = 0;
+  bgOffsets.hills += BG_SPEEDS.hills * Math.pow(1.05, state.level - 1);
+  bgOffsets.ground += BG_SPEEDS.ground * Math.pow(1.05, state.level - 1);
+
+  drawBackground();
+  drawCoins();
+  drawEffects();
+  drawBird();
+
+  ctx.restore();
+  drawHUD();
+
+  requestAnimationFrame(gameLoop);
+}
+
+// ===== 開始 =====
+function startLevel(levelNum) {
+  document.getElementById('overlay').classList.add('hidden');
+  document.getElementById('overlay').classList.remove('cream-overlay', 'dark-overlay');
+  document.getElementById('exitBtn').classList.remove('hidden');
+  state.running = true;
+  state.gameOver = false;
+  state.level = levelNum;
+  state.totalCoins = 0;
+  state.coinsSpawned = 0;
+  state.focusLevel = 50;
+  state.bird = { x: 200, y: 250, vy: 0, displayAngle: 0 };
+  state.coins = [];
+  state.effects = [];
+  state.spawnTimer = 0;
+  state.nextSpawn = 0;
+  state.timer = 0;
+  state.levelStartTime = Date.now();
+  state.spacePressed = false;
+  bgOffsets.sky = 0;
+  bgOffsets.hills = 0;
+  bgOffsets.ground = 0;
+  gameLoop();
+}
+
+// ===== WebSocket (Agent Relay Mode) =====
+let wsRetryTimer = null;
+
+function setWsStatus(connected) {
+  const dot = document.getElementById('wsStatus');
+  if (dot) {
+    dot.style.background = connected ? '#2ecc71' : '#e74c3c';
+    dot.style.boxShadow = connected ? '0 0 6px rgba(46,204,113,0.7)' : 'none';
+  }
+}
+
+function connectBrainLink(wsUrl) {
+  state.externalMode = true;
+  state.ws = new WebSocket(wsUrl);
+  console.log('🔌 BrainLink: 正在連接 ' + wsUrl);
+
+  state.ws.onopen = function(){
+    console.log('🧠 BrainLink via Agent connected');
+    setWsStatus(true);
+  };
+
+  state.ws.onmessage = function(event) {
+    try {
+      var data = JSON.parse(event.data);
+      state.attention = data.attention || 0;
+
+      // Dynamic sensitivity: Lv.1=200ms (alpha 0.025), Lv.20=100ms (alpha 0.050)
+      var alpha = 0.025 + Math.min(state.level - 1, 19) / 19 * 0.025;
+      if (data.focusLevel !== undefined) {
+        state.focusLevel = state.focusLevel * (1 - alpha) + data.focusLevel * alpha;
+      } else {
+        state.focusLevel = state.focusLevel * (1 - alpha) + state.attention * alpha;
+      }
+
+      state.spacePressed = data.attention > 50;
+
+      // Show agentNote if present
+      var agentNoteEl = document.getElementById('agentNoteDisplay');
+      if (data.agentNote && agentNoteEl) {
+        agentNoteEl.style.display = 'inline';
+        var noteLabels = {
+          'no_signal': '📡 訊號弱',
+          'low_focus': '😴 低專注',
+          'normal': '🙂 正常',
+          'high_focus': '🧘 高專注'
+        };
+        agentNoteEl.textContent = noteLabels[data.agentNote] || data.agentNote;
+      }
+    } catch(e) {
+      console.warn('⚠️ BrainLink data parse error:', e);
+    }
+  };
+
+  state.ws.onclose = function(){
+    console.log('🧠 BrainLink disconnected, retrying in 3s...');
+    setWsStatus(false);
+    state.externalMode = false;
+    if (wsRetryTimer) clearTimeout(wsRetryTimer);
+    wsRetryTimer = setTimeout(function(){ connectBrainLink(wsUrl); }, 3000);
+  };
+
+  state.ws.onerror = function(e){
+    console.warn('⚠️ BrainLink WS error, closing...');
+    if (state.ws) state.ws.close();
+  };
+}
+
+(function() {
+  // Auto-connect to BrainLink relay via WebSocket
+  // Can override with ?ws=YOUR_URL in the URL
+  var params = new URLSearchParams(window.location.search);
+  var wsUrl = params.get('ws') || 'wss://brainlink.kinet-poc.com/game';
+  console.log('🔌 BrainLink: 自動連接 ' + wsUrl);
+  connectBrainLink(wsUrl);
+})();
+
+// ===== 鍵盤控制 =====
+document.addEventListener('keydown', function(e) {
+  if (e.key === ' ') {
+    e.preventDefault();
+    if (!state.running && state.gameOver) resetGame();
+    if (!state.externalMode) state.spacePressed = true;
+  }
+});
+document.addEventListener('keyup', function(e) {
+  if (e.key === ' ') { e.preventDefault(); if (!state.externalMode) state.spacePressed = false; }
+});
+
+// Touch
+document.getElementById('gameCanvas').addEventListener('touchstart', function(e) {
+  e.preventDefault();
+  if (!state.running && state.gameOver) resetGame();
+  else state.spacePressed = true;
+});
+document.getElementById('gameCanvas').addEventListener('touchend', function(e) {
+  e.preventDefault(); state.spacePressed = false;
+});
+document.getElementById('gameCanvas').addEventListener('touchcancel', function(e) {
+  state.spacePressed = false;
+});
+
+// Mouse
+document.getElementById('gameCanvas').addEventListener('mousedown', function(e) {
+  if (!state.running && state.gameOver) resetGame();
+  else state.spacePressed = true;
+});
+document.getElementById('gameCanvas').addEventListener('mouseup', function() { state.spacePressed = false; });
+document.getElementById('gameCanvas').addEventListener('mouseleave', function() { if (!state.externalMode) state.spacePressed = false; });
+
+// ===== 初始化 =====
+document.getElementById('startBtn').addEventListener('click', function() {
+  startLevel(1);
+});
+showLevelSelect();
+</script>
+</body>
+</html>

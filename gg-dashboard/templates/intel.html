@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="GG Platform"><title>GG Intel</title><link rel="stylesheet" href="/static/styles.css?v=2.0"></head><body>
+<div class="app-shell">
+
+<!-- iOS Nav Bar -->
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <h1 class="page-title">Intelligence</h1>
+      <span class="page-subtitle">GG Family Hub</span>
+    </div>
+    <div class="nav-actions">
+      <span class="nav-action-btn" id="lastUpdate" style="font-size:13px;font-weight:500;width:auto;padding:0 12px;background:var(--fill);border-radius:8px;min-height:36px;display:flex;align-items:center;gap:4px">--:--</span>
+    </div>
+  </div>
+</nav>
+
+<main class="scroll-content">
+
+  <!-- Research Bar (iOS search style) -->
+  <div style="margin:0 16px 20px">
+    <div style="background:var(--secondary-background);border-radius:10px;padding:4px 12px;display:flex;gap:8px;align-items:center">
+      <input id="researchInput" type="text" placeholder="Ask Perplexity..." onkeydown="if(event.key==='Enter') runResearch()" style="flex:1;border:none;background:transparent;padding:10px 4px;font-size:17px;outline:none;color:var(--label)">
+      <button id="researchDeepBtn" onclick="toggleDeep()" style="background:var(--fill);border:none;border-radius:8px;padding:8px 12px;min-height:44px;cursor:pointer;font-size:13px;font-weight:500;color:var(--secondary-label);white-space:nowrap">Quick</button>
+      <button id="researchBtn" onclick="runResearch()" style="background:var(--accent);border:none;border-radius:8px;padding:8px 16px;min-height:44px;cursor:pointer;font-size:15px;font-weight:500;color:#fff;white-space:nowrap">Search</button>
+    </div>
+    <div id="researchStatus" style="font-size:13px;color:var(--secondary-label);margin-top:8px;display:none"></div>
+  </div>
+  <div id="researchResult" style="display:none;margin:0 16px 20px"></div>
+
+  <!-- GG Voices -->
+  <div class="ios-section">
+    <div class="ios-header">GG Voices</div>
+    <div class="ios-group" id="ggVoices">
+      <div class="ios-row"><div class="ios-footnote" style="color:var(--secondary-label)">Loading...</div></div>
+    </div>
+  </div>
+
+  <!-- Discoveries -->
+  <div class="ios-section">
+    <div class="ios-header">Discoveries</div>
+    <div class="ios-group" id="discoveries">
+      <div style="padding:12px 16px;font-size:15px;color:var(--secondary-label)">Collecting intelligence...</div>
+    </div>
+  </div>
+
+  <!-- Activity Stream -->
+  <div class="ios-section">
+    <div class="ios-header">Activity Stream</div>
+    <div class="ios-group" id="activityStream">
+      <div style="padding:12px 16px;font-size:15px;color:var(--secondary-label)">Loading...</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- iOS Tab Bar -->
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab active"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
+</div>
+
+<script>
+var researchMode = 'quick';
+function toggleDeep(){
+  researchMode = researchMode === 'quick' ? 'deep' : 'quick';
+  var btn = document.getElementById('researchDeepBtn');
+  btn.textContent = researchMode === 'deep' ? 'Deep' : 'Quick';
+  btn.style.background = researchMode === 'deep' ? 'var(--gold)' : 'var(--fill)';
+  btn.style.color = researchMode === 'deep' ? '#000' : 'var(--secondary-label)';
+}
+function runResearch(){
+  var input = document.getElementById('researchInput');
+  var q = input.value.trim();
+  if(!q) return;
+
+  var status = document.getElementById('researchStatus');
+  var result = document.getElementById('researchResult');
+  var btn = document.getElementById('researchBtn');
+
+  status.style.display = 'block';
+  status.textContent = researchMode === 'deep' ? '🔍 Deep research in progress (30-60s)...' : '🔍 Researching...';
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+  result.style.display = 'none';
+
+  fetch('/api/research', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({query: q, mode: researchMode})
+  }).then(function(r){return r.json()}).then(function(d){
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    status.style.display = 'none';
+    if(d.ok){
+      var c = d.content || 'No response';
+      var citations = d.citations || [];
+      var header = researchMode === 'deep' ? '🔬 Deep Research' : '🔍 Research';
+      var citeHtml = citations.length ? '<div style="margin-top:8px;font-size:13px;color:var(--secondary-label)">Sources: ' + citations.slice(0,3).map(function(u){return '<a href="'+esc(u)+'" target="_blank" style="color:var(--accent)">link</a>'}).join(' ') + (citations.length>3?' +'+(citations.length-3)+' more':'') + '</div>' : '';
+      result.innerHTML = '<div class="ios-section"><div class="ios-group"><div style="padding:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span class="ios-headline">'+header+'</span><span style="font-size:13px;color:var(--secondary-label)">'+(d.model||'sonar-pro')+'</span></div><div style="font-size:15px;color:var(--label);line-height:1.7;white-space:pre-wrap">'+esc(c)+'</div>'+citeHtml+'</div></div></div>';
+      result.style.display = 'block';
+      loadInsights();
+    } else {
+      status.textContent = '❌ Error: ' + esc(d.error || 'Unknown');
+      status.style.display = 'block';
+      status.style.color = 'var(--orange)';
+    }
+  }).catch(function(err){
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    status.textContent = '❌ Network error';
+    status.style.display = 'block';
+    status.style.color = 'var(--orange)';
+  });
+}
+
+function loadInsights(){
+  fetch('/api/insights?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
+    var e = d.entries || [];
+
+    // GG Voices — iOS rows
+    var voices = document.getElementById('ggVoices');
+    if(voices){
+      var voicesData = {};
+      e.forEach(function(x){
+        if(!voicesData[x.source]) voicesData[x.source] = x;
+      });
+      var order = {fighter: 'var(--orange)', work: 'var(--blue)', person: 'var(--pink)'};
+      var srcNames = {fighter:'Fighter', work:'Work', person:'Person'};
+      var html = '';
+      var count = 0;
+      for(var src in order){
+        var v = voicesData[src];
+        var dotColor = order[src];
+        if(v){
+          html += '<div class="ios-row"><span class="dot-breathe" style="background:'+dotColor+';width:10px;height:10px;flex-shrink:0;margin-right:12px"></span><div class="ios-row-content"><div class="ios-row-label">'+ (srcNames[src]||src) +'</div><div class="ios-row-meta">'+esc(v.msg||'')+'</div></div><div style="font-size:13px;color:var(--secondary-label)">'+(v.ts||'').substring(11,16)+'</div></div>';
+        } else {
+          html += '<div class="ios-row"><span class="dot-breathe" style="background:'+dotColor+';width:10px;height:10px;flex-shrink:0;margin-right:12px"></span><div class="ios-row-content"><div class="ios-row-label">'+ (srcNames[src]||src) +'</div><div class="ios-row-meta">No recent intel</div></div></div>';
+        }
+        count++;
+      }
+      voices.innerHTML = html;
+    }
+
+    // Discoveries
+    var dis = document.getElementById('discoveries');
+    if(dis){
+      var disc = e.filter(function(x){return x.type==='discovery'||x.type==='trend'||x.type==='research'}).slice(0,10);
+      if(disc.length){
+        dis.innerHTML = disc.map(function(x){
+          var badge = x.type==='research' ? '🔬 ' : '';
+          return '<div class="ios-row"><span class="activity-dot" style="background:var(--accent);margin-top:8px"></span><div class="ios-row-content"><div class="ios-row-label">'+badge+esc(x.msg||'')+'</div><div class="ios-row-meta">'+(x.ts||'')+'</div></div></div>';
+        }).join('');
+      } else {
+        dis.innerHTML = '<div style="padding:16px;text-align:center;color:var(--secondary-label);font-size:15px">No discoveries yet — collector runs every 15min</div>';
+      }
+    }
+
+    // Activity Stream
+    var act = document.getElementById('activityStream');
+    if(act){
+      var recent = e.slice(-15).reverse();
+      if(recent.length){
+        act.innerHTML = recent.map(function(x){
+          var c = {'fighter':'var(--orange)','work':'var(--blue)','person':'var(--pink)','perplexity':'var(--accent)','system':'var(--secondary-label)'};
+          return '<div class="activity-item" style="padding:10px 16px;border-bottom:0.5px solid var(--separator)"><span class="activity-dot" style="background:'+(c[x.source]||'var(--secondary-label)')+';margin-top:5px"></span><span class="activity-text">'+esc(x.msg||'')+'</span><span class="activity-time">'+(x.ts||'').substring(11,16)+'</span></div>';
+        }).join('');
+      } else {
+        act.innerHTML = '<div style="padding:16px;text-align:center;color:var(--secondary-label);font-size:15px">Awaiting first data collection...</div>';
+      }
+    }
+
+    document.getElementById('lastUpdate').textContent = e.length ? (e[0].ts||'').substring(11,16)||'--:--' : '--:--';
+  }).catch(function(){});
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;').replace(/\n/g,'<br>')}
+
+loadInsights();
+</script>
+</body></html>

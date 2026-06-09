@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="GG Platform"><title>GG Agents</title><link rel="stylesheet" href="/static/styles.css?v=2.0"></head><body>
+<div class="app-shell">
+
+<!-- iOS Nav Bar -->
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <h1 class="page-title">Agent Center</h1>
+      <span class="page-subtitle">Three AI Servants</span>
+    </div>
+    <div class="nav-actions">
+      <span class="nav-action-btn" id="lastUpdate" style="font-size:13px;font-weight:500;width:auto;padding:0 12px;background:var(--fill);border-radius:8px;min-height:36px;display:flex;align-items:center;gap:4px">--:--</span>
+    </div>
+  </div>
+</nav>
+
+<main class="scroll-content">
+
+  <!-- Agent Cards as iOS Grouped Rows -->
+  <div class="ios-section">
+    <div class="ios-header">GG Servants</div>
+    <div class="ios-group" id="agentCards">
+      <!-- Fighter -->
+      <div class="ios-row" onclick="location.href='/agents/fighter'">
+        <span class="dot-breathe" id="agFighterDot" style="background:var(--orange);width:12px;height:12px;flex-shrink:0;margin-right:12px;margin-right:12px"></span>
+        <div class="ios-row-content">
+          <div class="ios-row-label">Fighter</div>
+          <div class="ios-row-meta" id="agFighterThought">The Protector</div>
+        </div>
+        <span class="stat-badge active" id="agFighterStatus">● Online</span>
+      </div>
+      <!-- Work -->
+      <div class="ios-row" onclick="location.href='/agents/work'">
+        <span class="dot-breathe" id="agWorkDot" style="background:var(--blue);width:12px;height:12px;flex-shrink:0;margin-right:12px"></span>
+        <div class="ios-row-content">
+          <div class="ios-row-label">Work</div>
+          <div class="ios-row-meta" id="agWorkThought">The Builder</div>
+        </div>
+        <span class="stat-badge active" id="agWorkStatus">● Online</span>
+      </div>
+      <!-- Person -->
+      <div class="ios-row" onclick="location.href='/agents/person'">
+        <span class="dot-breathe" id="agPersonDot" style="background:var(--pink);width:12px;height:12px;flex-shrink:0;margin-right:12px"></span>
+        <div class="ios-row-content">
+          <div class="ios-row-label">Person</div>
+          <div class="ios-row-meta" id="agPersonThought">The Soul</div>
+        </div>
+        <span class="stat-badge active" id="agPersonStatus">● Online</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Now / Thoughts -->
+  <div class="ios-section">
+    <div class="ios-header">Right Now</div>
+    <div class="ios-group" id="agThoughts">
+      <div style="padding:16px;font-size:15px;color:var(--secondary-label)">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Tracked Needs -->
+  <div class="ios-section">
+    <div class="ios-header">Tracked Needs</div>
+    <div class="ios-group" id="agNeeds">
+      <div style="padding:16px;font-size:15px;color:var(--secondary-label)">Loading...</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- iOS Tab Bar -->
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab active"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
+</div>
+
+<script>
+fetch('/api/data?_='+Date.now()).then(r=>r.json()).then(function(d){
+  var a=d.agents||{};
+  
+  function setStatus(dotId, statusId, thoughtId, ag, dotColor){
+    var dot=document.getElementById(dotId);
+    var st=document.getElementById(statusId);
+    var th=document.getElementById(thoughtId);
+    if(ag&&ag.online){
+      if(dot)dot.style.background=dotColor;
+      if(st){st.textContent='● Online';st.className='stat-badge active';}
+    } else {
+      if(dot)dot.style.background='var(--red)';
+      if(st){st.textContent='● Offline '+(ag&&ag.last_heartbeat||'--:--');st.className='stat-badge done';}
+    }
+    if(th)th.textContent=(ag&&ag.thoughts)||(ag?'Online':'Offline');
+  }
+  
+  setStatus('agFighterDot','agFighterStatus','agFighterThought',a.main,'var(--orange)');
+  setStatus('agWorkDot','agWorkStatus','agWorkThought',a.work,'var(--blue)');
+  setStatus('agPersonDot','agPersonStatus','agPersonThought',a.person,'var(--pink)');
+  document.getElementById('lastUpdate').textContent=d.ts||'--:--';
+
+  // Thoughts section
+  var thoughts = document.getElementById('agThoughts');
+  var thoughtItems = [];
+  if(a.main&&a.main.thoughts) thoughtItems.push('<div class="ios-row"><span class="dot-breathe" style="background:var(--orange);width:8px;height:8px;flex-shrink:0;margin-right:12px"></span><div class="ios-row-content"><div class="ios-row-label">Fighter</div><div class="ios-row-meta">'+esc(a.main.thoughts)+'</div></div></div>');
+  if(a.work&&a.work.thoughts) thoughtItems.push('<div class="ios-row"><span class="dot-breathe" style="background:var(--blue);width:8px;height:8px;flex-shrink:0;margin-right:12px"></span><div class="ios-row-content"><div class="ios-row-label">Work</div><div class="ios-row-meta">'+esc(a.work.thoughts)+'</div></div></div>');
+  if(a.person&&a.person.thoughts) thoughtItems.push('<div class="ios-row"><span class="dot-breathe" style="background:var(--pink);width:8px;height:8px;flex-shrink:0;margin-right:12px"></span><div class="ios-row-content"><div class="ios-row-label">Person</div><div class="ios-row-meta">'+esc(a.person.thoughts)+'</div></div></div>');
+  thoughts.innerHTML = thoughtItems.length ? thoughtItems.join('') : '<div class="ios-row"><div class="ios-row-content"><div class="ios-row-meta">All agents idle</div></div></div>';
+
+  // Needs section
+  var needs = document.getElementById('agNeeds');
+  var needItems = [];
+  if(a.main&&a.main.cpu) needItems.push('<div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Fighter CPU</div><div class="ios-row-meta">'+(a.main.cpu||0)+'% · MEM '+(a.main.mem||0)+'%</div></div></div>');
+  if(a.work&&a.work.cpu) needItems.push('<div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Work CPU</div><div class="ios-row-meta">'+(a.work.cpu||0)+'% · MEM '+(a.work.mem||0)+'%</div></div></div>');
+  if(a.person&&a.person.cpu) needItems.push('<div class="ios-row"><div class="ios-row-content"><div class="ios-row-label">Person CPU</div><div class="ios-row-meta">'+(a.person.cpu||0)+'% · MEM '+(a.person.mem||0)+'%</div></div></div>');
+  if(!needItems.length) needItems.push('<div class="ios-row"><div class="ios-row-content"><div class="ios-row-meta">No resource data</div></div></div>');
+  needs.innerHTML = needItems.join('');
+
+}).catch(function(){});
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
+</script>
+</body></html>

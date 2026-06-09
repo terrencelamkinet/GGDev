@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ARIA — AI Life Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="/static/vendor/htmx.min.js"></script>
+<script src="/static/vendor/alpinejs.min.js" defer></script>
+<style>
+/* ── Fireart Studio Design Tokens ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#464554;background:#f5f5f5;-webkit-font-smoothing:antialiased}
+:root{
+  --color-primary:#ff470a;
+  --color-secondary:#d1e1fb;
+  --color-accent:#ff561d;
+  --color-text:#000000;
+  --color-body:#464554;
+  --color-muted:#76757f;
+  --color-border:#dfdfdf;
+  --color-surface:#ffffff;
+  --color-bg:#f5f5f5;
+  --color-bg-alt:#f5f5f6;
+
+  --font-sans:'Inter',sans-serif;
+  --text-xs:0.75rem;--text-sm:0.875rem;--text-body:1rem;--text-lg:1.125rem;
+  --text-xl:1.25rem;--text-2xl:1.5rem;--text-3xl:1.875rem;--text-4xl:2.25rem;
+
+  --sp-1:0.25rem;--sp-2:0.5rem;--sp-3:0.75rem;--sp-4:1rem;--sp-5:1.25rem;
+  --sp-6:1.5rem;--sp-8:2rem;--sp-10:2.5rem;--sp-12:3rem;--sp-16:4rem;
+
+  --radius-sm:3px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;
+
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.04);--shadow-md:0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg:0 8px 24px rgba(0,0,0,0.08);
+}
+body{min-height:100vh;background:var(--color-bg);}
+  --radius-xs:4px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-2xl:28px;--radius-capsule:9999px;
+  --ease-apple:cubic-bezier(0.25,0.46,0.45,0.94);--ease-spring:cubic-bezier(0.34,1.56,0.64,1);
+  --dur-fast:150ms;--dur-std:280ms;--safe-bottom:env(safe-area-inset-bottom,0px);
+}
+[data-theme="dark"]{
+  --bg:#000;--bg-elevated:#1c1c1e;--bg-elevated-2:#2c2c2e;--bg-elevated-3:#3a3a3c;
+  --glass-card:rgba(44,44,46,0.80);--glass-nav:rgba(0,0,0,0.85);--glass-tab:rgba(28,28,30,0.95);
+  --sep:rgba(255,255,255,0.10);--sep-strong:rgba(255,255,255,0.18);
+  --label:rgba(255,255,255,0.95);--label-2:rgba(255,255,255,0.60);--label-3:rgba(255,255,255,0.35);--label-4:rgba(255,255,255,0.18);
+  --blue:#0A84FF;--blue-tint:rgba(10,132,255,0.15);--green:#30D158;--green-tint:rgba(48,209,88,0.15);
+  --orange:#FF9F0A;--orange-tint:rgba(255,159,10,0.15);--red:#FF453A;--red-tint:rgba(255,69,58,0.15);
+  --yellow:#FFD60A;--yellow-tint:rgba(255,214,10,0.15);--purple:#BF5AF2;--purple-tint:rgba(191,90,242,0.15);
+  --teal:#5AC8FA;--teal-tint:rgba(90,200,250,0.15);--telegram:#2AABEE;--telegram-tint:rgba(42,171,238,0.15);
+  --fill:rgba(255,255,255,0.08);--fill-2:rgba(255,255,255,0.05);
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.4);--shadow-md:0 4px 20px rgba(0,0,0,0.5);--shadow-lg:0 12px 48px rgba(0,0,0,0.6);
+}
+[data-theme="light"]{
+  --bg:#f2f2f7;--bg-elevated:#fff;--bg-elevated-2:#f2f2f7;--bg-elevated-3:#e5e5ea;
+  --glass-card:rgba(255,255,255,0.90);--glass-nav:rgba(242,242,247,0.90);--glass-tab:rgba(242,242,247,0.95);
+  --sep:rgba(60,60,67,0.12);--sep-strong:rgba(60,60,67,0.22);
+  --label:rgba(0,0,0,0.85);--label-2:rgba(60,60,67,0.60);--label-3:rgba(60,60,67,0.30);--label-4:rgba(60,60,67,0.18);
+  --blue:#007AFF;--blue-tint:rgba(0,122,255,0.12);--green:#34C759;--green-tint:rgba(52,199,89,0.12);
+  --orange:#FF9500;--orange-tint:rgba(255,149,0,0.12);--red:#FF3B30;--red-tint:rgba(255,59,48,0.12);
+  --yellow:#FFCC00;--yellow-tint:rgba(255,204,0,0.12);--purple:#AF52DE;--purple-tint:rgba(175,82,222,0.12);
+  --teal:#32ADE6;--teal-tint:rgba(50,173,230,0.12);--telegram:#0088CC;--telegram-tint:rgba(0,136,204,0.12);
+  --fill:rgba(120,120,128,0.12);--fill-2:rgba(120,120,128,0.08);
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.08);--shadow-md:0 4px 20px rgba(0,0,0,0.10);--shadow-lg:0 12px 48px rgba(0,0,0,0.12);
+}
+html{-webkit-font-smoothing:antialiased;height:100%}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:var(--text-body);color:var(--label);background:var(--bg);height:100%;overflow:hidden;transition:background var(--dur-std) var(--ease-apple),color var(--dur-std) var(--ease-apple)}
+
+/* ── APP SHELL ── */
+.app{display:flex;flex-direction:column;height:100vh;max-width:100vw;overflow:hidden}
+
+/* ── TOP BAR ── */
+.topbar{height:52px;background:var(--glass-nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--sep);display:flex;align-items:center;padding:0 var(--sp-4);gap:var(--sp-2);flex-shrink:0;position:relative;z-index:10}
+.topbar-title{font-size:var(--text-head);font-weight:600;color:var(--label);flex:1;letter-spacing:-0.2px}
+.agent-pill{display:flex;align-items:center;gap:var(--sp-1);background:var(--fill);border:1px solid var(--sep);border-radius:var(--radius-capsule);padding:3px var(--sp-2);font-size:var(--text-xs);font-weight:500;color:var(--label-2);cursor:pointer;white-space:nowrap}
+.agent-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 4px var(--green)}
+.search-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--label-2);font-size:17px;cursor:pointer;border:none;background:transparent;transition:background var(--dur-fast)}
+.search-btn:hover,.theme-btn:hover{background:var(--fill);color:var(--label)}
+.theme-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--label-2);font-size:16px;cursor:pointer;transition:background var(--dur-fast)}
+
+/* ── PAGE CONTENT (scrollable) ── */
+.pages{flex:1;overflow:hidden;position:relative}
+.page{display:none;height:100%;overflow-y:auto;overflow-x:hidden;padding:var(--sp-3) var(--sp-4) calc(var(--sp-3) + 60px);scrollbar-width:thin}
+.page.active{display:block;-webkit-overflow-scrolling:touch}
+.page::-webkit-scrollbar{width:4px}
+.page::-webkit-scrollbar-thumb{background:var(--sep-strong);border-radius:var(--radius-capsule)}
+
+/* ── TAB BAR (iPhone native style) ── */
+.tabbar{display:flex;background:var(--glass-tab);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--sep);padding:4px 0 calc(4px + var(--safe-bottom));flex-shrink:0;position:relative;z-index:10}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 0;border:none;background:transparent;cursor:pointer;color:var(--label-3);transition:color var(--dur-fast);-webkit-tap-highlight-color:transparent}
+.tab.active{color:var(--blue)}
+.tab-icon{font-size:20px;line-height:1}
+.tab-label{font-size:10px;font-weight:500;letter-spacing:-0.01em}
+
+/* ── CARDS ── */
+.card{background:var(--glass-card);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--sep);border-radius:var(--radius-xl);padding:var(--sp-4);margin-bottom:var(--sp-3);transition:transform var(--dur-fast) var(--ease-spring),box-shadow var(--dur-fast)}
+.card:active{transform:scale(0.98)}
+.card-label{font-size:var(--text-xs);font-weight:600;color:var(--label-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--sp-3);display:flex;align-items:center;gap:var(--sp-2)}
+.card-title{font-size:var(--text-subh);font-weight:600;color:var(--label);margin-bottom:var(--sp-2);letter-spacing:-0.1px}
+
+/* ── KPI ROW ── */
+.kpi-scroll{display:flex;gap:var(--sp-2);overflow-x:auto;padding:0 0 var(--sp-2);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.kpi-scroll::-webkit-scrollbar{display:none}
+.kpi{flex-shrink:0;width:140px;background:var(--glass-card);backdrop-filter:blur(15px);border:1px solid var(--sep);border-radius:var(--radius-lg);padding:var(--sp-3);transition:transform var(--dur-fast) var(--ease-spring)}
+.kpi:active{transform:scale(0.97)}
+.kpi-icon{font-size:20px;margin-bottom:var(--sp-1)}
+.kpi-value{font-size:var(--text-t2);font-weight:700;color:var(--label);font-variant-numeric:tabular-nums;letter-spacing:-0.3px}
+.kpi-label{font-size:var(--text-xs);color:var(--label-3);font-weight:500;margin-top:2px}
+.kpi-trend{font-size:var(--text-xs);font-weight:500;display:flex;align-items:center;gap:2px;margin-top:var(--sp-1)}
+.trend-up{color:var(--green)}.trend-down{color:var(--red)}
+
+/* ── MEMORY ENTITY ── */
+.entity{border-left:3px solid var(--blue);padding:var(--sp-3) var(--sp-4);background:var(--fill-2);border-radius:var(--radius-md);margin-bottom:var(--sp-2);cursor:pointer;transition:background var(--dur-fast)}
+.entity:active{background:var(--fill)}
+.entity-header{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)}
+.entity-pill{font-size:var(--text-xs);font-weight:600;border-radius:var(--radius-capsule);padding:2px 8px;flex-shrink:0}
+.entity-name{font-size:var(--text-subh);font-weight:600;color:var(--label)}
+.importance{height:4px;border-radius:var(--radius-capsule);background:var(--fill);overflow:hidden;margin:var(--sp-2) 0}
+.importance-fill{height:100%;border-radius:var(--radius-capsule);background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.6s var(--ease-apple)}
+.entity-meta{display:flex;gap:var(--sp-3);font-size:var(--text-xs);color:var(--label-3)}
+
+/* ── GATE LOG ── */
+.gate-row{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-md);margin-bottom:var(--sp-2);min-height:44px}
+.gate-pass{background:var(--green-tint)}.gate-block{background:var(--red-tint)}.gate-time{font-size:var(--text-xs);color:var(--label-3);flex-shrink:0;font-variant-numeric:tabular-nums}
+.gate-result{font-size:var(--text-xs);font-weight:600;flex-shrink:0;width:40px;text-align:center}
+.gate-name{font-size:var(--text-subh);font-weight:500;color:var(--label);flex:1}
+.gate-preview{font-size:var(--text-xs);color:var(--label-3);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── RULE TOGGLE ── */
+.rule-row{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-3);border-radius:var(--radius-md);background:var(--fill-2);border:1px solid var(--sep);margin-bottom:var(--sp-2)}
+.rule-id{font-size:var(--text-xs);font-weight:700;color:var(--label-3);width:24px}
+.rule-name{font-size:var(--text-subh);font-weight:500;color:var(--label);flex:1}
+.rule-pattern{font-size:var(--text-xs);color:var(--label-3);font-family:monospace;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toggle{width:36px;height:20px;border-radius:var(--radius-capsule);background:var(--fill);position:relative;cursor:pointer;transition:background var(--dur-std);flex-shrink:0}
+.toggle.on{background:var(--green)}.toggle::after{content:'';width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:transform var(--dur-std) var(--ease-spring);box-shadow:0 1px 3px rgba(0,0,0,0.3)}
+.toggle.on::after{transform:translateX(16px)}
+
+/* ── TASK ITEM ── */
+.task-item{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-md);background:var(--fill-3);margin-bottom:var(--sp-1);cursor:pointer;transition:background var(--dur-fast),transform var(--dur-fast)}
+.task-item:active{background:var(--fill);transform:translateX(2px)}
+.task-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--sep-strong);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;cursor:pointer}
+.task-item.done .task-check{background:var(--green);border-color:var(--green);color:#fff}
+.task-text{flex:1;font-size:var(--text-subh);color:var(--label);font-weight:500}
+.task-item.done .task-text{color:var(--label-3);text-decoration:line-through}
+.task-area{font-size:var(--text-xs);color:var(--label-3);flex-shrink:0}
+.task-due{font-size:var(--text-xs);color:var(--orange);flex-shrink:0}
+
+/* ── DEVOTION ── */
+.devotion-card{border-left:3px solid var(--yellow);padding:var(--sp-3);background:var(--fill-2);border-radius:var(--radius-md);margin-bottom:var(--sp-2)}
+.devotion-date{font-size:var(--text-xs);color:var(--label-3);margin-bottom:var(--sp-1)}
+.devotion-ref{font-size:var(--text-body);font-weight:600;color:var(--yellow);margin-bottom:var(--sp-2)}
+.devotion-text{font-size:var(--text-body2);color:var(--label-2);line-height:1.6}
+
+/* ── AGENT STATUS ── */
+.agent-bar{display:flex;gap:var(--sp-2);padding:var(--sp-3);background:linear-gradient(135deg,var(--blue-tint),var(--purple-tint));border-radius:var(--radius-xl);border:1px solid rgba(10,132,255,0.15);margin-bottom:var(--sp-3)}
+.agent-avatar{width:36px;height:36px;border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.agent-info{flex:1}.agent-name{font-size:var(--text-subh);font-weight:600;color:var(--label)}.agent-role{font-size:var(--text-xs);color:var(--label-2)}
+.agent-badge{display:flex;align-items:center;gap:4px;background:var(--green-tint);border:1px solid rgba(48,209,88,0.2);border-radius:var(--radius-capsule);padding:2px 8px;font-size:var(--text-xs);font-weight:600;color:var(--green);flex-shrink:0}
+
+/* ── INFRA ── */
+.infra-item{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-md);background:var(--fill-3);border:1px solid var(--sep);margin-bottom:var(--sp-1)}
+.infra-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.dot-ok{background:var(--green);box-shadow:0 0 4px var(--green)}.dot-warn{background:var(--orange);box-shadow:0 0 4px var(--orange)}.dot-err{background:var(--red);box-shadow:0 0 4px var(--red)}
+.infra-name{flex:1;font-size:var(--text-subh);font-weight:500;color:var(--label)}
+.infra-val{font-size:var(--text-xs);color:var(--label-3);font-variant-numeric:tabular-nums}
+
+/* ── SEARCH OVERLAY (replaces ⌘K) ── */
+.search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(12px);z-index:100;align-items:flex-start;justify-content:center;padding-top:12vh}
+.search-overlay.open{display:flex}
+.search-box{background:var(--bg-elevated);border:1px solid var(--sep-strong);border-radius:var(--radius-2xl);width:min(440px,90vw);overflow:hidden;box-shadow:var(--shadow-lg);animation:slide-up 280ms var(--ease-spring)}
+.search-header{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-4);border-bottom:1px solid var(--sep)}
+.search-input{flex:1;background:none;border:none;outline:none;font-size:var(--text-body);color:var(--label);font-family:inherit}
+.search-input::placeholder{color:var(--label-3)}
+.search-results{padding:var(--sp-2)}
+.search-item{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-md);cursor:pointer;min-height:40px;transition:background var(--dur-fast)}
+.search-item:hover,.search-item.selected{background:var(--blue-tint)}
+.search-item-icon{width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.search-item-name{flex:1;font-size:var(--text-subh);font-weight:500;color:var(--label)}
+@keyframes slide-up{from{transform:translateY(20px) scale(0.97);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+
+/* ── UTILITIES ── */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-3)}
+.section-title{font-size:var(--text-t3);font-weight:700;color:var(--label);letter-spacing:-0.3px}
+.section-action{font-size:var(--text-subh);font-weight:500;color:var(--blue);cursor:pointer;border:none;background:none}
+.badge{display:inline-flex;align-items:center;border-radius:var(--radius-capsule);padding:2px 8px;font-size:var(--text-xs);font-weight:600}
+.badge-blue{background:var(--blue-tint);color:var(--blue)}.badge-green{background:var(--green-tint);color:var(--green)}
+.badge-orange{background:var(--orange-tint);color:var(--orange)}.badge-red{background:var(--red-tint);color:var(--red)}
+.badge-purple{background:var(--purple-tint);color:var(--purple)}
+.divider{height:1px;background:var(--sep);margin:var(--sp-3) 0}
+.tag-row{display:flex;gap:var(--sp-2);margin-bottom:var(--sp-3);overflow-x:auto;padding-bottom:var(--sp-1);scrollbar-width:none}
+.tag-row::-webkit-scrollbar{display:none}
+.tag{font-size:var(--text-xs);font-weight:500;padding:4px 12px;border-radius:var(--radius-capsule);cursor:pointer;white-space:nowrap;border:1px solid var(--sep);background:var(--fill);color:var(--label-2);transition:all var(--dur-fast)}
+.tag.active{background:var(--blue-tint);border-color:var(--blue);color:var(--blue)}
+.empty{text-align:center;padding:var(--sp-8);color:var(--label-3);font-size:var(--text-subh)}
+.loading{text-align:center;padding:var(--sp-6);color:var(--label-3)}
+</style>
+</head>
+<body>
+
+<div class="app" x-data="ariaApp()">
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <span class="topbar-title" x-text="currentTitle"></span>
+    <div class="agent-pill" role="status" aria-live="polite">
+      <span class="agent-dot"></span>
+      ARIA
+    </div>
+    <button class="search-btn" @click="openSearch()" aria-label="搜尋">⌕</button>
+    <button class="theme-btn" @click="toggleTheme()" x-html="themeIcon" aria-label="切換主題"></button>
+  </header>
+
+  <!-- PAGES -->
+  <div class="pages">
+    <!-- Dashboard -->
+    <div class="page" :class="{active: tab === 'dashboard'}" id="p-dashboard">
+      <div class="kpi-scroll">
+        <div class="kpi"><div class="kpi-icon">📋</div><div class="kpi-value" x-text="kpis.tasks">-</div><div class="kpi-label">活躍任務</div></div>
+        <div class="kpi"><div class="kpi-icon">🧠</div><div class="kpi-value" x-text="kpis.memory">-</div><div class="kpi-label">記憶實體</div></div>
+        <div class="kpi"><div class="kpi-icon">⊡</div><div class="kpi-value" x-text="kpis.gates">-</div><div class="kpi-label">閘門攔截</div></div>
+        <div class="kpi"><div class="kpi-icon">✝️</div><div class="kpi-value" x-text="kpis.devotion">-</div><div class="kpi-label">靈修記錄</div></div>
+        <div class="kpi"><div class="kpi-icon">✦</div><div class="kpi-value" x-text="kpis.graph">-</div><div class="kpi-label">知識連結</div></div>
+      </div>
+      <div class="agent-bar">
+        <div class="agent-avatar">✦</div>
+        <div class="agent-info"><div class="agent-name">ARIA</div><div class="agent-role">AI Life Manager</div></div>
+        <div class="agent-badge"><span class="agent-dot"></span> 在線</div>
+      </div>
+      <!-- Dashboard summary -->
+      <div class="card">
+        <div class="card-label">📊 系統摘要</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2)">
+          <div style="background:var(--fill-2);border-radius:var(--radius-md);padding:var(--sp-3);text-align:center">
+            <div style="font-size:var(--text-t3);font-weight:700;color:var(--blue)" x-text="kpis.tasks">-</div>
+            <div style="font-size:var(--text-xs);color:var(--label-3)">活躍任務</div>
+          </div>
+          <div style="background:var(--fill-2);border-radius:var(--radius-md);padding:var(--sp-3);text-align:center">
+            <div style="font-size:var(--text-t3);font-weight:700;color:var(--purple)" x-text="kpis.memory">-</div>
+            <div style="font-size:var(--text-xs);color:var(--label-3)">記憶實體</div>
+          </div>
+          <div style="background:var(--fill-2);border-radius:var(--radius-md);padding:var(--sp-3);text-align:center">
+            <div style="font-size:var(--text-t3);font-weight:700;color:var(--orange)" x-text="kpis.gates">-</div>
+            <div style="font-size:var(--text-xs);color:var(--label-3)">閘門攔截</div>
+          </div>
+          <div style="background:var(--fill-2);border-radius:var(--radius-md);padding:var(--sp-3);text-align:center">
+            <div style="font-size:var(--text-t3);font-weight:700;color:var(--yellow)" x-text="kpis.devotion">-</div>
+            <div style="font-size:var(--text-xs);color:var(--label-3)">靈修記錄</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tasks -->
+    <div class="page" :class="{active: tab === 'tasks'}" id="p-tasks">
+      <div class="section-header"><span class="section-title">Task Center</span><button class="section-action" @click="loadTasks()">↻</button></div>
+      <div class="section-header" style="justify-content:flex-start;gap:var(--sp-2)">
+        <span class="badge badge-blue" x-text="`全部 (${tasks.length})`"></span>
+      </div>
+      <div id="task-list">
+        <template x-for="t in tasks" :key="t.id">
+          <div class="task-item" :class="t.status === 'done' ? 'done' : ''">
+            <div class="task-check" @click.stop="toggleTask(t.id)" x-text="t.status === 'done' ? '✓' : ''"> </div>
+            <span class="task-text" x-text="t.title"></span>
+            <span class="task-area" x-text="t.area"></span>
+            <span class="task-due" x-text="t.due_date || ''"></span>
+          </div>
+        </template>
+        <div class="empty" x-show="tasks.length === 0">暫無任務</div>
+      </div>
+    </div>
+
+    <!-- Memory -->
+    <div class="page" :class="{active: tab === 'memory'}" id="p-memory">
+      <div class="section-header"><span class="section-title">Memory Viewer</span><span class="badge badge-purple" x-text="`${memories.length} 條`"></span></div>
+      <div class="tag-row">
+        <span class="tag active">全部</span>
+        <span class="tag">人物</span>
+        <span class="tag">車輛</span>
+        <span class="tag">信仰</span>
+      </div>
+      <template x-for="m in memories" :key="m.id">
+        <div class="entity">
+          <div class="entity-header">
+            <span class="entity-pill" :style="'background:' + catColor(m.category) + ';color:' + catText(m.category)" x-text="catLabel(m.category)"></span>
+            <span class="entity-name" x-text="m.content"></span>
+            <span style="margin-left:auto;font-size:var(--text-xs);color:var(--label-3)" x-text="m.last_accessed"></span>
+          </div>
+          <div class="importance"><div class="importance-fill" :style="'width:' + (m.importance_score * 10) + '%'"></div></div>
+          <div class="entity-meta">
+            <span x-text="`重要度 ${m.importance_score}/10`"></span>
+            <span x-text="`衰減 ${m.decay_score}/天`"></span>
+            <span x-text="`來源: ${m.source}`"></span>
+          </div>
+        </div>
+      </template>
+      <div class="empty" x-show="memories.length === 0">暫無記憶</div>
+    </div>
+
+    <!-- Gate -->
+    <div class="page" :class="{active: tab === 'gate'}" id="p-gate">
+      <div class="section-header"><span class="section-title">Output Gate</span><span class="badge badge-orange" x-text="`${logs.length} 次`"></span></div>
+      <div class="section-header" style="justify-content:flex-start;gap:var(--sp-2)">
+        <span class="badge badge-blue" x-text="`${rules.length} 條規則`"></span>
+      </div>
+      <!-- Rules -->
+      <template x-for="r in rules" :key="r.id">
+        <div class="rule-row">
+          <span class="rule-id" x-text="'#' + r.id"></span>
+          <span class="rule-name" x-text="r.note"></span>
+          <code class="rule-pattern" x-text="r.pattern"></code>
+          <span class="badge" :class="r.severity === 'BLOCK' ? 'badge-red' : 'badge-green'" x-text="r.severity" style="margin:0 var(--sp-2)"></span>
+          <div class="toggle on" @click="$el.classList.toggle('on')" role="switch"></div>
+        </div>
+      </template>
+      <div class="divider"></div>
+      <!-- Logs -->
+      <template x-for="log in logs" :key="log.id">
+        <div class="gate-row" :class="log.result === 'PASS' ? 'gate-pass' : 'gate-block'">
+          <span class="gate-time" x-text="log.timestamp"></span>
+          <span class="gate-result" x-text="log.result" :style="log.result==='PASS'?'color:var(--green)':'color:var(--red)'"></span>
+          <span class="gate-name" x-text="log.session_id"></span>
+          <span class="gate-preview" x-text="log.matched_rule"></span>
+        </div>
+      </template>
+      <div class="empty" x-show="logs.length === 0">暫無閘門記錄</div>
+    </div>
+
+    <!-- Devotion -->
+    <div class="page" :class="{active: tab === 'devotion'}" id="p-devotion">
+      <div class="section-header"><span class="section-title">Devotion Journal</span><span class="badge" style="background:var(--yellow-tint);color:var(--yellow)" x-text="`${devotions.length} 篇`"></span></div>
+      <template x-for="d in devotions" :key="d.id">
+        <div class="devotion-card">
+          <div class="devotion-date" x-text="d.date_str || d.date"></div>
+          <div class="devotion-ref" x-text="(d.book || '') + ' ' + (d.chapter || '')"></div>
+          <div class="devotion-text" x-text="d.passage || d.notes || ''"></div>
+        </div>
+      </template>
+      <div class="empty" x-show="devotions.length === 0">暫無靈修記錄</div>
+    </div>
+  </div>
+
+  <!-- TAB BAR (iPhone native) -->
+  <nav class="tabbar">
+    <button class="tab" :class="{active: tab === 'dashboard'}" @click="switchTab('dashboard')">
+      <span class="tab-icon">⌂</span>
+      <span class="tab-label">Dashboard</span>
+    </button>
+    <button class="tab" :class="{active: tab === 'tasks'}" @click="switchTab('tasks')">
+      <span class="tab-icon">✓</span>
+      <span class="tab-label">Tasks</span>
+    </button>
+    <button class="tab" :class="{active: tab === 'memory'}" @click="switchTab('memory')">
+      <span class="tab-icon">◎</span>
+      <span class="tab-label">Memory</span>
+    </button>
+    <button class="tab" :class="{active: tab === 'gate'}" @click="switchTab('gate')">
+      <span class="tab-icon">⊡</span>
+      <span class="tab-label">Gate</span>
+    </button>
+    <button class="tab" :class="{active: tab === 'devotion'}" @click="switchTab('devotion')">
+      <span class="tab-icon">✦</span>
+      <span class="tab-label">Devotion</span>
+    </button>
+  </nav>
+
+  <!-- SEARCH OVERLAY -->
+  <div class="search-overlay" :class="{open: searchOpen}" @click.self="searchOpen=false">
+    <div class="search-box" @click.stop>
+      <div class="search-header">
+        <span style="color:var(--label-3);font-size:16px">⌕</span>
+        <input class="search-input" placeholder="搜尋頁面…" @keydown.escape="searchOpen=false" x-ref="searchInput">
+        <span style="font-size:var(--text-xs);color:var(--label-3);background:var(--fill);border-radius:4px;padding:2px 6px;font-family:monospace">Esc</span>
+      </div>
+      <div class="search-results">
+        <div class="search-item" @click="switchTab('dashboard');searchOpen=false">
+          <div class="search-item-icon" style="background:var(--blue-tint);color:var(--blue)">⌂</div>
+          <span class="search-item-name">Dashboard</span>
+        </div>
+        <div class="search-item" @click="switchTab('tasks');searchOpen=false">
+          <div class="search-item-icon" style="background:var(--green-tint);color:var(--green)">✓</div>
+          <span class="search-item-name">Task Center</span>
+        </div>
+        <div class="search-item" @click="switchTab('memory');searchOpen=false">
+          <div class="search-item-icon" style="background:var(--purple-tint);color:var(--purple)">◎</div>
+          <span class="search-item-name">Memory Viewer</span>
+        </div>
+        <div class="search-item" @click="switchTab('gate');searchOpen=false">
+          <div class="search-item-icon" style="background:var(--orange-tint);color:var(--orange)">⊡</div>
+          <span class="search-item-name">Output Gate</span>
+        </div>
+        <div class="search-item" @click="switchTab('devotion');searchOpen=false">
+          <div class="search-item-icon" style="background:var(--yellow-tint);color:var(--yellow)">✦</div>
+          <span class="search-item-name">Devotion Journal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function ariaApp() {
+  return {
+    tab: 'dashboard',
+    searchOpen: false,
+    theme: localStorage.getItem('aria-theme') || 'dark',
+    currentTitle: '',
+    themeIcon: '',
+    tgInput: '',
+    tgMessages: [
+      {text: '今朝靈修已推送 Telegram ✅', time: '08:00', is_ai: true},
+      {text: '今日有咩安排？', time: '08:05', is_ai: false},
+      {text: '📋 今日 4 個任務，下午 2:00 NetApp 會議', time: '08:05', is_ai: true},
+    ],
+    memories: [],
+    logs: [],
+    rules: [],
+    tasks: [],
+    devotions: [],
+    kpis: {tasks: 0, memory: 0, gates: 0, devotion: 0, graph: 0},
+    
+    init() {
+      this.themeIcon = this.theme === 'dark' 
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+      document.documentElement.setAttribute('data-theme', this.theme);
+      this.switchTab('dashboard');
+    },
+    
+    switchTab(name) {
+      this.tab = name;
+      const titles = {dashboard:'Dashboard', tasks:'Task Center', memory:'Memory Viewer', gate:'Output Gate', devotion:'Devotion Journal'};
+      this.currentTitle = titles[name] || name;
+      if (name === 'dashboard') this.loadDashboard();
+      else if (name === 'tasks') this.loadTasks();
+      else if (name === 'memory') this.loadMemory();
+      else if (name === 'gate') this.loadGate();
+      else if (name === 'devotion') this.loadDevotion();
+    },
+    
+    openSearch() { this.searchOpen = true; this.$nextTick(() => this.$refs.searchInput?.focus()); },
+    toggleTheme() {
+      this.theme = this.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', this.theme);
+      localStorage.setItem('aria-theme', this.theme);
+      this.themeIcon = this.theme === 'dark'
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+    },
+    
+    async loadDashboard() {
+      try {
+        const [mem, gate, dev, tsk] = await Promise.all([
+          fetch('/api/aria/memory').then(r=>r.json()),
+          fetch('/api/aria/gate').then(r=>r.json()),
+          fetch('/api/aria/devotion').then(r=>r.json()),
+          fetch('/api/aria/tasks').then(r=>r.json()),
+        ]);
+        this.kpis = {
+          tasks: tsk.count || 0,
+          memory: mem.memory_count || 0,
+          gates: gate.log_count || 0,
+          devotion: dev.count || 0,
+          graph: mem.graph_count || 0,
+        };
+      } catch(e) {}
+    },
+    async loadMemory() {
+      try {
+        const d = await (await fetch('/api/aria/memory')).json();
+        this.memories = d.memory || [];
+      } catch(e) { this.memories = []; }
+    },
+    async loadGate() {
+      try {
+        const d = await (await fetch('/api/aria/gate')).json();
+        this.logs = (d.logs || []).slice(0, 20);
+        this.rules = d.rules || [];
+      } catch(e) { this.logs = []; this.rules = []; }
+    },
+    async loadTasks() {
+      try {
+        const d = await (await fetch('/api/aria/tasks')).json();
+        this.tasks = d.tasks || [];
+      } catch(e) { this.tasks = []; }
+    },
+    async loadDevotion() {
+      try {
+        const d = await (await fetch('/api/aria/devotion')).json();
+        this.devotions = d.entries || [];
+      } catch(e) { this.devotions = []; }
+    },
+    
+    catColor(cat) {
+      const m = {person:'rgba(191,90,242,0.15)', vehicle:'rgba(10,132,255,0.15)', faith:'rgba(255,214,10,0.15)', work:'rgba(48,209,88,0.15)'};
+      return m[cat] || 'rgba(90,200,250,0.15)';
+    },
+    catText(cat) {
+      const m = {person:'#BF5AF2', vehicle:'#0A84FF', faith:'#FFD60A', work:'#30D158'};
+      return m[cat] || '#5AC8FA';
+    },
+    catLabel(cat) {
+      const m = {person:'人物', vehicle:'車輛', faith:'信仰', work:'工作'};
+      return m[cat] || cat;
+    },
+    
+    toggleTask(id) {
+      const t = this.tasks.find(x => x.id === id);
+      if (t) t.status = t.status === 'done' ? 'active' : 'done';
+    },
+    sendTg() {
+      if (!this.tgInput.trim()) return;
+      const text = this.tgInput.trim();
+      this.tgMessages.push({text, time: new Date().toLocaleTimeString('zh-HK',{hour:'2-digit',minute:'2-digit'}), is_ai: false});
+      this.tgInput = '';
+      this.$nextTick(() => {
+        const el = document.getElementById('tg-chat');
+        if (el) el.scrollTop = el.scrollHeight;
+      });
+    }
+  }
+}
+</script>
+</body>
+</html>
