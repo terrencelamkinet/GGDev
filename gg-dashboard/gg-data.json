@@ -1,14 +1,14 @@
 {
-  "ts": "20:32",
-  "hour": 20,
-  "minute": 32,
+  "ts": "21:01",
+  "hour": 21,
+  "minute": 1,
   "pushed_at": "2026-06-09 20:32 HKT",
   "system": {
-    "cpu": 26,
+    "cpu": 96,
     "mem": 16,
     "disk": 67,
-    "load": "0.85",
-    "uptime": "2 weeks, 2 hours, 28 minutes",
+    "load": "0.94",
+    "uptime": "2 weeks, 2 hours, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:32",
+      "time": "21:01",
       "text": "Dashboard data refresh"
     },
     {
@@ -42,20 +42,20 @@
       "text": "Cron: nightly_report.txt (1639B)"
     },
     {
-      "time": "20:12",
-      "text": "Cron: memory_bridge.log (159169B)"
+      "time": "20:33",
+      "text": "Cron: memory_bridge.log (159401B)"
     },
     {
-      "time": "18:45",
-      "text": "Cron: mcp-stderr.log (1143760B)"
+      "time": "20:32",
+      "text": "Cron: mcp-stderr.log (1147313B)"
     },
     {
-      "time": "20:30",
-      "text": "Cron: guardian.log (315159B)"
+      "time": "21:00",
+      "text": "Cron: guardian.log (315627B)"
     },
     {
-      "time": "20:29",
-      "text": "Cron: gg-dashboard.log (45029B)"
+      "time": "20:58",
+      "text": "Cron: gg-dashboard.log (45715B)"
     },
     {
       "time": "00:42",
@@ -64,19 +64,19 @@
   ],
   "agents": {
     "main": {
-      "cpu": 26,
+      "cpu": 96,
       "mem": 16,
       "disk": 67,
-      "load": "0.85",
-      "uptime": "2 weeks, 2 hours, 28 minutes",
+      "load": "0.94",
+      "uptime": "2 weeks, 2 hours, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
-        "openclaw": false
+        "openclaw": true
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "夜晚 — Terrence AL+畢業禮。聽日港車北上截數，文件已備。Work/Person穩定，無blocker。系統閒置，專注聽日嘅delivery。",
+      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 14 日 — 穩定; 1 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 58,
-      "mem": 27,
+      "cpu": 74,
+      "mem": 32,
       "disk": 62,
-      "load": "0.37",
-      "uptime": "3 weeks, 8 hours, 6 minutes",
+      "load": "0.59",
+      "uptime": "3 weeks, 8 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 95,
-      "mem": 25,
+      "cpu": 69,
+      "mem": 27,
       "disk": 68,
-      "load": "0.21",
-      "uptime": "3 weeks, 8 hours, 6 minutes",
+      "load": "0.40",
+      "uptime": "3 weeks, 8 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -234,6 +234,56 @@
     "balance_cny": 71.53,
     "balance_usd": 9.8
   },
+  "tasks": {
+    "items": [
+      {
+        "page_id": "376783d5-93e7-810b-9ba1-d0f01b505e06",
+        "title": "📄 港車北上 - 準備文件 (掃描+拍照)",
+        "status": "In progress",
+        "due": "2026-06-10",
+        "priority": "Q2 · Schedule",
+        "area": "🏠 Personal",
+        "notes": "需準備：\n- 身份證/護照 正反面掃描\n- 車輛登記文件 (VE牌簿) 掃描\n- 有效的第三者風險保險證明掃描\n- 車輛照片 (車頭、車尾、車側，共3張)\n- 信用卡 (準備繳費)\n\n約需30分鐘準備",
+        "last_edited": "2026-06-08T10:05:00.000Z"
+      },
+      {
+        "page_id": "376783d5-93e7-81ae-9118-eaba934ce312",
+        "title": "Send Moia solution to Manulife Derek",
+        "status": "In progress",
+        "due": "2026-06-12",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Send Moia (PAM) solution proposal to Derek at Manulife.",
+        "last_edited": "2026-06-07T16:02:00.000Z"
+      },
+      {
+        "page_id": "36d783d5-93e7-8076-bafe-c26cf74e0d98",
+        "title": "Schedule Rankez Meeting",
+        "status": "Not started",
+        "due": "2026-06-19",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Rankez is a PAM (Privileged Access Management) product. Meeting to discuss/schedule.",
+        "last_edited": "2026-06-05T08:30:00.000Z"
+      },
+      {
+        "page_id": "36d783d5-93e7-809d-94a7-e8cc448b69cb",
+        "title": "PoC for FTrans",
+        "status": "In progress",
+        "due": "2026-06-30",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "FTrans company project — proof of concept required.",
+        "last_edited": "2026-06-05T08:30:00.000Z"
+      }
+    ],
+    "total": 4,
+    "overdue": 0,
+    "due_today": 0,
+    "in_progress": 3,
+    "q1_count": 0,
+    "source": "task_sync_state"
+  },
   "schedule": {
     "total_events": 29,
     "today_events": 2,
@@ -251,5 +301,11 @@
       }
     ]
   },
-  "update_source": "three-ai-sync"
+  "update_source": "hermes_update_data.py",
+  "ai_sync": {
+    "total_checkpoints": 8,
+    "synced": 8,
+    "pending": 0,
+    "last_check": "21:01"
+  }
 }
