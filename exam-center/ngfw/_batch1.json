@@ -1,0 +1,722 @@
+[
+  {
+    "num": 1,
+    "text": "To maintain security efficacy of its public cloud resources by using native tools, a company purchases Cloud NGFW credits to replicate the Panorama, PA-Series, and VM-Series devices used in physical data centers. Resources exist on AWS and Azure:\nThe AWS deployment is architected with AWS Transit Gateway, to which all resources connect The Azure deployment is architected with each application independently routing traffic The engineer deploying Cloud NGFW in these two cloud environments must account for the following:\nMinimize changes to the two cloud environments Scale to the demands of the applications while using the least amount of compute resources Allow the company to unify the Security policies across all protected areas Which two implementations will meet these requirements? (Choose two.)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Deploy a VM-Series firewall in AWS in each VPC, create an IPSec tunnel between AWS and Azure, and manage the policy with Panorama."
+      },
+      {
+        "letter": "B",
+        "text": "Deploy Cloud NGFW for Azure in vNET/s, update the vNET/s routing to path traffic through the deployed NGFWs, and manage the policy with Panorama."
+      },
+      {
+        "letter": "C",
+        "text": "Deploy Cloud NGFW for Azure in vWAN, create a vWAN to route all appropriate traffic to the Cloud NGFW attached to the vWAN, and manage the policy with local rules."
+      },
+      {
+        "letter": "D",
+        "text": "Deploy Cloud NGFW for AWS in a centralized Security VPC, update the Transit Gateway to route all appropriate traffic through the Security VPC, and manage the policy with Panorama."
+      }
+    ],
+    "answer": "BD",
+    "type": "multi"
+  },
+  {
+    "num": 2,
+    "text": "During an upgrade to the routing infrastructure in a customer environment, the network administrator wants to implement Advanced Routing Engine (ARE) on a Palo Alto Networks firewall.\nWhich firewall models support this configuration?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "PA-5280, PA-7080, PA-3250, VM-Series"
+      },
+      {
+        "letter": "B",
+        "text": "PA-455, VM-Series, PA-1410, PA-5450"
+      },
+      {
+        "letter": "C",
+        "text": "PA-3260, PA-5410, PA-850, PA-460"
+      },
+      {
+        "letter": "D",
+        "text": "PA-7050, PA-1420, VM-Series, CN-Series"
+      }
+    ],
+    "answer": "A",
+    "type": "single"
+  },
+  {
+    "num": 3,
+    "text": "Which two statements apply to configuring required security rules when setting up an IPSec tunnel between a Palo Alto Networks firewall and a third- party gateway? (Choose two.)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "For incoming and outgoing traffic through the tunnel, creating separate rules for each direction is optional."
+      },
+      {
+        "letter": "B",
+        "text": "The IKE negotiation and IPSec/ESP packets are allowed by default via the intrazone default allow policy."
+      },
+      {
+        "letter": "C",
+        "text": "For incoming and outgoing traffic through the tunnel, separate rules must be created for each direction."
+      },
+      {
+        "letter": "D",
+        "text": "The IKE negotiation and IPSec/ESP packets are denied by default via the interzone default deny policy."
+      }
+    ],
+    "answer": "AB",
+    "type": "multi"
+  },
+  {
+    "num": 4,
+    "text": "Which statement describes the role of Terraform in deploying Palo Alto Networks NGFWs?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "It acts as a logging service for NGFW performance metrics."
+      },
+      {
+        "letter": "B",
+        "text": "It orchestrates real-time traffic inspection for network segments."
+      },
+      {
+        "letter": "C",
+        "text": "It provides Infrastructure-as-Code (IaC) to automate NGFW deployment."
+      },
+      {
+        "letter": "D",
+        "text": "It manages threat intelligence data synchronization with NGFWs."
+      }
+    ],
+    "answer": "C",
+    "type": "single"
+  },
+  {
+    "num": 5,
+    "text": "By default, which type of traffic is configured by service route configuration to use the management interface?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Security zone"
+      },
+      {
+        "letter": "B",
+        "text": "IPSec tunnel"
+      },
+      {
+        "letter": "C",
+        "text": "Virtual system (VSYS)"
+      },
+      {
+        "letter": "D",
+        "text": "Autonomous Digital Experience Manager (ADEM)"
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 6,
+    "text": "In regard to the Advanced Routing Engine (ARE), what must be enabled first when configuring a logical router on a PAN-OS firewall?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "License"
+      },
+      {
+        "letter": "B",
+        "text": "Plugin"
+      },
+      {
+        "letter": "C",
+        "text": "Content update"
+      },
+      {
+        "letter": "D",
+        "text": "General setting"
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 7,
+    "text": "Which two zone types are valid when configuring a new security zone? (Choose two.)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Tunnel"
+      },
+      {
+        "letter": "B",
+        "text": "Intrazone"
+      },
+      {
+        "letter": "C",
+        "text": "Internal"
+      },
+      {
+        "letter": "D",
+        "text": "Virtual Wire"
+      }
+    ],
+    "answer": "AD",
+    "type": "multi"
+  },
+  {
+    "num": 8,
+    "text": "An organization has configured GlobalProtect in a hybrid authentication model using both certificate-based authentication for the pre-logon stage and SAML-based multi-factor authentication (MFA) for user logon.\nHow does the GlobalProtect agent process the authentication flow on Windows endpoints?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "The GlobalProtect agent uses the machine certificate to establish a pre-logon tunnel; upon user sign-in, it prompts for SAML-based MFA credentials, ensuring both device and user identities are validated before granting full access."
+      },
+      {
+        "letter": "B",
+        "text": "The GlobalProtect agent uses the machine certificate during pre-logon for initial tunnel establishment, and then seamlessly reuses the same machine certificate for user-based authentication without requiring MFA."
+      },
+      {
+        "letter": "C",
+        "text": "Once the machine certificate is validated at pre-logon, the Windows endpoint completes MFA on behalf of the user by passing existing Windows Credential Provider details to the GlobalProtect gateway without prompting the user."
+      },
+      {
+        "letter": "D",
+        "text": "GlobalProtect requires the user to log in first for SAML-based MFA before establishing the pre-logon tunnel, rendering the pre-logon certificate authentication (CA) flow redundant."
+      }
+    ],
+    "answer": "A",
+    "type": "single"
+  },
+  {
+    "num": 9,
+    "text": "An NGFW engineer is configuring multiple Panorama-managed firewalls to start sending all logs to Strata Logging Service. The Strata Logging Service instance has been provisioned, the required device certificates have been installed, and Panorama and the firewalls have been successfully onboarded to Strata Logging Service.\nWhich configuration task must be performed to start sending the logs to Strata Logging Service and continue forwarding them to the Panorama log collectors as well?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Modify all active Log Forwarding profiles to select the \u201cCloud Logging\u201d option in each profile match list in the appropriate device groups."
+      },
+      {
+        "letter": "B",
+        "text": "Enable the \u201cPanorama/Cloud Logging\u201d option in the Logging and Reporting Settings section under Device --> Setup --> Management in the appropriate templates."
+      },
+      {
+        "letter": "C",
+        "text": "Select the \u201cEnable Duplicate Logging\u201d option in the Cloud Logging section under Device --> Setup --> Management in the appropriate templates."
+      },
+      {
+        "letter": "D",
+        "text": "Select the \u201cEnable Cloud Logging\u201d option in the Cloud Logging section under Device --> Setup --> Management in the appropriate templates."
+      }
+    ],
+    "answer": "C",
+    "type": "single"
+  },
+  {
+    "num": 10,
+    "text": "An NGFW engineer is configuring multiple Layer 2 interfaces on a Palo Alto Networks firewall, and all interfaces must be assigned to the same VLAN. During initial testing, it is reported that clients located behind the various interfaces cannot communicate with each other.\nWhich action taken by the engineer will resolve this issue?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Configure each interface to belong to the same Layer 2 zone and enable IP routing between them."
+      },
+      {
+        "letter": "B",
+        "text": "Assign each interface to the appropriate Layer 2 zone and configure a policy that allows traffic within the VLAN."
+      },
+      {
+        "letter": "C",
+        "text": "Assign each interface to the appropriate Layer 2 zone and configure Security policies for interfaces not assigned to the same zone."
+      },
+      {
+        "letter": "D",
+        "text": "Enable IP routing between the interfaces and configure a Security policy to allow traffic between interfaces within the VLAN."
+      }
+    ],
+    "answer": "C",
+    "type": "single"
+  },
+  {
+    "num": 11,
+    "text": "In a Palo Alto Networks environment, GlobalProtect has been enabled using certificate-based authentication for both users and devices. To ensure proper validation of certificates, one or more certificate profiles are configured.\nWhat function do certificate profiles serve in this context?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "They store private keys for users and devices, effectively allowing the firewall to issue or reissue certificates if the primary Certificate Authority (CA) becomes unavailable, providing a built-in fallback CA to maintain continuous certificate issuance and authentication."
+      },
+      {
+        "letter": "B",
+        "text": "They define trust anchors (root / intermediate Certificate Authorities (CAs)), specify revocation checks (CRL/OCSP), and map certificate attributes (e.g., CN) for user or device authentication."
+      },
+      {
+        "letter": "C",
+        "text": "They allow the firewall to bypass certificate validation entirely, focusing only on username / password-based authentication."
+      },
+      {
+        "letter": "D",
+        "text": "They provide a one-click mechanism to distribute certificates to all endpoints without relying on external enrollment methods."
+      }
+    ],
+    "answer": "B",
+    "type": "single"
+  },
+  {
+    "num": 12,
+    "text": "How does a Palo Alto Networks NGFW respond when the preemptive hold time is set to 0 minutes during configuration of route monitoring?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "It does not accept the configuration."
+      },
+      {
+        "letter": "B",
+        "text": "It accepts the configuration but throws a warning message."
+      },
+      {
+        "letter": "C",
+        "text": "It removes the static route because 0 is a NULL value."
+      },
+      {
+        "letter": "D",
+        "text": "It reinstalls the route into the routing information base (RIB) as soon as the path comes up."
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 13,
+    "text": "After an engineer configures an IPSec tunnel with a Cisco ASA, the Palo Alto Networks firewall generates system messages reporting the tunnel is failing to establish.\nWhich of the following actions will resolve this issue?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Ensure that an active static or dynamic route exists for the VPN peer with next hop as the tunnel interface."
+      },
+      {
+        "letter": "B",
+        "text": "Configure the Proxy IDs to match the Cisco ASA configuration."
+      },
+      {
+        "letter": "C",
+        "text": "Check that IPSec is enabled in the management profile on the external interface."
+      },
+      {
+        "letter": "D",
+        "text": "Validate the tunnel interface VLAN against the peer\u2019s configuration."
+      }
+    ],
+    "answer": "B",
+    "type": "single"
+  },
+  {
+    "num": 14,
+    "text": "Which configuration in the LACP tab will enable pre-negotiation for an Aggregate Ethernet (AE) interface on a Palo Alto Networks high availability (HA) active/passive pair?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Set Transmission Rate to \u201cfast.\u201d"
+      },
+      {
+        "letter": "B",
+        "text": "Set passive link state to \u201cAuto.\u201d"
+      },
+      {
+        "letter": "C",
+        "text": "Set \u201cEnable in HA Passive State.\u201d"
+      },
+      {
+        "letter": "D",
+        "text": "Set LACP mode to \u201cActive.\u201d"
+      }
+    ],
+    "answer": "C",
+    "type": "single"
+  },
+  {
+    "num": 15,
+    "text": "When integrating Kubernetes with Palo Alto Networks NGFWs, what is used to secure traffic between microservices?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Service graph"
+      },
+      {
+        "letter": "B",
+        "text": "Ansible automation modules"
+      },
+      {
+        "letter": "C",
+        "text": "Panorama role-based access control (RBAC)"
+      },
+      {
+        "letter": "D",
+        "text": "CN-Series firewalls"
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 16,
+    "text": "When configuring a Zone Protection profile, in which section (protection type) would an NGFW engineer configure options to protect against activities such as spoofed IP addresses and split handshake session establishment attempts?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Flood Protection"
+      },
+      {
+        "letter": "B",
+        "text": "Protocol Protection"
+      },
+      {
+        "letter": "C",
+        "text": "Packet-Based Attack Protection"
+      },
+      {
+        "letter": "D",
+        "text": "Reconnaissance Protection"
+      }
+    ],
+    "answer": "C",
+    "type": "single"
+  },
+  {
+    "num": 17,
+    "text": "For which two purposes is an IP address configured on a tunnel interface? (Choose two.)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Use of dynamic routing protocols"
+      },
+      {
+        "letter": "B",
+        "text": "Tunnel monitoring"
+      },
+      {
+        "letter": "C",
+        "text": "Use of peer IP"
+      },
+      {
+        "letter": "D",
+        "text": "Redistribution of User-ID"
+      }
+    ],
+    "answer": "AB",
+    "type": "multi"
+  },
+  {
+    "num": 18,
+    "text": "Which PAN-OS method of mapping users to IP addresses is the most reliable?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Port mapping"
+      },
+      {
+        "letter": "B",
+        "text": "GlobalProtect"
+      },
+      {
+        "letter": "C",
+        "text": "Syslog"
+      },
+      {
+        "letter": "D",
+        "text": "Server monitoring"
+      }
+    ],
+    "answer": "B",
+    "type": "single"
+  },
+  {
+    "num": 19,
+    "text": "In an active/active high availability (HA) configuration with two PA-Series firewalls, how do the firewalls use the HA3 interface?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "To forward packets to the HA peer during session setup and asymmetric traffic flow"
+      },
+      {
+        "letter": "B",
+        "text": "To exchange hellos, heartbeats, HA state information, and management plane synchronization for routing and User-ID information"
+      },
+      {
+        "letter": "C",
+        "text": "To synchronize sessions, forwarding tables, IPSec security associations, and ARP tables between firewalls in an HA pair"
+      },
+      {
+        "letter": "D",
+        "text": "To perform session cache synchronization among all HA peers having the same cluster ID"
+      }
+    ],
+    "answer": "A",
+    "type": "single"
+  },
+  {
+    "num": 20,
+    "text": "A PA-Series firewall with all licensable features is being installed. The customer\u2019s Security policy requires that users do not directly access websites. Instead, a security device must create the connection, and there must be authentication back to the Active Directory servers for all sessions.\nWhich action meets the requirements in this scenario?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Deploy the transparent proxy with Web Cache Communications Protocol (WCCP)."
+      },
+      {
+        "letter": "B",
+        "text": "Deploy the Next-Generation Firewalls as normal and install the User-ID agent."
+      },
+      {
+        "letter": "C",
+        "text": "Deploy the Advanced URL Filtering license and captive portal."
+      },
+      {
+        "letter": "D",
+        "text": "Deploy the explicit proxy with Kerberos authentication scheme."
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 21,
+    "text": "What must be configured before a firewall administrator can define policy rules based on users and groups?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "User Mapping profile"
+      },
+      {
+        "letter": "B",
+        "text": "Authentication profile"
+      },
+      {
+        "letter": "C",
+        "text": "Group mapping settings"
+      },
+      {
+        "letter": "D",
+        "text": "LDAP Server profile"
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 22,
+    "text": "Which statement applies to the relationship between Panorama-pushed Security policy and local firewall Security policy?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "When a policy match is found in a local firewall policy, if any Panorama shared post-rule is configured, it will still be evaluated."
+      },
+      {
+        "letter": "B",
+        "text": "Local firewall rules are evaluated after Panorama pre-rules and before Panorama post-rules."
+      },
+      {
+        "letter": "C",
+        "text": "Panorama post-rules can be configured to be evaluated before local firewall policy for the purpose of troubleshooting."
+      },
+      {
+        "letter": "D",
+        "text": "The order of policy evaluation can be configured differently in different device groups."
+      }
+    ],
+    "answer": "B",
+    "type": "single"
+  },
+  {
+    "num": 23,
+    "text": "Which networking technology can be configured on Layer 3 interfaces but not on Layer 2 interfaces?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "DDNS"
+      },
+      {
+        "letter": "B",
+        "text": "Link Duplex"
+      },
+      {
+        "letter": "C",
+        "text": "NetFlow"
+      },
+      {
+        "letter": "D",
+        "text": "LLDP"
+      }
+    ],
+    "answer": "A",
+    "type": "single"
+  },
+  {
+    "num": 24,
+    "text": "What is a result of enabling split tunneling in the GlobalProtect portal configuration with the \u201cBoth Network Traffic and DNS\u201d option?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "It specifies when the secondary DNS server is used for resolution to allow access to specific domains that are not managed by the VPN."
+      },
+      {
+        "letter": "B",
+        "text": "It allows users to access internal resources when connected locally and external resources when connected remotely using the same FQDN."
+      },
+      {
+        "letter": "C",
+        "text": "It allows devices on a local network to access blocked websites by changing which DNS server resolves certain domain names."
+      },
+      {
+        "letter": "D",
+        "text": "It specifies which domains are resolved by the VPN-assigned DNS servers and which domains are resolved by the local DNS servers."
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 25,
+    "text": "According to dynamic updates best practices, what is the recommended threshold value for content updates in a mission- critical network?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "8 hours"
+      },
+      {
+        "letter": "B",
+        "text": "16 hours"
+      },
+      {
+        "letter": "C",
+        "text": "32 hours"
+      },
+      {
+        "letter": "D",
+        "text": "48 hours"
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 26,
+    "text": "Which type of firewall resource can be assigned when configuring a new firewall virtual system (VSYS)?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "CPU"
+      },
+      {
+        "letter": "B",
+        "text": "Sessions limit"
+      },
+      {
+        "letter": "C",
+        "text": "Memory"
+      },
+      {
+        "letter": "D",
+        "text": "Security profile limit"
+      }
+    ],
+    "answer": "B",
+    "type": "single"
+  },
+  {
+    "num": 27,
+    "text": "Which forwarding methods can be used on the Objects tab when configuring the Log Forwarding profile?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "Panorama, syslog, email"
+      },
+      {
+        "letter": "B",
+        "text": "Syslog, HTTP, NetFlow"
+      },
+      {
+        "letter": "C",
+        "text": "Panorama, ADEM, syslog"
+      },
+      {
+        "letter": "D",
+        "text": "SNMP, HTTP, RADIUS"
+      }
+    ],
+    "answer": "A",
+    "type": "single"
+  },
+  {
+    "num": 28,
+    "text": "In a hybrid cloud deployment, what is the primary function of Ansible in managing Palo Alto Networks NGFWs?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "It provides a web interface for managing NGFW hardware clusters."
+      },
+      {
+        "letter": "B",
+        "text": "It enables centralized log collection and correlation for NGFWs."
+      },
+      {
+        "letter": "C",
+        "text": "It facilitates dynamic updates to NGFW threat databases."
+      },
+      {
+        "letter": "D",
+        "text": "It automates NGFW policy updates and configurations through playbooks."
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  },
+  {
+    "num": 29,
+    "text": "Palo Alto Networks NGFWs use SSL/TLS profiles to secure which two types of connections? (Choose two.)",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "NAT tables"
+      },
+      {
+        "letter": "B",
+        "text": "User Authentication"
+      },
+      {
+        "letter": "C",
+        "text": "GlobalProtect Gateways"
+      },
+      {
+        "letter": "D",
+        "text": "GlobalProtect Portal"
+      }
+    ],
+    "answer": "CD",
+    "type": "multi"
+  },
+  {
+    "num": 30,
+    "text": "How does a Palo Alto Networks firewall choose the best route when it receives routes for the same destination from different routing protocols?",
+    "choices": [
+      {
+        "letter": "A",
+        "text": "The route that was received first will be entered into the forwarding table, and all subsequent routes will be rejected."
+      },
+      {
+        "letter": "B",
+        "text": "It will attempt to load balance the traffic across all routes."
+      },
+      {
+        "letter": "C",
+        "text": "It compares the administrative distance and chooses the one with the highest value."
+      },
+      {
+        "letter": "D",
+        "text": "It compares the administrative distance and chooses the one with the lowest value."
+      }
+    ],
+    "answer": "D",
+    "type": "single"
+  }
+]

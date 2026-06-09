@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "name": "專注飛鳥",
+    "description": "用EEG檢測專注力嘅訓練遊戲，飛鳥透過專注力高低控制升降食金幣",
+    "status": "active",
+    "created": "2026-05-10 23:23:48",
+    "last_activity": "2026-05-12 19:41",
+    "conversations": 2,
+    "files": [
+      "focus_bird/game.html"
+    ],
+    "notes": ""
+  },
+  "conversations": [
+    {
+      "timestamp": "2026-05-10 23:23:52",
+      "text": "Initial game concept discussion: Focus Bird game where bird flies up when unfocused, down when focused to collect coins. Built as HTML/JS canvas game with keyboard simulation (↑/↓). Discussed EEG hardware options - recommended NeuroSky MindWave Mobile 2 (~HK00-600) as best choice for real device integration later."
+    },
+    {
+      "timestamp": "2026-05-12 19:41",
+      "text": "Rule changes: bird starts center (200,250), Level 1=10 coins +5/level, max 20 levels, top = game over (no focusLevel requirement), space hint dialog auto-hides after 3 seconds. Deployed."
+    }
+  ],
+  "context": {
+    "last_topic": "Game rule overhaul",
+    "key_points": [
+      "Bird starts at center (200,250)",
+      "Level 1 = 10 coins, +5 per level, max 20 levels (Lv20 = 105 coins)",
+      "Reaching top = game over (no clamp, no focus condition)",
+      "Space hint dialog disappears 3s after game starts",
+      "maxLevel=20 constant properly referenced",
+      "updateBird() no longer clamps bird.y < 30"
+    ],
+    "pending_items": [
+      "Connect real EEG device via Web Bluetooth",
+      "Add focus calibration mode"
+    ],
+    "decisions": [
+      "Start with keyboard simulation first, upgrade to hardware later"
+    ]
+  }
+}

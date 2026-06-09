@@ -1,0 +1,11 @@
+{
+  "name": "apple-hig-spec-designer",
+  "version": 1,
+  "references": [
+    "https://developer.apple.com/design/human-interface-guidelines",
+    "https://developer.apple.com/design/human-interface-guidelines/foundations",
+    "https://developer.apple.com/design/human-interface-guidelines/components",
+    "https://developer.apple.com/design/resources/"
+  ],
+  "summary": "Generate Apple-platform app specs in Markdown using agent-executable HIG rules."
+}
