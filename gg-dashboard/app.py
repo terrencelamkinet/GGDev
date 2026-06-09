@@ -819,6 +819,28 @@ def api_insights():
         if conn: conn.close()
 
 
+# ===== API: NOTICES =====
+
+@app.route("/api/notices")
+def api_notices():
+    """Return latest notices from task_hub PG database."""
+    try:
+        import psycopg2
+        ncfg = {"host": "127.0.0.1", "port": 5432, "dbname": "task_hub",
+                "user": PG_CONFIG.get("user", "gg_fighter"),
+                "password": PG_CONFIG.get("password", "")}
+        conn = psycopg2.connect(**ncfg)
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT id, content, source, to_char(created_at, 'HH24:MI') "
+            "FROM notices ORDER BY created_at DESC LIMIT 10"
+        )
+        items = [{"id": r[0], "text": r[1][:200], "source": r[2], "time": r[3]} for r in cur.fetchall()]
+        cur.close(); conn.close()
+        return jsonify({"ok": True, "items": items})
+    except Exception as e:
+        return jsonify({"ok": True, "items": [], "error": str(e)[:50]})
+
 # ===== API: STATUS =====
 
 @app.route("/api/status")
