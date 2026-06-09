@@ -1,139 +1,107 @@
-<!DOCTYPE html>
-<html lang="zh-HK">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="GG Platform">
-  <title>GG Platform | Tasks</title>
-  <link rel="stylesheet" href="/static/styles.css?v=1.1">
-  <style>
-/* Task table — mobile-first responsive */
-.task-table { width:100%; border-collapse:collapse; font-size:12px }
-.task-table th { text-align:left; padding:8px 10px; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-dim); border-bottom:2px solid var(--border); position:sticky; top:0; background:var(--bg); z-index:1 }
-.task-table td { padding:10px 8px; border-bottom:1px solid var(--border); vertical-align:middle }
-.task-table tr { cursor:pointer; transition:background 0.15s }
-.task-table tr:hover { background:rgba(255,255,255,0.03) }
-.task-table tr.done td { opacity:0.45 }
-.td-check { width:30px; text-align:center }
-.td-title { min-width:0; word-break:break-word }
-.td-status { width:55px }
-.td-prio { width:60px }
-.td-due { width:70px }
-.td-project { display:none } /* hidden on mobile, shown on wider screens */
-
-/* Checkbox circle */
-.chk-circle { width:18px;height:18px;border-radius:50%;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.2s }
-.chk-circle:hover { border-color:var(--accent) }
-.chk-circle.done { background:var(--green);border-color:var(--green) }
-
-/* Status badge inline */
-.stat-badge { display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600 }
-.stat-badge.active { background:rgba(0,184,148,0.12);color:#00b894 }
-.stat-badge.in_progress { background:rgba(253,203,110,0.15);color:#d4a017 }
-.stat-badge.done { background:rgba(116,125,140,0.15);color:#747d8c }
-
-/* Prio indicator */
-.prio-dot { display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle }
-
-/* Detail overlay */
-.detail-grid { display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;font-size:12px }
-.detail-grid .dg-label { font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.3px }
-.detail-grid .dg-value { font-weight:500;color:var(--text-muted) }
-.detail-grid .dg-full { grid-column:1/-1 }
-.detail-notes { background:var(--surface);border-radius:8px;padding:10px;font-size:12px;line-height:1.6;white-space:pre-wrap;margin-top:4px }
-
-/* Edit panel — slide up from bottom */
-.edit-panel { position:fixed;bottom:0;left:0;width:100%;background:var(--bg);border-radius:16px 16px 0 0;z-index:1002;box-shadow:0 -4px 20px rgba(0,0,0,0.15);max-height:85vh;overflow-y:auto;transition:transform 0.25s }
-.edit-panel.hidden { transform:translateY(100%) }
-.edit-panel .handle { width:36px;height:4px;border-radius:2px;background:var(--border);margin:10px auto }
-
-/* Responsive: show project column on wider screens */
-@media (min-width:420px) {
-  .td-project { display:table-cell;width:65px }
-}
-</style>
-</head>
-<body>
+<!DOCTYPE html><html lang="zh-HK"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="GG Platform">
+<title>GG Platform | Tasks</title>
+<link rel="stylesheet" href="/static/styles.css?v=2.0">
+</head><body>
 <div class="app-shell">
-  <header class="top-bar">
-    <svg class="icon-lg" style="color:var(--accent)"><use href="/static/icons.svg#icon-list"/></svg>
+
+<!-- iOS Navigation Bar -->
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
     <div>
       <h1 class="page-title">Tasks</h1>
       <span class="page-subtitle" id="taskSource">Notion Task Center</span>
     </div>
-    <span class="time-label" id="lastUpdate">--:--</span>
-  </header>
-
-  <main class="scroll-content">
-    <div class="stat-grid-4">
-      <div class="stat-card"><div class="stat-value green" id="taskTotal">--</div><div class="stat-label">Active</div></div>
-      <div class="stat-card"><div class="stat-value peach" id="taskOverdue">0</div><div class="stat-label">Overdue</div></div>
-      <div class="stat-card"><div class="stat-value gold" id="taskDueToday">0</div><div class="stat-label">Due Today</div></div>
-      <div class="stat-card"><div class="stat-value accent" id="taskQ1">0</div><div class="stat-label">Urgent</div></div>
+    <div class="nav-actions">
+      <span class="nav-action-btn" id="lastUpdate" style="font-size:13px;font-weight:500;width:auto;padding:0 12px;background:var(--fill);border-radius:8px;min-height:36px;display:flex;align-items:center;gap:4px">--:--</span>
     </div>
+  </div>
+</nav>
 
-    <div class="filter-row" id="filterRow">
-      <button class="filter-chip active" data-f="all" onclick="filterTasks('all',this)">All</button>
-      <button class="filter-chip" data-f="💼 Work" onclick="filterTasks('💼 Work',this)">Work</button>
-      <button class="filter-chip" data-f="🏠 Personal" onclick="filterTasks('🏠 Personal',this)">Personal</button>
-      <button class="filter-chip" data-f="📚 Learning" onclick="filterTasks('📚 Learning',this)">Learning</button>
+<main class="scroll-content">
+
+  <!-- Stats -->
+  <div class="ios-stats">
+    <div class="ios-stat"><div class="ios-stat-value accent" id="taskTotal">--</div><div class="ios-stat-label">Active</div></div>
+    <div class="ios-stat"><div class="ios-stat-value red" id="taskOverdue">0</div><div class="ios-stat-label">Overdue</div></div>
+    <div class="ios-stat"><div class="ios-stat-value gold" id="taskDueToday">0</div><div class="ios-stat-label">Due Today</div></div>
+    <div class="ios-stat"><div class="ios-stat-value accent" id="taskQ1">0</div><div class="ios-stat-label">Urgent</div></div>
+  </div>
+
+  <!-- iOS Filter Chips -->
+  <div class="ios-filter-row" id="filterRow">
+    <button class="ios-chip active" data-f="all" onclick="filterTasks('all',this)">All</button>
+    <button class="ios-chip" data-f="💼 Work" onclick="filterTasks('💼 Work',this)">Work</button>
+    <button class="ios-chip" data-f="🏠 Personal" onclick="filterTasks('🏠 Personal',this)">Personal</button>
+    <button class="ios-chip" data-f="📚 Learning" onclick="filterTasks('📚 Learning',this)">Learning</button>
+  </div>
+
+  <!-- Task List as iOS Rows -->
+  <div class="ios-section">
+    <div class="ios-group task-list" id="taskList">
+      <div style="padding:16px;text-align:center;color:var(--secondary-label)">Loading...</div>
     </div>
+  </div>
 
-    <!-- Task Cards -->
-    <div class="task-list" id="taskList"></div>
-  </main>
+</main>
 
-  <nav class="bottom-nav">
-    <a href="/home" class="nav-item"><svg class="icon-nav" role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
-    <a href="/tasks" class="nav-item active"><svg class="icon-nav" role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
-    <a href="/intel" class="nav-item"><svg class="icon-nav" role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
-    <a href="/agents" class="nav-item"><svg class="icon-nav" role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
-    <a href="/profile" class="nav-item"><svg class="icon-nav" role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
-  </nav>
+<!-- iOS Tab Bar -->
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab active"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
 </div>
 
 <!-- Detail Overlay -->
-<div id="detailOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;overflow-y:auto">
-  <div style="max-width:393px;margin:0 auto;padding:max(60px, var(--sat, env(safe-area-inset-top, 0px))) 20px max(100px, var(--sab, env(safe-area-inset-bottom, 0px)))">
-    <div class="card" style="position:relative">
-      <div onclick="closeDetail()" style="position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--text-dim)">✕</div>
-      <div class="card-header" style="padding-right:36px"><h2 id="dtTitle">Task</h2></div>
-      <div style="margin-top:8px">
-        <div class="detail-grid" id="dtGrid"></div>
-        <div style="margin-top:8px"><span class="dg-label">Notes</span><div class="detail-notes" id="dtNotes">—</div></div>
+<div id="detailOverlay" class="detail-overlay" style="display:none">
+  <div class="detail-sheet">
+    <div style="background:var(--tertiary-background);border-radius:10px;margin:0 16px;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+        <h2 id="dtTitle" class="ios-title-3" style="flex:1;padding-right:16px">Task</h2>
+        <button class="detail-close" onclick="closeDetail()" aria-label="Close">✕</button>
       </div>
-      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-        <button id="dtDoneBtn" class="btn green" onclick="markDetailDone()"><svg class="icon-sm"><use href="/static/icons.svg#icon-check"/></svg> Done</button>
-        <button class="btn gold" onclick="openEditPanel()">✏️ Edit</button>
+      <div class="detail-grid" id="dtGrid" style="margin-bottom:12px"></div>
+      <div style="margin-bottom:12px">
+        <div class="dg-label">Notes</div>
+        <div class="detail-notes" id="dtNotes">—</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button id="dtDoneBtn" class="btn accent" onclick="markDetailDone()"><svg class="icon-sm"><use href="/static/icons.svg#icon-check"/></svg> Done</button>
+        <button class="btn ghost" onclick="openEditPanel()">✏️ Edit</button>
         <button id="dtSyncBtn" class="btn ghost" onclick="verifyDetailSync()">🔄 Verify Sync</button>
       </div>
-      <div id="dtSyncStatus" style="font-size:11px;color:var(--text-dim);margin-top:8px;display:none"></div>
+      <div id="dtSyncStatus" style="font-size:13px;color:var(--secondary-label);margin-top:12px;display:none"></div>
     </div>
   </div>
 </div>
 
-<!-- Edit Panel (slide up) -->
-<div id="editPanel" class="edit-panel" style="padding-bottom:calc(20px + var(--sab, env(safe-area-inset-bottom, 0px)))">
+<!-- Edit Panel (bottom sheet) -->
+<div id="editPanel" class="edit-panel hidden" style="padding-bottom:calc(20px + var(--safe-bottom))">
   <div class="handle"></div>
   <div style="padding:0 16px 20px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <span style="font-weight:700;font-size:15px">Edit Task</span>
-      <span onclick="closeEditPanel()" style="cursor:pointer;color:var(--text-dim);font-size:18px">✕</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <span class="ios-title-3">Edit Task</span>
+      <button onclick="closeEditPanel()" style="cursor:pointer;background:none;border:none;color:var(--secondary-label);font-size:20px;padding:8px;min-width:44px">✕</button>
     </div>
-    <div style="font-size:13px">
-      <div style="margin-bottom:10px">
-        <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Title</label>
-        <input id="edTitle" type="text" oninput="autoSave()" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:17px;outline:none;box-sizing:border-box">
+    <div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:13px;color:var(--secondary-label);display:block;margin-bottom:4px">Title</label>
+        <input id="edTitle" type="text" oninput="autoSave()" style="width:100%;padding:12px;border-radius:10px;border:0.5px solid var(--separator);background:var(--secondary-background);color:var(--label);font-size:17px;outline:none;box-sizing:border-box">
       </div>
-      <div style="margin-bottom:10px">
-        <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Notes</label>
-        <textarea id="edNotes" rows="3" oninput="autoSave()" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:17px;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+      <div style="margin-bottom:16px">
+        <label style="font-size:13px;color:var(--secondary-label);display:block;margin-bottom:4px">Notes</label>
+        <textarea id="edNotes" rows="3" oninput="autoSave()" style="width:100%;padding:12px;border-radius:10px;border:0.5px solid var(--separator);background:var(--secondary-background);color:var(--label);font-size:17px;outline:none;resize:vertical;box-sizing:border-box"></textarea>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
         <div>
-          <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Priority</label>
-          <select id="edPriority" onchange="autoSave()" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:17px;outline:none;box-sizing:border-box">
+          <label style="font-size:13px;color:var(--secondary-label);display:block;margin-bottom:4px">Priority</label>
+          <select id="edPriority" onchange="autoSave()" style="width:100%;padding:12px;border-radius:10px;border:0.5px solid var(--separator);background:var(--secondary-background);color:var(--label);font-size:17px;outline:none;box-sizing:border-box">
             <option value="Q1 · Do Now">Q1 · Do Now</option>
             <option value="Q2 · Schedule">Q2 · Schedule</option>
             <option value="Q3 · Delegate">Q3 · Delegate</option>
@@ -141,25 +109,25 @@
           </select>
         </div>
         <div>
-          <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px">Due Date</label>
-          <input id="edDue" type="date" onchange="autoSave()" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:17px;outline:none;box-sizing:border-box">
+          <label style="font-size:13px;color:var(--secondary-label);display:block;margin-bottom:4px">Due Date</label>
+          <input id="edDue" type="date" onchange="autoSave()" style="width:100%;padding:12px;border-radius:10px;border:0.5px solid var(--separator);background:var(--secondary-background);color:var(--label);font-size:17px;outline:none;box-sizing:border-box">
         </div>
       </div>
     </div>
-    <div id="edStatus" style="font-size:11px;color:var(--text-dim);margin-top:8px;display:none;text-align:center"></div>
+    <div id="edStatus" style="font-size:13px;color:var(--secondary-label);margin-top:8px;display:none;text-align:center"></div>
   </div>
 </div>
 
 <!-- Toast -->
-<div id="toast" style="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);max-width:353px;width:90%;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:500;color:#fff;text-align:center;z-index:1005;opacity:0;transition:opacity 0.25s;pointer-events:none"></div>
+<div id="toast" class="ios-toast" style="opacity:0"></div>
 
 <script>
 /* ===== STATE ===== */
-var _tasks = [];          // all tasks from API
-var _filter = 'all';      // current filter
-var _current = null;      // task currently in detail overlay
-var _sortCol = null;      // sort column
-var _sortDir = 1;         // 1 = asc, -1 = desc
+var _tasks = [];
+var _filter = 'all';
+var _current = null;
+var _sortCol = null;
+var _sortDir = 1;
 
 /* ===== ESC key ===== */
 document.addEventListener('keydown', function(e){
@@ -184,14 +152,14 @@ function loadTasks() {
 }
 
 function doAction(pageId, action, value, btn) {
-  if (!pageId) { toast('Read-only — no Notion link', 'var(--peach)'); return; }
+  if (!pageId) { toast('Read-only — no Notion link', 'var(--orange)'); return; }
   if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
   fetch('/api/task/action', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body:JSON.stringify({page_id:pageId, action:action, value:value||''})
   }).then(function(r){return r.json()}).then(function(r){
     if (r.ok) {
-      toast(r.message||'Done','var(--green)');
+      toast(r.message||'Done','var(--accent)');
       if(_current && _current.page_id === pageId && action === 'mark_done'){
         _current.status = 'done';
         renderDetail();
@@ -199,16 +167,16 @@ function doAction(pageId, action, value, btn) {
       }
       setTimeout(loadTasks, 800);
     } else {
-      toast(r.error||'Failed','var(--peach)');
-      if(btn){btn.disabled=false;btn.innerHTML='<svg class=\"icon-sm\"><use href=\"/static/icons.svg#icon-check\"/></svg> Done';}
+      toast(r.error||'Failed','var(--orange)');
+      if(btn){btn.disabled=false;btn.textContent='Done';}
     }
-  }).catch(function(){toast('Network error','var(--peach)');if(btn)btn.disabled=false;});
+  }).catch(function(){toast('Network error','var(--orange)');if(btn)btn.disabled=false;});
 }
 
 /* ===== FILTER + SORT ===== */
 function filterTasks(f, btn) {
   _filter = f;
-  document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});
+  document.querySelectorAll('.ios-chip').forEach(function(c){c.classList.remove('active')});
   if (btn) btn.classList.add('active');
   renderTable();
 }
@@ -232,13 +200,13 @@ function filterAndSort(src) {
   return out;
 }
 
-/* ===== RENDER CARDS ===== */
+/* ===== RENDER iOS ROWS ===== */
 function renderTable() {
   var list = document.getElementById('taskList');
   if (!list) return;
   var data = filterAndSort(_tasks);
   if (!data.length) {
-    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-dim);font-size:13px">No ' + (_filter==='all'?'tasks':_filter+' tasks') + '</div>';
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--secondary-label);font-size:15px">No ' + (_filter==='all'?'tasks':_filter+' tasks') + '</div>';
     return;
   }
   var today = new Date(); var ts = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
@@ -249,12 +217,12 @@ function renderTable() {
     var s = t.status||'active'; var isDone = s==='done'||s==='cancelled';
     var pid = t.page_id || '';
     var proj = (t.project||'').replace(/^[^\s]*\s/,'');
-    return '<div class="task-card'+(isDone?' done':'')+'" onclick="openDetail('+idx+')" data-idx="'+idx+'">'+
+    return '<div class="ios-row'+(isDone?' done':'')+'" onclick="openDetail('+idx+')" data-idx="'+idx+'">'+
       '<span class="chk-wrap" onclick="event.stopPropagation();doAction(\''+pid+'\',\'mark_done\',\'\',this)"><span class="chk-circle'+(isDone?' done':'')+'">'+
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg>'+
       '</span></span>'+
-      '<div class="task-body"><div class="task-title">'+esc(t.title)+'</div>'+
-        '<div class="task-meta">'+(proj?'<span class="project">'+esc(proj)+'</span>':'<span style="color:var(--text-dim)">'+(s==='in_progress'?'▶ Running':'○ Active')+'</span>')+
+      '<div class="ios-row-content"><div class="task-title">'+esc(t.title)+'</div>'+
+        '<div class="task-meta">'+(proj?'<span class="project">'+esc(proj)+'</span>':'<span style="color:var(--secondary-label)">'+(s==='in_progress'?'▶ Running':'○ Active')+'</span>')+
         '</div></div>'+
       '<div class="task-right">'+
         (pClass?'<span class="task-prio '+pClass+'">'+pClass+'</span>':'')+
@@ -263,7 +231,7 @@ function renderTable() {
   }).join('');
 }
 
-/* ===== DETAIL OVERLAY (WAAPI expand) ===== */
+/* ===== DETAIL OVERLAY ===== */
 function openDetail(idx) {
   var t = _tasks[idx];
   if (!t) return;
@@ -272,18 +240,19 @@ function openDetail(idx) {
   overlay.style.display = 'block';
   document.getElementById('dtTitle').textContent = esc(t.title);
   renderDetail();
-  
-  // WAAPI expand animation from card position
-  var cards = document.querySelectorAll('.task-card');
-  var trigger = cards[idx];
+  // WAAPI expand
+  var triggers = document.querySelectorAll('.ios-row');
+  var trigger = triggers[idx];
   if (trigger && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     var start = trigger.getBoundingClientRect();
-    var card = overlay.querySelector('.card');
-    var end = card.getBoundingClientRect();
-    card.animate([
-      { transform: 'translateY(' + (start.top - end.top) + 'px) scale(' + (start.width/end.width) + ', 0.3)', opacity: '0.5', borderRadius: '14px' },
-      { transform: 'translateY(0) scale(1,1)', opacity: '1', borderRadius: '20px' }
-    ], { duration: 700, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both' });
+    var sheet = overlay.querySelector('[style*="border-radius:10px"]');
+    if (sheet) {
+      var end = sheet.getBoundingClientRect();
+      sheet.animate([
+        { transform: 'translateY(' + (start.top - end.top) + 'px) scale(' + (start.width/end.width) + ', 0.3)', opacity: '0.5', borderRadius: '10px' },
+        { transform: 'translateY(0) scale(1,1)', opacity: '1', borderRadius: '10px' }
+      ], { duration: 700, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both' });
+    }
   }
 }
 
@@ -296,7 +265,7 @@ function renderDetail() {
   var t = _current;
   if (!t) return;
   var s = t.status || 'active'; var isDone = s==='done'||s==='cancelled';
-  var sc = isDone?'var(--green)':s==='in_progress'?'var(--gold)':'var(--text-dim)';
+  var sc = isDone?'var(--accent)':s==='in_progress'?'var(--gold)':'var(--secondary-label)';
   var pg = t.priority || '';
   var d = t.due || '';
 
@@ -321,14 +290,14 @@ function verifyDetailSync() {
   var t = _current;
   if (!t || !t.page_id) return;
   var el = document.getElementById('dtSyncStatus');
-  el.style.display = 'block'; el.textContent = '🔄 Checking...'; el.style.color = 'var(--text-dim)';
+  el.style.display = 'block'; el.textContent = '🔄 Checking...'; el.style.color = 'var(--secondary-label)';
   fetch('/api/task/sync-verify', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body:JSON.stringify({page_id: t.page_id})
   }).then(function(r){return r.json()}).then(function(d){
     if (d.ok && d.in_sync) {
       el.textContent = '✅ PG: '+(d.pg_status||'?')+' ↔ Notion: '+(d.notion_status||'?')+' — In sync';
-      el.style.color = 'var(--green)';
+      el.style.color = 'var(--accent)';
     } else if (d.ok) {
       el.textContent = '⚠️ Mismatch — PG: '+(d.pg_status||'?')+' vs Notion: '+(d.notion_status||'?');
       el.style.color = 'var(--orange)';
@@ -338,7 +307,7 @@ function verifyDetailSync() {
   }).catch(function(){el.textContent='❌ Network error';});
 }
 
-/* ===== EDIT PANEL - AUTO SAVE ===== */
+/* ===== EDIT PANEL ===== */
 function openEditPanel() {
   var t = _current;
   if (!t) return;
@@ -363,7 +332,7 @@ function autoSave() {
   var status = document.getElementById('edStatus');
   status.style.display = 'block';
   status.textContent = '⏳ Auto-saving...';
-  status.style.color = 'var(--text-dim)';
+  status.style.color = 'var(--secondary-label)';
   _saveTimer = setTimeout(doSave, 1500);
 }
 
@@ -389,7 +358,7 @@ function doSave() {
     var status = document.getElementById('edStatus');
     if (d.ok) {
       status.textContent = '✅ Saved to Notion';
-      status.style.color = 'var(--green)';
+      status.style.color = 'var(--accent)';
       t.title = title;
       t.notes = document.getElementById('edNotes').value.trim();
       t.priority = document.getElementById('edPriority').value;
@@ -399,11 +368,11 @@ function doSave() {
       renderTable();
     } else {
       status.textContent = '❌ '+(d.error||'Save failed');
-      status.style.color = 'var(--peach)';
+      status.style.color = 'var(--orange)';
     }
   }).catch(function(){
     document.getElementById('edStatus').textContent = '❌ Network error';
-    document.getElementById('edStatus').style.color = 'var(--peach)';
+    document.getElementById('edStatus').style.color = 'var(--orange)';
   }).finally(function(){ _saving = false; });
 }
 
@@ -420,5 +389,4 @@ function toast(msg, bg){
 loadTasks();
 setInterval(loadTasks, 30000);
 </script>
-</body>
-</html>
+</body></html>

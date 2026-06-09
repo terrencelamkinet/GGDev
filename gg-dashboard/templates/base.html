@@ -1,109 +1,33 @@
-<!DOCTYPE html>
-<html lang="zh-HK">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>{% block title %}GG Platform{% endblock %}</title>
-  <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body>
-<div class="container">
-  <!-- ===== HEADER ===== -->
-  <div class="header">
+<!DOCTYPE html><html lang="zh-HK"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="GG Platform">
+<title>{% block title %}GG Platform{% endblock %}</title>
+<link rel="stylesheet" href="/static/styles.css?v=2.0">
+</head><body>
+<div class="app-shell">
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
     <div>
-      <h1>{% block heading %}GG Platform{% endblock %}</h1>
-      <span class="sub" id="headerSub">{{ page_subtitle or 'Interactive AI Platform' }}</span>
+      <h1 class="page-title">{% block heading %}GG Platform{% endblock %}</h1>
+      <span class="page-subtitle">{{ page_subtitle or 'Interactive AI Platform' }}</span>
     </div>
-    <div class="header-right">
-      <span class="time-label" id="lastUpdate">--:--</span>
-      <span class="badge" id="sysBadge">● Online</span>
+    <div class="nav-actions">
+      <span class="nav-action-btn" id="lastUpdate" style="font-size:13px;font-weight:500;width:auto;padding:0 12px;background:var(--fill);border-radius:8px;min-height:36px;display:flex;align-items:center;gap:4px">--:--</span>
     </div>
-  </div>
-
-  <!-- ===== PAGE CONTENT ===== -->
-  {% block content %}{% endblock %}
-
-</div>
-
-<!-- ===== BOTTOM NAV ===== -->
-<nav style="position:fixed;bottom:0;left:0;right:0;background:rgba(26,26,46,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,8px);z-index:100">
-  <div style="max-width:393px;margin:0 auto;display:flex;justify-content:space-around">
-    {% set nav = [('/', '🏠', 'Home'), ('/tasks', '📋', 'Tasks'), ('/intel', '🧠', 'Intel'), ('/agents', '🦾', 'Agents'), ('/profile', '👤', 'Profile')] %}
-    {% for href, icon, label in nav %}
-    <a href="{{ href }}" style="text-align:center;color:{{ 'var(--accent)' if request.path == href else 'var(--text-dim)' }};text-decoration:none;padding:4px 8px;border-radius:8px;background:{{ 'var(--accent-dim)' if request.path == href else 'transparent' }}">
-      <div style="font-size:22px;margin-bottom:1px">{{ icon }}</div>
-      <div style="font-size:10px;font-weight:600">{{ label }}</div>
-    </a>
-    {% endfor %}
   </div>
 </nav>
-
-<!-- ===== AI CHAT BUBBLE ===== -->
-<div id="chatBubble" onclick="toggleChat()" style="position:fixed;bottom:80px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(108,92,231,0.4);z-index:998">🤖</div>
-
-<div id="chatOverlay" style="display:none;position:fixed;bottom:140px;right:20px;left:20px;max-width:353px;margin:0 auto;background:var(--card-bg);border-radius:16px;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:997;overflow:hidden">
-  <div style="padding:12px 16px;background:rgba(108,92,231,0.15);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-    <span style="font-weight:700;font-size:15px">🤖 Ask GG Fighter</span>
-    <span onclick="toggleChat()" style="cursor:pointer;font-size:18px;color:var(--text-dim)">✕</span>
-  </div>
-  <div id="chatMessages" style="padding:12px 16px;max-height:250px;overflow-y:auto;font-size:13px;color:var(--text-muted);line-height:1.6">
-    <div>💬 Hi! What would you like to do?</div>
-  </div>
-  <form onsubmit="sendChat();return false" style="display:flex;padding:8px 12px;border-top:1px solid var(--border);gap:8px">
-    <input type="text" id="chatInput" placeholder="Ask anything..." style="flex:1;padding:8px 12px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,0.05);color:var(--text);font-size:13px;outline:none">
-    <button type="submit" style="padding:8px 14px;border-radius:20px;border:none;background:#6c5ce7;color:#fff;font-size:13px;font-weight:600;cursor:pointer">Send</button>
-  </form>
+<main class="scroll-content">
+{% block content %}{% endblock %}
+</main>
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab{% if request.path=='/' or request.path=='/home' %} active{% endif %}"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab{% if request.path=='/tasks' %} active{% endif %}"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab{% if request.path=='/intel' %} active{% endif %}"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab{% if request.path=='/agents' %} active{% endif %}"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab{% if request.path=='/profile' %} active{% endif %}"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+</nav>
 </div>
-
-<script>
-function toggleChat() {
-  var o = document.getElementById('chatOverlay');
-  o.style.display = o.style.display === 'none' ? 'block' : 'none';
-}
-function sendChat() {
-  var inp = document.getElementById('chatInput');
-  var msg = inp.value.trim(); if (!msg) return;
-  var m = document.getElementById('chatMessages');
-  m.innerHTML += '<div style="text-align:right;margin:4px 0"><span style="background:rgba(108,92,231,0.2);padding:6px 12px;border-radius:12px;display:inline-block">' + esc(msg) + '</span></div>';
-  inp.value = ''; inp.disabled = true;
-  fetch('/api/chat', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})})
-  .then(r=>r.json()).then(function(r) {
-    m.innerHTML += '<div style="margin:4px 0"><span style="background:rgba(255,255,255,0.06);padding:6px 12px;border-radius:12px;display:inline-block">🤖 ' + (r.message||'Got it!') + '</span></div>';
-  }).catch(function(){})
-  .finally(function(){inp.disabled=false;inp.focus();});
-}
-function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;'); }
-function showToast(msg,clr) {
-  var e=document.getElementById('toast');
-  if(!e){e=document.createElement('div');e.id='toast';e.style.cssText='position:fixed;bottom:80px;left:20px;right:20px;max-width:353px;margin:0 auto;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;text-align:center;z-index:999;color:#fff';document.body.appendChild(e);}
-  e.textContent=msg;e.style.background=clr||'#00b894';e.style.display='block';e.style.opacity='1';
-  setTimeout(function(){e.style.opacity='0';setTimeout(function(){e.style.display='none';},300);},2500);
-}
-function loadData() {
-  fetch('/api/data?_='+Date.now()).then(r=>r.json()).then(function(d){
-    var e=document.getElementById('lastUpdate');if(e)e.textContent=d.ts||'--:--';
-    var b=document.getElementById('sysBadge');if(b){b.textContent=d.badge_text||'● OK';b.className='badge'+(d.badge_color==='red'?' warning':'');}
-  }).catch(function(){});
-}
-loadData();
-setInterval(loadData, 30000);
-
-/* ===== CARD ANIMATION (WAAPI) ===== */
-function animateCards() {
-  var cards = document.querySelectorAll('.card, .stat-card, .task-card, .metric-card');
-  cards.forEach(function(el, i) {
-    if (!el.dataset.animated) {
-      el.dataset.animated = '1';
-      el.animate([
-        { opacity: '0', transform: 'translateY(20px)' },
-        { opacity: '1', transform: 'translateY(0)' }
-      ], { duration: 900, easing: 'ease-out', delay: i * 80, fill: 'forwards' });
-    }
-  });
-}
-document.addEventListener('DOMContentLoaded', animateCards);
-setTimeout(animateCards, 100);
-</script>
 {% block scripts %}{% endblock %}
-</body>
-</html>
+</body></html>

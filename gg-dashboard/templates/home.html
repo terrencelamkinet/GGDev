@@ -3,89 +3,115 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="GG Platform">
-<title>GG Platform</title><link rel="stylesheet" href="/static/styles.css?v=1.1">
+<title>GG Platform</title><link rel="stylesheet" href="/static/styles.css?v=2.0">
 </head><body>
 <div class="app-shell">
-<header class="top-bar">
-  <svg class="icon-lg" style="color:var(--gold)"><use href="/static/icons.svg#icon-house"/></svg>
-  <div><h1 class="page-title">Good Morning</h1><span class="page-subtitle" id="todayDate">Loading...</span></div>
-  <span class="time-label" id="lastUpdate">--:--</span>
-  <span id="noticeBell" onclick="toggleNotices()" style="cursor:pointer;font-size:18px;line-height:1">🔔</span>
-  <span class="badge" id="sysBadge">● Online</span>
-</header>
 
+<!-- iOS Navigation Bar -->
+<nav class="nav-bar">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <h1 class="page-title">GG Platform</h1>
+      <span class="page-subtitle" id="todayDate">Loading...</span>
+    </div>
+    <div class="nav-actions">
+      <span class="nav-action-btn" id="lastUpdate" style="font-size:13px;font-weight:500;width:auto;padding:0 12px;background:var(--fill);border-radius:8px;min-height:36px;display:flex;align-items:center;gap:4px">--:--</span>
+      <button class="nav-action-btn" onclick="toggleNotices()" aria-label="Notices">🔔</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Scroll Content -->
 <main class="scroll-content">
-  <!-- Master Stats — 4 key numbers only -->
-  <div class="stat-grid-4">
-    <div class="stat-card"><div class="stat-value accent" id="hTasks">--</div><div class="stat-label">Tasks</div></div>
-    <div class="stat-card"><div class="stat-value" id="hOverdue" style="color:var(--peach)">0</div><div class="stat-label">Overdue</div></div>
-    <div class="stat-card"><div class="stat-value gold" id="hUrgent">0</div><div class="stat-label">Urgent</div></div>
-    <div class="stat-card"><div class="stat-value peach" id="hCpu">--</div><div class="stat-label">CPU</div></div>
+
+  <!-- Master Stats — 4 key numbers in iOS grid -->
+  <div class="ios-stats">
+    <div class="ios-stat"><div class="ios-stat-value accent" id="hTasks">--</div><div class="ios-stat-label">Tasks</div></div>
+    <div class="ios-stat"><div class="ios-stat-value red" id="hOverdue">0</div><div class="ios-stat-label">Overdue</div></div>
+    <div class="ios-stat"><div class="ios-stat-value gold" id="hUrgent">0</div><div class="ios-stat-label">Urgent</div></div>
+    <div class="ios-stat"><div class="ios-stat-value" id="hCpu">--</div><div class="ios-stat-label">CPU</div></div>
   </div>
 
-  <!-- AI Suggestions — Perplexity-powered intelligence -->
-  <div class="section-title">AI Suggestions</div>
-  <div class="card" id="homeSuggestions">
-    <div style="font-size:12px;color:var(--text-dim)">Analyzing...</div>
+  <!-- AI Intelligence Section -->
+  <div class="ios-section">
+    <div class="ios-header">AI Intelligence</div>
+    <div class="ios-group">
+      <div id="homeSuggestions" style="padding:12px 16px;min-height:44px">
+        <div class="ios-caption-1" style="color:var(--secondary-label)">Analyzing...</div>
+      </div>
+    </div>
   </div>
 
-  <!-- AI Presence Strip — Servants status -->
-  <div class="section-title">Servants</div>
-  <div class="card" style="display:flex;justify-content:space-around;padding:10px">
-    <div style="text-align:center;cursor:pointer" onclick="location.href='/agents/fighter'">
-      <span class="dot-breathe" id="fighterDot" style="background:var(--orange);margin:0 auto 4px"></span>
-      <div style="font-size:12px;font-weight:600">Fighter</div>
-      <div style="font-size:10px;color:var(--text-dim)" id="fighterStatus">Online</div>
-    </div>
-    <div style="text-align:center;cursor:pointer" onclick="location.href='/agents/work'">
-      <span class="dot-breathe" id="workDot" style="background:var(--blue);margin:0 auto 4px"></span>
-      <div style="font-size:12px;font-weight:600">Work</div>
-      <div style="font-size:10px;color:var(--text-dim)" id="workStatus">Online</div>
-    </div>
-    <div style="text-align:center;cursor:pointer" onclick="location.href='/agents/person'">
-      <span class="dot-breathe" id="personDot" style="background:var(--pink);margin:0 auto 4px"></span>
-      <div style="font-size:12px;font-weight:600">Person</div>
-      <div style="font-size:10px;color:var(--text-dim)" id="personStatus">Online</div>
+  <!-- Servants Section -->
+  <div class="ios-section">
+    <div class="ios-header">Servants</div>
+    <div class="ios-group">
+      <div class="ios-row" onclick="location.href='/agents/fighter'">
+        <span class="dot-breathe" id="fighterDot" style="background:var(--orange);width:12px;height:12px;flex-shrink:0;margin-right:12px"></span>
+        <div class="ios-row-content">
+          <div class="ios-row-label">Fighter</div>
+          <div class="ios-row-meta" id="fighterStatus">Online</div>
+        </div>
+        <svg class="ios-row-icon"><use href="/static/icons.svg#icon-chevron-right"/></svg>
+      </div>
+      <div class="ios-row" onclick="location.href='/agents/work'">
+        <span class="dot-breathe" id="workDot" style="background:var(--blue);width:12px;height:12px;flex-shrink:0;margin-right:12px"></span>
+        <div class="ios-row-content">
+          <div class="ios-row-label">Work</div>
+          <div class="ios-row-meta" id="workStatus">Online</div>
+        </div>
+        <svg class="ios-row-icon"><use href="/static/icons.svg#icon-chevron-right"/></svg>
+      </div>
+      <div class="ios-row" onclick="location.href='/agents/person'">
+        <span class="dot-breathe" id="personDot" style="background:var(--pink);width:12px;height:12px;flex-shrink:0;margin-right:12px"></span>
+        <div class="ios-row-content">
+          <div class="ios-row-label">Person</div>
+          <div class="ios-row-meta" id="personStatus">Online</div>
+        </div>
+        <svg class="ios-row-icon"><use href="/static/icons.svg#icon-chevron-right"/></svg>
+      </div>
     </div>
   </div>
+
 </main>
 
-<!-- Notices Bar -->
-<div id="noticesBar" style="position:fixed;bottom:80px;left:20px;right:20px;max-width:353px;margin:0 auto;background:var(--surface);border-radius:14px;border:1px solid var(--border);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:99;overflow:hidden;display:none">
-  <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-    <span style="font-weight:700;font-size:14px;color:var(--accent)">📋 Notices</span>
-    <span onclick="document.getElementById('noticesBar').style.display='none'" style="cursor:pointer;color:var(--text-dim);font-size:16px">✕</span>
-  </div>
-  <div id="noticesList" style="padding:8px 14px;max-height:240px;overflow-y:auto;font-size:12px;color:var(--text-muted)"></div>
-</div>
-
-<nav class="bottom-nav">
-  <a href="/home" class="nav-item active"><svg class="icon-nav" role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
-  <a href="/tasks" class="nav-item"><svg class="icon-nav" role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
-  <a href="/intel" class="nav-item"><svg class="icon-nav" role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
-  <a href="/agents" class="nav-item"><svg class="icon-nav" role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
-  <a href="/profile" class="nav-item"><svg class="icon-nav" role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
+<!-- iOS Tab Bar -->
+<nav class="ios-tab-bar">
+  <a href="/home" class="ios-tab active"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
 </nav>
 </div>
 
-<!-- Chat bubble -->
-<div id="chatBubble" onclick="toggleChat()" style="position:fixed;bottom:80px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--green-dark));color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(0,210,160,0.4);z-index:998">🤖</div>
-<div id="chatOverlay" style="display:none;position:fixed;bottom:140px;right:20px;left:20px;max-width:353px;margin:0 auto;background:var(--surface);border-radius:16px;border:1px solid var(--border);z-index:997;overflow:hidden">
-  <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-    <span style="font-weight:700;font-size:14px">Ask GG Fighter</span>
-    <span onclick="toggleChat()" style="cursor:pointer;color:var(--text-dim)">✕</span>
+<!-- Notices Bar -->
+<div id="noticesBar" class="notices-bar">
+  <div style="padding:12px 16px;border-bottom:0.5px solid var(--separator);display:flex;justify-content:space-between;align-items:center">
+    <span style="font-weight:600;font-size:17px;letter-spacing:-0.41px">Notices</span>
+    <button onclick="document.getElementById('noticesBar').style.display='none'" style="cursor:pointer;background:none;border:none;color:var(--secondary-label);font-size:20px;padding:8px;min-width:44px">✕</button>
   </div>
-  <div id="chatMessages" style="padding:12px 16px;max-height:200px;overflow-y:auto;font-size:12px;color:var(--text-muted)">💬 Hi! What would you like to do?</div>
-  <form onsubmit="sendChat();return false" style="display:flex;padding:8px 12px;border-top:1px solid var(--border);gap:8px">
-    <input type="text" id="chatInput" placeholder="Ask anything..." style="flex:1;padding:8px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:17px;outline:none">
-    <button type="submit" style="padding:8px 14px;border-radius:20px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer">Send</button>
+  <div id="noticesList" style="padding:8px 16px;max-height:240px;overflow-y:auto;font-size:15px;color:var(--label);line-height:1.5"></div>
+</div>
+
+<!-- Chat bubble -->
+<button id="chatBubble" class="chat-bubble" onclick="toggleChat()" aria-label="Chat">🤖</button>
+<div id="chatOverlay" class="chat-overlay" style="display:none">
+  <div class="chat-overlay-header">
+    <span style="font-weight:600;font-size:17px;letter-spacing:-0.41px">Ask GG Fighter</span>
+    <button onclick="toggleChat()" style="cursor:pointer;background:none;border:none;color:var(--secondary-label);font-size:18px;padding:8px;min-width:44px">✕</button>
+  </div>
+  <div id="chatMessages" class="chat-overlay-messages">💬 Hi! What would you like to do?</div>
+  <form onsubmit="sendChat();return false" class="chat-overlay-input">
+    <input type="text" id="chatInput" placeholder="Ask anything...">
+    <button type="submit">Send</button>
   </form>
 </div>
 
 <script>
 function toggleChat(){var o=document.getElementById('chatOverlay');o.style.display=o.style.display==='none'?'block':'none';}
-function sendChat(){var i=document.getElementById('chatInput'),msg=i.value.trim();if(!msg)return;var m=document.getElementById('chatMessages');m.innerHTML+='<div style="text-align:right;margin:2px 0"><span style="background:rgba(108,92,231,0.2);padding:4px 10px;border-radius:10px;display:inline-block;font-size:12px">'+esc(msg)+'</span></div>';i.value='';i.disabled=true;
-fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})}).then(function(r){return r.json()}).then(function(r){m.innerHTML+='<div style="margin:2px 0"><span style="background:rgba(255,255,255,0.06);padding:4px 10px;border-radius:10px;display:inline-block;font-size:12px">🤖 '+(r.message||'Got it')+'</span></div>';}).catch(function(){}).finally(function(){i.disabled=false;i.focus();});}
+function sendChat(){var i=document.getElementById('chatInput'),msg=i.value.trim();if(!msg)return;var m=document.getElementById('chatMessages');m.innerHTML+='<div style="text-align:right;margin:2px 0"><span style="background:rgba(108,92,231,0.2);padding:6px 12px;border-radius:10px;display:inline-block;font-size:15px">'+esc(msg)+'</span></div>';i.value='';i.disabled=true;
+fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})}).then(function(r){return r.json()}).then(function(r){m.innerHTML+='<div style="margin:2px 0"><span style="background:var(--fill);padding:6px 12px;border-radius:10px;display:inline-block;font-size:15px">🤖 '+(r.message||'Got it')+'</span></div>';}).catch(function(){}).finally(function(){i.disabled=false;i.focus();});}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
 
 function loadHome(){
@@ -97,7 +123,7 @@ function loadHome(){
     var t=d.tasks||{}; document.getElementById('hTasks').textContent=t.total||0; document.getElementById('hOverdue').textContent=t.overdue||0; document.getElementById('hUrgent').textContent=t.q1_count||0;
     var sys=d.system||{}; document.getElementById('hCpu').textContent=(sys.cpu||'--')+'%';
 
-    // Servants status — green=online, red=offline + time
+    // Servants status
     var a=d.agents||{};
     ['fighter','work','person'].forEach(function(k){
       var key=k==='fighter'?'main':k;
@@ -106,22 +132,21 @@ function loadHome(){
       var dot=document.getElementById(k+'Dot');
       if(ag.online){
         el.textContent='Online';
-        el.style.color='var(--green-dark)';
+        el.style.color='var(--accent)';
         dot.style.background=k==='fighter'?'var(--orange)':k==='work'?'var(--blue)':'var(--pink)';
       } else {
         el.textContent='Offline since '+(ag.last_heartbeat||'--:--');
-        el.style.color='#e74c3c';
-        dot.style.background='#e74c3c';
+        el.style.color='var(--red)';
+        dot.style.background='var(--red)';
       }
     });
 
-    // AI Suggestions — call Perplexity intel-summary
+    // AI Suggestions
     fetch('/api/intel-summary?_='+Date.now()).then(function(r){return r.json()}).then(function(d2){
       var sug=document.getElementById('homeSuggestions');
       if(d2.ok && d2.summary){
-        sug.innerHTML = '<div style="font-size:13px;color:var(--text-muted);line-height:1.7">' + esc(d2.summary) + '</div>';
+        sug.innerHTML = '<div style="font-size:15px;color:var(--label);line-height:1.6">' + esc(d2.summary) + '</div>';
       } else {
-        // Fallback to basic stats
         renderFallbackSuggestions(d.tasks||{});
       }
     }).catch(function(){
@@ -136,7 +161,7 @@ function renderFallbackSuggestions(t){
   if(t.overdue>0) items.push('⚠️ Overdue <strong>'+t.overdue+' tasks</strong> — check <a href="/tasks" style="color:var(--accent)">Tasks</a>');
   if(t.q1_count>0) items.push('🎯 <strong>'+t.q1_count+' urgent</strong> tasks waiting');
   if(t.due_today>0) items.push('📅 <strong>'+t.due_today+' tasks due today</strong>');
-  sug.innerHTML = items.length ? items.map(function(x){return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5">'+x+'</div>';}).join('') : '<div style="text-align:center;padding:10px;color:var(--green-dark);font-size:13px">✅ All clear — no pressing items</div>';
+  sug.innerHTML = items.length ? items.map(function(x){return '<div style="padding:6px 0;border-bottom:0.5px solid var(--separator);font-size:15px;line-height:1.5">'+x+'</div>';}).join('') : '<div style="text-align:center;padding:10px;color:var(--accent);font-size:15px">✅ All clear — no pressing items</div>';
 }
 
 loadHome();
@@ -147,26 +172,23 @@ function toggleNotices(){
     bar.style.display='block';
     fetch('/api/notices').then(function(r){return r.json()}).then(function(d){
       var el=document.getElementById('noticesList');
-      if(!d.ok||!d.items||!d.items.length){el.innerHTML='<div style="text-align:center;padding:10px;color:var(--text-dim)">No notices</div>';return;}
-      el.innerHTML=d.items.map(function(n){return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.5"><span style="color:var(--accent);font-weight:600">'+esc(n.source)+'</span> '+esc(n.text)+' <span style="color:var(--text-dim);font-size:10px">'+n.time+'</span></div>';}).join('');
+      if(!d.ok||!d.items||!d.items.length){el.innerHTML='<div style="text-align:center;padding:10px;color:var(--secondary-label)">No notices</div>';return;}
+      el.innerHTML=d.items.map(function(n){return '<div style="padding:8px 0;border-bottom:0.5px solid var(--separator);font-size:15px;line-height:1.5"><span style="color:var(--accent);font-weight:600">'+esc(n.source)+'</span> '+esc(n.text)+' <span style="color:var(--secondary-label);font-size:13px">'+n.time+'</span></div>';}).join('');
     }).catch(function(){});
   }else{bar.style.display='none';}
 }
 
-/* ===== CARD ANIMATION (WAAPI) ===== */
+/* WAAPI card animation */
 setTimeout(function(){
-  var cards = document.querySelectorAll('.stat-card, .card');
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    cards.forEach(function(el){ el.style.opacity = '1'; el.style.transform = ''; });
-    return;
-  }
-  cards.forEach(function(el, i) {
+  var els = document.querySelectorAll('.ios-stat, .ios-row, .ios-group');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  els.forEach(function(el, i) {
     if (!el.dataset.animated) {
       el.dataset.animated = '1';
       el.animate([
-        { opacity: '0', transform: 'translateY(20px)' },
+        { opacity: '0', transform: 'translateY(16px)' },
         { opacity: '1', transform: 'translateY(0)' }
-      ], { duration: 900, easing: 'ease-out', delay: i * 80 });
+      ], { duration: 700, easing: 'ease-out', delay: i * 60 });
     }
   });
 }, 50);
