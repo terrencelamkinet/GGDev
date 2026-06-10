@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="zh-HK" data-theme="light"><head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0"><meta name="version" content="v1.4.0"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<title>AI Central — Agent Detail</title>
+<link rel="stylesheet" href="assets/shared.css?v=1781186801">
+<style>
+.ad-wrap{max-width:520px;margin:0 auto}
+.ad-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:16px;margin-bottom:12px}
+.ad-card-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);margin-bottom:10px}
+.ad-card .sc{font-size:12px;font-weight:600;color:var(--text)}.ad-card .sc-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+.ad-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ad-stat{background:var(--surface-off);border-radius:var(--r-md);padding:10px;text-align:center}
+.ad-stat .v{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+.ad-stat .l{font-size:9px;color:var(--text-muted);margin-top:2px}
+.ad-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
+.ad-item:last-child{border-bottom:none}
+.ad-item .nm{font-weight:600;flex:1}
+.ad-item .ds{font-size:10px;color:var(--text-muted)}
+.ad-status-dot{width:8px;height:8px;border-radius:99px;flex-shrink:0;margin-top:3px}
+.ad-status-dot.on{background:var(--green)}
+.ad-status-dot.off{background:var(--warn)}
+.ad-err{text-align:center;padding:20px;color:var(--text-muted);font-size:12px}
+.ad-err .retry{color:var(--primary);cursor:pointer;text-decoration:underline}
+@media(max-width:500px){.ad-stat-grid{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<div id="sb"></div><div id="bn"></div>
+<div class="main">
+  <header class="topbar">
+    <div id="hm"></div>
+    <div class="tb-ico" id="ad-top-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h1V6a4 4 0 0 1 4-4z"/></svg></div>
+    <div class="tb-titles"><div class="tb-title" id="ad-title">Agent Detail</div><div class="tb-sub" id="ad-sub">Sub-Agent</div></div>
+    <div class="tb-right"><button class="btn btn-g" data-tt><svg data-tt-ico width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div>
+  </header>
+  <div class="content">
+    <div class="ad-wrap" id="ad-wrap">
+      <div class="ad-err" id="ad-loading">Loading agent data...</div>
+    </div>
+    <button class="btn btn-g" style="width:100%;margin-top:0;padding:14px" onclick="go('agents.html')">
+      ← Back to Agents
+    </button>
+  </div>
+</div>
+<script src="assets/shared.js?v=1781186801"></script>
+<script>
+try{document.getElementById('sb').innerHTML=window.AC.sidebar('agents');}catch(e){console.warn('sidebar fail:',e)}
+try{document.getElementById('bn').innerHTML=window.AC.bnav('agents');}catch(e){console.warn('bnav fail:',e)}
+try{document.getElementById('hm').innerHTML=window.AC.ham;}catch(e){console.warn('ham fail:',e)}
+
+// ── Agent icon mapping (same as agents.html) ────────────
+function agentIco(id){
+  const map={'main-orchestrator':{ico:'🧠',bg:'#dbeafe'},'gg-work':{ico:'⚡',bg:'#ede9fe'},'gg-person':{ico:'👤',bg:'#d1fae5'}};
+  return map[id]||{ico:'🤖',bg:'var(--surface-off)'};
+}
+
+// ── Get agent ID from URL ──────────────────────────────
+const params=new URLSearchParams(window.location.search);
+const agentId=params.get('id');
+
+if(!agentId){
+  document.getElementById('ad-wrap').innerHTML='<div class="ad-err">No agent ID specified. <span class="retry" onclick="go(\'agents.html\')">Go back</span></div>';
+} else {
+  loadAgentDetail();
+}
+
+async function loadAgentDetail(){
+  const wrap=document.getElementById('ad-wrap');
+  try{
+    // 1. Load basic info from discovery
+    const dr=await fetch('/api/agents/discovery');
+    const dd=await dr.json();
+    const all=[dd.orchestrator,...(dd.sub_agents||[])];
+    const agent=all.find(a=>a.id===agentId);
+    if(!agent){throw new Error('Agent not found in discovery')}
+
+    // Update topbar
+    const ai=agentIco(agent.id);
+    document.getElementById('ad-top-ico').innerHTML=ai.ico;
+    document.getElementById('ad-title').textContent=agent.name||agentId;
+
+    // 2. Load exporter data
+    const edr=await fetch('/api/agents/exporter/'+encodeURIComponent(agentId));
+    if(!edr.ok)throw new Error('Exporter HTTP '+edr.status);
+    const ed=await edr.json();
+    const data=ed.data||{};
+    const aiInfo=data.agent_info||{};
+    const caps=data.capabilities||{};
+
+    wrap.innerHTML=renderCards(agent,aiInfo,caps);
+  }catch(e){
+    wrap.innerHTML='<div class="ad-err">Failed to load data<br>'+e.message+'<br><span class="retry" onclick="loadAgentDetail()">↻ Retry</span></div>';
+  }
+}
+
+function renderCards(agent,aiInfo,caps){
+  const sys=caps.system||{};
+  const mem=caps.memory||{};
+  const skills=caps.skills||[];
+  const tools=caps.tools||[];
+  const mcpServers=caps.mcp_servers||[];
+  const cronJobs=caps.cron||[];
+
+  const cpuPct=sys.cpu_pct!=null?sys.cpu_pct:'—';
+  const memPct=sys.memory_pct!=null?sys.memory_pct:(mem.usage_pct||'—');
+  const diskPct=sys.disk_pct!=null?sys.disk_pct:'—';
+  const uptime=sys.uptime||'—';
+  const uptimeLabel=typeof uptime==='number'?formatUptime(uptime):uptime;
+
+  const ver=aiInfo.version||agent.version||'—';
+  const llmModel=aiInfo.llm_model||agent.llm?.model||'—';
+  const llmProvider=aiInfo.llm_provider||agent.llm?.provider||'—';
+
+  return `
+    <!-- System Status -->
+    <div class="ad-card">
+      <div class="ad-card-title">🖥 System Status</div>
+      <div class="ad-stat-grid">
+        <div class="ad-stat"><div class="v">${cpuPct}%</div><div class="l">CPU</div></div>
+        <div class="ad-stat"><div class="v">${memPct}%</div><div class="l">Memory</div></div>
+        <div class="ad-stat"><div class="v">${diskPct}%</div><div class="l">Disk</div></div>
+        <div class="ad-stat"><div class="v" style="font-size:12px">${uptimeLabel}</div><div class="l">Uptime</div></div>
+      </div>
+    </div>
+
+    <!-- Agent Info -->
+    <div class="ad-card">
+      <div class="ad-card-title">🤖 Agent Info</div>
+      <div class="ad-item"><span class="nm">Version</span><span>${ver}</span></div>
+      <div class="ad-item"><span class="nm">Model</span><span>${llmModel}</span></div>
+      <div class="ad-item"><span class="nm">Provider</span><span>${llmProvider}</span></div>
+    </div>
+
+    <!-- Skills -->
+    <div class="ad-card">
+      <div class="ad-card-title">⚡ Skills (${skills.length})</div>
+      ${skills.length?skills.map(s=>
+        '<div class="ad-item"><div><div class="nm">'+(s.name||s.id||'?')+'</div><div class="ds">'+(s.description||'')+'</div></div></div>'
+      ).join(''):'<div class="ad-err">No skills data</div>'}
+    </div>
+
+    <!-- Tools -->
+    <div class="ad-card">
+      <div class="ad-card-title">🔧 Tools (${tools.length})</div>
+      ${tools.length?tools.map(t=>
+        '<div class="ad-item"><div class="nm">'+(t.name||t.id||t.function?.name||'?')+'</div><div class="ds">'+(t.description||'')+'</div></div>'
+      ).join(''):'<div class="ad-err">No tools data</div>'}
+    </div>
+
+    <!-- MCP Servers -->
+    <div class="ad-card">
+      <div class="ad-card-title">🔌 MCP Servers (${mcpServers.length})</div>
+      ${mcpServers.length?mcpServers.map(m=>
+        '<div class="ad-item"><span class="ad-status-dot '+(m.status==='connected'||m.status==='active'?'on':'off')+'"></span><div><div class="nm">'+(m.name||m.id||'?')+'</div><div class="ds">'+(m.status||'')+(m.url?' · '+m.url:'')+'</div></div></div>'
+      ).join(''):'<div class="ad-err">No MCP servers</div>'}
+    </div>
+
+    <!-- Cron Jobs -->
+    <div class="ad-card">
+      <div class="ad-card-title">⏰ Cron Jobs (${cronJobs.length})</div>
+      ${cronJobs.length?cronJobs.map(c=>
+        '<div class="ad-item"><div><div class="nm">'+(c.name||c.id||c.job||'?')+'</div><div class="ds">'+(c.schedule||c.expression||'')+(c.command?' · '+c.command:'')+'</div></div></div>'
+      ).join(''):'<div class="ad-err">No cron jobs</div>'}
+    </div>
+  `;
+}
+
+function formatUptime(seconds){
+  const d=Math.floor(seconds/86400);
+  const h=Math.floor((seconds%86400)/3600);
+  const m=Math.floor((seconds%3600)/60);
+  if(d>0)return d+'d '+h+'h';
+  if(h>0)return h+'h '+m+'m';
+  return m+'m';
+}
+</script></body></html>
