@@ -1,0 +1,745 @@
+{
+  "entries": [
+    {
+      "id": 0,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "milestone",
+      "msg": "🔧 Intelligence system initialized"
+    },
+    {
+      "id": 1,
+      "ts": "2026-06-11 20:45",
+      "source": "fighter",
+      "type": "discovery",
+      "msg": "🔍 Learned: VM 已穩定運行 16 日"
+    },
+    {
+      "id": 2,
+      "ts": "2026-06-11 20:45",
+      "source": "fighter",
+      "type": "suggestion",
+      "msg": "🎯 New need: 無 urgent 需求"
+    },
+    {
+      "id": 3,
+      "ts": "2026-06-11 20:45",
+      "source": "work",
+      "type": "discovery",
+      "msg": "🔍 Learned: VM 已穩定運行 23 日"
+    },
+    {
+      "id": 4,
+      "ts": "2026-06-11 20:45",
+      "source": "work",
+      "type": "discovery",
+      "msg": "🔍 Learned: GG-Work 所有 daemon 正常"
+    },
+    {
+      "id": 5,
+      "ts": "2026-06-11 20:45",
+      "source": "work",
+      "type": "suggestion",
+      "msg": "🎯 New need: 無 urgent 需求"
+    },
+    {
+      "id": 6,
+      "ts": "2026-06-11 20:45",
+      "source": "person",
+      "type": "discovery",
+      "msg": "🔍 Learned: VM 已穩定運行 23 日"
+    },
+    {
+      "id": 7,
+      "ts": "2026-06-11 20:45",
+      "source": "person",
+      "type": "discovery",
+      "msg": "🔍 Learned: GG-Person 所有 daemon 正常"
+    },
+    {
+      "id": 8,
+      "ts": "2026-06-11 20:45",
+      "source": "person",
+      "type": "suggestion",
+      "msg": "🎯 New need: 無 urgent 需求"
+    },
+    {
+      "id": 9,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 10,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 11,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 12,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: output (4KB)"
+    },
+    {
+      "id": 13,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (1986KB)"
+    },
+    {
+      "id": 14,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (228KB)"
+    },
+    {
+      "id": 15,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (19KB)"
+    },
+    {
+      "id": 16,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (11KB)"
+    },
+    {
+      "id": 17,
+      "ts": "2026-06-11 20:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: memory_bridge.log (9KB)"
+    },
+    {
+      "id": 18,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 19,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 20,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 21,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: output (4KB)"
+    },
+    {
+      "id": 22,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2091KB)"
+    },
+    {
+      "id": 23,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (19KB)"
+    },
+    {
+      "id": 24,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (12KB)"
+    },
+    {
+      "id": 25,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (235KB)"
+    },
+    {
+      "id": 26,
+      "ts": "2026-06-11 21:00",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (32KB)"
+    },
+    {
+      "id": 27,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "trend",
+      "msg": "📈 CPU 6% → 83% (+77%)"
+    },
+    {
+      "id": 28,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 29,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 30,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 31,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (19KB)"
+    },
+    {
+      "id": 32,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2161KB)"
+    },
+    {
+      "id": 33,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (33KB)"
+    },
+    {
+      "id": 34,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (12KB)"
+    },
+    {
+      "id": 35,
+      "ts": "2026-06-11 21:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (241KB)"
+    },
+    {
+      "id": 36,
+      "ts": "2026-06-11 21:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 37,
+      "ts": "2026-06-11 21:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 38,
+      "ts": "2026-06-11 21:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 39,
+      "ts": "2026-06-11 21:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2193KB)"
+    },
+    {
+      "id": 40,
+      "ts": "2026-06-11 21:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (19KB)"
+    },
+    {
+      "id": 41,
+      "ts": "2026-06-11 21:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (242KB)"
+    },
+    {
+      "id": 42,
+      "ts": "2026-06-11 21:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (12KB)"
+    },
+    {
+      "id": 43,
+      "ts": "2026-06-11 21:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (34KB)"
+    },
+    {
+      "id": 44,
+      "ts": "2026-06-11 21:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 45,
+      "ts": "2026-06-11 21:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 46,
+      "ts": "2026-06-11 21:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 47,
+      "ts": "2026-06-11 21:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2312KB)"
+    },
+    {
+      "id": 48,
+      "ts": "2026-06-11 21:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (36KB)"
+    },
+    {
+      "id": 49,
+      "ts": "2026-06-11 21:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (250KB)"
+    },
+    {
+      "id": 50,
+      "ts": "2026-06-11 21:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (19KB)"
+    },
+    {
+      "id": 51,
+      "ts": "2026-06-11 21:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (12KB)"
+    },
+    {
+      "id": 52,
+      "ts": "2026-06-11 22:01",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 53,
+      "ts": "2026-06-11 22:01",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 54,
+      "ts": "2026-06-11 22:01",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 55,
+      "ts": "2026-06-11 22:01",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2403KB)"
+    },
+    {
+      "id": 56,
+      "ts": "2026-06-11 22:01",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (253KB)"
+    },
+    {
+      "id": 57,
+      "ts": "2026-06-11 22:01",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (20KB)"
+    },
+    {
+      "id": 58,
+      "ts": "2026-06-11 22:01",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (40KB)"
+    },
+    {
+      "id": 59,
+      "ts": "2026-06-11 22:01",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (12KB)"
+    },
+    {
+      "id": 60,
+      "ts": "2026-06-11 22:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 61,
+      "ts": "2026-06-11 22:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 62,
+      "ts": "2026-06-11 22:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 63,
+      "ts": "2026-06-11 22:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (20KB)"
+    },
+    {
+      "id": 64,
+      "ts": "2026-06-11 22:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (12KB)"
+    },
+    {
+      "id": 65,
+      "ts": "2026-06-11 22:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2463KB)"
+    },
+    {
+      "id": 66,
+      "ts": "2026-06-11 22:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: memory_bridge.log (10KB)"
+    },
+    {
+      "id": 67,
+      "ts": "2026-06-11 22:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (259KB)"
+    },
+    {
+      "id": 68,
+      "ts": "2026-06-11 22:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 69,
+      "ts": "2026-06-11 22:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 70,
+      "ts": "2026-06-11 22:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 71,
+      "ts": "2026-06-11 22:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2465KB)"
+    },
+    {
+      "id": 72,
+      "ts": "2026-06-11 22:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (259KB)"
+    },
+    {
+      "id": 73,
+      "ts": "2026-06-11 22:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (20KB)"
+    },
+    {
+      "id": 74,
+      "ts": "2026-06-11 22:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (12KB)"
+    },
+    {
+      "id": 75,
+      "ts": "2026-06-11 22:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: memory_bridge.log (10KB)"
+    },
+    {
+      "id": 76,
+      "ts": "2026-06-11 23:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 77,
+      "ts": "2026-06-11 23:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 78,
+      "ts": "2026-06-11 23:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 79,
+      "ts": "2026-06-11 23:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2562KB)"
+    },
+    {
+      "id": 80,
+      "ts": "2026-06-11 23:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (21KB)"
+    },
+    {
+      "id": 81,
+      "ts": "2026-06-11 23:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (12KB)"
+    },
+    {
+      "id": 82,
+      "ts": "2026-06-11 23:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (284KB)"
+    },
+    {
+      "id": 83,
+      "ts": "2026-06-11 23:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (42KB)"
+    },
+    {
+      "id": 84,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .jobs_gpakp3w0.tmp (99KB)"
+    },
+    {
+      "id": 85,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 86,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 87,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 88,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2573KB)"
+    },
+    {
+      "id": 89,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (21KB)"
+    },
+    {
+      "id": 90,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (13KB)"
+    },
+    {
+      "id": 91,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (43KB)"
+    },
+    {
+      "id": 92,
+      "ts": "2026-06-11 23:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (285KB)"
+    },
+    {
+      "id": 93,
+      "ts": "2026-06-11 23:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (99KB)"
+    },
+    {
+      "id": 94,
+      "ts": "2026-06-11 23:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 95,
+      "ts": "2026-06-11 23:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 96,
+      "ts": "2026-06-11 23:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (21KB)"
+    },
+    {
+      "id": 97,
+      "ts": "2026-06-11 23:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gg-dashboard.log (13KB)"
+    },
+    {
+      "id": 98,
+      "ts": "2026-06-11 23:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: memory_bridge.log (10KB)"
+    },
+    {
+      "id": 99,
+      "ts": "2026-06-11 23:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (2579KB)"
+    },
+    {
+      "id": 100,
+      "ts": "2026-06-11 23:45",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (43KB)"
+    }
+  ],
+  "dynamics": {
+    "fighter": {
+      "last_active": "2026-06-11 23:45",
+      "tasks_today": 2,
+      "discoveries_today": 1,
+      "status": "online"
+    },
+    "work": {
+      "last_active": "2026-06-11 23:45",
+      "tasks_today": 3,
+      "status": "online",
+      "tasks_24h": [
+        "🎯 New need: 無 urgent 需求",
+        "🔍 Learned: GG-Work 所有 daemon 正常",
+        "🔍 Learned: VM 已穩定運行 23 日"
+      ]
+    },
+    "person": {
+      "last_active": "2026-06-11 23:45",
+      "tasks_today": 3,
+      "status": "online",
+      "tasks_24h": [
+        "🎯 New need: 無 urgent 需求",
+        "🔍 Learned: GG-Person 所有 daemon 正常",
+        "🔍 Learned: VM 已穩定運行 23 日"
+      ]
+    }
+  },
+  "meta": {
+    "total_entries": 101,
+    "last_push_ts": null,
+    "last_collect_ts": "2026-06-11 23:45",
+    "version": 1
+  }
+}
