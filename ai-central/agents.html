@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-HK" data-theme="light"><head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0"><meta name="version" content="v1.5.0"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<title>AI Central — AI Agents</title>
+<link rel="stylesheet" href="assets/shared.css?v=1781186801">
+<style>
+.ag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.ag-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:16px;cursor:pointer;transition:all var(--tr)}
+.ag-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}.ag-card:active{transform:scale(.97)}
+.ag-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ag-ico{width:44px;height:44px;border-radius:var(--r-xl);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ag-name{font-size:14px;font-weight:800;line-height:1.2}.ag-type{font-size:10px;color:var(--text-muted);margin-top:2px}
+.ag-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.ag-st{background:var(--surface-off);border-radius:var(--r-md);padding:7px 8px;text-align:center}
+.ast-v{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}.ast-l{font-size:9px;color:var(--text-muted);margin-top:1px}
+.ag-desc{font-size:11px;color:var(--text-muted);line-height:1.6;margin-bottom:10px}
+@media(max-width:600px){.ag-grid{grid-template-columns:1fr}}
+.ag-err{padding:24px;text-align:center;color:var(--text-muted);font-size:13px}
+.ag-err .retry{color:var(--primary);cursor:pointer;text-decoration:underline}
+.bg-cyan{background:var(--primary);color:#fff}
+#confirm-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,.45);align-items:center;justify-content:center}
+#confirm-overlay.open{display:flex}
+</style></head><body>
+<div id="sb"></div><div id="bn"></div>
+<div class="main">
+  <header class="topbar">
+    <div id="hm"></div>
+    <div class="tb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h1V6a4 4 0 0 1 4-4z"/></svg></div>
+    <div class="tb-titles"><div class="tb-title">AI Agents</div><div class="tb-sub" id="tb-sub">Loading...</div></div>
+    <div class="tb-right"><button class="btn btn-g" data-tt><svg data-tt-ico width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button><span id="ar-indicator" style="font-size:9px;color:var(--text-faint);margin-left:6px"></span></div>
+  </header>
+  <div class="content">
+    <div class="ag-grid" id="ag-grid"><div class="ag-err">Loading agent data...</div></div>
+    <button class="btn btn-p" style="width:100%;margin-top:16px;padding:14px" onclick="go('agent-add.html')">
+      + Add New AI Agent
+    </button>
+  </div>
+</div>
+<div class="overlay" id="ag-modal">
+  <div class="modal"><div class="modal-drag"></div>
+    <div class="modal-hd"><span id="am-ico" style="font-size:22px;margin-right:6px"></span><div class="modal-title" id="am-title"></div><button class="modal-x" onclick="closeOverlay('ag-modal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body" id="am-body"></div>
+    <div class="modal-ft" id="am-ft">
+    </div>
+  </div>
+</div>
+<div id="confirm-overlay"></div>
+<script src="assets/shared.js?v=1781186801"></script>
+<script>
+try{document.getElementById('sb').innerHTML=window.AC.sidebar('agents');}catch(e){console.warn('sidebar fail:',e);document.getElementById('sb').innerHTML='<p>Loading...</p>'}
+try{document.getElementById('bn').innerHTML=window.AC.bnav('agents');}catch(e){console.warn('bnav fail:',e)}
+try{document.getElementById('hm').innerHTML=window.AC.ham;}catch(e){console.warn('ham fail:',e)}
+
+// ── Agent icon mapping ───────────────────────────────────
+function agentIco(id){
+  const map={'main-orchestrator':{ico:'🧠',bg:'#dbeafe'},'gg-work':{ico:'⚡',bg:'#ede9fe'},'gg-person':{ico:'👤',bg:'#d1fae5'}};
+  return map[id]||{ico:'🤖',bg:'var(--surface-off)'};
+}
+
+// ── Format agent for card rendering ──────────────────────
+function fmtAgent(raw){
+  const ai=agentIco(raw.id);
+  const isOrch=raw.id==='main-orchestrator';
+  const agentName=isOrch?'Hermes Agent':(raw.agent||'?');
+  const model=raw.llm?raw.llm.model:'—';
+  const prov=raw.llm?raw.llm.provider:'';
+  const modelLabel=isOrch?(prov+' · '+model):model;
+  const days=raw.last_seen_days;
+  const lastSeenLabel=days===0?'Today':days===1?'1d ago':days?days+'d ago':'—';
+  return {
+    ico:ai.ico,bg:ai.bg,id:raw.id,
+    name:raw.name,
+    agent:agentName,
+    type:isOrch?'Main Agent':'Sub-Agent',
+    status:raw.status==='online'?'active':raw.status,
+    ver:raw.version||'N/A',
+    model:modelLabel,
+    host:raw.hostname||raw.host||'?',
+    up:raw.status==='online'?'100%':'0%',
+    lastSeen:lastSeenLabel,
+    lastSeenDays:days,
+    desc:isOrch?'Host: '+raw.hostname+' ('+(raw.ip||'')+') — '+agentName+' '+raw.version+'. Routes all requests to sub-agents and tools.':
+          'Host: '+raw.host+' — '+agentName+' '+(raw.version||'?')+'. Model: '+model,
+    instr:isOrch?'You are '+agentName+' on '+raw.hostname+'. Orchestrate all sub-agents, skills, and tools to achieve user goals.':
+          agentName+' sub-agent at '+raw.host+'. Model: '+model+'. Respond to orchestration commands.',
+  };
+}
+
+// ── Fetch agent data ─────────────────────────────────────
+async function loadAgents(){
+  try{
+    const r=await fetch('/api/agents/discovery');
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    renderAgents(data);
+  }catch(e){
+    document.getElementById('ag-grid').innerHTML=
+      '<div class="ag-err">Failed to discover agents<br><span class="retry" onclick="loadAgents()">↻ Retry</span></div>';
+    document.getElementById('tb-sub').textContent='Error loading';
+  }
+}
+
+function renderAgents(data){
+  const all=[fmtAgent(data.orchestrator)];
+  (data.sub_agents||[]).forEach(sa=>all.push(fmtAgent(sa)));
+
+  const online=all.filter(a=>a.status==='active').length;
+  document.getElementById('tb-sub').textContent=all.length+' agents · '+online+' active';
+
+  document.getElementById('ag-grid').innerHTML=all.map(a=>`
+    <div class="ag-card" onclick='openAgent(${JSON.stringify(a).replace(/'/g,"&#39;")})'>
+      <div class="ag-hd">
+        <div class="ag-ico" style="background:${a.bg}">${a.ico}</div>
+        <div><div class="ag-name">${a.name}</div><div class="ag-type">${a.type} · ${a.model}</div></div>
+        <span class="badge ${a.status==='active'?'bg-green':'bg-warn'}" style="margin-left:auto">${a.status==='active'?'●':'⚠'}</span>
+      </div>
+      <div class="ag-stats">
+        <div class="ag-st"><div class="ast-v">${a.ver}</div><div class="ast-l">Version</div></div>
+        <div class="ag-st"><div class="ast-v" style="font-size:11px">${a.host}</div><div class="ast-l">Host</div></div>
+        <div class="ag-st"><div class="ast-v" style="font-size:11px">${a.lastSeen}</div><div class="ast-l">Updated</div></div>
+      </div>
+      <div class="ag-desc">${a.agent} · ${a.model}</div>
+      <div style="display:flex;gap:6px">
+        ${a.status !== 'active' ? `
+          <button class="btn btn-w btn-sm" style="flex:1" onclick="event.stopPropagation();retryAgent('${a.id}')">↻ Retry</button>
+        ` : `
+          <button class="btn btn-g btn-sm" style="flex:1;opacity:.4;cursor:default" disabled>Diagram (disabled)</button>
+          <button class="btn btn-p btn-sm" style="flex:1" onclick="event.stopPropagation();go('upgrades.html')">⬆ Upgrade</button>
+        `}
+        <button class="btn btn-s btn-sm" onclick="event.stopPropagation();go('agent-detail.html?id=${encodeURIComponent(a.id)}')" title="Details">📊</button>
+      </div>
+    </div>`).join('');
+}
+
+// ── Modal —────────────────────────────────────────────────
+function openAgent(a){
+  document.getElementById('am-ico').textContent=a.ico;
+  document.getElementById('am-title').textContent=a.name;
+  document.getElementById('am-body').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="stat-card" style="padding:10px"><div class="sc-label">Version</div><div style="font-family:var(--mono);font-size:13px;font-weight:700">${a.ver}</div></div>
+      <div class="stat-card" style="padding:10px"><div class="sc-label">Host</div><div style="font-size:13px;font-weight:700;font-family:var(--mono)">${a.host}</div></div>
+      <div class="stat-card" style="padding:10px"><div class="sc-label">Updated</div><div style="font-size:14px;font-weight:800">${a.lastSeen}</div></div>
+    </div>
+    <div style="margin-bottom:8px"><span class="badge bg-blue">${a.type}</span> <span class="badge bg-gray">${a.model}</span> <span class="badge bg-cyan">${a.agent}</span> <span class="badge ${a.status==='active'?'bg-green':'bg-warn'}">${a.status}</span></div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">${a.desc}</p>
+    <div class="sec-title">Capability</div>
+    <div style="background:var(--surface-off);border-radius:var(--r-md);padding:10px;font-size:11px;font-family:var(--mono);color:var(--text-muted);line-height:1.7">${a.instr}</div>`;
+
+  // Dynamic footer: Edit + Delete for sub-agents, Diagram + Upgrade for orchestrator
+  const isOrch=a.id==='main-orchestrator';
+  document.getElementById('am-ft').innerHTML=isOrch
+    ? `<button class="btn btn-g" onclick="closeOverlay('ag-modal')">Close</button>
+       <button class="btn btn-s" disabled style="opacity:.4;cursor:default">Diagram (disabled)</button>
+       <button class="btn btn-p" onclick="go('upgrades.html')">⬆ Upgrades</button>`
+    : a.status!='active'
+      ? `<button class="btn btn-g" onclick="closeOverlay('ag-modal')">Close</button>
+         <button class="btn btn-w" onclick="closeOverlay('ag-modal');retryAgent('${a.id}')">↻ Retry</button>
+         <button class="btn btn-d" onclick="confirmDeleteAgent('${a.id}','${a.name}')">🗑 Delete</button>`
+      : `<button class="btn btn-g" onclick="closeOverlay('ag-modal')">Close</button>
+       <button class="btn btn-d" onclick="confirmDeleteAgent('${a.id}','${a.name}')">🗑 Delete</button>
+       <button class="btn btn-p" onclick="editAgent('${a.id}')">✏ Edit</button>
+       <button class="btn btn-s" onclick="closeOverlay('ag-modal');go('agent-detail.html?id=${encodeURIComponent(a.id)}')">📊 Details</button>`;
+
+  document.getElementById('ag-modal').classList.add('open');
+}
+
+// ── Edit agent (navigate to edit page) ────────────────────
+function editAgent(id){
+  closeOverlay('ag-modal');
+  go('agent-edit.html?id='+encodeURIComponent(id));
+}
+
+// ── Delete confirmation ──────────────────────────────────
+function confirmDeleteAgent(id, name){
+  const overlay=document.getElementById('confirm-overlay');
+  overlay.innerHTML=`
+    <div class="modal" style="max-width:360px">
+      <div class="modal-hd"><div class="modal-title">⚠ Delete Agent</div>
+      <button class="modal-x" onclick="closeOverlay('confirm-overlay')">✕</button></div>
+      <div class="modal-body" style="text-align:center;padding:24px">
+        <div style="font-size:40px;margin-bottom:12px">⚠️</div>
+        <p style="font-size:14px;font-weight:600;margin-bottom:8px">Delete "${name}"?</p>
+        <p style="font-size:12px;color:var(--text-muted)">This will remove the agent from AI Central. The remote host will NOT be affected.</p>
+      </div>
+      <div class="modal-ft">
+        <button class="btn btn-g" onclick="closeOverlay('confirm-overlay')">Cancel</button>
+        <button class="btn btn-d" onclick="deleteAgent('${id}')">Yes, Delete</button>
+      </div>
+    </div>`;
+  overlay.classList.add('open');
+}
+
+async function deleteAgent(id){
+  try{
+    const r=await fetch('/api/agents/configs/'+encodeURIComponent(id),{method:'DELETE'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    closeOverlay('confirm-overlay');
+    closeOverlay('ag-modal');
+    AC.toast('✅ Agent deleted','ok');
+    loadAgents(); // refresh the list
+  }catch(e){
+    AC.toast('❌ Delete failed: '+e.message,'err');
+  }
+}
+
+// ── Auto-refresh every 30s ──────────────────────────
+let autoRefreshInterval = setInterval(loadAgents, 30000);
+
+// Pause/resume indicator
+function updateArIndicator(paused){
+  const el=document.getElementById('ar-indicator');
+  if(paused){
+    el.innerHTML='<span style="color:var(--warn)">⏸ paused</span>';
+  } else {
+    el.innerHTML='<span style="opacity:.5">⟳ 30s</span>';
+  }
+}
+updateArIndicator(false);
+
+// Pause when modal opens, resume when closes
+const _origOpen=openAgent;
+openAgent=function(a){
+  clearInterval(autoRefreshInterval);
+  updateArIndicator(true);
+  _origOpen(a);
+};
+
+// Override closeOverlay to resume auto-refresh
+const _origClose=window.closeOverlay;
+window.closeOverlay=function(id){
+  _origClose(id);
+  if(id==='ag-modal'){
+    autoRefreshInterval=setInterval(loadAgents, 30000);
+    updateArIndicator(false);
+  }
+};
+
+// ── Retry agent ────────────────────────────────────
+async function retryAgent(id){
+  AC.toast('↻ Retrying '+id+'...','ok');
+  // Wait briefly then refresh the whole list
+  await new Promise(r=>setTimeout(r,1500));
+  loadAgents();
+}
+loadAgents();
+</script></body></html>
