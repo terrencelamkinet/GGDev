@@ -1,8 +1,8 @@
 {
-  "ts": "21:01",
-  "hour": 21,
-  "minute": 1,
-  "pushed_at": "2026-06-09 20:32 HKT",
+  "ts": "20:36",
+  "hour": 20,
+  "minute": 36,
+  "pushed_at": "2026-06-11 20:36 HKT",
   "system": {
     "cpu": 96,
     "mem": 16,
@@ -76,7 +76,7 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 14 日 — 穩定; 1 個 daemon 運行中",
+      "thoughts": "夜晚 — CPU 31% 回落正常。聽日 Moia solution 到期、CISP CV 週六截。港車北上 overdue 申請視窗 20 號關，建議聽日優先處理 Moia + CISP 文件。",
       "needs": [
         "無 urgent 需求"
       ],
@@ -301,7 +301,7 @@
       }
     ]
   },
-  "update_source": "hermes_update_data.py",
+  "update_source": "three-ai-sync",
   "ai_sync": {
     "total_checkpoints": 8,
     "synced": 8,
