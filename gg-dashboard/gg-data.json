@@ -1,0 +1,481 @@
+{
+  "ts": "23:45",
+  "hour": 23,
+  "minute": 45,
+  "pushed_at": "2026-06-11 20:36 HKT",
+  "system": {
+    "cpu": 94,
+    "mem": 35,
+    "disk": 71,
+    "load": "0.64",
+    "uptime": "2 weeks, 2 days, 5 hours, 42 minutes",
+    "services": {
+      "gg-reminder": "green",
+      "disk": "green",
+      "memory": "green"
+    }
+  },
+  "reminders": {
+    "total": 20,
+    "overdue": 0,
+    "errors": 0
+  },
+  "activity": [
+    {
+      "time": "23:46",
+      "text": "Dashboard data refresh"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: webapp_commands.log.1 (25B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: webapp_commands.log (0B)"
+    },
+    {
+      "time": "09:14",
+      "text": "Cron: token_health_report.md (342B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log.1 (5637B)"
+    },
+    {
+      "time": "23:02",
+      "text": "Cron: nightly_upgrade.log (1284B)"
+    },
+    {
+      "time": "00:01",
+      "text": "Cron: nightly_report.txt (1639B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: memory_bridge.log.1 (171359B)"
+    },
+    {
+      "time": "23:33",
+      "text": "Cron: memory_bridge.log (11000B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: mcp-stderr.log.1 (1187924B)"
+    }
+  ],
+  "agents": {
+    "main": {
+      "cpu": 94,
+      "mem": 35,
+      "disk": 71,
+      "load": "0.64",
+      "uptime": "2 weeks, 2 days, 5 hours, 42 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": false
+      },
+      "online": true,
+      "cron_jobs": 12,
+      "thoughts": "傍晚 — CPU load 0.7 — 閒置; 已運行 16 日 — 穩定; 1 個 daemon 運行中; 磁盤使用率 71%",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "VM 已穩定運行 16 日"
+      ],
+      "uncertainties": [
+        "等待 GG Fighter 下一個任務"
+      ]
+    },
+    "work": {
+      "cpu": 18,
+      "mem": 31,
+      "disk": 66,
+      "load": "0.39",
+      "uptime": "3 weeks, 2 days, 11 hours, 20 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181",
+      "thoughts": "傍晚 — CPU load 0.0 — 閒置; 已運行 23 日 — 穩定; 5 個 daemon 運行中",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "VM 已穩定運行 23 日",
+        "GG-Work 所有 daemon 正常"
+      ],
+      "uncertainties": [
+        "等待 GG-Work 下一個任務"
+      ]
+    },
+    "person": {
+      "cpu": 8,
+      "mem": 36,
+      "disk": 68,
+      "load": "0.26",
+      "uptime": "3 weeks, 2 days, 11 hours, 20 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182",
+      "thoughts": "傍晚 — CPU load 0.1 — 閒置; 已運行 23 日 — 穩定; 5 個 daemon 運行中",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "VM 已穩定運行 23 日",
+        "GG-Person 所有 daemon 正常"
+      ],
+      "uncertainties": [
+        "等待 GG-Person 下一個任務"
+      ]
+    }
+  },
+  "badge_color": "green",
+  "badge_text": "● All OK",
+  "costs": {
+    "summary": {
+      "7d": {
+        "cost": 8.8155,
+        "sessions": 729,
+        "tokens": 56241415
+      },
+      "30d": {
+        "cost": 13.5431,
+        "sessions": 1422,
+        "tokens": 87139119
+      },
+      "month": {
+        "cost": 13.5431,
+        "sessions": 1422,
+        "tokens": 87139119
+      }
+    },
+    "daily": [
+      {
+        "date": "2026-06-11",
+        "cost": 0.8389,
+        "sessions": 92,
+        "tokens": 5659615
+      },
+      {
+        "date": "2026-06-10",
+        "cost": 1.2597,
+        "sessions": 105,
+        "tokens": 8076328
+      },
+      {
+        "date": "2026-06-09",
+        "cost": 1.4837,
+        "sessions": 104,
+        "tokens": 9434270
+      },
+      {
+        "date": "2026-06-08",
+        "cost": 1.7837,
+        "sessions": 138,
+        "tokens": 11175929
+      },
+      {
+        "date": "2026-06-07",
+        "cost": 1.1689,
+        "sessions": 95,
+        "tokens": 7433370
+      },
+      {
+        "date": "2026-06-06",
+        "cost": 0.7128,
+        "sessions": 80,
+        "tokens": 4786591
+      },
+      {
+        "date": "2026-06-05",
+        "cost": 1.5679,
+        "sessions": 115,
+        "tokens": 9675312
+      },
+      {
+        "date": "2026-06-04",
+        "cost": 1.1802,
+        "sessions": 135,
+        "tokens": 7618985
+      },
+      {
+        "date": "2026-06-03",
+        "cost": 2.0437,
+        "sessions": 271,
+        "tokens": 13245779
+      },
+      {
+        "date": "2026-06-02",
+        "cost": 0.0,
+        "sessions": 0,
+        "tokens": 0
+      },
+      {
+        "date": "2026-06-01",
+        "cost": 0.1538,
+        "sessions": 41,
+        "tokens": 1062577
+      },
+      {
+        "date": "2026-05-31",
+        "cost": 0.1069,
+        "sessions": 18,
+        "tokens": 734219
+      },
+      {
+        "date": "2026-05-30",
+        "cost": 0.3008,
+        "sessions": 59,
+        "tokens": 2019492
+      },
+      {
+        "date": "2026-05-29",
+        "cost": 0.273,
+        "sessions": 64,
+        "tokens": 1785430
+      },
+      {
+        "date": "2026-05-28",
+        "cost": 0.2464,
+        "sessions": 45,
+        "tokens": 1627513
+      },
+      {
+        "date": "2026-05-27",
+        "cost": 0.1727,
+        "sessions": 22,
+        "tokens": 1120924
+      },
+      {
+        "date": "2026-05-26",
+        "cost": 0.1244,
+        "sessions": 13,
+        "tokens": 829853
+      },
+      {
+        "date": "2026-05-25",
+        "cost": 0.1259,
+        "sessions": 25,
+        "tokens": 852932
+      }
+    ],
+    "monthly": [],
+    "providers_30d": {
+      "deepseek": {
+        "sessions": 1422,
+        "tokens": 87139119,
+        "cost": 13.5431
+      }
+    },
+    "balance": null
+  },
+  "tasks": {
+    "items": [
+      {
+        "page_id": "376783d5-93e7-810b-9ba1-d0f01b505e06",
+        "title": "📄 港車北上 - 準備文件 (掃描+拍照)",
+        "status": "In progress",
+        "due": "2026-06-10",
+        "priority": "Q2 · Schedule",
+        "area": "🏠 Personal",
+        "notes": "需準備：\n- 身份證/護照 正反面掃描\n- 車輛登記文件 (VE牌簿) 掃描\n- 有效的第三者風險保險證明掃描\n- 車輛照片 (車頭、車尾、車側，共3張)\n- 信用卡 (準備繳費)\n\n約需30分鐘準備",
+        "last_edited": "2026-06-08T10:05:00.000Z"
+      },
+      {
+        "page_id": "37b783d5-93e7-81bb-b1f0-e76c8bfe0e95",
+        "title": "港車北上 — 準備文件",
+        "status": "Not started",
+        "due": "2026-06-11",
+        "priority": "Q1 · Do Now",
+        "area": "🏠 Personal",
+        "notes": "聽日要交文件。所需文件：牌簿、身份證、回鄉證、內地駕駛證、保險（需涵蓋內地）",
+        "last_edited": "2026-06-10T15:58:00.000Z"
+      },
+      {
+        "page_id": "376783d5-93e7-81ae-9118-eaba934ce312",
+        "title": "Send Moia solution to Manulife Derek",
+        "status": "In progress",
+        "due": "2026-06-12",
+        "priority": "Q1 · Do Now",
+        "area": "💼 Work",
+        "notes": "Send Moia (PAM) solution proposal to Derek at Manulife.",
+        "last_edited": "2026-06-10T15:57:00.000Z"
+      },
+      {
+        "page_id": "36d783d5-93e7-8076-bafe-c26cf74e0d98",
+        "title": "Schedule Rankez Meeting",
+        "status": "Not started",
+        "due": "2026-06-19",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Rankez is a PAM (Privileged Access Management) product. Meeting to discuss/schedule.",
+        "last_edited": "2026-06-05T08:30:00.000Z"
+      },
+      {
+        "page_id": "376783d5-93e7-802f-a03d-f9c88b73c99a",
+        "title": "港車北上 - 指定遞交申請時段通知",
+        "status": "In progress",
+        "due": "2026-06-20",
+        "priority": "Q1 · Do Now",
+        "area": "🏠 Personal",
+        "notes": "港車北上申請 — 所需資料及步驟\n\n【系統】HZMBZ Closed Road Permit for Quota Free Scheme\n【網站】https://qfs1.td.gov.hk/hzmbz/\n【時段】08/06/2026 (一) - 20/06/2026 (六)\n【需時】約60分鐘\n【查詢熱線】2804 2600\n\n【登入資料】\n• 抽籤編號: 7272606016020883\n• 身份證明文件號碼前4位: P861\n\n【所需文件(建議預先準備)】\n- 香港身份證 / 護照\n- 車輛登記文件 (VE牌簿) - ZF3617\n- 有效的香港車輛牌照\n- 有效的第三者風險保險證明\n- 內地機動車駕駛證 (如有)\n- 車輛照片 (車頭、車尾、車側)\n- 信用卡/繳費靈 (繳付申請費)\n\n【申請步驟】\n1. 登入系統 (輸入抽籤編號 + 身份證號碼)\n2. 確認申請人資料\n3. 輸入車輛資料 (ZF3617 Toyota Sienta Hybrid)\n4. 上載所需文件\n5. 選取指定出行日期\n6. 確認及繳費\n7. 提交申請\n\n【建議Schedule】\n- 06/06 (六) — 準備好所有文件電子版\n- 08/06 (一) 上午 — 登入系統提交 (窗口首日)",
+        "last_edited": "2026-06-09T15:10:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-81ed-9d02-d0df1c812b9a",
+        "title": "📋 CISP: 準備申請表文件（身份證+學歷+相片）1",
+        "status": "In progress",
+        "due": "2026-06-20",
+        "priority": "Q1 · Do Now",
+        "area": "📚 Learning",
+        "notes": "需預備：①身份證正反面複印件(註明副本COPY) ②最高學歷複印件(HD或以上) ③Part1+2填妥 ④Part4簽名",
+        "last_edited": "2026-06-09T15:10:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-812b-86c7-f7afbb0d6f96",
+        "title": "📋 CISP: 提交申請表硬拷貝 (20 Jun)",
+        "status": "In progress",
+        "due": "2026-06-20",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "Lesson 4上堂交。需填妥+貼相+Part3推薦人簽署+公司蓋章+Part4簽字。身份證+學歷副本放前面",
+        "last_edited": "2026-06-09T15:11:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-81f8-ab6e-d45d00a6ad38",
+        "title": "📋 CISP: 數碼相片上載Moodle (20 Jun)",
+        "status": "In progress",
+        "due": "2026-06-20",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "藍底2吋彩色相 JPG 20-200KB。via Moodle on/before 20 Jun 2026",
+        "last_edited": "2026-06-09T15:11:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-81f7-ad5a-f8467aad331d",
+        "title": "📋 CISP: EA考試+CA截止 (27 Jun)",
+        "status": "In progress",
+        "due": "2026-06-27",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "EA 15:00-16:30 Closed book MCQ+SQ+LQ 佔60%。CA佔40% via Moodle 23:59前。缺席=0分",
+        "last_edited": "2026-06-09T15:11:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-8179-b7cf-ce1cad0506b5",
+        "title": "📋 CISP: 確認Exam Type (CISE/CISO) via CA (27 Jun)",
+        "status": "In progress",
+        "due": "2026-06-27",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "CISE/CISO final confirmation via CA第一條問題。提交後不能更改",
+        "last_edited": "2026-06-09T15:11:00.000Z"
+      },
+      {
+        "page_id": "36d783d5-93e7-809d-94a7-e8cc448b69cb",
+        "title": "PoC for FTrans",
+        "status": "In progress",
+        "due": "2026-06-30",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "FTrans company project — proof of concept required.",
+        "last_edited": "2026-06-05T08:30:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-8186-ad88-fd0b4158bce3",
+        "title": "📋 CISP: 正式考試 (25 Jul 待確認)",
+        "status": "In progress",
+        "due": "2026-07-25",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "100 MCQs 繁體中文。帶2B鉛筆+黑原子筆+擦膠+身份證。25 Jul待CNITSEC確認",
+        "last_edited": "2026-06-09T15:11:00.000Z"
+      },
+      {
+        "page_id": "37c783d5-93e7-8002-b985-dbd26a85cd4c",
+        "title": "Prepare Diagram for Ftrans ",
+        "status": "Not started",
+        "due": null,
+        "priority": "Q1 · Do Now",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-06-11T01:54:00.000Z"
+      },
+      {
+        "page_id": "37c783d5-93e7-8035-8a36-f47f978645aa",
+        "title": "Prepare ManageEngine ITAM PoC",
+        "status": "Not started",
+        "due": null,
+        "priority": "Q1 · Do Now",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-06-11T01:54:00.000Z"
+      },
+      {
+        "page_id": "376783d5-93e7-8143-92b5-f389efede06c",
+        "title": "✅ 港車北上 - 跟進審批結果",
+        "status": "In progress",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "🏠 Personal",
+        "notes": "遞交後跟進：\n- 確認收到申請確認電郵/通知\n- 等待審批 (一般需時數週)\n- 留意收取 Closed Road Permit\n- 最後遞交期限: 20/06 (六)",
+        "last_edited": "2026-06-09T15:11:00.000Z"
+      },
+      {
+        "page_id": "37c783d5-93e7-8035-9d6e-c98ec3a885eb",
+        "title": "Prepare ManageEngine Endpoint Central PoC",
+        "status": "Not started",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-06-11T01:54:00.000Z"
+      },
+      {
+        "page_id": "37c783d5-93e7-8050-b570-c5a192ff0cc2",
+        "title": "",
+        "status": "Not started",
+        "due": null,
+        "priority": "",
+        "area": "",
+        "notes": "",
+        "last_edited": "2026-06-11T01:45:00.000Z"
+      }
+    ],
+    "total": 17,
+    "overdue": 1,
+    "due_today": 1,
+    "in_progress": 11,
+    "q1_count": 6,
+    "source": "task_sync_state"
+  },
+  "schedule": {
+    "total_events": 26,
+    "today_events": 1,
+    "upcoming": 10,
+    "reminders_pending": 0,
+    "last_updated": "2026-06-11T23:30:38",
+    "today_list": [
+      {
+        "summary": "OT-Kinetix ME comparison ",
+        "time": "14:00"
+      }
+    ]
+  },
+  "update_source": "hermes_update_data.py",
+  "ai_sync": {
+    "total_checkpoints": 8,
+    "synced": 8,
+    "pending": 0,
+    "last_check": "23:46"
+  }
+}
