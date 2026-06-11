@@ -1,14 +1,14 @@
 {
-  "ts": "23:45",
-  "hour": 23,
-  "minute": 45,
+  "ts": "00:30",
+  "hour": 0,
+  "minute": 30,
   "pushed_at": "2026-06-11 20:36 HKT",
   "system": {
-    "cpu": 94,
+    "cpu": 98,
     "mem": 35,
     "disk": 71,
-    "load": "0.64",
-    "uptime": "2 weeks, 2 days, 5 hours, 42 minutes",
+    "load": "0.93",
+    "uptime": "2 weeks, 2 days, 6 hours, 27 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "23:46",
+      "time": "00:31",
       "text": "Dashboard data refresh"
     },
     {
@@ -39,11 +39,15 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.1 (5637B)"
+      "text": "Cron: nightly_upgrade.log.2.gz (1534B)"
     },
     {
-      "time": "23:02",
-      "text": "Cron: nightly_upgrade.log (1284B)"
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log.1 (1284B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log (0B)"
     },
     {
       "time": "00:01",
@@ -51,24 +55,20 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: memory_bridge.log.1 (171359B)"
-    },
-    {
-      "time": "23:33",
-      "text": "Cron: memory_bridge.log (11000B)"
+      "text": "Cron: memory_bridge.log.2.gz (24794B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: mcp-stderr.log.1 (1187924B)"
+      "text": "Cron: memory_bridge.log.1 (11000B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 94,
+      "cpu": 98,
       "mem": 35,
       "disk": 71,
-      "load": "0.64",
-      "uptime": "2 weeks, 2 days, 5 hours, 42 minutes",
+      "load": "0.93",
+      "uptime": "2 weeks, 2 days, 6 hours, 27 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 18,
+      "cpu": 54,
       "mem": 31,
       "disk": 66,
-      "load": "0.39",
-      "uptime": "3 weeks, 2 days, 11 hours, 20 minutes",
+      "load": "0.08",
+      "uptime": "3 weeks, 2 days, 12 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 8,
-      "mem": 36,
+      "cpu": 4,
+      "mem": 35,
       "disk": 68,
-      "load": "0.26",
-      "uptime": "3 weeks, 2 days, 11 hours, 20 minutes",
+      "load": "0.39",
+      "uptime": "3 weeks, 2 days, 12 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -459,15 +459,23 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 26,
-    "today_events": 1,
+    "total_events": 27,
+    "today_events": 3,
     "upcoming": 10,
     "reminders_pending": 0,
-    "last_updated": "2026-06-11T23:30:38",
+    "last_updated": "2026-06-12T00:31:05",
     "today_list": [
       {
         "summary": "OT-Kinetix ME comparison ",
-        "time": "14:00"
+        "time": "09:30"
+      },
+      {
+        "summary": "Adventist Hospital / CyberArk PAM - meet",
+        "time": "14:30"
+      },
+      {
+        "summary": "展彩到永遠",
+        "time": "19:30"
       }
     ]
   },
@@ -476,6 +484,6 @@
     "total_checkpoints": 8,
     "synced": 8,
     "pending": 0,
-    "last_check": "23:46"
+    "last_check": "00:31"
   }
 }
