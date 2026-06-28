@@ -1,14 +1,14 @@
 {
-  "ts": "20:33",
+  "ts": "20:31",
   "hour": 20,
-  "minute": 33,
-  "pushed_at": "2026-06-27 20:33 HKT",
+  "minute": 31,
+  "pushed_at": "2026-06-28 20:31 HKT",
   "system": {
-    "cpu": 29,
-    "mem": 28,
-    "disk": 80,
-    "load": "0.97",
-    "uptime": "2 weeks, 21 hours, 6 minutes",
+    "cpu": 56,
+    "mem": 29,
+    "disk": 78,
+    "load": "1.51",
+    "uptime": "2 weeks, 1 day, 21 hours, 4 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,11 +22,11 @@
   },
   "activity": [
     {
-      "time": "20:33",
+      "time": "20:31",
       "text": "三位AI Dashboard Sync"
     },
     {
-      "time": "20:32",
+      "time": "20:31",
       "text": "Dashboard data refresh"
     },
     {
@@ -43,36 +43,36 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.9.gz (643B)"
+      "text": "Cron: nightly_upgrade.log.9.gz (600B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.8.gz (600B)"
+      "text": "Cron: nightly_upgrade.log.8.gz (646B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.7.gz (646B)"
+      "text": "Cron: nightly_upgrade.log.7.gz (551B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.6.gz (551B)"
+      "text": "Cron: nightly_upgrade.log.6.gz (682B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.5.gz (682B)"
+      "text": "Cron: nightly_upgrade.log.5.gz (624B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.4.gz (624B)"
+      "text": "Cron: nightly_upgrade.log.4.gz (801B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 29,
-      "mem": 28,
-      "disk": 80,
-      "load": "0.97",
-      "uptime": "2 weeks, 21 hours, 6 minutes",
+      "cpu": 56,
+      "mem": 29,
+      "disk": 78,
+      "load": "1.51",
+      "uptime": "2 weeks, 1 day, 21 hours, 4 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -80,27 +80,27 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "🎯 星期六夜晚 20:30 — CISP EA 15:00考完，CA 23:59 deadline。未交CA要即刻搞。三VM全healthy（CPU 29%/8%/83% · Disk 80%/69%/71%）。聽日星期日休息，下週focus FTrans PoC + 整理AI Central docs。",
+      "thoughts": "🎯 星期六夜晚 20:33 — 三VM全綠（CPU 29%/8%/72% · Disk 78%/68%/69%）。Cron 94.5%（69/73）穩定。聽日星期日休息放鬆。下星期focus：7/1(Wed) morning event + FTrans PoC備料。Disk 78%要逐步清舊logs。",
       "needs": [
-        "CISP CA deadline 23:59今晚 — 未交就即刻搞",
-        "Disk 80% — 下星期要清舊logs"
+        "Disk 78% — 下星期抽幾分鐘清 old cron_log / nightly_upgrade logs",
+        "7/1(Wed) 09:00 有event — 星期一check agenda"
       ],
       "learnings": [
-        "三VM全線正常，cron 94.4%（68/72）",
-        "CISP EA 27/6考完，CA同日deadline",
-        "Disk 80% threshold已到 — 9.3GB free"
+        "三VM全線正常，cron 94.5%（69/73）",
+        "CISP EA/CA deadline 27/6已過 — 下星期可以confirm Terrence進度",
+        "Disk 78% — 較昨日80%有改善，但仍需留意"
       ],
       "uncertainties": [
-        "CISP EA exam今日15:00考成點？CA交咗未？",
-        "展彩到永遠今晚有冇去？"
+        "CISP EA考成點？CA交咗未？",
+        "展彩到永遠今晚有冇去到？"
       ]
     },
     "work": {
       "cpu": 8,
-      "mem": 32,
-      "disk": 69,
-      "load": "0.09",
-      "uptime": "5 weeks, 4 days, 8 hours, 7 minutes",
+      "mem": 30,
+      "disk": 68,
+      "load": "0.37",
+      "uptime": "5 weeks, 5 days, 8 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -121,11 +121,11 @@
       ]
     },
     "person": {
-      "cpu": 83,
-      "mem": 25,
-      "disk": 71,
-      "load": "0.64",
-      "uptime": "5 weeks, 4 days, 8 hours, 7 minutes",
+      "cpu": 72,
+      "mem": 29,
+      "disk": 69,
+      "load": "1.10",
+      "uptime": "5 weeks, 5 days, 8 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
