@@ -1,0 +1,13 @@
+_format_version: "3.0"
+
+services:
+  - name: smoke-test-backend
+    url: http://smoke-test-backend.kong-dp-uat.svc.cluster.local:8080
+    routes:
+      - name: smoke-test-health
+        paths:
+          - /api/v1/health
+        strip_path: false
+
+# mTLS should be added after Fubon provides the test CA and client certificates.
+# Recommended plugin: mtls-auth, scoped to smoke-test-health or to the target service.

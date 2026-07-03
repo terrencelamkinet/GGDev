@@ -2,13 +2,104 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🦅 專注飛鳥</title>
-<meta http-equiv="refresh" content="0;url=game.html">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>專注飛鳥 Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;900&family=Noto+Sans+HK:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
-  <div class="card">
-    <a href="focus_bird/ngfw-quiz.html">🛡️ NGFW Engineer Quiz</a>
-    <div class="desc">Palo Alto Networks NGFW Engineer Exam Practice (121 Questions)</div>
+<body>
+
+<!-- Game canvas (always rendered below overlay) -->
+<canvas id="gc"></canvas>
+
+<!-- HUD bar -->
+<div id="hud">
+  <div id="hud-left">
+    <div class="badge" id="b-stage">第1層</div>
+    <div class="badge" id="b-level">第1關</div>
+    <div class="badge" id="b-score">0分</div>
+    <div class="badge" id="b-goal">0/10</div>
+    <div class="badge" id="b-time">00:00</div>
+    <div class="badge" id="b-combo" style="display:none;color:#ffd166">連擊x1</div>
   </div>
-<body><a href="focus_bird/game.html">去遊戲</a></body>
+  <div id="hud-right">
+    <div id="fbar-wrap">
+      <span style="font-size:12px;font-weight:800;opacity:.85">專注度</span>
+      <div id="fbar-track"><div id="fbar-fill"></div></div>
+      <span id="fpct" style="font-size:12px;font-weight:800">50%</span>
+      <div id="ws-dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Corner buttons -->
+<button class="ibtn" id="btnMenu" style="display:none">&#9776;</button>
+<button class="ibtn" id="btnMute">&#9834;</button>
+<button class="ibtn" id="btnFS">&#9634;</button>
+
+<!-- Overlay (menu/screens) -->
+<div id="ov">
+  <div class="card" id="mc"></div>
+</div>
+
+<!-- ================================================================
+     Scripts: load order matters
+     1. audio.js  — Audio engine (no deps)
+     2. game.js   — Canvas engine + G state (needs Audio)
+     3. ws.js     — WebSocket bridge (needs G)
+     4. ui.js     — UI screens (needs G, Audio, WS, STAGES, ageProfile)
+     ================================================================ -->
+<script src="audio.js"></script>
+<script src="game.js"></script>
+<script src="ws.js"></script>
+<script src="ui.js"></script>
+
+<script>
+/* ================================================================
+   BOOT — runs after all modules loaded
+   ================================================================ */
+
+/* Fullscreen toggle */
+function toggleFS() {
+  if (!document.fullscreenElement)
+    document.documentElement.requestFullscreen().catch(()=>{});
+  else
+    document.exitFullscreen().catch(()=>{});
+}
+
+document.getElementById('btnFS').onclick   = toggleFS;
+document.getElementById('btnMenu').onclick = () => { G.running=false; UI.showMain(); };
+document.getElementById('btnMute').onclick = () => {
+  const m = !Audio.isMuted();
+  Audio.setMuted(m);
+  document.getElementById('btnMute').textContent = m ? '\u{1F507}' : '\u266A';
+  UI.toast(m ? '靜音' : '音效開啟');
+};
+
+/* Keyboard */
+document.addEventListener('keydown', e => {
+  if (e.key === ' ')  { e.preventDefault(); G.space=true;  G.extMode=false; Audio.resume(); }
+  if (e.key === 'F11'){ e.preventDefault(); toggleFS(); }
+  if (e.key === 'Escape' && G.running) { G.running=false; UI.showMain(); }
+});
+document.addEventListener('keyup', e => {
+  if (e.key === ' ')  { e.preventDefault(); G.space=false; }
+});
+
+/* Touch (game canvas) */
+canvas.addEventListener('touchstart', e=>{ e.preventDefault(); G.space=true;  G.extMode=false; Audio.resume(); }, {passive:false});
+canvas.addEventListener('touchend',   e=>{ e.preventDefault(); G.space=false; });
+canvas.addEventListener('mousedown',  ()=> G.space=true);
+canvas.addEventListener('mouseup',    ()=> G.space=false);
+
+/* Double-click fullscreen */
+document.addEventListener('dblclick', toggleFS);
+
+/* Start */
+WS.connect();
+UI.showMain();
+</script>
+</body>
 </html>

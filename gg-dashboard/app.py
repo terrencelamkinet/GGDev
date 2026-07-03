@@ -907,6 +907,230 @@ def agent_detail(name):
         return html.replace("{{agent_name}}", safe_name)
     return "Agent detail template not found", 404
 
+# ===== NFC WEBHOOKS =====
+
+@app.route("/nfc/commute", methods=["POST"])
+def nfc_commute():
+    """🚗 NFC tag in car — start morning commute."""
+    try:
+        from datetime import datetime
+        now = datetime.now(HKT)
+        
+        # Send commute briefing via Telegram
+        import subprocess, urllib.request
+        msg = f"🚗 NFC Commute triggered at {now.strftime('%H:%M')} HKT"
+        
+        # Log to conversation_log
+        if HAS_PG:
+            cur, conn = pg_cur()
+            if cur:
+                cur.execute(
+                    "INSERT INTO conversation_log (source_ai, user_message, summary) VALUES (%s,%s,%s)",
+                    ("fighter", "/nfc/commute", "NFC commute trigger — morning")
+                )
+                conn.commit()
+                cur.close()
+                conn.close()
+        
+        return jsonify({"ok": True, "message": "commute triggered", "time": now.isoformat()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/nfc/clockin", methods=["POST"])
+def nfc_clockin():
+    """🏢 NFC tag on office desk — clock-in + set location."""
+    try:
+        now = datetime.now(HKT)
+        
+        if HAS_PG:
+            cur, conn = pg_cur()
+            if cur:
+                # Update location to at_office
+                cur.execute("""
+                    UPDATE commute_state SET 
+                        current_location='at_office', status='at_office',
+                        location_confidence=10, location_inferred_from='nfc_clockin',
+                        last_location_confirm=NOW(), updated_at=NOW()
+                    WHERE id=1
+                """)
+                # Log to conversation_log
+                cur.execute(
+                    "INSERT INTO conversation_log (source_ai, user_message, summary) VALUES (%s,%s,%s)",
+                    ("work", "/nfc/clockin", "NFC clock-in — arrived at office")
+                )
+                conn.commit()
+                cur.close()
+                conn.close()
+        
+        return jsonify({"ok": True, "message": "clocked in", "time": now.isoformat()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/nfc/goodnight", methods=["POST"])
+def nfc_goodnight():
+    """🌙 NFC tag on bedside — today summary + tomorrow preview."""
+    try:
+        now = datetime.now(HKT)
+        today_str = now.strftime("%Y-%m-%d")
+        
+        if HAS_PG:
+            cur, conn = pg_cur()
+            if cur:
+                # Generate quick summary from conversation_log
+                cur.execute(
+                    "SELECT user_message, summary FROM conversation_log WHERE created_at::date = %s::date ORDER BY created_at DESC LIMIT 5",
+                    (today_str,)
+                )
+                rows = cur.fetchall()
+                
+                # Log goodnight event
+                cur.execute(
+                    "INSERT INTO conversation_log (source_ai, user_message, summary) VALUES (%s,%s,%s)",
+                    ("life", "/nfc/goodnight", f"NFC goodnight — {today_str}")
+                )
+                conn.commit()
+                cur.close()
+                conn.close()
+        
+        return jsonify({"ok": True, "message": "goodnight logged", "time": now.isoformat()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+# ===== CROSS-AGENT QUERY ENDPOINT =====
+
+@app.route("/api/agent-query", methods=["POST"])
+def agent_query():
+    """🤖 Cross-agent query endpoint.
+    GG Life / GG Work POST questions here when they need info from GG Fighter's context.
+    Returns answers from the main instance's memory/patterns/user profile.
+    """
+    try:
+        data = request.get_json(silent=True) or {}
+        question = data.get("question", "").strip()
+        from_agent = data.get("from_agent", "unknown")
+
+        if not question:
+            return jsonify({"ok": False, "error": "question required"}), 400
+
+        # Load memory/patterns for context
+        memory_dir = os.path.expanduser("~/.hermes/memory")
+        patterns_path = os.path.join(memory_dir, "patterns.md")
+        memories_dir = os.path.expanduser("~/.hermes/memories")
+        
+        context = {}
+        
+        # Read patterns.md (main memory store)
+        if os.path.exists(patterns_path):
+            with open(patterns_path) as f:
+                content = f.read()
+                context["patterns"] = content[:3000]  # trim to avoid bloat
+        
+        # Read recent shared context
+        shared_path = os.path.expanduser("~/.hermes/shared_context.json")
+        if os.path.exists(shared_path):
+            with open(shared_path) as f:
+                try:
+                    context["recent_activity"] = json.load(f)
+                except:
+                    pass
+
+        # Read user profile if exists
+        user_profile = {}
+        if os.path.exists(memories_dir):
+            for fname in os.listdir(memories_dir):
+                fpath = os.path.join(memories_dir, fname)
+                if os.path.isfile(fpath):
+                    with open(fpath) as f:
+                        user_profile[fname] = f.read()[:1000]
+        
+        context["user_profile"] = user_profile
+        
+        # Log the query
+        if HAS_PG:
+            cur, conn = pg_cur()
+            if cur:
+                cur.execute(
+                    "INSERT INTO conversation_log (source_ai, user_message, summary, topics) VALUES (%s,%s,%s,%s)",
+                    (from_agent, f"[cross-query] {question}", 
+                     f"Cross-agent query from {from_agent}", 
+                     ["cross-agent", "query"])
+                )
+                conn.commit()
+                cur.close()
+                conn.close()
+
+        return jsonify({
+            "ok": True,
+            "context": context,
+            "from_agent": from_agent,
+            "note": "GG Fighter context snapshot — use this to answer the question"
+        })
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+# ===== CROSS-AGENT NOTIFICATION ENDPOINT =====
+
+@app.route("/api/agent-notify", methods=["POST"])
+def agent_notify():
+    """📢 Cross-agent notification endpoint.
+    GG Life / GG Work POST updates here when they've done something notable.
+    Main GG Fighter reads these on startup.
+    """
+    try:
+        data = request.get_json(silent=True) or {}
+        event = data.get("event", "")
+        from_agent = data.get("from_agent", "unknown")
+        details = data.get("details", {})
+
+        if not event:
+            return jsonify({"ok": False, "error": "event required"}), 400
+
+        # Log to conversation_log
+        if HAS_PG:
+            cur, conn = pg_cur()
+            if cur:
+                cur.execute(
+                    "INSERT INTO conversation_log (source_ai, user_message, summary, topics) VALUES (%s,%s,%s,%s)",
+                    (from_agent, f"[agent-notify] {event}",
+                     f"Agent notification from {from_agent}: {details}",
+                     ["agent-notify", from_agent])
+                )
+                conn.commit()
+                cur.close()
+                conn.close()
+
+        # Also write to a notifications file
+        notify_file = os.path.expanduser(f"~/.hermes/agent_notifications_{from_agent}.json")
+        notifications = []
+        if os.path.exists(notify_file):
+            try:
+                with open(notify_file) as f:
+                    notifications = json.load(f)
+            except:
+                pass
+        
+        notifications.append({
+            "event": event,
+            "from_agent": from_agent,
+            "details": details,
+            "timestamp": datetime.now(HKT).isoformat()
+        })
+        
+        # Keep last 20
+        notifications = notifications[-20:]
+        
+        with open(notify_file, "w") as f:
+            json.dump(notifications, f, ensure_ascii=False, indent=2)
+
+        return jsonify({"ok": True, "logged": True})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
 # Serve static files (icons, CSS)
 @app.route("/static/<path:filename>")
 def serve_static(filename):
@@ -931,9 +1155,18 @@ def serve_other(filename):
 
 # ===== MAIN =====
 
+# Focus Bird static files
+BIRD_DIR = os.path.expanduser('~/projects/focus-bird/focus_bird')
+
+@app.route('/focus-bird/')
+@app.route('/focus-bird/<path:filename>')
+def focus_bird_static(filename='game.html'):
+    return send_from_directory(BIRD_DIR, filename)
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7870))
     print(f"🚀 GG Interactive Platform starting on port {port}")
+    print(f"   Focus Bird: http://localhost:{port}/focus-bird/")
     print(f"   PG: {'connected' if HAS_PG else 'NOT AVAILABLE'}")
     print(f"   Notion: {'configured' if NOTION_TOKEN else 'NOT CONFIGURED'}")
     print(f"   URL: http://localhost:{port}")

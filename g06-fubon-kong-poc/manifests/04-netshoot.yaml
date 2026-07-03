@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netshoot
+  namespace: kong-cp-uat
+  labels:
+    app: netshoot
+    app.kubernetes.io/part-of: fubon-kong-poc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netshoot
+  template:
+    metadata:
+      labels:
+        app: netshoot
+    spec:
+      serviceAccountName: kong-sa
+      containers:
+        - name: netshoot
+          image: nicolaka/netshoot:v0.13
+          command:
+            - sleep
+            - infinity
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netshoot
+  namespace: kong-dp-uat
+  labels:
+    app: netshoot
+    app.kubernetes.io/part-of: fubon-kong-poc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netshoot
+  template:
+    metadata:
+      labels:
+        app: netshoot
+    spec:
+      serviceAccountName: kong-sa
+      containers:
+        - name: netshoot
+          image: nicolaka/netshoot:v0.13
+          command:
+            - sleep
+            - infinity
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true

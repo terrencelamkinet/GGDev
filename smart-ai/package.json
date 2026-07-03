@@ -1,0 +1,33 @@
+{
+  "name": "smart-ai",
+  "version": "1.0.0",
+  "description": "Smart AI — Desktop Hermes Client",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "com.kinet.smart-ai",
+    "productName": "Smart AI — Desktop Assistant",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "preload.js", "renderer/**/*", "assets/**/*"],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "assets/icon.ico",
+      "artifactName": "SmartAI-Setup-${version}.${ext}",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Smart AI"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

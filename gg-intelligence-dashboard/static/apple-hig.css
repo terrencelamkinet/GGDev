@@ -1,0 +1,154 @@
+/*
+ * Apple HIG Design System — Applied to 3AI Intelligence Dashboard
+ * References: apple-hig-spec-pack (02_Foundations.md, 04_Components.md, 03_Patterns.md)
+ */
+
+/* ═══ 1. Color — Apple Semantic System ═══ */
+:root {
+  /* Apple semantic backgrounds — dark mode first (our primary) */
+  --systemBackground: #1C1C1E;
+  --secondarySystemBackground: #2C2C2E;
+  --tertiarySystemBackground: #3A3A3C;
+  --groupedBackground: #121214;
+
+  /* Apple fills (translucent) */
+  --systemFill: rgba(120,120,128,0.36);
+  --secondarySystemFill: rgba(120,120,128,0.32);
+  --tertiarySystemFill: rgba(120,120,128,0.24);
+  --quaternarySystemFill: rgba(120,120,128,0.18);
+
+  /* Apple labels */
+  --label: #FFFFFF;
+  --secondaryLabel: rgba(235,235,245,0.6);
+  --tertiaryLabel: rgba(235,235,245,0.3);
+  --quaternaryLabel: rgba(235,235,245,0.18);
+
+  /* Apple materials (for glass effect) */
+  --regularMaterial: rgba(28,28,30,0.85);
+  --thinMaterial: rgba(28,28,30,0.7);
+  --ultraThinMaterial: rgba(28,28,30,0.5);
+
+  /* Apple system colors */
+  --systemBlue: #0A84FF;
+  --systemGreen: #30D158;
+  --systemRed: #FF453A;
+  --systemOrange: #FF9F0A;
+  --systemPurple: #BF5AF2;
+  --systemPink: #FF375F;
+  --systemGray: #8E8E93;
+  --systemGray2: #636366;
+  --systemGray3: #48484A;
+  --systemGray4: #3A3A3C;
+  --systemGray5: #2C2C2E;
+  --systemGray6: #1C1C1E;
+
+  /* 3 AI accents */
+  --fighter: #FF6B35;
+  --work: #5E5CE6;     /* Apple systemIndigo equivalent */
+  --person: #FF375F;   /* Apple systemPink */
+  --pplx: #BF5AF2;     /* Apple systemPurple */
+
+  /* Derived semantic tokens */
+  --separator: rgba(84,84,86,0.6);
+  --opaqueSeparator: #38383A;
+
+  /* Tab bar */
+  --tab-height: 50px;
+
+  /* Card radii — iOS 17+ */
+  --radius-card: 13px;
+  --radius-pill: 999px;
+  --radius-input: 10px;
+  --radius-tab: 7px;
+
+  /* Spacing — 8pt grid */
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 6px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 20px;       /* iPhone 14 Pro (393pt) standard margin */
+  --space-3xl: 32px;
+  --space-4xl: 40px;
+  --space-5xl: 48px;
+
+  /* Safe area */
+  --safe-top: env(safe-area-inset-top, 20px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Tab bar */
+  --tab-height: 50px;
+
+  /* Typography — Apple Dynamic Type scale */
+  --largeTitle: 34px;
+  --title1: 28px;
+  --title2: 22px;
+  --title3: 20px;
+  --headline: 17px;
+  --body: 17px;
+  --callout: 16px;
+  --subheadline: 15px;
+  --footnote: 13px;
+  --caption: 12px;
+  --caption2: 11px;
+
+  /* Font stack */
+  --font: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  --font-display: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', 'Menlo', monospace;
+}
+
+/* Light mode — Apple HIG CLR-001 */
+@media (prefers-color-scheme: light) {
+  :root {
+    --systemBackground: #FFFFFF;
+    --secondarySystemBackground: #F2F2F7;
+    --tertiarySystemBackground: #E5E5EA;
+    --groupedBackground: #F2F2F7;
+
+    --label: #000000;
+    --secondaryLabel: rgba(60,60,67,0.6);
+    --tertiaryLabel: rgba(60,60,67,0.3);
+    --quaternaryLabel: rgba(60,60,67,0.18);
+
+    --regularMaterial: rgba(255,255,255,0.85);
+    --thinMaterial: rgba(255,255,255,0.7);
+    --ultraThinMaterial: rgba(255,255,255,0.5);
+
+    --separator: rgba(60,60,67,0.29);
+    --opaqueSeparator: #C6C6C8;
+
+    --systemBlue: #007AFF;
+    --systemGreen: #34C759;
+    --systemRed: #FF3B30;
+    --systemOrange: #FF9500;
+    --systemPurple: #AF52DE;
+    --systemPink: #FF2D55;
+
+    --fighter: #FF6B35;
+    --work: #5856D6;
+    --person: #FF2D55;
+    --pplx: #AF52DE;
+  }
+}
+
+/* Accessibility — Reduce Motion (ACC-005, MOT-004) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Accessibility — Reduce Transparency (ACC-008) */
+@media (prefers-reduced-transparency: reduce) {
+  .ai-card, .intel-bar, .tab-bar, .activity-item,
+  .task-item, .setting-card, .quick-stat {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--secondarySystemBackground) !important;
+  }
+}

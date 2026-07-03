@@ -1,0 +1,85 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dp-to-cp-hybrid
+  namespace: kong-cp-uat
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: kong-cp
+      app.kubernetes.io/name: kong
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kong-dp-uat
+      ports:
+        - protocol: TCP
+          port: 8005
+        - protocol: TCP
+          port: 8006
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-cp-to-postgresql
+  namespace: kong-cp-uat
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: kong-cp
+      app.kubernetes.io/name: kong
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: "__POSTGRES_VM_CIDR__/32"
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dp-to-backend-and-cp
+  namespace: kong-dp-uat
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: kong-dp
+      app.kubernetes.io/name: kong
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kong-cp-uat
+      ports:
+        - protocol: TCP
+          port: 8005
+        - protocol: TCP
+          port: 8006
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - ipBlock:
+            cidr: "__BACKEND_API_CIDR__/32"
+      ports:
+        - protocol: TCP
+          port: 443

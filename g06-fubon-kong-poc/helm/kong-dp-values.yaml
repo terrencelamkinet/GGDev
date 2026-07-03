@@ -1,0 +1,112 @@
+# Fubon HK Kong API Gateway PoC - Kong Data Plane values
+# Platform: Red Hat OpenShift UAT, self-managed Kong Gateway hybrid mode
+# Chart: kong/kong 3.2.0
+# Image: kong/kong-gateway:3.14
+#
+# Secrets expected in namespace kong-dp-uat:
+# - kong-enterprise-license: key "license"
+# - kong-cluster-cert: keys "tls.crt", "tls.key"
+
+fullnameOverride: kong-dp
+
+deployment:
+  kong:
+    enabled: true
+  serviceAccount:
+    create: false
+    name: kong-sa
+    automountServiceAccountToken: false
+
+ingressController:
+  enabled: false
+  rbac:
+    create: false
+
+image:
+  repository: kong/kong-gateway
+  tag: "3.14"
+  pullPolicy: IfNotPresent
+
+enterprise:
+  enabled: true
+  license_secret: kong-enterprise-license
+  vitals:
+    enabled: false
+  portal:
+    enabled: false
+  rbac:
+    enabled: false
+
+env:
+  role: data_plane
+  database: "off"
+  cluster_mtls: shared
+  cluster_cert: /etc/secrets/kong-cluster-cert/tls.crt
+  cluster_cert_key: /etc/secrets/kong-cluster-cert/tls.key
+  cluster_control_plane: kong-cp-cluster.kong-cp-uat.svc.cluster.local:8005
+  cluster_telemetry_endpoint: kong-cp-clustertelemetry.kong-cp-uat.svc.cluster.local:8006
+  status_listen: "0.0.0.0:8100"
+  anonymous_reports: "off"
+  log_level: info
+  nginx_worker_processes: "2"
+  proxy_access_log: /dev/stdout
+  proxy_error_log: /dev/stderr
+
+secretVolumes:
+  - kong-cluster-cert
+
+proxy:
+  enabled: true
+  type: ClusterIP
+  http:
+    enabled: true
+    servicePort: 8000
+    containerPort: 8000
+  tls:
+    enabled: true
+    servicePort: 8443
+    containerPort: 8443
+    parameters:
+      - http2
+
+admin:
+  enabled: false
+
+manager:
+  enabled: false
+
+cluster:
+  enabled: false
+
+clustertelemetry:
+  enabled: false
+
+portal:
+  enabled: false
+
+portalapi:
+  enabled: false
+
+postgresql:
+  enabled: false
+
+replicaCount: 3
+
+resources:
+  requests:
+    cpu: "2"
+    memory: 4Gi
+  limits:
+    cpu: "2"
+    memory: 4Gi
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+securityContext:
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  enabled: false

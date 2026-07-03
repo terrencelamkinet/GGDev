@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smoke-test-backend
+  namespace: kong-dp-uat
+  labels:
+    app: smoke-test-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smoke-test-backend
+  template:
+    metadata:
+      labels:
+        app: smoke-test-backend
+    spec:
+      containers:
+        - name: echo
+          image: hashicorp/http-echo:1.0
+          args:
+            - -listen=:8080
+            - -text={"status":"ok","service":"fubon-kong-poc","path":"/api/v1/health"}
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smoke-test-backend
+  namespace: kong-dp-uat
+spec:
+  selector:
+    app: smoke-test-backend
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

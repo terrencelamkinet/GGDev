@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#121214">
+<title>3AI Intelligence Dashboard</title>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="stylesheet" href="/static/apple-hig.css">
+<object data="/static/icons.svg" type="image/svg+xml" style="display:none" id="iconsSprite"></object>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.icon { width: 1em; height: 1em; display: inline-block; vertical-align: middle; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.icon-lg { width: 20px; height: 20px; }
+.icon-sm { width: 13px; height: 13px; }
+.icon-tab { width: 24px; height: 24px; display: block; margin: 0 auto; }
+.icon-state { width: 36px; height: 36px; }
+.icon-stat { width: 18px; height: 18px; display: block; margin: 0 auto 3px; }
+
+body {
+  font-family: var(--font);
+  background: var(--groupedBackground);
+  color: var(--label);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100dvh;
+}
+
+/* App Shell */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 393px;
+  margin: 0 auto;
+  padding-top: var(--safe-top);
+  position: relative;
+}
+
+/* Greeting */
+.greeting-bar {
+  padding: var(--space-sm) var(--space-2xl) var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.greeting-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--fighter), var(--pplx));
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--callout); font-weight: 600;
+  color: white; flex-shrink: 0;
+}
+.greeting-text { flex: 1; }
+.greeting-text h1 {
+  font-size: var(--headline); font-weight: 700;
+  line-height: 1.3;
+  color: var(--label);
+}
+.greeting-text p {
+  font-size: var(--footnote);
+  color: var(--secondaryLabel);
+  margin-top: 1px;
+}
+.pplx-indicator {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--pplx);
+  box-shadow: 0 0 8px var(--pplx);
+  animation: breathe 2.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* Main Content */
+.main-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 var(--space-2xl) var(--space-sm);
+  scroll-behavior: smooth;
+}
+.main-scroll::-webkit-scrollbar { display: none; }
+
+.tab-section {
+  display: flex; flex-direction: column;
+  gap: var(--space-2xl);
+  padding-bottom: var(--space-3xl);
+}
+
+/* Section Title — Apple footnote uppercase style */
+.section-title {
+  font-size: var(--footnote);
+  font-weight: 600;
+  color: var(--secondaryLabel);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: var(--space-2xs) 0;
+}
+
+/* AI Cards Grid */
+.ai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
+.ai-card {
+  background: var(--thinMaterial);
+  border: 1px solid var(--quaternarySystemFill);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative; overflow: hidden;
+  min-height: 125px;
+}
+.ai-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.ai-card.fighter::before { background: var(--fighter); }
+.ai-card.work::before { background: var(--work); }
+.ai-card.person::before { background: var(--person); }
+.ai-card-header {
+  display: flex; align-items: center; gap: var(--space-2xs);
+  margin-bottom: var(--space-2xs);
+}
+.ai-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  animation: breathe 2.2s ease-in-out infinite;
+}
+.ai-status-dot.online { background: var(--systemGreen); }
+.ai-status-dot.busy { background: var(--systemOrange); }
+.ai-status-dot.offline { background: var(--systemRed); }
+.ai-card-name {
+  font-size: var(--footnote); font-weight: 600;
+}
+.ai-card-thought {
+  font-size: var(--caption);
+  color: var(--secondaryLabel);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: var(--space-2xs);
+  min-height: 28px;
+  cursor: pointer;
+  position: relative;
+  transition: -webkit-line-clamp 0.2s, max-height 0.2s;
+}
+.ai-card-thought.expanded {
+  -webkit-line-clamp: unset;
+  display: block;
+  overflow: visible;
+}
+.ai-card-thought::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 16px;
+  background: linear-gradient(transparent, var(--thinMaterial));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.ai-card-thought:not(.expanded)::after {
+  opacity: 1;
+}
+.ai-card-thought.expanded::after {
+  opacity: 0;
+}
+.ai-card-metrics { display: flex; gap: var(--space-2xs); }
+.ai-metric { flex: 1; text-align: center; }
+.ai-metric-value {
+  font-size: var(--subheadline);
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+.ai-metric-label {
+  font-size: var(--caption2);
+  color: var(--tertiaryLabel);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Quick Stats */
+.quick-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
+.quick-stat {
+  background: var(--thinMaterial);
+  border: 1px solid var(--quaternarySystemFill);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  text-align: center;
+  backdrop-filter: blur(20px);
+}
+.quick-stat-icon { font-size: 20px; margin-bottom: var(--space-2xs); }
+.quick-stat-value { font-size: var(--title3); font-weight: 700; font-family: var(--font-mono); }
+.quick-stat-label { font-size: var(--caption); color: var(--tertiaryLabel); margin-top: 2px; }
+
+/* Activity Feed */
+.activity-list { display: flex; flex-direction: column; gap: var(--space-sm); }
+.activity-item {
+  display: flex; align-items: flex-start; gap: var(--space-sm);
+  background: var(--thinMaterial);
+  border: 1px solid var(--quaternarySystemFill);
+  border-radius: var(--radius-card);
+  padding: var(--space-sm) var(--space-md);
+  backdrop-filter: blur(20px);
+}
+.activity-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  margin-top: 6px; flex-shrink: 0;
+}
+.activity-dot.fighter { background: var(--fighter); }
+.activity-dot.work { background: var(--work); }
+.activity-dot.person { background: var(--person); }
+.activity-dot.system { background: var(--tertiaryLabel); }
+.activity-text { flex: 1; font-size: var(--footnote); line-height: 1.4; color: var(--secondaryLabel); }
+.activity-text strong { color: var(--label); }
+.activity-time { font-size: var(--caption); color: var(--tertiaryLabel); white-space: nowrap; }
+.active-audit { border-color: var(--pplx) !important; }
+
+/* Intelligence Tab */
+.intel-bar {
+  background: var(--thinMaterial);
+  border: 1px solid var(--quaternarySystemFill);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  backdrop-filter: blur(20px);
+}
+.intel-input-wrap { display: flex; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+.intel-input {
+  flex: 1;
+  background: var(--systemBackground);
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-input);
+  padding: 10px 14px;
+  color: var(--label);
+  font-size: var(--body);
+  font-family: var(--font);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.intel-input:focus { border-color: var(--pplx); }
+.intel-input::placeholder { color: var(--tertiaryLabel); }
+.intel-send {
+  width: 44px; height: 44px;  /* Apple minimum tap target */
+  border-radius: var(--radius-input);
+  border: none;
+  background: var(--pplx);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+.intel-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.mode-picker { display: flex; gap: var(--space-2xs); }
+.mode-chip {
+  flex: 1;
+  padding: 7px 0;        /* 44pt minimum if text overflows */
+  min-height: 36px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--quaternarySystemFill);
+  background: transparent;
+  color: var(--secondaryLabel);
+  font-size: var(--caption);
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.mode-chip.active {
+  background: var(--pplx);
+  color: white;
+  border-color: var(--pplx);
+}
+.intel-result {
+  background: var(--thinMaterial);
+  border: 1px solid var(--quaternarySystemFill);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  backdrop-filter: blur(20px);
+  font-size: var(--subheadline);
+  line-height: 1.6;
+}
+.intel-result .citation { font-size: var(--caption); color: var(--tertiaryLabel); }
+.intel-history { display: flex; flex-direction: column; gap: var(--space-2xs); }
+.intel-history-item {
+  display: flex; align-items: center; gap: var(--space-sm);
+  min-height: 44px;    /* Apple tap target */
+  background: var(--thinMaterial);
+  border: 1px solid var(--quaternarySystemFill);
+  border-radius: var(--radius-card);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--footnote);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Tasks Tab */
+.task-filters { display: flex; gap: var(--space-2xs); flex-wrap: wrap; }
+.task-filter-chip {
+  padding: 6px var(--space-lg);
+  min-height: 44px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--quaternarySystemFill);
+  background: transparent;
+  color: var(--secondaryLabel);
+  font-size: var(--footnote);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.task-filter-chip.active { background: var(--work); color: white; border-color: var(--work); }
+
+.task-item {
+  display: flex; align-items: center; gap: var(--space-sm);
+  min-height: 48px;
+  background: var(--thinMaterial);
+  border: 1px solid var(--quaternarySystemFill);
+  border-radius: var(--radius-card);
+  padding: var(--space-sm) var(--space-md);
+}
+.task-check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--tertiaryLabel);
+  flex-shrink: 0;
+}
+.task-name { flex: 1; font-size: var(--subheadline); }
+.task-due { font-size: var(--caption); color: var(--tertiaryLabel); white-space: nowrap; }
+.task-due-overdue { color: var(--systemRed); font-weight: 600; }
+.task-overdue { border-color: var(--systemRed); border-left: 3px solid var(--systemRed); }
+.task-overdue-badge {
+  font-size: var(--caption); font-weight: 600;
+  color: white; background: var(--systemRed);
+  padding: 2px 8px; border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+/* Settings Tab */
+.setting-group { display: flex; flex-direction: column; gap: var(--space-sm); }
+.setting-card {
+  display: flex; align-items: center; gap: var(--space-lg);
+  min-height: 52px;
+  background: var(--thinMaterial);
+  border: 1px solid var(--quaternarySystemFill);
+  border-radius: var(--radius-card);
+  padding: var(--space-md) var(--space-md);
+  backdrop-filter: blur(20px);
+}
+
+/* Connection Tab */
+.conn-summary {
+  display: flex; gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+.conn-summary-total, .conn-summary-item {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center;
+  padding: var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--thinMaterial);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--quaternarySystemFill);
+}
+.conn-count { font-size: 28px; font-weight: 700; line-height: 1.2; }
+.conn-label { font-size: 11px; color: var(--secondaryLabel); margin-top: 2px; }
+.conn-green .conn-count { color: var(--systemGreen); }
+.conn-gray .conn-count { color: var(--tertiaryLabel); }
+.conn-red .conn-count { color: var(--systemRed); }
+.conn-delta { text-align: center; margin: var(--space-sm) 0 var(--space-md); }
+.conn-table-wrap {
+  background: var(--thinMaterial);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--quaternarySystemFill);
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  backdrop-filter: blur(20px);
+}
+.conn-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 340px; }
+.conn-table th {
+  text-align: left; padding: var(--space-2xs) var(--space-sm);
+  color: var(--tertiaryLabel); font-weight: 600; font-size: 10px;
+  border-bottom: 1px solid var(--quaternarySystemFill);
+  text-transform: uppercase; letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.conn-table td {
+  padding: var(--space-2xs) var(--space-sm);
+  border-bottom: 1px solid var(--quaternarySystemFill);
+  white-space: nowrap;
+}
+.conn-table tr:last-child td { border-bottom: none; }
+.conn-dot {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; flex-shrink: 0;
+}
+.conn-dot-connected { background: var(--systemGreen); }
+.conn-dot-unknown { background: var(--tertiaryLabel); }
+.conn-dot-failed { background: var(--systemRed); }
+.conn-name { font-weight: 500; }
+.conn-type, .conn-cat { color: var(--tertiaryLabel); font-size: 11px; }
+.conn-dur { text-align: right; font-size: 12px; min-width: 40px; }
+.setting-card-icon { font-size: 24px; flex-shrink: 0; }
+.setting-card-info { flex: 1; }
+.setting-card-title { font-size: var(--subheadline); font-weight: 600; }
+.setting-card-desc { font-size: var(--caption); color: var(--secondaryLabel); }
+
+/* States */
+.state-empty, .state-error, .state-loading {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: var(--space-5xl) var(--space-lg);
+  text-align: center; gap: var(--space-sm);
+}
+.state-empty-icon, .state-error-icon { font-size: 40px; }
+.state-empty-text, .state-error-text { font-size: var(--subheadline); color: var(--tertiaryLabel); }
+.state-retry-btn {
+  padding: 12px 28px;   /* 44pt minimum */
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--secondarySystemBackground);
+  color: var(--label);
+  font-size: var(--body);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+/* Skeleton Loading — Apple shimmer style */
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--tertiarySystemBackground) 25%,
+    rgba(255,255,255,0.06) 50%,
+    var(--tertiarySystemBackground) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+  border-radius: 6px;
+}
+.skeleton-card { height: 140px; border-radius: var(--radius-card); }
+.skeleton-line { height: 14px; margin-bottom: var(--space-sm); }
+.skeleton-line:last-child { width: 60%; }
+
+/* Tab Bar — Apple style */
+.tab-bar {
+  display: flex;
+  background: var(--regularMaterial);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 1px solid var(--opaqueSeparator);
+  padding-bottom: var(--safe-bottom);
+  height: calc(var(--tab-height) + var(--safe-bottom));
+}
+.tab-item {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px;
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--tertiaryLabel);
+  font-size: var(--caption2);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.tab-item.active { color: var(--label); }
+.tab-item.active::after {
+  content: '';
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 24px; height: 2px;
+  border-radius: 1px;
+}
+.tab-item[data-tab="home"].active::after { background: var(--fighter); }
+.tab-item[data-tab="intel"].active::after { background: var(--pplx); }
+.tab-item[data-tab="tasks"].active::after { background: var(--work); }
+.tab-item[data-tab="settings"].active::after { background: var(--tertiaryLabel); }
+.tab-icon { font-size: 22px; line-height: 1; }
+.tab-label { font-size: 10px; font-weight: 500; letter-spacing: 0.2px; }
+
+/* Animations — Apple spring-like */
+@keyframes breathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+
+.loading-spinner {
+  width: 28px; height: 28px;
+  border: 3px solid var(--tertiarySystemFill);
+  border-top-color: var(--pplx);
+  border-radius: 50%;
+  animation: spin 0.8s cubic-bezier(0.45, 0, 0.45, 1) infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.contract-urgent { border-left: 3px solid var(--systemRed) !important; }
+.contract-soon { border-left: 3px solid var(--systemOrange) !important; }
+</style>
+</head>
+<body>
+<div class="app-shell" x-data="appState()" x-init="init()">
+
+  <!-- Greeting -->
+  <div class="greeting-bar">
+    <div class="greeting-avatar">T</div>
+    <div class="greeting-text">
+      <h1 x-text="greeting"></h1>
+      <p><span x-text="dateStr"></span></p>
+    </div>
+    <div class="pplx-indicator" title="Perplexity Intelligence Layer Active"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-scroll" id="mainScroll">
+    <!-- ═══ HOME TAB ═══ -->
+    <div x-show="tab === 'home'" x-transition.duration.200ms class="tab-section">
+
+      <!-- AI Cards -->
+      <div>
+        <div class="section-title">Servants</div>
+        <template x-if="!statusLoaded">
+          <div class="ai-grid">
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+          </div>
+        </template>
+        <template x-if="statusLoaded && !statusError">
+          <div class="ai-grid">
+            <div class="ai-card fighter" x-data="{ ai: 'Fighter', color: 'var(--fighter)' }">
+              <div class="ai-card-header">
+                <div class="ai-status-dot" :class="statuses.fighter?.cpu < 10 ? 'online' : 'busy'"></div>
+                <span class="ai-card-name">🔥 Fighter</span>
+              </div>
+              <div class="ai-card-thought" :class="{ expanded: expandedThought === 'fighter' }" @click="toggleThought('fighter')" x-text="thoughts?.fighter || 'Listening...'"></div>
+              <div class="ai-card-metrics">
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.fighter?.cpu ?? '-'"></div><div class="ai-metric-label">CPU%</div></div>
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.fighter?.mem ?? '-'"></div><div class="ai-metric-label">MEM%</div></div>
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.perplexity?.queries_today || '-'"></div><div class="ai-metric-label">Queries</div></div>
+              </div>
+            </div>
+            <div class="ai-card work" x-data="{ ai: 'Work', color: 'var(--work)' }">
+              <div class="ai-card-header">
+                <div class="ai-status-dot" :class="statuses.work?.cpu < 10 ? 'online' : 'busy'"></div>
+                <span class="ai-card-name">⚙️ Work</span>
+              </div>
+              <div class="ai-card-thought" :class="{ expanded: expandedThought === 'work' }" @click="toggleThought('work')" x-text="thoughts?.work || 'Working...'"></div>
+              <div class="ai-card-metrics">
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.work?.cpu ?? '-'"></div><div class="ai-metric-label">CPU%</div></div>
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.work?.mem ?? '-'"></div><div class="ai-metric-label">MEM%</div></div>
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.work?.disk || '-'"></div><div class="ai-metric-label">Disk%</div></div>
+              </div>
+            </div>
+            <div class="ai-card person" x-data="{ ai: 'Person', color: 'var(--person)' }">
+              <div class="ai-card-header">
+                <div class="ai-status-dot" :class="statuses.person?.cpu < 10 ? 'online' : 'busy'"></div>
+                <span class="ai-card-name">❤️ Person</span>
+              </div>
+              <div class="ai-card-thought" :class="{ expanded: expandedThought === 'person' }" @click="toggleThought('person')" x-text="thoughts?.person || 'Ready...'"></div>
+              <div class="ai-card-metrics">
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.person?.cpu ?? '-'"></div><div class="ai-metric-label">CPU%</div></div>
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.person?.mem ?? '-'"></div><div class="ai-metric-label">MEM%</div></div>
+                <div class="ai-metric"><div class="ai-metric-value" x-text="statuses.person?.disk || '-'"></div><div class="ai-metric-label">Disk%</div></div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <template x-if="statusError">
+            <div class="state-error">
+            <svg class="icon-state"><use href="/static/icons.svg#icon-triangle-alert"/></svg>
+            <div class="state-error-text">Could not reach the servants</div>
+            <button class="state-retry-btn" @click="fetchStatus()">Retry</button>
+          </div>
+        </template>
+      </div>
+
+      <!-- Quick Stats -->
+      <div>
+        <div class="section-title">Overview</div>
+        <div class="quick-stats">
+          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg#icon-list-checks"/></svg><div class="quick-stat-value" x-text="totalTasks || '0'"></div><div class="quick-stat-label">Tasks</div></div>
+          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg#icon-search"/></svg><div class="quick-stat-value" x-text="totalQueries || '0'"></div><div class="quick-stat-label">Queries</div></div>
+          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg#icon-activity"/></svg><div class="quick-stat-value" x-text="onlineMCPs || '0'"></div><div class="quick-stat-label">MCPs</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ INTELLIGENCE TAB — GG Family Hub ═══ -->
+    <div x-show="tab === 'intel'" x-transition.duration.200ms class="tab-section">
+      <!-- Loading -->
+      <template x-if="!insightsLoaded">
+        <div>
+          <div class="section-title">GG Family</div>
+          <div class="skeleton skeleton-card"></div>
+          <div style="height:var(--space-md)"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </template>
+
+      <template x-if="insightsLoaded">
+        <div>
+          <!-- ═══ GG VOICES ═══ -->
+          <div>
+            <div class="section-title">
+              🗣️ GG Voices
+              <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:var(--caption);color:var(--tertiaryLabel)" x-text="' · ' + voices.length + ' thoughts'"></span>
+            </div>
+            <template x-if="voices.length === 0">
+              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-inbox"/></svg><div class="state-empty-text">No thoughts yet — give me time to observe</div></div>
+            </template>
+            <template x-if="voices.length > 0">
+              <div class="activity-list">
+                <template x-for="v in voices.slice(0,6)" :key="v.created_at + v.title">
+                  <div>
+                    <div class="activity-item fade-in" @click="toggleInsightDetail(v)" :class="{ 'active-audit': activeInsight === v }" style="cursor:pointer">
+                      <div class="activity-dot" :class="v.source === 'fighter' ? 'fighter' : v.source === 'work' ? 'work' : 'person'"></div>
+                      <div class="activity-text" style="flex:1;min-width:0">
+                        <strong x-text="v.title" style="display:block;font-size:var(--footnote);margin-bottom:2px"></strong>
+                        <span style="font-size:var(--caption);color:var(--tertiaryLabel);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" x-text="v.content"></span>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0">
+                        <div class="activity-time" x-text="timeAgo(v.created_at)"></div>
+                        <span x-show="v.meta && Object.keys(v.meta).length > 1" style="font-size:9px;color:var(--tertiaryLabel)">🔍 detail</span>
+                      </div>
+                    </div>
+                    <!-- Detail panel -->
+                    <div x-show="activeInsight === v" x-transition.duration.200ms style="background:var(--tertiarySystemBackground);border-radius:var(--radius-card);padding:var(--space-md);margin:var(--space-2xs) 0;font-size:var(--caption);color:var(--secondaryLabel);line-height:1.6">
+                      <template x-for="(val, key) in v.meta" :key="key">
+                        <div style="margin-bottom:var(--space-2xs)">
+                          <span style="color:var(--label);font-weight:500" x-text="key.replace(/_/g,' ') + ':'"></span>
+                          <span x-text="typeof val === 'object' ? JSON.stringify(val).slice(0,80) : String(val).slice(0,80)"></span>
+                        </div>
+                      </template>
+                      <div x-show="!v.meta || Object.keys(v.meta).length === 0" style="color:var(--tertiaryLabel)">No additional data</div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+
+          <!-- ═══ DISCOVERIES & FINDINGS ═══ -->
+          <div>
+            <div class="section-title">🔍 Discoveries</div>
+            <template x-if="discoveries.length === 0">
+              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-search"/></svg><div class="state-empty-text">No findings yet — system is still warming up</div></div>
+            </template>
+            <template x-if="discoveries.length > 0">
+              <div class="activity-list">
+                <template x-for="d in discoveries.slice(0,4)" :key="d.created_at">
+                  <div>
+                    <div class="activity-item fade-in" @click="toggleInsightDetail(d)" :class="{ 'active-audit': activeInsight === d }" style="cursor:pointer">
+                      <div class="activity-dot system"></div>
+                      <div class="activity-text" style="flex:1;min-width:0">
+                        <strong x-text="d.title" style="display:block;font-size:var(--footnote);margin-bottom:2px"></strong>
+                        <span style="font-size:var(--caption);color:var(--tertiaryLabel);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" x-text="d.content"></span>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0">
+                        <div class="activity-time" x-text="timeAgo(d.created_at)"></div>
+                        <span x-show="d.meta && Object.keys(d.meta).length > 1" style="font-size:9px;color:var(--tertiaryLabel)">🔍</span>
+                      </div>
+                    </div>
+                    <div x-show="activeInsight === d" x-transition.duration.200ms style="background:var(--tertiarySystemBackground);border-radius:var(--radius-card);padding:var(--space-md);margin:var(--space-2xs) 0;font-size:var(--caption);color:var(--secondaryLabel);line-height:1.6">
+                      <template x-for="(val, key) in d.meta" :key="key">
+                        <div style="margin-bottom:var(--space-2xs)">
+                          <span style="color:var(--label);font-weight:500" x-text="key.replace(/_/g,' ') + ':'"></span>
+                          <span x-text="typeof val === 'object' ? JSON.stringify(val).slice(0,80) : String(val).slice(0,80)"></span>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+
+          <!-- ═══ SUGGESTIONS ═══ -->
+          <div>
+            <div class="section-title">⬆️ Suggestions</div>
+            <template x-if="suggestions.length === 0">
+              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-lightbulb"/></svg><div class="state-empty-text">No suggestions right now</div></div>
+            </template>
+            <template x-if="suggestions.length > 0">
+              <div class="activity-list">
+                <template x-for="s in suggestions.slice(0,3)" :key="s.created_at">
+                  <div class="activity-item fade-in" :style="{ borderLeft: s.priority === 'high' ? '3px solid var(--systemOrange)' : '3px solid transparent', cursor:'default' }">
+                    <div class="activity-dot" :class="s.source"></div>
+                    <div class="activity-text" style="flex:1;min-width:0">
+                      <strong x-text="s.title" style="display:block;font-size:var(--footnote);margin-bottom:2px"></strong>
+                      <span style="font-size:var(--caption);color:var(--tertiaryLabel);line-height:1.4" x-text="s.content"></span>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+
+          <!-- ═══ GG ACTIVITY (moved from Home) ═══ -->
+          <div>
+            <div class="section-title">
+              📡 GG Activity
+              <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:var(--caption);color:var(--tertiaryLabel)" x-text="' · ' + activities.length + ' actions'"></span>
+            </div>
+            <template x-if="!activityLoaded">
+              <div class="state-loading"><div class="loading-spinner"></div></div>
+            </template>
+            <template x-if="activityLoaded && activities.length === 0">
+              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-inbox"/></svg><div class="state-empty-text">All quiet, master</div></div>
+            </template>
+            <template x-if="activities.length > 0">
+              <div class="activity-list">
+                <template x-for="a in activities.slice(0,8)" :key="a.timestamp + a.action">
+                  <div class="activity-item fade-in">
+                    <div class="activity-dot" :class="a.ai"></div>
+                    <div class="activity-text"><strong x-text="a.label"></strong> <span x-text="a.action.slice(0,80)"></span></div>
+                    <div class="activity-time" x-text="timeAgo(a.timestamp)"></div>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+
+          <!-- ═══ WORK DYNAMICS ═══ -->
+          <div>
+            <div class="section-title">⚙️ Work Dynamics</div>
+            <template x-if="workActivity.length === 0">
+              <div class="state-empty"><div style="font-size:24px">⚙️</div><div class="state-empty-text">No Work activity logged yet</div></div>
+            </template>
+            <template x-if="workActivity.length > 0">
+              <div class="activity-list">
+                <template x-for="a in workActivity.slice(0,4)" :key="a.timestamp + a.action">
+                  <div class="activity-item fade-in">
+                    <div class="activity-dot work"></div>
+                    <div class="activity-text"><strong>⚙️ Work</strong> <span x-text="a.action.slice(0,80)"></span></div>
+                    <div class="activity-time" x-text="timeAgo(a.timestamp)"></div>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+
+          <!-- ═══ PERSON DYNAMICS ═══ -->
+          <div>
+            <div class="section-title">❤️ Person Dynamics</div>
+            <template x-if="personActivity.length === 0">
+              <div class="state-empty"><div style="font-size:24px">❤️</div><div class="state-empty-text">No Person activity logged yet</div></div>
+            </template>
+            <template x-if="personActivity.length > 0">
+              <div class="activity-list">
+                <template x-for="a in personActivity.slice(0,4)" :key="a.timestamp + a.action">
+                  <div class="activity-item fade-in">
+                    <div class="activity-dot person"></div>
+                    <div class="activity-text"><strong>❤️ Person</strong> <span x-text="a.action.slice(0,80)"></span></div>
+                    <div class="activity-time" x-text="timeAgo(a.timestamp)"></div>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+
+          <!-- ═══ Perplexity — kept as compact card ═══ -->
+          <div>
+            <div class="section-title" style="cursor:pointer" @click="showPplx = !showPplx">
+              <svg class="icon" style="color:var(--pplx);width:14px;height:14px;vertical-align:middle"><use href="/static/icons.svg#icon-sparkles"/></svg>
+              Perplexity
+              <span x-text="showPplx ? '▼' : '▶'" style="font-size:10px;margin-left:4px"></span>
+            </div>
+            <div x-show="showPplx" x-transition.duration.200ms>
+              <div class="intel-bar" style="margin-bottom:var(--space-sm)">
+                <div class="intel-input-wrap">
+                  <input class="intel-input" type="text" x-model="pplxQuery" @keyup.enter="submitQuery()"
+                         placeholder="Ask anything..." :disabled="pplxLoading">
+                  <button class="intel-send" @click="submitQuery()" :disabled="!pplxQuery.trim() || pplxLoading">
+                    <svg class="icon-lg" style="color:white" x-show="!pplxLoading"><use href="/static/icons.svg#icon-send"/></svg>
+                    <span x-show="pplxLoading" class="loading-spinner" style="width:18px;height:18px;border-width:2px"></span>
+                  </button>
+                </div>
+              </div>
+              <template x-if="pplxResult && !pplxLoading">
+                <div class="intel-result fade-in">
+                  <div x-text="pplxResult"></div>
+                </div>
+              </template>
+              <template x-if="pplxError && !pplxLoading">
+                <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg#icon-circle-x"/></svg><div class="state-error-text" x-text="pplxError"></div></div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <!-- ═══ TASKS TAB ═══ -->
+    <div x-show="tab === 'tasks'" x-transition.duration.200ms class="tab-section">
+      <div>
+        <div class="section-title">Task Center</div>
+        <div class="task-filters" style="margin-bottom:var(--space-md)">
+          <button class="task-filter-chip" :class="{ active: taskFilter === 'all' }" @click="taskFilter = 'all'">All <span style="font-size:10px;color:inherit;opacity:0.7" x-text="'(' + (tasks||[]).length + ')'"></span></button>
+          <button class="task-filter-chip" :class="{ active: taskFilter === 'today' }" @click="taskFilter = 'today'">Today <span style="font-size:10px;color:inherit;opacity:0.7" x-text="'(' + filteredTasksTodayCount + ')'"></span></button>
+          <button class="task-filter-chip" :class="{ active: taskFilter === 'overdue' }" @click="taskFilter = 'overdue'">Overdue <span style="font-size:10px;color:inherit;opacity:0.7" x-text="'(' + filteredTasksOverdueCount + ')'"></span></button>
+        </div>
+        <template x-if="!tasksLoaded">
+          <div class="state-loading"><div class="loading-spinner"></div></div>
+        </template>
+        <template x-if="tasksLoaded && filteredTasks.length === 0">
+          <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-circle-check"/></svg><div class="state-empty-text">All done, master</div></div>
+        </template>
+        <template x-if="filteredTasks.length > 0">
+          <div class="activity-list">
+            <template x-for="t in filteredTasks" :key="t.id || t.name">
+              <div class="task-item fade-in" :class="{ 'task-overdue': isTaskOverdue(t) }">
+                <div class="task-check" :style="{ background: t.done ? 'var(--systemGreen)' : 'transparent', borderColor: t.done ? 'var(--systemGreen)' : 'var(--tertiaryLabel)' }" @click="toggleTask(t)">
+                  <svg class="icon-sm" x-show="t.done" style="color:white;margin:auto;display:block;width:14px;height:14px"><use href="/static/icons.svg#icon-check"/></svg>
+                </div>
+                <span class="task-name" :style="{ textDecoration: t.done ? 'line-through' : 'none', color: t.done ? 'var(--tertiaryLabel)' : 'var(--label)' }" x-text="t.name || t.title"></span>
+                <template x-if="!t.done && isTaskOverdue(t)">
+                  <span class="task-overdue-badge">Overdue</span>
+                </template>
+                <span class="task-due" :class="{ 'task-due-overdue': !t.done && isTaskOverdue(t) }" x-text="t.due || ''"></span>
+              </div>
+            </template>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <!-- ═══ TASKS TAB — Audit Timeline ═══ -->
+    <div x-show="tab === 'tasks'" x-transition.duration.200ms class="tab-section">
+      <div>
+        <div class="section-title">Activity Timeline</div>
+        <template x-if="taskAudit.length === 0">
+          <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-inbox"/></svg><div class="state-empty-text">No changes yet</div></div>
+        </template>
+        <template x-if="taskAudit.length > 0">
+          <div class="activity-list">
+            <template x-for="(a, idx) in taskAudit.slice(0,15)" :key="a.changed_at + a.page_id">
+              <div>
+                <div class="activity-item fade-in" @click="toggleAuditDetail(idx)" :class="{ 'active-audit': activeAudit === idx }" style="cursor:pointer;transition:border-color 0.2s">
+                  <div class="activity-dot" :class="a.action === 'completed' ? 'fighter' : a.action === 'created' ? 'system' : 'work'"></div>
+                  <div class="activity-text" style="flex:1;min-width:0">
+                    <strong x-text="a.title" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></strong>
+                    <span>
+                      <template x-if="a.action === 'created'">🆕 created</template>
+                      <template x-if="a.action === 'completed'">✅ completed</template>
+                      <template x-if="a.action === 'resumed'">🔄 resumed</template>
+                      <template x-if="a.action === 'status_changed'"><span x-text="'↔ ' + a.old_status + ' → ' + a.new_status"></span></template>
+                      <template x-if="a.action === 'removed_from_notion'">🗑️ archived</template>
+                    </span>
+                  </div>
+                  <div class="activity-time" x-text="timeAgo(a.changed_at)"></div>
+                </div>
+                <!-- Detail panel -->
+                <div x-show="activeAudit === idx" style="background:var(--tertiarySystemBackground);border-radius:var(--radius-card);padding:var(--space-sm) var(--space-md);margin-top:var(--space-2xs);margin-bottom:var(--space-2xs);font-size:var(--caption);color:var(--secondaryLabel);line-height:1.5">
+                  <div><strong style="color:var(--label)">Title:</strong> <span x-text="a.title"></span></div>
+                  <div><strong style="color:var(--label)">Time:</strong> <span x-text="a.changed_at"></span></div>
+                  <div x-show="a.old_status || a.new_status"><strong style="color:var(--label)">Status:</strong> <span x-text="(a.old_status || '—') + ' → ' + (a.new_status || '—')"></span></div>
+                  <div style="margin-top:4px;color:var(--tertiaryLabel);font-size:10px" x-text="'ID: ' + a.page_id.slice(0,12) + '...'"></div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </template>
+        <template x-if="taskSync.last_sync">
+          <div style="text-align:center;padding:var(--space-md);color:var(--tertiaryLabel);font-size:var(--caption)">
+            Last sync: <span x-text="taskSync.last_sync"></span> · <span x-text="taskSync.rows"></span> changes
+            <svg class="icon-sm" style="margin-left:4px;color:var(--systemGreen)" x-show="taskSync.status === 'ok'"><use href="/static/icons.svg#icon-circle-check"/></svg>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <!-- ═══ SETTINGS TAB ═══ -->
+    <div x-show="tab === 'settings'" x-transition.duration.200ms class="tab-section">
+      <!-- System Health -->
+      <div>
+        <div class="section-title">System</div>
+        <div class="setting-group">
+          <template x-for="(s, name) in statuses" :key="name">
+            <template x-if="name !== 'perplexity'">
+              <div class="setting-card" :style="{ borderColor: (s.cpu || 0) > 50 ? 'var(--systemOrange)' : 'var(--systemGreen)' }">
+                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--fighter)" x-show="name === 'fighter'"><use href="/static/icons.svg#icon-zap"/></svg>
+                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--work)" x-show="name === 'work'"><use href="/static/icons.svg#icon-cpu"/></svg>
+                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--person)" x-show="name === 'person'"><use href="/static/icons.svg#icon-hard-drive"/></svg>
+                <div class="setting-card-info">
+                  <div class="setting-card-title" x-text="name.charAt(0).toUpperCase() + name.slice(1)"></div>
+                  <div class="setting-card-desc" x-text="'CPU: ' + (s.cpu || 'N/A') + '%  MEM: ' + (s.mem || 'N/A') + '%  Up: ' + (s.uptime || 'N/A')"></div>
+                </div>
+                <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
+                  <span :style="{ color: (s.cpu || 0) > 50 ? 'var(--systemOrange)' : 'var(--systemGreen)' }" x-text="(s.cpu || 0) > 50 ? '⚠️' : '✅'"></span>
+                  <span style="font-size:11px;color:var(--tertiaryLabel)" x-text="(s.cpu || 0) > 50 ? 'High load' : 'Normal'"></span>
+                </div>
+              </div>
+            </template>
+          </template>
+        </div>
+      </div>
+
+      <!-- MCP Servers -->
+      <div>
+        <div class="section-title">MCP Servers</div>
+        <template x-if="!mcpLoaded">
+          <div class="state-loading"><div class="loading-spinner"></div></div>
+        </template>
+        <template x-if="mcpLoaded && mcpServers.length === 0">
+          <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg#icon-circle-x"/></svg><div class="state-error-text">Could not fetch MCP status</div></div>
+        </template>
+        <template x-if="mcpServers.length > 0">
+          <div>
+            <div style="display:flex;gap:var(--space-sm);margin-bottom:var(--space-sm)">
+              <div style="flex:1;text-align:center;padding:var(--space-md);border-radius:var(--radius-card);background:var(--thinMaterial);border:1px solid var(--quaternarySystemFill)">
+                <span style="font-size:20px;font-weight:700;color:var(--systemGreen)" x-text="sortedMCPs.filter(m => m.status === '🟢').length"></span>
+                <div style="font-size:10px;color:var(--secondaryLabel);margin-top:1px">Online</div>
+              </div>
+              <div style="flex:1;text-align:center;padding:var(--space-md);border-radius:var(--radius-card);background:var(--thinMaterial);border:1px solid var(--quaternarySystemFill)">
+                <span style="font-size:20px;font-weight:700;color:var(--systemRed)" x-text="sortedMCPs.filter(m => m.status === '🔴').length"></span>
+                <div style="font-size:10px;color:var(--secondaryLabel);margin-top:1px">Offline</div>
+              </div>
+              <div style="flex:1;text-align:center;padding:var(--space-md);border-radius:var(--radius-card);background:var(--thinMaterial);border:1px solid var(--quaternarySystemFill)">
+                <span style="font-size:20px;font-weight:700;color:var(--label)" x-text="sortedMCPs.length"></span>
+                <div style="font-size:10px;color:var(--secondaryLabel);margin-top:1px">Total</div>
+              </div>
+            </div>
+            <div class="activity-list">
+              <template x-for="m in sortedMCPs" :key="m.name">
+                <div class="setting-card" style="padding:var(--space-xs) var(--space-md);min-height:40px">
+                  <div style="width:10px;height:10px;border-radius:50%;flex-shrink:0" :style="{ background: m.status === '🟢' ? 'var(--systemGreen)' : 'var(--systemRed)' }"></div>
+                  <span class="setting-card-title" style="flex:1;font-size:13px" x-text="m.name"></span>
+                  <span style="font-size:10px;padding:2px 8px;border-radius:var(--radius-pill);font-weight:600" :style="{ background: m.status === '🟢' ? 'rgba(48,209,88,0.15)' : 'rgba(255,69,58,0.15)', color: m.status === '🟢' ? 'var(--systemGreen)' : 'var(--systemRed)' }" x-text="m.status === '🟢' ? 'Online' : 'Offline'"></span>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- Perplexity Usage -->
+      <div>
+        <div class="section-title">Intelligence Usage <svg class="icon" style="color:var(--pplx);width:14px;height:14px"><use href="/static/icons.svg#icon-sparkles"/></svg></div>
+        <div class="setting-group">
+          <div class="setting-card">
+            <svg class="icon icon-lg" style="color:var(--pplx);flex-shrink:0"><use href="/static/icons.svg#icon-sparkles"/></svg>
+            <div class="setting-card-info">
+              <div class="setting-card-title">Perplexity Layer</div>
+              <div class="setting-card-desc" x-text="'Queries today: ' + (statuses.perplexity?.queries_today || 0) + ' | Tools: ' + (statuses.perplexity?.tools?.join(', ') || 'N/A')"></div>
+            </div>
+            <div style="color:var(--systemGreen)">✅ Active</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Info -->
+      <div style="text-align:center;padding:var(--space-3xl) 0;color:var(--tertiaryLabel);font-size:var(--caption)">
+        3 Servants + Intelligence · v1.0 · Apple HIG
+      </div>
+    </div>
+
+    <!-- ═══ CONNECTION TAB ═══ -->
+    <div x-show="tab === 'conn'" x-transition.duration.200ms class="tab-section">
+      <div>
+        <div class="section-title">Connection Health</div>
+        <template x-if="!connLoaded">
+          <div class="state-loading"><div class="loading-spinner"></div></div>
+        </template>
+        <template x-if="connLoaded && connError">
+          <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg#icon-circle-x"/></svg><div class="state-error-text" x-text="connError"></div></div>
+        </template>
+        <template x-if="connLoaded && !connError">
+          <div>
+            <!-- Summary bar -->
+            <div class="conn-summary">
+              <div class="conn-summary-total">
+                <span class="conn-count" x-text="connTotal"></span>
+                <span class="conn-label">Total</span>
+              </div>
+              <div class="conn-summary-item conn-green">
+                <span class="conn-count" x-text="connConnected"></span>
+                <span class="conn-label">Connected</span>
+              </div>
+              <div class="conn-summary-item conn-gray">
+                <span class="conn-count" x-text="connUnknown"></span>
+                <span class="conn-label">Unknown</span>
+              </div>
+              <div class="conn-summary-item conn-red">
+                <span class="conn-count" x-text="connFailed"></span>
+                <span class="conn-label">Failed</span>
+              </div>
+            </div>
+            <!-- Adds/removes -->
+            <div class="conn-delta" x-show="connAdded.length > 0 || connRemoved.length > 0">
+              <span x-show="connAdded.length > 0" style="color:var(--systemGreen);font-size:12px" x-text="'+' + connAdded.length + ' added'"></span>
+              <span x-show="connRemoved.length > 0" style="color:var(--systemOrange);font-size:12px" x-text="', ' + connRemoved.length + ' removed'"></span>
+              <span style="color:var(--tertiaryLabel);font-size:11px" x-text="' · snap ' + connSnapshotTime"></span>
+            </div>
+            <!-- Table -->
+            <div class="conn-table-wrap">
+              <table class="conn-table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Cat</th>
+                    <th>Down</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="ep in connEndpoints" :key="ep.name">
+                    <tr>
+                      <td>
+                        <span class="conn-dot" :class="'conn-dot-' + ep.status" :title="'Last check: ' + ep.last_check_fmt"></span>
+                      </td>
+                      <td class="conn-name" x-text="ep.name"></td>
+                      <td class="conn-type" x-text="ep.type"></td>
+                      <td class="conn-cat" x-text="ep.category || '-'"></td>
+                      <td class="conn-dur">
+                        <span x-show="ep.status === 'connected'" style="color:var(--systemGreen)">OK</span>
+                        <span x-show="ep.status === 'unknown'" style="color:var(--tertiaryLabel)" x-text="ep.duration_min + 'm'"></span>
+                        <span x-show="ep.status === 'failed'" style="color:var(--systemRed)" x-text="ep.duration_min + 'm'"></span>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ Tab Bar ═══ -->
+  <div class="tab-bar">
+    <button class="tab-item" data-tab="home" :class="{ active: tab === 'home' }" @click="tab = 'home'">
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-house"/></svg>
+      <span class="tab-label">Home</span>
+    </button>
+    <button class="tab-item" data-tab="intel" :class="{ active: tab === 'intel' }" @click="tab = 'intel'">
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-sparkles"/></svg>
+      <span class="tab-label">Intelligence</span>
+    </button>
+    <button class="tab-item" data-tab="tasks" :class="{ active: tab === 'tasks' }" @click="tab = 'tasks'">
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-list-checks"/></svg>
+      <span class="tab-label">Tasks</span>
+    </button>
+    <button class="tab-item" data-tab="conn" :class="{ active: tab === 'conn' }" @click="tab = 'conn'">
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-plug"/></svg>
+      <span class="tab-label">Connection</span>
+    </button>
+    <button class="tab-item" data-tab="settings" :class="{ active: tab === 'settings' }" @click="tab = 'settings'">
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-settings"/></svg>
+      <span class="tab-label">Settings</span>
+    </button>
+  </div>
+</div>
+
+<script>
+function appState() {
+  return {
+    // Tab
+    tab: 'home',
+    // Greeting
+    greeting: '',
+    dateStr: '',
+
+    // Status
+    statuses: {},
+    thoughts: {},
+    expandedThought: null,
+    statusLoaded: false,
+    statusError: false,
+    totalTasks: 0,
+    totalQueries: 0,
+    onlineMCPs: 0,
+
+    // Activity
+    activities: [],
+    activityLoaded: false,
+    activityError: false,
+
+    // Perplexity
+    pplxQuery: '',
+    pplxMode: 'ask',
+    pplxLoading: false,
+    pplxResult: '',
+    pplxCitations: [],
+    pplxError: '',
+    queryHistory: [],
+    queryHistoryLoaded: false,
+
+    // Tasks
+    tasks: [],
+    tasksLoaded: false,
+    taskFilter: 'all',
+    taskAudit: [],
+    taskSync: {},
+    activeAudit: null,
+
+    // MCP
+    mcpServers: [],
+    mcpLoaded: false,
+
+    // Computed: sorted MCPs (online first)
+    get sortedMCPs() {
+      const servers = this.mcpServers || []
+      return [...servers].sort((a, b) => {
+        if (a.status === '🟢' && b.status !== '🟢') return -1
+        if (a.status !== '🟢' && b.status === '🟢') return 1
+        return a.name.localeCompare(b.name)
+      })
+    },
+
+    // Computed: insight categories
+    get voices() {
+      return (this.insights || []).filter(i => i.category === 'voice')
+    },
+    get discoveries() {
+      return (this.insights || []).filter(i => i.category === 'discovery')
+    },
+    get suggestions() {
+      return (this.insights || []).filter(i => i.category === 'suggestion')
+    },
+
+    // Computed: per-AI activity
+    get workActivity() {
+      return (this.activities || []).filter(a => a.ai === 'work')
+    },
+    get personActivity() {
+      return (this.activities || []).filter(a => a.ai === 'person')
+    },
+
+    // Connection Health
+    connEndpoints: [],
+    connLoaded: false,
+    connError: '',
+    connTotal: 0,
+    connConnected: 0,
+    connUnknown: 0,
+    connFailed: 0,
+    connAdded: [],
+    connRemoved: [],
+    connSnapshotTime: '',
+
+    // Insights
+    insights: [],
+    insightsLoaded: false,
+    showPplx: false,
+    activeInsight: null,
+
+    // Init
+    init() {
+      this.updateGreeting()
+      setInterval(() => this.updateGreeting(), 60000)
+      this.fetchStatus()
+      this.fetchActivity()
+      this.fetchTasks()
+      this.fetchMCPStatus()
+      this.fetchQueryHistory()
+      this.fetchConnectionHealth()
+      setInterval(() => this.fetchStatus(), 15000)
+      setInterval(() => this.fetchActivity(), 15000)
+      this.fetchInsights()
+      setInterval(() => this.fetchInsights(), 300000) // 5min
+      setInterval(() => this.fetchConnectionHealth(), 900000)
+    },
+
+    updateGreeting() {
+      const h = new Date().getHours()
+      const g = h < 6 ? 'Late night' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening'
+      this.greeting = g + ', Terrence'
+      const now = new Date()
+      const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+      this.dateStr = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()]
+    },
+
+    // ── Fetch Status ──
+    async fetchStatus() {
+      try {
+        const r = await fetch('/api/aria/status')
+        const d = await r.json()
+        if (d.ok) {
+          this.statuses = {
+            fighter: d.fighter || {},
+            work: d.work || {},
+            person: d.person || {},
+            perplexity: d.perplexity || {}
+          }
+          this.totalQueries = d.perplexity?.queries_today || 0
+          this.thoughts = d.thoughts || {}
+          this.statusLoaded = true
+          this.statusError = false
+        } else {
+          this.statusError = true
+        }
+      } catch {
+        this.statusError = true
+        this.statusLoaded = true
+      }
+    },
+
+    // ── Fetch Activity ──
+    async fetchActivity() {
+      try {
+        const r = await fetch('/api/aria/activity/pg')
+        const d = await r.json()
+        if (d.ok) {
+          this.activities = d.activities || []
+        }
+        this.activityLoaded = true
+      } catch {
+        this.activityLoaded = true
+      }
+    },
+
+    // ── Fetch Tasks ──
+    async fetchTasks() {
+      try {
+        const r = await fetch('/api/aria/tasks/pg')
+        const d = await r.json()
+        if (d.ok) {
+          this.tasks = d.tasks || []
+          this.totalTasks = d.total || 0
+          this.taskAudit = d.audit || []
+          this.taskSync = d.sync || {}
+        }
+        this.tasksLoaded = true
+      } catch {
+        this.tasksLoaded = true
+      }
+    },
+
+    // ── Fetch MCP Status ──
+    async fetchMCPStatus() {
+      try {
+        const r = await fetch('/api/aria/mcp-status')
+        const d = await r.json()
+        if (d.ok) {
+          this.mcpServers = d.servers || []
+          this.onlineMCPs = d.servers.filter(s => s.status === '🟢').length
+        }
+        this.mcpLoaded = true
+      } catch {
+        this.mcpLoaded = true
+      }
+    },
+
+    // ── Fetch Query History ──
+    async fetchQueryHistory() {
+      try {
+        const r = await fetch('/api/perplexity/history')
+        const d = await r.json()
+        if (d.ok) this.queryHistory = d.history || []
+        this.queryHistoryLoaded = true
+      } catch {
+        this.queryHistoryLoaded = true
+      }
+    },
+
+    // ── Submit Perplexity Query ──
+    async submitQuery() {
+      if (!this.pplxQuery.trim() || this.pplxLoading) return
+      this.pplxLoading = true
+      this.pplxResult = ''
+      this.pplxCitations = []
+      this.pplxError = ''
+
+      try {
+        const r = await fetch('/api/perplexity/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: this.pplxQuery, mode: this.pplxMode })
+        })
+        const d = await r.json()
+        if (d.ok) {
+          if (d.mode === 'search') {
+            this.pplxResult = d.results.map((res, i) =>
+              (i+1) + '. **' + res.title + '**\n   ' + (res.url || '') + '\n   ' + (res.snippet || '')
+            ).join('\n\n')
+          } else {
+            this.pplxResult = d.content || 'No response'
+            this.pplxCitations = d.citations || []
+          }
+        } else {
+          this.pplxError = d.error || 'Query failed'
+        }
+      } catch (e) {
+        this.pplxError = 'Network error: ' + e.message
+      }
+      this.pplxLoading = false
+      this.fetchQueryHistory()
+    },
+
+    // ── Toggle Task ──
+    async toggleTask(task) {
+      if (task.done) return // already done
+      // Optimistic update
+      task.done = true
+      task.status = 'Done'
+      try {
+        await fetch('/api/aria/complete-task', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: task.id })
+        })
+      } catch {
+        // Revert on failure
+        task.done = false
+        task.status = 'Not started'
+      }
+    },
+
+    // ── Toggle Audit Detail ──
+    toggleAuditDetail(idx) {
+      this.activeAudit = this.activeAudit === idx ? null : idx
+    },
+
+    // ── Toggle Insight Detail ──
+    toggleInsightDetail(insight) {
+      this.activeInsight = this.activeInsight === insight ? null : insight
+    },
+
+    // ── Toggle Thought Expand ──
+    toggleThought(name) {
+      this.expandedThought = this.expandedThought === name ? null : name
+    },
+
+    // ── HKT Today (shared helper, timezone-safe) ──
+    get hktToday() {
+      return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Hong_Kong' }).format(new Date())
+    },
+
+    // ── Defensive date extraction ──
+    dueDate(task) {
+      const raw = task.due || task.due_date
+      if (!raw || typeof raw !== 'string') return ''
+      return raw.slice(0,10)
+    },
+
+    // ── Check if a task is overdue (HKT-aware) ──
+    // Accept optional today param to avoid repeated getter calls
+    isTaskOverdue(task, today) {
+      if (task.done) return false
+      const due = this.dueDate(task)
+      today = today || this.hktToday
+      return due && due < today
+    },
+
+    // ── Check if a task is due today (HKT-aware) ──
+    isTaskDueToday(task, today) {
+      if (task.done) return false
+      const due = this.dueDate(task)
+      today = today || this.hktToday
+      return due && due === today
+    },
+
+    // ── Computed: filtered task counts ──
+    get filteredTasksTodayCount() {
+      const today = this.hktToday
+      return (this.tasks || []).filter(t => this.isTaskDueToday(t, today)).length
+    },
+    get filteredTasksOverdueCount() {
+      const today = this.hktToday
+      return (this.tasks || []).filter(t => this.isTaskOverdue(t, today)).length
+    },
+
+    // ── Filtered Tasks (HKT-aware) ──
+    get filteredTasks() {
+      const today = this.hktToday
+      const tasks = this.tasks || []
+      if (this.taskFilter === 'today') {
+        return tasks.filter(t => this.isTaskDueToday(t, today))
+      }
+      if (this.taskFilter === 'overdue') {
+        return tasks.filter(t => this.isTaskOverdue(t, today)).sort((a, b) => {
+          const da = this.dueDate(a) || '9999-12-31'
+          const db = this.dueDate(b) || '9999-12-31'
+          return da < db ? -1 : da > db ? 1 : 0
+        })
+      }
+      // 'all' — show non-done first, sorted by due date ascending
+      return [...tasks].sort((a, b) => {
+        if (a.done !== b.done) return a.done ? 1 : -1
+        const da = this.dueDate(a) || '9999-12-31'
+        const db = this.dueDate(b) || '9999-12-31'
+        return da < db ? -1 : da > db ? 1 : 0
+      })
+    },
+
+    // ── Time Ago ──
+    timeAgo(ts) {
+      if (!ts) return ''
+      try {
+        const d = new Date(ts)
+        if (isNaN(d.getTime())) return ts
+        const now = new Date()
+        const diff = Math.floor((now - d) / 1000)
+        if (diff < 60) return 'now'
+        if (diff < 3600) return Math.floor(diff / 60) + 'm'
+        return Math.floor(diff / 86400) + 'd'
+      } catch { return ts }
+    },
+
+    // ── Fetch Insights ──
+    async fetchInsights() {
+      try {
+        const r = await fetch('/api/aria/insights')
+        const d = await r.json()
+        if (d.ok) {
+          this.insights = d.insights || []
+        }
+        this.insightsLoaded = true
+      } catch {
+        this.insightsLoaded = true
+      }
+    },
+
+    // ── Fetch Connection Health ──
+    async fetchConnectionHealth() {
+      try {
+        const r = await fetch('/api/health')
+        const d = await r.json()
+        if (d.ok) {
+          this.connEndpoints = d.endpoints || []
+          this.connTotal = d.total || 0
+          this.connConnected = d.connected || 0
+          this.connUnknown = d.unknown || 0
+          this.connFailed = d.failed || 0
+          this.connAdded = d.added || []
+          this.connRemoved = d.removed || []
+          this.connSnapshotTime = d.snapshot_time || ''
+        } else {
+          this.connError = d.error || 'fetch failed'
+        }
+        this.connLoaded = true
+      } catch(e) {
+        this.connError = e.message || 'fetch failed'
+        this.connLoaded = true
+      }
+    }
+  }
+}
+</script>
+</body>
+</html>
