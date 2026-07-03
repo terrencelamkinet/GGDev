@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="../favicon.png">
   <title>CISP 模拟练习</title>
-  <link rel="stylesheet" href="../styles.css?v=1.3">
+  <link rel="stylesheet" href="../styles.css?v=1.4">
   <style>
     .tag-cisp {
       background: #e3f2fd;
@@ -22,79 +22,6 @@
     }
     @media (max-width: 430px) {
       .review-choice.explanation-review { font-size: 13px; }
-    }
-
-    /* 🌗 Dark Mode Toggle */
-    .dark-mode-toggle {
-      position: fixed;
-      top: 12px;
-      right: 12px;
-      z-index: 999;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      transition: all 0.3s ease;
-    }
-    .dark-mode-toggle:hover {
-      transform: scale(1.1);
-    }
-
-    /* 🌙 Dark Mode Overrides */
-    body.dark-mode {
-      --bg: #0f1117;
-      --card: #1a1d28;
-      --text: #e4e6eb;
-      --text-muted: #8b8fa3;
-      --border: #2d3040;
-      --primary-light: #1a2a3a;
-    }
-    body.dark-mode .header {
-      background: linear-gradient(135deg, #1a2744, #0f1a2e);
-    }
-    body.dark-mode .review-choice.explanation-review {
-      background: #1e2235;
-      border-color: #3a3f5c;
-    }
-    body.dark-mode img.exam-image {
-      filter: brightness(0.9) contrast(1.1);
-    }
-    body.dark-mode .btn-outline {
-      border-color: #5b7fb5;
-      color: #7ba3d4;
-    }
-    body.dark-mode .tag-cisp {
-      background: #1a2a3a;
-      color: #7fc1ff;
-    }
-    body.dark-mode .progress-fill {
-      background: #4a7db5;
-    }
-    body.dark-mode .question-text img {
-      filter: brightness(0.85);
-    }
-    body.dark-mode .ak-note {
-      background: #2a2d3e;
-      color: #c8a84e;
-    }
-    body.dark-mode .q-block {
-      background: #1a1d28;
-      border-color: #2d3040;
-    }
-    body.dark-mode .ak-choice.correct {
-      background: #1a3a2a;
-      border-color: #2d6b4a;
-    }
-    body.dark-mode footer {
-      color: #5a5e72;
     }
   </style>
 </head>
@@ -544,7 +471,7 @@ function toggleDarkMode() {
 })();
 </script>
 
-<footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">CISP Exam Center · G02 · v1.3</footer>
+<footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">CISP Exam Center · G02 · v1.4</footer>
 
 </body>
 </html>
