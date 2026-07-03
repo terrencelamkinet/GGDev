@@ -69,6 +69,7 @@ const cisQuestions = [
       {"letter": "D", "text": "《已有安全措施列表》，主要包括经检查确认后的已有技术和管理各方面安全措施等内容"},
     ],
     "answer": "D",
+    "explanationImage": "image2.png",
     "type": "single",
     "explanationImage": ["image2.png", "image3.png"],
     "explanation": ""
@@ -82,6 +83,7 @@ const cisQuestions = [
       {"letter": "D", "text": "确认已有的安全措施并赋值"},
     ],
     "answer": "C",
+    "explanationImage": "image4.png",
     "type": "single",
     "explanation": "判断威胁出现的频率是威胁赋值的重要内容"
   },
@@ -95,7 +97,6 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-    "explanationImage": "image4.png",
     "explanation": "教材P152,编制管理应急响应计划才是最重要的"
   },
   { "num": 9,
@@ -145,7 +146,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image6.png",
+    "explanationImage": "image7.png",
     "explanation": "教材P25"
   },
   { "num": 13,
@@ -158,7 +159,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image7.png",
+    "explanationImage": "image8.png",
     "explanation": "管理章节"
   },
   { "num": 14,
@@ -171,7 +172,7 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-    "explanationImage": "image8.png",
+    "explanationImage": "image9.png",
     "explanation": "时代在进步，已经可以实现双活了"
   },
   { "num": 15,
@@ -184,7 +185,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image9.png",
     "explanation": "PDCERF六步法第一步是准备"
   },
   { "num": 16,
@@ -245,6 +245,7 @@ const cisQuestions = [
       {"letter": "D", "text": "(3)-(1)-(2)"},
     ],
     "answer": "D",
+    "explanationImage": "image12.jpeg",
     "type": "single",
     "image": "image12.jpeg",
     "explanationImage": ["image13.png", "image14.png", "image15.png"],
@@ -297,7 +298,6 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-        "explanationImage": "image16.png",
     "explanation": "略 ACL读取会更快，例如Unix和VMS系统利用访问控制表的简略方式允许以少量工作组的形式实现访问控制表而不允许单个的个体出现，这样可以便访问控制表很小而能够用几位就可以和文件存储在一起。路由器交换机等网络设备就用ACL来控制访问"
   },
   { "num": 25,
@@ -310,7 +310,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image17.png",
     "explanation": "常识，DDOS破坏可用性"
   },
   { "num": 26,
@@ -361,7 +360,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image18.png",
+    "explanationImage": "image19.png",
     "explanation": "第二章P78"
   },
   { "num": 30,
@@ -374,7 +373,7 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-    "explanationImage": "image19.png",
+    "explanationImage": "image20.png",
     "explanation": "3.0版本的内容"
   },
   { "num": 31,
@@ -387,7 +386,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image20.png",
     "explanation": "系统管理员就是超级用户"
   },
   { "num": 32,
@@ -438,7 +436,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image21.png",
     "explanation": "B这个选项是风险评估风险要素识别的内容"
   },
   { "num": 36,
@@ -489,6 +486,7 @@ const cisQuestions = [
       {"letter": "D", "text": "设立入侵防御系统"},
     ],
     "answer": "A",
+    "explanationImage": "image25.jpeg",
     "type": "single",
     "image": "image25.jpeg",
     "explanation": "VLAN技术的出现，就是为了解决交换机在进行局域网互连时无法限制广播的问题。这种技术可以把一个LAN划分多个逻辑的LAN——VLAN，每个VLAN是一个广播域，不同VLAN间的设备不能直接互通，只能通过路由器等三层设备而互通。这样，广播数据帧被限制在一个VLAN内。 目前，绝大多数以太网交换机都能够支持VLAN。使用VLAN来减小广播域的范围，减少LAN内的广播流量，是高效率、低成本的方案。 路由器的各个接口处于独立的广播域中，终端主机发出的广播帧在接口被终止。所以，在局域网中使用路由器能够隔离广播，减小广播域范围。 但是，路由器的价格比交换机要高，使用路由器提高了局域网的部署成本。另外，大部分中低端路由器使用软件转发，转发性能不高，容易在网络中造成性能瓶颈。所以，在局域网中使用路由器来隔离广播是一个高成本、低性能的方案。 于是我们便选择了另一个方法——VLAN。"
@@ -563,7 +561,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-        "explanationImage": "image27.jpeg",
     "explanation": "A1*T1*V1 A1*T1*V2 A1*T2*V3 A1*T2*V4 A1*T2*V5 快捷算法就是找有几个脆弱性，一共五个"
   },
   { "num": 46,
@@ -599,6 +596,7 @@ const cisQuestions = [
       {"letter": "D", "text": "用于采集、处理、存储、传输、分发和部署信息的整个基础设施、组织结构、人员和组件的总和：信息系统自身存在的漏洞和来自系统外部的威胁"},
     ],
     "answer": "D",
+    "explanationImage": "image27.jpeg",
     "type": "single",
     "image": "image27.jpeg",
     "explanationImage": ["image28.png", "image29.png", "image30.png"],
@@ -614,7 +612,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image31.png",
     "explanation": "日志、审核策略是必须开的"
   },
   { "num": 50,
@@ -626,6 +623,7 @@ const cisQuestions = [
       {"letter": "D", "text": "实用性，将CC的安全性要求具体应用到IT产品的开发、生产、测试和评估过程中"},
     ],
     "answer": "C",
+    "explanationImage": "image28.png",
     "type": "single",
     "explanationImage": ["image28.png", "image29.png", "image30.png"],
     "explanation": "ABC选项PPT都有对应内容，D是编的"
@@ -652,6 +650,7 @@ const cisQuestions = [
       {"letter": "D", "text": "客观证据：安全保障工作：动态持续：信息系统：生命周期"},
     ],
     "answer": "B",
+    "explanationImage": "image32.jpeg",
     "type": "single",
     "image": "image32.jpeg",
     "explanationImage": ["image33.png", "image34.png"],
@@ -679,7 +678,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-    "explanationImage": "image36.png",
     "explanation": ""
   },
   { "num": 55,
@@ -717,7 +715,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-        "explanationImage": "image38.png",
     "explanation": "Chrone浏览器不会比IE更安全，主要看配置和使用习惯"
   },
   { "num": 58,
@@ -730,7 +727,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image39.png",
+    "explanationImage": "image40.png",
     "explanation": ""
   },
   { "num": 59,
@@ -743,7 +740,7 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-    "explanationImage": "image40.png",
+    "explanationImage": "image41.png",
     "explanation": ""
   },
   { "num": 60,
@@ -755,7 +752,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image41.png",
+    "explanationImage": "image42.png",
     "explanation": ""
   },
   { "num": 61,
@@ -767,6 +764,7 @@ const cisQuestions = [
       {"letter": "D", "text": "客体、访问控制实施、主体、访问控制决策"},
     ],
     "answer": "B",
+    "explanationImage": "image43.png",
     "type": "single",
     "image": "image43.png",
     "explanation": "安全支撑技术章节"
@@ -781,7 +779,7 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-    "explanationImage": "image44.png",
+    "explanationImage": "image45.png",
     "explanation": "教材P178,A是编的"
   },
   { "num": 63,
@@ -794,7 +792,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image45.png",
+    "explanationImage": "image46.png",
     "explanation": "教材P175,ABD都有，C是编的"
   },
   { "num": 64,
@@ -811,7 +809,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image46.png",
+    "explanationImage": "image47.png",
     "explanation": "教材P60"
   },
   { "num": 65,
@@ -823,6 +821,7 @@ const cisQuestions = [
       {"letter": "D", "text": "系统安全管理员使用漏洞扫描软件对系统进行安全审计"},
     ],
     "answer": "A",
+    "explanationImage": "image52.png",
     "type": "single",
     "explanationImage": ["image47.png", "image48.png", "image49.png", "image50.png", "image51.png"],
     "explanation": "第五章P223"
@@ -837,7 +836,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image52.png",
+    "explanationImage": "image53.png",
     "explanation": "教材P153"
   },
   { "num": 67,
@@ -850,7 +849,7 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-    "explanationImage": "image53.png",
+    "explanationImage": "image54.png",
     "explanation": "管理章节"
   },
   { "num": 68,
@@ -862,7 +861,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image54.png",
+    "explanationImage": "image55.png",
     "explanation": "在教材P103这个图里没有业务安全性审计"
   },
   { "num": 69,
@@ -875,7 +874,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-        "explanationImage": "image55.png",
     "explanation": "风险不可能一次解决"
   },
   { "num": 70,
@@ -888,7 +886,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": ["image56.png", "image57.png"],
     "explanation": "管理章节 风险规避 通常在风险的损失无法接受，又难以通过控制措施减低风险的情况下才使用规避风险这种风险处置方法 变更、延缓或停止某种服务或业务功能 该措施只能在与组织目标、法律法规符合性以及利益相关方的期望不发生冲突时考虑"
   },
   { "num": 71,
@@ -901,7 +898,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image8.png",
+    "explanationImage": "image56.png",
     "explanation": "课本P163 B的说法是不对，AD明显错误 C是网络题库的答案，说法正确"
   },
   { "num": 72,
@@ -914,7 +911,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image58.png",
     "explanation": "业务连续性 恢复点目标（RPO） 定义：灾难发生后，系统和数据必须恢复到的时间点要求 代表了当灾难发生时允许丢失的数据量"
   },
   { "num": 73,
@@ -927,7 +923,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image59.png",
     "explanation": "ISMS就是27000，NISI SP800美国的，这些不是强制的，等保肯定有强制性"
   },
   { "num": 74,
@@ -940,7 +935,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image60.png",
+    "explanationImage": "image8.png",
     "explanation": "管理章节"
   },
   { "num": 75,
@@ -953,7 +948,6 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-        "explanationImage": "image61.png",
     "explanation": "保密法没有例外"
   },
   { "num": 76,
@@ -966,7 +960,6 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-        "explanationImage": "image62.png",
     "explanation": "常识软件要及时升级"
   },
   { "num": 77,
@@ -1129,7 +1122,7 @@ const cisQuestions = [
     "answer": "D",
     "type": "single",
     "image": "image63.jpeg",
-    "explanationImage": "image64.png",
+    "explanationImage": "image63.jpeg",
     "explanation": "业务连续性章节"
   },
   { "num": 90,
@@ -1142,7 +1135,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image65.png",
     "explanation": "B明显是坏事"
   },
   { "num": 91,
@@ -1155,7 +1147,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image66.png",
+    "explanationImage": "image65.png",
     "explanation": "业务连续性章节"
   },
   { "num": 92,
@@ -1182,7 +1174,7 @@ const cisQuestions = [
     "answer": "D",
     "type": "single",
     "image": "image67.jpeg",
-    "explanationImage": "image68.png",
+    "explanationImage": "image67.jpeg",
     "explanation": "这个图在3.0版本教材才有大图，目前4.0是个小图，我给大家放大 管理章节信息安全管理基本概念"
   },
   { "num": 94,
@@ -1195,7 +1187,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-    "explanationImage": "image69.png",
     "explanation": "教材P176"
   },
   { "num": 95,
@@ -1208,7 +1199,6 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-        "explanationImage": "image2.png",
     "explanation": "ID=0的用户是ROOT"
   },
   { "num": 96,
@@ -1220,6 +1210,7 @@ const cisQuestions = [
       {"letter": "D", "text": "《已有安全措施列表》，主要包括经检查确认后的已有技术和管理各方面安全措施等内容"},
     ],
     "answer": "D",
+    "explanationImage": "image2.png",
     "type": "single",
     "explanationImage": ["image70.png", "image71.png"],
     "explanation": "风险评估章节"
@@ -1245,6 +1236,7 @@ const cisQuestions = [
       {"letter": "D", "text": "对外而言，能起到规范外包工作流程和要求，帮助界定双方各自信息安全责任"},
     ],
     "answer": "B",
+    "explanationImage": "image70.png",
     "type": "single",
     "explanationImage": ["image70.png", "image71.png"],
     "explanation": "虽然是真话，但是做人不能太诚实，真的不能说出来"
@@ -1260,7 +1252,7 @@ const cisQuestions = [
     "answer": "A",
     "type": "single",
     "image": "image72.jpeg",
-    "explanationImage": "image73.png",
+    "explanationImage": "image72.jpeg",
     "explanation": "A综合包含了BCD的内容"
   },
   { "num": 100,
@@ -1273,7 +1265,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image74.png",
+    "explanationImage": "image73.png",
     "explanation": "教材P285"
   },
   { "num": 101,
@@ -1286,7 +1278,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image75.png",
     "explanation": "课本P413 (3)最小化反馈:最小化反馈是指在程序内部处理时,尽量将少的信息反馈到运行界 面，即避免给予不可靠用户过多的信息，防止不可靠用户据此猜测软件程序的运行处理机 制。最小化反馈可以用在成功的流程，也可以用在发生错误的流程中。典型的例子如用户 名和口令认证程序，不管用户是用户名输入错误还是口令输人错误，认证端都只反馈统一 的“用户名/口令错误”，而不是分别告知“用户名错误”和“口令错误”，这样可以避免 让攻击者猜测已经存在的用户名，并根据用户名来猜测口令。当然，作为软件程序的跟踪 检查日志，可以记录较为详细的程序运行信息，而这些信息只允许有权限的人员查看。"
   },
   { "num": 102,
@@ -1299,7 +1290,7 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-    "explanationImage": "image76.png",
+    "explanationImage": "image74.png",
     "explanation": "课本P293"
   },
   { "num": 103,
@@ -1311,6 +1302,7 @@ const cisQuestions = [
       {"letter": "D", "text": "彻底解决ARP欺骗的方法是避免使用ARP协议和ARP缓存，直接采用IP地址和其他主机进行连接"},
     ],
     "answer": "D",
+    "explanationImage": "image75.png",
     "type": "single",
     "explanationImage": ["image77.png", "image78.png"],
     "explanation": "课本P347"
@@ -1324,6 +1316,7 @@ const cisQuestions = [
       {"letter": "D", "text": "WPA是依照802.11i标准草案制定的，而WPA2是依照802.11i正式标准制定的"},
     ],
     "answer": "D",
+    "explanationImage": "image76.png",
     "type": "single",
     "explanationImage": ["image79.png", "image80.png"],
     "explanation": "课本P341"
@@ -1338,7 +1331,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image17.png",
     "explanation": "现代密码学是基于科科霍夫假设的，算法公开，秘钥保密，秘钥的强度决定了密码系统的强度"
   },
   { "num": 106,
@@ -1351,7 +1343,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image81.png",
+    "explanationImage": "image77.png",
     "explanation": "日志是审计的前提，必须要有，然后就需要降低攻击面 课本P409"
   },
   { "num": 107,
@@ -1363,6 +1355,7 @@ const cisQuestions = [
       {"letter": "D", "text": "信息基础设施：技术指南：人员：深度防御"},
     ],
     "answer": "A",
+    "explanationImage": "image79.png",
     "type": "single",
     "explanationImage": ["image79.png", "image80.png"],
     "explanation": "课本P27页"
@@ -1376,6 +1369,7 @@ const cisQuestions = [
       {"letter": "D", "text": "7"},
     ],
     "answer": "A",
+    "explanationImage": "image17.png",
     "type": "single",
     "explanationImage": ["image17.png", "image81.png"],
     "explanation": "课本P334"
@@ -1402,7 +1396,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-        "explanationImage": "image82.png",
     "explanation": "数据库安全策略有6项：最小特权策略、最大共享策略、粒度适当策略、按内容存取控制策略、开系统和闭系统策略、按存取类型控制策略. 粒度适当策略：将数据库中不同的项分成不同的粒度，颗粒越小、安全级别越高，通常要根据实际决定粒度大小"
   },
   { "num": 111,
@@ -1452,20 +1445,20 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image83.jpeg",
     "explanation": "移植题目，参考答案即可"
   },
   { "num": 115,
     "text": "公钥基础设施（Public Key Infrastructure,PKI）引入数字证书的概念，用来表示用户的身份，下图简要地描述了终端实体（用户）从认证权威机构CA申请、撤销和更新数字证书的流程，请为中间框空白处选择合适的选项（） A.证书库",
     "choices": [
-      {"letter": "A", "text": "RA"},
-      {"letter": "B", "text": "OCSP"},
-      {"letter": "C", "text": "CRL库"},
+      {"letter": "A", "text": "证书库"},
+      {"letter": "B", "text": "RA"},
+      {"letter": "C", "text": "OCSP"},
+      {"letter": "D", "text": "CRL库"},
     ],
     "answer": "B",
     "type": "single",
     "image": "image83.jpeg",
-    "explanationImage": "image84.png",
+    "explanationImage": "image83.jpeg",
     "explanation": "课本P286"
   },
   { "num": 116,
@@ -1490,7 +1483,6 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-        "explanationImage": "image85.png",
     "explanation": "启用影子口令　　RedHat Linux缺省安装shadow，如果你发现你的系统的/etc/passwd文件仍然可以看到密文，就说明你没有启用shadow。如果启用了启用shadow。每个用户的加密口令数据项都是显示为“X”"
   },
   { "num": 118,
@@ -1675,6 +1667,7 @@ const cisQuestions = [
       {"letter": "D", "text": "s表示SUID位，文件在执行阶段具有文件所有者的权限"},
     ],
     "answer": "D",
+    "explanationImage": "image89.png",
     "type": "single",
     "image": "image89.png",
     "explanationImage": ["image86.png", "image87.png", "image88.png"],
@@ -1718,7 +1711,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image90.png",
     "explanation": "四采取纠正和预防措施，持续改进：Act改进(维护和改进ISMS)"
   },
   { "num": 136,
@@ -1731,7 +1723,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image91.png",
     "explanation": "27002"
   },
   { "num": 137,
@@ -1744,7 +1735,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image92.png",
     "explanation": "签名用的是私钥，可以被发出的公钥打开，无法实现保密通信"
   },
   { "num": 138,
@@ -1757,7 +1747,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-        "explanationImage": "image93.png",
     "explanation": "常识"
   },
   { "num": 139,
@@ -1770,7 +1759,7 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-    "explanationImage": "image6.png",
+    "explanationImage": "image86.png",
     "explanation": "教材P175"
   },
   { "num": 140,
@@ -1783,7 +1772,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-        "explanationImage": "image94.png",
     "explanation": "分组和序列是不同的加密方式"
   },
   { "num": 141,
@@ -1796,7 +1784,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image35.png",
+    "explanationImage": "image90.png",
     "explanation": "教材P29，四个焦点领域填进去，第一个空需要猜，最后两个控肯定是多点防御；分层防御，那么合适的选项只有C"
   },
   { "num": 142,
@@ -1809,7 +1797,7 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-    "explanationImage": "image95.png",
+    "explanationImage": "image91.png",
     "explanation": "教材P39"
   },
   { "num": 143,
@@ -1822,7 +1810,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image96.png",
     "explanation": "以国标为准"
   },
   { "num": 144,
@@ -1835,7 +1822,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image26.png",
     "explanation": "Apache的安全配置就在配置文件http.conf中的有关参数"
   },
   { "num": 145,
@@ -1848,7 +1834,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image97.png",
     "explanation": "D就不要考虑了，没有哪个系统防的住，参见棱镜门"
   },
   { "num": 146,
@@ -1861,7 +1846,6 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-        "explanationImage": "image16.png",
     "explanation": "A明显是编的"
   },
   { "num": 147,
@@ -1874,7 +1858,7 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-    "explanationImage": "image53.png",
+    "explanationImage": "image92.png",
     "explanation": "教材P353"
   },
   { "num": 148,
@@ -1887,7 +1871,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image76.png",
     "explanation": "常识，法律都是公开的"
   },
   { "num": 149,
@@ -1900,7 +1883,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image98.png",
+    "explanationImage": "image93.png",
     "explanation": "指纹是实体特征"
   },
   { "num": 150,
@@ -1913,7 +1896,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image99.png",
     "explanation": "目录只有读、写、执行三种操作"
   },
   { "num": 151,
@@ -1926,7 +1908,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image36.png",
     "explanation": "IATF是美国国防部文件"
   },
   { "num": 152,
@@ -1939,7 +1920,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-        "explanationImage": ["image56.png", "image57.png"],
     "explanation": "常识，配置windows安全策略"
   },
   { "num": 153,
@@ -2117,7 +2097,7 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": "image100.png",
+    "explanationImage": "image98.png",
     "explanation": ""
   },
   { "num": 167,
@@ -2130,7 +2110,7 @@ const cisQuestions = [
     ],
     "answer": "A",
     "type": "single",
-    "explanationImage": "image101.png",
+    "explanationImage": "image99.png",
     "explanation": "教材P39"
   },
   { "num": 168,
@@ -2143,7 +2123,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image102.png",
     "explanation": "四采取纠正和预防措施，持续改进：Act改进(维护和改进ISMS)"
   },
   { "num": 169,
@@ -2155,6 +2134,7 @@ const cisQuestions = [
       {"letter": "D", "text": "对于服务器等重要设备，立即使用系统更新功能安装这批补丁，用户终端计算机由于没有重要数据，由终端自行升级"},
     ],
     "answer": "C",
+    "explanationImage": "image36.png",
     "type": "single",
     "explanation": "打补丁主要步骤 评估补丁（评估补丁是否适用于系统，比如WINDOWS没有安装某个功能，那么用于修补这个功能的补丁就不需要，较为重要），你用360打补丁，你会发现360有很多补丁不建议你安装 测试补丁（测试补丁是为了确定补丁不会带来其他副作用，最糟糕的情况就是使用补丁以后系统无法启动，较为关键） 批准补丁（确定补丁安全性后就会批准补丁部署，常与变更管理联动） 部署补丁（经过测试和批准，管理员就可以部署补丁，部署的方式有人工、自动两种，很多组织使用自动化方法部署补丁，例如自动化方法可以是第三方产品或有厂商提供的） 验证补丁（补丁部署以后，管理员定期测试和审计系统，以确保系统补丁任然任然有效，伴随跟进的过程）"
   },
@@ -2180,7 +2160,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-    "explanationImage": "image36.png",
     "explanation": ""
   },
   { "num": 172,
@@ -2193,7 +2172,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-    "explanationImage": ["image56.png", "image57.png"],
     "explanation": "课本P163 B的说法是不对，AD明显错误 C是网络题库的答案，说法正确"
   },
   { "num": 173,
@@ -2316,6 +2294,7 @@ const cisQuestions = [
       {"letter": "D", "text": "不可读不可写"},
     ],
     "answer": "D",
+    "explanationImage": "image103.jpeg",
     "type": "single",
     "image": ["image103.jpeg", "image104.png"],
     "explanation": "BLP模型 向下读，上读(NRU) , 主体不可读安全级别高于它的数据；女士的密级是机密下面这个文档的密级是秘密，但是范畴没有包含，那么这个女士的安全级无法支配下面这个文件，就不可以读密级是秘密、范畴是NUC和US的文档 向上写，下写(NWD) , 主检不可写安全级别低于它的数据；女士和上面这个文档都的密级是机密，但是这个文件的范畴没有包含EUR，那么这个女士的安全级支配上面这个文档，就不可以写上面这个文档"
@@ -2366,7 +2345,6 @@ const cisQuestions = [
     ],
     "answer": "B",
     "type": "single",
-        "explanationImage": "image105.png",
     "explanation": "通用实践可用于决定所有活动的能力水平。它们评判涉及过程的管理、测量和制度化能力的最基本批判标准项。 公共特征是由“通用实践”组成逻辑域归类，公共特征的设计是为描述一个组织特有的工作过程(在这种情况下指安全工程域)执行手段的重大变化。每个公共特征有一个或多个通用实践。比如最低的公共特征是l.1“执行基本惯例”。这个公共特征仅仅检查一个组织是否执行了某个过程域的“通用实践”。"
   },
   { "num": 187,
@@ -2379,7 +2357,6 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-        "explanationImage": "image106.png",
     "explanation": "ACL是以客体为中心的表，一个客体一个表，增加客体当然简单"
   },
   { "num": 188,
@@ -2392,7 +2369,6 @@ const cisQuestions = [
     ],
     "answer": "C",
     "type": "single",
-        "explanationImage": "image100.png",
     "explanation": "《保密法》第十七条规定机关、单位对承载国家秘密的纸介质、光介质、电磁介质等载体等国家秘密截体，以及属于国家秘率的设备、产品，应当做出国家秘密标志。不属于国家秘密的，不应当做出国家秘密标志， 《保密发》第二十一条规定存储、处理国家秘密的计算机信息系统等涉密信息系统,按照涉密程度实行分级保护。涉密信息系统应当按照国家保密标准配备保密设施、设备保密设施、设备应当与涉密信息系统同步规划，同步建设。同步运行。 (三同步)涉密信息系统应当按照规定，经检查合格后，方可投入使用。 《保密法》第二十四条规定机关、单位应强对法密信息系统的管理，任何组织和个人不得将涉密汁算机、涉密存储设备接入互联网及其他公共信息网络。 《保密法》第二十八条规定互联网及其他公共信息网络运营商、服务商应当配合公安机关、国家安全机关，检察机关对泄密案件进行调查；发现利用互联网及其他公共信息网络发布的信息涉及泄露国家秘密的，应兴在即停止传输、保行有关记录，向公安机关、国家安全机关或者保密行政管理部报告；应当根据公安机关、国安机关或者保密行政管理部的要求，删除涉及泄露国家秘密的信息。 《保密法》第二十四条规定从事国家秘密载体制作、复制、 维修，销毁，涉密信息系统集成、或者武器装备科研生产等涉及国家秘密业务的企业事业单位，应当经过保密审查，具体办法由国务院规定。"
   },
   { "num": 189,
@@ -2405,7 +2381,7 @@ const cisQuestions = [
     ],
     "answer": "D",
     "type": "single",
-    "explanationImage": "image97.png",
+    "explanationImage": "image105.png",
     "explanation": ""
   },
   { "num": 190,
@@ -2460,9 +2436,7 @@ const cisQuestions = [
     "explanation": "有的时候主题也能在其他场景成为客体，比如设备"
   },
 ];
-
 // Ensure questions are available globally
 if (typeof window !== "undefined") {
   window.cisQuestions = cisQuestions;
 }
-
