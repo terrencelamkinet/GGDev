@@ -446,3 +446,90 @@ body {
 @media (min-width: 1024px) {
   .desktop-hint { display: inline !important; }
 }
+
+/* 🌗 Dark Mode Toggle — Shared across all exam pages */
+.dark-mode-toggle {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* 🌙 Dark Mode Overrides */
+body.dark-mode {
+  --bg: ***REMOVED***0f1117;
+  --card: ***REMOVED***1a1d28;
+  --text: ***REMOVED***e4e6eb;
+  --text-muted: ***REMOVED***8b8fa3;
+  --border: ***REMOVED***2d3040;
+  --primary-light: ***REMOVED***1a2a3a;
+}
+body.dark-mode .header {
+  background: linear-gradient(135deg, ***REMOVED***1a2744, ***REMOVED***0f1a2e);
+}
+body.dark-mode .review-choice.explanation-review {
+  background: ***REMOVED***1e2235;
+  border-color: ***REMOVED***3a3f5c;
+}
+body.dark-mode img.exam-image {
+  filter: brightness(0.9) contrast(1.1);
+}
+body.dark-mode .btn-outline {
+  border-color: ***REMOVED***5b7fb5;
+  color: ***REMOVED***7ba3d4;
+}
+body.dark-mode .tag-cisp,
+body.dark-mode .tag-soc,
+body.dark-mode .tag-ngfw,
+body.dark-mode .tag-vcf {
+  background: ***REMOVED***1a2a3a;
+  color: ***REMOVED***7fc1ff;
+}
+body.dark-mode .progress-fill {
+  background: ***REMOVED***4a7db5;
+}
+body.dark-mode .question-text img {
+  filter: brightness(0.85);
+}
+body.dark-mode .ak-note {
+  background: ***REMOVED***2a2d3e;
+  color: ***REMOVED***c8a84e;
+}
+body.dark-mode .q-block {
+  background: ***REMOVED***1a1d28;
+  border-color: ***REMOVED***2d3040;
+}
+body.dark-mode .ak-choice.correct {
+  background: ***REMOVED***1a3a2a;
+  border-color: ***REMOVED***2d6b4a;
+}
+body.dark-mode footer {
+  color: ***REMOVED***5a5e72;
+}
+body.dark-mode .card {
+  background: var(--card);
+}
+body.dark-mode .exam-info {
+  color: rgba(255,255,255,0.7);
+}
+body.dark-mode .info-box {
+  background: ***REMOVED***1a1d28;
+  border-color: ***REMOVED***2d3040;
+  color: var(--text);
+}
