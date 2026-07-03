@@ -1,0 +1,76 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: kong-proxy-https
+  namespace: kong-dp-uat
+  labels:
+    app.kubernetes.io/part-of: fubon-kong-poc
+spec:
+  host: api-poc.uat.fubonhk.internal
+  to:
+    kind: Service
+    name: kong-dp-proxy
+    weight: 100
+  port:
+    targetPort: kong-proxy-tls
+  tls:
+    termination: passthrough
+    insecureEdgeTerminationPolicy: None
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: kong-proxy-http
+  namespace: kong-dp-uat
+  labels:
+    app.kubernetes.io/part-of: fubon-kong-poc
+spec:
+  host: api-poc-http.uat.fubonhk.internal
+  to:
+    kind: Service
+    name: kong-dp-proxy
+    weight: 100
+  port:
+    targetPort: kong-proxy
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: kong-manager
+  namespace: kong-cp-uat
+  labels:
+    app.kubernetes.io/part-of: fubon-kong-poc
+spec:
+  host: kong-manager.uat.fubonhk.internal
+  to:
+    kind: Service
+    name: kong-cp-manager
+    weight: 100
+  port:
+    targetPort: kong-manager-tls
+  tls:
+    termination: passthrough
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: kong-admin
+  namespace: kong-cp-uat
+  labels:
+    app.kubernetes.io/part-of: fubon-kong-poc
+spec:
+  host: kong-admin.uat.fubonhk.internal
+  to:
+    kind: Service
+    name: kong-cp-admin
+    weight: 100
+  port:
+    targetPort: kong-admin-tls
+  tls:
+    termination: passthrough
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
