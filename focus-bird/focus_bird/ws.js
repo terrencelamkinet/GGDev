@@ -38,10 +38,16 @@ const WS = (() => {
         try {
           const d = JSON.parse(ev.data);
 
+          /* Signal check: only enable extMode when BrainLink is actually connected.
+             relay.py sends signal=200 (no_signal) as initial state even without
+             BrainLink — without this check the game sees attention=50 and thinks
+             it's in extMode, causing the bird to descend on default values. */
+          const hasSignal = typeof d.signal === 'number' && d.signal < 150;
+
           /* Primary: use attention value */
           if (typeof d.attention === 'number') {
             G.focus  = G.focus * (1 - EMA) + d.attention * EMA;
-            G.extMode = true;
+            if (hasSignal) G.extMode = true;
           }
 
           /* Extended EEG: TBR bonus if beta rising */
@@ -61,6 +67,15 @@ const WS = (() => {
       };
 
     } catch (_) { setDot(false); }
+
+    /* Also clear extMode on disconnect so the game falls back to manual/keyboard
+       control when WebSocket drops, rather than freezing at the last focus value. */
+    function clearExtMode() { G.extMode = false; }
+    if (!socket._eb_ext) {
+      socket.addEventListener('close', clearExtMode);
+      socket.addEventListener('error', clearExtMode);
+      socket._eb_ext = true;
+    }
   }
 
   function send(obj) {
