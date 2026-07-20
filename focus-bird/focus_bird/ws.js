@@ -12,7 +12,9 @@ const WS = (() => {
 
   function setDot(ok) {
     const d = document.getElementById('ws-dot');
-    if (d) d.classList.toggle('ok', ok);
+    if (d) { d.classList.toggle('ok', ok); d.classList.toggle('connecting', !ok); }
+    const lbl = document.getElementById('ws-label');
+    if (lbl) { lbl.textContent = ok ? 'ON' : 'OFF'; lbl.style.color = ok ? '#74d680' : '#ff6b6b'; }
     if (typeof UI !== 'undefined') UI.updateWSLabel();
   }
 
