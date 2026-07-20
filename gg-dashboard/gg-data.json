@@ -1,14 +1,14 @@
 {
-  "ts": "20:34",
-  "hour": 20,
-  "minute": 34,
-  "pushed_at": "2026-06-30 20:34 HKT",
+  "ts": "00:01",
+  "hour": 0,
+  "minute": 1,
+  "pushed_at": "2026-07-20 03:10 HKT",
   "system": {
-    "cpu": 4,
-    "mem": 19,
-    "disk": 78,
-    "load": "0.11",
-    "uptime": "2 weeks, 3 days, 21 hours, 8 minutes",
+    "cpu": 98,
+    "mem": 32,
+    "disk": 75,
+    "load": "0.80",
+    "uptime": "5 weeks, 3 days, 34 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,11 +22,7 @@
   },
   "activity": [
     {
-      "time": "20:34",
-      "text": "三位AI Dashboard Sync"
-    },
-    {
-      "time": "20:34",
+      "time": "00:01",
       "text": "Dashboard data refresh"
     },
     {
@@ -43,36 +39,36 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.9.gz (551B)"
+      "text": "Cron: nightly_upgrade.log.9.gz (568B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.8.gz (682B)"
+      "text": "Cron: nightly_upgrade.log.8.gz (603B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.7.gz (624B)"
+      "text": "Cron: nightly_upgrade.log.7.gz (622B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.6.gz (801B)"
+      "text": "Cron: nightly_upgrade.log.6.gz (589B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.5.gz (654B)"
+      "text": "Cron: nightly_upgrade.log.5.gz (484B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.4.gz (657B)"
+      "text": "Cron: nightly_upgrade.log.4.gz (509B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 4,
-      "mem": 19,
-      "disk": 78,
-      "load": "0.11",
-      "uptime": "2 weeks, 3 days, 21 hours, 8 minutes",
+      "cpu": 98,
+      "mem": 32,
+      "disk": 75,
+      "load": "0.80",
+      "uptime": "5 weeks, 3 days, 34 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -80,29 +76,23 @@
       },
       "online": true,
       "cron_jobs": 12,
-      "thoughts": "🎯 30/6 夜晚 — 三VM全綠（CPU 4%/4%/68%·Disk 78%/69%/70%）。Person CPU由95%回落至68%，仍在監察。今日3個會議：早上OT-Kinetix Comparison、下午Adventist Hospital/CyberArk PAM、夜晚展彩到永遠。Cron成功率97.3%（71/73）—穩定。聽日要confirm CISP EA/CA進度，Disk 78%排期清logs。",
+      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 16 日 — 穩定; 1 個 daemon 運行中; 磁盤使用率 78%",
       "needs": [
-        "Disk 78% — 聽日抽時間清舊logs",
-        "Person CPU波動（68%仍偏高）— 聽日再check",
-        "CISP EA/CA — 聽日confirm Terrence進度"
+        "無 urgent 需求"
       ],
       "learnings": [
-        "三VM全線正常，Person CPU由95%回落至68%",
-        "今日完成了3個會議（OT-Kinetix/Adventist/展彩到永遠）",
-        "Cron成功率97.3%穩定運行"
+        "VM 已穩定運行 16 日"
       ],
       "uncertainties": [
-        "CISP EA考成點？CA交咗未？",
-        "Person CPU 68%係background process定正常波動？",
-        "聽日有冇新嘅priority要調整？"
+        "等待 GG Fighter 下一個任務"
       ]
     },
     "work": {
       "cpu": 4,
-      "mem": 29,
-      "disk": 69,
-      "load": "0.20",
-      "uptime": "6 weeks, 8 hours, 8 minutes",
+      "mem": 19,
+      "disk": 76,
+      "load": "0.29",
+      "uptime": "8 weeks, 6 days, 11 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -110,12 +100,12 @@
       },
       "online": true,
       "ip": "172.6.15.181",
-      "thoughts": "傍晚 — CPU load 0.0 — 閒置; 已運行 23 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 40 日 — 穩定; 7 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 23 日",
+        "VM 已穩定運行 40 日",
         "GG-Work 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -123,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 68,
-      "mem": 33,
+      "cpu": 56,
+      "mem": 25,
       "disk": 70,
-      "load": "0.43",
-      "uptime": "6 weeks, 8 hours, 8 minutes",
+      "load": "0.89",
+      "uptime": "8 weeks, 6 days, 11 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -135,12 +125,12 @@
       },
       "online": true,
       "ip": "172.6.15.182",
-      "thoughts": "傍晚 — CPU load 0.1 — 閒置; 已運行 23 日 — 穩定; 5 個 daemon 運行中",
+      "thoughts": "傍晚 — CPU load 0.7 — 閒置; 已運行 40 日 — 穩定; 5 個 daemon 運行中",
       "needs": [
         "無 urgent 需求"
       ],
       "learnings": [
-        "VM 已穩定運行 23 日",
+        "VM 已穩定運行 40 日",
         "GG-Person 所有 daemon 正常"
       ],
       "uncertainties": [
@@ -288,26 +278,158 @@
     },
     "balance": null
   },
+  "tasks": {
+    "items": [
+      {
+        "page_id": "39f783d5-93e7-8173-94ad-cc65b6b8a67f",
+        "title": "HCL AppScan POC — Follow-up after Discussion",
+        "status": "Not started",
+        "due": "2026-07-17",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Meeting with Matthew Lam, Kevin Chia (HCL) + Brian Leung, Ashley Lau (Kinetix). Google Meet: https://meet.google.com/vpk-qdgr-jau",
+        "last_edited": "2026-07-16T13:52:00.000Z"
+      },
+      {
+        "page_id": "3a0783d5-93e7-816b-9c65-dce2d8866756",
+        "title": "Follow up: HKMA AppScan POC with Kinetix",
+        "status": "Not started",
+        "due": "2026-07-18",
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Follow up on AppScan POC progress and next steps with Brian Leung.",
+        "last_edited": "2026-07-17T08:43:00.000Z"
+      },
+      {
+        "page_id": "370783d5-93e7-8186-ad88-fd0b4158bce3",
+        "title": "📋 CISP: 正式考試 (25 Jul 待確認)",
+        "status": "In progress",
+        "due": "2026-07-25",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "100 MCQs 繁體中文。帶2B鉛筆+黑原子筆+擦膠+身份證。25 Jul待CNITSEC確認",
+        "last_edited": "2026-06-09T15:11:00.000Z"
+      },
+      {
+        "page_id": "389783d5-93e7-8168-92b9-c4ab681cb3d5",
+        "title": "HPE Exam - ATP/ASE Storage/ASE Compute (Sep)",
+        "status": "Pending",
+        "due": "2026-09-01",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "8月再提我準備",
+        "last_edited": "2026-07-06T02:46:00.000Z"
+      },
+      {
+        "page_id": "39f783d5-93e7-8099-912c-f85fa8ed1a71",
+        "title": "Worship Team Training",
+        "status": "Not started",
+        "due": null,
+        "priority": "Q1 · Do Now",
+        "area": "✝️ Jesus",
+        "notes": "",
+        "last_edited": "2026-07-16T02:30:00.000Z"
+      },
+      {
+        "page_id": "36d783d5-93e7-8076-bafe-c26cf74e0d98",
+        "title": "Schedule Rankez Meeting",
+        "status": "Pending",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Rankez is a PAM (Privileged Access Management) product. Meeting to discuss/schedule.",
+        "last_edited": "2026-07-06T03:24:00.000Z"
+      },
+      {
+        "page_id": "396783d5-93e7-80bf-8b04-dada5fc42957",
+        "title": "Specin information for CPCE Endpoint Central",
+        "status": "In progress",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-07-09T03:59:00.000Z"
+      },
+      {
+        "page_id": "395783d5-93e7-80f3-af14-f996c054749d",
+        "title": "Follow up HPE Account ",
+        "status": "In progress",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-07-06T02:46:00.000Z"
+      },
+      {
+        "page_id": "389783d5-93e7-811b-8dcd-df0a8d4bf80c",
+        "title": "Prepare H3C exam",
+        "status": "Pending",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "",
+        "last_edited": "2026-07-07T02:18:00.000Z"
+      },
+      {
+        "page_id": "395783d5-93e7-80aa-9130-fca057d974a7",
+        "title": "i2backup / Scutech for Manulife",
+        "status": "Pending",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-07-16T02:55:00.000Z"
+      },
+      {
+        "page_id": "39d783d5-93e7-80e2-b930-ee73241ee74e",
+        "title": "Book 睇醫生",
+        "status": "Not started",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "🏠 Personal",
+        "notes": "",
+        "last_edited": "2026-07-16T02:29:00.000Z"
+      },
+      {
+        "page_id": "39f783d5-93e7-8043-bd61-dbb56d1688de",
+        "title": "講假",
+        "status": "In progress",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "🏠 Personal",
+        "notes": "",
+        "last_edited": "2026-07-17T08:45:00.000Z"
+      },
+      {
+        "page_id": "39f783d5-93e7-8037-9c4f-ecdd9c407854",
+        "title": "Follow up Housing Authority EMMI manday",
+        "status": "In progress",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-07-16T02:29:00.000Z"
+      }
+    ],
+    "total": 13,
+    "overdue": 1,
+    "due_today": 1,
+    "in_progress": 5,
+    "q1_count": 1,
+    "source": "task_sync_state"
+  },
   "schedule": {
-    "total_events": 27,
-    "today_events": 3,
-    "upcoming": 10,
+    "total_events": 24,
+    "today_events": 1,
+    "upcoming": 12,
     "reminders_pending": 0,
-    "last_updated": "2026-06-12T00:31:05",
+    "last_updated": "2026-07-21T00:01:05",
     "today_list": [
       {
-        "summary": "OT-Kinetix ME comparison ",
-        "time": "09:30"
-      },
-      {
-        "summary": "Adventist Hospital / CyberArk PAM - meet",
+        "summary": "Kinetix PA update",
         "time": "14:30"
-      },
-      {
-        "summary": "展彩到永遠",
-        "time": "19:30"
       }
     ]
   },
-  "update_source": "three-ai-sync"
+  "update_source": "hermes_update_data.py"
 }
