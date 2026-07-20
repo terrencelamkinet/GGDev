@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI Intelligence — NEXUS AI CRM</title>
+<meta name="description" content="See how NEXUS prepares you for every meeting with proactive AI briefings, nudges, and relationship health scoring.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="#main" class="sr-only" style="position:absolute;top:var(--space-2);left:var(--space-2);z-index:9999;padding:var(--space-2) var(--space-4);background:var(--primary);color:#0d0d0e;border-radius:var(--radius-md);font-size:var(--text-sm);">Skip to content</a>
+
+<nav role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="NEXUS Home">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.9"/>
+        <circle cx="5" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="23" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="5" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="23" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="14" cy="3" r="1.5" fill="currentColor" opacity="0.3"/>
+        <circle cx="14" cy="25" r="1.5" fill="currentColor" opacity="0.3"/>
+        <line x1="14" y1="14" x2="5" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <line x1="14" y1="14" x2="23" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <line x1="14" y1="14" x2="5" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <line x1="14" y1="14" x2="23" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <line x1="14" y1="14" x2="14" y2="3" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
+        <line x1="14" y1="14" x2="14" y2="25" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
+      </svg>
+      NEXUS
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="features.html">Features</a></li>
+      <li><a href="intelligence.html">AI Intelligence</a></li>
+      <li><a href="integrations.html">Integrations</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Toggle dark/light mode" data-theme-toggle>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button class="btn btn-ghost btn-sm" onclick="openModal('login')">Log in</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('signup')">Get started free</button>
+      <button class="nav-mobile-toggle" aria-label="Open menu" onclick="toggleMobileMenu()" aria-expanded="false" aria-controls="mobile-menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="16" x2="21" y2="16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div id="mobile-menu" class="mobile-menu" role="dialog" aria-label="Navigation menu" aria-modal="true">
+  <a href="features.html" onclick="closeMobileMenu()">Features</a>
+  <a href="intelligence.html" onclick="closeMobileMenu()">AI Intelligence</a>
+  <a href="integrations.html" onclick="closeMobileMenu()">Integrations</a>
+  <a href="pricing.html" onclick="closeMobileMenu()">Pricing</a>
+  <a href="about.html" onclick="closeMobileMenu()">About</a>
+  <div class="mobile-menu-actions">
+    <button class="btn btn-ghost" onclick="closeMobileMenu(); openModal('login')">Log in</button>
+    <button class="btn btn-primary" onclick="closeMobileMenu(); openModal('signup')">Get started free</button>
+  </div>
+</div>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-headline" style="min-height:60vh;">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-badge reveal" aria-label="Product announcement">
+      <span class="hero-badge-dot" aria-hidden="true"></span>
+      NEXUS AI CRM
+    </div>
+    <h1 id="hero-headline" class="reveal reveal-delay-1">The AI that prepares you<br><em>before you even ask</em></h1>
+    <p class="hero-sub reveal reveal-delay-2">NEXUS reads your CRM graph, cross-references meetings, and delivers proactive briefings, nudges, and relationship scoring — automatically.</p>
+    <div class="hero-cta reveal reveal-delay-3">
+      <button class="btn btn-primary btn-lg" onclick="openModal('signup')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+        Get started free
+      </button>
+      <a href="features.html" class="btn btn-ghost btn-lg">Explore all features →</a>
+    </div>
+  </div>
+</section>
+<section class="ai-intro" aria-labelledby="ai-demo-title">
+  <div class="container">
+    <div class="ai-demo-layout">
+      <div class="ai-demo-text reveal">
+        <div class="label-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          AI-Native Core
+        </div>
+        <h2 id="ai-demo-title">Not a chatbot.<br>A <em>sales intelligence</em><br>that knows your context.</h2>
+        <p>NEXUS understands who you're meeting, what was said last time, what's at stake in the deal — and proactively surfaces what matters before you even ask.</p>
+        <ul class="intel-points" style="margin-top: var(--space-4);">
+          <li class="intel-point">
+            <div class="intel-point-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <div class="intel-point-text">
+              <h4>Context-aware before every meeting</h4>
+              <p>60 min out: reminder. 15 min out: full brief — who's attending, company background, last touchpoint, suggested talking points.</p>
+            </div>
+          </li>
+          <li class="intel-point">
+            <div class="intel-point-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="intel-point-text">
+              <h4>Proactive, not reactive</h4>
+              <p>NEXUS messages you first. It tracks stale follow-ups, flags at-risk deals, and reminds you who hasn't been touched in 7 days.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="ai-chat-card reveal reveal-delay-2">
+        <div class="chat-header">
+          <div class="chat-avatar" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/></svg>
+          </div>
+          <div>
+            <div class="chat-title">NEXUS AI</div>
+            <div class="chat-status"><span class="chat-status-dot" aria-hidden="true"></span> Active</div>
+          </div>
+        </div>
+        <div class="chat-messages" aria-live="polite" aria-label="AI conversation example">
+          <div class="chat-msg">
+            <div class="msg-avatar ai" aria-label="NEXUS AI">N</div>
+            <div>
+              <div class="msg-bubble ai">⏰ Meeting with <strong>Sarah Chen</strong> (HSBC Procurement) in 15 minutes. Here's your brief:</div>
+              <div class="msg-suggestion-chips" aria-label="Meeting context chips">
+                <span class="chip">Last meeting: 23 Jun → MFT pricing</span>
+                <span class="chip">Open task: Send TCO comparison</span>
+                <span class="chip">Decision in 2 weeks</span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-msg user">
+            <div class="msg-avatar user-av" aria-label="You">T</div>
+            <div class="msg-bubble user">What should I focus on?</div>
+          </div>
+          <div class="chat-msg">
+            <div class="msg-avatar ai" aria-label="NEXUS AI">N</div>
+            <div>
+              <div class="msg-bubble ai">Based on Sarah's role and your last 3 touchpoints, I'd lead with compliance ROI — HKMA deadline pressure. She mentioned "budget approval by Q3" in June. The TCO doc you promised would close the loop.</div>
+              <div class="msg-suggestion-chips">
+                <span class="chip" onclick="showToast('Opening TCO document...')">📄 Open TCO draft</span>
+                <span class="chip" onclick="showToast('Logging touchpoint...')">✓ Log this as touchpoint</span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-msg">
+            <div class="msg-avatar ai" aria-label="NEXUS AI">N</div>
+            <div class="typing-indicator" role="status" aria-label="NEXUS is typing">
+              <span class="typing-dot" aria-hidden="true"></span>
+              <span class="typing-dot" aria-hidden="true"></span>
+              <span class="typing-dot" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="intel-section" id="intelligence" aria-labelledby="intel-title">
+  <div class="container">
+    <div class="intel-layout">
+      <div class="intel-visual reveal">
+        <div class="intel-visual-header">
+          <div class="intel-visual-dots" aria-hidden="true">
+            <span class="intel-dot"></span><span class="intel-dot"></span><span class="intel-dot"></span>
+          </div>
+          <span class="intel-visual-title">NEXUS · Meeting Brief</span>
+        </div>
+        <div class="intel-body">
+          <div class="meeting-brief-card">
+            <div class="brief-head">
+              <span class="brief-name">📅 HSBC — MFT Solution Review</span>
+              <span class="brief-time">In 14 min</span>
+            </div>
+            <div class="brief-meta">
+              <span class="brief-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Sarah Chen · Procurement Lead
+              </span>
+              <span class="brief-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                HSBC HK · Enterprise
+              </span>
+              <span class="brief-pill">4th meeting · 3 prior touchpoints</span>
+            </div>
+            <div class="brief-ai-label">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/></svg>
+              AI Suggestions
+            </div>
+            <div class="brief-suggestions">
+              <div class="brief-sug">
+                <div class="brief-sug-icon" aria-hidden="true">→</div>
+                Lead with HKMA compliance deadline — she raised budget urgency in June call
+              </div>
+              <div class="brief-sug">
+                <div class="brief-sug-icon" aria-hidden="true">→</div>
+                Present TCO comparison (action overdue from Jul 2 task)
+              </div>
+              <div class="brief-sug">
+                <div class="brief-sug-icon" aria-hidden="true">→</div>
+                Ask for Q3 approval timeline — decision window closing
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; gap: var(--space-2); flex-wrap:wrap;">
+            <button class="chip" onclick="showToast('Opening meeting prep notes...')">📝 Add notes</button>
+            <button class="chip" onclick="showToast('Logging touchpoint...')">✓ Log outcome</button>
+            <button class="chip" onclick="showToast('Opening contact profile...')">👤 View Sarah</button>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <span class="section-label">AI Intelligence Layer</span>
+        <h2 class="section-title" id="intel-title" style="text-align:left; margin-bottom: var(--space-6);">
+          The CRM that<br><em>prepares you</em>
+        </h2>
+        <ul class="intel-points">
+          <li class="intel-point">
+            <div class="intel-point-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="intel-point-text">
+              <h4>60-min smart reminder</h4>
+              <p>NEXUS cross-checks who's attending with your CRM graph and sends a heads-up — no setup required.</p>
+            </div>
+          </li>
+          <li class="intel-point">
+            <div class="intel-point-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="intel-point-text">
+              <h4>15-min deep brief</h4>
+              <p>Full context: attendees, deal stage, last 3 touchpoints, open tasks, and AI-generated talking points tailored to the relationship.</p>
+            </div>
+          </li>
+          <li class="intel-point">
+            <div class="intel-point-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <div class="intel-point-text">
+              <h4>Auto touchpoint logging</h4>
+              <p>30 minutes after a meeting ends, NEXUS asks what happened and writes it back to Notion. Every interaction preserved.</p>
+            </div>
+          </li>
+          <li class="intel-point">
+            <div class="intel-point-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <div class="intel-point-text">
+              <h4>Stale deal alerts</h4>
+              <p>Contacts not touched in 7 days, tasks overdue by 3+, deals with no recent activity — surfaced automatically each morning.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATIONS -->
+
+<section class="cta-section" aria-labelledby="cta-title">
+  <div class="container--narrow cta-inner">
+    <div class="reveal">
+      <h2 id="cta-title">Ready to sell <em>smarter?</em></h2>
+      <p>Start free. Connect Notion and Google in minutes. Let NEXUS handle the intelligence, so you can focus on the relationships.</p>
+      <div class="cta-actions">
+        <button class="btn btn-primary btn-lg" onclick="openModal('signup')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+          Get started free
+        </button>
+        <button class="btn btn-ghost btn-lg" onclick="showToast('Opening demo booking...')">Book a live demo</button>
+      </div>
+      <p class="cta-note">No credit card · Free forever plan · Cancel anytime</p>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom: var(--space-3);" aria-label="NEXUS Home">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.9"/>
+            <circle cx="5" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+            <circle cx="23" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+            <circle cx="5" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+            <circle cx="23" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+            <line x1="14" y1="14" x2="5" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+            <line x1="14" y1="14" x2="23" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+            <line x1="14" y1="14" x2="5" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+            <line x1="14" y1="14" x2="23" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+          </svg>
+          NEXUS
+        </a>
+        <p>The AI-native CRM that thinks, learns, and prepares you for every conversation. Built on your data, powered by intelligence.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul role="list">
+          <li><a href="features.html">Features</a></li>
+          <li><a href="intelligence.html">AI Intelligence</a></li>
+          <li><a href="integrations.html">Integrations</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="#" onclick="showToast('Changelog coming soon...'); return false;">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul role="list">
+          <li><a href="about.html">About</a></li>
+          <li><a href="#" onclick="showToast('Blog coming soon...'); return false;">Blog</a></li>
+          <li><a href="#" onclick="showToast('Opening contact form...'); return false;">Contact</a></li>
+          <li><a href="#" onclick="showToast('Partners page coming soon...'); return false;">Partners</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul role="list">
+          <li><a href="#" onclick="showToast('Privacy Policy coming soon...'); return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="showToast('Terms of Service coming soon...'); return false;">Terms of Service</a></li>
+          <li><a href="#" onclick="showToast('Security page coming soon...'); return false;">Security</a></li>
+          <li><a href="#" onclick="showToast('Data policy coming soon...'); return false;">Data Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NEXUS AI CRM. All rights reserved.</span>
+      <span>Made in Hong Kong 🇭🇰</span>
+    </div>
+  </div>
+</footer>
+
+<div id="auth-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close modal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-logo">
+      <svg width="22" height="22" viewBox="0 0 28 28" fill="none" style="color: var(--primary);" aria-hidden="true">
+        <circle cx="14" cy="14" r="3" fill="currentColor"/>
+        <circle cx="5" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="23" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="5" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="23" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+        <line x1="14" y1="14" x2="5" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <line x1="14" y1="14" x2="23" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <line x1="14" y1="14" x2="5" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <line x1="14" y1="14" x2="23" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+      </svg>
+      <span class="modal-logo-text">NEXUS</span>
+    </div>
+    <div class="modal-tabs" role="tablist">
+      <button class="modal-tab active" id="tab-signup" role="tab" aria-selected="true" aria-controls="panel-signup" onclick="switchTab('signup')">Get started</button>
+      <button class="modal-tab" id="tab-login" role="tab" aria-selected="false" aria-controls="panel-login" onclick="switchTab('login')">Log in</button>
+    </div>
+    <!-- Signup panel -->
+    <div id="panel-signup" class="form-panel active" role="tabpanel" aria-labelledby="tab-signup">
+      <div class="modal-sub" id="modal-title">Start free — no credit card required</div>
+      <div class="form-group">
+        <label class="form-label" for="signup-name">Full name</label>
+        <input class="form-input" type="text" id="signup-name" placeholder="Terrence Lam" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="signup-email">Work email</label>
+        <input class="form-input" type="email" id="signup-email" placeholder="you@company.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="signup-password">Password</label>
+        <input class="form-input" type="password" id="signup-password" placeholder="Min. 8 characters" autocomplete="new-password">
+      </div>
+      <button class="btn btn-primary form-submit" onclick="handleSignup()">Create free account →</button>
+      <div class="modal-divider"><span class="modal-divider-line"></span><span class="modal-divider-text">or continue with</span><span class="modal-divider-line"></span></div>
+      <button class="modal-oauth" onclick="handleOAuth('Google')">
+        <img src="https://cdn.simpleicons.org/google/4285F4" alt="" width="16" height="16" loading="lazy"> Sign up with Google
+      </button>
+      <p class="modal-footer-text">Already have an account? <a href="#" onclick="switchTab('login'); return false;">Log in</a></p>
+    </div>
+    <!-- Login panel -->
+    <div id="panel-login" class="form-panel" role="tabpanel" aria-labelledby="tab-login">
+      <div class="modal-sub">Welcome back to NEXUS</div>
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email</label>
+        <input class="form-input" type="email" id="login-email" placeholder="you@company.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="login-password">Password</label>
+        <input class="form-input" type="password" id="login-password" placeholder="Your password" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary form-submit" onclick="handleLogin()">Log in →</button>
+      <div class="modal-divider"><span class="modal-divider-line"></span><span class="modal-divider-text">or</span><span class="modal-divider-line"></span></div>
+      <button class="modal-oauth" onclick="handleOAuth('Google')">
+        <img src="https://cdn.simpleicons.org/google/4285F4" alt="" width="16" height="16" loading="lazy"> Continue with Google
+      </button>
+      <p class="modal-footer-text">No account yet? <a href="#" onclick="switchTab('signup'); return false;">Get started free</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast" role="status" aria-live="polite">
+  <svg class="toast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-msg">Action completed</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

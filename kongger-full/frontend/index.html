@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="zh-HK" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="KONGGER — 香港的私密社交空間。最多30位鄰居，屬於你的網絡角落。">
+  <meta property="og:title" content="KONGGER">
+  <meta property="og:description" content="屬於你的私密社交空間">
+  <meta property="og:type" content="website">
+  <title>KONGGER</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=boska@400,500,700&display=swap" rel="stylesheet">
+
+  <!-- Lucide icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* ── Design Tokens ─────────────────────────────────────── */
+    :root,[data-theme="light"]{
+      --font-display:'Instrument Serif',Georgia,serif;
+      --font-body:'DM Sans','Helvetica Neue',sans-serif;
+      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+      --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+      --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+      --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);
+      --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+      --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+      --text-hero:clamp(2.5rem,.5rem + 6vw,6rem);
+      --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+      --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+      --space-12:3rem;--space-16:4rem;--space-20:5rem;--space-24:6rem;
+      --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;--radius-full:9999px;
+      --transition-fast:80ms cubic-bezier(.16,1,.3,1);
+      --transition-base:180ms cubic-bezier(.16,1,.3,1);
+      --transition-slow:320ms cubic-bezier(.16,1,.3,1);
+      --spring-pop:400ms cubic-bezier(.34,1.56,.64,1);
+      --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
+      --color-surface-offset:#f3f0ec;--color-surface-dynamic:#e6e4df;
+      --color-divider:#dcd9d5;--color-border:#d4d1ca;
+      --color-text:#28251d;--color-text-muted:#7a7974;--color-text-faint:#bab9b4;
+      --color-primary:#8B2252;--color-primary-hover:#6e1a41;--color-primary-active:#52122f;
+      --color-primary-highlight:#f3e4eb;
+      --color-teal:#01696f;--color-teal-hover:#0c4e54;
+      --color-gold:#d19900;--color-gold-highlight:#e9e0c6;
+      --color-success:#437a22;--color-error:#a12c7b;--color-notification:#a13544;
+      --shadow-sm:0 1px 2px oklch(0.2 0.01 80/.06);
+      --shadow-md:0 4px 12px oklch(0.2 0.01 80/.08);
+      --shadow-lg:0 12px 32px oklch(0.2 0.01 80/.12);
+      --content-narrow:640px;--content-default:960px;--content-wide:1200px;
+    }
+    [data-theme="dark"]{
+      --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+      --color-surface-offset:#1d1c1a;--color-surface-dynamic:#2d2c2a;
+      --color-divider:#262523;--color-border:#393836;
+      --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+      --color-primary:#d47fa8;--color-primary-hover:#bc6490;--color-primary-active:#9e4a73;
+      --color-primary-highlight:#4a2d3b;
+      --color-teal:#4f98a3;--color-teal-hover:#227f8b;
+      --color-gold:#e8af34;--color-gold-highlight:#4d4332;
+      --shadow-sm:0 1px 2px oklch(0 0 0/.2);
+      --shadow-md:0 4px 12px oklch(0 0 0/.3);
+      --shadow-lg:0 12px 32px oklch(0 0 0/.4);
+    }
+    @media(prefers-color-scheme:dark){:root:not([data-theme]){
+      --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+      --color-surface-offset:#1d1c1a;--color-surface-dynamic:#2d2c2a;
+      --color-divider:#262523;--color-border:#393836;
+      --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+      --color-primary:#d47fa8;--color-primary-hover:#bc6490;--color-primary-active:#9e4a73;
+      --color-primary-highlight:#4a2d3b;--color-teal:#4f98a3;
+      --shadow-sm:0 1px 2px oklch(0 0 0/.2);
+      --shadow-md:0 4px 12px oklch(0 0 0/.3);
+      --shadow-lg:0 12px 32px oklch(0 0 0/.4);
+    }}
+
+    /* ── Base ─────────────────────────────────────────────── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-text-size-adjust:none;text-size-adjust:none;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.6}
+    img,video,canvas{display:block;max-width:100%;height:auto}
+    ul{list-style:none}
+    input,button,textarea,select{font:inherit;color:inherit}
+    h1,h2,h3,h4{text-wrap:balance;line-height:1.15}
+    p,li{text-wrap:pretty;max-width:72ch}
+    button{cursor:pointer;background:none;border:none}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:oklch(from var(--color-primary) l c h/.25);color:var(--color-text)}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+    /* ── Animations ───────────────────────────────────────── */
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    @keyframes heartPop{0%{transform:scale(1)}30%{transform:scale(1.4)}60%{transform:scale(.9)}100%{transform:scale(1)}}
+    @keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+    @keyframes toastIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:none}}
+    @keyframes toastOut{from{opacity:1;transform:none}to{opacity:0;transform:translateX(100%)}}
+    @keyframes rotate{to{transform:rotate(360deg)}}
+    @keyframes eq{to{height:20px}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+    .page-enter{animation:slideIn .22s cubic-bezier(.16,1,.3,1)}
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .32s ease,transform .32s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .card-stagger.reveal:nth-child(1){transition-delay:.05s}
+    .card-stagger.reveal:nth-child(2){transition-delay:.1s}
+    .card-stagger.reveal:nth-child(3){transition-delay:.15s}
+    .card-stagger.reveal:nth-child(4){transition-delay:.2s}
+    .toast-enter{animation:toastIn .28s cubic-bezier(.16,1,.3,1)}
+    .toast-exit{animation:toastOut .21s cubic-bezier(.16,1,.3,1)}
+    .heart-liked{animation:heartPop var(--spring-pop)}
+
+    .skeleton{background:linear-gradient(90deg,var(--color-surface-offset) 25%,var(--color-surface-dynamic) 50%,var(--color-surface-offset) 75%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite;border-radius:var(--radius-sm)}
+    .skeleton-text{height:1em;margin-bottom:var(--space-2)}
+    .skeleton-text:last-child{width:60%}
+    .skeleton-heading{height:1.5em;width:40%;margin-bottom:var(--space-4)}
+    .skeleton-avatar{width:40px;height:40px;border-radius:var(--radius-full);flex-shrink:0}
+
+    /* ── Layout ───────────────────────────────────────────── */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-6);background:var(--color-surface);border-bottom:1px solid oklch(from var(--color-text) l c h/.08);box-shadow:var(--shadow-sm);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+    .nav__logo{display:flex;align-items:center;gap:var(--space-2);color:var(--color-primary);font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;font-style:italic}
+    .nav__links{display:flex;align-items:center;gap:var(--space-1)}
+    .nav__link{padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-muted);font-weight:500;transition:background var(--transition-base),color var(--transition-base)}
+    .nav__link:hover{color:var(--color-text);background:var(--color-surface-offset)}
+    .nav__link.active{color:var(--color-primary);background:var(--color-primary-highlight)}
+    .nav__actions{display:flex;align-items:center;gap:var(--space-2)}
+    .icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-full);color:var(--color-text-muted);transition:background var(--transition-base),color var(--transition-base)}
+    .icon-btn:hover{background:var(--color-surface-offset);color:var(--color-text)}
+    .icon-btn:active{transform:scale(.92);transition-duration:var(--transition-fast)}
+    .notif-badge{position:relative}.notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--color-notification);border-radius:var(--radius-full);border:2px solid var(--color-surface)}
+    .main{padding-top:60px;min-height:100dvh}
+    .container{max-width:var(--content-default);margin:0 auto;padding:0 var(--space-4)}
+    .container--narrow{max-width:var(--content-narrow);margin:0 auto;padding:0 var(--space-4)}
+    .page{display:none}.page.active{display:block}
+    .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;height:56px;background:var(--color-surface);border-top:1px solid oklch(from var(--color-text) l c h/.08);align-items:center;justify-content:space-around}
+    .bottom-nav__item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:var(--space-2);border-radius:var(--radius-md);color:var(--color-text-muted);font-size:10px;min-width:52px;min-height:44px;justify-content:center}
+    .bottom-nav__item.active{color:var(--color-primary)}.bottom-nav__item:active{background:var(--color-surface-offset)}
+    @media(max-width:768px){.nav__links{display:none}.bottom-nav{display:flex}.main{padding-bottom:56px}}
+    #particles-canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:0;opacity:.3}
+
+    /* ── Buttons ──────────────────────────────────────────── */
+    .btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:600;cursor:pointer;transition:background var(--transition-base),box-shadow var(--transition-base),transform var(--transition-fast);border:none;white-space:nowrap;user-select:none;position:relative;line-height:1}
+    .btn:active{transform:scale(.96)}.btn[disabled],.btn.loading{opacity:.65;pointer-events:none}
+    .btn.loading .btn-label{opacity:0}.btn.loading::after{content:'';width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .6s linear infinite;position:absolute}
+    .btn-primary{background:var(--color-primary);color:#fff;box-shadow:var(--shadow-sm)}.btn-primary:hover{background:var(--color-primary-hover);box-shadow:var(--shadow-md)}
+    .btn-teal{background:var(--color-teal);color:#fff}.btn-teal:hover{background:var(--color-teal-hover)}
+    .btn-secondary{background:var(--color-surface-offset);color:var(--color-text)}.btn-secondary:hover{background:var(--color-surface-dynamic)}
+    .btn-ghost{background:transparent;color:var(--color-primary);border:1.5px solid var(--color-primary)}.btn-ghost:hover{background:var(--color-primary-highlight)}
+    .btn-sm{padding:var(--space-2) var(--space-4);font-size:var(--text-xs)}.btn-lg{padding:var(--space-4) var(--space-8);font-size:var(--text-base)}
+
+    /* ── Cards ───────────────────────────────────────────── */
+    .card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h/.08);border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-sm);transition:box-shadow var(--transition-base),transform var(--transition-base)}
+    .card--hover:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}.card--hover:active{transform:translateY(0) scale(.99)}
+
+    /* ── Post Card ───────────────────────────────────────── */
+    .post-card{background:var(--color-surface);border:1px solid var(--color-divider);border-radius:var(--radius-xl);padding:var(--space-5);margin-bottom:var(--space-4)}
+    .post-card__header{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-4)}
+    .post-card__avatar{width:44px;height:44px;border-radius:var(--radius-full);object-fit:cover;background:var(--color-surface-offset);flex-shrink:0}
+    .post-card__name{font-weight:600;font-size:var(--text-sm)}.post-card__handle{color:var(--color-text-muted);font-size:var(--text-xs)}.post-card__mood{font-size:1.1em;margin-left:auto}
+    .post-card__title{font-family:var(--font-display);font-size:var(--text-lg);font-weight:600;margin-bottom:var(--space-2)}
+    .post-card__content{color:var(--color-text-muted);line-height:1.7;margin-bottom:var(--space-4)}
+    .post-card__actions{display:flex;align-items:center;gap:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--color-divider)}
+    .like-btn{display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-2) var(--space-3);border-radius:var(--radius-full);font-size:var(--text-sm);color:var(--color-text-muted);cursor:pointer;border:none;background:transparent;transition:background var(--transition-base),color var(--transition-base)}
+    .like-btn:hover{background:var(--color-primary-highlight);color:var(--color-primary)}.like-btn.liked{color:var(--color-primary)}
+    .like-btn:active{transform:scale(.88);transition-duration:var(--transition-fast)}
+    .heart-icon{display:inline-block;transition:transform var(--transition-fast)}
+
+    /* ── Profile ─────────────────────────────────────────── */
+    .profile-cover{height:220px;border-radius:var(--radius-xl);overflow:hidden;background:var(--color-surface-offset);margin-bottom:0}
+    .profile-cover img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+    .profile-cover:hover img{transform:scale(1.02)}
+    .profile-info{display:flex;align-items:flex-end;gap:var(--space-4);padding:0 var(--space-6);margin-top:-40px;position:relative;flex-wrap:wrap}
+    .profile-avatar{width:88px;height:88px;border-radius:var(--radius-full);border:4px solid var(--color-bg);object-fit:cover;background:var(--color-surface-offset);box-shadow:var(--shadow-md);flex-shrink:0}
+    .profile-name{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700}
+    .profile-handle{color:var(--color-text-muted);font-size:var(--text-sm)}
+    .profile-bio{color:var(--color-text-muted);font-size:var(--text-sm);margin-top:var(--space-2)}
+    .profile-stats{display:flex;gap:var(--space-6);margin-top:var(--space-3)}.profile-stat{text-align:center}
+    .profile-stat__num{font-weight:700;font-size:var(--text-lg)}.profile-stat__label{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .neighbour-card{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3);border-radius:var(--radius-lg);transition:background var(--transition-base)}.neighbour-card:hover{background:var(--color-surface-offset)}
+    .neighbour-avatar{width:44px;height:44px;border-radius:var(--radius-full);object-fit:cover;background:var(--color-surface-offset);flex-shrink:0}
+    .neighbour-name{font-weight:600;font-size:var(--text-sm)}.neighbour-handle{font-size:var(--text-xs);color:var(--color-text-muted)}
+
+    /* ── Music widget ────────────────────────────────────── */
+    .music-widget{background:var(--color-surface-offset);border-radius:var(--radius-xl);padding:var(--space-4);display:flex;align-items:center;gap:var(--space-3)}
+    .music-album{width:52px;height:52px;border-radius:var(--radius-md);object-fit:cover;background:var(--color-surface-dynamic);display:flex;align-items:center;justify-content:center;font-size:1.5em;flex-shrink:0}
+    .music-album.playing{animation:rotate 15s linear infinite}
+    .music-info{flex:1;overflow:hidden}.music-title{font-weight:600;font-size:var(--text-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.music-artist{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .music-eq{display:flex;gap:3px;align-items:flex-end;height:20px}.music-eq span{width:3px;background:var(--color-primary);border-radius:2px}
+    .music-eq.playing span:nth-child(1){animation:eq .8s 0s ease-in-out infinite alternate;height:8px}
+    .music-eq.playing span:nth-child(2){animation:eq .8s .2s ease-in-out infinite alternate;height:14px}
+    .music-eq.playing span:nth-child(3){animation:eq .8s .4s ease-in-out infinite alternate;height:10px}
+    .music-eq:not(.playing) span:nth-child(1){height:8px}
+    .music-eq:not(.playing) span:nth-child(2){height:14px}
+    .music-eq:not(.playing) span:nth-child(3){height:10px}
+
+    /* ── Form ─────────────────────────────────────────────── */
+    .field{display:flex;flex-direction:column;gap:var(--space-1);margin-bottom:var(--space-5)}
+    .label{font-size:var(--text-sm);font-weight:500}
+    .input{padding:var(--space-3) var(--space-4);border:1.5px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface-2);font-size:var(--text-base);transition:border-color var(--transition-base),box-shadow var(--transition-base)}
+    .input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px oklch(from var(--color-primary) l c h/.15)}
+    .input.error{border-color:var(--color-error)}.input-error{font-size:var(--text-xs);color:var(--color-error);min-height:1.2em}
+    textarea.input{min-height:120px;resize:vertical}.char-count{font-size:var(--text-xs);color:var(--color-text-faint);text-align:right}
+    .char-count.warn{color:var(--color-gold)}.char-count.danger{color:var(--color-error)}
+    .mood-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--space-2)}
+    .mood-btn{padding:var(--space-2);border:2px solid transparent;border-radius:var(--radius-md);font-size:1.4em;cursor:pointer;background:var(--color-surface-offset);transition:transform var(--transition-base),border-color var(--transition-base);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+    .mood-btn:hover{transform:scale(1.1)}.mood-btn.selected{border-color:var(--color-primary);background:var(--color-primary-highlight);transform:scale(1.15)}
+    .mood-btn:active{transform:scale(.9);transition-duration:var(--transition-fast)}
+
+    /* ── Modal ───────────────────────────────────────────── */
+    .modal-overlay{position:fixed;inset:0;z-index:200;background:oklch(0 0 0/.5);display:none;align-items:center;justify-content:center;padding:var(--space-4);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+    .modal-overlay.open{display:flex;animation:fadeUp .2s ease}
+    .modal{background:var(--color-surface);border-radius:var(--radius-xl);width:100%;max-width:520px;max-height:90dvh;overflow-y:auto;box-shadow:var(--shadow-lg);padding:var(--space-8)}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-6)}
+    .modal-title{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700}
+    .modal-close{width:36px;height:36px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted)}.modal-close:hover{background:var(--color-surface-offset)}
+    @media(max-width:600px){.modal{border-radius:var(--radius-xl) var(--radius-xl) 0 0;position:fixed;bottom:0;left:0;right:0;max-width:100%;max-height:85dvh}.modal-overlay{align-items:flex-end;padding:0}}
+
+    /* ── Toast ───────────────────────────────────────────── */
+    #toast-container{position:fixed;top:var(--space-4);right:var(--space-4);z-index:300;display:flex;flex-direction:column;gap:var(--space-2);pointer-events:none}
+    .toast{background:var(--color-surface-2);border:1px solid var(--color-divider);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-5);box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:var(--space-3);font-size:var(--text-sm);min-width:260px;max-width:360px;pointer-events:auto}
+    .toast--success{border-left:3px solid var(--color-success)}.toast--error{border-left:3px solid var(--color-error)}.toast--info{border-left:3px solid var(--color-primary)}
+
+    /* ── AI page ──────────────────────────────────────────── */
+    .ai-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:var(--space-6);margin-top:var(--space-8)}
+    .ai-card{background:var(--color-surface);border:1px solid oklch(from var(--color-primary) l c h/.2);border-radius:var(--radius-xl);padding:var(--space-6);transition:box-shadow var(--transition-base),transform var(--transition-base)}
+    .ai-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}.ai-card:active{transform:translateY(0) scale(.99)}
+    .ai-icon{font-size:2.5em;margin-bottom:var(--space-4)}.ai-title{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;margin-bottom:var(--space-2)}.ai-desc{color:var(--color-text-muted);font-size:var(--text-sm)}
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    .hero{padding:var(--space-24) 0 var(--space-20);text-align:center;position:relative;overflow:hidden}
+    .hero__eyebrow{font-size:var(--text-xs);font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--color-primary);margin-bottom:var(--space-4)}
+    .hero__title{font-family:var(--font-display);font-size:var(--text-hero);font-weight:700;line-height:1.05;margin-bottom:var(--space-6);color:var(--color-text);font-style:italic}
+    .hero__subtitle{font-size:var(--text-lg);color:var(--color-text-muted);max-width:52ch;margin:0 auto var(--space-8)}
+    .hero__actions{display:flex;align-items:center;justify-content:center;gap:var(--space-4);flex-wrap:wrap}
+    .divider{height:1px;background:var(--color-divider);margin:var(--space-8) 0}
+    .badge{display:inline-flex;align-items:center;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:600}
+    .badge--primary{background:var(--color-primary-highlight);color:var(--color-primary)}
+    .badge--gold{background:var(--color-gold-highlight);color:var(--color-gold)}
+    .ad-banner{background:linear-gradient(135deg,var(--color-surface-offset),var(--color-surface-2));border:1px solid oklch(from var(--color-gold) l c h/.3);border-radius:var(--radius-xl);padding:var(--space-5);cursor:pointer;transition:box-shadow var(--transition-base);display:block}
+    .ad-banner:hover{box-shadow:0 0 0 3px oklch(from var(--color-gold) l c h/.2);border-color:var(--color-gold)}
+
+    /* ── Pages page (user pages) ─────────────────────────── */
+    .page-builder-card{background:var(--color-surface);border:2px dashed var(--color-divider);border-radius:var(--radius-xl);padding:var(--space-16);text-align:center;cursor:pointer;transition:border-color var(--transition-base),background var(--transition-base)}
+    .page-builder-card:hover{border-color:var(--color-primary);background:var(--color-primary-highlight)}
+
+    /* ── Waitlist ─────────────────────────────────────────── */
+    .waitlist-section{background:linear-gradient(135deg,var(--color-primary-highlight),var(--color-surface-offset));border-radius:var(--radius-xl);padding:var(--space-16) var(--space-8);text-align:center;margin-top:var(--space-24)}
+    .waitlist-title{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:700;margin-bottom:var(--space-4);font-style:italic}
+    .waitlist-form{display:flex;gap:var(--space-3);max-width:460px;margin:var(--space-6) auto 0;flex-wrap:wrap;justify-content:center}
+    .waitlist-form .input{flex:1;min-width:200px}
+    .footer{border-top:1px solid var(--color-divider);padding:var(--space-10) 0;text-align:center;color:var(--color-text-faint);font-size:var(--text-sm);margin-top:var(--space-24)}
+    .footer__links{display:flex;gap:var(--space-6);justify-content:center;margin-bottom:var(--space-4);flex-wrap:wrap}
+    .footer__links a{color:var(--color-text-muted);transition:color var(--transition-base)}.footer__links a:hover{color:var(--color-primary)}
+
+    /* ── About page ──────────────────────────────────────── */
+    .about-header{text-align:center;padding:var(--space-24) 0 var(--space-16)}
+    .about-header h1{font-family:var(--font-display);font-size:var(--text-2xl);font-style:italic;margin-bottom:var(--space-4)}
+    .about-section{max-width:640px;margin:0 auto var(--space-12)}
+    .about-section h2{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:var(--space-4)}
+    .about-section p{color:var(--color-text-muted);margin-bottom:var(--space-4);line-height:1.8}
+    .timeline{margin-top:var(--space-6)}
+    .timeline__item{display:flex;gap:var(--space-4);margin-bottom:var(--space-6)}
+    .timeline__dot{width:12px;height:12px;border-radius:50%;background:var(--color-primary);margin-top:6px;flex-shrink:0}
+    .timeline__content h3{font-weight:600;margin-bottom:var(--space-1)}.timeline__content p{font-size:var(--text-sm);color:var(--color-text-muted)}
+  </style>
+</head>
+<body>
+<canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+<!-- Skip to content -->
+<a href="#main-content" class="sr-only" style="position:absolute;left:-9999px;z-index:999">Skip to main content</a>
+
+<!-- Navigation -->
+<header class="nav" role="banner">
+  <a href="#home" class="nav__logo" aria-label="KONGGER home" data-page="home">
+    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <path d="M20 4 L36 14 L36 26 L20 36 L4 26 L4 14 Z" fill="var(--color-primary)" opacity=".9"/>
+      <path d="M12 18 L18 24 L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    KONGGER
+  </a>
+  <nav class="nav__links" aria-label="Main navigation">
+    <a href="#home" class="nav__link" data-page="home">首頁</a>
+    <a href="#profile" class="nav__link" data-page="profile">個人檔案</a>
+    <a href="#pages" class="nav__link" data-page="pages">我的頁面</a>
+    <a href="#ai" class="nav__link" data-page="ai">AI 功能</a>
+    <a href="#about" class="nav__link" data-page="about">關於</a>
+  </nav>
+  <div class="nav__actions">
+    <button class="icon-btn notif-badge" id="notif-btn" aria-label="Notifications">
+      <i data-lucide="bell" width="20" height="20"></i>
+      <span class="notif-dot" id="notif-dot" style="display:none"></span>
+    </button>
+    <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">
+      <i data-lucide="moon" width="20" height="20"></i>
+    </button>
+    <button class="btn btn-primary btn-sm" onclick="openModal('modal-auth')">登入</button>
+    <button class="btn btn-ghost btn-sm" onclick="openModal('modal-compose')" aria-label="New post">
+      <i data-lucide="pen-line" width="16" height="16"></i>
+      <span class="btn-label">寫日記</span>
+    </button>
+  </div>
+</header>
+
+<main class="main" id="main-content">
+
+  <!-- ── HOME ──────────────────────────────────────────────── -->
+  <div id="page-home" class="page active">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container container--narrow">
+        <p class="hero__eyebrow">Hong Kong's Private Social Space</p>
+        <h1 class="hero__title">你的角落，<br>只給鄰居看。</h1>
+        <p class="hero__subtitle">KONGGER 是一個私密的社交空間。最多 30 位鄰居，發掘真實的連結。</p>
+        <div class="hero__actions">
+          <button class="btn btn-primary btn-lg" onclick="openModal('modal-auth')"><span class="btn-label">立即加入</span></button>
+          <a href="#about" class="btn btn-secondary btn-lg" data-page="about">了解更多</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feed -->
+    <section style="padding:var(--space-6) 0 var(--space-24)">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:var(--space-8);align-items:start" class="feed-layout">
+          <!-- Main feed -->
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-5)">
+              <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-style:italic">日記動態</h2>
+              <button class="btn btn-primary btn-sm" onclick="openModal('modal-compose')">+ 寫日記</button>
+            </div>
+            <div id="feed-list"></div>
+            <div id="feed-loading-more" style="text-align:center;padding:var(--space-4);color:var(--color-text-faint);display:none">
+              <div class="skeleton" style="width:120px;height:20px;margin:0 auto"></div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <aside style="position:sticky;top:76px;display:flex;flex-direction:column;gap:var(--space-4)">
+            <!-- Neighbours -->
+            <div class="card">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
+                <h3 style="font-weight:600;font-size:var(--text-base)">我的鄰居</h3>
+                <span class="badge badge--primary">0/30</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:var(--space-2)" id="sidebar-neighbours">
+                <div style="text-align:center;padding:var(--space-8) 0;color:var(--color-text-muted)">
+                  <div style="font-size:2em;margin-bottom:var(--space-2)">👥</div>
+                  <p style="font-size:var(--text-sm)">還沒有鄰居</p>
+                  <button class="btn btn-primary btn-sm" style="margin-top:var(--space-3)" onclick="openModal('modal-neighbour')">搜尋鄰居</button>
+                </div>
+              </div>
+            </div>
+            <!-- Ad Board -->
+            <a href="#" class="ad-banner" target="_blank" rel="noopener noreferrer">
+              <div class="badge badge--gold" style="margin-bottom:var(--space-2)">廣告板</div>
+              <div style="font-weight:700;margin-bottom:var(--space-1)">在這裡展示你的廣告</div>
+              <div style="font-size:var(--text-sm);color:var(--color-text-muted)">在個人檔案設定你的廣告內容</div>
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Waitlist -->
+    <section class="container container--narrow" style="padding-bottom:var(--space-24)">
+      <div class="waitlist-section reveal">
+        <h2 class="waitlist-title">加入候補名單</h2>
+        <p style="color:var(--color-text-muted);margin-bottom:var(--space-2)">KONGGER 現正邀請測試。留下電郵，率先體驗。</p>
+        <form class="waitlist-form" id="waitlist-form" novalidate>
+          <input class="input" type="text" name="name" placeholder="你的名字" required>
+          <input class="input" type="email" name="email" placeholder="電郵地址" required>
+          <button class="btn btn-primary" type="submit"><span class="btn-label">登記</span></button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── PROFILE ────────────────────────────────────────────── -->
+  <div id="page-profile" class="page">
+    <section style="padding:var(--space-8) 0 var(--space-16)">
+      <div class="container" id="profile-container">
+        <div class="skeleton skeleton-heading" style="width:100%;height:220px;border-radius:var(--radius-xl);margin-bottom:var(--space-4)"></div>
+        <div class="skeleton skeleton-avatar" style="width:88px;height:88px;margin-bottom:var(--space-4)"></div>
+        <div class="skeleton skeleton-heading"></div>
+        <div class="skeleton skeleton-text"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── PAGES ─────────────────────────────────────────────── -->
+  <div id="page-pages" class="page">
+    <section style="padding:var(--space-10) 0">
+      <div class="container">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-8)">
+          <div>
+            <h1 style="font-family:var(--font-display);font-size:var(--text-2xl);font-style:italic">我的頁面</h1>
+            <p style="color:var(--color-text-muted);margin-top:var(--space-2)">自訂你的個人主頁，就像 Xanga 一樣</p>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('modal-new-page')">+ 新增頁面</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-6)" id="pages-list">
+          <div class="page-builder-card reveal" onclick="openModal('modal-new-page')">
+            <div style="font-size:3em;margin-bottom:var(--space-4)">✦</div>
+            <h3 style="font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:var(--space-2)">建立你的第一個頁面</h3>
+            <p style="font-size:var(--text-sm);color:var(--color-text-muted)">自訂佈局、音樂、廣告板</p>
+          </div>
+        </div>
+        <!-- How it works -->
+        <div style="margin-top:var(--space-16);padding:var(--space-12) var(--space-8);background:var(--color-surface);border-radius:var(--radius-xl);border:1px solid var(--color-divider)">
+          <h2 style="font-family:var(--font-display);font-size:var(--text-xl);text-align:center;margin-bottom:var(--space-8);font-style:italic">頁面架構</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-6)">
+            <div class="card reveal" style="text-align:center"><div style="font-size:2em;margin-bottom:var(--space-3)">🎨</div><h3 style="font-weight:600;margin-bottom:var(--space-1)">自訂主題</h3><p style="font-size:var(--text-sm);color:var(--color-text-muted)">選擇顏色、字體、背景</p></div>
+            <div class="card reveal" style="text-align:center"><div style="font-size:2em;margin-bottom:var(--space-3)">📝</div><h3 style="font-weight:600;margin-bottom:var(--space-1)">靈活內容</h3><p style="font-size:var(--text-sm);color:var(--color-text-muted)">文字、圖片、音樂小部件</p></div>
+            <div class="card reveal" style="text-align:center"><div style="font-size:2em;margin-bottom:var(--space-3)">🔒</div><h3 style="font-weight:600;margin-bottom:var(--space-1)">私密控制</h3><p style="font-size:var(--text-sm);color:var(--color-text-muted)">選擇公開或限鄰居可見</p></div>
+            <div class="card reveal" style="text-align:center"><div style="font-size:2em;margin-bottom:var(--space-3)">📊</div><h3 style="font-weight:600;margin-bottom:var(--space-1)">訪客統計</h3><p style="font-size:var(--text-sm);color:var(--color-text-muted)">今日訪客即時顯示</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── AI ────────────────────────────────────────────────── -->
+  <div id="page-ai" class="page">
+    <section style="padding:var(--space-10) 0">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:var(--space-10)">
+          <h1 style="font-family:var(--font-display);font-size:var(--text-2xl);font-style:italic;margin-bottom:var(--space-3)">AI 功能</h1>
+          <p style="color:var(--color-text-muted);max-width:52ch;margin:0 auto">KONGGER 整合 AI 技術，讓你的社交體驗更聰明。</p>
+        </div>
+        <div class="ai-grid">
+          <div class="ai-card reveal">
+            <div class="ai-icon">✍️</div>
+            <h3 class="ai-title">AI 日記助手</h3>
+            <p class="ai-desc">根據你的心情，AI 幫你補全想法，讓記錄更順暢。</p>
+            <div style="margin-top:var(--space-4)"><span class="badge badge--primary">即將推出</span></div>
+          </div>
+          <div class="ai-card reveal">
+            <div class="ai-icon">🎵</div>
+            <h3 class="ai-title">心情配樂推薦</h3>
+            <p class="ai-desc">AI 根據你的文字情緒，推薦最適合的背景音樂。</p>
+            <div style="margin-top:var(--space-4)"><span class="badge badge--primary">即將推出</span></div>
+          </div>
+          <div class="ai-card reveal">
+            <div class="ai-icon">🤝</div>
+            <h3 class="ai-title">鄰居匹配</h3>
+            <p class="ai-desc">AI 分析你的興趣和貼文風格，推薦最合適的鄰居。</p>
+            <div style="margin-top:var(--space-4)"><span class="badge badge--primary">即將推出</span></div>
+          </div>
+          <div class="ai-card reveal">
+            <div class="ai-icon">🛡️</div>
+            <h3 class="ai-title">內容安全守護</h3>
+            <p class="ai-desc">AI 自動識別有害內容，保護社區安全。</p>
+            <div style="margin-top:var(--space-4)"><span class="badge badge--gold">已啟用</span></div>
+          </div>
+          <div class="ai-card reveal">
+            <div class="ai-icon">🌐</div>
+            <h3 class="ai-title">多語翻譯</h3>
+            <p class="ai-desc">一鍵翻譯鄰居的貼文，消除語言隔閡。</p>
+            <div style="margin-top:var(--space-4)"><span class="badge badge--primary">即將推出</span></div>
+          </div>
+          <div class="ai-card reveal">
+            <div class="ai-icon">📊</div>
+            <h3 class="ai-title">情緒洞察</h3>
+            <p class="ai-desc">分析你的日記趨勢，了解自己的情緒模式。</p>
+            <div style="margin-top:var(--space-4)"><span class="badge badge--primary">Beta</span></div>
+          </div>
+        </div>
+
+        <!-- Tech stack info -->
+        <div style="margin-top:var(--space-16);padding:var(--space-10) var(--space-8);background:var(--color-surface);border-radius:var(--radius-xl);border:1px solid var(--color-divider)">
+          <h2 style="font-family:var(--font-display);font-size:var(--text-xl);text-align:center;margin-bottom:var(--space-8);font-style:italic">技術架構</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-4)">
+            <div style="text-align:center;padding:var(--space-4)"><div style="font-size:1.8em;margin-bottom:var(--space-2)">🐘</div><div style="font-weight:600;font-size:var(--text-sm)">PostgreSQL 16</div><div style="font-size:var(--text-xs);color:var(--color-text-muted)">RLS 資料隔離</div></div>
+            <div style="text-align:center;padding:var(--space-4)"><div style="font-size:1.8em;margin-bottom:var(--space-2)">⚡</div><div style="font-weight:600;font-size:var(--text-sm)">Node.js 20</div><div style="font-size:var(--text-xs);color:var(--color-text-muted)">Express API Server</div></div>
+            <div style="text-align:center;padding:var(--space-4)"><div style="font-size:1.8em;margin-bottom:var(--space-2)">🔐</div><div style="font-weight:600;font-size:var(--text-sm)">JWT Auth</div><div style="font-size:var(--text-xs);color:var(--color-text-muted)">30日 Token 輪替</div></div>
+            <div style="text-align:center;padding:var(--space-4)"><div style="font-size:1.8em;margin-bottom:var(--space-2)">🚀</div><div style="font-weight:600;font-size:var(--text-sm)">Docker Compose</div><div style="font-size:var(--text-xs);color:var(--color-text-muted)">一鍵部署</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── ABOUT ──────────────────────────────────────────────── -->
+  <div id="page-about" class="page">
+    <section>
+      <div class="container">
+        <div class="about-header reveal">
+          <h1>關於 KONGGER</h1>
+          <p style="color:var(--color-text-muted);max-width:52ch;margin:0 auto">屬於香港的私密社交空間，承載你最真實的生活片段。</p>
+        </div>
+        <div class="about-section reveal">
+          <h2>我們的理念</h2>
+          <p>KONGGER 相信真實的社交連結不應該是一場表演。在這裡，你不需要取悅陌生人，只需要和你選擇的 30 位鄰居分享真正重要的事。</p>
+          <p>靈感來自早年 Xanga 的個人化空間文化——每個人都有屬於自己的角落，可以自由表達、記錄、分享。但我們更重視私密性和連結的質量。</p>
+        </div>
+        <div class="about-section reveal">
+          <h2>Dunbar 30 法則</h2>
+          <p>人類學家 Robin Dunbar 的研究發現，人類能夠維持真正有意義的關係數量約為 150 人，而最親密的圈子通常只有 5 至 30 人。</p>
+          <p>KONGGER 以此為設計基礎，限制每位用戶最多 30 位鄰居，確保每段連結都是真實且有意義的。</p>
+        </div>
+        <div class="about-section reveal">
+          <h2>發展路線</h2>
+          <div class="timeline">
+            <div class="timeline__item"><div class="timeline__dot"></div><div class="timeline__content"><h3>2026 Q1 — MVP 上線</h3><p>個人檔案、日記、鄰居系統、訪客記錄</p></div></div>
+            <div class="timeline__item"><div class="timeline__dot" style="background:var(--color-teal)"></div><div class="timeline__content"><h3>2026 Q2 — 個人頁面</h3><p>自訂頁面建構器、音樂小部件、廣告板</p></div></div>
+            <div class="timeline__item"><div class="timeline__dot" style="background:var(--color-gold)"></div><div class="timeline__content"><h3>2026 Q3 — AI 功能</h3><p>日記助手、情緒分析、鄰居匹配</p></div></div>
+            <div class="timeline__item"><div class="timeline__dot" style="background:var(--color-surface-dynamic)"></div><div class="timeline__content"><h3>2026 Q4 — 流動版</h3><p>iOS / Android 原生應用</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__links">
+      <a href="#about" data-page="about">關於</a>
+      <a href="#" target="_blank" rel="noopener noreferrer">私隱政策</a>
+      <a href="#" target="_blank" rel="noopener noreferrer">使用條款</a>
+      <a href="#ai" data-page="ai">AI 功能</a>
+    </div>
+    <p>© 2026 KONGGER · 香港製造 🇭🇰 · 保留所有權利</p>
+  </div>
+</footer>
+
+<!-- Bottom Nav (mobile) -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <a href="#home" class="bottom-nav__item active" data-page="home">
+    <i data-lucide="home" width="22" height="22"></i>
+    <span>首頁</span>
+  </a>
+  <a href="#profile" class="bottom-nav__item" data-page="profile">
+    <i data-lucide="user" width="22" height="22"></i>
+    <span>我</span>
+  </a>
+  <button class="bottom-nav__item" onclick="openModal('modal-compose')">
+    <i data-lucide="pen-line" width="22" height="22"></i>
+    <span>日記</span>
+  </button>
+  <a href="#pages" class="bottom-nav__item" data-page="pages">
+    <i data-lucide="layout" width="22" height="22"></i>
+    <span>頁面</span>
+  </a>
+  <a href="#ai" class="bottom-nav__item" data-page="ai">
+    <i data-lucide="sparkles" width="22" height="22"></i>
+    <span>AI</span>
+  </a>
+</nav>
+
+<!-- Toast container -->
+<div id="toast-container" role="status" aria-live="polite"></div>
+
+<!-- ── MODALS ─────────────────────────────────────────────────── -->
+
+<!-- Compose post -->
+<div class="modal-overlay" id="modal-compose" role="dialog" aria-modal="true" aria-labelledby="compose-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="compose-title">✍️ 寫日記</h2>
+      <button class="modal-close" data-modal-close="modal-compose" aria-label="Close">✕</button>
+    </div>
+    <form id="post-form" novalidate>
+      <div class="field">
+        <label class="label" for="post-title">標題 <span style="color:var(--color-text-faint);font-weight:400">(可選)</span></label>
+        <input class="input" id="post-title" name="title" placeholder="給這篇日記一個標題">
+      </div>
+      <div class="field">
+        <label class="label" for="post-content">內容 *</label>
+        <textarea class="input" id="post-content" name="content" placeholder="今天發生了什麼..."></textarea>
+        <div class="char-count">0/500</div>
+      </div>
+      <div class="field">
+        <div class="label" style="margin-bottom:var(--space-2)">今天的心情</div>
+        <div class="mood-grid" role="group" aria-label="Select mood">
+          <button type="button" class="mood-btn selected" data-mood="happy" title="開心">😊</button>
+          <button type="button" class="mood-btn" data-mood="calm" title="平靜">😌</button>
+          <button type="button" class="mood-btn" data-mood="moved" title="感動">🥺</button>
+          <button type="button" class="mood-btn" data-mood="thinking" title="思考">🤔</button>
+          <button type="button" class="mood-btn" data-mood="nostalgic" title="懷念">💭</button>
+          <button type="button" class="mood-btn" data-mood="everyday" title="日常">📖</button>
+          <button type="button" class="mood-btn" data-mood="excited" title="興奮">🤩</button>
+          <button type="button" class="mood-btn" data-mood="sad" title="難過">😢</button>
+          <button type="button" class="mood-btn" data-mood="grateful" title="感恩">🙏</button>
+          <button type="button" class="mood-btn" data-mood="anxious" title="焦慮">😰</button>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">可見範圍</label>
+        <select class="input" name="visibility">
+          <option value="neighbors">👥 鄰居可見</option>
+          <option value="public">🌍 公開</option>
+          <option value="private">🔒 私人</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit" style="width:100%"><span class="btn-label">發佈日記</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- Auth -->
+<div class="modal-overlay" id="modal-auth" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="auth-title">歡迎回來</h2>
+      <button class="modal-close" data-modal-close="modal-auth" aria-label="Close">✕</button>
+    </div>
+    <form id="auth-form" novalidate>
+      <div class="field">
+        <label class="label" for="auth-email">電郵</label>
+        <input class="input" id="auth-email" name="email" type="email" placeholder="you@example.com" required>
+        <span class="input-error"></span>
+      </div>
+      <div class="field">
+        <label class="label" for="auth-password">密碼</label>
+        <input class="input" id="auth-password" name="password" type="password" placeholder="••••••••" required>
+        <span class="input-error"></span>
+      </div>
+      <button class="btn btn-primary" type="submit" style="width:100%;margin-bottom:var(--space-4)"><span class="btn-label">登入</span></button>
+      <p style="text-align:center;font-size:var(--text-sm);color:var(--color-text-muted)">還沒有帳號？<button type="button" onclick="switchToRegister()" style="color:var(--color-primary);font-weight:600">立即注冊</button></p>
+    </form>
+  </div>
+</div>
+
+<!-- Register -->
+<div class="modal-overlay" id="modal-register" role="dialog" aria-modal="true" aria-labelledby="reg-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="reg-title">加入 KONGGER</h2>
+      <button class="modal-close" data-modal-close="modal-register" aria-label="Close">✕</button>
+    </div>
+    <form id="register-form" novalidate>
+      <div class="field">
+        <label class="label" for="reg-name">顯示名稱 *</label>
+        <input class="input" id="reg-name" name="display_name" placeholder="你的名字" required>
+        <span class="input-error"></span>
+      </div>
+      <div class="field">
+        <label class="label" for="reg-handle">用戶名 * <span style="font-size:var(--text-xs);color:var(--color-text-muted)">(只允許小寫字母、數字、底線)</span></label>
+        <input class="input" id="reg-handle" name="handle" placeholder="your_handle" pattern="^[a-z0-9_]{3,30}$" required>
+        <span class="input-error"></span>
+      </div>
+      <div class="field">
+        <label class="label" for="reg-email">電郵 *</label>
+        <input class="input" id="reg-email" name="email" type="email" placeholder="you@example.com" required>
+        <span class="input-error"></span>
+      </div>
+      <div class="field">
+        <label class="label" for="reg-pw">密碼 *</label>
+        <input class="input" id="reg-pw" name="password" type="password" placeholder="至少 8 字元" minlength="8" required>
+        <span class="input-error"></span>
+      </div>
+      <button class="btn btn-primary" type="submit" style="width:100%;margin-bottom:var(--space-4)"><span class="btn-label">建立帳號</span></button>
+      <p style="text-align:center;font-size:var(--text-sm);color:var(--color-text-muted)">已有帳號？<button type="button" onclick="switchToLogin()" style="color:var(--color-primary);font-weight:600">登入</button></p>
+    </form>
+  </div>
+</div>
+
+<!-- Add Neighbour -->
+<div class="modal-overlay" id="modal-neighbour" role="dialog" aria-modal="true" aria-labelledby="nb-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="nb-title">搜尋鄰居</h2>
+      <button class="modal-close" data-modal-close="modal-neighbour" aria-label="Close">✕</button>
+    </div>
+    <div class="field">
+      <label class="label" for="nb-search">用戶名 / 電郵</label>
+      <input class="input" id="nb-search" placeholder="搜尋 @handle ...">
+    </div>
+    <div id="nb-results" style="margin-top:var(--space-4)">
+      <div style="text-align:center;padding:var(--space-8);color:var(--color-text-muted)">
+        <div style="font-size:2em;margin-bottom:var(--space-2)">🔍</div>
+        <p style="font-size:var(--text-sm)">輸入用戶名來搜尋</p>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size:var(--text-xs);color:var(--color-text-muted);text-align:center">每人最多 30 位鄰居（Dunbar 法則）</p>
+  </div>
+</div>
+
+<!-- New Page -->
+<div class="modal-overlay" id="modal-new-page" role="dialog" aria-modal="true" aria-labelledby="np-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="np-title">建立新頁面</h2>
+      <button class="modal-close" data-modal-close="modal-new-page" aria-label="Close">✕</button>
+    </div>
+    <form id="new-page-form" novalidate>
+      <div class="field">
+        <label class="label" for="page-title-input">頁面標題 *</label>
+        <input class="input" id="page-title-input" name="title" placeholder="我的個人頁面" required>
+        <span class="input-error"></span>
+      </div>
+      <div class="field">
+        <label class="label" for="page-slug">頁面網址 *</label>
+        <input class="input" id="page-slug" name="slug" placeholder="my-page" pattern="^[a-z0-9-]{2,50}$" required>
+        <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)">kongger.hk/@you/<strong id="slug-preview">my-page</strong></p>
+        <span class="input-error"></span>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;font-size:var(--text-sm)">
+          <input type="checkbox" name="is_published" style="width:18px;height:18px;cursor:pointer">
+          立即發佈
+        </label>
+      </div>
+      <button class="btn btn-primary" type="submit" style="width:100%"><span class="btn-label">建立頁面</span></button>
+    </form>
+  </div>
+</div>
+
+<script>
+// ── Config (inject API base URL here after deployment) ──────────
+window.__KONGGER_CONFIG = {
+  apiBase: '/api/v1',
+  authToken: null,
+  currentHandle: null
+};
+
+// ── Utility ──────────────────────────────────────────────────────
+function openModal(id) {
+  const m = document.getElementById(id); if (!m) return;
+  m.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  const m = document.getElementById(id); if (!m) return;
+  m.classList.remove('open'); document.body.style.overflow = '';
+}
+function switchToRegister() { closeModal('modal-auth'); openModal('modal-register'); }
+function switchToLogin() { closeModal('modal-register'); openModal('modal-auth'); }
+
+function showToast(msg, type = 'info', duration = 3000) {
+  const c = document.getElementById('toast-container'); if (!c) return;
+  const t = document.createElement('div');
+  const icons = { success: '✓', error: '✕', info: 'ℹ' };
+  t.className = `toast toast--${type} toast-enter`;
+  t.innerHTML = `<span>${icons[type] || 'ℹ'}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  if (type !== 'error' && duration > 0) {
+    setTimeout(() => { t.classList.replace('toast-enter', 'toast-exit'); setTimeout(() => t.remove(), 210); }, duration);
+  } else {
+    const x = document.createElement('button'); x.textContent = '×';
+    x.style.cssText = 'margin-left:auto;font-size:1.2em;opacity:.7;cursor:pointer;border:none;background:none';
+    x.onclick = () => { t.classList.add('toast-exit'); setTimeout(() => t.remove(), 210); };
+    t.appendChild(x);
+  }
+}
+
+function animateNumber(el, from, to, dur) {
+  const s = performance.now();
+  requestAnimationFrame(function t(n) {
+    const p = Math.min((n - s) / dur, 1);
+    el.textContent = Math.round(from + (to - from) * p);
+    if (p < 1) requestAnimationFrame(t);
+  });
+}
+
+function timeAgo(ts) {
+  if (!ts) return '';
+  const d = (Date.now() - new Date(ts)) / 1000;
+  if (d < 60) return 'just now';
+  if (d < 3600) return Math.floor(d / 60) + 'm ago';
+  if (d < 86400) return Math.floor(d / 3600) + 'h ago';
+  return Math.floor(d / 86400) + 'd ago';
+}
+
+// ── API Client (Optimistic UI) ────────────────────────────────────
+const API_BASE = () => window.__KONGGER_CONFIG.apiBase;
+const _cache = new Map();
+function cacheGet(k) { const e = _cache.get(k); if (!e) return null; if (Date.now() > e.x) { _cache.delete(k); return null; } return e.v; }
+function cacheSet(k, v, t) { _cache.set(k, { v, x: Date.now() + t }); }
+
+async function api(method, path, body = null) {
+  const token = window.__KONGGER_CONFIG.authToken;
+  try {
+    const res = await fetch(API_BASE() + path, {
+      method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+      ...(body ? { body: JSON.stringify(body) } : {})
+    });
+    const json = await res.json();
+    return { data: res.ok ? json : null, error: res.ok ? null : (json.error ?? 'Error'), status: res.status };
+  } catch (e) { return { data: null, error: e.message, status: 0 }; }
+}
+
+// Demo data fallback
+const DEMO_POSTS = [
+  { id: '1', display_name: 'Kat Cheung', handle: 'kat_c', avatar_url: 'https://picsum.photos/seed/kat_c/88/88', title: '又到周五的心情', content: '今天天氣不錯，去了維多利亞公園逛了一下。看到有人在放風箏，突然想起小時候爸爸也帶我去放過。時間過得真的很快... 💭', mood: 'nostalgic', like_count: 24, comment_count: 6, created_at: new Date(Date.now() - 3600000).toISOString() },
+  { id: '2', display_name: 'Marcus Lam', handle: 'marcus_l', avatar_url: 'https://picsum.photos/seed/marcus_l/88/88', title: '剛看完新電影', content: '終於看了那部大家都在說的電影，果然不負眾望！特效太好看了，劇情也比我想像中複雜。強烈推薦給大家 🎬', mood: 'excited', like_count: 18, comment_count: 12, created_at: new Date(Date.now() - 7200000).toISOString() },
+  { id: '3', display_name: 'Sophie Wu', handle: 'sophie_w', avatar_url: 'https://picsum.photos/seed/sophie_w/88/88', title: null, content: '今天煮了第一次湯圓，雖然形狀不太圓... 但味道還可以！下次再改良一下配方 😅🍡', mood: 'happy', like_count: 42, comment_count: 9, created_at: new Date(Date.now() - 14400000).toISOString() },
+];
+
+function renderPostCard(p) {
+  const moods = { happy: '😊', calm: '😌', moved: '🥺', thinking: '🤔', nostalgic: '💭', everyday: '📖', excited: '🤩', sad: '😢', grateful: '🙏', anxious: '😰' };
+  return `<div class="post-card card-stagger reveal" data-post-id="${p.id}">
+    <div class="post-card__header">
+      <img class="post-card__avatar" src="${p.avatar_url ?? 'https://picsum.photos/seed/' + p.handle + '/88/88'}" alt="${p.display_name}" width="44" height="44" loading="lazy" onerror="this.style.background='var(--color-surface-offset)';this.style.visibility='hidden'">
+      <div>
+        <div class="post-card__name">${p.display_name}</div>
+        <div class="post-card__handle">@${p.handle} · ${timeAgo(p.created_at)}</div>
+      </div>
+      <span class="post-card__mood">${moods[p.mood] ?? '📖'}</span>
+    </div>
+    ${p.title ? `<div class="post-card__title">${p.title}</div>` : ''}
+    <div class="post-card__content">${p.content}</div>
+    <div class="post-card__actions">
+      <button class="like-btn" data-post="${p.id}" data-liked="false" aria-label="Like post" aria-pressed="false">
+        <span class="heart-icon">♡</span>&nbsp;<span class="like-count">${p.like_count ?? 0}</span>
+      </button>
+      <button class="btn btn-ghost btn-sm" aria-label="Comment">💬 ${p.comment_count ?? 0}</button>
+    </div>
+  </div>`;
+}
+
+function attachLikeHandlers(container) {
+  container.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const liked = btn.dataset.liked === 'true';
+      const countEl = btn.querySelector('.like-count');
+      const heartEl = btn.querySelector('.heart-icon');
+      const newLiked = !liked;
+      btn.dataset.liked = String(newLiked);
+      btn.classList.toggle('liked', newLiked);
+      btn.setAttribute('aria-pressed', String(newLiked));
+      heartEl.textContent = newLiked ? '♥' : '♡';
+      if (newLiked) { heartEl.classList.add('heart-liked'); setTimeout(() => heartEl.classList.remove('heart-liked'), 420); }
+      countEl.textContent = parseInt(countEl.textContent) + (newLiked ? 1 : -1);
+      const { error } = await api(liked ? 'DELETE' : 'POST', `/posts/${btn.dataset.post}/like`);
+      if (error && error !== 'Unauthorized') {
+        btn.dataset.liked = String(liked); btn.classList.toggle('liked', liked);
+        heartEl.textContent = liked ? '♥' : '♡';
+        countEl.textContent = parseInt(countEl.textContent) + (liked ? 1 : -1);
+      }
+    });
+  });
+}
+
+function revealCards(root) {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  (root ?? document).querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+// ── Page loaders ─────────────────────────────────────────────────
+async function loadFeed() {
+  const feed = document.getElementById('feed-list'); if (!feed) return;
+  feed.innerHTML = Array(3).fill(0).map(() =>
+    `<div class="post-card"><div class="post-card__header"><div class="skeleton skeleton-avatar"></div><div style="flex:1"><div class="skeleton skeleton-text" style="width:40%"></div><div class="skeleton skeleton-text" style="width:25%"></div></div></div><div class="skeleton skeleton-heading"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text" style="width:60%"></div></div>`
+  ).join('');
+  const { data, error } = await api('GET', '/posts/feed?limit=20');
+  const posts = (!error && data?.posts?.length) ? data.posts : DEMO_POSTS;
+  feed.innerHTML = posts.map(p => renderPostCard(p)).join('');
+  attachLikeHandlers(feed); revealCards(feed);
+}
+
+async function loadProfile() {
+  const container = document.getElementById('profile-container'); if (!container) return;
+  const handle = window.__KONGGER_CONFIG.currentHandle ?? 'kongger_demo';
+  const { data: profile, error } = await api('GET', `/profiles/${handle}`);
+  if (error || !profile) {
+    container.innerHTML = `<div class="card">
+      <div class="profile-cover" style="margin-bottom:var(--space-6)"><img src="https://picsum.photos/seed/kongger-cover/1200/300" alt="Profile cover" width="1200" height="300" loading="lazy"></div>
+      <div class="profile-info">
+        <img class="profile-avatar" src="https://picsum.photos/seed/kongger_demo/176/176" alt="Demo profile" width="88" height="88" loading="lazy">
+        <div style="flex:1">
+          <div class="profile-name">KONGGER Demo</div>
+          <div class="profile-handle">@kongger_demo</div>
+          <div class="profile-bio">歡迎來到 KONGGER！連接你的 PostgreSQL 後端後，這裡會顯示真實的個人檔案。</div>
+          <div class="profile-stats">
+            <div class="profile-stat"><div class="profile-stat__num" id="visitor-count">0</div><div class="profile-stat__label">今日訪客</div></div>
+            <div class="profile-stat"><div class="profile-stat__num">30</div><div class="profile-stat__label">鄰居上限</div></div>
+          </div>
+        </div>
+        <div><button class="btn btn-primary btn-sm" onclick="openModal('modal-neighbour')">+ 加鄰居</button></div>
+      </div>
+      <div class="divider"></div>
+      <div class="music-widget">
+        <div class="music-album playing">🎵</div>
+        <div class="music-info"><div class="music-title">Stay With Me (Inst.)</div><div class="music-artist">Sam Smith</div></div>
+        <div class="music-eq playing"><span></span><span></span><span></span></div>
+      </div>
+      <div style="margin-top:var(--space-6);text-align:center;padding:var(--space-10);color:var(--color-text-muted)">
+        <div style="font-size:2.5em;margin-bottom:var(--space-3)">📖</div>
+        <p>連接 API 後日記將會顯示在這裡</p>
+      </div>
+    </div>`;
+    const vcEl = document.getElementById('visitor-count');
+    if (vcEl) animateNumber(vcEl, 0, 128, 1000);
+    revealCards(container); return;
+  }
+  container.innerHTML = `<div class="profile-cover"><img src="${profile.cover_url ?? 'https://picsum.photos/seed/kongger-cover/1200/300'}" alt="Cover" width="1200" height="300" loading="lazy"></div>
+    <div class="profile-info">
+      <img class="profile-avatar" src="${profile.avatar_url ?? 'https://picsum.photos/seed/' + handle + '/176/176'}" alt="${profile.display_name}" width="88" height="88" loading="lazy">
+      <div style="flex:1">
+        <div class="profile-name">${profile.display_name}</div>
+        <div class="profile-handle">@${profile.handle}</div>
+        ${profile.bio ? `<div class="profile-bio">${profile.bio}</div>` : ''}
+        <div class="profile-stats"><div class="profile-stat"><div class="profile-stat__num" id="visitor-count">—</div><div class="profile-stat__label">今日訪客</div></div></div>
+      </div>
+      <div><button class="btn btn-primary btn-sm" onclick="openModal('modal-neighbour')">+ 加鄰居</button></div>
+    </div>
+    <div class="divider"></div>
+    <div id="profile-posts"></div>`;
+  api('POST', `/profiles/${profile.id}/visit`);
+  const { data: vd } = await api('GET', `/profiles/${profile.id}/visitors?period=today`);
+  const vcEl = document.getElementById('visitor-count');
+  if (vcEl && vd?.count != null) animateNumber(vcEl, 0, vd.count, 800);
+  const { data: pd } = await api('GET', `/posts?author=${profile.id}`);
+  const postsEl = document.getElementById('profile-posts');
+  if (postsEl) { const posts = pd?.posts ?? []; postsEl.innerHTML = posts.length ? posts.map(p => renderPostCard(p)).join('') : `<div style="text-align:center;padding:var(--space-12);color:var(--color-text-muted)"><div style="font-size:2.5em">📖</div><p>還沒有日記</p></div>`; attachLikeHandlers(postsEl); }
+  revealCards(container);
+}
+
+// ── Router ────────────────────────────────────────────────────────
+const ROUTES = { home: loadFeed, profile: loadProfile, pages: () => revealCards(document.getElementById('page-pages')), ai: () => revealCards(document.getElementById('page-ai')), about: () => revealCards(document.getElementById('page-about')) };
+
+function navigate(hash) {
+  const id = (hash.replace('#', '').replace('/', '')) || 'home';
+  document.querySelectorAll('.page').forEach(p => {
+    if (p.id === 'page-' + id) { p.classList.add('active', 'page-enter'); setTimeout(() => p.classList.remove('page-enter'), 220); }
+    else p.classList.remove('active');
+  });
+  document.querySelectorAll('[data-page]').forEach(a => a.classList.toggle('active', a.dataset.page === id));
+  if (ROUTES[id]) ROUTES[id]();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+window.addEventListener('hashchange', () => navigate(location.hash));
+document.querySelectorAll('[data-page]').forEach(a => { a.addEventListener('click', () => setTimeout(() => navigate(location.hash), 0)); });
+
+// ── Theme toggle ──────────────────────────────────────────────────
+(function () {
+  const html = document.documentElement, btn = document.querySelector('[data-theme-toggle]');
+  let dark = matchMedia('(prefers-color-scheme:dark)').matches;
+  try { const s = localStorage.getItem('kongger-theme'); if (s) dark = s === 'dark'; } catch {}
+  function apply() {
+    html.setAttribute('data-theme', dark ? 'dark' : 'light');
+    if (btn) btn.innerHTML = dark
+      ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
+  apply();
+  btn?.addEventListener('click', () => { dark = !dark; try { localStorage.setItem('kongger-theme', dark ? 'dark' : 'light'); } catch {} apply(); });
+})();
+
+// ── Particles ─────────────────────────────────────────────────────
+(function () {
+  const canvas = document.getElementById('particles-canvas'); if (!canvas) return;
+  const ctx = canvas.getContext('2d'); let W, H, pts = [];
+  function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  function mk() { return { x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2 + .5, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, a: Math.random() }; }
+  for (let i = 0; i < 50; i++) pts.push(mk());
+  const dark = () => document.documentElement.getAttribute('data-theme') === 'dark';
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const col = dark() ? '212,127,168' : '139,34,82';
+    for (const p of pts) {
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${col},${p.a * .35})`; ctx.fill();
+      p.x += p.vx; p.y += p.vy; p.a += .004;
+      if (p.a > 1 || p.x < 0 || p.x > W || p.y < 0 || p.y > H) Object.assign(p, mk());
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── Modals ────────────────────────────────────────────────────────
+document.querySelectorAll('.modal-overlay').forEach(ov => {
+  ov.addEventListener('click', e => { if (e.target === ov) { ov.classList.remove('open'); document.body.style.overflow = ''; } });
+});
+document.querySelectorAll('[data-modal-close]').forEach(btn => {
+  btn.addEventListener('click', () => { closeModal(btn.dataset.modalClose); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => { m.classList.remove('open'); document.body.style.overflow = ''; });
+});
+
+// ── Post form ─────────────────────────────────────────────────────
+const postForm = document.getElementById('post-form');
+if (postForm) {
+  const textarea = postForm.querySelector('textarea');
+  const charCount = postForm.querySelector('.char-count');
+  textarea?.addEventListener('input', () => {
+    const l = textarea.value.length;
+    if (charCount) { charCount.textContent = `${l}/500`; charCount.className = 'char-count' + (l > 450 ? ' danger' : l > 350 ? ' warn' : ''); }
+  });
+  postForm.addEventListener('submit', async e => {
+    e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]');
+    const content = textarea?.value.trim(); const mood = postForm.querySelector('.mood-btn.selected')?.dataset.mood ?? 'everyday';
+    const visibility = postForm.querySelector('[name="visibility"]')?.value ?? 'neighbors';
+    const title = postForm.querySelector('[name="title"]')?.value.trim() || null;
+    if (!content) { showToast('請寫一些內容！', 'info'); return; }
+    btn.classList.add('loading');
+    const { error } = await api('POST', '/posts', { content, title, mood, visibility });
+    btn.classList.remove('loading');
+    if (error) { showToast(error === 'Unauthorized' ? '請先登入再發佈日記' : error, 'error'); }
+    else { showToast('日記已發佈！✨', 'success'); postForm.reset(); charCount.textContent = '0/500'; charCount.className = 'char-count'; loadFeed(); closeModal('modal-compose'); }
+  });
+  document.querySelectorAll('.mood-btn').forEach(b => {
+    b.addEventListener('click', () => { document.querySelectorAll('.mood-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); });
+  });
+}
+
+// ── Auth form ─────────────────────────────────────────────────────
+document.getElementById('auth-form')?.addEventListener('submit', async e => {
+  e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]');
+  const email = document.getElementById('auth-email')?.value;
+  const pw = document.getElementById('auth-password')?.value;
+  btn.classList.add('loading');
+  const { data, error } = await api('POST', '/auth/login', { email, password: pw });
+  btn.classList.remove('loading');
+  if (error) { showToast(error, 'error'); }
+  else { window.__KONGGER_CONFIG.authToken = data.token; window.__KONGGER_CONFIG.currentHandle = data.handle; showToast('登入成功！👋', 'success'); closeModal('modal-auth'); loadFeed(); }
+});
+
+document.getElementById('register-form')?.addEventListener('submit', async e => {
+  e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]');
+  const display_name = document.getElementById('reg-name')?.value;
+  const handle = document.getElementById('reg-handle')?.value.toLowerCase();
+  const email = document.getElementById('reg-email')?.value;
+  const password = document.getElementById('reg-pw')?.value;
+  btn.classList.add('loading');
+  const { data, error } = await api('POST', '/auth/register', { email, password, display_name, handle });
+  btn.classList.remove('loading');
+  if (error) { showToast(error, 'error'); }
+  else { window.__KONGGER_CONFIG.authToken = data.token; window.__KONGGER_CONFIG.currentHandle = data.handle; showToast('帳號已建立！🎉', 'success'); closeModal('modal-register'); loadFeed(); }
+});
+
+// ── Waitlist form ─────────────────────────────────────────────────
+document.getElementById('waitlist-form')?.addEventListener('submit', async e => {
+  e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]');
+  const email = e.target.querySelector('[name="email"]')?.value;
+  const name = e.target.querySelector('[name="name"]')?.value;
+  btn.classList.add('loading');
+  const { error } = await api('POST', '/waitlist', { email, name });
+  btn.classList.remove('loading');
+  if (error) { showToast(error === 'Email already registered' ? '已登記過了！🎉' : error, 'error'); }
+  else { showToast('成功登記！等待邀請 🎊', 'success'); e.target.reset(); }
+});
+
+// ── Page slug preview ─────────────────────────────────────────────
+document.getElementById('page-slug')?.addEventListener('input', e => {
+  const preview = document.getElementById('slug-preview');
+  if (preview) preview.textContent = e.target.value || 'my-page';
+});
+
+// ── New page form ─────────────────────────────────────────────────
+document.getElementById('new-page-form')?.addEventListener('submit', async e => {
+  e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]');
+  const title = document.getElementById('page-title-input')?.value;
+  const slug = document.getElementById('page-slug')?.value.toLowerCase();
+  const is_published = e.target.querySelector('[name="is_published"]')?.checked ?? false;
+  btn.classList.add('loading');
+  const { error } = await api('POST', '/pages', { title, slug, is_published });
+  btn.classList.remove('loading');
+  if (error) { showToast(error === 'Unauthorized' ? '請先登入' : error, 'error'); }
+  else { showToast('頁面已建立！', 'success'); closeModal('modal-new-page'); }
+});
+
+// ── Infinite scroll prefetch ──────────────────────────────────────
+let feedCursor = null;
+window.addEventListener('scroll', () => {
+  if ((window.scrollY + window.innerHeight) / document.body.scrollHeight > 0.70) {
+    if (!feedCursor) return; // no more pages
+    // prefetch would go here once cursor is tracked
+  }
+});
+
+// ── Initialise ────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  navigate(location.hash || '#home');
+  // reveal footer & static sections
+  revealCards(document.body);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+KONGGER — AI Agent Deployment Guide
+====================================
+Compatible with: Cursor / Windsurf / Claude Dev / Devin
+
+AGENT ROLE: Senior full-stack DevOps engineer
+GOAL: Deploy KONGGER social platform from provided source files
+RULE: Complete each step fully and verify before proceeding
+
+VARIABLES TO REPLACE:
+  [DOMAIN]     = your domain, e.g. kongger.app
+  [PG_PASS]    = strong database password
+  [JWT_SECRET] = random string, minimum 32 characters
+  [EMAIL]      = your email for SSL certificate
+
+=========================================================
+STEP 1: Install system dependencies
+=========================================================
+Run on Ubuntu 22.04 LTS server:
+  apt update && apt upgrade -y
+  apt install -y nodejs npm nginx certbot python3-certbot-nginx postgresql-16 git
+  npm install -g n && n 20
+
+=========================================================
+STEP 2: Create PostgreSQL database
+=========================================================
+As postgres superuser:
+  createuser --pwprompt kongger_user    [enter PG_PASS]
+  createdb -O kongger_user kongger_db
+
+Run migrations in order:
+  psql CONNECTION_STRING -f sql/01_schema.sql
+  psql CONNECTION_STRING -f sql/02_indexes_triggers.sql
+  psql CONNECTION_STRING -f sql/03_rls.sql
+  Where CONNECTION_STRING = postgresql://kongger_user:[PG_PASS]@localhost:5432/kongger_db
+
+Verify: connect and run \dt — expect 11 tables:
+  users, profiles, posts, pages, page_sections,
+  neighbours, likes, comments, visitor_logs, gifts,
+  notifications, waitlist
+
+=========================================================
+STEP 3: Deploy API server
+=========================================================
+  cd /var/www/kongger
+  npm install
+  cp .env.example .env
+  Edit .env — set these two values:
+    PG_CONNECTION_STRING=postgresql://kongger_user:[PG_PASS]@localhost:5432/kongger_db
+    JWT_SECRET=[JWT_SECRET]
+
+Create systemd service file at /etc/systemd/system/kongger-api.service:
+  [Unit]
+  Description=KONGGER API
+  After=network.target postgresql.service
+  [Service]
+  User=www-data
+  WorkingDirectory=/var/www/kongger
+  ExecStart=/usr/local/bin/node server.js
+  EnvironmentFile=/var/www/kongger/.env
+  Restart=on-failure
+  [Install]
+  WantedBy=multi-user.target
+
+  systemctl daemon-reload
+  systemctl enable --now kongger-api
+
+CHECKPOINT: curl http://localhost:3001/health
+  Expected response: {"status":"ok","pg":"connected"}
+  DO NOT continue to Step 4 until this passes.
+
+=========================================================
+STEP 4: Deploy frontend
+=========================================================
+  cp -r frontend/* /var/www/kongger/
+  chown -R www-data:www-data /var/www/kongger
+
+Edit /var/www/kongger/index.html
+Insert before </head> tag:
+  <script>
+    window.__KONGGER_CONFIG = {
+      apiBase: 'https://[DOMAIN]/api/v1',
+      authToken: null
+    };
+  </script>
+
+=========================================================
+STEP 5: Configure Nginx
+=========================================================
+  cp nginx.conf /etc/nginx/sites-available/kongger
+  Edit the file: replace yourdomain.com with [DOMAIN]
+  ln -sf /etc/nginx/sites-available/kongger /etc/nginx/sites-enabled/kongger
+  rm -f /etc/nginx/sites-enabled/default
+  nginx -t   (must output: syntax is ok)
+  systemctl reload nginx
+
+=========================================================
+STEP 6: SSL certificate
+=========================================================
+  certbot --nginx -d [DOMAIN] -d www.[DOMAIN]
+          --email [EMAIL] --agree-tos --non-interactive
+  systemctl reload nginx
+
+=========================================================
+STEP 7: Smoke tests (all must pass)
+=========================================================
+Test A: curl https://[DOMAIN]/health
+  Expected: {"status":"ok","pg":"connected"}
+
+Test B: HTTP status check
+  Expected: 200 for https://[DOMAIN]
+
+Test C: Waitlist API
+  POST https://[DOMAIN]/api/v1/waitlist
+  Body: {"email":"smoke@example.com","name":"Test"}
+  Expected: HTTP 201 with invite_code in response
+
+Test D: Browser check at https://[DOMAIN]
+  - Homepage loads with Xanga-inspired design
+  - Dark mode toggle switches theme
+  - All 4 nav links work: Home, Profile, Proposal, AI
+  - Mobile viewport 375px renders correctly
+  - Particles animation visible on hero
+
+=========================================================
+STEP 8: Docker alternative (replaces Steps 2-5)
+=========================================================
+  cp .env.example .env
+  Set PG_PASSWORD and JWT_SECRET in .env
+  docker compose up -d
+  Wait 30 seconds for PostgreSQL initialisation
+  SQL auto-loads from sql/ directory via initdb volume
+  API available at localhost:3001
+  Configure Nginx to proxy /api to localhost:3001
+
+=========================================================
+TROUBLESHOOTING
+=========================================================
+API not starting:     journalctl -u kongger-api -f
+PG connection error:  systemctl status postgresql
+Nginx 502 error:      verify API is running via localhost:3001/health
+Permission errors:    chown -R www-data:www-data /var/www/kongger
+SSL renewal issues:   certbot renew --dry-run
+Port 3001 in use:     lsof -i :3001 to find conflicting process

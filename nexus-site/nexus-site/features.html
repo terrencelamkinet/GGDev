@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Features — NEXUS AI CRM</title>
+<meta name="description" content="Explore all 8 interconnected CRM modules: contacts, companies, projects, tasks, meetings, products, and AI daily briefs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="#main" class="sr-only" style="position:absolute;top:var(--space-2);left:var(--space-2);z-index:9999;padding:var(--space-2) var(--space-4);background:var(--primary);color:#0d0d0e;border-radius:var(--radius-md);font-size:var(--text-sm);">Skip to content</a>
+
+<nav role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="NEXUS Home">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.9"/>
+        <circle cx="5" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="23" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="5" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="23" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="14" cy="3" r="1.5" fill="currentColor" opacity="0.3"/>
+        <circle cx="14" cy="25" r="1.5" fill="currentColor" opacity="0.3"/>
+        <line x1="14" y1="14" x2="5" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <line x1="14" y1="14" x2="23" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <line x1="14" y1="14" x2="5" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <line x1="14" y1="14" x2="23" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <line x1="14" y1="14" x2="14" y2="3" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
+        <line x1="14" y1="14" x2="14" y2="25" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
+      </svg>
+      NEXUS
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="features.html">Features</a></li>
+      <li><a href="intelligence.html">AI Intelligence</a></li>
+      <li><a href="integrations.html">Integrations</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Toggle dark/light mode" data-theme-toggle>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button class="btn btn-ghost btn-sm" onclick="openModal('login')">Log in</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('signup')">Get started free</button>
+      <button class="nav-mobile-toggle" aria-label="Open menu" onclick="toggleMobileMenu()" aria-expanded="false" aria-controls="mobile-menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="16" x2="21" y2="16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div id="mobile-menu" class="mobile-menu" role="dialog" aria-label="Navigation menu" aria-modal="true">
+  <a href="features.html" onclick="closeMobileMenu()">Features</a>
+  <a href="intelligence.html" onclick="closeMobileMenu()">AI Intelligence</a>
+  <a href="integrations.html" onclick="closeMobileMenu()">Integrations</a>
+  <a href="pricing.html" onclick="closeMobileMenu()">Pricing</a>
+  <a href="about.html" onclick="closeMobileMenu()">About</a>
+  <div class="mobile-menu-actions">
+    <button class="btn btn-ghost" onclick="closeMobileMenu(); openModal('login')">Log in</button>
+    <button class="btn btn-primary" onclick="closeMobileMenu(); openModal('signup')">Get started free</button>
+  </div>
+</div>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-headline" style="min-height:60vh;">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-badge reveal" aria-label="Product announcement">
+      <span class="hero-badge-dot" aria-hidden="true"></span>
+      NEXUS AI CRM
+    </div>
+    <h1 id="hero-headline" class="reveal reveal-delay-1">Every CRM function you need,<br><em>working together</em></h1>
+    <p class="hero-sub reveal reveal-delay-2">Eight interconnected modules covering contacts, companies, projects, tasks, meetings, and products — plus 33 automation modules running quietly behind the scenes.</p>
+    <div class="hero-cta reveal reveal-delay-3">
+      <button class="btn btn-primary btn-lg" onclick="openModal('signup')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+        Get started free
+      </button>
+      <a href="intelligence.html" class="btn btn-ghost btn-lg">See AI Intelligence →</a>
+    </div>
+  </div>
+</section>
+<section class="features-section" aria-labelledby="features-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">Full CRM ecosystem</span>
+      <h2 class="section-title" id="features-title">Everything interconnected,<br><em>nothing siloed</em></h2>
+      <p class="section-sub">Eight CRM modules — all linked. A change in one ripples intelligently through the rest.</p>
+    </div>
+    <div class="features-grid">
+      <!-- Contacts + Touchpoints — wide -->
+      <div class="feature-card wide reveal" tabindex="0">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Contacts & Touchpoint History</h3>
+        <p>Every person has a full interaction timeline — calls, meetings, emails, messages. AI finds patterns across touchpoints to tell you when to re-engage and what to say.</p>
+        <span class="feature-tag">Auto-logged from Google Calendar</span>
+        <div class="feature-mini-card" aria-hidden="true">
+          <div class="feature-mini-card-header">
+            <span class="feature-mini-card-title">Sarah Chen · HSBC</span>
+            <span class="feature-mini-card-badge">Last contact 3d ago</span>
+          </div>
+          <div class="mini-list">
+            <div class="mini-list-item">Jun 23 — Demo call, MFT pricing discussed</div>
+            <div class="mini-list-item">Jul 02 — Sent proposal</div>
+            <div class="mini-list-item">Jul 08 — Meeting scheduled · AI brief ready</div>
+          </div>
+        </div>
+      </div>
+      <!-- Companies -->
+      <div class="feature-card reveal reveal-delay-1" tabindex="0">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <h3>Company Intelligence</h3>
+        <p>Company profiles linked to all their contacts, projects, and deals. See total ARR, relationship heat, and open opportunities at a glance.</p>
+        <span class="feature-tag">Notion ↔ NEXUS live sync</span>
+      </div>
+      <!-- Projects -->
+      <div class="feature-card reveal reveal-delay-1" tabindex="0">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Projects & Opportunities</h3>
+        <p>Track deals from first contact to close. Each project links contacts, tasks, products, and meeting history. AI forecasts next best action.</p>
+        <span class="feature-tag">Synced to Notion Projects DB</span>
+      </div>
+      <!-- Tasks -->
+      <div class="feature-card reveal" tabindex="0">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>Task Management</h3>
+        <p>Tasks linked to contacts, projects, and meetings. Overdue tasks surface in your morning AI brief. Every completion syncs back to Notion.</p>
+        <span class="feature-tag">Bi-directional Notion sync</span>
+      </div>
+      <!-- Meeting Intelligence — tall -->
+      <div class="feature-card tall reveal reveal-delay-2" tabindex="0">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Intelligent Meeting Engine</h3>
+        <p>Syncs Google Calendar. 60 minutes before: smart reminder. 15 minutes before: full AI briefing with attendee context, deal status, last touchpoints, and recommended talking points.</p>
+        <p style="margin-top: var(--space-3);">After the meeting, NEXUS asks for your notes and auto-logs a touchpoint — so nothing falls through the cracks.</p>
+        <span class="feature-tag" style="margin-top: var(--space-3);">Google Calendar sync</span>
+        <div class="feature-mini-card" style="margin-top: var(--space-4);" aria-hidden="true">
+          <div class="feature-mini-card-header">
+            <span class="feature-mini-card-title">Today's Schedule</span>
+            <span class="feature-mini-card-badge">3 meetings</span>
+          </div>
+          <div class="mini-list">
+            <div class="mini-list-item">09:30 — HSBC Procurement · Brief ready</div>
+            <div class="mini-list-item">14:00 — Fantom Tech pitch · Prep suggested</div>
+            <div class="mini-list-item">16:30 — Internal review · No brief needed</div>
+          </div>
+        </div>
+      </div>
+      <!-- Products -->
+      <div class="feature-card reveal reveal-delay-1" tabindex="0">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <h3>Products & Brands</h3>
+        <p>Maintain a product catalogue with brand hierarchy. Link products to projects, quotes, and companies. AI cross-references to find upsell opportunities.</p>
+        <span class="feature-tag">Linked to all opportunities</span>
+      </div>
+      <!-- AI Morning Brief -->
+      <div class="feature-card wide reveal" tabindex="0">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <h3>AI Daily Sales Brief · 07:30</h3>
+        <p>Every morning, NEXUS compiles your day: meetings with prep, overdue tasks, stale contacts needing attention, deals progressing this week, and a single suggested priority. Delivered to Telegram, email, or your desktop app.</p>
+        <span class="feature-tag">Proactive intelligence, zero setup</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTELLIGENCE DEEP DIVE -->
+
+
+<section class="features-section" aria-labelledby="module-inventory-title">
+  <div class="container--default">
+    <div class="section-header reveal">
+      <span class="section-label">Under the hood</span>
+      <h2 class="section-title" id="module-inventory-title">33 modules,<br><em>one seamless system</em></h2>
+      <p class="section-sub">Collection modules run 24/7 at zero AI cost. Intelligence modules trigger AI only when judgment is needed — keeping spend near zero while giving you proactive coverage.</p>
+    </div>
+    <div class="module-table-wrap" style="overflow-x:auto; margin-top: var(--space-8);">
+      <table style="width:100%; border-collapse:collapse; font-size:var(--text-sm); background:var(--surface); border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border);">
+        <thead>
+          <tr style="background:var(--surface-2); text-align:left;">
+            <th style="padding:var(--space-3) var(--space-4); color:var(--text-muted); font-weight:500;">Module</th>
+            <th style="padding:var(--space-3) var(--space-4); color:var(--text-muted); font-weight:500;">Schedule</th>
+            <th style="padding:var(--space-3) var(--space-4); color:var(--text-muted); font-weight:500;">What it does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Event Classifier + CRM Matcher</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Every 15 min</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Classifies every calendar event into 1 of 14 types and links it to the right company or project.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Nudge Engine</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Every 15 min</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Sends a 60-min heads-up and a 15-min "prep now" alert before every external meeting.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">AI Meeting Brief</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Triggers <15 min out</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Assembles a 7-dimension briefing: company history, contacts, open deals, and suggested talking points.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Health Scorer</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Daily 04:00</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Scores every company 0–100 on touchpoint recency, deal activity, and responsiveness.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Post-Meeting Logger</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Every 15 min</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Detects missing touchpoints after a meeting ends and asks you to confirm — never silently skips.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Deal Radar</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Daily 08:35</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Flags stalled deals, approaching deadlines, and overdue tasks every morning.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">CRM Daily Briefing</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Weekdays 07:32</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">A morning summary of CRM health, today's meetings, open tasks, and late touchpoints.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Relationship Coach</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Weekly, Mon 09:05</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Identifies cold relationships and suggests concrete next actions to re-engage them.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Proactive Clarification Engine</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Every 15 min</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Asks one simple question at a time whenever CRM data is incomplete — reply "1" to confirm.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Central CRM Sync</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Every 30 min</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Syncs your entire Notion CRM into a fast local database — zero rate limits, zero latency.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">Name Card Scanner</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Daily 10:00</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Scans Google Drive for new business cards and auto-creates contacts and companies via OCR.</td></tr>
+<tr style="border-top:1px solid var(--border);"><td style="padding:var(--space-3) var(--space-4);">LLM Task Discovery</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">Daily 06:00</td><td style="padding:var(--space-3) var(--space-4); color:var(--text-muted);">AI reviews unmatched tasks once — deciding if they're a new company, project, or personal work.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="module-cards" style="margin-top: var(--space-8);">
+      <div class="module-card"><div class="module-name">Event Classifier + CRM Matcher</div><div class="module-schedule">Every 15 min</div><div class="module-desc">Classifies every calendar event into 1 of 14 types and links it to the right company or project.</div></div>
+<div class="module-card"><div class="module-name">Nudge Engine</div><div class="module-schedule">Every 15 min</div><div class="module-desc">Sends a 60-min heads-up and a 15-min "prep now" alert before every external meeting.</div></div>
+<div class="module-card"><div class="module-name">AI Meeting Brief</div><div class="module-schedule">Triggers <15 min out</div><div class="module-desc">Assembles a 7-dimension briefing: company history, contacts, open deals, and suggested talking points.</div></div>
+<div class="module-card"><div class="module-name">Health Scorer</div><div class="module-schedule">Daily 04:00</div><div class="module-desc">Scores every company 0–100 on touchpoint recency, deal activity, and responsiveness.</div></div>
+<div class="module-card"><div class="module-name">Post-Meeting Logger</div><div class="module-schedule">Every 15 min</div><div class="module-desc">Detects missing touchpoints after a meeting ends and asks you to confirm — never silently skips.</div></div>
+<div class="module-card"><div class="module-name">Deal Radar</div><div class="module-schedule">Daily 08:35</div><div class="module-desc">Flags stalled deals, approaching deadlines, and overdue tasks every morning.</div></div>
+<div class="module-card"><div class="module-name">CRM Daily Briefing</div><div class="module-schedule">Weekdays 07:32</div><div class="module-desc">A morning summary of CRM health, today's meetings, open tasks, and late touchpoints.</div></div>
+<div class="module-card"><div class="module-name">Relationship Coach</div><div class="module-schedule">Weekly, Mon 09:05</div><div class="module-desc">Identifies cold relationships and suggests concrete next actions to re-engage them.</div></div>
+<div class="module-card"><div class="module-name">Proactive Clarification Engine</div><div class="module-schedule">Every 15 min</div><div class="module-desc">Asks one simple question at a time whenever CRM data is incomplete — reply "1" to confirm.</div></div>
+<div class="module-card"><div class="module-name">Central CRM Sync</div><div class="module-schedule">Every 30 min</div><div class="module-desc">Syncs your entire Notion CRM into a fast local database — zero rate limits, zero latency.</div></div>
+<div class="module-card"><div class="module-name">Name Card Scanner</div><div class="module-schedule">Daily 10:00</div><div class="module-desc">Scans Google Drive for new business cards and auto-creates contacts and companies via OCR.</div></div>
+<div class="module-card"><div class="module-name">LLM Task Discovery</div><div class="module-schedule">Daily 06:00</div><div class="module-desc">AI reviews unmatched tasks once — deciding if they're a new company, project, or personal work.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" aria-labelledby="cta-title">
+  <div class="container--narrow cta-inner">
+    <div class="reveal">
+      <h2 id="cta-title">Ready to sell <em>smarter?</em></h2>
+      <p>Start free. Connect Notion and Google in minutes. Let NEXUS handle the intelligence, so you can focus on the relationships.</p>
+      <div class="cta-actions">
+        <button class="btn btn-primary btn-lg" onclick="openModal('signup')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+          Get started free
+        </button>
+        <button class="btn btn-ghost btn-lg" onclick="showToast('Opening demo booking...')">Book a live demo</button>
+      </div>
+      <p class="cta-note">No credit card · Free forever plan · Cancel anytime</p>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom: var(--space-3);" aria-label="NEXUS Home">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.9"/>
+            <circle cx="5" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+            <circle cx="23" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+            <circle cx="5" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+            <circle cx="23" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+            <line x1="14" y1="14" x2="5" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+            <line x1="14" y1="14" x2="23" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+            <line x1="14" y1="14" x2="5" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+            <line x1="14" y1="14" x2="23" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+          </svg>
+          NEXUS
+        </a>
+        <p>The AI-native CRM that thinks, learns, and prepares you for every conversation. Built on your data, powered by intelligence.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul role="list">
+          <li><a href="features.html">Features</a></li>
+          <li><a href="intelligence.html">AI Intelligence</a></li>
+          <li><a href="integrations.html">Integrations</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="#" onclick="showToast('Changelog coming soon...'); return false;">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul role="list">
+          <li><a href="about.html">About</a></li>
+          <li><a href="#" onclick="showToast('Blog coming soon...'); return false;">Blog</a></li>
+          <li><a href="#" onclick="showToast('Opening contact form...'); return false;">Contact</a></li>
+          <li><a href="#" onclick="showToast('Partners page coming soon...'); return false;">Partners</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul role="list">
+          <li><a href="#" onclick="showToast('Privacy Policy coming soon...'); return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="showToast('Terms of Service coming soon...'); return false;">Terms of Service</a></li>
+          <li><a href="#" onclick="showToast('Security page coming soon...'); return false;">Security</a></li>
+          <li><a href="#" onclick="showToast('Data policy coming soon...'); return false;">Data Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NEXUS AI CRM. All rights reserved.</span>
+      <span>Made in Hong Kong 🇭🇰</span>
+    </div>
+  </div>
+</footer>
+
+<div id="auth-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close modal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-logo">
+      <svg width="22" height="22" viewBox="0 0 28 28" fill="none" style="color: var(--primary);" aria-hidden="true">
+        <circle cx="14" cy="14" r="3" fill="currentColor"/>
+        <circle cx="5" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="23" cy="6" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="5" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="23" cy="22" r="2" fill="currentColor" opacity="0.5"/>
+        <line x1="14" y1="14" x2="5" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <line x1="14" y1="14" x2="23" y2="6" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <line x1="14" y1="14" x2="5" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <line x1="14" y1="14" x2="23" y2="22" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+      </svg>
+      <span class="modal-logo-text">NEXUS</span>
+    </div>
+    <div class="modal-tabs" role="tablist">
+      <button class="modal-tab active" id="tab-signup" role="tab" aria-selected="true" aria-controls="panel-signup" onclick="switchTab('signup')">Get started</button>
+      <button class="modal-tab" id="tab-login" role="tab" aria-selected="false" aria-controls="panel-login" onclick="switchTab('login')">Log in</button>
+    </div>
+    <!-- Signup panel -->
+    <div id="panel-signup" class="form-panel active" role="tabpanel" aria-labelledby="tab-signup">
+      <div class="modal-sub" id="modal-title">Start free — no credit card required</div>
+      <div class="form-group">
+        <label class="form-label" for="signup-name">Full name</label>
+        <input class="form-input" type="text" id="signup-name" placeholder="Terrence Lam" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="signup-email">Work email</label>
+        <input class="form-input" type="email" id="signup-email" placeholder="you@company.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="signup-password">Password</label>
+        <input class="form-input" type="password" id="signup-password" placeholder="Min. 8 characters" autocomplete="new-password">
+      </div>
+      <button class="btn btn-primary form-submit" onclick="handleSignup()">Create free account →</button>
+      <div class="modal-divider"><span class="modal-divider-line"></span><span class="modal-divider-text">or continue with</span><span class="modal-divider-line"></span></div>
+      <button class="modal-oauth" onclick="handleOAuth('Google')">
+        <img src="https://cdn.simpleicons.org/google/4285F4" alt="" width="16" height="16" loading="lazy"> Sign up with Google
+      </button>
+      <p class="modal-footer-text">Already have an account? <a href="#" onclick="switchTab('login'); return false;">Log in</a></p>
+    </div>
+    <!-- Login panel -->
+    <div id="panel-login" class="form-panel" role="tabpanel" aria-labelledby="tab-login">
+      <div class="modal-sub">Welcome back to NEXUS</div>
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email</label>
+        <input class="form-input" type="email" id="login-email" placeholder="you@company.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="login-password">Password</label>
+        <input class="form-input" type="password" id="login-password" placeholder="Your password" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary form-submit" onclick="handleLogin()">Log in →</button>
+      <div class="modal-divider"><span class="modal-divider-line"></span><span class="modal-divider-text">or</span><span class="modal-divider-line"></span></div>
+      <button class="modal-oauth" onclick="handleOAuth('Google')">
+        <img src="https://cdn.simpleicons.org/google/4285F4" alt="" width="16" height="16" loading="lazy"> Continue with Google
+      </button>
+      <p class="modal-footer-text">No account yet? <a href="#" onclick="switchTab('signup'); return false;">Get started free</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast" role="status" aria-live="polite">
+  <svg class="toast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-msg">Action completed</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

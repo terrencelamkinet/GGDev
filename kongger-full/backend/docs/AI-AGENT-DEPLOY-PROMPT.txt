@@ -1,0 +1,160 @@
+
+=======================================================================
+  KONGGER FULL-STACK — AI AGENT DEPLOY PROMPT
+  (Copy this entire block into Cursor / Windsurf / Claude Dev)
+=======================================================================
+
+You are an expert full-stack developer deploying KONGGER, a PostgreSQL-
+backed social website. The project is inside the `kongger-full/` folder.
+
+PROJECT STRUCTURE:
+  kongger-full/
+  ├── frontend/
+  │   └── index.html          ← Single-page app (5 pages, all navigation)
+  └── backend/
+      ├── server.js            ← Express API, 18 endpoints
+      ├── package.json
+      ├── .env.example
+      ├── Dockerfile
+      ├── docker-compose.yml
+      ├── nginx.conf
+      ├── sql/
+      │   ├── 01_schema.sql    ← 11 tables (users, profiles, posts, pages…)
+      │   ├── 02_indexes_triggers.sql  ← 14 indexes + 5 auto-triggers
+      │   ├── 03_rls.sql       ← Row Level Security policies
+      │   └── 04_seed.sql      ← Dev seed data
+      └── docs/
+          ├── deploy-guide.txt
+          └── ux-animation-spec.md
+
+=======================================================================
+STEP 1 — POSTGRESQL SETUP
+=======================================================================
+Run these commands (Linux/Mac):
+
+  sudo -u postgres psql -c "CREATE USER kongger_user WITH PASSWORD 'YourSecurePassword123!';"
+  sudo -u postgres psql -c "CREATE DATABASE kongger_db OWNER kongger_user;"
+  psql -U kongger_user -d kongger_db -f backend/sql/01_schema.sql
+  psql -U kongger_user -d kongger_db -f backend/sql/02_indexes_triggers.sql
+  psql -U kongger_user -d kongger_db -f backend/sql/03_rls.sql
+  psql -U kongger_user -d kongger_db -f backend/sql/04_seed.sql
+
+=======================================================================
+STEP 2 — ENVIRONMENT VARIABLES
+=======================================================================
+  cd backend
+  cp .env.example .env
+
+Edit .env and set:
+  PG_CONNECTION_STRING=postgresql://kongger_user:YourSecurePassword123!@localhost:5432/kongger_db
+  JWT_SECRET=generate-a-32-char-random-string-here
+  PORT=3001
+  NODE_ENV=production
+  FRONTEND_ORIGIN=http://localhost:3000
+
+=======================================================================
+STEP 3 — START API SERVER
+=======================================================================
+  cd backend
+  npm install
+  node server.js
+
+Verify: curl http://localhost:3001/health
+Expected: {"status":"ok","ts":"..."}
+
+=======================================================================
+STEP 4 — CONNECT FRONTEND TO API
+=======================================================================
+Edit frontend/index.html, find this block near the top of <script>:
+
+  window.__KONGGER_CONFIG = {
+    apiBase: '/api/v1',
+    ...
+  };
+
+Change apiBase to your API URL:
+  - Local:      apiBase: 'http://localhost:3001/api/v1'
+  - Production: apiBase: 'https://your-domain.com/api/v1'
+
+=======================================================================
+STEP 5 — SERVE FRONTEND
+=======================================================================
+  # Local development:
+  npx serve frontend -p 3000
+
+  # Production with Nginx:
+  cp -r frontend/* /var/www/kongger/
+  cp backend/nginx.conf /etc/nginx/sites-available/kongger
+  # Edit nginx.conf: replace 'your-domain.com' with actual domain
+  ln -s /etc/nginx/sites-available/kongger /etc/nginx/sites-enabled/
+  nginx -t && systemctl reload nginx
+
+=======================================================================
+STEP 6 — SSL (PRODUCTION ONLY)
+=======================================================================
+  certbot --nginx -d your-domain.com --email admin@your-domain.com --agree-tos -n
+
+=======================================================================
+STEP 7 — SMOKE TESTS
+=======================================================================
+  # Health
+  curl http://localhost:3001/health
+
+  # Register user
+  curl -X POST http://localhost:3001/api/v1/auth/register \
+    -H "Content-Type: application/json" \
+    -d '{"email":"test@kongger.hk","password":"Test1234!","display_name":"Test User","handle":"test_user"}'
+
+  # Login
+  curl -X POST http://localhost:3001/api/v1/auth/login \
+    -H "Content-Type: application/json" \
+    -d '{"email":"test@kongger.hk","password":"Test1234!"}'
+
+  # Get profile
+  curl http://localhost:3001/api/v1/profiles/test_user
+
+  # Waitlist
+  curl -X POST http://localhost:3001/api/v1/waitlist \
+    -H "Content-Type: application/json" \
+    -d '{"email":"hello@kongger.hk","name":"Hello"}'
+
+=======================================================================
+STEP 8 — OPTIONAL: DOCKER COMPOSE (ONE COMMAND DEPLOY)
+=======================================================================
+  cd backend
+  docker compose up -d
+
+  # This starts PostgreSQL + API automatically.
+  # SQL migrations run automatically via /docker-entrypoint-initdb.d/
+
+=======================================================================
+API ENDPOINT REFERENCE
+=======================================================================
+POST   /api/v1/auth/register           Register new user
+POST   /api/v1/auth/login              Login, get JWT token
+GET    /api/v1/profiles/me             Get current user profile (auth)
+GET    /api/v1/profiles/:handle        Get profile by handle
+PATCH  /api/v1/profiles/me            Update profile (auth)
+POST   /api/v1/profiles/:id/visit      Log visitor (no auth required)
+GET    /api/v1/profiles/:id/visitors   Get visitor count (auth)
+GET    /api/v1/posts/feed              Get neighbour feed (auth)
+GET    /api/v1/posts?author=:id        Get posts by user
+POST   /api/v1/posts                   Create post (auth)
+PATCH  /api/v1/posts/:id              Update post (auth, own only)
+DELETE /api/v1/posts/:id              Soft-delete post (auth, own only)
+POST   /api/v1/posts/:id/like         Like post (auth)
+DELETE /api/v1/posts/:id/like         Unlike post (auth)
+GET    /api/v1/pages?owner=:id        List published pages
+GET    /api/v1/pages/:ownerId/:slug    Get page + sections
+POST   /api/v1/pages                   Create page (auth)
+PATCH  /api/v1/pages/:id/layout       Update layout JSON (auth)
+PATCH  /api/v1/pages/:id/sections     Upsert sections (auth)
+DELETE /api/v1/pages/:id              Delete page (auth)
+GET    /api/v1/neighbours              List neighbours (auth)
+POST   /api/v1/neighbours/:userId      Send request (auth)
+PATCH  /api/v1/neighbours/:id/accept  Accept request (auth)
+GET    /api/v1/notifications           List notifications (auth)
+PATCH  /api/v1/notifications/read-all Mark all read (auth)
+POST   /api/v1/waitlist               Join waitlist
+
+=======================================================================

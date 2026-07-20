@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-HK" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="KONGGER — 你的個人宇宙。下一代香港 Web 2.0 社交平台。">
+  <title>KONGGER — 你的個人宇宙</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <script>
+    window.__KONGGER_CONFIG = {
+      apiBase: '/api/v1',
+      authToken: null,
+      currentHandle: 'kongger_demo'
+    };
+  </script>
+</head>
+<body>
+<canvas id="particles-canvas" aria-hidden="true"></canvas>
+<a class="sr-only" href="#main-content">Skip to content</a>
+
+<!-- NAV -->
+<header class="nav" role="banner">
+  <a class="nav__logo" href="#home" data-page="home" aria-label="KONGGER Home">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="2"/>
+      <path d="M8 10 L14 6 L20 10 L20 19 L14 22 L8 19 Z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <circle cx="14" cy="14" r="3" fill="currentColor"/>
+    </svg>
+    KONGGER
+  </a>
+  <nav class="nav__links" aria-label="Main navigation">
+    <a class="nav__link active" href="#home" data-page="home">首頁</a>
+    <a class="nav__link" href="#profile" data-page="profile">個人檔案</a>
+    <a class="nav__link" href="#proposal" data-page="proposal">項目簡介</a>
+    <a class="nav__link" href="#ai" data-page="ai">AI 功能</a>
+  </nav>
+  <div class="nav__actions">
+    <button class="nav__notif-btn" onclick="openNotifModal()" aria-label="Notifications">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="nav__badge" id="notif-badge" style="display:none">0</span>
+    </button>
+    <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme"></button>
+    <button class="btn btn-primary btn-sm" onclick="openModal('modal-compose')">+ 寫日記</button>
+    <button class="btn btn-ghost btn-sm" onclick="openModal('modal-auth')">登入</button>
+  </div>
+</header>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <a class="bottom-nav__item active" href="#home" data-page="home">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    首頁
+  </a>
+  <a class="bottom-nav__item" href="#profile" data-page="profile">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    我的
+  </a>
+  <button class="bottom-nav__item" onclick="openModal('modal-compose')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    寫日記
+  </button>
+  <a class="bottom-nav__item" href="#ai" data-page="ai">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    AI
+  </a>
+</nav>
+
+<main class="main" id="main-content">
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="container--narrow">
+      <div class="hero__eyebrow">🇭🇰 Hong Kong · Web 2.0 · 2026</div>
+      <h1 class="hero__title">你的<em style="color:var(--color-primary);font-style:normal">個人宇宙</em></h1>
+      <p class="hero__subtitle">屬於你的數碼空間。用 Drag &amp; Drop 裝飾你的個人頁面，分享心情日記，連結志同道合的鄰居。</p>
+      <div class="hero__actions">
+        <button class="btn btn-primary btn-lg" onclick="openModal('modal-waitlist')">申請提早加入 ✨</button>
+        <a class="btn btn-ghost btn-lg" href="#proposal">了解更多</a>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container feed-layout--with-sidebar">
+      <div>
+        <h2 class="section-title" style="margin-bottom:var(--space-6)">📖 鄰居日記</h2>
+        <div id="feed-list"></div>
+      </div>
+      <aside class="feed-sidebar">
+        <div class="card">
+          <h3 style="font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-4)">💌 鄰居推薦</h3>
+          <div class="neighbour-card">
+            <img class="neighbour-avatar" src="https://picsum.photos/seed/nb1/88/88" alt="Leo Wong" width="44" height="44" loading="lazy">
+            <div class="neighbour-info"><div class="neighbour-name">Leo Wong</div><div class="neighbour-handle">@leo_w</div></div>
+            <button class="btn btn-primary btn-sm" onclick="showToastGlobal('鄰居申請已發送！','success')">+</button>
+          </div>
+          <div class="neighbour-card">
+            <img class="neighbour-avatar" src="https://picsum.photos/seed/nb2/88/88" alt="Mia Chan" width="44" height="44" loading="lazy">
+            <div class="neighbour-info"><div class="neighbour-name">Mia Chan</div><div class="neighbour-handle">@mia_c</div></div>
+            <button class="btn btn-primary btn-sm" onclick="showToastGlobal('鄰居申請已發送！','success')">+</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-4)">🔥 熱門話題</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">#日記</span>
+            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">#香港生活</span>
+            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">#Xanga回憶</span>
+            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">#音樂</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<!-- ===== PROFILE PAGE ===== -->
+<div class="page" id="page-profile">
+  <div class="container" style="padding-top:var(--space-8)">
+    <div id="profile-container">
+      <div class="skeleton" style="height:220px;border-radius:var(--radius-xl);margin-bottom:var(--space-4)"></div>
+      <div style="display:flex;gap:var(--space-4);align-items:center">
+        <div class="skeleton skeleton-avatar" style="width:88px;height:88px;flex-shrink:0"></div>
+        <div style="flex:1"><div class="skeleton skeleton-heading"></div><div class="skeleton skeleton-text"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROPOSAL PAGE ===== -->
+<div class="page" id="page-proposal">
+  <div class="container" style="padding-top:var(--space-10);padding-bottom:var(--space-24)">
+    <div style="max-width:var(--content-narrow);margin:0 auto">
+      <div class="hero__eyebrow" style="text-align:left">項目文件</div>
+      <h1 class="section-title" style="font-size:var(--text-2xl);margin-bottom:var(--space-8)">KONGGER Project Proposal</h1>
+      <div class="card" style="margin-bottom:var(--space-6)">
+        <h2 style="font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:var(--space-4)">🎯 核心願景</h2>
+        <p style="color:var(--color-text-muted);line-height:1.8">KONGGER 是一個面向香港年輕世代的 Web 2.0 社交平台，靈感來自 Xanga 和 MySpace 的個人化精神，結合現代 Instagram/Threads 的社交互動，以及 Animal Crossing 的溫暖社群感。每個用戶都有一個完全屬於自己的數碼空間。</p>
+      </div>
+      <div class="card" style="margin-bottom:var(--space-6)">
+        <h2 style="font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:var(--space-4)">✨ 核心功能</h2>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:var(--space-4)">
+          <li style="display:flex;gap:var(--space-3)"><span style="font-size:1.2em">🏠</span><div><strong>Canvas 個人頁面</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">Drag &amp; Drop 裝飾你的個人空間，自訂佈局、主題和背景音樂</span></div></li>
+          <li style="display:flex;gap:var(--space-3)"><span style="font-size:1.2em">📖</span><div><strong>心情日記</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">附帶心情標記、媒體上傳、隱私設定的日記系統</span></div></li>
+          <li style="display:flex;gap:var(--space-3)"><span style="font-size:1.2em">🎵</span><div><strong>BGM 播放器</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">Spotify / YouTube / SoundCloud API 整合，個人化背景音樂</span></div></li>
+          <li style="display:flex;gap:var(--space-3)"><span style="font-size:1.2em">🤖</span><div><strong>AI 手寫字體</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">AI 將你的手寫上傳轉化為專屬 TTF 字體，在頁面中使用</span></div></li>
+          <li style="display:flex;gap:var(--space-3)"><span style="font-size:1.2em">👥</span><div><strong>Neighbour System</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">Dunbar 定律：每人最多 30 個鄰居，打造真實小圈子</span></div></li>
+          <li style="display:flex;gap:var(--space-3)"><span style="font-size:1.2em">📢</span><div><strong>User-Owned Ad Space</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">個人廣告版：你的流量，你的收益</span></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2 style="font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:var(--space-4)">🗺️ 開發路線圖</h2>
+        <div style="display:flex;flex-direction:column;gap:var(--space-4)">
+          <div style="display:flex;gap:var(--space-3)"><span style="width:60px;flex-shrink:0;font-size:var(--text-xs);font-weight:700;color:var(--color-primary)">Phase 1</span><div><strong>MVP Web</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">Figma UI → FlutterFlow → Firebase → Spotify 整合</span></div></div>
+          <div style="display:flex;gap:var(--space-3)"><span style="width:60px;flex-shrink:0;font-size:var(--text-xs);font-weight:700;color:var(--color-gold)">Phase 2</span><div><strong>Canvas Room</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">Drag &amp; Drop 個人頁面 + 心情日記 + AI Font Generator</span></div></div>
+          <div style="display:flex;gap:var(--space-3)"><span style="width:60px;flex-shrink:0;font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted)">Phase 3</span><div><strong>App + Monetization</strong><br><span style="color:var(--color-text-muted);font-size:var(--text-sm)">Flutter App → Stripe/PayMe + App Store 上架</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AI PAGE ===== -->
+<div class="page" id="page-ai">
+  <div class="container" style="padding-top:var(--space-10);padding-bottom:var(--space-24)">
+    <div class="hero__eyebrow">AI 功能展示</div>
+    <h1 class="section-title" style="font-size:var(--text-2xl);margin-bottom:var(--space-3)">AI × KONGGER</h1>
+    <p class="section-subtitle" style="margin-bottom:var(--space-12)">人工智能讓你的個人宇宙更獨特、更智能、更有溫度。</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-6)">
+      <div class="ai-feature-card reveal"><div class="ai-feature-icon">✍️</div><div class="ai-feature-title">AI 手寫字體生成</div><p style="color:var(--color-text-muted);font-size:var(--text-sm)">上傳你的手寫樣本，AI 自動生成個人專屬 TTF 字體，用於你的日記和頁面標題。</p><div style="margin-top:var(--space-4)"><span style="font-size:var(--text-xs);color:var(--color-primary);font-weight:600">POWERED BY CALLIGRAPHR API</span></div></div>
+      <div class="ai-feature-card reveal"><div class="ai-feature-icon">🎨</div><div class="ai-feature-title">智能頁面主題推薦</div><p style="color:var(--color-text-muted);font-size:var(--text-sm)">AI 分析你的日記情緒和音樂喜好，自動推薦最適合的頁面配色和佈局風格。</p><div style="margin-top:var(--space-4)"><span style="font-size:var(--text-xs);color:var(--color-primary);font-weight:600">POWERED BY GPT-4o</span></div></div>
+      <div class="ai-feature-card reveal"><div class="ai-feature-icon">💬</div><div class="ai-feature-title">AI 日記助手</div><p style="color:var(--color-text-muted);font-size:var(--text-sm)">每天 10PM 主動推送今日寫日記的靈感，基於你的心情歷史和天氣數據個性化生成。</p><div style="margin-top:var(--space-4)"><span style="font-size:var(--text-xs);color:var(--color-primary);font-weight:600">POWERED BY CLAUDE</span></div></div>
+      <div class="ai-feature-card reveal"><div class="ai-feature-icon">🔍</div><div class="ai-feature-title">情緒分析 Feed</div><p style="color:var(--color-text-muted);font-size:var(--text-sm)">AI 分析鄰居情緒狀態，在你心情低落時優先展示溫暖積極的內容，智能調節 Feed 氣氛。</p><div style="margin-top:var(--space-4)"><span style="font-size:var(--text-xs);color:var(--color-primary);font-weight:600">SENTIMENT ANALYSIS</span></div></div>
+      <div class="ai-feature-card reveal"><div class="ai-feature-icon">🎵</div><div class="ai-feature-title">心情配樂推薦</div><p style="color:var(--color-text-muted);font-size:var(--text-sm)">根據日記關鍵字和心情標籤，AI 從 Spotify 自動推薦今日最適合的背景音樂歌單。</p><div style="margin-top:var(--space-4)"><span style="font-size:var(--text-xs);color:var(--color-primary);font-weight:600">SPOTIFY AI DJ</span></div></div>
+      <div class="ai-feature-card reveal"><div class="ai-feature-icon">🛡️</div><div class="ai-feature-title">AI 社群守護</div><p style="color:var(--color-text-muted);font-size:var(--text-sm)">智能偵測有害評論和不當內容，自動過濾並通知管理員，保護 Chill 社群氛圍。</p><div style="margin-top:var(--space-4)"><span style="font-size:var(--text-xs);color:var(--color-primary);font-weight:600">CONTENT MODERATION AI</span></div></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container--narrow">
+    <div style="font-family:var(--font-display);font-size:var(--text-lg);color:var(--color-primary);font-weight:700;margin-bottom:var(--space-3)">KONGGER</div>
+    <p style="margin-bottom:var(--space-2)">你的個人宇宙 · Made in Hong Kong 🇭🇰</p>
+    <p>© 2026 KONGGER. All rights reserved.</p>
+  </div>
+</footer>
+
+<div id="toast-container" role="region" aria-live="polite"></div>
+
+<!-- COMPOSE MODAL -->
+<div class="modal-overlay" id="modal-compose" role="dialog" aria-modal="true" aria-labelledby="modal-compose-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-compose-title">✍️ 寫日記</h2>
+      <button class="modal-close" data-modal-close="modal-compose" aria-label="Close">✕</button>
+    </div>
+    <form id="post-form">
+      <div class="field"><label class="label" for="post-title">標題（選填）</label><input class="input" id="post-title" name="title" type="text" placeholder="今天的心情..."></div>
+      <div class="field"><label class="label" for="post-content">內容 *</label><textarea class="input" id="post-content" name="content" required placeholder="分享你今天的故事、感受..."></textarea><div class="char-count">0/500</div><div class="input-error" role="alert"></div></div>
+      <div class="field"><div class="label" style="margin-bottom:var(--space-2)">今天的心情</div>
+        <div class="mood-grid">
+          <button type="button" class="mood-btn selected" data-mood="everyday" title="每天">📖</button>
+          <button type="button" class="mood-btn" data-mood="happy" title="開心">😊</button>
+          <button type="button" class="mood-btn" data-mood="calm" title="平靜">😌</button>
+          <button type="button" class="mood-btn" data-mood="moved" title="感動">🥺</button>
+          <button type="button" class="mood-btn" data-mood="nostalgic" title="懷念">💭</button>
+          <button type="button" class="mood-btn" data-mood="thinking" title="思考">🤔</button>
+          <button type="button" class="mood-btn" data-mood="excited" title="興奮">🤩</button>
+          <button type="button" class="mood-btn" data-mood="sad" title="傷心">😢</button>
+          <button type="button" class="mood-btn" data-mood="grateful" title="感恩">🙏</button>
+          <button type="button" class="mood-btn" data-mood="anxious" title="緊張">😰</button>
+        </div>
+      </div>
+      <div class="field"><label class="label" for="post-visibility">可見範圍</label>
+        <select class="input" id="post-visibility" name="visibility">
+          <option value="neighbors">🏘️ 鄰居</option>
+          <option value="public">🌍 所有人</option>
+          <option value="private">🔒 只限自己</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit" style="width:100%"><span class="btn-label">發佈日記 ✨</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- WAITLIST MODAL -->
+<div class="modal-overlay" id="modal-waitlist" role="dialog" aria-modal="true" aria-labelledby="modal-waitlist-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-waitlist-title">🎟️ 申請提早加入</h2>
+      <button class="modal-close" data-modal-close="modal-waitlist" aria-label="Close">✕</button>
+    </div>
+    <p style="color:var(--color-text-muted);margin-bottom:var(--space-6)">KONGGER 即將開放測試。留下你的資料，成為首批 Kongger。</p>
+    <form id="waitlist-form">
+      <div class="field"><label class="label" for="wl-name">你的名字</label><input class="input" id="wl-name" name="name" type="text" required placeholder="Leo"><div class="input-error" role="alert"></div></div>
+      <div class="field"><label class="label" for="wl-email">電郵地址</label><input class="input" id="wl-email" name="email" type="email" required placeholder="you@example.com"><div class="input-error" role="alert"></div></div>
+      <button class="btn btn-primary" type="submit" style="width:100%"><span class="btn-label">申請加入 →</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="modal-auth" role="dialog" aria-modal="true" aria-labelledby="modal-auth-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-auth-title">👋 歡迎回來</h2>
+      <button class="modal-close" data-modal-close="modal-auth" aria-label="Close">✕</button>
+    </div>
+    <form id="auth-form">
+      <div class="field"><label class="label" for="auth-email">電郵</label><input class="input" id="auth-email" type="email" required placeholder="you@example.com"><div class="input-error" role="alert"></div></div>
+      <div class="field"><label class="label" for="auth-password">密碼</label><input class="input" id="auth-password" type="password" required placeholder="••••••••"><div class="input-error" role="alert"></div></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;margin-bottom:var(--space-3)"><span class="btn-label">登入</span></button>
+    </form>
+    <p style="text-align:center;font-size:var(--text-sm);color:var(--color-text-muted)">還沒有帳號？<button onclick="openModal('modal-waitlist');closeModal('modal-auth')" style="color:var(--color-primary);font-weight:600;background:none;border:none;cursor:pointer">申請加入</button></p>
+  </div>
+</div>
+
+<!-- ADD NEIGHBOUR MODAL -->
+<div class="modal-overlay" id="modal-neighbour" role="dialog" aria-modal="true" aria-labelledby="modal-nb-title">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title" id="modal-nb-title">👥 加為鄰居</h2><button class="modal-close" data-modal-close="modal-neighbour" aria-label="Close">✕</button></div>
+    <p style="color:var(--color-text-muted);margin-bottom:var(--space-6)">每人最多可有 30 位鄰居（Dunbar Number），讓關係更真實。</p>
+    <button class="btn btn-primary" style="width:100%" onclick="closeModal('modal-neighbour');showToastGlobal('鄰居申請已發送！','success')"><span class="btn-label">發送鄰居申請 💌</span></button>
+  </div>
+</div>
+
+<script>
+// ── Global helpers (inline for standalone HTML) ────────────────
+function openModal(id){const el=document.getElementById(id);if(!el)return;el.classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){const el=document.getElementById(id);if(!el)return;el.classList.remove('open');document.body.style.overflow='';}
+function openNotifModal(){showToastGlobal('通知功能即將開放','info');}
+
+function showToastGlobal(msg,type='info',duration=3000){
+  const c=document.getElementById('toast-container');if(!c)return;
+  const t=document.createElement('div');const icons={success:'✓',error:'✕',info:'ℹ'};
+  t.className='toast toast--'+type+' toast-enter';
+  t.innerHTML='<span>'+icons[type]+'</span><span>'+msg+'</span>';
+  c.appendChild(t);
+  if(type!=='error'){setTimeout(()=>{t.classList.remove('toast-enter');t.classList.add('toast-exit');setTimeout(()=>t.remove(),210);},duration);}
+  else{const x=document.createElement('button');x.innerHTML='×';x.style.cssText='margin-left:auto;font-size:1.2em;opacity:.7;cursor:pointer;border:none;background:none';x.onclick=()=>{t.classList.add('toast-exit');setTimeout(()=>t.remove(),210)};t.appendChild(x);}
+}
+
+// Modal overlay click to close
+document.addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))closeModal(e.target.id);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(m=>closeModal(m.id));}});
+document.querySelectorAll('[data-modal-close]').forEach(btn=>btn.addEventListener('click',()=>closeModal(btn.dataset.modalClose)));
+</script>
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

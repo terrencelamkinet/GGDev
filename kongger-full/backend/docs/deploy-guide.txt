@@ -1,0 +1,77 @@
+# KONGGER Full-Stack Deployment Guide
+# For AI Agents: Cursor / Windsurf / Claude Dev / GPT-Engineer
+
+## PREREQUISITES
+- Node.js 20+
+- PostgreSQL 16+
+- Nginx (production)
+- Certbot (SSL)
+- Git
+
+## OPTION A — Docker Compose (Recommended)
+1. Clone repo:         git clone <your-repo> && cd kongger-full/backend
+2. Create .env:        cp .env.example .env && nano .env   # set PG_PASSWORD + JWT_SECRET
+3. Start DB + API:     docker compose up -d
+4. Seed (optional):    docker exec -it kongger-full-db-1 psql -U kongger_user -d kongger_db -f /docker-entrypoint-initdb.d/04_seed.sql
+5. Deploy frontend:    cp -r ../frontend /var/www/kongger-full/frontend
+6. Configure Nginx:    cp nginx.conf /etc/nginx/sites-available/kongger
+                       ln -s /etc/nginx/sites-available/kongger /etc/nginx/sites-enabled/
+                       nginx -t && systemctl reload nginx
+7. SSL:                certbot --nginx -d your-domain.com --email admin@your-domain.com --agree-tos -n
+8. Verify:             curl https://your-domain.com/health
+
+## OPTION B — Manual (without Docker)
+1. Install PostgreSQL:  apt install postgresql-16 -y
+2. Create DB user:      sudo -u postgres psql -c "CREATE USER kongger_user WITH PASSWORD 'yourpassword';"
+                        sudo -u postgres psql -c "CREATE DATABASE kongger_db OWNER kongger_user;"
+3. Run SQL migrations:
+                        psql -U kongger_user -d kongger_db -f sql/01_schema.sql
+                        psql -U kongger_user -d kongger_db -f sql/02_indexes_triggers.sql
+                        psql -U kongger_user -d kongger_db -f sql/03_rls.sql
+                        psql -U kongger_user -d kongger_db -f sql/04_seed.sql
+4. Install Node deps:   npm install
+5. Set env vars:        cp .env.example .env && nano .env
+6. Start API:           node server.js
+   (Production):        npm install -g pm2 && pm2 start server.js --name kongger-api && pm2 save
+7. Deploy frontend:     cp -r ../frontend/* /var/www/kongger-full/
+8. Nginx + SSL:         (same as Option A steps 6-7)
+
+## SMOKE TESTS
+curl http://localhost:3001/health
+curl -X POST http://localhost:3001/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@kongger.hk","password":"Test1234!","display_name":"Test User","handle":"test_user"}'
+curl -X POST http://localhost:3001/api/v1/waitlist -H "Content-Type: application/json" -d '{"email":"hello@kongger.hk","name":"Hello"}'
+curl http://localhost:3001/api/v1/profiles/test_user
+
+## AI AGENT DEPLOY PROMPT (Cursor / Windsurf / Claude Dev)
+--------------------------------------------------------------------
+You are deploying KONGGER, a full-stack social website.
+
+The project structure is:
+  kongger-full/
+  ├── frontend/        (static HTML/CSS/JS)
+  └── backend/         (Node.js + Express + PostgreSQL)
+
+TASK:
+1. Install dependencies: run `npm install` inside `backend/`
+2. Set up PostgreSQL 16: create database `kongger_db` and user `kongger_user`
+3. Run SQL files in ORDER: 01_schema.sql → 02_indexes_triggers.sql → 03_rls.sql
+4. Copy `backend/.env.example` to `backend/.env` and fill in:
+   - PG_CONNECTION_STRING with the local DB credentials
+   - JWT_SECRET with a 32+ character random string
+   - FRONTEND_ORIGIN=http://localhost:3000 (or production domain)
+5. Start the API server: `node backend/server.js`
+6. Serve the frontend: use `npx serve frontend -p 3000` for local testing
+7. Verify: GET http://localhost:3001/health should return {"status":"ok"}
+8. Inject API config into frontend: set `window.__KONGGER_CONFIG = { apiBase: 'http://localhost:3001/api/v1' }`
+   by editing the <script> block in frontend/index.html
+--------------------------------------------------------------------
+
+## ENVIRONMENT VARIABLES REFERENCE
+PG_CONNECTION_STRING  postgresql://user:pass@host:5432/kongger_db
+JWT_SECRET            random string, minimum 32 characters
+PORT                  API port (default: 3001)
+NODE_ENV              development | production
+BCRYPT_ROUNDS         password hashing rounds (default: 12)
+FRONTEND_ORIGIN       CORS allowed origin (e.g., https://kongger.hk)
