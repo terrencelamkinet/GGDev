@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="../favicon.png">
   <title>CISP 模拟练习</title>
-  <link rel="stylesheet" href="../styles.css?v=1.4">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="../styles.css?v=1.6">
   <style>
     .tag-cisp {
       background: #e3f2fd;
@@ -55,7 +58,8 @@
         <strong>📌 使用说明:</strong>
         <ul>
           <li>选择题目数量开始随机练习</li>
-          <li>题目和选项顺序随机</li>
+          <li>题号按顺序排列</li>
+          <li>选项顺序随机</li>
           <li>按「👁️ Show Answer」即时查看答案</li>
           <li>提交后显示答题解析（含 Explanation）</li>
           <li>及格线：70%</li>
@@ -153,7 +157,7 @@
   </div>
 </div>
 
-<script src="questions.js"></script>
+<script src="questions.js?v=1.8"></script>
 <script>
   const PASS_PERCENT = 70;
   const POINTS_PER_Q = 1;
@@ -208,7 +212,7 @@
 
   function startQuiz(count) {
     quizClearCache();
-    selectedQuestions = shuffleArray(cisQuestions.map(q => ({...q}))).slice(0, count).map(q => shuffleChoices(q));
+    selectedQuestions = shuffleArray(cisQuestions).slice(0, count).map(q => shuffleChoices(JSON.parse(JSON.stringify(q))));
     currentQuestion = 0; userAnswers = {}; showAnswerState = {};
     document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
@@ -292,9 +296,21 @@
     const q = selectedQuestions[currentQuestion];
     const el = document.getElementById('answer-display');
     if (showAnswerState[currentQuestion]) {
-      el.textContent = `✓ Correct Answer: ${q.answer}`;
+      let html = `<div class="answer-answer">✓ Correct Answer: ${q.answer}</div>`;
+      if (q.explanation) {
+        html += `<div class="review-choice explanation-review" style="margin-top:8px;"><strong>📖 解析:</strong> ${q.explanation}</div>`;
+        if (q.explanationImage) {
+          html += renderReviewImage(q.explanationImage);
+        } else if (q.explanationImages) {
+          html += q.explanationImages.map(renderReviewImage).join('');
+        }
+      }
+      el.innerHTML = html;
       el.className = 'answer-display show';
-    } else el.className = 'answer-display';
+    } else {
+      el.innerHTML = '';
+      el.className = 'answer-display';
+    }
   }
 
   function nextQuestion() {
@@ -471,7 +487,7 @@ function toggleDarkMode() {
 })();
 </script>
 
-<footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">CISP Exam Center · G02 · v1.4</footer>
+<footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">CISP Exam Center · G02 · v1.8</footer>
 
 </body>
 </html>

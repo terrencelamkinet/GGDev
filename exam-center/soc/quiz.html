@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="../favicon.png">
   <title>SOC Professional Quiz</title>
-  <link rel="stylesheet" href="../styles.css?v=1.4">
+  <link rel="stylesheet" href="../styles.css?v=1.6">
 </head>
 <body>
 <!-- 🌗 Dark Mode Toggle Button -->
@@ -134,7 +134,7 @@
   </div>
 </div>
 
-<script src="questions.js">// ===== 檢查有冇上次進度 =====
+<script src="questions.js?v=1.6">// ===== 檢查有冇上次進度 =====
 (function() {
   var rc = document.getElementById("resumeContainer");
   if (rc && quizHasSaved()) { rc.classList.remove("hidden"); }
@@ -246,13 +246,32 @@
   function toggleAnswer() {
     quizAutoSave(); showAnswerState[currentQuestion] = !showAnswerState[currentQuestion]; updateAnswerDisplay(); }
 
+  function renderReviewImage(img) {
+    if (Array.isArray(img)) {
+      return img.map(i => `<div class="question-image"><img src="images/${i}" alt="Diagram" style="max-width:100%;margin:8px 0;border-radius:4px;border:1px solid #ddd;"></div>`).join('');
+    }
+    return `<div class="question-image"><img src="images/${img}" alt="Diagram" style="max-width:100%;margin:8px 0;border-radius:4px;border:1px solid #ddd;"></div>`;
+  }
+
   function updateAnswerDisplay() {
     const q = selectedQuestions[currentQuestion];
     const el = document.getElementById('answer-display');
     if (showAnswerState[currentQuestion]) {
-      el.textContent = `✓ Correct Answer: ${q.answer}`;
+      let html = `<div class="answer-answer">✓ Correct Answer: ${q.answer}</div>`;
+      if (q.explanation) {
+        html += `<div class="review-choice explanation-review" style="margin-top:8px;"><strong>📖 解析:</strong> ${q.explanation}</div>`;
+        if (q.explanationImage) {
+          html += renderReviewImage(q.explanationImage);
+        } else if (q.explanationImages) {
+          html += q.explanationImages.map(renderReviewImage).join('');
+        }
+      }
+      el.innerHTML = html;
       el.className = 'answer-display show';
-    } else el.className = 'answer-display';
+    } else {
+      el.innerHTML = '';
+      el.className = 'answer-display';
+    }
   }
 
   function nextQuestion() {
@@ -373,7 +392,7 @@
 
 </script>
 
-  <footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">Exam Center v1.2</footer>
+  <footer style="text-align: center; padding: 20px 0 10px; color: var(--text-muted); font-size: 13px;">Exam Center v1.6</footer>
 <!-- keyboard-shortcut -->
 <script>
 document.addEventListener("keydown", function(e) {
@@ -396,6 +415,7 @@ function confirmGoHome() {
 }
 </script>
 
+<script>
 // 🌗 Dark Mode Toggle
 function toggleDarkMode() {
   document.body.classList.toggle('dark-mode');
@@ -413,6 +433,7 @@ function toggleDarkMode() {
     document.getElementById('darkModeToggle').textContent = '☀️';
   }
 })();
+</script>
 
 </body>
 </html>

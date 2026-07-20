@@ -6,6 +6,5 @@
 BLUETOOTH_COM=COM5
 
 # Agent Relay Server WebSocket URL (wss:// 必須！)
-# 透過 Cloudflare Tunnel 或其他方式公開 wss://
-# 格式: wss://YOUR_SERVER:PORT/brainlink
-AGENT_WS_URL=wss://your-agent-server.com:8765/brainlink
+# Focus Bird 生產環境
+AGENT_WS_URL=wss://brainlink.kinet-poc.com/brainlink

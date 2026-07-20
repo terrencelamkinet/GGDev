@@ -453,6 +453,8 @@ function loop(){
   if(!G.running) return;
   gameTick++;
   const prof=ageProfile(G.age);
+  /* Check if BrainLink data is stale — fallback to keyboard if so */
+  if (typeof WS !== 'undefined') WS.checkStale();
   /* Focus update */
   if(!G.extMode){
     G.focus=G.focus*(1-prof.response)+(G.space?72:34)*prof.response;

@@ -2,8 +2,10 @@
 echo === Starting Focus Bird Bridge ===
 echo.
 echo Available COM ports:
-python focus_bridge_windows.py --scan
+python brainlink_bridge.py --scan
+echo.
+echo Starting in AGENT relay mode (via brainlink.kinet-poc.com)
 echo.
 set /p PORT=Enter COM port (e.g. COM5): 
-python focus_bridge_windows.py --port %PORT% --ws-port 8765
+python brainlink_bridge.py --port %PORT% --config config.txt
 pause

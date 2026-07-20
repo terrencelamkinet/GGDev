@@ -240,6 +240,22 @@ def api_data():
                              "online": False, "last_heartbeat": "--:--",
                              "thoughts": "Offline", "daemons": {}}
         data["agents"] = agents
+
+        # Merge rich agent introspection from gg-data.json
+        gg_data_path = os.path.join(os.path.dirname(__file__), "gg-data.json")
+        if os.path.exists(gg_data_path):
+            try:
+                with open(gg_data_path) as _f:
+                    _gg = json.load(_f)
+                _stored_agents = _gg.get("agents", {})
+                for _key in ["main", "work", "person"]:
+                    _sa = _stored_agents.get(_key, {})
+                    if _sa and _key in data["agents"]:
+                        for _field in ["thoughts", "needs", "learnings", "uncertainties"]:
+                            if _field in _sa and _sa[_field]:
+                                data["agents"][_key][_field] = _sa[_field]
+            except Exception:
+                pass
         
     except Exception as e:
         print(f"PG read error: {e}")

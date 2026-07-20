@@ -7,8 +7,17 @@
 const WS = (() => {
   let socket = null;
   let retryTimer = null;
+  let lastMsgTime = 0;
   const URL = 'wss://brainlink.kinet-poc.com/game';
   const EMA = 0.18;   /* smoothing factor for focus signal */
+  const STALE_MS = 5000;  /* if no message for 5s, disable extMode */
+
+  /* Run every frame: if data is stale, disable extMode so keyboard works */
+  function checkStale() {
+    if (G.extMode && Date.now() - lastMsgTime > STALE_MS) {
+      G.extMode = false;
+    }
+  }
 
   function setDot(ok) {
     const d = document.getElementById('ws-dot');
@@ -39,11 +48,11 @@ const WS = (() => {
       socket.onmessage = (ev) => {
         try {
           const d = JSON.parse(ev.data);
+          lastMsgTime = Date.now();
 
           /* Signal check: only enable extMode when BrainLink is actually connected.
-             relay.py sends signal=200 (no_signal) as initial state even without
-             BrainLink — without this check the game sees attention=50 and thinks
-             it's in extMode, causing the bird to descend on default values. */
+             Relay server auto-sets signal=200 when data is >5s stale.
+             Bridge now sets signal=0 when receiving real EEG data. */
           const hasSignal = typeof d.signal === 'number' && d.signal < 150;
 
           /* Primary: use attention value */
@@ -86,5 +95,5 @@ const WS = (() => {
     }
   }
 
-  return { connect, send };
+  return { connect, send, checkStale };
 })();
