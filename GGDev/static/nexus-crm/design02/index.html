@@ -14,20 +14,20 @@
    Density: dense dashboard grid, generous section rhythm, weekly calendar as centerpiece with live time indicator */
 
 :root, [data-theme="light"]{
-  --color-bg:#faf7ef; --color-surface:#fffdf7; --color-surface-2:#fffefb;
-  --color-surface-offset:#f4efe3; --color-surface-offset-2:#ede6d6; --color-surface-dynamic:#e5dcc7;
-  --color-divider:#e6ddc9; --color-border:#ddd2b8;
-  --color-text:#2b2717; --color-text-muted:#847b64; --color-text-faint:#bcb096; --color-text-inverse:#fffdf7;
-  --color-primary:#0d7a75; --color-primary-hover:#0a5d59; --color-primary-active:#084644; --color-primary-highlight:#d7e8e2;
-  --color-notification:#b0405a; --color-notification-highlight:#f1dade;
-  --color-success:#4c8a2e; --color-success-highlight:#dfead0;
-  --color-warning:#c17a1f; --color-warning-highlight:#f2e1c4;
-  --color-blue:#2f74a8; --color-blue-highlight:#d9e6ef;
-  --color-gold:#c99a1f; --color-gold-highlight:#f2e6c4;
-  --color-purple:#7c56b0; --color-purple-highlight:#e6dcf1;
+  --color-bg:#f7f8fa; --color-surface:#ffffff; --color-surface-2:#ffffff;
+  --color-surface-offset:#f1f3f5; --color-surface-offset-2:#e9ebee; --color-surface-dynamic:#dfe2e6;
+  --color-divider:#e5e7eb; --color-border:#d7dbe0;
+  --color-text:#1f2328; --color-text-muted:#6b7280; --color-text-faint:#9ca3af; --color-text-inverse:#ffffff;
+  --color-primary:#0d7a75; --color-primary-hover:#0a5d59; --color-primary-active:#084644; --color-primary-highlight:#dbeceb;
+  --color-notification:#c0344c; --color-notification-highlight:#fbe2e6;
+  --color-success:#3f8a3f; --color-success-highlight:#e3f1e2;
+  --color-warning:#b9760f; --color-warning-highlight:#faecd6;
+  --color-blue:#2870b8; --color-blue-highlight:#dfeaf7;
+  --color-gold:#b8901a; --color-gold-highlight:#f6ecd2;
+  --color-purple:#7350ad; --color-purple-highlight:#ece4f6;
   --radius-sm:.375rem; --radius-md:.5rem; --radius-lg:.75rem; --radius-xl:1rem; --radius-full:9999px;
   --transition-interactive:180ms cubic-bezier(.16,1,.3,1); --ease-out:cubic-bezier(.16,1,.3,1);
-  --shadow-sm:0 1px 2px oklch(0.55 .04 80/.08); --shadow-md:0 4px 14px oklch(0.55 .04 80/.10); --shadow-lg:0 20px 48px oklch(0.5 .04 80/.16);
+  --shadow-sm:0 1px 2px oklch(0.2 0 0/.06); --shadow-md:0 4px 14px oklch(0.2 0 0/.08); --shadow-lg:0 20px 48px oklch(0.2 0 0/.14);
   --font-body:'General Sans','Inter',sans-serif; --font-display:'Switzer','General Sans',sans-serif;
   --sidebar-w:252px; --sidebar-w-collapsed:76px; --topbar-h:64px;
 }
@@ -338,6 +338,43 @@ table{border-collapse:collapse;width:100%}
 .empty-state h3{color:var(--color-text);font-size:15px;font-weight:600;margin-bottom:6px}
 .empty-state p{font-size:13px;max-width:38ch;margin-bottom:16px}
 
+.project-budget-bar{height:8px;border-radius:var(--radius-full);background:var(--color-surface-offset);overflow:hidden}
+.project-budget-fill{height:100%;border-radius:var(--radius-full);transition:width var(--transition-interactive)}
+.project-budget-fill.safe{background:var(--color-success)}
+.project-budget-fill.warn{background:var(--color-warning)}
+.project-budget-fill.danger{background:var(--color-notification)}
+.two-col-layout{display:grid;grid-template-columns:1fr 380px;gap:16px}
+.side-field{padding:14px 16px;border-top:1px solid var(--color-divider)}
+.side-field:first-child{border-top:none}
+.side-field .fl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-faint);margin-bottom:8px}
+.side-card{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface-offset);border-radius:var(--radius-md);cursor:pointer;transition:background var(--transition-interactive)}
+.side-card:hover{background:var(--color-surface-offset-2)}
+.side-card .n{font-size:12.5px;font-weight:600}
+.side-card .s{font-size:11px;color:var(--color-text-faint)}
+.checklist-row{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--color-divider)}
+.checklist-row:last-of-type{border-bottom:none}
+.checkbox-circle{width:18px;height:18px;border-radius:50%;border:1.6px solid var(--color-border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background var(--transition-interactive),border-color var(--transition-interactive)}
+.checkbox-circle.checked{background:var(--color-success);border-color:var(--color-success)}
+.checkbox-circle.checked::after{content:'';width:7px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(0,-1px)}
+.checklist-row .ct{flex:1;font-size:12.5px}
+.checklist-row.done .ct{color:var(--color-text-faint);text-decoration:line-through}
+.checklist-row .cd{font-size:11px;color:var(--color-text-faint)}
+.add-checklist{display:flex;align-items:center;gap:6px;padding:9px 4px;color:var(--color-primary);font-size:12.5px;font-weight:600}
+.desc-block{padding:16px 18px;font-size:13px;color:var(--color-text-muted);line-height:1.7}
+.mini-progress{display:flex;align-items:center;gap:8px}
+.mini-progress .bar-bg{flex:1;height:6px;border-radius:var(--radius-full);background:var(--color-surface-offset);overflow:hidden}
+.mini-progress .bar-fill{height:100%;border-radius:var(--radius-full)}
+.heatmap-row{display:flex;align-items:center;gap:14px;padding:16px 18px}
+.heatmap-day{flex:1;text-align:center}
+.heatmap-day .bar-bg{height:60px;border-radius:var(--radius-sm);background:var(--color-surface-offset);display:flex;align-items:flex-end;overflow:hidden;margin-bottom:6px}
+.heatmap-day .bar-fill{width:100%;background:var(--color-primary);border-radius:var(--radius-sm)}
+.heatmap-day .lbl{font-size:10.5px;color:var(--color-text-faint)}
+.stat-row{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--color-divider);font-size:12.5px}
+.stat-row:last-child{border-bottom:none}
+.stat-row .l{color:var(--color-text-muted)}
+.stat-row .v{font-weight:700;font-family:var(--font-display)}
+.rank-num{width:22px;height:22px;border-radius:50%;background:var(--color-surface-offset);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--color-text-muted);flex-shrink:0}
+.rank-num.gold{background:var(--color-gold-highlight);color:var(--color-gold)}
 @media (max-width:1200px){ .kpi-grid{grid-template-columns:repeat(2,1fr)} .top-row{grid-template-columns:1fr 1fr} .dash-grid{grid-template-columns:1fr} .detail-grid{grid-template-columns:1fr} .settings-grid{grid-template-columns:1fr} }
 @media (max-width:900px){
   .app-shell{grid-template-columns:0 1fr}
@@ -368,6 +405,9 @@ table{border-collapse:collapse;width:100%}
       <a class="nav-item" data-route="contacts" href="#contacts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg><span class="label">Contacts</span></a>
       <a class="nav-item" data-route="companies" href="#companies"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></svg><span class="label">Companies</span></a>
       <a class="nav-item" data-route="deals" href="#deals"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="label">Deals</span><span class="nav-badge">12</span></a>
+      <a class="nav-item" data-route="projects" href="#projects"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span class="label">Projects</span></a>
+      <a class="nav-item" data-route="team" href="#team"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="label">Team</span></a>
+      <a class="nav-item" data-route="sales-dashboard" href="#sales-dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8 13 13.7l-3-3L7 13.5"/></svg><span class="label">Sales</span></a>
       <a class="nav-item" data-route="tasks" href="#tasks"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="label">Tasks</span><span class="nav-badge">4</span></a>
       <a class="nav-item" data-route="touchpoints" href="#touchpoints"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="label">Touchpoints</span></a>
       <a class="nav-item" data-route="namecards" href="#namecards"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg><span class="label">NameCards</span></a>
@@ -430,6 +470,16 @@ const D = {
     {type:'email',title:'Sent proposal deck v3',who:'Harbour Tech',date:'2 days ago'},
     {type:'namecard',title:'Scanned card at HKTDC expo',who:'Priya Nair',date:'4 days ago'},
     {type:'workshop',title:'Security compliance workshop',who:'Nova Group',date:'1 week ago'},
+  ],
+  projects:[
+    {id:1,name:'Storage Refresh Q3',status:'in_progress',stage:'execution',priority:'p1',company:'Vantage Holdings',customer:{name:'Ada Cheung',email:'ada.cheung@vantageco.com',phone:'+852 9123 4567'},deal:{name:'Storage Refresh Q3',amt:'$482,000'},owner:'Terrence Lam',start:'2026-06-15',end:'2026-09-30',budget:482000,spent:210000,tags:['storage','netapp','infra'],desc:'Full storage array refresh for Vantage Holdings HK datacenter, migrating legacy SAN to NetApp ASA A-Series with zero-downtime cutover plan.',tasks:[{t:'Follow up on NetApp quote',done:false,prio:'p0',due:'Today'},{t:'Send revised SOW',done:true,prio:'p1',due:'Overdue'},{t:'Schedule call',done:false,prio:'p2',due:'Jul 24'}]},
+    {id:2,name:'DR Site Migration',status:'planning',stage:'kickoff',priority:'p2',company:'Harbour Tech',customer:{name:'Elaine Kwok',email:'e.kwok@harbourtech.hk',phone:'+852 9887 0021'},deal:{name:'DR Site Migration',amt:'$210,000'},owner:'Terrence Lam',start:'2026-08-01',end:'2026-12-31',budget:210000,spent:18000,tags:['dr','migration','compliance'],desc:'Disaster recovery site migration for Harbour Tech, aligning with HKMA compliance audit requirements.',tasks:[{t:'Kickoff workshop',done:true,prio:'p1',due:'Done'},{t:'Draft DR runbook',done:false,prio:'p1',due:'Aug 10'}]},
+    {id:3,name:'Firewall Upgrade Rollout',status:'in_progress',stage:'uat',priority:'p3',company:'BrightPeak Ltd',customer:{name:'Marcus Yip',email:'marcus.yip@brightpeak.io',phone:'+852 6234 8891'},deal:{name:'Firewall Upgrade',amt:'$128,000'},owner:'Ada Cheung',start:'2026-07-01',end:'2026-08-15',budget:128000,spent:96000,tags:['security','network'],desc:'Perimeter firewall upgrade and rule migration for BrightPeak retail sites.',tasks:[{t:'UAT sign-off',done:false,prio:'p2',due:'Aug 5'}]}
+  ],
+  team:[
+    {id:1,name:'Terrence Lam',role:'director',territory:'HK All',quota:1500000,achieved:675000,pipeline:978000,manager:null,email:'terrence.lam@terrencepro.hk',phone:'+852 9000 0001',closedQ:1,winRate:33},
+    {id:2,name:'Ada Cheung',role:'sales_rep',territory:'HK Island',quota:600000,achieved:96000,pipeline:340000,manager:'Terrence Lam',email:'ada.cheung@vantageco.com',phone:'+852 9123 4567',closedQ:0,winRate:20},
+    {id:3,name:'Marcus Yip',role:'sales_rep',territory:'Kowloon East',quota:600000,achieved:128000,pipeline:128000,manager:'Terrence Lam',email:'marcus.yip@brightpeak.io',phone:'+852 6234 8891',closedQ:1,winRate:45}
   ]
 };
 const ICONS = {
@@ -442,6 +492,11 @@ const ICONS = {
 function initials(n){return n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()}
 function statusBadge(s){const m={active:'badge-active',warm:'badge-warm',cold:'badge-cold'};return `<span class="badge ${m[s]||'badge-p3'}">${s.charAt(0).toUpperCase()+s.slice(1)}</span>`}
 function prioBadge(p){const m={p0:['P0 🔴','badge-p0'],p1:['P1 🟡','badge-p1'],p2:['P2 🔵','badge-p2'],p3:['P3 ⚪','badge-p3']};return `<span class="badge ${m[p][1]}">${m[p][0]}</span>`}
+function stageBadge(s){const m={kickoff:['Kickoff','var(--color-blue)','var(--color-blue-highlight)'],discovery:['Discovery','var(--color-purple)','var(--color-purple-highlight)'],execution:['Execution','var(--color-primary)','var(--color-primary-highlight)'],uat:['UAT','var(--color-warning)','var(--color-warning-highlight)'],handover:['Handover','var(--color-gold)','var(--color-gold-highlight)'],closed:['Closed','var(--color-success)','var(--color-success-highlight)']};const v=m[s]||[s,'var(--color-text-faint)','var(--color-surface-offset)'];return `<span class="badge" style="background:${v[2]};color:${v[1]}">${v[0]}</span>`}
+function roleBadge(r){const m={director:['Director','var(--color-gold)','var(--color-gold-highlight)'],sales_manager:['Manager','var(--color-blue)','var(--color-blue-highlight)'],sales_rep:['Sales Rep','var(--color-primary)','var(--color-primary-highlight)'],admin:['Admin','var(--color-text-faint)','var(--color-surface-offset)']};const v=m[r]||[r,'var(--color-text-faint)','var(--color-surface-offset)'];return `<span class="badge" style="background:${v[2]};color:${v[1]}">${v[0]}</span>`}
+function projStatusBadge(s){const m={planning:['Planning','var(--color-blue)','var(--color-blue-highlight)'],in_progress:['In Progress','var(--color-primary)','var(--color-primary-highlight)'],on_hold:['On Hold','var(--color-warning)','var(--color-warning-highlight)'],completed:['Completed','var(--color-success)','var(--color-success-highlight)'],cancelled:['Cancelled','var(--color-notification)','var(--color-notification-highlight)']};const v=m[s]||[s,'var(--color-text-faint)','var(--color-surface-offset)'];return `<span class="badge" style="background:${v[2]};color:${v[1]}">${v[0]}</span>`}
+function budgetClass(pct){return pct>=90?'danger':pct>=60?'warn':'safe'}
+function fmtMoney(n){return '$'+ (n>=1000000? (n/1000000).toFixed(2)+'M' : (n/1000).toFixed(0)+'k')}
 
 /* ===== WEEKLY GRID CONFIG (dashboard) ===== */
 const START_HOUR = 9, END_HOUR = 18;
@@ -660,6 +715,122 @@ const pages = {
     <div class="page-header"><div><h1>NameCards</h1><p>OCR-scanned business cards awaiting review.</p></div><div class="header-actions"><button class="btn-primary">+ Upload</button></div></div>
     <div class="card-grid animate-in">
       ${D.contacts.slice(0,4).map(c=>`<div class="namecard"><div class="namecard-img"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg></div><div class="namecard-body"><div class="n">${c.name}</div><div class="t">${c.company}</div><div class="namecard-field">${c.email}</div><div class="namecard-field">${c.phone}</div></div><div class="namecard-actions"><button class="btn-secondary" style="flex:1;justify-content:center">Re-scan</button><button class="btn-primary" style="flex:1;justify-content:center">Save to CRM</button></div></div>`).join('')}
+    </div>`;
+  },
+  projects(){
+    return `
+    <div class="breadcrumb"><span>Workspace</span><span class="sep">/</span><span class="current">Projects</span></div>
+    <div class="page-header"><div><h1>Projects</h1><p>${D.projects.length} active engagements.</p></div><div class="header-actions"><button class="btn-primary">+ New Project</button></div></div>
+    <div class="table-toolbar"><div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input placeholder="Search projects"></div><div class="filter-chip">Status: All</div><div class="filter-chip">Priority: All</div></div>
+    <div class="data-table animate-in"><table><thead><tr><th>Project</th><th>Status</th><th>Stage</th><th>Budget</th><th>Company</th><th>Owner</th><th>Due</th></tr></thead><tbody>
+      ${D.projects.map(p=>`<tr data-nav="project-detail" data-id="${p.id}"><td><strong>${p.name}</strong></td><td>${projStatusBadge(p.status)}</td><td>${stageBadge(p.stage)}</td><td>${fmtMoney(p.budget)}</td><td>${p.company}</td><td><div class="row-name"><div class="avatar-sm">${initials(p.owner)}</div>${p.owner}</div></td><td>${p.end}</td></tr>`).join('')}
+    </tbody></table><div class="pagination"><span>Page 1 of 1 · ${D.projects.length} projects</span></div></div>`;
+  },
+  'project-detail'(id){
+    const p = D.projects.find(x=>x.id==id) || D.projects[0];
+    const pct = Math.round(p.spent/p.budget*100);
+    return `
+    <div class="breadcrumb"><a href="#projects" style="color:var(--color-text-faint)">Projects</a><span class="sep">/</span><span class="current">${p.name}</span></div>
+    <div class="page-header"><div><h1>${p.name}</h1><div style="display:flex;gap:6px;margin-top:8px">${projStatusBadge(p.status)}${prioBadge(p.priority)}${stageBadge(p.stage)}</div></div><div class="header-actions"><button class="btn-secondary">Edit</button><button class="btn-secondary" style="color:var(--color-notification)">Delete</button></div></div>
+    <div class="two-col-layout">
+      <div class="animate-in" style="display:flex;flex-direction:column;gap:16px">
+        <div class="panel"><div class="panel-head"><h3>Description</h3></div><div class="desc-block">${p.desc}</div></div>
+        <div class="panel"><div class="panel-head"><h3>Tasks<span class="count-chip">${p.tasks.length}</span></h3></div><div style="padding:6px 18px">
+          ${p.tasks.map(t=>`<div class="checklist-row ${t.done?'done':''}"><div class="checkbox-circle ${t.done?'checked':''}"></div><div class="ct">${t.t}</div>${prioBadge(t.prio)}<div class="cd">${t.due}</div></div>`).join('')}
+          <div class="add-checklist">+ Add task</div>
+        </div></div>
+        <div class="panel"><div class="panel-head"><h3>Touchpoints</h3></div><div class="timeline" style="padding:16px 18px">${D.touchpoints.slice(0,2).map(t=>`<div class="tl-item"><div class="tl-dot">${ICONS[t.type]}</div><div class="tl-card"><div class="tl-head"><span class="t">${t.title}</span><span class="d">${t.date}</span></div><div class="tl-meta">${t.who}</div></div></div>`).join('')}</div></div>
+      </div>
+      <div class="animate-in panel" style="align-self:start">
+        <div class="side-field"><div class="fl">Company</div><div class="side-card" data-nav="company-detail"><div class="avatar-sm">${initials(p.company)}</div><div class="n">${p.company}</div></div></div>
+        <div class="side-field"><div class="fl">Customer</div><div class="side-card" data-nav="contact-detail"><div class="avatar-sm">${initials(p.customer.name)}</div><div><div class="n">${p.customer.name}</div><div class="s">${p.customer.email}</div></div></div></div>
+        <div class="side-field"><div class="fl">Related Deal</div><div class="side-card"><div><div class="n">${p.deal.name}</div><div class="s">${p.deal.amt}</div></div></div></div>
+        <div class="side-field"><div class="fl">Owner</div><div class="side-card"><div class="avatar-sm">${initials(p.owner)}</div><div class="n">${p.owner}</div></div></div>
+        <div class="side-field"><div class="fl">Timeline</div><div style="font-size:12.5px;line-height:1.8"><b>Start:</b> ${p.start}<br><b>Target end:</b> ${p.end}</div></div>
+        <div class="side-field"><div class="fl">Budget</div><div class="project-budget-bar"><div class="project-budget-fill ${budgetClass(pct)}" style="width:${pct}%"></div></div><div style="font-size:11.5px;color:var(--color-text-faint);margin-top:6px">${fmtMoney(p.spent)} / ${fmtMoney(p.budget)} (${pct}%)</div></div>
+        <div class="side-field"><div class="fl">Tags</div><div class="tag-row">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>
+      </div>
+    </div>`;
+  },
+  team(){
+    return `
+    <div class="breadcrumb"><span>Workspace</span><span class="sep">/</span><span class="current">Sales</span><span class="sep">/</span><span class="current">Team</span></div>
+    <div class="page-header"><div><h1>Team</h1><p>${D.team.length} team members.</p></div><div class="header-actions"><button class="btn-primary">+ Add Member</button></div></div>
+    <div class="table-toolbar"><div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input placeholder="Search team members"></div><div class="filter-chip">Role: All</div><div class="filter-chip">Territory: All</div></div>
+    <div class="data-table animate-in"><table><thead><tr><th>Name</th><th>Role</th><th>Territory</th><th>Quota/Q</th><th>Achieved</th><th>Pipeline</th><th>Manager</th></tr></thead><tbody>
+      ${D.team.map(m=>{const pct=Math.round(m.achieved/m.quota*100);return `<tr data-nav="team-detail" data-id="${m.id}"><td><div class="row-name"><div class="avatar-sm">${initials(m.name)}</div>${m.name}</div></td><td>${roleBadge(m.role)}</td><td>${m.territory}</td><td>${fmtMoney(m.quota)}</td><td><div class="mini-progress"><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${pct>=80?'var(--color-success)':pct>=50?'var(--color-warning)':'var(--color-notification)'}"></div></div><span class="tabular" style="font-size:11.5px">${pct}%</span></div></td><td>${fmtMoney(m.pipeline)}</td><td>${m.manager||'—'}</td></tr>`}).join('')}
+    </tbody></table><div class="pagination"><span>Page 1 of 1 · ${D.team.length} members</span></div></div>`;
+  },
+  'team-detail'(id){
+    const m = D.team.find(x=>x.id==id) || D.team[0];
+    const pct = Math.round(m.achieved/m.quota*100);
+    const memberProjects = D.projects.filter(p=>p.owner===m.name);
+    return `
+    <div class="breadcrumb"><a href="#team" style="color:var(--color-text-faint)">Team</a><span class="sep">/</span><span class="current">${m.name}</span></div>
+    <div class="page-header"><div><h1>${m.name}</h1><div style="margin-top:8px">${roleBadge(m.role)}</div></div><div class="header-actions"><button class="btn-secondary">Edit</button></div></div>
+    <div class="two-col-layout" style="grid-template-columns:340px 1fr">
+      <div class="animate-in" style="display:flex;flex-direction:column;gap:16px">
+        <div class="profile-card"><div class="profile-avatar">${initials(m.name)}</div><h3>${m.name}</h3><div class="role">${m.territory}</div>
+          <div class="profile-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>${m.email}</div>
+          <div class="profile-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12.8 12.8 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5 12.8 12.8 0 0 0 2.8.7 2 2 0 0 1 1.7 2z"/></svg>${m.phone}</div>
+          <div class="profile-field">Manager: ${m.manager||'—'}</div>
+        </div>
+        <div class="panel"><div class="panel-head"><h3>Quick Stats</h3></div>
+          <div class="stat-row"><span class="l">Closed this Q</span><span class="v">${m.closedQ}</span></div>
+          <div class="stat-row"><span class="l">Pipeline value</span><span class="v">${fmtMoney(m.pipeline)}</span></div>
+          <div class="stat-row"><span class="l">Win rate</span><span class="v">${m.winRate}%</span></div>
+        </div>
+      </div>
+      <div class="animate-in" style="display:flex;flex-direction:column;gap:16px">
+        <div class="panel"><div class="panel-head"><h3>Quota — Q3 2026</h3></div><div style="padding:16px 18px">
+          <div class="project-budget-bar" style="height:10px"><div class="project-budget-fill ${budgetClass(pct)}" style="width:${pct}%"></div></div>
+          <div style="font-size:12.5px;color:var(--color-text-muted);margin-top:8px">${fmtMoney(m.achieved)} / ${fmtMoney(m.quota)} (${pct}%)</div>
+        </div></div>
+        <div class="panel"><div class="panel-head"><h3>Projects</h3></div><div class="data-table" style="border:none;border-radius:0"><table><thead><tr><th>Project</th><th>Stage</th><th>Budget</th></tr></thead><tbody>${memberProjects.length? memberProjects.map(p=>`<tr data-nav="project-detail" data-id="${p.id}"><td>${p.name}</td><td>${stageBadge(p.stage)}</td><td>${fmtMoney(p.budget)}</td></tr>`).join('') : '<tr><td colspan="3" style="color:var(--color-text-faint)">No linked projects</td></tr>'}</tbody></table></div></div>
+      </div>
+    </div>`;
+  },
+  'sales-dashboard'(){
+    const totalPipeline = D.team.reduce((s,m)=>s+m.pipeline,0);
+    const totalQuota = D.team.reduce((s,m)=>s+m.quota,0);
+    const totalAchieved = D.team.reduce((s,m)=>s+m.achieved,0);
+    const teamPct = Math.round(totalAchieved/totalQuota*100);
+    const ranked = [...D.team].sort((a,b)=>(b.achieved/b.quota)-(a.achieved/a.quota));
+    return `
+    <div class="breadcrumb"><span>Workspace</span><span class="sep">/</span><span class="current">Sales</span><span class="sep">/</span><span class="current">Dashboard</span></div>
+    <div class="page-header"><div><h1>Sales Dashboard</h1><p>Team pipeline, quota attainment, and territory breakdown.</p></div></div>
+    <div class="top-row animate-in">
+      <div class="panel focus-card" style="text-align:left;padding:18px"><div class="task-sub">Pipeline Total</div><div class="big-num" style="margin:6px 0">${fmtMoney(totalPipeline)}</div><span class="delta">+12% from Q2</span></div>
+      <div class="panel focus-card" style="text-align:left;padding:18px"><div class="task-sub">Team Quota Achievement</div><div class="big-num" style="margin:6px 0">${teamPct}%</div><div class="project-budget-bar"><div class="project-budget-fill ${budgetClass(teamPct)}" style="width:${teamPct}%"></div></div><div style="font-size:11.5px;color:var(--color-text-faint);margin-top:6px">of ${fmtMoney(totalQuota)}</div></div>
+      <div class="panel focus-card" style="text-align:left;padding:18px"><div class="task-sub">Win Rate</div><div class="big-num" style="margin:6px 0">42%</div><span class="delta">+5pts from Q2</span></div>
+    </div>
+    <div class="dash-grid animate-in" style="grid-template-columns:1.3fr 1fr">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="panel"><div class="panel-head"><h3>Team Ranking</h3></div>
+          ${ranked.map((m,i)=>{const pct=Math.round(m.achieved/m.quota*100);return `<div class="stat-row"><div style="display:flex;align-items:center;gap:10px"><div class="rank-num ${i===0?'gold':''}">${i+1}</div><div class="avatar-sm">${initials(m.name)}</div><span>${m.name}</span></div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11.5px;color:var(--color-text-faint)">${fmtMoney(m.quota)}</span><div class="mini-progress" style="width:70px"><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${pct>=80?'var(--color-success)':pct>=50?'var(--color-warning)':'var(--color-notification)'}"></div></div></div><span class="v">${pct}%</span></div></div>`}).join('')}
+        </div>
+        <div class="panel"><div class="panel-head"><h3>Recent Activity</h3></div><div class="timeline" style="padding:16px 18px">${D.touchpoints.slice(0,3).map(t=>`<div class="tl-item"><div class="tl-dot">${ICONS[t.type]}</div><div class="tl-card"><div class="tl-head"><span class="t">${t.title}</span><span class="d">${t.date}</span></div><div class="tl-meta">${t.who}</div></div></div>`).join('')}</div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Territory Breakdown</h3></div>
+        <div class="donut-wrap">
+          <div class="donut" style="background:conic-gradient(var(--color-primary) 0 .31turn, var(--color-blue) .31turn .48turn, var(--color-gold) .48turn 1turn)"><div class="center"><b>${D.team.length}</b><span>reps</span></div></div>
+          <div class="legend-list">
+            <div class="row"><span class="sw" style="background:var(--color-primary)"></span><span class="name">HK All</span><span class="pct">52%</span></div>
+            <div class="row"><span class="sw" style="background:var(--color-blue)"></span><span class="name">HK Island</span><span class="pct">31%</span></div>
+            <div class="row"><span class="sw" style="background:var(--color-gold)"></span><span class="name">Kowloon East</span><span class="pct">17%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel animate-in" style="margin-top:16px"><div class="panel-head"><h3>Team Activity — This Week</h3></div>
+      <div class="heatmap-row">
+        <div class="heatmap-day"><div class="bar-bg"><div class="bar-fill" style="height:70%"></div></div><div class="lbl">Mon</div></div>
+        <div class="heatmap-day"><div class="bar-bg"><div class="bar-fill" style="height:30%"></div></div><div class="lbl">Tue</div></div>
+        <div class="heatmap-day"><div class="bar-bg"><div class="bar-fill" style="height:95%"></div></div><div class="lbl">Wed</div></div>
+        <div class="heatmap-day"><div class="bar-bg"><div class="bar-fill" style="height:25%"></div></div><div class="lbl">Thu</div></div>
+        <div class="heatmap-day"><div class="bar-bg"><div class="bar-fill" style="height:60%"></div></div><div class="lbl">Fri</div></div>
+      </div>
     </div>`;
   },
   settings(){
