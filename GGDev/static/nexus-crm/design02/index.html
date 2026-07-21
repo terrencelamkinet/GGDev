@@ -375,6 +375,46 @@ table{border-collapse:collapse;width:100%}
 .stat-row .v{font-weight:700;font-family:var(--font-display)}
 .rank-num{width:22px;height:22px;border-radius:50%;background:var(--color-surface-offset);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--color-text-muted);flex-shrink:0}
 .rank-num.gold{background:var(--color-gold-highlight);color:var(--color-gold)}
+.integration-group{margin-bottom:28px}
+.integration-group-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.integration-group-head .dot-lg{width:9px;height:9px;border-radius:50%}
+.integration-group-head h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-muted)}
+.integration-group-head .grp-count{font-size:11px;color:var(--color-text-faint);background:var(--color-surface-offset);padding:1px 8px;border-radius:var(--radius-full)}
+.integration-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.integration-card{background:var(--color-surface);border:1px solid var(--color-divider);border-radius:var(--radius-lg);padding:16px;transition:box-shadow var(--transition-interactive),transform var(--transition-interactive)}
+.integration-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.integration-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.integration-icon{width:38px;height:38px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.integration-card-title{flex:1;min-width:0}
+.integration-card-title .n{font-size:13.5px;font-weight:600;line-height:1.3}
+.integration-card-title .sub{font-size:11.5px;color:var(--color-text-faint);margin-top:2px}
+.conn-status{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:var(--radius-full);white-space:nowrap;flex-shrink:0}
+.conn-status .sd{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.conn-live{background:var(--color-success-highlight);color:var(--color-success)}
+.conn-live .sd{background:var(--color-success)}
+.conn-pending{background:var(--color-warning-highlight);color:var(--color-warning)}
+.conn-pending .sd{background:var(--color-warning)}
+.conn-partial{background:var(--color-gold-highlight);color:var(--color-gold)}
+.conn-partial .sd{background:var(--color-gold)}
+.conn-warn{background:var(--color-notification-highlight);color:var(--color-notification)}
+.conn-warn .sd{background:var(--color-notification)}
+.conn-planned{background:var(--color-blue-highlight);color:var(--color-blue)}
+.conn-planned .sd{background:var(--color-blue)}
+.conn-off{background:var(--color-surface-offset-2);color:var(--color-text-faint)}
+.conn-off .sd{background:var(--color-text-faint)}
+.integration-card-detail{font-size:12px;color:var(--color-text-muted);line-height:1.5;margin-bottom:12px;min-height:34px}
+.integration-card-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--color-divider)}
+.integration-card-foot .meta{font-size:11px;color:var(--color-text-faint)}
+.integration-card-foot .actions{display:flex;gap:6px}
+.mini-action-btn{font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:var(--radius-sm);color:var(--color-text-muted);background:var(--color-surface-offset);transition:background var(--transition-interactive),color var(--transition-interactive)}
+.mini-action-btn:hover{background:var(--color-surface-offset-2);color:var(--color-text)}
+.mini-action-btn.primary{background:var(--color-primary-highlight);color:var(--color-primary-active)}
+.mini-action-btn.primary:hover{background:color-mix(in oklch,var(--color-primary-highlight) 70%, var(--color-primary))}
+.mini-action-btn.danger{color:var(--color-notification)}
+.integration-summary-row{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.integration-summary-chip{flex:1;min-width:140px;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:var(--radius-lg);padding:14px 16px}
+.integration-summary-chip .num{font-family:var(--font-display);font-size:22px;font-weight:700}
+.integration-summary-chip .lbl{font-size:11.5px;color:var(--color-text-muted);margin-top:2px}
 @media (max-width:1200px){ .kpi-grid{grid-template-columns:repeat(2,1fr)} .top-row{grid-template-columns:1fr 1fr} .dash-grid{grid-template-columns:1fr} .detail-grid{grid-template-columns:1fr} .settings-grid{grid-template-columns:1fr} }
 @media (max-width:900px){
   .app-shell{grid-template-columns:0 1fr}
@@ -480,6 +520,28 @@ const D = {
     {id:1,name:'Terrence Lam',role:'director',territory:'HK All',quota:1500000,achieved:675000,pipeline:978000,manager:null,email:'terrence.lam@terrencepro.hk',phone:'+852 9000 0001',closedQ:1,winRate:33},
     {id:2,name:'Ada Cheung',role:'sales_rep',territory:'HK Island',quota:600000,achieved:96000,pipeline:340000,manager:'Terrence Lam',email:'ada.cheung@vantageco.com',phone:'+852 9123 4567',closedQ:0,winRate:20},
     {id:3,name:'Marcus Yip',role:'sales_rep',territory:'Kowloon East',quota:600000,achieved:128000,pipeline:128000,manager:'Terrence Lam',email:'marcus.yip@brightpeak.io',phone:'+852 6234 8891',closedQ:1,winRate:45}
+  ],
+  integrations:[
+    {group:'live',groupLabel:'Live & Running',name:'Notion CRM Sync',icon:'\ud83d\udcd3',status:'live',detail:'7 databases sync every 30 min \u2192 PG (646 entities)',meta:'Last sync 4 min ago'},
+    {group:'live',groupLabel:'Live & Running',name:'Google Calendar',icon:'\ud83d\udcc5',status:'live',detail:'Events fetch every 15 min, 14-type classification',meta:'Last sync 2 min ago'},
+    {group:'live',groupLabel:'Live & Running',name:'PostgreSQL Task Hub',icon:'\ud83d\udc18',status:'live',detail:'18 nexus_* tables \u2014 companies, contacts, projects, tasks, touchpoints, products, brands',meta:'Connected'},
+    {group:'live',groupLabel:'Live & Running',name:'C1 Collector',icon:'\u2699\ufe0f',status:'live',detail:'Sync + classify + entity match + task enrich',meta:'Running'},
+    {group:'live',groupLabel:'Live & Running',name:'C2 Nudge',icon:'\ud83d\udd14',status:'live',detail:'Pre-event notification (60 min + 15 min)',meta:'Running'},
+    {group:'live',groupLabel:'Live & Running',name:'C3 Meeting Brief',icon:'\ud83d\udcdd',status:'live',detail:'Refactored to no_agent, cost ~$0.02/day',meta:'Running'},
+    {group:'live',groupLabel:'Live & Running',name:'C5 Post-Logger',icon:'\ud83d\udcc4',status:'live',detail:'Post-meeting touchpoint logging',meta:'Running'},
+    {group:'live',groupLabel:'Live & Running',name:'C6 Deal Radar',icon:'\ud83d\udce1',status:'live',detail:'Deal health + overdue tasks tracking',meta:'Running'},
+    {group:'live',groupLabel:'Live & Running',name:'C7 CRM Daily',icon:'\u2600\ufe0f',status:'live',detail:'Daily CRM briefing with tasks summary',meta:'Running'},
+    {group:'live',groupLabel:'Live & Running',name:'C9 Clarification',icon:'\u2753',status:'live',detail:'Proactive data gap detection \u2192 ask user',meta:'Running'},
+    {group:'pending',groupLabel:'In Progress / Pending',name:'C4 Health Scorer',icon:'\u23f3',status:'pending',detail:'Company health scoring \u2014 first run pending',meta:'Awaiting first run'},
+    {group:'pending',groupLabel:'In Progress / Pending',name:'C8 Relationship Coach',icon:'\ud83e\udd1d',status:'pending',detail:'Weekly outreach reminders \u2014 first run pending',meta:'Awaiting first run'},
+    {group:'pending',groupLabel:'In Progress / Pending',name:'Name Card OCR Module',icon:'\ud83c\udfb4',status:'partial',detail:'Step 1-4 defined, not yet built as NEXUS module',meta:'In design'},
+    {group:'pending',groupLabel:'In Progress / Pending',name:'Entity Matcher \u2192 Tasks',icon:'\ud83d\udd17',status:'warn',detail:'crm_project_ids not populated \u2192 task enrichment has no output',meta:'Needs attention'},
+    {group:'future',groupLabel:'Future (Design01 / Design02 SaaS)',name:'SaaS Frontend (design01)',icon:'\ud83d\udda5\ufe0f',status:'planned',detail:'React+TS Vite scaffold, 9 pages, live at nexus-crm.kinet-poc.com',meta:'Live preview'},
+    {group:'future',groupLabel:'Future (Design01 / Design02 SaaS)',name:'SaaS Frontend (design02 White)',icon:'\ud83e\udea7',status:'planned',detail:'Single-file HTML with Projects + Sales modules, live at /design02/',meta:'Live preview'},
+    {group:'future',groupLabel:'Future (Design01 / Design02 SaaS)',name:'Backend API Integration',icon:'\ud83d\udd0c',status:'off',detail:'Frontend currently uses mock data const D \u2014 no API calls yet',meta:'Not started'},
+    {group:'future',groupLabel:'Future (Design01 / Design02 SaaS)',name:'Multi-Tenant Auth',icon:'\ud83d\udd10',status:'off',detail:'PG schema has nexus_tenants but no signup/login flow',meta:'Not started'},
+    {group:'future',groupLabel:'Future (Design01 / Design02 SaaS)',name:'Billing / Team Mgmt',icon:'\ud83d\udcb3',status:'off',detail:'Defined in SaaS guide but not built',meta:'Not started'},
+    {group:'future',groupLabel:'Future (Design01 / Design02 SaaS)',name:'Real-time PG Sync',icon:'\ud83d\udd04',status:'off',detail:'Frontend data not linked to PG nexus_* tables',meta:'Not started'}
   ]
 };
 const ICONS = {
@@ -833,18 +895,82 @@ const pages = {
       </div>
     </div>`;
   },
-  settings(){
-    return `
-    <div class="breadcrumb"><span>Workspace</span><span class="sep">/</span><span class="current">Settings</span></div>
-    <div class="page-header"><div><h1>Settings</h1><p>Manage your profile, team, and integrations.</p></div></div>
-    <div class="settings-grid">
-      <div class="settings-nav"><div class="item active">Profile</div><div class="item">Team</div><div class="item">Integrations</div><div class="item">Billing</div></div>
-      <div class="animate-in">
+  settings(tab){
+    tab = tab || 'profile';
+    const tabs = [['profile','Profile'],['team','Team'],['integrations','Integrations'],['billing','Billing']];
+    const nav = tabs.map(([k,l])=>`<a href="#settings/${k}" class="item ${tab===k?'active':''}">${l}</a>`).join('');
+    let body = '';
+    if(tab==='integrations'){
+      const groups = [...new Set(D.integrations.map(i=>i.group))];
+      const groupMeta = {live:['var(--color-success)'],pending:['var(--color-warning)'],future:['var(--color-blue)']};
+      const statusMeta = {
+        live:['Connected','conn-live'], pending:['Pending','conn-pending'], partial:['Partial','conn-partial'],
+        warn:['Needs Fix','conn-warn'], planned:['Planned','conn-planned'], off:['Not Started','conn-off']
+      };
+      const liveCount = D.integrations.filter(i=>i.status==='live').length;
+      const pendingCount = D.integrations.filter(i=>i.status==='pending'||i.status==='partial'||i.status==='warn').length;
+      const plannedCount = D.integrations.filter(i=>i.status==='planned'||i.status==='off').length;
+      body = `
+        <div class="integration-summary-row">
+          <div class="integration-summary-chip"><div class="num tabular">${D.integrations.length}</div><div class="lbl">Total integrations</div></div>
+          <div class="integration-summary-chip"><div class="num tabular" style="color:var(--color-success)">${liveCount}</div><div class="lbl">Live &amp; running</div></div>
+          <div class="integration-summary-chip"><div class="num tabular" style="color:var(--color-warning)">${pendingCount}</div><div class="lbl">Pending / attention</div></div>
+          <div class="integration-summary-chip"><div class="num tabular" style="color:var(--color-blue)">${plannedCount}</div><div class="lbl">Planned / not started</div></div>
+        </div>
+        ${groups.map(g=>{
+          const items = D.integrations.filter(i=>i.group===g);
+          return `<div class="integration-group">
+            <div class="integration-group-head"><span class="dot-lg" style="background:${groupMeta[g][0]}"></span><h4>${items[0].groupLabel}</h4><span class="grp-count">${items.length}</span></div>
+            <div class="integration-grid">
+              ${items.map(i=>{
+                const sm = statusMeta[i.status];
+                return `<div class="integration-card">
+                  <div class="integration-card-top">
+                    <div class="integration-icon" style="background:var(--color-surface-offset)">${i.icon}</div>
+                    <div class="integration-card-title"><div class="n">${i.name}</div><div class="sub">${i.groupLabel}</div></div>
+                    <span class="conn-status ${sm[1]}"><span class="sd"></span>${sm[0]}</span>
+                  </div>
+                  <div class="integration-card-detail">${i.detail}</div>
+                  <div class="integration-card-foot">
+                    <span class="meta">${i.meta}</span>
+                    <div class="actions">
+                      ${i.status==='live'?'<button class="mini-action-btn">Configure</button><button class="mini-action-btn danger">Disconnect</button>':''}
+                      ${i.status==='pending'||i.status==='partial'?'<button class="mini-action-btn primary">Resume</button><button class="mini-action-btn">Details</button>':''}
+                      ${i.status==='warn'?'<button class="mini-action-btn primary">Fix Now</button><button class="mini-action-btn">Logs</button>':''}
+                      ${i.status==='planned'?'<button class="mini-action-btn">View Preview</button>':''}
+                      ${i.status==='off'?'<button class="mini-action-btn primary">Connect</button>':''}
+                    </div>
+                  </div>
+                </div>`;
+              }).join('')}
+            </div>
+          </div>`;
+        }).join('')}
+        <div class="panel" style="padding:18px;margin-top:8px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+            <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Need a new integration?</div><div style="font-size:12px;color:var(--color-text-muted)">Connect via API key, OAuth, or webhook — following the same pattern as Notion / Google Calendar.</div></div>
+            <button class="btn-primary">+ Add Integration</button>
+          </div>
+        </div>`;
+    } else if(tab==='team'){
+      body = `<div class="data-table"><table><thead><tr><th>Name</th><th>Role</th><th>Email</th></tr></thead><tbody>
+        ${D.team.map(m=>`<tr><td><div class="row-name"><div class="avatar-sm">${initials(m.name)}</div>${m.name}</div></td><td>${roleBadge(m.role)}</td><td>${m.email}</td></tr>`).join('')}
+      </tbody></table></div>`;
+    } else if(tab==='billing'){
+      body = `<div class="panel" style="padding:24px"><div style="font-size:13px;font-weight:600;margin-bottom:6px">Current Plan: Pro</div><div style="font-size:12.5px;color:var(--color-text-muted);margin-bottom:16px">$49/seat/month, billed monthly. 3 seats active.</div><button class="btn-secondary">Manage Billing</button></div>`;
+    } else {
+      body = `
         <div class="form-row"><label>Full name</label><input value="Terrence Lam"></div>
         <div class="form-row"><label>Email</label><input value="terrence.lam@terrencepro.hk"></div>
         <div class="form-row"><label>Timezone</label><select><option>Asia/Hong Kong (GMT+8)</option></select></div>
-        <button class="btn-primary">Save changes</button>
-      </div>
+        <button class="btn-primary">Save changes</button>`;
+    }
+    return `
+    <div class="breadcrumb"><span>Workspace</span><span class="sep">/</span><span class="current">Settings</span>${tab!=='profile'?`<span class="sep">/</span><span class="current">${tabs.find(t=>t[0]===tab)[1]}</span>`:''}</div>
+    <div class="page-header"><div><h1>Settings</h1><p>Manage your profile, team, and integrations.</p></div></div>
+    <div class="settings-grid">
+      <div class="settings-nav">${nav}</div>
+      <div class="animate-in">${body}</div>
     </div>`;
   }
 };
