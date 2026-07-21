@@ -415,20 +415,151 @@ table{border-collapse:collapse;width:100%}
 .integration-summary-chip{flex:1;min-width:140px;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:var(--radius-lg);padding:14px 16px}
 .integration-summary-chip .num{font-family:var(--font-display);font-size:22px;font-weight:700}
 .integration-summary-chip .lbl{font-size:11.5px;color:var(--color-text-muted);margin-top:2px}
-@media (max-width:1200px){ .kpi-grid{grid-template-columns:repeat(2,1fr)} .top-row{grid-template-columns:1fr 1fr} .dash-grid{grid-template-columns:1fr} .detail-grid{grid-template-columns:1fr} .settings-grid{grid-template-columns:1fr} }
+/* ===================================================================
+   RESPONSIVE — iPhone / Android / iPad compatibility
+   Breakpoints: 1200 (small laptop) / 1024 (iPad landscape) / 768 (iPad
+   portrait / large phone) / 480 (phone) / 380 (small phone, iPhone SE)
+   =================================================================== */
+
+/* ---- Laptop / small desktop ---- */
+@media (max-width:1200px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .top-row{grid-template-columns:1fr 1fr}
+  .dash-grid{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
+  .settings-grid{grid-template-columns:1fr}
+  .two-col-layout{grid-template-columns:1fr}
+}
+
+/* ---- iPad landscape / small laptop (1024px) ---- */
+@media (max-width:1024px){
+  :root{ --sidebar-w:224px; }
+  .integration-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+}
+
+/* ---- Tablet: iPad portrait & large phones (max 900px) ----
+   Sidebar becomes an off-canvas drawer with scrim on all touch tablets. */
 @media (max-width:900px){
   .app-shell{grid-template-columns:0 1fr}
-  .sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar-w);z-index:40;transform:translateX(-100%);transition:transform var(--transition-interactive);box-shadow:var(--shadow-lg)}
+  .sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar-w);z-index:40;transform:translateX(-100%);transition:transform var(--transition-interactive);box-shadow:var(--shadow-lg);padding-top:env(safe-area-inset-top)}
   .app-shell.mobile-open .sidebar{transform:translateX(0)}
   .app-shell.collapsed{grid-template-columns:0 1fr}
   .main-content{padding:20px 16px 40px}
   .topbar-search{display:none}
-  .scrim{position:fixed;inset:0;background:oklch(0 0 0/.3);z-index:30;opacity:0;pointer-events:none;transition:opacity var(--transition-interactive)}
+  .scrim{position:fixed;inset:0;background:oklch(0 0 0/.35);z-index:30;opacity:0;pointer-events:none;transition:opacity var(--transition-interactive);-webkit-tap-highlight-color:transparent}
   .app-shell.mobile-open .scrim{opacity:1;pointer-events:auto}
   .top-row{grid-template-columns:1fr}
-  .kanban-board{grid-auto-columns:240px}
+  .kanban-board{grid-auto-columns:78vw}
   .mini-kanban{grid-template-columns:1fr;gap:14px}
   .week-grid{min-width:680px}
+  .integration-grid{grid-template-columns:1fr}
+  .integration-summary-row{gap:8px}
+  .integration-summary-chip{min-width:130px}
+}
+
+/* ---- Phone: iPhone / Android portrait (max 640px) ----
+   Data-dense tables/kanban switch to horizontal-scroll with momentum,
+   inputs use 16px to prevent iOS auto-zoom, touch targets enforced ≥44px. */
+@media (max-width:640px){
+  html{ -webkit-text-size-adjust:100%; }
+  body{ font-size:14px; }
+
+  .topbar{ padding:0 12px; gap:10px; padding-top:env(safe-area-inset-top); height:calc(var(--topbar-h) + env(safe-area-inset-top)); }
+  .topbar-toggle{ width:40px; height:40px; }
+  .icon-btn{ width:40px; height:40px; }
+  .btn-primary{ padding:0 12px; font-size:12.5px; }
+  .btn-primary svg{ flex-shrink:0 }
+  .btn-primary span, .topbar-actions .btn-primary{ }
+
+  .main-content{ padding:16px 12px 88px; } /* extra bottom pad clears thumb-reach zone */
+
+  .page-header{ flex-direction:column; align-items:stretch; gap:12px; }
+  .page-header h1{ font-size:19px; }
+  .header-actions{ width:100%; }
+  .header-actions .btn-primary, .header-actions .btn-secondary{ flex:1; justify-content:center; }
+
+  .breadcrumb{ font-size:11px; }
+
+  /* KPI + top-row + dashboard grids collapse to single column */
+  .kpi-grid{ grid-template-columns:1fr; gap:12px; }
+  .top-row{ grid-template-columns:1fr; gap:12px; }
+  .dash-grid{ gap:12px; }
+  .two-col-layout{ gap:12px; }
+  .detail-grid{ gap:12px; }
+  .settings-grid{ grid-template-columns:1fr; gap:16px; }
+  .settings-nav{ flex-direction:row; overflow-x:auto; gap:6px; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+  .settings-nav .item{ white-space:nowrap; flex-shrink:0; }
+
+  /* Tables: horizontal scroll container with sticky first column */
+  .data-table{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .data-table table{ min-width:640px; }
+  .data-table th, .data-table td{ padding:11px 12px; font-size:12.5px; }
+  .table-toolbar{ flex-direction:column; align-items:stretch; }
+  .search-box{ max-width:none; }
+  .filter-chip{ justify-content:center; }
+
+  /* Kanban board: full-width snap-scroll columns, one glance per swipe */
+  .kanban-board{ grid-auto-columns:84vw; gap:10px; scroll-snap-type:x mandatory; }
+  .kanban-col{ scroll-snap-align:start; }
+  .mini-kanban{ grid-template-columns:1fr; }
+
+  /* Weekly calendar: horizontal scroll, slightly narrower hour column */
+  .week-grid-scroll{ -webkit-overflow-scrolling:touch; }
+  .week-grid{ min-width:560px; }
+  .week-toolbar{ flex-wrap:wrap; gap:10px; }
+  .week-toolbar h2{ font-size:14.5px; }
+
+  /* Cards / profile / integration grids */
+  .card-grid{ grid-template-columns:1fr; }
+  .integration-grid{ grid-template-columns:1fr; }
+  .integration-summary-row{ flex-direction:column; }
+  .integration-summary-chip{ min-width:0; }
+  .integration-card-foot{ flex-direction:column; align-items:stretch; gap:10px; }
+  .integration-card-foot .actions{ justify-content:stretch; }
+  .integration-card-foot .actions .mini-action-btn{ flex:1; text-align:center; }
+
+  .profile-card{ padding:20px; }
+  .donut-wrap{ flex-direction:column; align-items:stretch; text-align:center; }
+  .legend-list{ align-items:center; }
+
+  /* Forms: 16px font stops iOS auto-zoom on focus; full-width fields */
+  .form-row{ max-width:none; }
+  .form-row input, .form-row select, .search-box input, .topbar-search input{ font-size:16px; }
+
+  /* Touch target enforcement */
+  .nav-item, .icon-btn, .btn-primary, .btn-secondary, .btn-ghost, .mini-action-btn, .tab, .task-row, .list-row, .checklist-row{ min-height:44px; }
+  .star, .checkbox-circle{ min-width:auto; } /* decorative, not standalone targets */
+
+  .tabs{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .tab{ white-space:nowrap; }
+
+  .heatmap-row{ flex-wrap:wrap; gap:10px 6px; }
+  .heatmap-day{ min-width:44px; }
+}
+
+/* ---- Small phone: iPhone SE / narrow Android (max 380px) ---- */
+@media (max-width:380px){
+  .page-header h1{ font-size:17px; }
+  .kpi-value, .big-num{ font-size:22px; }
+  .focus-ring{ width:72px; height:72px; }
+  .topbar-search kbd{ display:none; }
+  .kanban-board{ grid-auto-columns:88vw; }
+}
+
+/* ---- Landscape phones / short viewports: keep header compact ---- */
+@media (max-height:420px) and (orientation:landscape){
+  .topbar{ height:52px; }
+  .main-content{ padding-top:12px; }
+}
+
+/* ---- Fine pointer vs touch: disable hover-only affordances on touch ---- */
+@media (hover:none){
+  .task-row:hover, .list-row:hover, .kanban-col .deal-card:hover, .namecard:hover, .kpi-card:hover, .integration-card:hover{
+    box-shadow:none; transform:none;
+  }
+  .nav-item:active, .btn-primary:active, .btn-secondary:active, .mini-action-btn:active, .icon-btn:active{
+    transform:scale(.96); transition-duration:80ms;
+  }
 }
 </style>
 </head>
