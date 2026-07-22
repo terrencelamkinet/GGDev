@@ -63,14 +63,16 @@
 
 <!-- ================================================================
      Scripts: load order matters (v8 — cache bust)
-     1. audio.js  — Audio engine (no deps)
-     2. game.js   — Canvas engine + G state (needs Audio)
-     3. ws.js     — WebSocket bridge (needs G)
-     4. ui.js     — UI screens (needs G, Audio, WS, STAGES, ageProfile)
-     ================================================================ -->
+     |     1. audio.js  — Audio engine (no deps)
+     |     2. game.js   — Canvas engine + G state (needs Audio)
+     |     3. ws.js     — WebSocket bridge (needs G)
+     |     4. profile.js— Profile system (localStorage)
+     |     5. ui.js     — UI screens (needs G, Audio, WS, PROFILE, STAGES, ageProfile)
+     |     ================================================================ -->
 <script src="audio.js"></script>
 <script src="game.js"></script>
 <script src="ws.js"></script>
+<script src="profile.js"></script>
 <script src="ui.js"></script>
 
 <script>
@@ -111,9 +113,16 @@ canvas.addEventListener('touchstart', e=>{ e.preventDefault(); Audio.resume(); }
 /* Double-click fullscreen */
 document.addEventListener('dblclick', toggleFS);
 
-/* Start */
+/* Start — show profile selection first */
 WS.connect();
-UI.showMain();
+PROFILE.onSelect(profileId => {
+  // Load settings and show level grid
+  const settings = PROFILE.getSettings(profileId);
+  G.age = settings.age;
+  G.threshold = settings.threshold;
+  UI.showMain(profileId);
+});
+PROFILE.renderProfileScreen();
 </script>
 
 <div style="position:fixed;bottom:4px;right:8px;font-size:10px;color:rgba(255,255,255,.25);font-family:monospace;z-index:9999;pointer-events:none">Focus Bird · v02 · pure focus mode</div>
