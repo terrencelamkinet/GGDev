@@ -12,13 +12,16 @@ const WS = (() => {
   const ATT_BUF_SIZE = 5;  /* rolling average window */
 
   /* — Exposed for debug panel — */
-  const stats = { connected: false, lastAtt: '-', lastSig: '-', msgs: 0, errs: 0, log: [], lastMsgAt: 0, deviceConnected: false, hasEEG: false };
+  const stats = { connected: false, lastAtt: '-', lastSig: '-', msgs: 0, errs: 0, log: [], lastMsgAt: 0, deviceConnected: false, hasEEG: false, dataLive: false };
   let attBuf = [];  /* rolling buffer for smoothing */
 
-  function setDot(ok) {
+  function setDot(ok, isLive) {
     const d = document.getElementById('ws-dot');
-    if (d) d.classList.toggle('ok', ok);
+    if (!d) return;
+    d.classList.toggle('ok', ok && isLive);
+    d.classList.toggle('stale', ok && !isLive);
     stats.connected = ok;
+    stats.dataLive = !!isLive;
     if (typeof UI !== 'undefined') UI.updateWSLabel();
   }
 
@@ -28,7 +31,7 @@ const WS = (() => {
       socket = new WebSocket(URL);
 
       socket.onopen = () => {
-        setDot(true);
+        setDot(true, false);
         console.log('[WS] Connected to', URL);
       };
 
@@ -95,6 +98,7 @@ const WS = (() => {
             G.focus = Math.round(sum / attBuf.length);
             G.extMode = true;
             stats.lastMsgAt = Date.now();  /* only mark as fresh when real data */
+            setDot(true, true);  /* live device data detected */
           } else if (typeof d.attention === 'number') {
             /* signal bad — log but hold G.focus */
             G.extMode = false;
@@ -123,6 +127,7 @@ const WS = (() => {
     if (!G.extMode) return;
     if (Date.now() - lastMsgTime > 5000) {
       G.extMode = false;
+      setDot(true, false);  /* connected but data stale */
       console.log('[WS] Stale timeout — keyboard fallback');
     }
   }
