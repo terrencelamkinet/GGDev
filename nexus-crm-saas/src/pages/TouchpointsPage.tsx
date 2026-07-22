@@ -15,23 +15,20 @@ export default function TouchpointsPage() {
         <h1 className="text-2xl font-bold text-slate-900">Touchpoints</h1>
         <p className="text-sm text-slate-500 mt-1">Activity timeline</p>
       </div>
-      <div className="bg-white rounded-xl border border-slate-200 p-6">
-        <div className="relative pl-8 space-y-0">
-          <div className="absolute left-[15px] top-3 bottom-3 w-0.5 bg-slate-200"></div>
+      <div className="panel">
+        <div className="timeline">
           {items.map((item, i) => (
-            <div key={i} className="relative pb-6 last:pb-0">
-              <div className="absolute -left-8 top-0.5">
-                <div className={`w-[30px] h-[30px] rounded-lg ${item.color} flex items-center justify-center`}>
-                  <item.icon className="w-3.5 h-3.5" />
-                </div>
+            <div key={i} className="tl-item">
+              <div className={`list-icon ${item.color}`}>
+                <item.icon />
               </div>
-              <div className="pl-4">
-                <p className="text-sm font-medium text-slate-900">{item.title}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
-                <div className="flex items-center gap-3 mt-1 text-xs text-slate-400">
+              <div className="list-main">
+                <p className="list-title">{item.title}</p>
+                <p className="list-sub">{item.desc}</p>
+                <div className="list-meta">
                   <span>🏢 {item.company}</span>
                   {item.contact !== '—' && <span>👤 {item.contact}</span>}
-                  <span className="ml-auto">{item.time}</span>
+                  <span className="meta-time">{item.time}</span>
                 </div>
               </div>
             </div>
