@@ -1,14 +1,14 @@
 {
-  "ts": "00:01",
-  "hour": 0,
-  "minute": 1,
-  "pushed_at": "2026-07-20 03:10 HKT",
+  "ts": "23:00",
+  "hour": 23,
+  "minute": 0,
+  "pushed_at": "2026-07-22 03:10 HKT",
   "system": {
-    "cpu": 98,
-    "mem": 32,
-    "disk": 75,
-    "load": "0.80",
-    "uptime": "5 weeks, 3 days, 34 minutes",
+    "cpu": 93,
+    "mem": 43,
+    "disk": 78,
+    "load": "0.37",
+    "uptime": "5 weeks, 4 days, 23 hours, 34 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "00:01",
+      "time": "23:00",
       "text": "Dashboard data refresh"
     },
     {
@@ -39,36 +39,36 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.9.gz (568B)"
+      "text": "Cron: nightly_upgrade.log.9.gz (603B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.8.gz (603B)"
+      "text": "Cron: nightly_upgrade.log.8.gz (622B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.7.gz (622B)"
+      "text": "Cron: nightly_upgrade.log.7.gz (589B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.6.gz (589B)"
+      "text": "Cron: nightly_upgrade.log.6.gz (484B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.5.gz (484B)"
+      "text": "Cron: nightly_upgrade.log.5.gz (509B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.4.gz (509B)"
+      "text": "Cron: nightly_upgrade.log.4.gz (522B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 98,
-      "mem": 32,
-      "disk": 75,
-      "load": "0.80",
-      "uptime": "5 weeks, 3 days, 34 minutes",
+      "cpu": 93,
+      "mem": 43,
+      "disk": 78,
+      "load": "0.37",
+      "uptime": "5 weeks, 4 days, 23 hours, 34 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 4,
-      "mem": 19,
-      "disk": 76,
-      "load": "0.29",
-      "uptime": "8 weeks, 6 days, 11 hours, 35 minutes",
+      "cpu": 13,
+      "mem": 18,
+      "disk": 78,
+      "load": "0.21",
+      "uptime": "9 weeks, 1 day, 10 hours, 34 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -116,8 +116,8 @@
       "cpu": 56,
       "mem": 25,
       "disk": 70,
-      "load": "0.89",
-      "uptime": "8 weeks, 6 days, 11 hours, 35 minutes",
+      "load": "0.80",
+      "uptime": "9 weeks, 1 day, 10 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -419,15 +419,23 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 24,
-    "today_events": 1,
+    "total_events": 21,
+    "today_events": 3,
     "upcoming": 12,
     "reminders_pending": 0,
-    "last_updated": "2026-07-21T00:01:05",
+    "last_updated": "2026-07-22T23:00:43",
     "today_list": [
       {
-        "summary": "Kinetix PA update",
+        "summary": "HKMA - HCL Appscan - implementation serv",
+        "time": "11:00"
+      },
+      {
+        "summary": "Exclusive Network Product Update | Kinet",
         "time": "14:30"
+      },
+      {
+        "summary": "History Makers ",
+        "time": "18:30"
       }
     ]
   },

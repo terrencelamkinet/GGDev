@@ -88,6 +88,9 @@ const UI = (() => {
     document.getElementById('btnMenu').style.display='none';
     Audio.stopBGM();
 
+    /* stop previous device check timer */
+    if (window._devCheckTimer) clearInterval(window._devCheckTimer);
+
     document.getElementById('mc').innerHTML=`
 <div class="tabs">
   <button class="tab active" data-screen="sc-home">主頁</button>
@@ -132,8 +135,29 @@ const UI = (() => {
         <div class="panel" style="padding:10px 12px">
           <div style="font-size:11px;font-weight:900;color:#9bbfd4;margin-bottom:4px">連接狀態</div>
           <div style="font-size:clamp(12px,1.5vh,15px);font-weight:900" id="wsStatusTxt">偵測中...</div>
-          <div class="note">ws://localhost:8765</div>
+          <div class="note">裝置連線後方可遊玩</div>
         </div>
+      </div>
+    </div>
+  </div>
+  <div id="device-block" style="
+    position:fixed;inset:0;z-index:40;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(4,14,22,.92);backdrop-filter:blur(18px)">
+    <div style="text-align:center;max-width:400px;padding:20px">
+      <div style="font-size:52px;margin-bottom:14px;animation:pulse 1.5s ease-in-out infinite" id="dev-icon">🧠</div>
+      <div style="font-family:'Baloo 2';font-size:clamp(24px,4vw,36px);font-weight:900;line-height:1.2;margin-bottom:8px">等待 BrainLink 連接</div>
+      <div class="sub" style="margin-inline:auto">請確保頭盔已開機並連接<br>然後啟動 bridge：<br><code style="background:rgba(255,255,255,.1);padding:4px 10px;border-radius:6px;font-size:12px">brainlink_pro.py --port COM3 --relay</code></div>
+      <div style="margin-top:14px;font-size:14px;color:#9bbfd4;margin-bottom:20px" id="dev-status-msg">
+        等待連接中...
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn p" id="btnRetryDevice" style="font-size:15px">重新偵測</button>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:#9bbfd4">
+        WS: <span id="dev-ws" style="color:#ff6b6b">❌</span>
+        &nbsp;訊號: <span id="dev-sig">-</span>
+        &nbsp;<span id="dev-device" style="display:none"></span>
       </div>
     </div>
   </div>
@@ -292,9 +316,58 @@ const UI = (() => {
     document.getElementById('btnToggleMute').onclick=()=>{
       const m=!Audio.isMuted(); Audio.setMuted(m);
       document.getElementById('btnToggleMute').textContent=m?'開啟音效':'靜音';
-      document.getElementById('btnMute').textContent=m?'\u{1F507}':'\u266A';
+      document.getElementById('btnMute').textContent=m?'\u{1F507}':'♫';
       toast(m?'靜音':'音效開啟');
     };
+    document.getElementById('btnStart').onclick=()=>{ startGame(1,1); };
+    /* Device block — check every second */
+    function checkDevice() {
+      const s = WS.stats;
+      const devBlock = document.getElementById('device-block');
+      if (!devBlock) return;
+      /* always update status elements */
+      const el = (id) => document.getElementById(id);
+      const wsEl = el('dev-ws');
+      const sigEl = el('dev-sig');
+      const devEl = el('dev-device');
+      const msgEl = el('dev-status-msg');
+      const iconEl = el('dev-icon');
+      if (wsEl) { wsEl.textContent = s.connected ? '✅' : '❌'; wsEl.style.color = s.connected ? '#74d680' : '#ff6b6b'; }
+      if (sigEl) sigEl.textContent = s.lastSig;
+
+      /* CASE 1: WS not connected at all — show waiting, no bypass */
+      if (!s.connected) {
+        if (msgEl) msgEl.innerHTML = '🔄 連接伺服器中...<br><span style="font-size:12px;opacity:.7">請確保 bridge 正在執行</span>';
+        if (iconEl) iconEl.textContent = '🔄';
+        if (devEl) { devEl.style.display = 'none'; }
+        return;  /* keep block */
+      }
+
+      /* CASE 2: WS connected + signal >= 150 (bridge up, no device) → block, show status */
+      if (s.connected && typeof s.lastSig === 'number' && s.lastSig >= 150) {
+        if (msgEl) msgEl.innerHTML = '⚠️ 伺服器已連接<br><span style="font-size:12px;opacity:.7">請開啟腦波儀電源並確保頭盔就位</span>';
+        if (iconEl) iconEl.textContent = '🧢';
+        if (devEl) {
+          devEl.style.display = 'inline';
+          devEl.textContent = '🔴 無裝置';
+          devEl.style.color = '#ff6b6b';
+        }
+        return;  /* KEEP BLOCK — hard requirement */
+      }
+
+      /* CASE 3: WS connected + signal < 150 (= real brain data) → dismiss block */
+      if (s.connected && typeof s.lastSig === 'number' && s.lastSig >= 0 && s.lastSig < 150) {
+        devBlock.style.display = 'none';
+        if (window._devCheckTimer) clearInterval(window._devCheckTimer);
+        return;
+      }
+
+      /* CASE 4: fallback (e.g. lastSig is '-' or undefined) — keep block */
+      if (msgEl) msgEl.textContent = '⏳ 等待裝置回應...';
+    }
+    checkDevice();
+    window._devCheckTimer = setInterval(checkDevice, 1000);
+    document.getElementById('btnRetryDevice').onclick = () => { checkDevice(); WS.connect(); };
     updateWSLabel();
     startDemo();
   }

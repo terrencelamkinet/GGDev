@@ -4,3 +4,88 @@ body {
   background-color: #f8fafc;
   color: #0f172a;
 }
+
+/* ===== design02 component classes ===== */
+
+/* Panel / card container */
+.panel {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+/* Timeline — relative container with a vertical line on the left */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 2px;
+  background-color: #e2e8f0;
+}
+
+/* Timeline item */
+.tl-item {
+  position: relative;
+  padding-bottom: 1rem;
+}
+.tl-item:last-child {
+  padding-bottom: 0;
+}
+
+/* List icon — the icon circle on the left */
+.list-icon {
+  position: absolute;
+  left: -2rem;
+  top: 0.125rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.list-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* List main content area */
+.list-main {
+  padding-left: 1rem;
+}
+
+/* List title */
+.list-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+/* List subtitle */
+.list-sub {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.125rem;
+}
+
+/* Meta row inside a list item */
+.list-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.list-meta .meta-time {
+  margin-left: auto;
+}
