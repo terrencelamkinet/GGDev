@@ -11,6 +11,7 @@ const PROFILE = (() => {
   const DEFAULTS = {
     version: 2,
     lastProfile: null,
+    leaderboard: {},
     profiles: {
       guest: {
         name: 'Guest', age: 15, avatar: '👤',
@@ -174,6 +175,36 @@ const PROFILE = (() => {
     return { time: c.bestTime || c.time, focus: c.bestFocus5s || 0 };
   }
 
+  /* ── Leaderboard (Guest) ── */
+
+  function getLeaderboard(stage) {
+    if (!data.leaderboard) data.leaderboard = {};
+    if (!data.leaderboard[stage]) data.leaderboard[stage] = [];
+    return data.leaderboard[stage];
+  }
+
+  function checkLeaderboardRank(stage, focus5s) {
+    const lb = getLeaderboard(stage);
+    if (lb.length < 3) return lb.length + 1;
+    if (focus5s > lb[2].focus5s) {
+      for (let i = 0; i < 3; i++) {
+        if (focus5s > lb[i].focus5s) return i + 1;
+      }
+      return 3;
+    }
+    return 0;
+  }
+
+  function addLeaderboardEntry(stage, name, focus5s, time, level) {
+    if (!name || !name.trim()) return false;
+    const lb = getLeaderboard(stage);
+    lb.push({ name: name.trim().slice(0,8), focus5s: Math.round(focus5s), time: Math.floor(time), level, date: new Date().toISOString() });
+    lb.sort((a, b) => b.focus5s - a.focus5s || b.time - a.time);
+    if (lb.length > 3) lb.length = 3;
+    save();
+    return true;
+  }
+
   /* ── Render ── */
 
   let _onSelect = null;
@@ -291,6 +322,7 @@ const PROFILE = (() => {
   return {
     load, save, listProfiles, getProfile, getActive, getActiveId,
     select, isUnlocked, markCompleted, getSettings, resetProfile,
-    formatTime, getBestRecord, onSelect, renderProfileScreen, renderLevelGrid
+    formatTime, getBestRecord, getLeaderboard, checkLeaderboardRank, addLeaderboardEntry,
+    onSelect, renderProfileScreen, renderLevelGrid
   };
 })();
