@@ -82,7 +82,7 @@ const UI = (() => {
     });
   }
 
-  function showMain(profileId){
+  function showMain(profileId, skipDevice){
     G.running=false;
     const profile = profileId ? PROFILE.getProfile(profileId) : null;
     const p=ageProfile(G.age);
@@ -92,6 +92,7 @@ const UI = (() => {
 
     /* stop previous device check timer */
     if (window._devCheckTimer) clearInterval(window._devCheckTimer);
+    if (window._homeFocusTimer) clearInterval(window._homeFocusTimer);
 
     document.getElementById('mc').innerHTML=`
 <div class="tabs">
@@ -186,7 +187,8 @@ const UI = (() => {
   </div>
   <div id="device-block" style="
     position:fixed;inset:0;z-index:40;
-    display:flex;align-items:center;justify-content:center;
+    ${skipDevice ? 'display:none;' : 'display:flex;'}
+    align-items:center;justify-content:center;
     background:rgba(4,14,22,.92);backdrop-filter:blur(18px)">
     <button id="btnDismissDevice" style="
       position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;
@@ -446,8 +448,10 @@ const UI = (() => {
       /* CASE 4: fallback (e.g. lastSig is '-' or undefined) — keep block */
       if (msgEl) msgEl.textContent = '⏳ 等待裝置回應...';
     }
-    checkDevice();
-    window._devCheckTimer = setInterval(checkDevice, 1000);
+    if (!skipDevice) {
+      checkDevice();
+      window._devCheckTimer = setInterval(checkDevice, 1000);
+    }
     /* Live focus update for home screen */
     if (window._homeFocusTimer) clearInterval(window._homeFocusTimer);
     window._homeFocusTimer = setInterval(() => {
@@ -558,7 +562,7 @@ const UI = (() => {
     document.getElementById('btnConfirmGo').onclick = () => startGame(stage, level);
     document.getElementById('btnConfirmBack').onclick = () => {
       const pid2 = PROFILE.getActiveId();
-      UI.showMain(pid2);
+      UI.showMain(pid2, true);
     };
   }
 
