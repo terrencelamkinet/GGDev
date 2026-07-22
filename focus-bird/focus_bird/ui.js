@@ -146,6 +146,11 @@ const UI = (() => {
     position:fixed;inset:0;z-index:40;
     display:flex;align-items:center;justify-content:center;
     background:rgba(4,14,22,.92);backdrop-filter:blur(18px)">
+    <button id="btnDismissDevice" style="
+      position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);
+      color:#fff;font-size:22px;cursor:pointer;display:grid;place-items:center;
+      transition:.15s;z-index:41" title="略過，稍後再連">✕</button>
     <div style="text-align:center;max-width:400px;padding:20px">
       <div style="font-size:52px;margin-bottom:14px;animation:pulse 1.5s ease-in-out infinite" id="dev-icon">🧠</div>
       <div style="font-family:'Baloo 2';font-size:clamp(24px,4vw,36px);font-weight:900;line-height:1.2;margin-bottom:8px">等待 BrainLink 連接</div>
@@ -393,6 +398,13 @@ const UI = (() => {
     checkDevice();
     window._devCheckTimer = setInterval(checkDevice, 1000);
     document.getElementById('btnRetryDevice').onclick = () => { checkDevice(); WS.connect(); };
+    document.getElementById('btnDismissDevice').onclick = () => {
+      const devBlock = document.getElementById('device-block');
+      if (devBlock) {
+        devBlock.style.display = 'none';
+        if (window._devCheckTimer) clearInterval(window._devCheckTimer);
+      }
+    };
     updateWSLabel();
     startDemo();
   }
