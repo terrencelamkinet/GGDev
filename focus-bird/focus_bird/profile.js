@@ -97,6 +97,8 @@ const PROFILE = (() => {
   function isUnlocked(profileId, stage, level) {
     const p = data.profiles[profileId];
     if (!p) return false;
+    // Guest: all levels unlocked
+    if (profileId === 'guest') return true;
     const key = `${stage}-${level}`;
     // Stage 1 Level 1 is always unlocked
     if (stage === 1 && level === 1) return true;
