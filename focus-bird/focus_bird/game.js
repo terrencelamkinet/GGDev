@@ -558,6 +558,18 @@ function loop(){
 function endLevel(win){
   G.running=false; Audio.stopBGM();
   win ? Audio.win() : Audio.lose();
+  // Save profile progress
+  if (win && typeof PROFILE !== 'undefined') {
+    const pid = PROFILE.getActiveId();
+    if (pid) {
+      const stars = G.score >= G.goal * 1.5 ? 3 : G.score >= G.goal ? 2 : 1;
+      PROFILE.markCompleted(pid, G.stage, G.level, {
+        score: G.score,
+        time: Math.floor(G.timer),
+        stars: stars
+      });
+    }
+  }
   setTimeout(()=>{
     document.getElementById('ov').classList.remove('gone');
     document.getElementById('btnMenu').style.display='none';

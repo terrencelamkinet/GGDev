@@ -81,8 +81,9 @@ const UI = (() => {
     });
   }
 
-  function showMain(){
+  function showMain(profileId){
     G.running=false;
+    const profile = profileId ? PROFILE.getProfile(profileId) : null;
     const p=ageProfile(G.age);
     document.getElementById('ov').classList.remove('gone');
     document.getElementById('btnMenu').style.display='none';
@@ -98,6 +99,7 @@ const UI = (() => {
   <button class="tab" data-screen="sc-stages">選關</button>
   <button class="tab" data-screen="sc-settings">設定</button>
   <button class="tab" data-screen="sc-plan">訓練計劃</button>
+  <button class="tab" data-screen="sc-profile">用戶</button>
 </div>
 
 <div class="screen active" id="sc-home">
@@ -112,13 +114,13 @@ const UI = (() => {
         </div>
         <div>
           <div style="font-family:'Baloo 2';font-size:19px;font-weight:900;line-height:1">專注飛鳥 Pro</div>
-          <div class="note">腦電波控制 · 10層100關 · 1至40歲</div>
+          <div class="note">${profile ? profile.avatar+' '+profile.name+' · ' : ''}腦電波控制 · 10層100關 · 1至40歲</div>
         </div>
       </div>
       <div class="ttl">集中精神<br>收集美食！</div>
       <p class="sub">戴上BrainLink腦電波頭盔，專注時令小鳥下沉收集美食。專注度越高，下沉越深，收集越多！</p>
       <div class="acts" style="margin-top:20px">
-        <button class="btn p" style="font-size:clamp(14px,2vh,19px);padding:clamp(12px,1.8vh,17px) clamp(22px,3vw,40px)" id="btnStart">開始遊戲</button>
+        <button class="btn p" style="font-size:clamp(14px,2vh,19px);padding:clamp(12px,1.8vh,17px) clamp(22px,3vw,40px)" id="btnStart">${profile ? '繼續訓練' : '開始遊戲'}</button>
         <button class="btn s" id="btnGoStages">選擇關卡</button>
         <button class="btn w" id="btnGoPlan">訓練計劃</button>
       </div>
@@ -274,6 +276,10 @@ const UI = (() => {
     </table>
   </div>
 </div>
+
+<div class="screen" id="sc-profile">
+  <div id="profile-screen-inner" style="min-height:200px"></div>
+</div>
 `;
 
     document.querySelectorAll('.tab').forEach(t=>
@@ -281,10 +287,30 @@ const UI = (() => {
         switchTab(t.dataset.screen);
         if(t.dataset.screen==='sc-stages') buildStageGrid();
         if(t.dataset.screen==='sc-home') startDemo();
+        if(t.dataset.screen==='sc-profile') {
+          const inner = document.getElementById('profile-screen-inner');
+          if (inner) PROFILE.renderProfileScreen(inner);
+        }
       })
     );
 
-    document.getElementById('btnStart').onclick  = ()=>startGame(1,1);
+    document.getElementById('btnStart').onclick  = ()=>{
+      if (profileId) {
+        // Find first unlocked level for this profile
+        const p = PROFILE.getProfile(profileId);
+        for (let s = 1; s <= 10; s++) {
+          for (let l = 1; l <= 10; l++) {
+            if (!p.completed[`${s}-${l}`] && p.unlocked[`${s}-${l}`]) {
+              startGame(s, l);
+              return;
+            }
+          }
+        }
+        startGame(1,1); // fallback
+      } else {
+        startGame(1,1);
+      }
+    };
     document.getElementById('btnGoStages').onclick = ()=>{
       document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.screen==='sc-stages'));
       document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id==='sc-stages'));
@@ -319,7 +345,6 @@ const UI = (() => {
       document.getElementById('btnMute').textContent=m?'\u{1F507}':'♫';
       toast(m?'靜音':'音效開啟');
     };
-    document.getElementById('btnStart').onclick=()=>{ startGame(1,1); };
     /* Device block — check every second */
     function checkDevice() {
       const s = WS.stats;
@@ -394,20 +419,34 @@ const UI = (() => {
     const st   = STAGES[stage-1];
     const cont = document.getElementById('levelGrid');
     if (!cont) return;
+    const pid = PROFILE.getActiveId();
+    const p = pid ? PROFILE.getProfile(pid) : null;
     cont.innerHTML=`
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <div class="sh" style="margin:0">第${stage}層：${st.zh}</div>
-        <span class="note">選擇關卡開始遊戲</span>
+        <span class="note">${p ? '🔒 未解鎖 · ✅ 已完成' : '選擇關卡開始遊戲'}</span>
       </div>
       <div class="lgrid">
-        ${[...Array(10)].map((_,i)=>`
-          <button class="lcard" data-st="${stage}" data-lv="${i+1}">
-            <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
-              <circle cx="16" cy="16" r="13" fill="${st.sky1}" fill-opacity=".6"/>
-              <text x="16" y="21" text-anchor="middle" fill="white" font-size="11" font-weight="bold">${i+1}</text>
-            </svg>
-            <div>第${i+1}關</div>
-          </button>`).join('')}
+        ${[...Array(10)].map((_,i)=>{
+          const lv = i+1;
+          const key = `${stage}-${lv}`;
+          const unlocked = p ? PROFILE.isUnlocked(pid, stage, lv) : true;
+          const completed = p ? p.completed[key] : null;
+          const stars = completed ? completed.stars : 0;
+          const isCurrent = unlocked && !completed;
+          return unlocked
+            ? `<button class="lcard ${isCurrent ? 'l-current' : ''}" data-st="${stage}" data-lv="${lv}"
+                title="${completed ? '✅ 已完成' : '▶ 可挑戰'}">
+                <div style="font-size:clamp(20px,3vw,36px);font-weight:900">${lv}</div>
+                <div>第${lv}關</div>
+                ${stars > 0 ? `<div style="font-size:14px">${'⭐'.repeat(stars)}</div>` : ''}
+                ${completed ? `<div style="font-size:10px;color:#9bbfd4">${PROFILE.formatTime(completed.time)}</div>` : ''}
+              </button>`
+            : `<div class="lcard l-locked" style="cursor:default">
+                <div style="font-size:clamp(20px,3vw,36px)">🔒</div>
+                <div>第${lv}關</div>
+              </div>`;
+        }).join('')}
       </div>`;
     cont.querySelectorAll('.lcard').forEach(btn=>{
       btn.addEventListener('click',()=>startGame(+btn.dataset.st,+btn.dataset.lv));

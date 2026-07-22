@@ -95,3 +95,32 @@ button,input{font:inherit;color:inherit}
 @media(max-width:900px){.grid2,.grid3,.grid2b{grid-template-columns:1fr}
   .sgrid{grid-template-columns:repeat(3,1fr)}.lgrid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:520px){.sgrid,.lgrid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Profile screen (PS5-style) ── */
+.p-screen{text-align:center;padding:clamp(20px,4vh,50px) 10px}
+.p-title{font-family:'Baloo 2',cursive;font-size:clamp(28px,5vw,56px);font-weight:900;
+  background:linear-gradient(130deg,#2ec4b6,#ffd166 50%,#ff8b6b);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:clamp(20px,4vh,50px)}
+.p-cards{display:flex;justify-content:center;gap:clamp(16px,3vw,40px);flex-wrap:wrap}
+.p-card{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);
+  border-radius:24px;padding:clamp(20px,3.5vh,40px) clamp(24px,4vw,50px);
+  cursor:pointer;transition:all .25s ease;text-align:center;
+  min-width:clamp(130px,18vw,220px);animation:fadeUp .45s ease backwards}
+.p-card:hover{transform:translateY(-6px);background:rgba(255,255,255,.1);
+  border-color:rgba(79,140,255,.4);box-shadow:0 12px 40px rgba(79,140,255,.15)}
+.p-card.selected{border-color:#4f8cff;background:rgba(79,140,255,.15);
+  box-shadow:0 0 30px rgba(79,140,255,.25),0 12px 40px rgba(79,140,255,.1)}
+.p-avatar{font-size:clamp(52px,8vw,96px);margin-bottom:12px;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
+.p-name{font-weight:900;font-size:clamp(18px,2.5vw,28px);margin-bottom:4px}
+.p-age{color:#9bbfd4;font-size:clamp(13px,1.5vh,16px);margin-bottom:6px}
+.p-last{color:rgba(255,255,255,.3);font-size:clamp(11px,1.2vh,13px);margin-top:4px}
+.p-stats{color:#ffd166;font-size:clamp(12px,1.3vh,14px);margin-top:6px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Level grid with locks ── */
+.l-locked{opacity:.4;background:rgba(0,0,0,.25);border-color:rgba(255,255,255,.06)!important}
+.l-unlocked.l-current{border-color:#ffd166;background:rgba(255,209,102,.08);
+  animation:pulse 2s infinite}
+.l-unlocked:not(.l-current):hover{border-color:#4f8cff;background:rgba(79,140,255,.15)}
