@@ -12,6 +12,8 @@ const G = {
   age:8, focus:50, threshold:40, space:false, extMode:false,
   running:false, stage:1, level:1, score:0, collected:0, goal:10,
   timer:0, combo:0, comboTimer:0, bestFocus:0,
+  /* 5-second rolling average focus */
+  focusSum:0, focusCount:0, bestFocus5s:0,
 };
 
 /* ── Stage definitions ────────────────────────────────────── */
@@ -441,6 +443,7 @@ function startGame(stage,level){
   G.running=true;
   foods=[]; distractors.splice(0); distractorTimer=0; flashAlpha=0;
   foodTimer=0; gameTick=0; timerTick=0;
+  G.focusSum=0; G.focusCount=0; G.bestFocus5s=0;
   G.timer = Math.max(30, G.goal*(stage+level)*3);
   Bird.init();
   document.getElementById('ov').classList.add('gone');
@@ -459,6 +462,15 @@ function loop(){
     /* Hold steady — no keyboard fallback focus change */
   }
   G.bestFocus=Math.max(G.bestFocus,G.focus);
+  /* 5-second average focus tracking (~60fps, every 300 frames) */
+  G.focusSum += G.focus;
+  G.focusCount++;
+  if (G.focusCount >= 300) {
+    const avg = G.focusSum / G.focusCount;
+    if (avg > G.bestFocus5s) G.bestFocus5s = avg;
+    G.focusSum = 0;
+    G.focusCount = 0;
+  }
   /* Timer */
   timerTick++;
   if(timerTick>=60){timerTick=0; G.timer=Math.max(0,G.timer-1);}
@@ -566,7 +578,8 @@ function endLevel(win){
       PROFILE.markCompleted(pid, G.stage, G.level, {
         score: G.score,
         time: Math.floor(G.timer),
-        stars: stars
+        stars: stars,
+        bestFocus5s: Math.round(G.bestFocus5s)
       });
     }
   }
@@ -585,7 +598,7 @@ function endLevel(win){
         </div>
         <div style="font-size:clamp(12px,1.7vh,17px);color:#9bbfd4;margin:10px 0 8px">
           第${G.stage}層 第${G.level}關 · 得分 ${G.score} · 收集 ${G.collected}/${G.goal}<br>
-          最高專注 ${Math.round(G.bestFocus)}%${hasDist?' · 含干擾訓練':''}
+          最高專注 ${Math.round(G.bestFocus)}%${hasDist?' · 含干擾訓練':''} · 5秒平均 ${Math.round(G.bestFocus5s)}%
         </div>
         ${hasDist?`<div style="font-size:11px;color:#a78bfa;margin-bottom:14px;max-width:44ch;margin-inline:auto">
           干擾抑制訓練已啟動（第${G.stage}層）— 保持專注無視干擾是本層訓練重點

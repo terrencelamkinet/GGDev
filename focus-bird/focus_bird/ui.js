@@ -348,12 +348,12 @@ const UI = (() => {
         for (let s = 1; s <= 10; s++) {
           for (let l = 1; l <= 10; l++) {
             if (!p.completed[`${s}-${l}`] && p.unlocked[`${s}-${l}`]) {
-              startGame(s, l);
+              confirmLevel(s, l);
               return;
             }
           }
         }
-        startGame(1,1); // fallback
+        confirmLevel(1,1); // fallback
       } else {
         startGame(1,1);
       }
@@ -518,9 +518,49 @@ const UI = (() => {
         }).join('')}
       </div>`;
       cont.querySelectorAll('.lcard[data-st]').forEach(btn=>{
-        btn.addEventListener('click',()=>startGame(+btn.dataset.st,+btn.dataset.lv));
+        btn.addEventListener('click',()=>confirmLevel(+btn.dataset.st,+btn.dataset.lv));
       });
   }
 
-  return { showMain, toast, updateWSLabel, startDemo };
+  /* ── Level confirmation modal ── */
+  function confirmLevel(stage, level) {
+    const pid = PROFILE.getActiveId();
+    const record = pid ? PROFILE.getBestRecord(pid, stage, level) : null;
+    const st = STAGES[stage-1];
+    const pf = ageProfile(G.age);
+    const goal = pf.goalBase + Math.floor((stage-1)*1.4+(level-1)*0.9);
+    document.getElementById('mc').innerHTML = `
+    <div style="text-align:center;padding:clamp(30px,4vh,50px) 22px">
+      <div style="font-family:'Baloo 2';font-size:clamp(28px,4vw,48px);font-weight:900;line-height:1.1;
+        background:linear-gradient(135deg,#2ec4b6,#ffd166);
+        -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+        準備挑戰
+      </div>
+      <div style="font-size:clamp(20px,2.5vh,28px);font-weight:900;margin:10px 0 6px">
+        第${stage}層 · 第${level}關
+      </div>
+      <div class="note" style="font-size:clamp(13px,1.5vh,16px);margin-bottom:16px">
+        ${st.zh} · 🎯 收集 ${goal} 個
+      </div>
+      ${record ? `
+      <div class="panel" style="display:inline-block;text-align:left;padding:12px 20px;margin-bottom:18px">
+        <div style="font-weight:900;font-size:13px;color:#ffd166;margin-bottom:6px">🏆 最佳紀錄</div>
+        <div class="note" style="font-size:clamp(12px,1.4vh,15px)">
+          ⏱ 剩餘時間 ${PROFILE.formatTime(record.time)} &nbsp;·&nbsp; 🧠 5秒平均專注 ${record.focus}%
+        </div>
+      </div>
+      ` : `<div class="note" style="margin-bottom:18px;opacity:.5">暫無紀錄</div>`}
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn p" id="btnConfirmGo" style="font-size:clamp(15px,2vh,20px);padding:clamp(12px,1.8vh,18px) clamp(28px,4vw,48px)">🚀 開始挑戰</button>
+        <button class="btn s" id="btnConfirmBack" style="font-size:clamp(14px,1.8vh,18px)">返回</button>
+      </div>
+    </div>`;
+    document.getElementById('btnConfirmGo').onclick = () => startGame(stage, level);
+    document.getElementById('btnConfirmBack').onclick = () => {
+      const pid2 = PROFILE.getActiveId();
+      UI.showMain(pid2);
+    };
+  }
+
+  return { showMain, toast, updateWSLabel, startDemo, confirmLevel };
 })();

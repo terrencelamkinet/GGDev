@@ -100,14 +100,26 @@ const PROFILE = (() => {
     const p = data.profiles[profileId];
     if (!p) return;
     const key = `${stage}-${level}`;
-    // Don't overwrite if already completed with better score
-    if (p.completed[key] && p.completed[key].stars >= result.stars) return;
-    p.completed[key] = {
-      score: result.score || 0,
-      time: result.time || 0,
-      stars: result.stars || 1,
-      date: new Date().toISOString()
-    };
+    const prev = p.completed[key];
+    // Always update best records across attempts
+    const bestTime = prev ? Math.max(prev.bestTime, result.time) : result.time;
+    const bestFocus5s = prev ? Math.max(prev.bestFocus5s, result.bestFocus5s || 0) : (result.bestFocus5s || 0);
+    // Don't overwrite stars if worse
+    if (prev && prev.stars >= result.stars) {
+      // Keep existing stars but update best records
+      p.completed[key].bestTime = bestTime;
+      p.completed[key].bestFocus5s = bestFocus5s;
+      p.completed[key].date = new Date().toISOString();
+    } else {
+      p.completed[key] = {
+        score: result.score || 0,
+        time: result.time || 0,
+        stars: result.stars || 1,
+        bestTime: bestTime,
+        bestFocus5s: bestFocus5s,
+        date: new Date().toISOString()
+      };
+    }
     // Unlock next level
     const nextLevel = level < 10 ? `${stage}-${level + 1}` : `${stage + 1}-1`;
     // Only unlock if within bounds
@@ -141,6 +153,15 @@ const PROFILE = (() => {
     const m = Math.floor(seconds / 60);
     const s = Math.floor(seconds % 60);
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  function getBestRecord(profileId, stage, level) {
+    const p = data.profiles[profileId];
+    if (!p) return null;
+    const key = `${stage}-${level}`;
+    const c = p.completed[key];
+    if (!c) return null;
+    return { time: c.bestTime || c.time, focus: c.bestFocus5s || 0 };
   }
 
   /* ── Render ── */
@@ -245,7 +266,11 @@ const PROFILE = (() => {
       el.addEventListener('click', () => {
         const stage = parseInt(el.dataset.stage);
         const level = parseInt(el.dataset.level);
-        startGame(stage, level);
+        if (typeof UI !== 'undefined' && UI.confirmLevel) {
+          UI.confirmLevel(stage, level);
+        } else {
+          startGame(stage, level);
+        }
       });
     });
   }
@@ -256,6 +281,6 @@ const PROFILE = (() => {
   return {
     load, save, listProfiles, getProfile, getActive, getActiveId,
     select, isUnlocked, markCompleted, getSettings, resetProfile,
-    formatTime, onSelect, renderProfileScreen, renderLevelGrid
+    formatTime, getBestRecord, onSelect, renderProfileScreen, renderLevelGrid
   };
 })();
