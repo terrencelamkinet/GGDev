@@ -81,12 +81,16 @@ const UI = (() => {
     });
   }
 
-  function showMain(){
+  function showMain(profileId){
     G.running=false;
+    const profile = profileId ? PROFILE.getProfile(profileId) : null;
     const p=ageProfile(G.age);
     document.getElementById('ov').classList.remove('gone');
     document.getElementById('btnMenu').style.display='none';
     Audio.stopBGM();
+
+    /* stop previous device check timer */
+    if (window._devCheckTimer) clearInterval(window._devCheckTimer);
 
     document.getElementById('mc').innerHTML=`
 <div class="tabs">
@@ -95,6 +99,7 @@ const UI = (() => {
   <button class="tab" data-screen="sc-stages">選關</button>
   <button class="tab" data-screen="sc-settings">設定</button>
   <button class="tab" data-screen="sc-plan">訓練計劃</button>
+  <button class="tab" data-screen="sc-profile">用戶</button>
 </div>
 
 <div class="screen active" id="sc-home">
@@ -109,13 +114,13 @@ const UI = (() => {
         </div>
         <div>
           <div style="font-family:'Baloo 2';font-size:19px;font-weight:900;line-height:1">專注飛鳥 Pro</div>
-          <div class="note">腦電波控制 · 10層100關 · 1至40歲</div>
+          <div class="note">${profile ? profile.avatar+' '+profile.name+' · ' : ''}腦電波控制 · 10層100關 · 1至40歲</div>
         </div>
       </div>
       <div class="ttl">集中精神<br>收集美食！</div>
       <p class="sub">戴上BrainLink腦電波頭盔，專注時令小鳥下沉收集美食。專注度越高，下沉越深，收集越多！</p>
       <div class="acts" style="margin-top:20px">
-        <button class="btn p" style="font-size:clamp(14px,2vh,19px);padding:clamp(12px,1.8vh,17px) clamp(22px,3vw,40px)" id="btnStart">開始遊戲</button>
+        <button class="btn p" style="font-size:clamp(14px,2vh,19px);padding:clamp(12px,1.8vh,17px) clamp(22px,3vw,40px)" id="btnStart">${profile ? '繼續訓練' : '開始遊戲'}</button>
         <button class="btn s" id="btnGoStages">選擇關卡</button>
         <button class="btn w" id="btnGoPlan">訓練計劃</button>
       </div>
@@ -132,8 +137,29 @@ const UI = (() => {
         <div class="panel" style="padding:10px 12px">
           <div style="font-size:11px;font-weight:900;color:#9bbfd4;margin-bottom:4px">連接狀態</div>
           <div style="font-size:clamp(12px,1.5vh,15px);font-weight:900" id="wsStatusTxt">偵測中...</div>
-          <div class="note">ws://localhost:8765</div>
+          <div class="note">裝置連線後方可遊玩</div>
         </div>
+      </div>
+    </div>
+  </div>
+  <div id="device-block" style="
+    position:fixed;inset:0;z-index:40;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(4,14,22,.92);backdrop-filter:blur(18px)">
+    <div style="text-align:center;max-width:400px;padding:20px">
+      <div style="font-size:52px;margin-bottom:14px;animation:pulse 1.5s ease-in-out infinite" id="dev-icon">🧠</div>
+      <div style="font-family:'Baloo 2';font-size:clamp(24px,4vw,36px);font-weight:900;line-height:1.2;margin-bottom:8px">等待 BrainLink 連接</div>
+      <div class="sub" style="margin-inline:auto">請確保頭盔已開機並連接<br>然後啟動 bridge：<br><code style="background:rgba(255,255,255,.1);padding:4px 10px;border-radius:6px;font-size:12px">brainlink_pro.py --port COM3 --relay</code></div>
+      <div style="margin-top:14px;font-size:14px;color:#9bbfd4;margin-bottom:20px" id="dev-status-msg">
+        等待連接中...
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn p" id="btnRetryDevice" style="font-size:15px">重新偵測</button>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:#9bbfd4">
+        WS: <span id="dev-ws" style="color:#ff6b6b">❌</span>
+        &nbsp;訊號: <span id="dev-sig">-</span>
+        &nbsp;<span id="dev-device" style="display:none"></span>
       </div>
     </div>
   </div>
@@ -250,6 +276,10 @@ const UI = (() => {
     </table>
   </div>
 </div>
+
+<div class="screen" id="sc-profile">
+  <div id="profile-screen-inner" style="min-height:200px"></div>
+</div>
 `;
 
     document.querySelectorAll('.tab').forEach(t=>
@@ -257,10 +287,30 @@ const UI = (() => {
         switchTab(t.dataset.screen);
         if(t.dataset.screen==='sc-stages') buildStageGrid();
         if(t.dataset.screen==='sc-home') startDemo();
+        if(t.dataset.screen==='sc-profile') {
+          const inner = document.getElementById('profile-screen-inner');
+          if (inner) PROFILE.renderProfileScreen(inner);
+        }
       })
     );
 
-    document.getElementById('btnStart').onclick  = ()=>startGame(1,1);
+    document.getElementById('btnStart').onclick  = ()=>{
+      if (profileId) {
+        // Find first unlocked level for this profile
+        const p = PROFILE.getProfile(profileId);
+        for (let s = 1; s <= 10; s++) {
+          for (let l = 1; l <= 10; l++) {
+            if (!p.completed[`${s}-${l}`] && p.unlocked[`${s}-${l}`]) {
+              startGame(s, l);
+              return;
+            }
+          }
+        }
+        startGame(1,1); // fallback
+      } else {
+        startGame(1,1);
+      }
+    };
     document.getElementById('btnGoStages').onclick = ()=>{
       document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.screen==='sc-stages'));
       document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id==='sc-stages'));
@@ -292,9 +342,57 @@ const UI = (() => {
     document.getElementById('btnToggleMute').onclick=()=>{
       const m=!Audio.isMuted(); Audio.setMuted(m);
       document.getElementById('btnToggleMute').textContent=m?'開啟音效':'靜音';
-      document.getElementById('btnMute').textContent=m?'\u{1F507}':'\u266A';
+      document.getElementById('btnMute').textContent=m?'\u{1F507}':'♫';
       toast(m?'靜音':'音效開啟');
     };
+    /* Device block — check every second */
+    function checkDevice() {
+      const s = WS.stats;
+      const devBlock = document.getElementById('device-block');
+      if (!devBlock) return;
+      /* always update status elements */
+      const el = (id) => document.getElementById(id);
+      const wsEl = el('dev-ws');
+      const sigEl = el('dev-sig');
+      const devEl = el('dev-device');
+      const msgEl = el('dev-status-msg');
+      const iconEl = el('dev-icon');
+      if (wsEl) { wsEl.textContent = s.connected ? '✅' : '❌'; wsEl.style.color = s.connected ? '#74d680' : '#ff6b6b'; }
+      if (sigEl) sigEl.textContent = s.lastSig;
+
+      /* CASE 1: WS not connected at all — show waiting, no bypass */
+      if (!s.connected) {
+        if (msgEl) msgEl.innerHTML = '🔄 連接伺服器中...<br><span style="font-size:12px;opacity:.7">請確保 bridge 正在執行</span>';
+        if (iconEl) iconEl.textContent = '🔄';
+        if (devEl) { devEl.style.display = 'none'; }
+        return;  /* keep block */
+      }
+
+      /* CASE 2: WS connected + signal >= 150 (bridge up, no device) → block, show status */
+      if (s.connected && typeof s.lastSig === 'number' && s.lastSig >= 150) {
+        if (msgEl) msgEl.innerHTML = '⚠️ 伺服器已連接<br><span style="font-size:12px;opacity:.7">請開啟腦波儀電源並確保頭盔就位</span>';
+        if (iconEl) iconEl.textContent = '🧢';
+        if (devEl) {
+          devEl.style.display = 'inline';
+          devEl.textContent = '🔴 無裝置';
+          devEl.style.color = '#ff6b6b';
+        }
+        return;  /* KEEP BLOCK — hard requirement */
+      }
+
+      /* CASE 3: WS connected + signal < 150 (= real brain data) → dismiss block */
+      if (s.connected && typeof s.lastSig === 'number' && s.lastSig >= 0 && s.lastSig < 150) {
+        devBlock.style.display = 'none';
+        if (window._devCheckTimer) clearInterval(window._devCheckTimer);
+        return;
+      }
+
+      /* CASE 4: fallback (e.g. lastSig is '-' or undefined) — keep block */
+      if (msgEl) msgEl.textContent = '⏳ 等待裝置回應...';
+    }
+    checkDevice();
+    window._devCheckTimer = setInterval(checkDevice, 1000);
+    document.getElementById('btnRetryDevice').onclick = () => { checkDevice(); WS.connect(); };
     updateWSLabel();
     startDemo();
   }
@@ -321,24 +419,38 @@ const UI = (() => {
     const st   = STAGES[stage-1];
     const cont = document.getElementById('levelGrid');
     if (!cont) return;
+    const pid = PROFILE.getActiveId();
+    const p = pid ? PROFILE.getProfile(pid) : null;
     cont.innerHTML=`
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <div class="sh" style="margin:0">第${stage}層：${st.zh}</div>
-        <span class="note">選擇關卡開始遊戲</span>
+        <span class="note">${p ? '🔒 未解鎖 · ✅ 已完成' : '選擇關卡開始遊戲'}</span>
       </div>
       <div class="lgrid">
-        ${[...Array(10)].map((_,i)=>`
-          <button class="lcard" data-st="${stage}" data-lv="${i+1}">
-            <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
-              <circle cx="16" cy="16" r="13" fill="${st.sky1}" fill-opacity=".6"/>
-              <text x="16" y="21" text-anchor="middle" fill="white" font-size="11" font-weight="bold">${i+1}</text>
-            </svg>
-            <div>第${i+1}關</div>
-          </button>`).join('')}
+        ${[...Array(10)].map((_,i)=>{
+          const lv = i+1;
+          const key = `${stage}-${lv}`;
+          const unlocked = p ? PROFILE.isUnlocked(pid, stage, lv) : true;
+          const completed = p ? p.completed[key] : null;
+          const stars = completed ? completed.stars : 0;
+          const isCurrent = unlocked && !completed;
+          return unlocked
+            ? `<button class="lcard l-unlocked ${isCurrent ? 'l-current' : ''}" data-st="${stage}" data-lv="${lv}"
+                title="${completed ? '✅ 已完成' : '▶ 可挑戰'}">
+                <div style="font-size:clamp(20px,3vw,36px);font-weight:900">${lv}</div>
+                <div>第${lv}關</div>
+                ${stars > 0 ? `<div style="font-size:14px">${'⭐'.repeat(stars)}</div>` : ''}
+                ${completed ? `<div style="font-size:10px;color:#9bbfd4">${PROFILE.formatTime(completed.time)}</div>` : ''}
+              </button>`
+            : `<div class="lcard l-locked" style="cursor:default">
+                <div style="font-size:clamp(20px,3vw,36px)">🔒</div>
+                <div>第${lv}關</div>
+              </div>`;
+        }).join('')}
       </div>`;
-    cont.querySelectorAll('.lcard').forEach(btn=>{
-      btn.addEventListener('click',()=>startGame(+btn.dataset.st,+btn.dataset.lv));
-    });
+      cont.querySelectorAll('.lcard[data-st]').forEach(btn=>{
+        btn.addEventListener('click',()=>startGame(+btn.dataset.st,+btn.dataset.lv));
+      });
   }
 
   return { showMain, toast, updateWSLabel, startDemo };

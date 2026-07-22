@@ -29,9 +29,26 @@
       <span style="font-size:12px;font-weight:800;opacity:.85">專注度</span>
       <div id="fbar-track"><div id="fbar-fill"></div></div>
       <span id="fpct" style="font-size:12px;font-weight:800">50%</span>
-      <div id="ws-dot"></div><span id="ws-label" style="font-size:10px;font-weight:800;color:#ff6b6b;min-width:36px">...</span>
+      <div id="ws-dot"></div>
+      <span id="ws-status" style="font-size:16px;margin-left:4px;cursor:help" title="🟢=live 🟡=stale 🔴=no device">⚫</span>
+      <span id="device-status" style="font-size:10px;margin-left:6px;font-weight:700;color:#9bbfd4"></span>
     </div>
   </div>
+</div>
+
+<!-- Debug panel (press D to toggle) -->
+<div id="dbg" style="display:none;position:fixed;bottom:10px;left:10px;z-index:99;
+  background:rgba(0,0,0,.85);border:1px solid rgba(255,255,255,.2);border-radius:10px;
+  padding:10px 14px;font-family:monospace;font-size:12px;line-height:1.6;min-width:200px;
+  color:#9bbfd4;pointer-events:none">
+  <div style="font-weight:900;color:#ffd166;margin-bottom:4px">⚙ WS Debug</div>
+  <div>WS: <span id="dbg-ws">disconnected</span></div>
+  <div>Att: <span id="dbg-att">-</span> &nbsp; Sig: <span id="dbg-sig">-</span></div>
+  <div>extMode: <span id="dbg-ext">false</span> &nbsp; dev: <span id="dbg-dev">-</span> eeg: <span id="dbg-eeg">-</span></div>
+  <div>msgs: <span id="dbg-msgs">0</span> &nbsp; errs: <span id="dbg-errs">0</span></div>
+  <div>last: <span id="dbg-last">-</span>s ago &nbsp; sig: <span id="dbg-sigv">-</span></div>
+  <div>URL: wss://brainlink.kinet-poc.com/game</div>
+  <div style="margin-top:6px;border-top:1px solid rgba(255,255,255,.15);padding-top:6px;font-size:11px;font-family:monospace" id="dbg-log"></div>
 </div>
 
 <!-- Corner buttons -->
@@ -45,15 +62,17 @@
 </div>
 
 <!-- ================================================================
-     Scripts: load order matters
-     1. audio.js  — Audio engine (no deps)
-     2. game.js   — Canvas engine + G state (needs Audio)
-     3. ws.js     — WebSocket bridge (needs G)
-     4. ui.js     — UI screens (needs G, Audio, WS, STAGES, ageProfile)
-     ================================================================ -->
+     Scripts: load order matters (v8 — cache bust)
+     |     1. audio.js  — Audio engine (no deps)
+     |     2. game.js   — Canvas engine + G state (needs Audio)
+     |     3. ws.js     — WebSocket bridge (needs G)
+     |     4. profile.js— Profile system (localStorage)
+     |     5. ui.js     — UI screens (needs G, Audio, WS, PROFILE, STAGES, ageProfile)
+     |     ================================================================ -->
 <script src="audio.js"></script>
 <script src="game.js"></script>
 <script src="ws.js"></script>
+<script src="profile.js"></script>
 <script src="ui.js"></script>
 
 <script>
@@ -80,26 +99,32 @@ document.getElementById('btnMute').onclick = () => {
 
 /* Keyboard */
 document.addEventListener('keydown', e => {
-  if (e.key === ' ')  { e.preventDefault(); G.space=true;  G.extMode=false; Audio.resume(); }
   if (e.key === 'F11'){ e.preventDefault(); toggleFS(); }
   if (e.key === 'Escape' && G.running) { G.running=false; UI.showMain(); }
-});
-document.addEventListener('keyup', e => {
-  if (e.key === ' ')  { e.preventDefault(); G.space=false; }
+  if (e.key === 'd' || e.key === 'D') {
+    const dbg = document.getElementById('dbg');
+    if (dbg) dbg.style.display = dbg.style.display === 'none' ? 'block' : 'none';
+  }
 });
 
-/* Touch (game canvas) */
-canvas.addEventListener('touchstart', e=>{ e.preventDefault(); G.space=true;  G.extMode=false; Audio.resume(); }, {passive:false});
-canvas.addEventListener('touchend',   e=>{ e.preventDefault(); G.space=false; });
-canvas.addEventListener('mousedown',  ()=> G.space=true);
-canvas.addEventListener('mouseup',    ()=> G.space=false);
+/* Touch (game canvas) — disabled, focus-only mode */
+canvas.addEventListener('touchstart', e=>{ e.preventDefault(); Audio.resume(); }, {passive:false});
 
 /* Double-click fullscreen */
 document.addEventListener('dblclick', toggleFS);
 
-/* Start */
+/* Start — show profile selection first */
 WS.connect();
-UI.showMain();
+PROFILE.onSelect(profileId => {
+  // Load settings and show level grid
+  const settings = PROFILE.getSettings(profileId);
+  G.age = settings.age;
+  G.threshold = settings.threshold;
+  UI.showMain(profileId);
+});
+PROFILE.renderProfileScreen();
 </script>
+
+<div style="position:fixed;bottom:4px;right:8px;font-size:10px;color:rgba(255,255,255,.25);font-family:monospace;z-index:9999;pointer-events:none">Focus Bird · v02 · pure focus mode</div>
+
 </body>
-</html>

@@ -9,21 +9,16 @@ const WS = (() => {
   let retryTimer = null;
   let lastMsgTime = 0;
   const URL = 'wss://brainlink.kinet-poc.com/game';
-  const EMA = 0.18;   /* smoothing factor for focus signal */
-  const STALE_MS = 5000;  /* if no message for 5s, disable extMode */
+  const ATT_BUF_SIZE = 5;  /* rolling average window */
 
-  /* Run every frame: if data is stale, disable extMode so keyboard works */
-  function checkStale() {
-    if (G.extMode && Date.now() - lastMsgTime > STALE_MS) {
-      G.extMode = false;
-    }
-  }
+  /* — Exposed for debug panel — */
+  const stats = { connected: false, lastAtt: '-', lastSig: '-', msgs: 0, errs: 0, log: [], lastMsgAt: 0, deviceConnected: false, hasEEG: false };
+  let attBuf = [];  /* rolling buffer for smoothing */
 
   function setDot(ok) {
     const d = document.getElementById('ws-dot');
-    if (d) { d.classList.toggle('ok', ok); d.classList.toggle('connecting', !ok); }
-    const lbl = document.getElementById('ws-label');
-    if (lbl) { lbl.textContent = ok ? 'ON' : 'OFF'; lbl.style.color = ok ? '#74d680' : '#ff6b6b'; }
+    if (d) d.classList.toggle('ok', ok);
+    stats.connected = ok;
     if (typeof UI !== 'undefined') UI.updateWSLabel();
   }
 
@@ -39,53 +34,96 @@ const WS = (() => {
 
       socket.onclose = () => {
         setDot(false);
+        G.extMode = false;
+        /* show offline in HUD */
+        const dsEl = document.getElementById('device-status');
+        if (dsEl) { dsEl.innerHTML = '🔴 離線'; dsEl.style.color = '#ff6b6b'; }
         if (retryTimer) clearTimeout(retryTimer);
         retryTimer = setTimeout(connect, 3000);
+        stats.msgs = 0;
       };
 
-      socket.onerror = () => setDot(false);
+      socket.onerror = () => {
+        setDot(false);
+        G.extMode = false;
+        stats.errs++;
+      };
 
       socket.onmessage = (ev) => {
         try {
           const d = JSON.parse(ev.data);
           lastMsgTime = Date.now();
-
-          /* Signal check: only enable extMode when BrainLink is actually connected.
-             Relay server auto-sets signal=200 when data is >5s stale.
-             Bridge now sets signal=0 when receiving real EEG data. */
-          const hasSignal = typeof d.signal === 'number' && d.signal < 150;
-
-          /* Primary: use attention value */
-          if (typeof d.attention === 'number') {
-            G.focus  = G.focus * (1 - EMA) + d.attention * EMA;
-            if (hasSignal) G.extMode = true;
-          }
-
-          /* Extended EEG: TBR bonus if beta rising */
-          if (typeof d.highBeta === 'number' && typeof d.theta === 'number') {
-            const tbr = d.theta / (d.highBeta + 1);
-            if (tbr < 2.5) {
-              /* Good focus state — boost slightly */
-              G.focus = Math.min(100, G.focus + 0.5);
+          stats.msgs++;
+          stats.lastAtt = d.attention;
+          stats.lastSig = d.signal;
+          stats.deviceConnected = d.deviceConnected === true;
+          stats.hasEEG = d.hasEEG === true;
+          /* Update HUD device-status in real time */
+          const dsEl = document.getElementById('device-status');
+          if (dsEl) {
+            const sigOk = typeof d.signal === 'number' && d.signal >= 0 && d.signal < 150;
+            const attOk = typeof d.attention === 'number';
+            if (sigOk && attOk) {
+              dsEl.innerHTML = '🧠 已連接';
+              dsEl.style.color = '#74d680';
+            } else if (typeof d.signal === 'number' && d.signal >= 150) {
+              dsEl.innerHTML = '🔴 無裝置';
+              dsEl.style.color = '#ff6b6b';
+            } else {
+              dsEl.innerHTML = '⏳';
+              dsEl.style.color = '#9bbfd4';
             }
           }
 
-          /* Accept threshold/age override from bridge */
+          console.log('[WS]', JSON.stringify(d));
+          // status indicator element
+          if (!stats._statusEl) stats._statusEl = document.getElementById('ws-status');
+
+          /* Signal check — only use BrainLink data when signal < 150 */
+          const hasSignal = typeof d.signal === 'number' && d.signal < 150;
+
+          /* Keep rolling log of last 10 messages */
+          stats.log.push({ t: Date.now(), att: d.attention, sig: d.signal, hasSig: hasSignal });
+          if (stats.log.length > 10) stats.log.shift();
+
+          /* Primary: use rolling average of last N attention values */
+          if (typeof d.attention === 'number' && hasSignal) {
+            attBuf.push(d.attention);
+            if (attBuf.length > ATT_BUF_SIZE) attBuf.shift();
+            var sum = 0;
+            for (var i = 0; i < attBuf.length; i++) sum += attBuf[i];
+            G.focus = Math.round(sum / attBuf.length);
+            G.extMode = true;
+            stats.lastMsgAt = Date.now();  /* only mark as fresh when real data */
+          } else if (typeof d.attention === 'number') {
+            /* signal bad — log but hold G.focus */
+            G.extMode = false;
+          } else {
+            G.extMode = false;
+          }
+
+          /* Extended EEG: TBR bonus if beta rising (tiny boost) */
+          if (typeof d.highBeta === 'number' && typeof d.theta === 'number') {
+            const tbr = d.theta / (d.highBeta + 1);
+            if (tbr < 2.5 && hasSignal) {
+              G.focus = Math.min(100, G.focus + 1);
+            }
+          }
+
           if (typeof d.threshold === 'number') G.threshold = d.threshold;
           if (typeof d.age       === 'number') G.age       = d.age;
 
-        } catch (_) {}
+        } catch (_) { stats.errs++; }
       };
 
     } catch (_) { setDot(false); }
+  }
 
-    /* Also clear extMode on disconnect so the game falls back to manual/keyboard
-       control when WebSocket drops, rather than freezing at the last focus value. */
-    function clearExtMode() { G.extMode = false; }
-    if (!socket._eb_ext) {
-      socket.addEventListener('close', clearExtMode);
-      socket.addEventListener('error', clearExtMode);
-      socket._eb_ext = true;
+  function checkStale() {
+    if (!G.extMode) return;
+    if (Date.now() - lastMsgTime > 5000) {
+      G.extMode = false;
+      console.log('[WS] Stale timeout — keyboard fallback');
     }
   }
 
@@ -95,5 +133,5 @@ const WS = (() => {
     }
   }
 
-  return { connect, send, checkStale };
+  return { connect, send, checkStale, stats };
 })();

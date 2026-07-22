@@ -71,17 +71,17 @@ const Bird = {
   x:0, y:0, vy:0, wingPhase:0,
   init(){ this.x=W*.22; this.y=H*.42; this.vy=0; },
   update(focusLvl, prof){
-    const thr=G.threshold, grace=prof.grace;
+    const thr=G.threshold;
     this.wingPhase += .1;
-    if(G.space || (G.extMode && focusLvl >= thr)){
+    if(G.extMode && focusLvl >= thr){
       const pull = G.extMode
-        ? prof.grav * ((focusLvl-thr)/(100-thr+grace)+.3)
-        : prof.grav * 3.0;
+        ? prof.grav * 0.9  /* fixed descent when focused — half speed */
+        : prof.grav * 1.5;  /* space descent — half speed */
       this.vy += pull;
     } else {
-      this.vy -= prof.grav*2.5;
+      this.vy -= G.extMode ? prof.grav * 0.6 : prof.grav * 1.25;  /* fixed rise when not focused — half speed */
     }
-    this.vy = Math.max(-4.5, Math.min(6, this.vy));
+    this.vy = Math.max(-2.25, Math.min(3, this.vy));
     // GROUND_Y same as food level: H-54-FOOD_SIZE
     const GROUND_Y = H-54-FOOD_SIZE;
     if(this.y > GROUND_Y){
@@ -452,12 +452,11 @@ function startGame(stage,level){
 function loop(){
   if(!G.running) return;
   gameTick++;
-  const prof=ageProfile(G.age);
-  /* Check if BrainLink data is stale — fallback to keyboard if so */
   if (typeof WS !== 'undefined') WS.checkStale();
-  /* Focus update */
+  const prof=ageProfile(G.age);
+  /* Focus update — only from WS data (extMode), never self-decay */
   if(!G.extMode){
-    G.focus=G.focus*(1-prof.response)+(G.space?72:34)*prof.response;
+    /* Hold steady — no keyboard fallback focus change */
   }
   G.bestFocus=Math.max(G.bestFocus,G.focus);
   /* Timer */
@@ -468,16 +467,17 @@ function loop(){
   drawBG(G.stage);
   /* Distractors (before food/bird so they appear behind) */
   updateDistractors(G.stage, G.level);
-  /* Food */
+  /* Food — random spacing, further apart */
   const st=STAGES[G.stage-1];
-  const spawnInt=Math.max(55,120-G.stage*7-(G.level-1)*3)*60/prof.spd/60;
+  const baseInt=Math.max(100,220-G.stage*10-(G.level-1)*5);
+  const spawnInt=(baseInt+Math.floor(Math.random()*baseInt*1.2))*60/prof.spd/60;  /* 0-120% random */
   foodTimer++;
   if(foodTimer>spawnInt){
     foodTimer=0;
     const kind=st.items[Math.floor(Math.random()*st.items.length)];
     foods.push({
       x:W+FOOD_SIZE, y:H-54-FOOD_SIZE, kind,
-      vx:-(1.2+prof.spd*.6+(G.level-1)*.04+G.stage*.04)
+      vx:-(1.0+prof.spd*.5+(G.level-1)*.03+G.stage*.03+Math.random()*0.8)
     });
   }
   const nearFoodY=foods.length?foods.reduce((a,b)=>Math.abs(b.x-Bird.x)<Math.abs(a.x-Bird.x)?b:a).y:null;
@@ -507,6 +507,49 @@ function loop(){
   updateParticles();
   updateFloats();
   updateHUD();
+  /* update debug panel */
+  const dbg = document.getElementById('dbg');
+  if (dbg && dbg.style.display !== 'none') {
+    const s = WS.stats;
+    document.getElementById('dbg-ws').textContent = s.connected ? '✅ connected' : '❌ disconnected';
+    document.getElementById('dbg-ws').style.color = s.connected ? '#74d680' : '#ff6b6b';
+    document.getElementById('dbg-att').textContent = s.lastAtt;
+    document.getElementById('dbg-sig').textContent = s.lastSig;
+    document.getElementById('dbg-ext').textContent = G.extMode;
+    document.getElementById('dbg-dev').textContent = s.deviceConnected ? '✅' : '❌';
+    document.getElementById('dbg-eeg').textContent = s.hasEEG ? '✅' : '❌';
+    document.getElementById('dbg-msgs').textContent = s.msgs;
+    document.getElementById('dbg-errs').textContent = s.errs;
+    /* seconds since last data */
+    var since = s.lastMsgAt ? Math.round((Date.now() - s.lastMsgAt)/1000) : '-';
+    document.getElementById('dbg-last').textContent = since;
+    document.getElementById('dbg-sigv').textContent = s.lastSig;
+    /* auto-update ws-status every frame: 🟢=live data 🟡=2-5s stale 🔴=5s+ */
+    var wsStatus = document.getElementById('ws-status');
+    if (wsStatus) {
+      if (s.lastMsgAt && Date.now() - s.lastMsgAt < 2000) wsStatus.textContent = '🟢';
+      else if (s.lastMsgAt && Date.now() - s.lastMsgAt < 5000) wsStatus.textContent = '🟡';
+      else wsStatus.textContent = '🔴';
+    }
+    /* device status label — always visible */
+    var devLabel = document.getElementById('device-status');
+    if (devLabel) {
+      if (!s.connected) devLabel.textContent = '离线';
+      else if (!s.deviceConnected) devLabel.textContent = 'bridge已連 裝置離線';
+      else if (!s.hasEEG) devLabel.textContent = '等待EEG...';
+      else devLabel.textContent = '🧠 BrainLink';
+      devLabel.style.color = (s.deviceConnected && s.hasEEG) ? '#74d680' : '#ff6b6b';
+    }
+    /* show last 5 values as log */
+    const logEl = document.getElementById('dbg-log');
+    if (logEl) {
+      logEl.innerHTML = s.log.slice(-5).map(function(entry) {
+        var t = new Date(entry.t);
+        var time = t.getHours().toString().padStart(2,'0') + ':' + t.getMinutes().toString().padStart(2,'0') + ':' + t.getSeconds().toString().padStart(2,'0');
+        return '<div>' + time + ' att=' + entry.att + ' sig=' + entry.sig + ' ' + (entry.hasSig ? '✅' : '❌') + '</div>';
+      }).join('');
+    }
+  }
   if(G.collected>=G.goal){endLevel(true);return;}
   if(G.timer<=0){endLevel(false);return;}
   requestAnimationFrame(loop);
@@ -515,6 +558,18 @@ function loop(){
 function endLevel(win){
   G.running=false; Audio.stopBGM();
   win ? Audio.win() : Audio.lose();
+  // Save profile progress
+  if (win && typeof PROFILE !== 'undefined') {
+    const pid = PROFILE.getActiveId();
+    if (pid) {
+      const stars = G.score >= G.goal * 1.5 ? 3 : G.score >= G.goal ? 2 : 1;
+      PROFILE.markCompleted(pid, G.stage, G.level, {
+        score: G.score,
+        time: Math.floor(G.timer),
+        stars: stars
+      });
+    }
+  }
   setTimeout(()=>{
     document.getElementById('ov').classList.remove('gone');
     document.getElementById('btnMenu').style.display='none';
@@ -538,7 +593,7 @@ function endLevel(win){
         <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
           ${win&&ns<=10?`<button class="btn p" onclick="startGame(${ns},${nl})">下一關</button>`:''}
           <button class="btn s" onclick="startGame(${G.stage},${G.level})">重新挑戰</button>
-          <button class="btn w" onclick="UI.showMain()">主選單</button>
+          <button class="btn w" onclick="UI.showMain(PROFILE.getActiveId())">主選單</button>
         </div>
       </div>`;
   }, 380);
