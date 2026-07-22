@@ -76,8 +76,9 @@ const UI = (() => {
       if(!el)return;
       const d=document.getElementById('ws-dot');
       const ok=d&&d.classList.contains('ok');
-      el.textContent=ok?'已連接':'未連接';
-      el.style.color=ok?'***REMOVED***74d680':'***REMOVED***ff6b6b';
+      const stale=d&&d.classList.contains('stale');
+      el.textContent=ok?'🧠 已連接':stale?'⏳ 連線無數據':'未連接';
+      el.style.color=ok?'***REMOVED***74d680':stale?'***REMOVED***ffd166':'***REMOVED***ff6b6b';
     });
   }
 
@@ -362,7 +363,16 @@ const UI = (() => {
       const devEl = el('dev-device');
       const msgEl = el('dev-status-msg');
       const iconEl = el('dev-icon');
-      if (wsEl) { wsEl.textContent = s.connected ? '✅' : '❌'; wsEl.style.color = s.connected ? '***REMOVED***74d680' : '***REMOVED***ff6b6b'; }
+      if (wsEl) {
+        const dot = document.getElementById('ws-dot');
+        if (dot && dot.classList.contains('ok')) {
+          wsEl.textContent = '✅'; wsEl.style.color = '***REMOVED***74d680';
+        } else if (dot && dot.classList.contains('stale')) {
+          wsEl.textContent = '🟡'; wsEl.style.color = '***REMOVED***ffd166';
+        } else {
+          wsEl.textContent = '❌'; wsEl.style.color = '***REMOVED***ff6b6b';
+        }
+      }
       if (sigEl) sigEl.textContent = s.lastSig;
 
       /* CASE 1: WS not connected at all — show waiting, no bypass */
