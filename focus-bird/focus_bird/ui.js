@@ -125,6 +125,47 @@ const UI = (() => {
         <button class="btn s" id="btnGoStages">選擇關卡</button>
         <button class="btn w" id="btnGoPlan">訓練計劃</button>
       </div>
+      ${profile ? (()=>{
+        /* find current level */
+        let cs = 1, cl = 1;
+        for (let s = 1; s <= 10; s++) {
+          for (let l = 1; l <= 10; l++) {
+            if (!profile.completed[`${s}-${l}`] && profile.unlocked[`${s}-${l}`]) { cs=s; cl=l; break; }
+          }
+          if (cs !== 1 || cl !== 1) break;
+        }
+        const st = STAGES[cs-1];
+        /* compute goal */
+        const pf = ageProfile(G.age);
+        const goal = pf.goalBase + Math.floor((cs-1)*1.4+(cl-1)*0.9);
+        const theme = cs >= 9 ? '混合' : st.zh;
+        const totalStars = Object.values(profile.completed).reduce((a,c) => a + (c.stars||0), 0);
+        const totalDone = Object.keys(profile.completed).length;
+        return `
+      <div class="panel" style="margin-top:16px;padding:14px 16px;border-left:4px solid #ffd166">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="font-size:28px">${profile.avatar}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:900;font-size:clamp(13px,1.6vh,17px)">${profile.name}</div>
+            <div class="note">⭐ ${totalStars}星 · ${totalDone}關完成 · ⏱ ${PROFILE.formatTime(profile.playTime)}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:900;font-size:clamp(18px,2.2vh,24px);color:#ffd166">第${cs}層</div>
+            <div class="note">第${cl}關</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)">
+          <div class="grid2b" style="gap:8px;font-size:clamp(11px,1.3vh,14px)">
+            <div>
+              <span style="color:#9bbfd4">🎯 收集</span> <strong style="color:#ffd166">${goal}個 ${theme}</strong>
+            </div>
+            <div>
+              <span style="color:#9bbfd4">🧠 專注</span> <strong id="homeFocusVal">${Math.round(G.focus)}%</strong>
+              <span style="color:#9bbfd4"> · 門檻 ${G.threshold}</span>
+            </div>
+          </div>
+        </div>
+      </div>`; })() : ''}
     </div>
     <div>
       <canvas id="demoC" width="420" height="280"
@@ -407,6 +448,12 @@ const UI = (() => {
     }
     checkDevice();
     window._devCheckTimer = setInterval(checkDevice, 1000);
+    /* Live focus update for home screen */
+    if (window._homeFocusTimer) clearInterval(window._homeFocusTimer);
+    window._homeFocusTimer = setInterval(() => {
+      const el = document.getElementById('homeFocusVal');
+      if (el) el.textContent = Math.round(G.focus) + '%';
+    }, 500);
     document.getElementById('btnRetryDevice').onclick = () => { checkDevice(); WS.connect(); };
     document.getElementById('btnDismissDevice').onclick = () => {
       const devBlock = document.getElementById('device-block');
