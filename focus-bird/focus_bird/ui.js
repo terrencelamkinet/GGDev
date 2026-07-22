@@ -499,6 +499,20 @@ const UI = (() => {
         <div class="sh" style="margin:0">第${stage}層：${st.zh}</div>
         <span class="note">${p ? '🔒 未解鎖 · ✅ 已完成' : '選擇關卡開始遊戲'}</span>
       </div>
+      ${pid === 'guest' ? (()=>{
+        const lb = PROFILE.getLeaderboard(stage);
+        return lb.length ? `
+      <div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,209,102,.08);border-radius:12px;border:1px solid rgba(255,209,102,.15)">
+        <div style="font-weight:900;font-size:13px;color:#ffd166;margin-bottom:6px">🏆 排行榜 Top 3</div>
+        ${lb.map((e,i) => `
+        <div style="display:flex;align-items:center;gap:8px;font-size:clamp(11px,1.3vh,14px);padding:3px 0">
+          <span style="font-weight:900;width:24px;text-align:center;color:${i===0?'#ffd166':i===1?'#c0c0c0':'#cd7f32'}">#${i+1}</span>
+          <span style="flex:1;font-weight:700">${e.name}</span>
+          <span style="color:#9bbfd4">🧠 ${e.focus5s}%</span>
+          <span style="color:#9bbfd4">⏱ ${PROFILE.formatTime(e.time)}</span>
+          <span style="color:#9bbfd4;font-size:10px">Lv.${e.level}</span>
+        </div>`).join('')}
+      </div>` : ''; })() : ''}
       <div class="lgrid">
         ${[...Array(10)].map((_,i)=>{
           const lv = i+1;

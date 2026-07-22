@@ -583,6 +583,14 @@ function endLevel(win){
       });
     }
   }
+  // Check leaderboard (Guest mode)
+  let _lbRank = 0;
+  if (win && typeof PROFILE !== 'undefined') {
+    const _pid = PROFILE.getActiveId();
+    if (_pid === 'guest') {
+      _lbRank = PROFILE.checkLeaderboardRank(G.stage, G.bestFocus5s);
+    }
+  }
   setTimeout(()=>{
     document.getElementById('ov').classList.remove('gone');
     document.getElementById('btnMenu').style.display='none';
@@ -609,5 +617,20 @@ function endLevel(win){
           <button class="btn w" onclick="UI.showMain(PROFILE.getActiveId())">主選單</button>
         </div>
       </div>`;
+    if (_lbRank > 0) {
+      const lbDiv = document.createElement('div');
+      lbDiv.style.cssText = 'margin-top:14px;padding:14px 16px;background:rgba(255,209,102,.12);border-radius:14px;border:1px solid rgba(255,209,102,.25);max-width:380px;margin-inline:auto';
+      lbDiv.innerHTML = `<div style="font-weight:900;font-size:15px;color:#ffd166;margin-bottom:8px">🏆 第${_lbRank}名！排行榜登錄</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="lbNameInput" maxlength="8" placeholder="輸入稱號（最多8字）" style="
+            flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+            border-radius:8px;padding:8px 12px;font-size:14px;color:#fff;outline:none;min-width:0">
+          <button class="btn p" style="font-size:13px;padding:8px 14px;white-space:nowrap"
+            onclick="var n=document.getElementById('lbNameInput');if(n&&n.value.trim()){PROFILE.addLeaderboardEntry(${G.stage},n.value,${Math.round(G.bestFocus5s)},${Math.floor(G.timer)},${G.level});this.textContent='✓';this.disabled=true;n.disabled=true}">
+            儲存
+          </button>
+        </div>`;
+      document.getElementById('mc').appendChild(lbDiv);
+    }
   }, 380);
 }
