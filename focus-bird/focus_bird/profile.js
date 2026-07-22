@@ -12,6 +12,13 @@ const PROFILE = (() => {
     version: 2,
     lastProfile: null,
     profiles: {
+      guest: {
+        name: 'Guest', age: 15, avatar: '👤',
+        unlocked: {'1-1': true},
+        completed: {},
+        playTime: 0,
+        lastPlayed: null
+      },
       shema: {
         name: 'Shema', age: 4, avatar: '🌸',
         unlocked: {'1-1': true},
@@ -139,6 +146,7 @@ const PROFILE = (() => {
     const ageSettings = {
       4:  {age: 4, threshold: 30, grav: 1.0},
       7:  {age: 7, threshold: 40, grav: 0.9},
+      15: {age: 15, threshold: 50, grav: 0.75},
     };
     return ageSettings[p.age] || {age: p.age, threshold: 40, grav: 0.9};
   }
