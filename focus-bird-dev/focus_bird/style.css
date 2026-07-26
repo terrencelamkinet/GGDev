@@ -23,11 +23,11 @@ button,input{font:inherit;color:inherit}
   border-radius:999px;transition:width .1s linear}
 ***REMOVED***ws-dot{width:10px;height:10px;border-radius:50%;background:***REMOVED***ff6b6b;flex-shrink:0}
 ***REMOVED***ws-dot.ok{background:***REMOVED***74d680;box-shadow:0 0 8px rgba(116,214,128,.9)}
-.ibtn{position:fixed;z-index:20;width:44px;height:44px;border-radius:50%;
+.ibtn{position:fixed;z-index:40;width:44px;height:44px;border-radius:50%;
   border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.4);color:***REMOVED***fff;
   backdrop-filter:blur(8px);cursor:pointer;font-size:18px;display:grid;place-items:center;transition:.15s}
 .ibtn:hover{background:rgba(46,196,182,.38);transform:scale(1.08)}
-***REMOVED***btnMenu{top:12px;left:12px}***REMOVED***btnMute{top:12px;right:60px}***REMOVED***btnFS{top:12px;right:12px}
+***REMOVED***btnMenu{top:12px;left:12px}***REMOVED***btnMute{top:12px;right:60px}***REMOVED***btnGauge{top:12px;right:116px}***REMOVED***btnFS{top:12px;right:12px}
 ***REMOVED***ov{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;
   padding:16px;background:rgba(4,14,22,.88);backdrop-filter:blur(14px)}
 ***REMOVED***ov.gone{display:none}
