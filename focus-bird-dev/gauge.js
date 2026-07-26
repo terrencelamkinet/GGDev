@@ -7,7 +7,7 @@
 const Gauge = (() => {
   let rafId = null, sparkData = [], lastLog = 0;
   let highStreak = 0, records = [], paused = false;
-  let currentValue = 50, demo = false, demoFocus = 50;
+  let currentValue = 0, demo = false, demoFocus = 50;
 
   const COL = {
     track:   'rgba(255,255,255,.12)',
