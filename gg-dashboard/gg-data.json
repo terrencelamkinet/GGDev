@@ -1,0 +1,425 @@
+{
+  "ts": "22:30",
+  "hour": 22,
+  "minute": 30,
+  "pushed_at": "2026-07-26 22:30 HKT",
+  "system": {
+    "cpu": 100,
+    "mem": 45,
+    "disk": 80,
+    "load": "0.31",
+    "uptime": "3 days, 12 hours, 56 minutes",
+    "services": {
+      "gg-reminder": "green",
+      "disk": "green",
+      "memory": "green"
+    }
+  },
+  "reminders": {
+    "total": 20,
+    "overdue": 0,
+    "errors": 0
+  },
+  "activity": [
+    {
+      "time": "22:30",
+      "text": "Dashboard data refresh"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: webapp_commands.log.1 (25B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: webapp_commands.log (0B)"
+    },
+    {
+      "time": "09:14",
+      "text": "Cron: token_health_report.md (342B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log.9.gz (509B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log.8.gz (522B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log.7.gz (468B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log.6.gz (502B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log.5.gz (851B)"
+    },
+    {
+      "time": "00:00",
+      "text": "Cron: nightly_upgrade.log.4.gz (690B)"
+    }
+  ],
+  "agents": {
+    "main": {
+      "cpu": 100,
+      "mem": 45,
+      "disk": 80,
+      "load": "0.31",
+      "uptime": "3 days, 12 hours, 56 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": true
+      },
+      "online": true,
+      "cron_jobs": 12
+    },
+    "work": {
+      "cpu": 43,
+      "mem": 27,
+      "disk": 79,
+      "load": "0.49",
+      "uptime": "9 weeks, 5 days, 10 hours, 4 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181"
+    },
+    "person": {
+      "cpu": 54,
+      "mem": 33,
+      "disk": 69,
+      "load": "0.33",
+      "uptime": "9 weeks, 5 days, 10 hours, 4 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182"
+    }
+  },
+  "badge_color": "green",
+  "badge_text": "● All OK",
+  "costs": {
+    "summary": {
+      "7d": {
+        "cost": 5.1816,
+        "sessions": 273,
+        "tokens": 32021482
+      },
+      "30d": {
+        "cost": 16.4291,
+        "sessions": 1275,
+        "tokens": 106873295
+      },
+      "month": {
+        "cost": 16.4291,
+        "sessions": 1275,
+        "tokens": 106873295
+      }
+    },
+    "daily": [
+      {
+        "date": "2026-07-26",
+        "cost": 0.1562,
+        "sessions": 13,
+        "tokens": 1044838
+      },
+      {
+        "date": "2026-07-25",
+        "cost": 0.6376,
+        "sessions": 35,
+        "tokens": 3917406
+      },
+      {
+        "date": "2026-07-24",
+        "cost": 0.6005,
+        "sessions": 33,
+        "tokens": 3755569
+      },
+      {
+        "date": "2026-07-23",
+        "cost": 1.3701,
+        "sessions": 62,
+        "tokens": 8334755
+      },
+      {
+        "date": "2026-07-22",
+        "cost": 1.2292,
+        "sessions": 60,
+        "tokens": 7720966
+      },
+      {
+        "date": "2026-07-21",
+        "cost": 0.9819,
+        "sessions": 52,
+        "tokens": 5877493
+      },
+      {
+        "date": "2026-07-20",
+        "cost": 0.2061,
+        "sessions": 18,
+        "tokens": 1370455
+      },
+      {
+        "date": "2026-07-19",
+        "cost": 0.1199,
+        "sessions": 11,
+        "tokens": 820436
+      },
+      {
+        "date": "2026-07-18",
+        "cost": 0.1017,
+        "sessions": 10,
+        "tokens": 678233
+      },
+      {
+        "date": "2026-07-17",
+        "cost": 0.316,
+        "sessions": 20,
+        "tokens": 1977475
+      },
+      {
+        "date": "2026-07-16",
+        "cost": 0.0934,
+        "sessions": 13,
+        "tokens": 656918
+      },
+      {
+        "date": "2026-07-15",
+        "cost": 0.6396,
+        "sessions": 30,
+        "tokens": 3873306
+      },
+      {
+        "date": "2026-07-14",
+        "cost": 0.3473,
+        "sessions": 24,
+        "tokens": 2276685
+      },
+      {
+        "date": "2026-07-13",
+        "cost": 0.1503,
+        "sessions": 16,
+        "tokens": 1021400
+      },
+      {
+        "date": "2026-07-12",
+        "cost": 0.0668,
+        "sessions": 9,
+        "tokens": 468412
+      },
+      {
+        "date": "2026-07-11",
+        "cost": 0.3171,
+        "sessions": 19,
+        "tokens": 2029285
+      },
+      {
+        "date": "2026-07-10",
+        "cost": 0.4254,
+        "sessions": 33,
+        "tokens": 2810457
+      },
+      {
+        "date": "2026-07-09",
+        "cost": 0.9036,
+        "sessions": 41,
+        "tokens": 5519375
+      },
+      {
+        "date": "2026-07-08",
+        "cost": 0.427,
+        "sessions": 43,
+        "tokens": 2916634
+      },
+      {
+        "date": "2026-07-07",
+        "cost": 0.6832,
+        "sessions": 51,
+        "tokens": 4497996
+      },
+      {
+        "date": "2026-07-06",
+        "cost": 0.5231,
+        "sessions": 45,
+        "tokens": 3525543
+      },
+      {
+        "date": "2026-07-05",
+        "cost": 0.2215,
+        "sessions": 29,
+        "tokens": 1571030
+      },
+      {
+        "date": "2026-07-04",
+        "cost": 0.2644,
+        "sessions": 31,
+        "tokens": 1839241
+      },
+      {
+        "date": "2026-07-03",
+        "cost": 0.7444,
+        "sessions": 55,
+        "tokens": 4842644
+      },
+      {
+        "date": "2026-07-02",
+        "cost": 0.3082,
+        "sessions": 37,
+        "tokens": 2169597
+      },
+      {
+        "date": "2026-07-01",
+        "cost": 1.3468,
+        "sessions": 149,
+        "tokens": 9271202
+      },
+      {
+        "date": "2026-06-30",
+        "cost": 0.6982,
+        "sessions": 53,
+        "tokens": 4568186
+      },
+      {
+        "date": "2026-06-29",
+        "cost": 0.9143,
+        "sessions": 102,
+        "tokens": 6331108
+      },
+      {
+        "date": "2026-06-28",
+        "cost": 0.6381,
+        "sessions": 86,
+        "tokens": 4524461
+      },
+      {
+        "date": "2026-06-27",
+        "cost": 0.9973,
+        "sessions": 95,
+        "tokens": 6662189
+      }
+    ],
+    "monthly": [],
+    "providers_30d": {
+      "deepseek": {
+        "sessions": 1275,
+        "tokens": 106873295,
+        "cost": 16.4291
+      }
+    },
+    "balance": null
+  },
+  "tasks": {
+    "items": [
+      {
+        "page_id": "370783d5-93e7-8186-ad88-fd0b4158bce3",
+        "title": "📋 CISP: 正式考試 (25 Jul 待確認)",
+        "status": "In progress",
+        "due": "2026-07-25",
+        "priority": "Q1 · Do Now",
+        "area": "📚 Learning",
+        "notes": "100 MCQs 繁體中文。帶2B鉛筆+黑原子筆+擦膠+身份證。25 Jul待CNITSEC確認",
+        "last_edited": "2026-07-21T01:38:00.000Z"
+      },
+      {
+        "page_id": "3a8783d5-93e7-81d2-b63d-e9fdaf9e8612",
+        "title": "📚 返還圖書 (5本)",
+        "status": "Not started",
+        "due": "2026-08-08",
+        "priority": "",
+        "area": "🏠 Personal",
+        "notes": "要還5本書去圖書館",
+        "last_edited": "2026-07-25T06:12:00.000Z"
+      },
+      {
+        "page_id": "389783d5-93e7-8168-92b9-c4ab681cb3d5",
+        "title": "HPE Exam - ATP/ASE Storage/ASE Compute (Sep)",
+        "status": "Pending",
+        "due": "2026-09-01",
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "8月再提我準備",
+        "last_edited": "2026-07-06T02:46:00.000Z"
+      },
+      {
+        "page_id": "395783d5-93e7-80f3-af14-f996c054749d",
+        "title": "Follow up HPE Account ",
+        "status": "In progress",
+        "due": null,
+        "priority": "Q1 · Do Now",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-07-21T01:39:00.000Z"
+      },
+      {
+        "page_id": "39d783d5-93e7-80e2-b930-ee73241ee74e",
+        "title": "Book 睇醫生",
+        "status": "Not started",
+        "due": null,
+        "priority": "Q1 · Do Now",
+        "area": "🏠 Personal",
+        "notes": "",
+        "last_edited": "2026-07-23T05:35:00.000Z"
+      },
+      {
+        "page_id": "389783d5-93e7-811b-8dcd-df0a8d4bf80c",
+        "title": "Prepare H3C exam",
+        "status": "Pending",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "📚 Learning",
+        "notes": "",
+        "last_edited": "2026-07-07T02:18:00.000Z"
+      },
+      {
+        "page_id": "36d783d5-93e7-8076-bafe-c26cf74e0d98",
+        "title": "Schedule Rankez Meeting",
+        "status": "Pending",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "Rankez is a PAM (Privileged Access Management) product. Meeting to discuss/schedule.",
+        "last_edited": "2026-07-06T03:24:00.000Z"
+      },
+      {
+        "page_id": "395783d5-93e7-80aa-9130-fca057d974a7",
+        "title": "i2backup / Scutech for Manulife",
+        "status": "Pending",
+        "due": null,
+        "priority": "Q2 · Schedule",
+        "area": "💼 Work",
+        "notes": "",
+        "last_edited": "2026-07-16T02:55:00.000Z"
+      }
+    ],
+    "total": 8,
+    "overdue": 1,
+    "due_today": 0,
+    "in_progress": 2,
+    "q1_count": 3,
+    "source": "task_sync_state"
+  },
+  "schedule": {
+    "total_events": 22,
+    "today_events": 1,
+    "upcoming": 9,
+    "reminders_pending": 0,
+    "last_updated": "2026-07-26T22:30:15",
+    "today_list": [
+      {
+        "summary": "為兒童、青年、家庭禱告",
+        "time": "15:00"
+      }
+    ]
+  },
+  "update_source": "hermes_update_data.py"
+}
