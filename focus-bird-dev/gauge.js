@@ -31,7 +31,8 @@ const Gauge = (() => {
   function drawGauge(c, W, H) {
     const cx = W/2, cy = H*0.42;
     const R = Math.min(W, H) * 0.35;
-    const val = Math.round(G.focus);
+    const hasData = sparkData.length > 0;
+    const val = hasData ? Math.round(G.focus) : 0;
     const angle = (val/100)*Math.PI*1.5 + Math.PI*0.25;
     const sA = Math.PI*0.25, eA = Math.PI*1.75;
 
@@ -66,7 +67,7 @@ const Gauge = (() => {
     c.textAlign='center'; c.textBaseline='middle';
     c.fillStyle=focusColor(val); c.fillText(`${val}`, cx, cy-8);
     c.font='bold 14px sans-serif'; c.fillStyle=COL.muted;
-    c.fillText('專注度 %', cx, cy+R*.18);
+    c.fillText(hasData ? '專注度 %' : '等待腦電波數據...', cx, cy+R*.18);
 
     /* Needle */
     c.save(); c.translate(cx,cy); c.rotate(angle);
@@ -82,9 +83,13 @@ const Gauge = (() => {
 
   function drawSparkline(c, W, H) {
     const x0=W*.1, y0=H*.72, w=W*.8, h=H*.16, data=sparkData;
+    if (data.length<1) {
+      c.font='14px sans-serif'; c.textAlign='center'; c.fillStyle=COL.muted;
+      c.fillText('等待數據中...', W/2, y0+h/2); return;
+    }
     if (data.length<2) {
       c.font='14px sans-serif'; c.textAlign='center'; c.fillStyle=COL.muted;
-      c.fillText('數據收集中…', W/2, y0+h/2); return;
+      c.fillText('收集數據中...', W/2, y0+h/2); return;
     }
     c.fillStyle='rgba(0,0,0,.25)';
     c.beginPath(); c.roundRect(x0-8, y0-8, w+16, h+16, 12); c.fill();
@@ -111,7 +116,9 @@ const Gauge = (() => {
   }
 
   function drawStreak(c, W, H) {
+    const hasData = sparkData.length > 0;
     const x0=W*.1, y0=H*.91;
+    if (!hasData) return;
     c.font=`900 ${Math.round(H*.035)}px 'Baloo 2',sans-serif`; c.textAlign='center';
     const sc=highStreak>=5?COL.blue:COL.amber; c.fillStyle=sc;
     c.fillText(`🔥 連續高專注 ${highStreak}秒`, W/2, y0);
