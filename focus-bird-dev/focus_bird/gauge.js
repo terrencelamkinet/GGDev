@@ -9,9 +9,7 @@ const Gauge = (() => {
   let rafId = null, sparkData = [], lastLog = 0;
   let highStreak = 0, records = [], paused = false;
   let currentValue = 0, displayValue = 0, demo = false, demoFocus = 50;
-
-  /* Tween state — each transition runs FULL duration, retargets mid-flight */
-  let twFrom = 0, twTo = 0, twStart = 0;
+  let twTo = 0;
 
   const COL = {
     track:   'rgba(255,255,255,.12)',
@@ -37,21 +35,17 @@ const Gauge = (() => {
     return G.running || (document.getElementById('ws-dot')?.classList.contains('ok'));
   }
 
-  /* Ease out cubic — smooth deceleration like iOS */
-  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-
-  /* Every frame: advance displayValue via 1-second tween */
+  /* Every frame: advance displayValue toward target at constant speed (+1 per frame) */
   function tickTween() {
     if (currentValue !== twTo) {
-      /* Retarget: continue from current display position */
-      twFrom = displayValue;
       twTo = currentValue;
-      twStart = performance.now();
     }
-    if (twTo === twFrom) { displayValue = twTo; return; }
-    const elapsed = performance.now() - twStart;
-    const t = Math.min(1, elapsed / 1000);
-    displayValue = twFrom + (twTo - twFrom) * easeOut(t);
+    if (Math.round(displayValue) === twTo) { displayValue = twTo; return; }
+    const diff = twTo - displayValue;
+    /* Constant speed: ~72 units/sec = 1.2/frame. 40→70 = ~400ms, 20→80 = ~830ms */
+    const step = Math.min(1.2, Math.abs(diff));
+    if (Math.abs(diff) <= step) { displayValue = twTo; }
+    else { displayValue += Math.sign(diff) * step; }
   }
 
   function drawGauge(c, W, H) {
@@ -193,7 +187,7 @@ const Gauge = (() => {
     stopSampling(); lastLog=Date.now();
     sparkData.length = 0; lastSparkPush = 0;
     demoFocus = 50; demo = false;
-    twFrom = 0; twTo = 0; twStart = 0; displayValue = 0;
+    twTo = 0; displayValue = 0;
     sampleTimer=setInterval(()=>{
       const live = isLive();
       if (!live) {
