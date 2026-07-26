@@ -1,35 +1,38 @@
 /* ================================================================
    TOP FOCUS METER — topmeter.js
-   置頂中央的專注力感應大儀錶（數字式）+ 即時報表 + 高/低專注記錄
-   - 每秒接收數據（可能大幅跳動），畫面用自適應緩動（tween）保持流暢
-   - 跳動幅度大時，追趕速度會自動加快，幅度小時則平滑漸進
-   - 只用 1 個 requestAnimationFrame + 2 個 <canvas>，不建立額外 DOM 節省記憶體
+   置頂中央的專注力感應大儀錶（數字式）+ 即時報表 + 4組記錄面板
+   - 高專注 (5秒均值 ≥85%)
+   - 低專注 (5秒均值 ≤30%)
+   - 急升 (單次升幅 >50)
+   - 急跌 (單次跌幅 >50)
    ================================================================ */
 'use strict';
 
 const TopMeter = (() => {
   /* ---------- state ---------- */
   let rafId = null;
-  let rawValue = 50;         // 最新接收到的原始數值（可能跳動大）
-  let dispValue = 50;        // 畫面顯示數值（經過緩動）
-  let velocity = 0;          // 目前追趕速度（用於自適應動畫）
-  let history = [];          // 最近的 {t, v} 取樣，供 5 秒平均計算 + 報表繪圖
-  const HIST_MAX = 100;      // 最多保留取樣點數（節省記憶體）
-  const WINDOW_MS = 5000;    // 5 秒視窗
+  let rawValue = 50;
+  let dispValue = 50;
+  let velocity = 0;
+  let history = [];
+  const HIST_MAX = 100;
+  const WINDOW_MS = 5000;
 
-  let highArmed = true, lowArmed = true;      // 去抖動：避免同一段持續時間內重複記錄
+  let highArmed = true, lowArmed = true;
   let highLogs = [], lowLogs = [];
   const LOG_MAX = 30;
 
   let demo = false, demoSeed = 50;
   let sampleTimer = null;
   let lastTick = 0;
+  let prevValue = 50;
+  let surgeLogs = [], plungeLogs = [];
 
   const els = {};
 
   function fmtTime(d) {
     const p = n => String(n).padStart(2, '0');
-    return `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}.${String(d.getMilliseconds()).padStart(3,'0').slice(0,2)}`;
+    return p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()) + '.' + String(d.getMilliseconds()).padStart(3,'0').slice(0,2);
   }
 
   function focusColor(v) {
@@ -39,53 +42,76 @@ const TopMeter = (() => {
     return '#ff6b6b';
   }
 
-  /* ---------- 建立 DOM（掛在 body，不依賴既有網站結構） ---------- */
+  /* ---------- 建立 DOM ---------- */
   function mount() {
     if (document.getElementById('tfm-wrap')) return;
 
     const wrap = document.createElement('div');
     wrap.id = 'tfm-wrap';
-    wrap.innerHTML = `
-      <div id="tfm-gauge-box"><canvas id="tfm-gauge-canvas"></canvas></div>
-      <div id="tfm-report-box"><canvas id="tfm-report-canvas"></canvas></div>
-      <div id="tfm-log-row">
-        <div class="tfm-log-panel">
-          <div class="tfm-log-title high">🔵 高專注 (5秒均值 ≥85%)</div>
-          <div id="tfm-high-list"><div class="tfm-log-empty">尚未記錄</div></div>
-        </div>
-        <div class="tfm-log-panel">
-          <div class="tfm-log-title low">🔴 低專注 (5秒均值 ≤30%)</div>
-          <div id="tfm-low-list"><div class="tfm-log-empty">尚未記錄</div></div>
-        </div>
-      </div>
-    `;
+    wrap.innerHTML =
+      '<div id="tfm-gauge-box"><canvas id="tfm-gauge-canvas"></canvas></div>' +
+      '<div id="tfm-report-box"><canvas id="tfm-report-canvas"></canvas></div>' +
+      '<div id="tfm-log-row">' +
+        '<div class="tfm-log-panel">' +
+          '<div class="tfm-log-title high">&#x1f535; 高專注 (5秒均值 &#x2265;85%)</div>' +
+          '<div id="tfm-high-list"><div class="tfm-log-empty">尚未記錄</div></div>' +
+        '</div>' +
+        '<div class="tfm-log-panel">' +
+          '<div class="tfm-log-title low">&#x1f534; 低專注 (5秒均值 &#x2264;30%)</div>' +
+          '<div id="tfm-low-list"><div class="tfm-log-empty">尚未記錄</div></div>' +
+        '</div>' +
+        '<div class="tfm-log-panel">' +
+          '<div class="tfm-log-title surge">&#x1f4c8; 急升 (單次升 &gt;50)</div>' +
+          '<div id="tfm-surge-list"><div class="tfm-log-empty">尚未記錄</div></div>' +
+        '</div>' +
+        '<div class="tfm-log-panel">' +
+          '<div class="tfm-log-title plunge">&#x1f4c9; 急跌 (單次跌 &gt;50)</div>' +
+          '<div id="tfm-plunge-list"><div class="tfm-log-empty">尚未記錄</div></div>' +
+        '</div>' +
+      '</div>';
     document.body.appendChild(wrap);
 
     els.gaugeCanvas  = document.getElementById('tfm-gauge-canvas');
     els.reportCanvas = document.getElementById('tfm-report-canvas');
     els.highList = document.getElementById('tfm-high-list');
     els.lowList  = document.getElementById('tfm-low-list');
+    els.surgeList = document.getElementById('tfm-surge-list');
+    els.plungeList = document.getElementById('tfm-plunge-list');
   }
 
-  /* ---------- 取得最新原始數值（連接真實網站數據來源） ---------- */
+  /* ---------- 數據來源 ---------- */
   function readSource() {
-    // 優先使用網站既有的全域狀態 G.focus（focus_bird 引擎本身的專注度）
     if (typeof window.G !== 'undefined' && typeof window.G.focus === 'number') {
       demo = false;
       return window.G.focus;
     }
-    // 沒有數據來源時，回退 demo 隨機漫步（僅用於獨立測試 / Demo 頁）
     demo = true;
     demoSeed += (Math.random() - 0.5) * 26;
-    if (Math.random() < 0.06) demoSeed += (Math.random() - 0.5) * 45; // 模擬大幅跳動
+    if (Math.random() < 0.06) demoSeed += (Math.random() - 0.5) * 45;
     demoSeed = Math.max(1, Math.min(99, demoSeed));
     return demoSeed;
   }
 
-  /* ---------- 每秒取樣一次（符合來源更新頻率），記錄歷史 + 判斷 5 秒門檻 ---------- */
+  /* ---------- 每秒取樣 ---------- */
   function sampleTick() {
     const v = readSource();
     rawValue = v;
+
+    /* Rapid change tracking */
+    const delta = v - prevValue;
+    if (delta > 50) {
+      const entry = { time: fmtTime(new Date()), val: Math.round(v), delta: Math.round(delta) };
+      surgeLogs.push(entry);
+      if (surgeLogs.length > LOG_MAX) surgeLogs.shift();
+      renderLog(surgeLogs, els.surgeList, 'surge');
+    } else if (delta < -50) {
+      const entry = { time: fmtTime(new Date()), val: Math.round(v), delta: Math.round(delta) };
+      plungeLogs.push(entry);
+      if (plungeLogs.length > LOG_MAX) plungeLogs.shift();
+      renderLog(plungeLogs, els.plungeList, 'plunge');
+    }
+    prevValue = v;
+
     const now = Date.now();
     history.push({ t: now, v });
     if (history.length > HIST_MAX) history.shift();
@@ -99,7 +125,6 @@ const TopMeter = (() => {
   }
 
   function evaluateWindows(now) {
-    // 只有累積滿 5 秒數據後才判斷，避免開機瞬間誤判
     const spanOk = history.length > 0 && (now - history[0].t) >= WINDOW_MS - 200;
     if (!spanOk) return;
     const avg = windowAvg(now);
@@ -134,27 +159,30 @@ const TopMeter = (() => {
   function renderLog(arr, listEl, kind) {
     if (!listEl) return;
     if (arr.length === 0) { listEl.innerHTML = '<div class="tfm-log-empty">尚未記錄</div>'; return; }
-    const color = kind === 'high' ? '#4f8cff' : '#ff6b6b';
+    const color = kind === 'high' || kind === 'surge' ? '#4f8cff' : '#ff6b6b';
     let html = '';
     arr.slice().reverse().forEach(e => {
-      html += `<div class="tfm-log-item"><span>${e.time}</span><span style="color:${color};font-weight:800">${e.avg}%</span></div>`;
+      if (kind === 'surge' || kind === 'plunge') {
+        html += '<div class="tfm-log-item"><span>' + e.time + '</span><span style="color:' + color + ';font-weight:800">' + e.val + '% (' + (e.delta > 0 ? '+' : '') + e.delta + ')</span></div>';
+      } else {
+        html += '<div class="tfm-log-item"><span>' + e.time + '</span><span style="color:' + color + ';font-weight:800">' + e.avg + '%</span></div>';
+      }
     });
     listEl.innerHTML = html;
   }
 
-  /* ---------- 自適應緩動：跳動幅度大就追趕快，幅度小就慢慢跟上，保持畫面流暢 ---------- */
+  /* ---------- 自適應緩動 ---------- */
   function tween(dt) {
     const diff = rawValue - dispValue;
     const absDiff = Math.abs(diff);
     if (absDiff < 0.05) { dispValue = rawValue; return; }
-    // 追趕速度：基礎速度 + 差距比例（差距越大追得越快），並限制單幀最大步幅避免跳格
-    const speedPerSec = 6 + absDiff * 4.2;          // 差距大 → 速度顯著提升
+    const speedPerSec = 6 + absDiff * 4.2;
     let step = Math.sign(diff) * speedPerSec * dt;
-    if (Math.abs(step) > absDiff) step = diff;       // 避免過衝
+    if (Math.abs(step) > absDiff) step = diff;
     dispValue += step;
   }
 
-  /* ---------- 繪製上方大儀錶（數字式） ---------- */
+  /* ---------- 大儀錶 ---------- */
   function drawGauge() {
     const canvas = els.gaugeCanvas;
     const box = document.getElementById('tfm-gauge-box');
@@ -172,7 +200,6 @@ const TopMeter = (() => {
     const val = dispValue;
     const col = focusColor(val);
 
-    // 背景弧形軌道
     const cx = w / 2, cy = h * 0.56, R = Math.min(w, h * 1.8) * 0.34;
     const sA = Math.PI * 0.78, eA = Math.PI * 2.22;
     c.beginPath(); c.arc(cx, cy, R, sA, eA);
@@ -186,29 +213,27 @@ const TopMeter = (() => {
     c.strokeStyle = grad; c.lineWidth = 10; c.lineCap = 'round';
     c.save(); c.shadowColor = col; c.shadowBlur = 16; c.stroke(); c.restore();
 
-    // 電子數字（大）
     c.textAlign = 'center'; c.textBaseline = 'middle';
-    c.font = `900 ${Math.round(h * 0.34)}px 'Baloo 2',monospace,sans-serif`;
+    c.font = '900 ' + Math.round(h * 0.34) + "px 'Baloo 2',monospace,sans-serif";
     c.fillStyle = col;
     c.save(); c.shadowColor = col; c.shadowBlur = 18;
-    c.fillText(`${Math.round(val)}`, cx, cy - h * 0.02);
+    c.fillText(Math.round(val) + '', cx, cy - h * 0.02);
     c.restore();
 
-    c.font = `800 ${Math.round(h * 0.075)}px sans-serif`;
+    c.font = '800 ' + Math.round(h * 0.075) + 'px sans-serif';
     c.fillStyle = '#9bbfd4';
     c.fillText(demo ? 'DEMO 專注感應中...' : '即時專注感應', cx, cy + h * 0.30);
 
-    // 增減幅度標示（與上一取樣比較）
     const prev = history.length > 1 ? history[history.length - 2].v : rawValue;
     const delta = Math.round(rawValue - prev);
     if (delta !== 0 && history.length > 1) {
-      c.font = `800 ${Math.round(h * 0.08)}px sans-serif`;
+      c.font = '800 ' + Math.round(h * 0.08) + 'px sans-serif';
       c.fillStyle = delta > 0 ? '#74d680' : '#ff6b6b';
-      c.fillText(`${delta > 0 ? '▲+' : '▼'}${Math.abs(delta)}`, cx, cy - h * 0.36);
+      c.fillText((delta > 0 ? '\u25b2+' : '\u25bc') + Math.abs(delta), cx, cy - h * 0.36);
     }
   }
 
-  /* ---------- 繪製下方即時報表（0-100% 折線 + 填色，高度只佔儀表約 20%） ---------- */
+  /* ---------- 即時報表 ---------- */
   function drawReport() {
     const canvas = els.reportCanvas;
     const box = document.getElementById('tfm-report-box');
@@ -227,7 +252,6 @@ const TopMeter = (() => {
     const innerW = w - pad * 2, innerH = h - pad * 2;
     const yPos = p => pad + innerH - (p / 100) * innerH;
 
-    // 分隔線 0/30/85/100
     [0, 30, 85, 100].forEach(p => {
       c.beginPath(); c.moveTo(pad, yPos(p)); c.lineTo(w - pad, yPos(p));
       c.strokeStyle = p === 85 ? 'rgba(79,140,255,.4)' : p === 30 ? 'rgba(255,107,107,.35)' : 'rgba(255,255,255,.06)';
@@ -236,7 +260,7 @@ const TopMeter = (() => {
     });
 
     if (history.length < 2) {
-      c.font = `${Math.round(h * 0.32)}px sans-serif`; c.fillStyle = '#6d8ba0';
+      c.font = Math.round(h * 0.32) + 'px sans-serif'; c.fillStyle = '#6d8ba0';
       c.textAlign = 'center'; c.textBaseline = 'middle';
       c.fillText('收集數據中...', w / 2, h / 2);
       return;
@@ -256,14 +280,14 @@ const TopMeter = (() => {
     c.lineTo(pad, yPos(0)); c.closePath();
     c.fillStyle = 'rgba(79,140,255,.10)'; c.fill();
 
-    c.font = `${Math.round(h * 0.26)}px sans-serif`; c.fillStyle = '#9bbfd4';
+    c.font = Math.round(h * 0.26) + 'px sans-serif'; c.fillStyle = '#9bbfd4';
     c.textAlign = 'left'; c.textBaseline = 'top';
     c.fillText('0-100% 即時報表', pad, pad);
     c.textAlign = 'right';
-    c.fillText(`${Math.round(dispValue)}%`, w - pad, pad);
+    c.fillText(Math.round(dispValue) + '%', w - pad, pad);
   }
 
-  /* ---------- 主渲染循環（單一 rAF，避免多重計時器耗用資源） ---------- */
+  /* ---------- 主渲染循環 ---------- */
   let lastFrame = 0;
   function render(ts) {
     if (!lastFrame) lastFrame = ts;
@@ -279,7 +303,7 @@ const TopMeter = (() => {
     mount();
     if (sampleTimer) clearInterval(sampleTimer);
     sampleTick();
-    sampleTimer = setInterval(sampleTick, 1000); // 配合每秒接收數據的頻率
+    sampleTimer = setInterval(sampleTick, 1000);
     if (!rafId) rafId = requestAnimationFrame(render);
   }
 

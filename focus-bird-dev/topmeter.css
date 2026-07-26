@@ -26,7 +26,7 @@
 #tfm-report-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 #tfm-log-row{
-  width:100%; display:grid; grid-template-columns:1fr 1fr; gap:6px;
+  width:100%; display:grid; grid-template-columns:1fr 1fr; gap:4px;
   pointer-events:auto;
 }
 .tfm-log-panel{
@@ -42,6 +42,8 @@
 }
 .tfm-log-title.high{color:#4f8cff}
 .tfm-log-title.low{color:#ff6b6b}
+.tfm-log-title.surge{color:#74d680}
+.tfm-log-title.plunge{color:#ff8b6b}
 .tfm-log-item{
   font-size:11px; color:#cfe4f2; line-height:1.5;
   display:flex; justify-content:space-between; gap:6px;
