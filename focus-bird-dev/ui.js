@@ -95,6 +95,7 @@ const UI = (() => {
   <button class="tab" data-screen="sc-stages">選關</button>
   <button class="tab" data-screen="sc-settings">設定</button>
   <button class="tab" data-screen="sc-plan">訓練計劃</button>
+  <button class="tab" data-screen="sc-gauge">專注儀錶</button>
 </div>
 
 <div class="screen active" id="sc-home">
@@ -250,13 +251,25 @@ const UI = (() => {
     </table>
   </div>
 </div>
+
+<div class="screen" id="sc-gauge">
+  <div class="gauge-wrap">
+    <canvas id="gaugeCanvas" class="gauge-canvas"></canvas>
+  </div>
+  <div class="gauge-info">
+    <button class="btn s" id="btnGaugeReset" style="font-size:12px;padding:8px 14px">重置記錄</button>
+    <span class="note" id="gaugeStatus">即時監控中</span>
+  </div>
+</div>
 `;
 
     document.querySelectorAll('.tab').forEach(t=>
       t.addEventListener('click',()=>{
         switchTab(t.dataset.screen);
         if(t.dataset.screen==='sc-stages') buildStageGrid();
-        if(t.dataset.screen==='sc-home') startDemo();
+        if(t.dataset.screen==='sc-home') { startDemo(); Gauge.stop(); }
+        if(t.dataset.screen==='sc-gauge') { Gauge.start(); }
+        if(t.dataset.screen!=='sc-gauge') { Gauge.stop(); }
       })
     );
 
@@ -295,6 +308,8 @@ const UI = (() => {
       document.getElementById('btnMute').textContent=m?'\u{1F507}':'\u266A';
       toast(m?'靜音':'音效開啟');
     };
+    const btnGaugeReset=document.getElementById('btnGaugeReset');
+    if(btnGaugeReset) btnGaugeReset.onclick=()=>{Gauge.reset();toast('記錄已重置');};
     updateWSLabel();
     startDemo();
   }
