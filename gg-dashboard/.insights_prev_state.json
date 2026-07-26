@@ -1,8 +1,83 @@
 {
   "metrics": {
-    "cpu": null,
-    "mem": null,
-    "disk": null
+    "cpu": 100,
+    "mem": 45,
+    "disk": 80
   },
-  "agents": {}
+  "agents": {
+    "main": {
+      "cpu": 100,
+      "mem": 45,
+      "disk": 80,
+      "load": "0.31",
+      "uptime": "3 days, 12 hours, 56 minutes",
+      "daemons": {
+        "reminder": false,
+        "monitor": false,
+        "openclaw": true
+      },
+      "online": true,
+      "cron_jobs": 12,
+      "thoughts": "傍晚 — CPU load 0.5 — 閒置; 已運行 16 日 — 穩定; 1 個 daemon 運行中; 磁盤使用率 78%",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "VM 已穩定運行 16 日"
+      ],
+      "uncertainties": [
+        "等待 GG Fighter 下一個任務"
+      ]
+    },
+    "work": {
+      "cpu": 43,
+      "mem": 27,
+      "disk": 79,
+      "load": "0.49",
+      "uptime": "9 weeks, 5 days, 10 hours, 4 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.181",
+      "thoughts": "傍晚 — CPU load 0.2 — 閒置; 已運行 40 日 — 穩定; 7 個 daemon 運行中",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "VM 已穩定運行 40 日",
+        "GG-Work 所有 daemon 正常"
+      ],
+      "uncertainties": [
+        "等待 GG-Work 下一個任務"
+      ]
+    },
+    "person": {
+      "cpu": 54,
+      "mem": 33,
+      "disk": 69,
+      "load": "0.33",
+      "uptime": "9 weeks, 5 days, 10 hours, 4 minutes",
+      "daemons": {
+        "reminder": true,
+        "monitor": true,
+        "openclaw": true
+      },
+      "online": true,
+      "ip": "172.6.15.182",
+      "thoughts": "傍晚 — CPU load 0.7 — 閒置; 已運行 40 日 — 穩定; 5 個 daemon 運行中",
+      "needs": [
+        "無 urgent 需求"
+      ],
+      "learnings": [
+        "VM 已穩定運行 40 日",
+        "GG-Person 所有 daemon 正常"
+      ],
+      "uncertainties": [
+        "等待 GG-Person 下一個任務"
+      ]
+    }
+  }
 }

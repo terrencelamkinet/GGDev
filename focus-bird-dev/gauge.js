@@ -7,6 +7,7 @@
 const Gauge = (() => {
   let rafId = null, sparkData = [], lastLog = 0;
   let highStreak = 0, records = [], paused = false;
+  let currentValue = 50, demo = false, demoFocus = 50;
 
   const COL = {
     track:   'rgba(255,255,255,.12)',
@@ -28,11 +29,15 @@ const Gauge = (() => {
     c.strokeStyle = col; c.lineWidth = w; c.lineCap = 'round'; c.stroke();
   }
 
+  function isLive() {
+    return G.running || (document.getElementById('ws-dot')?.classList.contains('ok'));
+  }
+
   function drawGauge(c, W, H) {
     const cx = W/2, cy = H*0.42;
     const R = Math.min(W, H) * 0.35;
     const hasData = sparkData.length > 0;
-    const val = hasData ? Math.round(G.focus) : 0;
+    const val = Math.round(currentValue);
     const angle = (val/100)*Math.PI*1.5 + Math.PI*0.25;
     const sA = Math.PI*0.25, eA = Math.PI*1.75;
 
@@ -67,7 +72,8 @@ const Gauge = (() => {
     c.textAlign='center'; c.textBaseline='middle';
     c.fillStyle=focusColor(val); c.fillText(`${val}`, cx, cy-8);
     c.font='bold 14px sans-serif'; c.fillStyle=COL.muted;
-    c.fillText(hasData ? '專注度 %' : '等待腦電波數據...', cx, cy+R*.18);
+    const label = hasData ? (demo ? 'DEMO 專注度 %' : '專注度 %') : '等待腦電波數據...';
+    c.fillText(label, cx, cy+R*.18);
 
     /* Needle */
     c.save(); c.translate(cx,cy); c.rotate(angle);
@@ -111,14 +117,13 @@ const Gauge = (() => {
     c.lineTo(x0+offX+li*stepX, yPos(0)); c.lineTo(x0+offX, yPos(0)); c.closePath();
     c.fillStyle='rgba(79,140,255,.12)'; c.fill();
     c.font='11px sans-serif'; c.fillStyle=COL.muted; c.textAlign='left';
-    c.fillText('每秒專注度變化', x0, y0-12);
+    c.fillText(demo ? 'DEMO 每秒專注度變化（撳 Space 或連接 BrainLink 即轉真實）' : '每秒專注度變化', x0, y0-12);
     c.textAlign='right'; c.fillText(`${Math.floor(sparkData.length*1)}秒`, x0+w, y0-12);
   }
 
   function drawStreak(c, W, H) {
-    const hasData = sparkData.length > 0;
+    if (sparkData.length < 1) return;
     const x0=W*.1, y0=H*.91;
-    if (!hasData) return;
     c.font=`900 ${Math.round(H*.035)}px 'Baloo 2',sans-serif`; c.textAlign='center';
     const sc=highStreak>=5?COL.blue:COL.amber; c.fillStyle=sc;
     c.fillText(`🔥 連續高專注 ${highStreak}秒`, W/2, y0);
@@ -151,10 +156,28 @@ const Gauge = (() => {
   let sampleTimer=null;
   function startSampling(){
     stopSampling(); lastLog=Date.now();
+    sparkData.length = 0;
+    demoFocus = 50;
+    demo = false;
     sampleTimer=setInterval(()=>{
-      sparkData.push(G.focus);
+      const live = isLive();
+      if (!live) {
+        demo = true;
+        demoFocus += (Math.random() - 0.5) * 20;
+        /* Gravity toward center 50-70 range */
+        if (demoFocus < 15) demoFocus += 8;
+        else if (demoFocus > 90) demoFocus -= 8;
+        demoFocus = Math.max(2, Math.min(98, demoFocus));
+        /* Random spike above 85 */
+        if (Math.random() < 0.07) { demoFocus = Math.min(98, demoFocus + 30 + Math.random() * 15); }
+        currentValue = Math.round(demoFocus);
+      } else {
+        demo = false;
+        currentValue = G.focus;
+      }
+      sparkData.push(currentValue);
       if(sparkData.length>120) sparkData.shift();
-      if(G.focus>=85){highStreak++;
+      if(currentValue>=85){highStreak++;
         if(highStreak>=5&&(Date.now()-lastLog>3000)){
           const avg=sparkData.slice(-5).reduce((a,b)=>a+b,0)/5;
           records.push({t:new Date().toLocaleTimeString('zh-HK'),v:Math.round(avg),d:highStreak});
@@ -168,7 +191,7 @@ const Gauge = (() => {
 
   function start(){paused=false;startSampling();if(!rafId) rafId=requestAnimationFrame(render);}
   function stop(){paused=true;stopSampling();if(rafId){cancelAnimationFrame(rafId);rafId=null;}}
-  function reset(){sparkData=[];highStreak=0;records=[];lastLog=0;}
+  function reset(){sparkData=[];highStreak=0;records=[];lastLog=0;demoFocus=50;demo=false;}
   function getRecords(){return[...records];}
   function getStreak(){return highStreak;}
 
