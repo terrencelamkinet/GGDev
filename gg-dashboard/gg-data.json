@@ -1,14 +1,14 @@
 {
-  "ts": "22:30",
+  "ts": "22:45",
   "hour": 22,
-  "minute": 30,
+  "minute": 45,
   "pushed_at": "2026-07-26 22:30 HKT",
   "system": {
-    "cpu": 100,
+    "cpu": 72,
     "mem": 45,
     "disk": 80,
-    "load": "0.31",
-    "uptime": "3 days, 12 hours, 56 minutes",
+    "load": "0.23",
+    "uptime": "3 days, 13 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "22:30",
+      "time": "22:45",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 100,
+      "cpu": 72,
       "mem": 45,
       "disk": 80,
-      "load": "0.31",
-      "uptime": "3 days, 12 hours, 56 minutes",
+      "load": "0.23",
+      "uptime": "3 days, 13 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 43,
+      "cpu": 47,
       "mem": 27,
       "disk": 79,
-      "load": "0.49",
-      "uptime": "9 weeks, 5 days, 10 hours, 4 minutes",
+      "load": "0.28",
+      "uptime": "9 weeks, 5 days, 10 hours, 19 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 54,
-      "mem": 33,
+      "cpu": 87,
+      "mem": 30,
       "disk": 69,
-      "load": "0.33",
-      "uptime": "9 weeks, 5 days, 10 hours, 4 minutes",
+      "load": "0.54",
+      "uptime": "9 weeks, 5 days, 10 hours, 19 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,

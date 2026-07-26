@@ -37,6 +37,7 @@
 <!-- Corner buttons -->
 <button class="ibtn" id="btnMenu" style="display:none">&#9776;</button>
 <button class="ibtn" id="btnMute">&#9834;</button>
+<button class="ibtn" id="btnGauge" title="專注儀錶">◎</button>
 <button class="ibtn" id="btnFS">&#9634;</button>
 
 <!-- Overlay (menu/screens) -->
@@ -54,7 +55,7 @@
 <script src="audio.js"></script>
 <script src="game.js"></script>
 <script src="ws.js"></script>
-<script src="gauge.js"></script>
+<script src="gauge.js?v=2"></script>
 <script src="ui.js"></script>
 
 <script>
@@ -72,6 +73,15 @@ function toggleFS() {
 
 document.getElementById('btnFS').onclick   = toggleFS;
 document.getElementById('btnMenu').onclick = () => { G.running=false; UI.showMain(); };
+document.getElementById('btnGauge').onclick = () => {
+  G.running=false;
+  document.getElementById('ov').classList.remove('gone');
+  document.getElementById('btnMenu').style.display='none';
+  Audio.stopBGM();
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.screen==='sc-gauge'));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id==='sc-gauge'));
+  Gauge.start();
+};
 document.getElementById('btnMute').onclick = () => {
   const m = !Audio.isMuted();
   Audio.setMuted(m);
