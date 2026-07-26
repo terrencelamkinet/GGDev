@@ -96,7 +96,6 @@ const UI = (() => {
   <button class="tab" data-screen="sc-settings">設定</button>
   <button class="tab" data-screen="sc-plan">訓練計劃</button>
   <button class="tab" data-screen="sc-gauge">專注儀錶</button>
-  <button class="tab" data-screen="sc-topmeter">感應儀錶</button>
 </div>
 
 <div class="screen active" id="sc-home">
@@ -266,11 +265,10 @@ const UI = (() => {
 
     document.querySelectorAll('.tab').forEach(t=>
       t.addEventListener('click',()=>{
-        if(t.dataset.screen==='sc-topmeter') { window.location.href='topmeter.html'; return; }
+        if(t.dataset.screen==='sc-gauge') { window.location.href='topmeter.html'; return; }
         switchTab(t.dataset.screen);
         if(t.dataset.screen==='sc-stages') buildStageGrid();
         if(t.dataset.screen==='sc-home') { startDemo(); Gauge.stop(); }
-        if(t.dataset.screen==='sc-gauge') { Gauge.start(); }
         if(t.dataset.screen!=='sc-gauge') { Gauge.stop(); }
       })
     );

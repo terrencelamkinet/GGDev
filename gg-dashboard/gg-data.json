@@ -1,14 +1,14 @@
 {
-  "ts": "23:15",
+  "ts": "23:31",
   "hour": 23,
-  "minute": 15,
+  "minute": 31,
   "pushed_at": "2026-07-26 22:30 HKT",
   "system": {
-    "cpu": 97,
+    "cpu": 100,
     "mem": 45,
     "disk": 77,
-    "load": "0.15",
-    "uptime": "3 days, 13 hours, 41 minutes",
+    "load": "0.72",
+    "uptime": "3 days, 13 hours, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "23:15",
+      "time": "23:31",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 97,
+      "cpu": 100,
       "mem": 45,
       "disk": 77,
-      "load": "0.15",
-      "uptime": "3 days, 13 hours, 41 minutes",
+      "load": "0.72",
+      "uptime": "3 days, 13 hours, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 81,
-      "mem": 26,
+      "cpu": 31,
+      "mem": 27,
       "disk": 79,
-      "load": "0.69",
-      "uptime": "9 weeks, 5 days, 10 hours, 49 minutes",
+      "load": "0.24",
+      "uptime": "9 weeks, 5 days, 11 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 88,
-      "mem": 32,
+      "cpu": 75,
+      "mem": 30,
       "disk": 69,
-      "load": "0.40",
-      "uptime": "9 weeks, 5 days, 10 hours, 49 minutes",
+      "load": "0.43",
+      "uptime": "9 weeks, 5 days, 11 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -445,7 +445,7 @@
     "today_events": 1,
     "upcoming": 9,
     "reminders_pending": 0,
-    "last_updated": "2026-07-26T23:00:24",
+    "last_updated": "2026-07-26T23:31:02",
     "today_list": [
       {
         "summary": "為兒童、青年、家庭禱告",
