@@ -109,11 +109,14 @@ const Gauge = (() => {
     });
 
     const stepX=w/Math.max(data.length-1,1), maxPts=Math.min(data.length,Math.floor(w/2));
-    const slice=data.slice(-maxPts), offX=w-(slice.length-1)*stepX;
+    const slice=data.slice(-maxPts), offX=w-(slice.length-1)*stepX, li=slice.length-1;
     c.beginPath();
-    slice.forEach((v,i)=>{const px=x0+offX+i*stepX, py=yPos(v); i===0?c.moveTo(px,py):c.lineTo(px,py);});
+    slice.forEach((v,i)=>{
+      const px=x0+offX+i*stepX;
+      const py=i===li?yPos(Math.max(0,Math.min(100,displayValue))):yPos(v);
+      i===0?c.moveTo(px,py):c.lineTo(px,py);
+    });
     c.strokeStyle=COL.blue; c.lineWidth=2.5; c.stroke();
-    const li=slice.length-1;
     c.lineTo(x0+offX+li*stepX, yPos(0)); c.lineTo(x0+offX, yPos(0)); c.closePath();
     c.fillStyle='rgba(79,140,255,.12)'; c.fill();
     c.font='11px sans-serif'; c.fillStyle=COL.muted; c.textAlign='left';
