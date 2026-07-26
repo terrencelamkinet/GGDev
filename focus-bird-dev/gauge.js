@@ -1,6 +1,7 @@
 /* ================================================================
-   FOCUS BIRD PRO — gauge.js
+   FOCUS BIRD PRO — gauge.js v3
    Real-time focus gauge (iOS stopwatch style) + sparkline + 85% tracker
+   All motion uses time-based tween — never stops, never jumps
    ================================================================ */
 'use strict';
 
@@ -8,6 +9,9 @@ const Gauge = (() => {
   let rafId = null, sparkData = [], lastLog = 0;
   let highStreak = 0, records = [], paused = false;
   let currentValue = 0, displayValue = 0, demo = false, demoFocus = 50;
+
+  /* Tween state — each transition runs FULL duration, retargets mid-flight */
+  let twFrom = 0, twTo = 0, twStart = 0;
 
   const COL = {
     track:   'rgba(255,255,255,.12)',
@@ -31,6 +35,23 @@ const Gauge = (() => {
 
   function isLive() {
     return G.running || (document.getElementById('ws-dot')?.classList.contains('ok'));
+  }
+
+  /* Ease out cubic — smooth deceleration like iOS */
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  /* Every frame: advance displayValue via 1-second tween */
+  function tickTween() {
+    if (currentValue !== twTo) {
+      /* Retarget: continue from current display position */
+      twFrom = displayValue;
+      twTo = currentValue;
+      twStart = performance.now();
+    }
+    if (twTo === twFrom) { displayValue = twTo; return; }
+    const elapsed = performance.now() - twStart;
+    const t = Math.min(1, elapsed / 1000);
+    displayValue = twFrom + (twTo - twFrom) * easeOut(t);
   }
 
   function drawGauge(c, W, H) {
@@ -59,7 +80,6 @@ const Gauge = (() => {
       c.strokeStyle=i%5===0?'rgba(255,255,255,.4)':'rgba(255,255,255,.18)';
       c.lineWidth=i%5===0?2.5:1.2; c.stroke();
     }
-    /* Labels */
     ['0','25','50','75','100'].forEach((l,i)=>{
       const a=sA+(i*0.375)*Math.PI;
       c.font='bold 13px sans-serif'; c.textAlign='center'; c.textBaseline='middle';
@@ -72,8 +92,7 @@ const Gauge = (() => {
     c.textAlign='center'; c.textBaseline='middle';
     c.fillStyle=focusColor(val); c.fillText(`${val}`, cx, cy-8);
     c.font='bold 14px sans-serif'; c.fillStyle=COL.muted;
-    const label = hasData ? (demo ? 'DEMO 專注度 %' : '專注度 %') : '等待腦電波數據...';
-    c.fillText(label, cx, cy+R*.18);
+    c.fillText(hasData ? (demo ? 'DEMO 專注度 %' : '專注度 %') : '等待腦電波數據...', cx, cy+R*.18);
 
     /* Needle */
     c.save(); c.translate(cx,cy); c.rotate(angle);
@@ -121,7 +140,7 @@ const Gauge = (() => {
     c.fillStyle='rgba(79,140,255,.12)'; c.fill();
     c.font='11px sans-serif'; c.fillStyle=COL.muted; c.textAlign='left';
     c.fillText(demo ? 'DEMO 每秒專注度變化（撳 Space 或連接 BrainLink 即轉真實）' : '每秒專注度變化', x0, y0-12);
-    c.textAlign='right'; c.fillText(`${Math.floor(sparkData.length*1)}秒`, x0+w, y0-12);
+    c.textAlign='right'; c.fillText(`${Math.floor(sparkData.length*0.25)}秒`, x0+w, y0-12);
   }
 
   function drawStreak(c, W, H) {
@@ -142,6 +161,7 @@ const Gauge = (() => {
     }
   }
 
+  let lastSparkPush = 0;
   function render() {
     const canvas=document.getElementById('gaugeCanvas');
     if(!canvas||paused){rafId=requestAnimationFrame(render);return;}
@@ -149,9 +169,18 @@ const Gauge = (() => {
     const W=canvas.width=canvas.clientWidth*(window.devicePixelRatio||1);
     const H=canvas.height=canvas.clientHeight*(window.devicePixelRatio||1);
     c.scale(window.devicePixelRatio||1, window.devicePixelRatio||1);
-    /* Smooth interpolation toward target */
-    displayValue += (currentValue - displayValue) * 0.18;
-    if (Math.abs(displayValue - currentValue) < 0.3) displayValue = currentValue;
+
+    /* Tween animation — always running, full 1s per transition */
+    tickTween();
+
+    /* Push smooth displayValue to sparkData at 4Hz for smooth sparkline */
+    const now = Date.now();
+    if (now - lastSparkPush > 250) {
+      sparkData.push(displayValue);
+      if (sparkData.length > 120) sparkData.shift();
+      lastSparkPush = now;
+    }
+
     c.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
     drawGauge(c,canvas.clientWidth,canvas.clientHeight);
     drawSparkline(c,canvas.clientWidth,canvas.clientHeight);
@@ -162,30 +191,27 @@ const Gauge = (() => {
   let sampleTimer=null;
   function startSampling(){
     stopSampling(); lastLog=Date.now();
-    sparkData.length = 0;
-    demoFocus = 50;
-    demo = false;
+    sparkData.length = 0; lastSparkPush = 0;
+    demoFocus = 50; demo = false;
+    twFrom = 0; twTo = 0; twStart = 0; displayValue = 0;
     sampleTimer=setInterval(()=>{
       const live = isLive();
       if (!live) {
         demo = true;
         demoFocus += (Math.random() - 0.5) * 20;
-        /* Gravity toward center 50-70 range */
         if (demoFocus < 15) demoFocus += 8;
         else if (demoFocus > 90) demoFocus -= 8;
         demoFocus = Math.max(2, Math.min(98, demoFocus));
-        /* Random spike above 85 */
         if (Math.random() < 0.07) { demoFocus = Math.min(98, demoFocus + 30 + Math.random() * 15); }
         currentValue = Math.round(demoFocus);
       } else {
         demo = false;
         currentValue = G.focus;
       }
-      sparkData.push(currentValue);
-      if(sparkData.length>120) sparkData.shift();
+      /* Streak tracking uses raw currentValue */
       if(currentValue>=85){highStreak++;
         if(highStreak>=5&&(Date.now()-lastLog>3000)){
-          const avg=sparkData.slice(-5).reduce((a,b)=>a+b,0)/5;
+          const avg=sparkData.slice(-20).reduce((a,b)=>a+b,0)/20;
           records.push({t:new Date().toLocaleTimeString('zh-HK'),v:Math.round(avg),d:highStreak});
           if(records.length>50) records.shift(); lastLog=Date.now();
         }
@@ -197,7 +223,8 @@ const Gauge = (() => {
 
   function start(){paused=false;startSampling();if(!rafId) rafId=requestAnimationFrame(render);}
   function stop(){paused=true;stopSampling();if(rafId){cancelAnimationFrame(rafId);rafId=null;}}
-  function reset(){sparkData=[];highStreak=0;records=[];lastLog=0;demoFocus=50;demo=false;}
+  function reset(){sparkData=[];highStreak=0;records=[];lastLog=0;demoFocus=50;demo=false;
+    twFrom=0;twTo=0;twStart=0;displayValue=0;currentValue=0;lastSparkPush=0;}
   function getRecords(){return[...records];}
   function getStreak(){return highStreak;}
 
