@@ -7,7 +7,7 @@
 const Gauge = (() => {
   let rafId = null, sparkData = [], lastLog = 0;
   let highStreak = 0, records = [], paused = false;
-  let currentValue = 0, demo = false, demoFocus = 50;
+  let currentValue = 0, displayValue = 0, demo = false, demoFocus = 50;
 
   const COL = {
     track:   'rgba(255,255,255,.12)',
@@ -37,7 +37,7 @@ const Gauge = (() => {
     const cx = W/2, cy = H*0.42;
     const R = Math.min(W, H) * 0.35;
     const hasData = sparkData.length > 0;
-    const val = Math.round(currentValue);
+    const val = Math.round(displayValue);
     const angle = (val/100)*Math.PI*1.5 + Math.PI*0.25;
     const sA = Math.PI*0.25, eA = Math.PI*1.75;
 
@@ -146,6 +146,9 @@ const Gauge = (() => {
     const W=canvas.width=canvas.clientWidth*(window.devicePixelRatio||1);
     const H=canvas.height=canvas.clientHeight*(window.devicePixelRatio||1);
     c.scale(window.devicePixelRatio||1, window.devicePixelRatio||1);
+    /* Smooth interpolation toward target */
+    displayValue += (currentValue - displayValue) * 0.18;
+    if (Math.abs(displayValue - currentValue) < 0.3) displayValue = currentValue;
     c.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
     drawGauge(c,canvas.clientWidth,canvas.clientHeight);
     drawSparkline(c,canvas.clientWidth,canvas.clientHeight);
