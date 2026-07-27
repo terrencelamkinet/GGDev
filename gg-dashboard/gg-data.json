@@ -1,14 +1,14 @@
 {
-  "ts": "23:31",
-  "hour": 23,
+  "ts": "10:31",
+  "hour": 10,
   "minute": 31,
-  "pushed_at": "2026-07-26 22:30 HKT",
+  "pushed_at": "2026-07-27 03:10 HKT",
   "system": {
-    "cpu": 100,
-    "mem": 45,
+    "cpu": 90,
+    "mem": 36,
     "disk": 77,
-    "load": "0.72",
-    "uptime": "3 days, 13 hours, 57 minutes",
+    "load": "0.21",
+    "uptime": "4 days, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "23:31",
+      "time": "10:31",
       "text": "Dashboard data refresh"
     },
     {
@@ -39,36 +39,36 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.9.gz (509B)"
+      "text": "Cron: nightly_upgrade.log.9.gz (522B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.8.gz (522B)"
+      "text": "Cron: nightly_upgrade.log.8.gz (468B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.7.gz (468B)"
+      "text": "Cron: nightly_upgrade.log.7.gz (502B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.6.gz (502B)"
+      "text": "Cron: nightly_upgrade.log.6.gz (851B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.5.gz (851B)"
+      "text": "Cron: nightly_upgrade.log.5.gz (690B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.4.gz (690B)"
+      "text": "Cron: nightly_upgrade.log.4.gz (759B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 100,
-      "mem": 45,
+      "cpu": 90,
+      "mem": 36,
       "disk": 77,
-      "load": "0.72",
-      "uptime": "3 days, 13 hours, 57 minutes",
+      "load": "0.21",
+      "uptime": "4 days, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 31,
+      "cpu": 28,
       "mem": 27,
       "disk": 79,
-      "load": "0.24",
-      "uptime": "9 weeks, 5 days, 11 hours, 5 minutes",
+      "load": "0.60",
+      "uptime": "9 weeks, 5 days, 22 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 75,
-      "mem": 30,
+      "cpu": 72,
+      "mem": 29,
       "disk": 69,
-      "load": "0.43",
-      "uptime": "9 weeks, 5 days, 11 hours, 5 minutes",
+      "load": "0.44",
+      "uptime": "9 weeks, 5 days, 22 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -442,14 +442,22 @@
   },
   "schedule": {
     "total_events": 22,
-    "today_events": 1,
-    "upcoming": 9,
-    "reminders_pending": 0,
-    "last_updated": "2026-07-26T23:31:02",
+    "today_events": 3,
+    "upcoming": 8,
+    "reminders_pending": 1,
+    "last_updated": "2026-07-27T10:31:06",
     "today_list": [
       {
-        "summary": "為兒童、青年、家庭禱告",
-        "time": "15:00"
+        "summary": "Fubon Kong Api Onsite",
+        "time": "all-day"
+      },
+      {
+        "summary": "Weekly Sales Team Meeting with DLam",
+        "time": "11:00"
+      },
+      {
+        "summary": "Scutech 鼎甲 Backup Solution for Manulife ",
+        "time": "16:00"
       }
     ]
   },
