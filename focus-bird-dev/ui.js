@@ -136,6 +136,9 @@ const UI = (() => {
           <div class="note">ws://localhost:8765</div>
         </div>
       </div>
+      <div style="margin-top:10px;text-align:right;font-size:10px;color:#6d8ba0">
+        v${VER}
+      </div>
     </div>
   </div>
 </div>
