@@ -1,14 +1,14 @@
 {
-  "ts": "15:46",
-  "hour": 15,
-  "minute": 46,
+  "ts": "17:15",
+  "hour": 17,
+  "minute": 15,
   "pushed_at": "2026-07-28 03:10 HKT",
   "system": {
-    "cpu": 95,
-    "mem": 34,
+    "cpu": 94,
+    "mem": 36,
     "disk": 78,
-    "load": "0.06",
-    "uptime": "5 days, 6 hours, 12 minutes",
+    "load": "1.33",
+    "uptime": "5 days, 7 hours, 42 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "15:46",
+      "time": "17:15",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 95,
-      "mem": 34,
+      "cpu": 94,
+      "mem": 36,
       "disk": 78,
-      "load": "0.06",
-      "uptime": "5 days, 6 hours, 12 minutes",
+      "load": "1.33",
+      "uptime": "5 days, 7 hours, 42 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -89,10 +89,10 @@
     },
     "work": {
       "cpu": 4,
-      "mem": 28,
+      "mem": 27,
       "disk": 79,
-      "load": "0.16",
-      "uptime": "10 weeks, 3 hours, 20 minutes",
+      "load": "0.49",
+      "uptime": "10 weeks, 4 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 60,
+      "cpu": 59,
       "mem": 30,
       "disk": 69,
-      "load": "0.38",
-      "uptime": "10 weeks, 3 hours, 20 minutes",
+      "load": "0.51",
+      "uptime": "10 weeks, 4 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -441,11 +441,11 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 24,
+    "total_events": 23,
     "today_events": 2,
     "upcoming": 8,
-    "reminders_pending": 1,
-    "last_updated": "2026-07-28T15:30:09",
+    "reminders_pending": 0,
+    "last_updated": "2026-07-28T17:00:28",
     "today_list": [
       {
         "summary": "Canceled: DLP Review for our MFT POC",
