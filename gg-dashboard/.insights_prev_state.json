@@ -1,16 +1,16 @@
 {
   "metrics": {
-    "cpu": 88,
-    "mem": 34,
+    "cpu": 94,
+    "mem": 36,
     "disk": 78
   },
   "agents": {
     "main": {
-      "cpu": 88,
-      "mem": 34,
+      "cpu": 94,
+      "mem": 36,
       "disk": 78,
-      "load": "0.30",
-      "uptime": "5 days, 7 hours, 12 minutes",
+      "load": "1.33",
+      "uptime": "5 days, 7 hours, 42 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -30,11 +30,11 @@
       ]
     },
     "work": {
-      "cpu": 8,
+      "cpu": 4,
       "mem": 27,
       "disk": 79,
-      "load": "0.33",
-      "uptime": "10 weeks, 4 hours, 19 minutes",
+      "load": "0.49",
+      "uptime": "10 weeks, 4 hours, 49 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -58,8 +58,8 @@
       "cpu": 59,
       "mem": 30,
       "disk": 69,
-      "load": "0.35",
-      "uptime": "10 weeks, 4 hours, 20 minutes",
+      "load": "0.51",
+      "uptime": "10 weeks, 4 hours, 50 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
