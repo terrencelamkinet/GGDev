@@ -459,6 +459,8 @@ function loop(){
     G.focus=G.focus*(1-prof.response)+(G.space?72:34)*prof.response;
   }
   G.bestFocus=Math.max(G.bestFocus,G.focus);
+  /* Cross-tab broadcast for TopMeter */
+  try { window.__focusBC = window.__focusBC || new BroadcastChannel('focus-bird'); window.__focusBC.postMessage({type:'focus',value:G.focus}); }catch(e){}
   /* Timer */
   timerTick++;
   if(timerTick>=60){timerTick=0; G.timer=Math.max(0,G.timer-1);}
