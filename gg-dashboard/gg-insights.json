@@ -1,181 +1,6 @@
 {
   "entries": [
     {
-      "id": 1111,
-      "ts": "2026-07-28 09:00",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: .tick.lock (0KB)"
-    },
-    {
-      "id": 1112,
-      "ts": "2026-07-28 09:00",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: agent.log (277KB)"
-    },
-    {
-      "id": 1113,
-      "ts": "2026-07-28 09:00",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: errors.log (18KB)"
-    },
-    {
-      "id": 1114,
-      "ts": "2026-07-28 09:00",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: guardian.log (8KB)"
-    },
-    {
-      "id": 1115,
-      "ts": "2026-07-28 09:00",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: gateway.log (2KB)"
-    },
-    {
-      "id": 1116,
-      "ts": "2026-07-28 09:00",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: memory_bridge.log (1KB)"
-    },
-    {
-      "id": 1117,
-      "ts": "2026-07-28 09:15",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: jobs.json (142KB)"
-    },
-    {
-      "id": 1118,
-      "ts": "2026-07-28 09:15",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: .tick.lock (0KB)"
-    },
-    {
-      "id": 1119,
-      "ts": "2026-07-28 09:15",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
-    },
-    {
-      "id": 1120,
-      "ts": "2026-07-28 09:15",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: guardian.log (8KB)"
-    },
-    {
-      "id": 1121,
-      "ts": "2026-07-28 09:15",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: agent.log (378KB)"
-    },
-    {
-      "id": 1122,
-      "ts": "2026-07-28 09:15",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: errors.log (23KB)"
-    },
-    {
-      "id": 1123,
-      "ts": "2026-07-28 09:15",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: gateway.log (4KB)"
-    },
-    {
-      "id": 1124,
-      "ts": "2026-07-28 09:15",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: memory_bridge.log (2KB)"
-    },
-    {
-      "id": 1125,
-      "ts": "2026-07-28 09:30",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: jobs.json (142KB)"
-    },
-    {
-      "id": 1126,
-      "ts": "2026-07-28 09:30",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
-    },
-    {
-      "id": 1127,
-      "ts": "2026-07-28 09:30",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: .tick.lock (0KB)"
-    },
-    {
-      "id": 1128,
-      "ts": "2026-07-28 09:30",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: agent.log (383KB)"
-    },
-    {
-      "id": 1129,
-      "ts": "2026-07-28 09:30",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: guardian.log (8KB)"
-    },
-    {
-      "id": 1130,
-      "ts": "2026-07-28 09:30",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: errors.log (23KB)"
-    },
-    {
-      "id": 1131,
-      "ts": "2026-07-28 09:30",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: gateway.log (4KB)"
-    },
-    {
-      "id": 1132,
-      "ts": "2026-07-28 09:30",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: memory_bridge.log (2KB)"
-    },
-    {
-      "id": 1133,
-      "ts": "2026-07-28 09:45",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: jobs.json (142KB)"
-    },
-    {
-      "id": 1134,
-      "ts": "2026-07-28 09:45",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: .tick.lock (0KB)"
-    },
-    {
-      "id": 1135,
-      "ts": "2026-07-28 09:45",
-      "source": "system",
-      "type": "activity",
-      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
-    },
-    {
       "id": 1136,
       "ts": "2026-07-28 09:45",
       "source": "system",
@@ -1399,23 +1224,198 @@
       "source": "system",
       "type": "activity",
       "msg": "📄 Cron output: memory_bridge.log (4KB)"
+    },
+    {
+      "id": 1311,
+      "ts": "2026-07-28 15:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (142KB)"
+    },
+    {
+      "id": 1312,
+      "ts": "2026-07-28 15:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 1313,
+      "ts": "2026-07-28 15:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 1314,
+      "ts": "2026-07-28 15:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (13KB)"
+    },
+    {
+      "id": 1315,
+      "ts": "2026-07-28 15:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (1145KB)"
+    },
+    {
+      "id": 1316,
+      "ts": "2026-07-28 15:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (55KB)"
+    },
+    {
+      "id": 1317,
+      "ts": "2026-07-28 15:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (27KB)"
+    },
+    {
+      "id": 1318,
+      "ts": "2026-07-28 15:15",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: memory_bridge.log (4KB)"
+    },
+    {
+      "id": 1319,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .jobs_y8msg_5d.tmp (142KB)"
+    },
+    {
+      "id": 1320,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (142KB)"
+    },
+    {
+      "id": 1321,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 1322,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 1323,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (1161KB)"
+    },
+    {
+      "id": 1324,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (14KB)"
+    },
+    {
+      "id": 1325,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (58KB)"
+    },
+    {
+      "id": 1326,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: mcp-stderr.log (8KB)"
+    },
+    {
+      "id": 1327,
+      "ts": "2026-07-28 15:30",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: gateway.log (27KB)"
+    },
+    {
+      "id": 1328,
+      "ts": "2026-07-28 15:46",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: jobs.json (142KB)"
+    },
+    {
+      "id": 1329,
+      "ts": "2026-07-28 15:46",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: .tick.lock (0KB)"
+    },
+    {
+      "id": 1330,
+      "ts": "2026-07-28 15:46",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: task_monitor_state.json (0KB)"
+    },
+    {
+      "id": 1331,
+      "ts": "2026-07-28 15:46",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: guardian.log (14KB)"
+    },
+    {
+      "id": 1332,
+      "ts": "2026-07-28 15:46",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: agent.log (1166KB)"
+    },
+    {
+      "id": 1333,
+      "ts": "2026-07-28 15:46",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: memory_bridge.log (4KB)"
+    },
+    {
+      "id": 1334,
+      "ts": "2026-07-28 15:46",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: errors.log (58KB)"
+    },
+    {
+      "id": 1335,
+      "ts": "2026-07-28 15:46",
+      "source": "system",
+      "type": "activity",
+      "msg": "📄 Cron output: mcp-stderr.log (8KB)"
     }
   ],
   "dynamics": {
     "fighter": {
-      "last_active": "2026-07-28 15:00",
+      "last_active": "2026-07-28 15:46",
       "tasks_today": 0,
       "discoveries_today": 0,
       "status": "online"
     },
     "work": {
-      "last_active": "2026-07-28 15:00",
+      "last_active": "2026-07-28 15:46",
       "tasks_today": 0,
       "status": "online",
       "tasks_24h": []
     },
     "person": {
-      "last_active": "2026-07-28 15:00",
+      "last_active": "2026-07-28 15:46",
       "tasks_today": 0,
       "status": "online",
       "tasks_24h": []
@@ -1424,7 +1424,7 @@
   "meta": {
     "total_entries": 200,
     "last_push_ts": null,
-    "last_collect_ts": "2026-07-28 15:00",
+    "last_collect_ts": "2026-07-28 15:46",
     "version": 1
   }
 }
