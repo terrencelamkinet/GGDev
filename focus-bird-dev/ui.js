@@ -263,8 +263,7 @@ const UI = (() => {
     <button class="btn s" id="btnGaugeReset" style="font-size:12px;padding:8px 14px">重置記錄</button>
     <span class="note" id="gaugeStatus">即時監控中</span>
   </div>
-</div>`
-`;
+</div>`;
 
     document.querySelectorAll('.tab').forEach(t=>
       t.addEventListener('click',()=>{

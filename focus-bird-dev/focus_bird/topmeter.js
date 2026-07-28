@@ -22,7 +22,7 @@ const TopMeter = (() => {
   let highLogs = [], lowLogs = [];
   const LOG_MAX = 30;
 
-  let demo = false, demoSeed = 50;
+  let demo = false;
   let sampleTimer = null;
   let lastTick = 0;
   let prevValue = 50;
@@ -79,22 +79,39 @@ const TopMeter = (() => {
     els.plungeList = document.getElementById('tfm-plunge-list');
   }
 
-  /* ---------- 數據來源 ---------- */
+  /* ---------- 數據來源 (BroadcastChannel cross-tab) ---------- */
+  const _bc = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('focus-bird') : null;
+  let _lastFocus = null;
+  let _lastFocusTime = 0;
+  if (_bc) {
+    _bc.onmessage = (e) => {
+      if (e.data && e.data.type === 'focus') {
+        _lastFocus = e.data.value;
+        _lastFocusTime = Date.now();
+        demo = false;
+      }
+    };
+  }
+
   function readSource() {
+    /* Cross-tab focus data from Focus Bird game */
+    if (_lastFocus !== null && (Date.now() - _lastFocusTime) < 5000) {
+      return _lastFocus;
+    }
+    /* Same-tab G (when embedded in game page) */
     if (typeof window.G !== 'undefined' && typeof window.G.focus === 'number') {
+      _lastFocus = window.G.focus;
+      _lastFocusTime = Date.now();
       demo = false;
       return window.G.focus;
     }
-    demo = true;
-    demoSeed += (Math.random() - 0.5) * 26;
-    if (Math.random() < 0.06) demoSeed += (Math.random() - 0.5) * 45;
-    demoSeed = Math.max(1, Math.min(99, demoSeed));
-    return demoSeed;
+    return null;
   }
 
   /* ---------- 每秒取樣 ---------- */
   function sampleTick() {
     const v = readSource();
+    if (v === null) { demo = true; return; }
     rawValue = v;
 
     /* Rapid change tracking */
@@ -197,6 +214,19 @@ const TopMeter = (() => {
     c.setTransform(dpr, 0, 0, dpr, 0, 0);
     c.clearRect(0, 0, w, h);
 
+    if (demo) {
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.font = '800 ' + Math.round(h * 0.16) + 'px sans-serif';
+      c.fillStyle = '#6d8ba0';
+      c.fillText('等待連接', w/2, h * 0.44);
+      c.font = Math.round(h * 0.07) + 'px sans-serif';
+      c.fillStyle = '#4a6a7a';
+      c.fillText('請在另一分頁開啟專注飛鳥遊戲', w/2, h * 0.56);
+      c.fillStyle = '#3a5a6a';
+      c.fillText('BrainLink 頭盔連接後即時顯示', w/2, h * 0.64);
+      return;
+    }
+
     const val = dispValue;
     const col = focusColor(val);
 
@@ -222,7 +252,7 @@ const TopMeter = (() => {
 
     c.font = '800 ' + Math.round(h * 0.075) + 'px sans-serif';
     c.fillStyle = '#9bbfd4';
-    c.fillText(demo ? 'DEMO 專注感應中...' : '即時專注感應', cx, cy + h * 0.30);
+    c.fillText(demo ? '— 等待數據 —' : '即時專注感應', cx, cy + h * 0.30);
 
     const prev = history.length > 1 ? history[history.length - 2].v : rawValue;
     const delta = Math.round(rawValue - prev);
@@ -260,6 +290,12 @@ const TopMeter = (() => {
     });
 
     if (history.length < 2) {
+      if (demo) {
+        c.font = Math.round(h * 0.28) + 'px sans-serif'; c.fillStyle = '#6d8ba0';
+        c.textAlign = 'center'; c.textBaseline = 'middle';
+        c.fillText('等待遊戲數據...', w / 2, h / 2);
+        return;
+      }
       c.font = Math.round(h * 0.32) + 'px sans-serif'; c.fillStyle = '#6d8ba0';
       c.textAlign = 'center'; c.textBaseline = 'middle';
       c.fillText('收集數據中...', w / 2, h / 2);
