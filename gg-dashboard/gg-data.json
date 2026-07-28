@@ -1,14 +1,14 @@
 {
-  "ts": "13:45",
-  "hour": 13,
-  "minute": 45,
+  "ts": "15:00",
+  "hour": 15,
+  "minute": 0,
   "pushed_at": "2026-07-28 03:10 HKT",
   "system": {
     "cpu": 96,
-    "mem": 34,
+    "mem": 36,
     "disk": 78,
-    "load": "0.25",
-    "uptime": "5 days, 4 hours, 12 minutes",
+    "load": "3.01",
+    "uptime": "5 days, 5 hours, 26 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "13:46",
+      "time": "15:00",
       "text": "Dashboard data refresh"
     },
     {
@@ -65,10 +65,10 @@
   "agents": {
     "main": {
       "cpu": 96,
-      "mem": 34,
+      "mem": 36,
       "disk": 78,
-      "load": "0.25",
-      "uptime": "5 days, 4 hours, 12 minutes",
+      "load": "3.01",
+      "uptime": "5 days, 5 hours, 26 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 21,
+      "cpu": 72,
       "mem": 27,
       "disk": 79,
-      "load": "0.25",
-      "uptime": "10 weeks, 1 hour, 20 minutes",
+      "load": "0.32",
+      "uptime": "10 weeks, 2 hours, 34 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 59,
-      "mem": 31,
+      "cpu": 56,
+      "mem": 33,
       "disk": 69,
-      "load": "0.34",
-      "uptime": "10 weeks, 1 hour, 20 minutes",
+      "load": "0.37",
+      "uptime": "10 weeks, 2 hours, 34 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -441,15 +441,19 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 23,
-    "today_events": 1,
-    "upcoming": 7,
-    "reminders_pending": 0,
-    "last_updated": "2026-07-28T13:30:04",
+    "total_events": 24,
+    "today_events": 2,
+    "upcoming": 8,
+    "reminders_pending": 1,
+    "last_updated": "2026-07-28T15:00:11",
     "today_list": [
       {
         "summary": "Canceled: DLP Review for our MFT POC",
         "time": "11:00"
+      },
+      {
+        "summary": "i2backup Discussions ",
+        "time": "13:30"
       }
     ]
   },
