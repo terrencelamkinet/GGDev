@@ -1,14 +1,14 @@
 {
-  "ts": "14:30",
-  "hour": 14,
-  "minute": 30,
+  "ts": "15:45",
+  "hour": 15,
+  "minute": 45,
   "pushed_at": "2026-07-29 03:10 HKT",
   "system": {
     "cpu": 98,
     "mem": 30,
     "disk": 78,
-    "load": "1.23",
-    "uptime": "6 days, 4 hours, 57 minutes",
+    "load": "0.20",
+    "uptime": "6 days, 6 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "14:30",
+      "time": "15:45",
       "text": "Dashboard data refresh"
     },
     {
@@ -67,8 +67,8 @@
       "cpu": 98,
       "mem": 30,
       "disk": 78,
-      "load": "1.23",
-      "uptime": "6 days, 4 hours, 57 minutes",
+      "load": "0.20",
+      "uptime": "6 days, 6 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 66,
-      "mem": 30,
+      "cpu": 18,
+      "mem": 29,
       "disk": 80,
-      "load": "0.54",
-      "uptime": "10 weeks, 1 day, 2 hours, 4 minutes",
+      "load": "0.10",
+      "uptime": "10 weeks, 1 day, 3 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 71,
+      "cpu": 58,
       "mem": 30,
-      "disk": 70,
-      "load": "0.79",
-      "uptime": "10 weeks, 1 day, 2 hours, 4 minutes",
+      "disk": 69,
+      "load": "0.48",
+      "uptime": "10 weeks, 1 day, 3 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -441,11 +441,11 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 23,
+    "total_events": 24,
     "today_events": 2,
-    "upcoming": 7,
+    "upcoming": 8,
     "reminders_pending": 0,
-    "last_updated": "2026-07-29T14:00:50",
+    "last_updated": "2026-07-29T15:31:04",
     "today_list": [
       {
         "summary": "Onsite Kong API",
