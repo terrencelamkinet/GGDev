@@ -1,17 +1,17 @@
 {
-  "ts": "15:30",
-  "hour": 15,
-  "minute": 30,
+  "ts": "16:45",
+  "hour": 16,
+  "minute": 45,
   "pushed_at": "2026-07-30 03:10 HKT",
   "system": {
-    "cpu": 98,
-    "mem": 38,
-    "disk": 94,
-    "load": "0.25",
-    "uptime": "1 week, 5 hours, 56 minutes",
+    "cpu": 96,
+    "mem": 43,
+    "disk": 95,
+    "load": "1.66",
+    "uptime": "1 week, 7 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
-      "disk": "yellow",
+      "disk": "red",
       "memory": "green"
     }
   },
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "15:30",
+      "time": "16:45",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 98,
-      "mem": 38,
-      "disk": 94,
-      "load": "0.25",
-      "uptime": "1 week, 5 hours, 56 minutes",
+      "cpu": 96,
+      "mem": 43,
+      "disk": 95,
+      "load": "1.66",
+      "uptime": "1 week, 7 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 52,
+      "cpu": 4,
       "mem": 28,
       "disk": 80,
-      "load": "0.18",
-      "uptime": "10 weeks, 2 days, 3 hours, 4 minutes",
+      "load": "0.21",
+      "uptime": "10 weeks, 2 days, 4 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 54,
-      "mem": 34,
+      "cpu": 63,
+      "mem": 31,
       "disk": 69,
-      "load": "0.55",
-      "uptime": "10 weeks, 2 days, 3 hours, 4 minutes",
+      "load": "0.89",
+      "uptime": "10 weeks, 2 days, 4 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -444,8 +444,8 @@
     "total_events": 23,
     "today_events": 3,
     "upcoming": 8,
-    "reminders_pending": 1,
-    "last_updated": "2026-07-30T15:30:08",
+    "reminders_pending": 0,
+    "last_updated": "2026-07-30T16:30:51",
     "today_list": [
       {
         "summary": "Kinetix/Cohesity catch up",
