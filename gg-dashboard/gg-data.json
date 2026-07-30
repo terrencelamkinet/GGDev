@@ -1,14 +1,14 @@
 {
-  "ts": "10:15",
-  "hour": 10,
-  "minute": 15,
+  "ts": "11:46",
+  "hour": 11,
+  "minute": 46,
   "pushed_at": "2026-07-30 03:10 HKT",
   "system": {
-    "cpu": 90,
-    "mem": 33,
-    "disk": 80,
-    "load": "0.19",
-    "uptime": "1 week, 42 minutes",
+    "cpu": 96,
+    "mem": 34,
+    "disk": 81,
+    "load": "0.70",
+    "uptime": "1 week, 2 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "10:15",
+      "time": "11:46",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 90,
-      "mem": 33,
-      "disk": 80,
-      "load": "0.19",
-      "uptime": "1 week, 42 minutes",
+      "cpu": 96,
+      "mem": 34,
+      "disk": 81,
+      "load": "0.70",
+      "uptime": "1 week, 2 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 8,
-      "mem": 28,
+      "cpu": 73,
+      "mem": 29,
       "disk": 80,
-      "load": "0.26",
-      "uptime": "10 weeks, 1 day, 21 hours, 50 minutes",
+      "load": "0.27",
+      "uptime": "10 weeks, 1 day, 23 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -114,10 +114,10 @@
     },
     "person": {
       "cpu": 58,
-      "mem": 31,
+      "mem": 32,
       "disk": 69,
-      "load": "0.65",
-      "uptime": "10 weeks, 1 day, 21 hours, 50 minutes",
+      "load": "0.56",
+      "uptime": "10 weeks, 1 day, 23 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -441,11 +441,11 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 24,
+    "total_events": 23,
     "today_events": 3,
     "upcoming": 8,
     "reminders_pending": 0,
-    "last_updated": "2026-07-30T10:00:56",
+    "last_updated": "2026-07-30T11:30:07",
     "today_list": [
       {
         "summary": "Kinetix/Cohesity catch up",
