@@ -1,14 +1,14 @@
 {
-  "ts": "08:21",
+  "ts": "08:45",
   "hour": 8,
-  "minute": 21,
+  "minute": 45,
   "pushed_at": "2026-07-30 03:10 HKT",
   "system": {
-    "cpu": 96,
-    "mem": 34,
+    "cpu": 92,
+    "mem": 33,
     "disk": 80,
-    "load": "0.73",
-    "uptime": "6 days, 22 hours, 48 minutes",
+    "load": "0.37",
+    "uptime": "6 days, 23 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "08:21",
+      "time": "08:45",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 96,
-      "mem": 34,
+      "cpu": 92,
+      "mem": 33,
       "disk": 80,
-      "load": "0.73",
-      "uptime": "6 days, 22 hours, 48 minutes",
+      "load": "0.37",
+      "uptime": "6 days, 23 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 60,
-      "mem": 29,
+      "cpu": 40,
+      "mem": 28,
       "disk": 80,
-      "load": "0.11",
-      "uptime": "10 weeks, 1 day, 19 hours, 55 minutes",
+      "load": "0.46",
+      "uptime": "10 weeks, 1 day, 20 hours, 19 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 72,
-      "mem": 30,
+      "cpu": 56,
+      "mem": 31,
       "disk": 69,
-      "load": "0.28",
-      "uptime": "10 weeks, 1 day, 19 hours, 55 minutes",
+      "load": "0.60",
+      "uptime": "10 weeks, 1 day, 20 hours, 20 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -445,7 +445,7 @@
     "today_events": 3,
     "upcoming": 8,
     "reminders_pending": 0,
-    "last_updated": "2026-07-30T08:01:08",
+    "last_updated": "2026-07-30T08:30:47",
     "today_list": [
       {
         "summary": "Kinetix/Cohesity catch up",
