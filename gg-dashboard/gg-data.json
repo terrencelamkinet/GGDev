@@ -1,17 +1,17 @@
 {
-  "ts": "11:46",
-  "hour": 11,
-  "minute": 46,
+  "ts": "15:30",
+  "hour": 15,
+  "minute": 30,
   "pushed_at": "2026-07-30 03:10 HKT",
   "system": {
-    "cpu": 96,
-    "mem": 34,
-    "disk": 81,
-    "load": "0.70",
-    "uptime": "1 week, 2 hours, 12 minutes",
+    "cpu": 98,
+    "mem": 38,
+    "disk": 94,
+    "load": "0.25",
+    "uptime": "1 week, 5 hours, 56 minutes",
     "services": {
       "gg-reminder": "green",
-      "disk": "green",
+      "disk": "yellow",
       "memory": "green"
     }
   },
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "11:46",
+      "time": "15:30",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 96,
-      "mem": 34,
-      "disk": 81,
-      "load": "0.70",
-      "uptime": "1 week, 2 hours, 12 minutes",
+      "cpu": 98,
+      "mem": 38,
+      "disk": 94,
+      "load": "0.25",
+      "uptime": "1 week, 5 hours, 56 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 73,
-      "mem": 29,
+      "cpu": 52,
+      "mem": 28,
       "disk": 80,
-      "load": "0.27",
-      "uptime": "10 weeks, 1 day, 23 hours, 20 minutes",
+      "load": "0.18",
+      "uptime": "10 weeks, 2 days, 3 hours, 4 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 58,
-      "mem": 32,
+      "cpu": 54,
+      "mem": 34,
       "disk": 69,
-      "load": "0.56",
-      "uptime": "10 weeks, 1 day, 23 hours, 20 minutes",
+      "load": "0.55",
+      "uptime": "10 weeks, 2 days, 3 hours, 4 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -138,8 +138,8 @@
       ]
     }
   },
-  "badge_color": "green",
-  "badge_text": "● All OK",
+  "badge_color": "yellow",
+  "badge_text": "● Warning",
   "costs": {
     "summary": {
       "7d": {
@@ -444,8 +444,8 @@
     "total_events": 23,
     "today_events": 3,
     "upcoming": 8,
-    "reminders_pending": 0,
-    "last_updated": "2026-07-30T11:30:07",
+    "reminders_pending": 1,
+    "last_updated": "2026-07-30T15:30:08",
     "today_list": [
       {
         "summary": "Kinetix/Cohesity catch up",
