@@ -1,14 +1,14 @@
 {
-  "ts": "19:45",
-  "hour": 19,
-  "minute": 45,
+  "ts": "22:30",
+  "hour": 22,
+  "minute": 30,
   "pushed_at": "2026-07-30 03:10 HKT",
   "system": {
-    "cpu": 91,
-    "mem": 41,
+    "cpu": 94,
+    "mem": 39,
     "disk": 95,
-    "load": "0.64",
-    "uptime": "1 week, 10 hours, 12 minutes",
+    "load": "0.38",
+    "uptime": "1 week, 12 hours, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "red",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "19:46",
+      "time": "22:30",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 91,
-      "mem": 41,
+      "cpu": 94,
+      "mem": 39,
       "disk": 95,
-      "load": "0.64",
-      "uptime": "1 week, 10 hours, 12 minutes",
+      "load": "0.38",
+      "uptime": "1 week, 12 hours, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 4,
+      "cpu": 36,
       "mem": 28,
       "disk": 80,
-      "load": "0.40",
-      "uptime": "10 weeks, 2 days, 7 hours, 20 minutes",
+      "load": "0.35",
+      "uptime": "10 weeks, 2 days, 10 hours, 4 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 87,
-      "mem": 31,
-      "disk": 70,
-      "load": "0.30",
-      "uptime": "10 weeks, 2 days, 7 hours, 20 minutes",
+      "cpu": 65,
+      "mem": 30,
+      "disk": 69,
+      "load": "0.64",
+      "uptime": "10 weeks, 2 days, 10 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -443,9 +443,9 @@
   "schedule": {
     "total_events": 23,
     "today_events": 3,
-    "upcoming": 8,
+    "upcoming": 9,
     "reminders_pending": 0,
-    "last_updated": "2026-07-30T19:00:22",
+    "last_updated": "2026-07-30T22:30:42",
     "today_list": [
       {
         "summary": "Kinetix/Cohesity catch up",
