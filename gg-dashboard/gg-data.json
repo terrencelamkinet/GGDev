@@ -1,14 +1,14 @@
 {
-  "ts": "15:45",
-  "hour": 15,
-  "minute": 45,
-  "pushed_at": "2026-07-29 03:10 HKT",
+  "ts": "08:01",
+  "hour": 8,
+  "minute": 1,
+  "pushed_at": "2026-07-30 03:10 HKT",
   "system": {
-    "cpu": 98,
-    "mem": 30,
-    "disk": 78,
-    "load": "0.20",
-    "uptime": "6 days, 6 hours, 12 minutes",
+    "cpu": 76,
+    "mem": 34,
+    "disk": 80,
+    "load": "0.49",
+    "uptime": "6 days, 22 hours, 27 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "15:45",
+      "time": "08:01",
       "text": "Dashboard data refresh"
     },
     {
@@ -39,36 +39,36 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.9.gz (502B)"
+      "text": "Cron: nightly_upgrade.log.9.gz (851B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.8.gz (851B)"
+      "text": "Cron: nightly_upgrade.log.8.gz (690B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.7.gz (690B)"
+      "text": "Cron: nightly_upgrade.log.7.gz (759B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.6.gz (759B)"
+      "text": "Cron: nightly_upgrade.log.6.gz (629B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.5.gz (629B)"
+      "text": "Cron: nightly_upgrade.log.5.gz (674B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.4.gz (674B)"
+      "text": "Cron: nightly_upgrade.log.4.gz (537B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 98,
-      "mem": 30,
-      "disk": 78,
-      "load": "0.20",
-      "uptime": "6 days, 6 hours, 12 minutes",
+      "cpu": 76,
+      "mem": 34,
+      "disk": 80,
+      "load": "0.49",
+      "uptime": "6 days, 22 hours, 27 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 18,
+      "cpu": 4,
       "mem": 29,
       "disk": 80,
-      "load": "0.10",
-      "uptime": "10 weeks, 1 day, 3 hours, 20 minutes",
+      "load": "0.16",
+      "uptime": "10 weeks, 1 day, 19 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 58,
-      "mem": 30,
+      "cpu": 54,
+      "mem": 31,
       "disk": 69,
-      "load": "0.48",
-      "uptime": "10 weeks, 1 day, 3 hours, 20 minutes",
+      "load": "0.50",
+      "uptime": "10 weeks, 1 day, 19 hours, 35 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -442,18 +442,22 @@
   },
   "schedule": {
     "total_events": 24,
-    "today_events": 2,
+    "today_events": 3,
     "upcoming": 8,
     "reminders_pending": 0,
-    "last_updated": "2026-07-29T15:31:04",
+    "last_updated": "2026-07-30T08:01:08",
     "today_list": [
       {
-        "summary": "Onsite Kong API",
-        "time": "14:00"
+        "summary": "Kinetix/Cohesity catch up",
+        "time": "14:15"
       },
       {
-        "summary": "i2 Backup Solution Product Briefing",
-        "time": "15:00"
+        "summary": "Canceled: Outsystem Event Kinetix Open A",
+        "time": "14:30"
+      },
+      {
+        "summary": "HKADC: internal discussion",
+        "time": "16:00"
       }
     ]
   },
