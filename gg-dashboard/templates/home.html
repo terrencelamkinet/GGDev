@@ -3,7 +3,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="GG Platform">
-<title>GG Platform</title><link rel="stylesheet" href="/static/styles.css?v=2.0">
+<title>GG Platform</title><link rel="stylesheet" href="/static/styles.css?v=2.1">
 </head><body>
 <div class="app-shell">
 
@@ -32,10 +32,16 @@
     <div class="ios-stat"><div class="ios-stat-value" id="hCpu">--</div><div class="ios-stat-label">CPU</div></div>
   </div>
 
-  <!-- AI Intelligence Section -->
+  <!-- AI Intelligence Section (collapsible briefing) -->
   <div class="ios-section">
-    <div class="ios-header">AI Intelligence</div>
-    <div class="ios-group">
+    <div class="ios-header-btn" onclick="toggleIntel()" role="button" aria-expanded="false" aria-controls="intelBody">
+      <span style="display:flex;align-items:center;gap:8px">
+        <span>AI Intelligence</span>
+        <span id="intelBadge" class="intel-badge" style="display:none">NEW</span>
+      </span>
+      <svg class="intel-chevron" id="intelChevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="ios-group" id="intelBody" style="display:none">
       <div id="homeSuggestions" style="padding:12px 16px;min-height:44px">
         <div class="ios-caption-1" style="color:var(--secondary-label)">Analyzing...</div>
       </div>
@@ -114,6 +120,36 @@ function sendChat(){var i=document.getElementById('chatInput'),msg=i.value.trim(
 fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})}).then(function(r){return r.json()}).then(function(r){m.innerHTML+='<div style="margin:2px 0"><span style="background:var(--fill);padding:6px 12px;border-radius:10px;display:inline-block;font-size:15px">🤖 '+(r.message||'Got it')+'</span></div>';}).catch(function(){}).finally(function(){i.disabled=false;i.focus();});}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
 
+/* Collapsible AI Intelligence briefing */
+function hashStr(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h+s.charCodeAt(i))|0;}return String(h);}
+function toggleIntel(){
+  var body=document.getElementById('intelBody');
+  var chev=document.getElementById('intelChevron');
+  var hdr=document.querySelector('.ios-header-btn');
+  var open = body.style.display!=='none';
+  body.style.display = open ? 'none' : 'block';
+  if(chev) chev.style.transform = open ? '' : 'rotate(180deg)';
+  if(hdr) hdr.setAttribute('aria-expanded', open ? 'false' : 'true');
+  if(!open){ /* expanded - mark current summary as read */
+    var sug=document.getElementById('homeSuggestions');
+    if(sug && sug.dataset.summaryHash) localStorage.setItem('ggIntelSeen', sug.dataset.summaryHash);
+    var badge=document.getElementById('intelBadge');
+    if(badge) badge.style.display='none';
+  }
+}
+function checkIntelNew(summary){
+  var badge=document.getElementById('intelBadge');
+  if(!badge||!summary) return;
+  var h=hashStr(summary);
+  var sug=document.getElementById('homeSuggestions');
+  if(sug) sug.dataset.summaryHash=h;
+  var body=document.getElementById('intelBody');
+  if(body && body.style.display!=='none'){ localStorage.setItem('ggIntelSeen',h); return; }
+  var seen=localStorage.getItem('ggIntelSeen')||'';
+  if(seen===''){ localStorage.setItem('ggIntelSeen',h); return; } /* first load - treat as read */
+  if(h!==seen) badge.style.display='inline-flex';
+}
+
 function loadHome(){
   fetch('/api/data?_='+Date.now()).then(function(r){return r.json()}).then(function(d){
     var h=new Date().getHours();
@@ -146,6 +182,7 @@ function loadHome(){
       var sug=document.getElementById('homeSuggestions');
       if(d2.ok && d2.summary){
         sug.innerHTML = '<div style="font-size:15px;color:var(--label);line-height:1.6">' + esc(d2.summary) + '</div>';
+        checkIntelNew(d2.summary);
       } else {
         renderFallbackSuggestions(d.tasks||{});
       }

@@ -167,6 +167,43 @@ body {
   padding: 0 16px 6px;
   line-height: 1;
 }
+.ios-header-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--secondary-label);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding: 10px 16px 6px;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 36px;
+  user-select: none;
+}
+.intel-chevron {
+  transition: transform 0.25s ease;
+  color: var(--secondary-label);
+  flex-shrink: 0;
+}
+.intel-badge {
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  line-height: 1.2;
+  text-transform: none;
+  animation: intelPulse 1.6s ease-in-out infinite;
+}
+@keyframes intelPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
 .ios-group {
   background: var(--tertiary-background);
   border-radius: 10px;
