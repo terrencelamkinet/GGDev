@@ -1,17 +1,17 @@
 {
-  "ts": "23:00",
-  "hour": 23,
-  "minute": 0,
-  "pushed_at": "2026-07-30 03:10 HKT",
+  "ts": "09:45",
+  "hour": 9,
+  "minute": 45,
+  "pushed_at": "2026-08-21 03:10 HKT",
   "system": {
-    "cpu": 80,
-    "mem": 40,
-    "disk": 95,
-    "load": "0.45",
-    "uptime": "1 week, 13 hours, 26 minutes",
+    "cpu": 89,
+    "mem": 37,
+    "disk": 84,
+    "load": "0.25",
+    "uptime": "4 weeks, 1 day, 11 minutes",
     "services": {
       "gg-reminder": "green",
-      "disk": "red",
+      "disk": "green",
       "memory": "green"
     }
   },
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "23:00",
+      "time": "09:45",
       "text": "Dashboard data refresh"
     },
     {
@@ -39,36 +39,36 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.9.gz (851B)"
+      "text": "Cron: nightly_upgrade.log.9.gz (645B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.8.gz (690B)"
+      "text": "Cron: nightly_upgrade.log.8.gz (730B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.7.gz (759B)"
+      "text": "Cron: nightly_upgrade.log.7.gz (1001B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.6.gz (629B)"
+      "text": "Cron: nightly_upgrade.log.6.gz (645B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.5.gz (674B)"
+      "text": "Cron: nightly_upgrade.log.5.gz (756B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.4.gz (537B)"
+      "text": "Cron: nightly_upgrade.log.4.gz (957B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 80,
-      "mem": 40,
-      "disk": 95,
-      "load": "0.45",
-      "uptime": "1 week, 13 hours, 26 minutes",
+      "cpu": 89,
+      "mem": 37,
+      "disk": 84,
+      "load": "0.25",
+      "uptime": "4 weeks, 1 day, 11 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 8,
-      "mem": 28,
-      "disk": 80,
-      "load": "0.50",
-      "uptime": "10 weeks, 2 days, 10 hours, 34 minutes",
+      "cpu": 59,
+      "mem": 31,
+      "disk": 52,
+      "load": "0.81",
+      "uptime": "13 weeks, 2 days, 21 hours, 19 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,14 +113,14 @@
       ]
     },
     "person": {
-      "cpu": 59,
-      "mem": 35,
+      "cpu": 4,
+      "mem": 37,
       "disk": 69,
-      "load": "0.69",
-      "uptime": "10 weeks, 2 days, 10 hours, 34 minutes",
+      "load": "0.27",
+      "uptime": "13 weeks, 2 days, 21 hours, 19 minutes",
       "daemons": {
-        "reminder": true,
-        "monitor": true,
+        "reminder": false,
+        "monitor": false,
         "openclaw": true
       },
       "online": true,
@@ -138,8 +138,8 @@
       ]
     }
   },
-  "badge_color": "yellow",
-  "badge_text": "● Warning",
+  "badge_color": "green",
+  "badge_text": "● All OK",
   "costs": {
     "summary": {
       "7d": {
@@ -441,23 +441,15 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 23,
-    "today_events": 3,
-    "upcoming": 9,
-    "reminders_pending": 0,
-    "last_updated": "2026-07-30T23:00:15",
+    "total_events": 18,
+    "today_events": 1,
+    "upcoming": 15,
+    "reminders_pending": 2,
+    "last_updated": "2026-08-21T09:30:27",
     "today_list": [
       {
-        "summary": "Kinetix/Cohesity catch up",
-        "time": "14:15"
-      },
-      {
-        "summary": "Canceled: Outsystem Event Kinetix Open A",
-        "time": "14:30"
-      },
-      {
-        "summary": "HKADC: internal discussion",
-        "time": "16:00"
+        "summary": "展彩到永遠",
+        "time": "19:30"
       }
     ]
   },
