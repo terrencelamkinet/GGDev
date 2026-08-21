@@ -1,14 +1,14 @@
 {
-  "ts": "09:45",
-  "hour": 9,
-  "minute": 45,
+  "ts": "11:30",
+  "hour": 11,
+  "minute": 30,
   "pushed_at": "2026-08-21 03:10 HKT",
   "system": {
-    "cpu": 89,
+    "cpu": 95,
     "mem": 37,
     "disk": 84,
-    "load": "0.25",
-    "uptime": "4 weeks, 1 day, 11 minutes",
+    "load": "0.19",
+    "uptime": "4 weeks, 1 day, 1 hour, 57 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "09:45",
+      "time": "11:30",
       "text": "Dashboard data refresh"
     },
     {
@@ -64,11 +64,11 @@
   ],
   "agents": {
     "main": {
-      "cpu": 89,
+      "cpu": 95,
       "mem": 37,
       "disk": 84,
-      "load": "0.25",
-      "uptime": "4 weeks, 1 day, 11 minutes",
+      "load": "0.19",
+      "uptime": "4 weeks, 1 day, 1 hour, 57 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 59,
+      "cpu": 66,
       "mem": 31,
       "disk": 52,
-      "load": "0.81",
-      "uptime": "13 weeks, 2 days, 21 hours, 19 minutes",
+      "load": "0.48",
+      "uptime": "13 weeks, 2 days, 23 hours, 5 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 4,
+      "cpu": 0,
       "mem": 37,
-      "disk": 69,
+      "disk": 68,
       "load": "0.27",
-      "uptime": "13 weeks, 2 days, 21 hours, 19 minutes",
+      "uptime": "13 weeks, 2 days, 23 hours, 5 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -444,8 +444,8 @@
     "total_events": 18,
     "today_events": 1,
     "upcoming": 15,
-    "reminders_pending": 2,
-    "last_updated": "2026-08-21T09:30:27",
+    "reminders_pending": 0,
+    "last_updated": "2026-08-21T11:30:52",
     "today_list": [
       {
         "summary": "展彩到永遠",
