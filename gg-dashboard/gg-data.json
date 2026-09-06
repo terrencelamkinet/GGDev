@@ -1,14 +1,14 @@
 {
-  "ts": "11:30",
-  "hour": 11,
-  "minute": 30,
-  "pushed_at": "2026-08-21 03:10 HKT",
+  "ts": "18:45",
+  "hour": 18,
+  "minute": 45,
+  "pushed_at": "2026-09-06 03:10 HKT",
   "system": {
-    "cpu": 95,
-    "mem": 37,
-    "disk": 84,
-    "load": "0.19",
-    "uptime": "4 weeks, 1 day, 1 hour, 57 minutes",
+    "cpu": 47,
+    "mem": 31,
+    "disk": 89,
+    "load": "0.71",
+    "uptime": "6 weeks, 3 days, 9 hours, 12 minutes",
     "services": {
       "gg-reminder": "green",
       "disk": "green",
@@ -22,7 +22,7 @@
   },
   "activity": [
     {
-      "time": "11:30",
+      "time": "18:45",
       "text": "Dashboard data refresh"
     },
     {
@@ -39,36 +39,36 @@
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.9.gz (645B)"
+      "text": "Cron: nightly_upgrade.log.9.gz (859B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.8.gz (730B)"
+      "text": "Cron: nightly_upgrade.log.8.gz (723B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.7.gz (1001B)"
+      "text": "Cron: nightly_upgrade.log.7.gz (915B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.6.gz (645B)"
+      "text": "Cron: nightly_upgrade.log.6.gz (684B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.5.gz (756B)"
+      "text": "Cron: nightly_upgrade.log.5.gz (905B)"
     },
     {
       "time": "00:00",
-      "text": "Cron: nightly_upgrade.log.4.gz (957B)"
+      "text": "Cron: nightly_upgrade.log.4.gz (763B)"
     }
   ],
   "agents": {
     "main": {
-      "cpu": 95,
-      "mem": 37,
-      "disk": 84,
-      "load": "0.19",
-      "uptime": "4 weeks, 1 day, 1 hour, 57 minutes",
+      "cpu": 47,
+      "mem": 31,
+      "disk": 89,
+      "load": "0.71",
+      "uptime": "6 weeks, 3 days, 9 hours, 12 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -88,11 +88,11 @@
       ]
     },
     "work": {
-      "cpu": 66,
-      "mem": 31,
-      "disk": 52,
-      "load": "0.48",
-      "uptime": "13 weeks, 2 days, 23 hours, 5 minutes",
+      "cpu": 13,
+      "mem": 33,
+      "disk": 55,
+      "load": "0.22",
+      "uptime": "15 weeks, 5 days, 6 hours, 19 minutes",
       "daemons": {
         "reminder": true,
         "monitor": true,
@@ -113,11 +113,11 @@
       ]
     },
     "person": {
-      "cpu": 0,
-      "mem": 37,
-      "disk": 68,
-      "load": "0.27",
-      "uptime": "13 weeks, 2 days, 23 hours, 5 minutes",
+      "cpu": 4,
+      "mem": 31,
+      "disk": 72,
+      "load": "0.15",
+      "uptime": "15 weeks, 5 days, 6 hours, 19 minutes",
       "daemons": {
         "reminder": false,
         "monitor": false,
@@ -441,17 +441,12 @@
     "source": "task_sync_state"
   },
   "schedule": {
-    "total_events": 18,
-    "today_events": 1,
-    "upcoming": 15,
+    "total_events": 16,
+    "today_events": 0,
+    "upcoming": 7,
     "reminders_pending": 0,
-    "last_updated": "2026-08-21T11:30:52",
-    "today_list": [
-      {
-        "summary": "展彩到永遠",
-        "time": "19:30"
-      }
-    ]
+    "last_updated": "2026-09-06T18:30:20",
+    "today_list": []
   },
   "update_source": "hermes_update_data.py"
 }
