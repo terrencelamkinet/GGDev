@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 GG Morning Briefing - 朝早綜合報告
 整合：HKO (天氣)、Google Maps Routes API (交通)、Calendar (日程)、Notion (合約)
@@ -10,12 +10,12 @@ import gg_time
 
 HKT = timezone(timedelta(hours=8))
 
-***REMOVED*** ─── API Key ───
+# ─── API Key ───
 GMAPS_KEY = os.environ.get('GOOGLE_MAPS_API_KEY', '')
 if not GMAPS_KEY:
-    ***REMOVED*** Try multiple sources (crontab runs as root, no user env)
+    # Try multiple sources (crontab runs as root, no user env)
     sources = [
-        '~/.openclaw/.env',               ***REMOVED*** OpenClaw global env
+        '~/.openclaw/.env',               # OpenClaw global env
         '~/.bashrc',
         '~airoot/.bashrc',
         '~root/.bashrc',
@@ -39,9 +39,9 @@ if not GMAPS_KEY:
 
 CONTRACTS_DB = "29d783d5-93e7-8056-93fb-cd6756c2acc2"
 
-***REMOVED*** Coordinates
-HOME = "22.441569,114.063731"       ***REMOVED*** 錦田水尾村
-OFFICE = "22.312676,114.226162"     ***REMOVED*** 觀塘AIA大樓
+# Coordinates
+HOME = "22.441569,114.063731"       # 錦田水尾村
+OFFICE = "22.312676,114.226162"     # 觀塘AIA大樓
 
 ROAD_SEGMENTS = [
     (["錦田","水頭","錦慶","元朗"], "錦田→元朗"),
@@ -101,9 +101,9 @@ def _call_routes_api(origin, dest, traffic_aware=True):
             return json.loads(r.read())
     except: return None
 
-***REMOVED*** =======================
-***REMOVED*** 1. WEATHER
-***REMOVED*** =======================
+# =======================
+# 1. WEATHER
+# =======================
 def get_weather():
     try:
         req = urllib.request.Request(
@@ -139,13 +139,13 @@ def get_weather():
         traceback.print_exc()
         return {"error":str(e),"temp":"","humidity":"","rain_str":"","icon":"","warnings":[]}
 
-***REMOVED*** =======================
-***REMOVED*** 2. TRAFFIC
-***REMOVED*** =======================
+# =======================
+# 2. TRAFFIC
+# =======================
 def get_traffic():
     out = {"drive": None, "drive_detail": [], "transit": []}
 
-    ***REMOVED*** Routes API: traffic vs normal
+    # Routes API: traffic vs normal
     data_t = _call_routes_api(HOME, OFFICE, True)
     data_n = _call_routes_api(HOME, OFFICE, False)
 
@@ -186,7 +186,7 @@ def get_traffic():
                     seg_lines.append(f"{_icon_for_delay(sd)} {name}: ~{mn}min")
             out["drive_detail"] = seg_lines
 
-    ***REMOVED*** Directions API fallback
+    # Directions API fallback
     elif data_n is not None:
         dr = None
         try:
@@ -212,7 +212,7 @@ def get_traffic():
     else:
         out["drive"]="無法取得交通數據"
 
-    ***REMOVED*** Transit
+    # Transit
     for tr in [{"k":"601B","o":"錦田郵局","d":"觀塘AIA"},{"k":"Tuen Ma","o":"錦上路站","d":"觀塘港鐵站"}]:
         try:
             o=urllib.parse.quote(tr["o"]); d=urllib.parse.quote(tr["d"])
@@ -226,9 +226,9 @@ def get_traffic():
     out["transit"].sort(key=lambda x:x.get("secs",9999))
     return out
 
-***REMOVED*** =======================
-***REMOVED*** 3. NOTION CONTRACTS
-***REMOVED*** =======================
+# =======================
+# 3. NOTION CONTRACTS
+# =======================
 def get_renewals():
     from api_connector import NotionAPI
     now = gg_time.now()
@@ -258,9 +258,9 @@ def get_renewals():
             except: pass
     return results
 
-***REMOVED*** =======================
-***REMOVED*** 4. CALENDAR
-***REMOVED*** =======================
+# =======================
+# 4. CALENDAR
+# =======================
 def get_calendar():
     try:
         from api_connector import GoogleAPI
@@ -283,9 +283,9 @@ def get_calendar():
         return events
     except: return None
 
-***REMOVED*** =======================
-***REMOVED*** 5. MAIN
-***REMOVED*** =======================
+# =======================
+# 5. MAIN
+# =======================
 def main():
     now=gg_time.now()
     print(f"早晨 — {now.strftime('%A %d/%m')}\n")

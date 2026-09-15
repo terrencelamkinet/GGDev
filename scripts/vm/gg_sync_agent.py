@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 GG Cross-Machine Sync Agent — 每15分鐘 sync 對方做咗咩
 
@@ -72,7 +72,7 @@ def pull_events_from_vm(target):
             data = json.loads(result.stdout)
             if "choices" in data and len(data["choices"]) > 0:
                 resp_content = data["choices"][0]["message"]["content"].strip()
-                ***REMOVED*** Try to parse as JSON array
+                # Try to parse as JSON array
                 try:
                     events = json.loads(resp_content)
                     if isinstance(events, list):
@@ -105,7 +105,7 @@ def write_sync_events(target, events, source_host):
     handoff_file = os.path.join(LOG_DIR, "handoffs.jsonl")
     ts_now = datetime.now(timezone.utc).isoformat()
     
-    for evt in events[-5:]:  ***REMOVED*** Max 5 per pull
+    for evt in events[-5:]:  # Max 5 per pull
         entry = {
             "ts": evt.get("ts", ts_now),
             "synced_at": ts_now,

@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 VM Query System - 統一查詢 GG-Work / GG-Person VM
 用嚟喺 generate briefing 時從兩邊 VM 拎資料
@@ -78,14 +78,14 @@ def collect_morning_data():
     """Collect ALL data needed for morning briefing from both VMs"""
     results = {}
     
-    ***REMOVED*** GG-Person: personal data
+    # GG-Person: personal data
     person_queries = [
         ("today", "Terrence今日有咩個人行程或約會？（檢查 memory/ 目錄）"),
         ("reminders", "Terrence今日有咩個人提醒？"),
         ("yesterday", "尋日 Terrence 有咩個人重要對話或事件？")
     ]
     
-    ***REMOVED*** GG-Work: work data
+    # GG-Work: work data
     work_queries = [
         ("tasks", "Terrence今日有咩工作任務或會議？"),
         ("deadlines", "有冇今日到期嘅 deadline？"),
@@ -110,13 +110,13 @@ if __name__ == "__main__":
     import sys
     
     if len(sys.argv) > 1:
-        ***REMOVED*** CLI mode: query specific VM
+        # CLI mode: query specific VM
         target = sys.argv[1]
         query = " ".join(sys.argv[2:])
         result = query_vm(target, query)
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
-        ***REMOVED*** Collect all morning data
+        # Collect all morning data
         data = collect_morning_data()
         print("\n📊 === COLLECTED DATA ===")
         for key, val in data.items():

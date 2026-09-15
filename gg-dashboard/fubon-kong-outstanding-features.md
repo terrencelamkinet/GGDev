@@ -1,11 +1,11 @@
-***REMOVED*** Outstanding Features — Not in PoC Scope
+# Outstanding Features — Not in PoC Scope
 
 These 13 features require additional environment, third-party software, or enterprise license.
 Not included in the 33 PoC test flows. Recommended for Phase 2.
 
-***REMOVED******REMOVED*** Infrastructure-dependent (needs external component)
+# # Infrastructure-dependent (needs external component)
 
-| ***REMOVED*** | Feature | What's Needed |
+| # | Feature | What's Needed |
 |---|---|---|
 | 1 | WAF Integration | ModSecurity, AWS WAF, or AI WAF solution |
 | 2 | SIEM Integration (Splunk/ELK) | Splunk, ELK stack, or any syslog endpoint |
@@ -14,24 +14,24 @@ Not included in the 33 PoC test flows. Recommended for Phase 2.
 | 5 | External Policy Engine (OPA/PDP) | Open Policy Agent sidecar or PDP service |
 | 6 | Message Queue (Kafka/MQ) | Kafka, RabbitMQ, or any MQ broker |
 
-***REMOVED******REMOVED*** Environment-dependent (needs additional deployment)
+# # Environment-dependent (needs additional deployment)
 
-| ***REMOVED*** | Feature | What's Needed |
+| # | Feature | What's Needed |
 |---|---|---|
 | 7 | Environment Promotion | UAT + Production Kong instances |
 | 8 | Hybrid Deployment | Cloud Kong instance (AWS / DO / Konnect) |
 | 9 | Multi-Region DR | Second region or data center |
 
-***REMOVED******REMOVED*** Enterprise-dependent (needs Kong Enterprise / Konnect)
+# # Enterprise-dependent (needs Kong Enterprise / Konnect)
 
-| ***REMOVED*** | Feature | What's Needed |
+| # | Feature | What's Needed |
 |---|---|---|
 | 10 | API Portal (Dev Portal) | Kong Enterprise or Konnect |
 | 11 | API Documentation (auto-generated) | Part of Dev Portal |
 | 12 | API Testing Console | Part of Dev Portal |
 | 13 | SDK Generation | Part of Dev Portal |
 
-***REMOVED******REMOVED*** Summary
+# # Summary
 
 | Category | Count | Effort |
 |---|---|---|
@@ -40,7 +40,7 @@ Not included in the 33 PoC test flows. Recommended for Phase 2.
 | Enterprise-dependent | 4 | License decision required |
 | **Total** | **13** | |
 
-***REMOVED******REMOVED*** Covered in PoC (33 test flows, 38 features)
+# # Covered in PoC (33 test flows, 38 features)
 
 | Phase | Flows | Features Covered |
 |---|---|---|

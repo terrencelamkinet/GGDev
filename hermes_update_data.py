@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """Hermes Dashboard Data Updater — collects health data from all 3 machines.
 Preserves costs, agent thoughts/needs/learnings/uncertainties, schedule, pushed_at."""
 import json, os, subprocess
@@ -9,7 +9,7 @@ DATA_DIR = os.path.expanduser("~/projects/ggdev-repo/gg-dashboard")
 DATA_FILE = os.path.join(DATA_DIR, "gg-data.json")
 COST_FILE = os.path.expanduser("~/.hermes/cost_history.json")
 
-***REMOVED*** Agent thoughts — fallback defaults (overwritten by merge_preserved from existing file)
+# Agent thoughts — fallback defaults (overwritten by merge_preserved from existing file)
 DEFAULT_THOUGHTS = {
     "main": {
         "thoughts": "Monitoring system health across all 3 VMs. Ready to assist.",
@@ -219,19 +219,19 @@ def merge_preserved(existing, new_data):
     if existing is None:
         return new_data
 
-    ***REMOVED*** Preserve costs
+    # Preserve costs
     if existing.get("costs"):
         new_data["costs"] = existing["costs"]
 
-    ***REMOVED*** Preserve schedule
+    # Preserve schedule
     if existing.get("schedule"):
         new_data["schedule"] = existing["schedule"]
 
-    ***REMOVED*** Preserve pushed_at (override with current time later)
+    # Preserve pushed_at (override with current time later)
     if existing.get("pushed_at"):
         new_data["pushed_at"] = existing["pushed_at"]
 
-    ***REMOVED*** Preserve agent introspection fields
+    # Preserve agent introspection fields
     if "agents" in existing:
         for agent_key in ["main", "work", "person"]:
             if agent_key in existing["agents"] and agent_key in new_data["agents"]:
@@ -241,9 +241,9 @@ def merge_preserved(existing, new_data):
                     if field in ea and ea[field]:
                         na[field] = ea[field]
                     elif field not in na:
-                        ***REMOVED*** Inject from defaults
+                        # Inject from defaults
                         na[field] = DEFAULT_THOUGHTS.get(agent_key, {}).get(field)
-                ***REMOVED*** Preserve non-overwritten fields
+                # Preserve non-overwritten fields
                 for field in ["ip", "cron_jobs"]:
                     if field in ea:
                         na[field] = ea[field]
@@ -258,7 +258,7 @@ def main():
     minute = now.minute
     pushed_at = now.strftime("%Y-%m-%d %H:%M HKT")
 
-    ***REMOVED*** Read existing data first
+    # Read existing data first
     existing = None
     if os.path.exists(DATA_FILE):
         try:
@@ -334,11 +334,11 @@ def main():
         "update_source": "hermes_update_data.py",
     }
 
-    ***REMOVED*** Merge preserved fields and agent introspection
+    # Merge preserved fields and agent introspection
     data = merge_preserved(existing, data)
 
     os.makedirs(DATA_DIR, exist_ok=True)
-    ***REMOVED*** Atomic write: temp file + rename
+    # Atomic write: temp file + rename
     import tempfile
     tmp = tempfile.NamedTemporaryFile(
         mode='w', dir=DATA_DIR, prefix='.tmp-', suffix='.json',

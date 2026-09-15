@@ -8,9 +8,9 @@ references:
   - references/opencode-full-guide.md
 ---
 
-***REMOVED*** OpenCode Product Architecture Guide
+# OpenCode Product Architecture Guide
 
-***REMOVED******REMOVED*** 核心規則
+# # 核心規則
 
 **Terrence 永遠唔會打 code 或 command。** 佢只會講「我想要XXX」、「幫我做YYY」。你要：
 1. 自動拆解需求
@@ -21,7 +21,7 @@ references:
 
 ---
 
-***REMOVED******REMOVED*** 2026 標準 Product Tech Stack（10年有效）
+# # 2026 標準 Product Tech Stack（10年有效）
 
 ```
 Backend:      Python 3.13 + FastAPI + SQLAlchemy 2.0 + Alembic
@@ -38,13 +38,13 @@ Hosting:      Mac Mini M4 Pro + Cloudflare Tunnel
 
 ---
 
-***REMOVED******REMOVED*** 點解呢個 Stack
+# # 點解呢個 Stack
 
 | Technology | 原因 | 10年預測 |
 |---|---|---|
 | Python | AI/ML 霸主，FastAPI 係 2026 標準 | 仲會更強 |
 | TypeScript | Industry standard，請人容易 | Standard |
-| React | ***REMOVED***1 前端框架 | 概念永續 |
+| React | #1 前端框架 | 概念永續 |
 | PostgreSQL | 最可靠 open-source DB | 只會更流行 |
 | Redis | Cache + Pub/Sub 標準 | Standard |
 | Docker | Container 標準 | Standard |
@@ -52,9 +52,9 @@ Hosting:      Mac Mini M4 Pro + Cloudflare Tunnel
 
 ---
 
-***REMOVED******REMOVED*** OpenCode 架構認知
+# # OpenCode 架構認知
 
-***REMOVED******REMOVED******REMOVED*** 四大形態
+# ## 四大形態
 
 | 形態 | 用途 |
 |---|---|
@@ -63,7 +63,7 @@ Hosting:      Mac Mini M4 Pro + Cloudflare Tunnel
 | **Desktop 客戶端** | Beta，基本對話 |
 | **GitHub Action** | CI/CD 自動執行 |
 
-***REMOVED******REMOVED******REMOVED*** Model 接入策略
+# ## Model 接入策略
 
 | 方案 | 點用 |
 |---|---|
@@ -71,14 +71,14 @@ Hosting:      Mac Mini M4 Pro + Cloudflare Tunnel
 | **Antigravity 插件** | 免費接入 Gemini 1.5 Pro / Claude 3.5 Sonnet |
 | **OpenRouter** | 俾 API Key 即可用任何 model |
 
-***REMOVED******REMOVED******REMOVED*** Session 並行開發
+# ## Session 並行開發
 
 - 每個新對話 = 一個 Session
 - `new` = 開新 Session 背景運行
 - `/sessions` = 睇所有進行中 task
 - `/timeline` = 睇修改記錄，可以 Revert
 
-***REMOVED******REMOVED******REMOVED*** 拉爾夫循環 (Ralph Loop)
+# ## 拉爾夫循環 (Ralph Loop)
 
 - 指令：`/r`
 - 用途：超複雜任務，AI 自動循環直到完成
@@ -86,9 +86,9 @@ Hosting:      Mac Mini M4 Pro + Cloudflare Tunnel
 
 ---
 
-***REMOVED******REMOVED*** 使用 OpenCode 嘅工作流程
+# # 使用 OpenCode 嘅工作流程
 
-***REMOVED******REMOVED******REMOVED*** 當 Terrence 提出要求：
+# ## 當 Terrence 提出要求：
 
 ```
 Terrence: 「我想要一個 task management system」
@@ -102,7 +102,7 @@ Terrence: 「我想要一個 task management system」
 6. 等 feedback → 再改
 ```
 
-***REMOVED******REMOVED******REMOVED*** 成品展示標準
+# ## 成品展示標準
 
 每次完成後要俾 Terrence 睇到：
 
@@ -113,27 +113,27 @@ Terrence: 「我想要一個 task management system」
 
 ---
 
-***REMOVED******REMOVED*** 常見 Product 模式
+# # 常見 Product 模式
 
-***REMOVED******REMOVED******REMOVED*** Task Management System
+# ## Task Management System
 tables: users, tenants, tasks, projects, tags
 features: CRUD, filter, sort, drag-drop, real-time
 auth: Supabase + RBAC
 deploy: Docker Compose on Mac Mini
 
-***REMOVED******REMOVED******REMOVED*** Dashboard / Analytics
+# ## Dashboard / Analytics
 tables: events, metrics, dashboards
 features: charts (recharts), filters, date range, export
 real-time: WebSocket push
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Platform
+# ## AI Agent Platform
 tables: agents, conversations, tools, logs
 features: multi-agent orchestration, thought streaming
 real-time: agent thoughts → WebSocket → dashboard
 
 ---
 
-***REMOVED******REMOVED*** Mac Mini 部署標準模板
+# # Mac Mini 部署標準模板
 
 docker-compose.yml 結構：
 - postgres:17
@@ -144,7 +144,7 @@ docker-compose.yml 結構：
 
 ---
 
-***REMOVED******REMOVED*** 展示 Checklist（每次完成都要做）
+# # 展示 Checklist（每次完成都要做）
 
 ```
 [ ] Server 著咗（local 行到）
@@ -156,7 +156,7 @@ docker-compose.yml 結構：
 
 ---
 
-***REMOVED******REMOVED*** 10年 Vision Reminder
+# # 10年 Vision Reminder
 
 呢個 stack 係為 product 而設 — 唔係 personal tool。將來：
 - Multi-tenant（每個 customer 獨立 data）

@@ -14,7 +14,7 @@ from app.routers import agents, provision, ws
 @asynccontextmanager
 async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan: startup and shutdown events."""
-    ***REMOVED*** Startup: verify DB connection
+    # Startup: verify DB connection
     async with engine.begin() as conn:
         from sqlalchemy import text
         await conn.execute(text("SELECT 1"))
@@ -22,7 +22,7 @@ async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
 
     yield
 
-    ***REMOVED*** Shutdown: dispose engine
+    # Shutdown: dispose engine
     await engine.dispose()
     print("[AI One] Engine disposed.")
 
@@ -34,7 +34,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-***REMOVED*** CORS — allow frontend origin
+# CORS — allow frontend origin
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -43,7 +43,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-***REMOVED*** Register routers
+# Register routers
 app.include_router(agents.router, prefix="/api/agents", tags=["Agents"])
 app.include_router(provision.router, prefix="/api/provision", tags=["Provision"])
 app.include_router(ws.router, prefix="/ws", tags=["WebSocket"])

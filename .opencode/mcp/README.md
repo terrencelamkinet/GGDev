@@ -1,15 +1,15 @@
-***REMOVED*** OpenCode MCP Configuration
+# OpenCode MCP Configuration
 
 This directory contains MCP (Model Context Protocol) server configurations.
 
-***REMOVED******REMOVED*** Available MCP Servers
+# # Available MCP Servers
 
-***REMOVED******REMOVED******REMOVED*** Local MCP
+# ## Local MCP
 | Server | Description | Command |
 |--------|------------|---------|
 | shadcn/ui | Generate shadcn/ui components | `npx shadcn@latest add` |
 
-***REMOVED******REMOVED******REMOVED*** Remote MCP
+# ## Remote MCP
 | Server | Description | Endpoint |
 |--------|------------|----------|
 | Perplexity | Research + web-grounded reasoning | http://localhost:3100 |
@@ -18,9 +18,9 @@ This directory contains MCP (Model Context Protocol) server configurations.
 | HK Transport | HK transport ETA | http://localhost:3103 |
 | Design Lang | Design tokens & components | http://localhost:3104 |
 
-***REMOVED******REMOVED*** How to Add MCP Servers
+# # How to Add MCP Servers
 
-***REMOVED******REMOVED******REMOVED*** Option 1: Via opencode.json
+# ## Option 1: Via opencode.json
 Edit `~/.config/opencode/opencode.json` and add to `mcpServers`:
 
 ```json
@@ -33,19 +33,19 @@ Edit `~/.config/opencode/opencode.json` and add to `mcpServers`:
 }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Option 2: Via OpenCode CLI
+# ## Option 2: Via OpenCode CLI
 ```bash
 opencode mcp add --name my-server --command "npx my-mcp-server"
 ```
 
-***REMOVED******REMOVED******REMOVED*** Option 3: Via OpenCode chat
+# ## Option 3: Via OpenCode chat
 ```
 /mcp add my-server
 ```
 
-***REMOVED******REMOVED*** MCP Server Definitions
+# # MCP Server Definitions
 
-***REMOVED******REMOVED******REMOVED*** shadcn/ui (Local)
+# ## shadcn/ui (Local)
 Component generator for React/Tailwind projects.
 ```json
 {
@@ -55,7 +55,7 @@ Component generator for React/Tailwind projects.
 }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Perplexity (Remote)
+# ## Perplexity (Remote)
 Web-grounded research and reasoning.
 ```json
 {

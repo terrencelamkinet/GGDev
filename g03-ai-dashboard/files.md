@@ -1,8 +1,8 @@
-***REMOVED*** G03 — AI Dashboard File Inventory
+# G03 — AI Dashboard File Inventory
 
-***REMOVED******REMOVED*** Source: `projects/ggdev-repo/gg-dashboard/`
+# # Source: `projects/ggdev-repo/gg-dashboard/`
 
-***REMOVED******REMOVED*** Backend
+# # Backend
 
 | File | Size | Purpose |
 |------|------|---------|
@@ -16,7 +16,7 @@
 | `code/update-maintenance.py` | — | Maintenance data updater |
 | `code/update-data.sh` | — | Data update shell script |
 
-***REMOVED******REMOVED*** Data Files
+# # Data Files
 
 | File | Purpose |
 |------|---------|
@@ -26,7 +26,7 @@
 | `code/gg-maintenance.json` | Maintenance records |
 | `code/gg_data.json` | Additional data (legacy) |
 
-***REMOVED******REMOVED*** Templates (8 HTML files)
+# # Templates (8 HTML files)
 
 | File | Purpose |
 |------|---------|
@@ -39,7 +39,7 @@
 | `code/templates/profile.html` | System profile page |
 | `code/templates/aria.html` | (test/app page) |
 
-***REMOVED******REMOVED*** Static Files
+# # Static Files
 
 | File | Purpose |
 |------|---------|
@@ -48,7 +48,7 @@
 | `code/static/icons.svg` | SVG icon sprite |
 | `code/static/icons/` | 25 individual SVG icons |
 
-***REMOVED******REMOVED*** Design System & Extracts
+# # Design System & Extracts
 
 | File | Purpose |
 |------|---------|
@@ -86,13 +86,13 @@
 | `code/design-extract/VERSION.md` | Design extract version history |
 | `code/design-extract/gg-dashboard-prompts/` | AI prompts (cursor.md, v0.txt, lovable.txt, claude-artifacts.md, recipe-card.md, recipe-button.md) |
 
-***REMOVED******REMOVED*** Scripts
+# # Scripts
 
 | File | Purpose |
 |------|---------|
 | `code/scripts/css_class_audit.py` | CSS class audit utility |
 
-***REMOVED******REMOVED*** Docs
+# # Docs
 
 | File | Size | Purpose |
 |------|------|---------|
@@ -100,7 +100,7 @@
 | `CONTEXT.md` | — | Project context (preserved) |
 | `KINETIX-RESPONSIBILITY.md` | — | Kinetix responsibilities doc |
 
-***REMOVED******REMOVED*** Fubon-Kong Related
+# # Fubon-Kong Related
 
 | File | Purpose |
 |------|---------|
@@ -111,7 +111,7 @@
 | `code/fubon-kong-checklist-mapping.md` | Checklist mapping |
 | `code/fubon-kong-outstanding-features.md` | Outstanding features list |
 
-***REMOVED******REMOVED*** Other
+# # Other
 
 | File | Purpose |
 |------|---------|

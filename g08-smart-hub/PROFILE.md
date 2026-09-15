@@ -1,12 +1,12 @@
-***REMOVED*** G08 — Smart Hub 🧠
+# G08 — Smart Hub 🧠
 
 **統一 MCP 管家指令中心** — 用一個 command 搞掂每日 briefing、通勤、天氣、系統狀態。
 
-***REMOVED******REMOVED*** Overview
+# # Overview
 
 將 10 個 MCP servers 整合為一個 unified wrapper layer，用 `gg-commute` 做旗艦功能。朝早自動 push Telegram briefing，支援 cron 自動化同將來 native MCP tool injection。
 
-***REMOVED******REMOVED*** Features
+# # Features
 
 | 功能 | 狀態 | 技術 |
 |:-----|:----:|:-----|
@@ -18,7 +18,7 @@
 | 08:00 DIGEST 整合 | ✅ | 用 gg-commute 代替舊 weather check |
 | Future native MCP injection | 🔲 | 等 Hermes upstream support |
 
-***REMOVED******REMOVED*** MCP Servers (10 total, 62 tools)
+# # MCP Servers (10 total, 62 tools)
 
 | MCP | Tools | Source | 用途 |
 |:----|:-----:|:------|:-----|
@@ -33,13 +33,13 @@
 | **github** 💻 | 5 | local | GGDev repo git ops |
 | **apify** 🕸️ | 9 | npm | Web scraping |
 
-***REMOVED******REMOVED*** Key Files
+# # Key Files
 
 - `~/.local/bin/gg-commute` — Unified wrapper script (Python, ~200 lines)
 - `~/.local/bin/mcp-*-custom.py` — 6 custom MCP servers
 - `~/.hermes/mcp_config.yaml` — MCP registration
 
-***REMOVED******REMOVED*** Architecture
+# # Architecture
 
 ```
 User (Telegram)
@@ -54,13 +54,13 @@ gg-commute (Python wrapper)
     └─ (future) google-maps     → Maps API transit route
 ```
 
-***REMOVED******REMOVED*** Security
+# # Security
 
 - ✅ All API keys in `~/.hermes/.env` (600 permissions)
 - ✅ Zero hardcoded keys in scripts
 - ⚠️ `~/.config/notion/api_key` — duplicate key, pending deletion
 - ⚠️ Google Maps API key — add IP restriction
 
-***REMOVED******REMOVED*** Created
+# # Created
 
 2026-05-30 | Status: active

@@ -1,8 +1,8 @@
-***REMOVED*** Team Setup
+# Team Setup
 
 How to define agents, assign roles, select models, and isolate workspaces.
 
-***REMOVED******REMOVED*** Define Roles First, Then Agents
+# # Define Roles First, Then Agents
 
 Start with the work, not the agents. List the types of work, then create roles to cover them.
 
@@ -22,7 +22,7 @@ Ops          — scheduled tasks, health checks, mechanical work
 
 **Rule:** One agent, one primary role. An agent can do secondary work, but its role determines what it's optimized for.
 
-***REMOVED******REMOVED*** Model Selection Per Role
+# # Model Selection Per Role
 
 Match model cost to the cognitive demands of the role.
 
@@ -35,7 +35,7 @@ Match model cost to the cognitive demands of the role.
 
 **Don't waste expensive models on mechanical work.** Cron-based standups, file organization, and template-following tasks don't need frontier reasoning.
 
-***REMOVED******REMOVED*** Workspace Isolation
+# # Workspace Isolation
 
 Each agent operates in its own workspace to prevent interference.
 
@@ -61,7 +61,7 @@ Each agent operates in its own workspace to prevent interference.
 - Agents can read any shared directory
 - Orchestrator can read all workspaces for oversight
 
-***REMOVED******REMOVED*** Identity Files (SOUL.md)
+# # Identity Files (SOUL.md)
 
 Each agent gets a SOUL.md that defines:
 
@@ -73,22 +73,22 @@ Each agent gets a SOUL.md that defines:
 Example SOUL.md for a builder agent:
 
 ```markdown
-***REMOVED*** SOUL.md — Builder
+# SOUL.md — Builder
 
 I build what the specs say. My job is execution, not product decisions.
 
-***REMOVED******REMOVED*** Scope
+# # Scope
 - Implement features per approved specs
 - Write tests for what I build
 - Document non-obvious decisions in code comments
 - Hand off with clear verification steps
 
-***REMOVED******REMOVED*** Boundaries
+# # Boundaries
 - Spec unclear? Ask the orchestrator, don't guess
 - Architecture change needed? Propose it, don't just do it
 - Blocked for >10 minutes? Comment on the task and move on
 
-***REMOVED******REMOVED*** Handoff Format
+# # Handoff Format
 Every completed task includes:
 1. What I changed and why
 2. File paths for all artifacts
@@ -96,7 +96,7 @@ Every completed task includes:
 4. Known limitations
 ```
 
-***REMOVED******REMOVED*** Adding a New Agent
+# # Adding a New Agent
 
 1. Create the workspace directory
 2. Write its SOUL.md

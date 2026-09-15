@@ -1,8 +1,8 @@
-***REMOVED***!/bin/bash
-***REMOVED*** ═══════════════════════════════════════════════════════════
-***REMOVED*** GG Healing Engine v2 — 三機完整自我修復系統
-***REMOVED*** 每5分鐘 cron 觸發，三部機各自執行
-***REMOVED*** ═══════════════════════════════════════════════════════════
+#!!/bin/bash
+# ═══════════════════════════════════════════════════════════
+# GG Healing Engine v2 — 三機完整自我修復系統
+# 每5分鐘 cron 觸發，三部機各自執行
+# ═══════════════════════════════════════════════════════════
 
 set -o pipefail
 
@@ -14,7 +14,7 @@ MY_IS_MAIN=false
 [ "$MY_HOST" = "arpa-ai-test01" ] && MY_IS_MAIN=true
 [ "$MY_HOST" = "gg-main" ] && MY_IS_MAIN=true
 
-***REMOVED*** Gateway token from local config
+# Gateway token from local config
 GW_TOKEN=$(sudo -u airoot python3 -c "
 import json
 try:
@@ -44,9 +44,9 @@ report_info() {
   echo "{\"event_id\":\"EVT-$(date +%Y%m%d-%H%M%S)-I\",\"ts\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"host\":\"$MY_HOST\",\"level\":\"INFO\",\"category\":\"healing\",\"source\":\"healing_engine\",\"message\":\"$1\",\"date\":\"$(date +%Y-%m-%d)\"}" >> "$EVENTS_LOG"
 }
 
-***REMOVED*** ─────────────────────────────────────────────────────────
-***REMOVED*** Layer 1: 本機檢測（三部機獨立執行）
-***REMOVED*** ─────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────
+# Layer 1: 本機檢測（三部機獨立執行）
+# ─────────────────────────────────────────────────────────
 
 check_gateway() {
   local result
@@ -117,12 +117,12 @@ check_crons() {
   done
 }
 
-***REMOVED*** ─────────────────────────────────────────────────────────
-***REMOVED*** Layer 2: 主機專有跨機檢測（只有 Main GG 執行）
-***REMOVED*** ─────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────
+# Layer 2: 主機專有跨機檢測（只有 Main GG 執行）
+# ─────────────────────────────────────────────────────────
 
 check_vm_tier() {
-  ***REMOVED*** 先 tunnel 測試，如果失敗先 SSH
+  # 先 tunnel 測試，如果失敗先 SSH
   local w_ok=false p_ok=false
   
   local w_result=$(python3 /home/airoot/.openclaw/workspace/scripts/vm/vm_query.py "work" "ping" 2>&1)
@@ -134,7 +134,7 @@ check_vm_tier() {
   $w_ok && log "✅ GG-Work via tunnel" || log "❌ GG-Work tunnel fail"
   $p_ok && log "✅ GG-Person via tunnel" || log "❌ GG-Person tunnel fail"
   
-  ***REMOVED*** 如果兩邊都 fail，一次過 rebuild tunnels
+  # 如果兩邊都 fail，一次過 rebuild tunnels
   if ! $w_ok && ! $p_ok; then
     log "  🔄 Rebuilding tunnels (both down)"
     bash /home/airoot/.openclaw/workspace/gg-deploy/tunnels.sh restart
@@ -145,7 +145,7 @@ check_vm_tier() {
     echo "$p_result" | grep -q '"ok": true' && log "  ✅ Person restored" || report_critical "Person still down after rebuild"
   fi
 
-  ***REMOVED*** 如果只有一邊 fail，直接 SSH bypass 確認
+  # 如果只有一邊 fail，直接 SSH bypass 確認
   if ! $w_ok && $p_ok; then
     local s=$(ssh -i $SSH_KEY -o StrictHostKeyChecking=no -o ConnectTimeout=10 airoot@$WORK_HOST "echo ok" 2>&1)
     [ "$s" = "ok" ] && report_warn "Work tunnel broken (SSH OK)" || report_critical "Work SSH FAIL — may be OFFLINE"
@@ -171,9 +171,9 @@ check_crons_main() {
   done
 }
 
-***REMOVED*** ─────────────────────────────────────────────────────────
-***REMOVED*** Layer 3: 事件分析 + spawn repair session
-***REMOVED*** ─────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────
+# Layer 3: 事件分析 + spawn repair session
+# ─────────────────────────────────────────────────────────
 
 analyze_and_spawn() {
   python3 /home/airoot/.openclaw/workspace/scripts/vm/gg_log_analyzer.py 2>/dev/null || true
@@ -184,14 +184,14 @@ analyze_and_spawn() {
   python3 /home/airoot/.openclaw/workspace/scripts/vm/gg_repair_spawner.py 2>/dev/null || true
 }
 
-***REMOVED*** ═══════════════════════════════════════════════════════════
-***REMOVED*** MAIN
-***REMOVED*** ═══════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# MAIN
+# ═══════════════════════════════════════════════════════════
 
 {
   echo "=== Healing Cycle $(date '+%Y-%m-%d %H:%M') ($MY_HOST) ==="
   
-  ***REMOVED*** Layer 1 — all machines
+  # Layer 1 — all machines
   check_gateway
   check_disk
   check_memory
@@ -199,14 +199,14 @@ analyze_and_spawn() {
   check_network
   check_crons
   
-  ***REMOVED*** Layer 2 — main only
+  # Layer 2 — main only
   if $MY_IS_MAIN; then
     check_vm_tier
     check_sync_agent
     check_crons_main
   fi
   
-  ***REMOVED*** Layer 3 — spawn repair session if needed
+  # Layer 3 — spawn repair session if needed
   analyze_and_spawn
   
   echo "=== Cycle Complete ==="

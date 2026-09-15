@@ -1,10 +1,10 @@
-***REMOVED***!/bin/bash
-***REMOVED*** GG VM Health — 自治健康檢測（每5分鐘）
-***REMOVED*** 每部VM獨立執行，不需主機參與
+#!!/bin/bash
+# GG VM Health — 自治健康檢測（每5分鐘）
+# 每部VM獨立執行，不需主機參與
 HEALTH_LOG="/home/airoot/.openclaw/logs/gg-v2/health.log"
 MY_HOST=$(hostname)
 
-***REMOVED*** 自動偵測 token（從 gateway config）
+# 自動偵測 token（從 gateway config）
 TOKEN=$(python3 -c "
 import json
 try:
@@ -20,7 +20,7 @@ log() { echo "[$(date '+%H:%M:%S')] $*" >> "$HEALTH_LOG"; }
 report_issue() {
   local level="$1" msg="$2"
   log "$level $msg"
-  ***REMOVED*** Write to events.jsonl for sync agent to pick up
+  # Write to events.jsonl for sync agent to pick up
   python3 -c "
 import json, os
 evt = {
@@ -48,7 +48,7 @@ with open(path, 'a') as f:
     exit 1
   fi
   
-  ***REMOVED*** ── 1. OpenClaw Gateway 檢測 ──
+  # ── 1. OpenClaw Gateway 檢測 ──
   result=$(curl -s --max-time 15 "$API_URL" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $TOKEN" \
@@ -59,7 +59,7 @@ with open(path, 'a') as f:
   else
     log "❌ OpenClaw gateway FAIL"
     report_issue "🔴" "OpenClaw gateway FAIL - restarting"
-    ***REMOVED*** Try restart
+    # Try restart
     systemctl --user restart openclaw 2>/dev/null || true
     sleep 10
     result2=$(curl -s --max-time 15 "$API_URL" \
@@ -74,7 +74,7 @@ with open(path, 'a') as f:
     fi
   fi
   
-  ***REMOVED*** ── 2. Disk Space ──
+  # ── 2. Disk Space ──
   usage=$(df / | tail -1 | awk '{print $5}' | sed 's/%//')
   if [ "$usage" -gt 90 ]; then
     log "🔴 CRITICAL: Disk ${usage}%"
@@ -85,7 +85,7 @@ with open(path, 'a') as f:
     log "✅ Disk ${usage}%"
   fi
   
-  ***REMOVED*** ── 3. Memory / CPU (quick check) ──
+  # ── 3. Memory / CPU (quick check) ──
   mem_pct=$(free | grep Mem | awk '{print int($3/$2 * 100)}')
   if [ "$mem_pct" -gt 90 ]; then
     log "🔴 Memory ${mem_pct}%"
@@ -96,7 +96,7 @@ with open(path, 'a') as f:
     log "✅ Memory ${mem_pct}%"
   fi
   
-  ***REMOVED*** ── 4. Cron heartbeat — check if log files are recent ──
+  # ── 4. Cron heartbeat — check if log files are recent ──
   now=$(date +%s)
   for logfile in /tmp/daily_memory_extract.log /tmp/nightly_memory_consolidation.log; do
     if [ -f "$logfile" ]; then
@@ -111,5 +111,5 @@ with open(path, 'a') as f:
   echo "=== Done ==="
 } >> "$HEALTH_LOG" 2>&1
 
-***REMOVED*** Trim log (last 200 lines)
+# Trim log (last 200 lines)
 tail -n 200 "$HEALTH_LOG" > "${HEALTH_LOG}.tmp" 2>/dev/null && mv "${HEALTH_LOG}.tmp" "$HEALTH_LOG" 2>/dev/null

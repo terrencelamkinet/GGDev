@@ -1,11 +1,11 @@
-***REMOVED*** Design Language Extraction — V1.0
+# Design Language Extraction — V1.0
 
 **Date:** 2026-06-08
 **Source:** `designlang --full http://localhost:7870 --out design-extract-output/`
 **Generator:** designlang v7.0.0
 **Dashboard:** GG Dashboard (Flask + Dribbble design)
 
-***REMOVED******REMOVED*** Files (24 total)
+# # Files (24 total)
 
 | File | Description | Lines |
 |------|-------------|-------|
@@ -35,7 +35,7 @@
 | `gg-dashboard-wordpress-theme.json` | WordPress theme export | — |
 | `screenshots/` | Page screenshots (light mode only) | — |
 
-***REMOVED******REMOVED*** Key Findings (V1.0 → V1.1)
+# # Key Findings (V1.0 → V1.1)
 
 - **50% unused CSS rules** in styles.css
 - **273 duplicate CSS declarations**
@@ -43,15 +43,15 @@
 - **Dark mode tokens not captured** — extraction only indexed light mode
 - **0 failing contrast pairs** per WCAG analysis
 
-***REMOVED******REMOVED*** Querying
+# # Querying
 
 Use `designlang` MCP tools to query:
 - `search_tokens("color")` — find all color tokens
-- `find_nearest_color("***REMOVED***af52de", "AA-normal")` — find accessible palette color
+- `find_nearest_color("#af52de", "AA-normal")` — find accessible palette color
 - `list_failing_contrast_pairs()` — accessibility issues
 - `get_component("card")` — component spec with variants
 
-***REMOVED******REMOVED*** Next
+# # Next
 
 **V1.1** — CSS cleanup using extraction data:
 - Delete unused CSS rules (~50% of current file)

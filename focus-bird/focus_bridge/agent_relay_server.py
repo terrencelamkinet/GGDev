@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 BrainLink Agent Relay Server
 Agent Server 上運行，接收 brainlink_bridge.py 嘅 raw data，
@@ -27,18 +27,18 @@ except ImportError:
     sys.exit(1)
 
 
-***REMOVED*** ===== EMA Smoothing =====
-EMA_ALPHA = 0.25  ***REMOVED*** α=0.25 — 可以調整 (0.1=更穩, 0.5=更快反應)
+# ===== EMA Smoothing =====
+EMA_ALPHA = 0.25  # α=0.25 — 可以調整 (0.1=更穩, 0.5=更快反應)
 
 
 class BrainRelayState:
     """共享狀態 — 保持最新 brain data 俾所有 /game 連線"""
 
     def __init__(self):
-        self.smooth_attention = 50.0  ***REMOVED*** EMA smoothed attention
+        self.smooth_attention = 50.0  # EMA smoothed attention
         self.raw_attention = 0
         self.meditation = 0
-        self.signal = 200  ***REMOVED*** 200 = 無訊號
+        self.signal = 200  # 200 = 無訊號
         self.should_dive = False
         self.last_update = 0
         self.game_clients = set()
@@ -70,7 +70,7 @@ class BrainRelayState:
             "attention": round(self.smooth_attention),
             "meditation": self.meditation,
             "signal": self.signal,
-            "shouldDive": self.smooth_attention > 50,  ***REMOVED*** > 50 下沉
+            "shouldDive": self.smooth_attention > 50,  # > 50 下沉
             "focusLevel": round(self.smooth_attention),
             "agentNote": self.agent_note,
         }
@@ -85,10 +85,10 @@ class BrainRelayState:
         return p
 
 
-***REMOVED*** 全域共享狀態
+# 全域共享狀態
 relay_state = BrainRelayState()
 
-***REMOVED*** Save path for debug JSON
+# Save path for debug JSON
 DEBUG_JSON_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "brainlink_latest.json")
 
 
@@ -98,14 +98,14 @@ def save_debug_json(payload):
         with open(DEBUG_JSON_PATH, "w") as f:
             json.dump(payload, f, indent=2)
     except Exception:
-        pass  ***REMOVED*** Best effort
+        pass  # Best effort
 
 
 async def handle_brainlink(websocket):
     """
     /brainlink — 接收 brainlink_bridge.py 嘅 raw data
     """
-    ***REMOVED*** Detect path for compat (websockets v10 vs v11+)
+    # Detect path for compat (websockets v10 vs v11+)
     try:
         path = websocket.request.path
     except AttributeError:
@@ -119,16 +119,16 @@ async def handle_brainlink(websocket):
             try:
                 data = json.loads(message)
 
-                ***REMOVED*** Extract attention
+                # Extract attention
                 raw_attention = data.get("attention")
                 if raw_attention is not None:
                     relay_state.apply_ema(raw_attention)
 
-                ***REMOVED*** Update other fields
+                # Update other fields
                 relay_state.meditation = data.get("meditation", relay_state.meditation)
                 relay_state.signal = data.get("signal", relay_state.signal)
 
-                ***REMOVED*** Debug log
+                # Debug log
                 note = relay_state.agent_note
                 print(
                     f"🧠 raw={relay_state.raw_attention} "
@@ -138,7 +138,7 @@ async def handle_brainlink(websocket):
                     end="\r",
                 )
 
-                ***REMOVED*** Broadcast to all /game clients
+                # Broadcast to all /game clients
                 if relay_state.game_clients:
                     payload = relay_state.get_game_payload()
                     payload_str = json.dumps(payload)
@@ -150,7 +150,7 @@ async def handle_brainlink(websocket):
                             dead.add(ws)
                     relay_state.game_clients -= dead
 
-                ***REMOVED*** Save debug JSON
+                # Save debug JSON
                 save_debug_json(relay_state.get_debug_payload())
 
             except json.JSONDecodeError:
@@ -169,7 +169,7 @@ async def handle_game(websocket):
     """
     /game — 傳送處理過嘅 data 俾 browser game.html
     """
-    ***REMOVED*** Detect path for compat
+    # Detect path for compat
     try:
         path = websocket.request.path
     except AttributeError:
@@ -179,12 +179,12 @@ async def handle_game(websocket):
     relay_state.game_clients.add(websocket)
 
     try:
-        ***REMOVED*** Send current state immediately on connect
+        # Send current state immediately on connect
         current = relay_state.get_game_payload()
         await websocket.send(json.dumps(current))
 
         async for _ in websocket:
-            pass  ***REMOVED*** 唔使收 message，只係 send
+            pass  # 唔使收 message，只係 send
     except websockets.exceptions.ConnectionClosed:
         pass
     finally:
@@ -203,8 +203,8 @@ async def main(host="0.0.0.0", port=8765):
 
     async def handler(websocket):
         """Route to correct handler based on path"""
-        ***REMOVED*** websockets v11+ uses websocket.request.path
-        ***REMOVED*** websockets v10 uses websocket.path
+        # websockets v11+ uses websocket.request.path
+        # websockets v10 uses websocket.path
         try:
             path = websocket.request.path
         except AttributeError:
@@ -227,7 +227,7 @@ async def main(host="0.0.0.0", port=8765):
         print("⏳ 等待 BrainLink bridge 連接...")
         print()
 
-        await asyncio.Future()  ***REMOVED*** 永遠運行
+        await asyncio.Future()  # 永遠運行
 
 
 if __name__ == "__main__":

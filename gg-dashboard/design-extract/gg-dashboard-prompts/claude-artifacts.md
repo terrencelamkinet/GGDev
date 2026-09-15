@@ -2,7 +2,7 @@ Create a React artifact that reproduces this brand's design language.
 Page intent: landing.
 Material language: material-you.
 Voice: Tone: neutral · Headings: unknown · CTA verbs: [object Object], [object Object], [object Object], [object Object], [object Object].
-Colors to use: ***REMOVED***3c3c43, ***REMOVED***000000, ***REMOVED***ffffff, ***REMOVED***34c759, ***REMOVED***787880, ***REMOVED***ff3b30, ***REMOVED***5856d6, ***REMOVED***e5e5ea, ***REMOVED***ff6b35, ***REMOVED***af52de, ***REMOVED***ff9500, ***REMOVED***ff2d55, ***REMOVED***f2f2f7, ***REMOVED***c6c6c8.
+Colors to use: #3c3c43, #000000, #ffffff, #34c759, #787880, #ff3b30, #5856d6, #e5e5ea, #ff6b35, #af52de, #ff9500, #ff2d55, #f2f2f7, #c6c6c8.
 Fonts: [object Object], [object Object], [object Object].
 Radius vocabulary: 10, 13, 50, 999.
 Sections:

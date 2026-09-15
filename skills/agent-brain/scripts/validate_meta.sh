@@ -1,6 +1,6 @@
-***REMOVED***!/bin/bash
-***REMOVED*** validate_meta.sh — Validate skill metadata JSON shape.
-***REMOVED*** Run: ./scripts/validate_meta.sh
+#!!/bin/bash
+# validate_meta.sh — Validate skill metadata JSON shape.
+# Run: ./scripts/validate_meta.sh
 
 set -euo pipefail
 

@@ -1,14 +1,14 @@
-***REMOVED*** Gauge Memory 📊
+# Gauge Memory 📊
 
 **Status:** 📋 Agent Guideline | **Module:** gauge | **Part of:** Agent Brain
 
 Confidence classification and self-awareness. Honest about what is known vs. unknown.
 
-***REMOVED******REMOVED*** What It Does
+# # What It Does
 
 Guides how the agent interprets and communicates confidence in memory-based claims. Does NOT assign numeric scores.
 
-***REMOVED******REMOVED*** Confidence Categories
+# # Confidence Categories
 
 | Level | Meaning | When to Use | Language |
 |-------|---------|-------------|----------|
@@ -17,7 +17,7 @@ Guides how the agent interprets and communicates confidence in memory-based clai
 | **UNCERTAIN** | Inferred from context, not directly stated | Pattern detected, not confirmed | "I think..." / "It seems like..." |
 | **UNKNOWN** | No relevant memory exists | Nothing in archive | "I don't have info on that" |
 
-***REMOVED******REMOVED*** How Confidence is Assigned
+# # How Confidence is Assigned
 
 Confidence is set at creation time based on the source:
 
@@ -33,29 +33,29 @@ Confidence changes over time via:
 - `correct` command: Supersedes old entry, creates correction with `sure`
 - Decay: `sure` → `likely` → `uncertain` when entries go unused (30 * (1 + access_count) days)
 
-***REMOVED******REMOVED*** Confidence Changes
+# # Confidence Changes
 
-***REMOVED******REMOVED******REMOVED*** User Confirms
+# ## User Confirms
 When a user confirms something you retrieved:
 ```bash
 ./scripts/memory.sh update <id> confidence sure
 ```
 
-***REMOVED******REMOVED******REMOVED*** User Corrects You
+# ## User Corrects You
 When a user says you got something wrong:
 ```bash
 ./scripts/memory.sh correct <wrong_id> "Correct information" "Why the old entry was wrong"
 ```
 This supersedes the wrong entry and creates a correction record for learning.
 
-***REMOVED******REMOVED******REMOVED*** Successful Application
+# ## Successful Application
 When a memory was used and the outcome was positive:
 ```bash
 ./scripts/memory.sh success <id>
 ```
 At 3+ successes, confidence auto-upgrades to SURE.
 
-***REMOVED******REMOVED*** When to Apply Gauge
+# # When to Apply Gauge
 
 Gauge is a guideline for retrieval, not a standalone step:
 
@@ -63,18 +63,18 @@ Gauge is a guideline for retrieval, not a standalone step:
 2. Each entry already has a `confidence` field
 3. The agent reads that field and adjusts language accordingly
 
-***REMOVED******REMOVED*** Self-Monitoring
+# # Self-Monitoring
 
-***REMOVED******REMOVED******REMOVED*** Before Responding
+# ## Before Responding
 - Do retrieved memories actually answer the question?
 - Are there conflicting entries? (→ run `conflicts`)
 - Is confidence level appropriate for the stakes?
 
-***REMOVED******REMOVED******REMOVED*** After Responding
+# ## After Responding
 - Did the user correct you? → Use `correct` to track the mistake
 - Did the user confirm? → Use `update` to upgrade confidence
 
-***REMOVED******REMOVED*** What Gauge Does NOT Do
+# # What Gauge Does NOT Do
 
 - Assign 0.0-1.0 numeric confidence scores (fake precision)
 - Automatically determine confidence from access count at creation time

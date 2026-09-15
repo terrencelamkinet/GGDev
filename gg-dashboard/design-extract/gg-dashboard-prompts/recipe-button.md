@@ -1,10 +1,10 @@
-***REMOVED*** Recipe: button
+# Recipe: button
 Build one button component that matches this brand.
-Palette: ***REMOVED***3c3c43, ***REMOVED***000000, ***REMOVED***ffffff, ***REMOVED***34c759, ***REMOVED***787880, ***REMOVED***ff3b30
+Palette: #3c3c43, #000000, #ffffff, #34c759, #787880, #ff3b30
 Typography: [object Object], [object Object], [object Object]
 Material: material-you
 Signals: Radius: 10, 13, 50, 999 · Shadows: rgb(175, 82, 222) 0px 0px 8px 0px
-***REMOVED******REMOVED*** Anatomy (detected)
+# # Anatomy (detected)
 ```json
 {
   "kind": "button",

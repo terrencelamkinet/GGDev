@@ -1,10 +1,10 @@
-***REMOVED*** Task Hub Smart v2 — PostgreSQL-Driven 智能設計
+# Task Hub Smart v2 — PostgreSQL-Driven 智能設計
 
 > 設計目標：用 PostgreSQL 做智慧決策，唔靠 LLM，零 token 成本
 
 ---
 
-***REMOVED******REMOVED*** 1. 現狀問題
+# # 1. 現狀問題
 
 - Priority 係 static label (P0/P1)，唔反映真實 urgency
 - Push 係 fixed schedule，唔理你而家做緊咩
@@ -12,9 +12,9 @@
 - Task 之間冇 dependency tracking
 - 唔知你 calendar 有冇空檔
 
-***REMOVED******REMOVED*** 2. PostgreSQL 可以做嘅 Smart Features
+# # 2. PostgreSQL 可以做嘅 Smart Features
 
-***REMOVED******REMOVED******REMOVED*** 2.1 Smart Urgency Score (純 SQL)
+# ## 2.1 Smart Urgency Score (純 SQL)
 
 新 column: `urgency_score DECIMAL(5,2)`，由 trigger 每小時 recalculate。
 
@@ -24,7 +24,7 @@ Formula:
 - Ivy 6 bonus (0.3): is_ivy6_today ? 0.3 : 0
 - Calendar slot (-0.1): has_free_slot ? -0.1 : 0
 
-***REMOVED******REMOVED******REMOVED*** 2.2 Context-Aware Push (script + SQL)
+# ## 2.2 Context-Aware Push (script + SQL)
 
 Push 內容 dynamic，唔係 hardcode format：
 - Morning: only today's decisions + overdue Ivy 6
@@ -32,7 +32,7 @@ Push 內容 dynamic，唔係 hardcode format：
 - Commute: things to decide tonight + family reminders
 - Evening: what's rolling to tomorrow
 
-***REMOVED******REMOVED******REMOVED*** 2.3 Completion Pattern Learning
+# ## 2.3 Completion Pattern Learning
 
 New table `completion_stats` collects:
 - day_of_week, hour_bucket
@@ -42,17 +42,17 @@ New table `completion_stats` collects:
 
 Push 時用 pattern 調整語氣同 timing。
 
-***REMOVED******REMOVED******REMOVED*** 2.4 Dependency Graph
+# ## 2.4 Dependency Graph
 
 `tasks.parent_task_id` + recursive CTE for blocker chain detection.
 Auto-escalate blocked high-priority tasks.
 
-***REMOVED******REMOVED******REMOVED*** 2.5 Overdue Auto-Escalation
+# ## 2.5 Overdue Auto-Escalation
 
 Nightly PG job bumps priority of overdue tasks (P3→P2, P2→P1).
 Notes field gets auto-log entry.
 
-***REMOVED******REMOVED*** 3. Key Decisions
+# # 3. Key Decisions
 
 - All logic in SQL/script — ¥0 incremental cost
 - PG trigger for scoring — auto-recalculate on task update

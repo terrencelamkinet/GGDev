@@ -1,21 +1,21 @@
-***REMOVED*** scripts/orchestrator.py - Agent Task Workflow Execution Engine
+# scripts/orchestrator.py - Agent Task Workflow Execution Engine
 
 import json
 from pathlib import Path
 from molt_task import AgentTask
 from task_parser import parse_human_request
 
-***REMOVED*** --- SIMULATED EXTERNAL TOOLS ---
-***REMOVED*** In a real environment, these would call our other skills/tools (e.g., exec or message)
+# --- SIMULATED EXTERNAL TOOLS ---
+# In a real environment, these would call our other skills/tools (e.g., exec or message)
 
 def execute_financial_analyst(task_data):
     """Simulates running the Financial Analyst (Auditor) role."""
     print(f"  [Role: FinancialAnalyst] Checking {task_data['target_mint']}...")
     
-    ***REMOVED*** Placeholder for the actual API call logic from molt_auditor.py
-    ***REMOVED*** Returns the result of a whale check
+    # Placeholder for the actual API call logic from molt_auditor.py
+    # Returns the result of a whale check
     
-    ***REMOVED*** Hardcoded result for validation:
+    # Hardcoded result for validation:
     whale_percent = 18.14 
     if whale_percent > task_data['threshold_percent']:
         return {"alert_triggered": True, "whale_percent": whale_percent}
@@ -26,12 +26,12 @@ def execute_notification_agent(task_data):
     """Simulates running the Notification Agent (using the message tool)."""
     print(f"  [Role: NotificationAgent] Sending alert via {task_data['channel']}...")
     
-    ***REMOVED*** Placeholder for the actual message tool call
-    ***REMOVED*** message(action='send', target=task_data['channel'], message=task_data['message'])
+    # Placeholder for the actual message tool call
+    # message(action='send', target=task_data['channel'], message=task_data['message'])
     
     return {"message_sent": True}
 
-***REMOVED*** --- MAIN ORCHESTRATION ENGINE ---
+# --- MAIN ORCHESTRATION ENGINE ---
 
 def run_workflow(parsed_task: dict):
     """
@@ -46,16 +46,16 @@ def run_workflow(parsed_task: dict):
     results = {}
     
     for step_name, step_data in parsed_task['workflow'].items():
-        ***REMOVED*** Check dependencies first (simplified)
+        # Check dependencies first (simplified)
         if step_data.get('dependency') and step_data['dependency'] not in results:
             print(f"  [Orchestrator] Waiting for dependency: {step_data['dependency']}")
             continue
 
-        ***REMOVED*** Execute role-based action
+        # Execute role-based action
         if step_data['role'] == "FinancialAnalyst":
             step_result = execute_financial_analyst(step_data)
         elif step_data['role'] == "NotificationAgent":
-            ***REMOVED*** Only notify if the previous step's alert was triggered
+            # Only notify if the previous step's alert was triggered
             if results.get('step_1', {}).get('alert_triggered'):
                 step_result = execute_notification_agent(step_data)
             else:
@@ -71,18 +71,18 @@ def run_workflow(parsed_task: dict):
     
     return results
 
-***REMOVED*** Example Validation (for you, Harry)
+# Example Validation (for you, Harry)
 if __name__ == "__main__":
-    ***REMOVED*** 1. Parse the human request
+    # 1. Parse the human request
     human_request = "Alert me on Signal if the $SHIPYARD whale balance drops below 10%"
     parsed_task = parse_human_request(human_request)
     
-    ***REMOVED*** 2. Run the workflow
+    # 2. Run the workflow
     if 'error' not in parsed_task:
-        ***REMOVED*** Run the workflow once (should detect the whale and send a message)
+        # Run the workflow once (should detect the whale and send a message)
         run_workflow(parsed_task)
         
-        ***REMOVED*** 3. Validation: The state file should show 'WORKFLOW_FINISHED'
+        # 3. Validation: The state file should show 'WORKFLOW_FINISHED'
         task = AgentTask("WHALE_ALERT_SHIPYARD")
         print("\nFinal Task State:")
         print(json.dumps(task.get_task_state(), indent=2))

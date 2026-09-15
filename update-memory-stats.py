@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """GG Dashboard — Memory stats generator from ChromaDB SQLite backend.
 Outputs gg-memory-stats.json consumed by the dashboard frontend."""
 
@@ -20,7 +20,7 @@ def main():
     conn = sqlite3.connect(CHROMA_DB)
     c = conn.cursor()
 
-    ***REMOVED*** Total counts per collection
+    # Total counts per collection
     c.execute("""
         SELECT cl.name, COUNT(e.id)
         FROM embeddings e
@@ -30,7 +30,7 @@ def main():
     """)
     total_by_collection = {r[0]: r[1] for r in c.fetchall()}
 
-    ***REMOVED*** Daily growth
+    # Daily growth
     c.execute("""
         SELECT DATE(created_at) as day, COUNT(*)
         FROM embeddings e
@@ -46,7 +46,7 @@ def main():
         cum += cnt
         growth_data.append({"date": day, "added": cnt, "total": cum})
 
-    ***REMOVED*** Top 100 by importance_score
+    # Top 100 by importance_score
     c.execute("""
         SELECT e.embedding_id,
                imp.float_value AS importance,
@@ -74,7 +74,7 @@ def main():
             "created": (row[3] or "")[:10]
         })
 
-    ***REMOVED*** Score distribution
+    # Score distribution
     score_dist = {}
     for r in top100:
         s = r["importance"]

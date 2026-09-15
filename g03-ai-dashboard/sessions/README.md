@@ -1,4 +1,4 @@
-***REMOVED*** sessions/
+# sessions/
 
 This folder stores conversation transcripts and chat logs related to AI Dashboard development.
 

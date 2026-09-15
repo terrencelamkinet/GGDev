@@ -1,16 +1,16 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 BrainLink 模擬器 v2 — 模擬真實腦波模式 + wss:// 支援
 等你可以試 Agent Relay Server + game.html 連接係咪 work
 
 用法:
-  ***REMOVED*** 連去 Agent Relay Server
+  # 連去 Agent Relay Server
   python brainlink_simulator.py --url ws://localhost:8765/brainlink
 
-  ***REMOVED*** 本機 mode (舊式 direct to browser)
+  # 本機 mode (舊式 direct to browser)
   python brainlink_simulator.py --local
 
-  ***REMOVED*** 用 config
+  # 用 config
   python brainlink_simulator.py --config config.txt
 
 控制:
@@ -28,7 +28,7 @@ import sys
 import os
 import time
 
-***REMOVED*** Windows keyboard input — use msvcrt
+# Windows keyboard input — use msvcrt
 import msvcrt
 import threading
 
@@ -48,17 +48,17 @@ class Simulator:
         self.url = url
         self.use_local = use_local
 
-        ***REMOVED*** 真實模擬參數
-        self.attention = 50.0  ***REMOVED*** float 可以 graduel 變化
-        self.baseline = 50.0  ***REMOVED*** baseline（隨時間 slow drift）
-        self.target = 50.0  ***REMOVED*** target attention（慢慢趨向）
-        self.signal = 200  ***REMOVED*** signal quality (200=no signal, 0=good)
+        # 真實模擬參數
+        self.attention = 50.0  # float 可以 graduel 變化
+        self.baseline = 50.0  # baseline（隨時間 slow drift）
+        self.target = 50.0  # target attention（慢慢趨向）
+        self.signal = 200  # signal quality (200=no signal, 0=good)
         self.meditation = random.randint(30, 60)
 
-        ***REMOVED*** 波動參數
-        self.drift_speed = 0.5  ***REMOVED*** baseline drift speed
-        self.noise_amplitude = 2.0  ***REMOVED*** noise amplitude
-        self.signal_quality = 200  ***REMOVED*** 初始冇訊號，3秒後變好
+        # 波動參數
+        self.drift_speed = 0.5  # baseline drift speed
+        self.noise_amplitude = 2.0  # noise amplitude
+        self.signal_quality = 200  # 初始冇訊號，3秒後變好
 
         self.clients = set()
         self.running = True
@@ -78,16 +78,16 @@ class Simulator:
         while self.running:
             if msvcrt.kbhit():
                 key = msvcrt.getch()
-                if key == b"\xe0":  ***REMOVED*** arrow keys
+                if key == b"\xe0":  # arrow keys
                     key = msvcrt.getch()
-                    if key == b"H":  ***REMOVED*** ↑
+                    if key == b"H":  # ↑
                         self.attention = min(100, self.attention + 15)
                         self.target = self.attention
                         print(
                             f"⬆ +15 → {self.attention:.0f}  "
                             f"{'⏬ 下沉' if self.attention > self.threshold else '⬆ 上浮'}"
                         )
-                    elif key == b"P":  ***REMOVED*** ↓
+                    elif key == b"P":  # ↓
                         self.attention = max(0, self.attention - 15)
                         self.target = self.attention
                         print(
@@ -106,25 +106,25 @@ class Simulator:
         """更新 attention 用 realistic 模式（gradual rise/fall, noise）"""
         self.frame += 1
 
-        ***REMOVED*** 訊號質量：3秒後變好
-        if self.frame < 30:  ***REMOVED*** 3 seconds at 10Hz
-            self.signal = 200  ***REMOVED*** no signal yet
+        # 訊號質量：3秒後變好
+        if self.frame < 30:  # 3 seconds at 10Hz
+            self.signal = 200  # no signal yet
         else:
-            self.signal = random.randint(0, 30)  ***REMOVED*** good signal
+            self.signal = random.randint(0, 30)  # good signal
 
-        ***REMOVED*** Baseline slow drift (random walk)
-        if random.random() < 0.02:  ***REMOVED*** 2% chance per tick
+        # Baseline slow drift (random walk)
+        if random.random() < 0.02:  # 2% chance per tick
             self.baseline += random.uniform(-5, 5)
             self.baseline = max(20, min(80, self.baseline))
 
-        ***REMOVED*** Target 慢慢趨向 baseline
+        # Target 慢慢趨向 baseline
         self.target += (self.baseline - self.target) * 0.01
 
-        ***REMOVED*** Gradual approach to target
+        # Gradual approach to target
         diff = self.target - self.attention
-        step = diff * 0.08  ***REMOVED*** 8% 趨向 target per tick
+        step = diff * 0.08  # 8% 趨向 target per tick
 
-        ***REMOVED*** Add noise (sinusoidal + random)
+        # Add noise (sinusoidal + random)
         noise = math.sin(self.frame * 0.05) * 1.5 + random.gauss(0, 1.5)
         noise = max(-3, min(3, noise))
 
@@ -173,7 +173,7 @@ class Simulator:
                 try:
                     payload = json.dumps(self.get_brain_data())
                     await self.agent_ws.send(payload)
-                    ***REMOVED*** Show status every 10 frames
+                    # Show status every 10 frames
                     if self.frame % 10 == 0:
                         status = (
                             "🔴" if self.signal > 150 else "🟢"
@@ -191,12 +191,12 @@ class Simulator:
                     await asyncio.sleep(3)
                     await self.connect_to_agent()
             else:
-                ***REMOVED*** No connection — try reconnect
+                # No connection — try reconnect
                 await asyncio.sleep(2)
 
             await asyncio.sleep(0.1)
 
-    ***REMOVED*** ===== Local mode (old) =====
+    # ===== Local mode (old) =====
     async def broadcast_local(self):
         """每秒10次 broadcast 俾 browser (local mode)"""
         while self.running:
@@ -257,7 +257,7 @@ class Simulator:
 
         if not await self.connect_to_agent():
             print("⚠️  無法連接 Agent Server，3秒後重試...")
-            ***REMOVED*** Will retry in send_to_agent loop
+            # Will retry in send_to_agent loop
 
         await self.send_to_agent()
 
@@ -277,7 +277,7 @@ def load_config(config_path):
     with open(config_path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if not line or line.startswith("***REMOVED***") or line.startswith(";"):
+            if not line or line.startswith("#") or line.startswith(";"):
                 continue
             if "=" in line:
                 key, value = line.split("=", 1)
@@ -297,7 +297,7 @@ if __name__ == "__main__":
     parser.add_argument("--local", action="store_true", help="Local mode (no Agent Server)")
     args = parser.parse_args()
 
-    ***REMOVED*** Load config
+    # Load config
     config = load_config(args.config)
     url = args.url or config.get("AGENT_WS_URL") or config.get("WS_URL")
 

@@ -66,5 +66,5 @@ class MessageBus:
             self._redis = None
 
 
-***REMOVED*** Singleton instance
+# Singleton instance
 message_bus = MessageBus()

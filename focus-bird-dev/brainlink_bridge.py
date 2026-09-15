@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 BrainLink Pro → Focus Bird Relay Bridge
 BrainLink_Pro sends raw EEG wave (code 0x80).
@@ -21,28 +21,28 @@ try:
 except ImportError:
     print("❌ pip install bleak websockets"); sys.exit(1)
 
-***REMOVED*** ===== CONFIG =====
+# ===== CONFIG =====
 RELAY_URL = "wss://brainlink.kinet-poc.com/brainlink"
 BRAINLINK_MAC = "C0:E2:FC:2D:AF:C0"
 
-***REMOVED*** ===== Smoothing =====
+# ===== Smoothing =====
 MEDIAN_WINDOW = 80
 BASELINE_WINDOW = 300
 SENSITIVITY = 1.5
 BLINK_THRESHOLD = 1500
 LOG_INTERVAL = 10
 
-***REMOVED*** ===== Issue Codes =====
-***REMOVED*** E001: BLE connection fail
-***REMOVED*** E002: WebSocket connection fail
-***REMOVED*** E003: No data timeout (>5s without packet)
-***REMOVED*** E004: Poor signal quality (>150 for 10s+)
-***REMOVED*** E005: Packet parse error
-***REMOVED*** E006: Baseline not calibrated yet
-***REMOVED*** E007: Attention stuck (>30s same side without crossing 50)
-***REMOVED*** E008: Blink/artifact spike detected
-***REMOVED*** E009: Rate drop (<5Hz sustained)
-***REMOVED*** E010: Unknown / catch-all
+# ===== Issue Codes =====
+# E001: BLE connection fail
+# E002: WebSocket connection fail
+# E003: No data timeout (>5s without packet)
+# E004: Poor signal quality (>150 for 10s+)
+# E005: Packet parse error
+# E006: Baseline not calibrated yet
+# E007: Attention stuck (>30s same side without crossing 50)
+# E008: Blink/artifact spike detected
+# E009: Rate drop (<5Hz sustained)
+# E010: Unknown / catch-all
 
 LOG_PREFIX = f"brainlink_{int(time.time())}"
 
@@ -70,7 +70,7 @@ class IssueLogger:
                 self._fp.flush()
             except: pass
         self._recent_issues.append((code, desc))
-        ***REMOVED*** Also print to console
+        # Also print to console
         print(f"  🐛 {code}: {desc}")
 
     def close(self):
@@ -128,7 +128,7 @@ class BrainLinkState:
         self._last_log_time = 0
         self._last_signal_warn = 0
         self._last_att_stuck_check = time.time()
-        self._last_att_side = 0  ***REMOVED*** -1=below50, 0=unknown, 1=above50
+        self._last_att_side = 0  # -1=below50, 0=unknown, 1=above50
         self._packet_ts = deque(maxlen=50)
         self._baseline_ready = False
 
@@ -175,7 +175,7 @@ class BrainLinkState:
             if pos + 1 < len(data) and data[pos] == 0x23 and data[pos + 1] == 0x23:
                 pos += 2
         if parsed_any:
-            ***REMOVED*** Override device signal — always report good quality
+            # Override device signal — always report good quality
             self.signal = 200
             payload = {"attention": self.attention, "meditation": self.meditation,
                        "signal": self.signal, "timestamp": time.time()}
@@ -190,7 +190,7 @@ class BrainLinkState:
             self.clean_window.append(amplitude)
         else:
             if self.packet_count > 20:
-                ***REMOVED*** Cooldown: don't log same code within 1 second
+                # Cooldown: don't log same code within 1 second
                 now = time.time()
                 if not hasattr(self, '_last_e008') or now - self._last_e008 > 1.0:
                     self._last_e008 = now
@@ -208,22 +208,22 @@ class BrainLinkState:
 
         if not self._baseline_ready:
             self._baseline_ready = True
-            ***REMOVED*** Use median of all calibration samples — more robust than mean
+            # Use median of all calibration samples — more robust than mean
             self._baseline = statistics.median(list(self.baseline_window))
             self.ilog.log("I001", f"Baseline ready: {self._baseline:.0f} ({len(self.baseline_window)} samples)")
             self.signal = 200
 
-        ***REMOVED*** Use frozen baseline forever — never recalculate
+        # Use frozen baseline forever — never recalculate
         delta = (median_amp - self._baseline) / max(self._baseline, 1)
         norm = 0.5 - delta * SENSITIVITY
         norm = max(0.0, min(1.0, norm))
         self.attention = max(0, min(100, int(norm * 100)))
 
-        ***REMOVED*** Signal quality: always report good signal
+        # Signal quality: always report good signal
         self.signal = 200
         now = time.time()
 
-        ***REMOVED*** Check stuck attention (same side for >30s)
+        # Check stuck attention (same side for >30s)
         now_side = 1 if self.attention > 50 else (-1 if self.attention < 50 else 0)
         if now_side != self._last_att_side:
             self._last_att_side = now_side
@@ -232,10 +232,10 @@ class BrainLinkState:
             self._last_att_stuck_check = now
             self.ilog.log("E007", f"Att stuck: side={'>' if now_side>0 else '<' if now_side<0 else '='}50 for 30s+")
 
-        ***REMOVED*** Data log
+        # Data log
         self.dlog.write(f"{now:.1f},{amplitude},{median_amp},{self._baseline:.0f},{self.attention},{self.signal}\n")
 
-        ***REMOVED*** Console stats
+        # Console stats
         if now - self._last_log_time >= LOG_INTERVAL:
             self._last_log_time = now
             self.dlog.flush()

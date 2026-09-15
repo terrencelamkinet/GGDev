@@ -68,7 +68,7 @@ async def provision_agent(
         print(f"[Provisioner] {msg}")
 
     try:
-        ***REMOVED*** 1. SSH Connection
+        # 1. SSH Connection
         _log(f"Connecting to {username}@{host}:{port}...")
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -85,12 +85,12 @@ async def provision_agent(
         )
         _log("SSH connection established.")
 
-        ***REMOVED*** 2. Detect OS
+        # 2. Detect OS
         _stdin, stdout, _stderr = ssh.exec_command("cat /etc/os-release 2>/dev/null || cat /etc/issue 2>/dev/null || echo unknown")
         os_info = stdout.read().decode().strip()
         _log(f"Detected OS:\n{os_info[:200]}")
 
-        ***REMOVED*** 3. Check / Install Docker
+        # 3. Check / Install Docker
         _log("Checking Docker installation...")
         _stdin, stdout, _stderr = ssh.exec_command("which docker && docker --version || echo 'DOCKER_NOT_FOUND'")
         docker_check = stdout.read().decode().strip()
@@ -105,12 +105,12 @@ async def provision_agent(
         else:
             _log(f"Docker already installed: {docker_check}")
 
-        ***REMOVED*** 4. Generate config
+        # 4. Generate config
         config_content = (
             f"AGENT_ID={agent_id}\n"
             f"AGENT_NAME={agent_name}\n"
             f"ROLE={role}\n"
-            f"API_KEY={api_key}\n"
+            f"API_KEY="REDACTED"
             f"HUB_URL={hub_url}\n"
         )
         remote_config_path = f"/etc/ai-one/{agent_id}.env"
@@ -122,7 +122,7 @@ async def provision_agent(
                 f.write(config_content)
         _log("Config written.")
 
-        ***REMOVED*** 5. Start agent container (mock for now — real image comes later)
+        # 5. Start agent container (mock for now — real image comes later)
         _log("Pulling agent image...")
         _stdin, stdout, _stderr = ssh.exec_command(
             f"docker pull alpine:latest 2>&1 && "
@@ -131,21 +131,21 @@ async def provision_agent(
             f"-e AGENT_ID={agent_id} "
             f"-e AGENT_NAME={agent_name} "
             f"-e ROLE={role} "
-            f"-e API_KEY={api_key} "
+            f"-e API_KEY="REDACTED" "
             f"-e HUB_URL={hub_url} "
             f"alpine:latest sleep infinity"
         )
         container_out = stdout.read().decode().strip()
         _log(f"Container started: {container_out[:100]}")
 
-        ***REMOVED*** 6. Verify health
+        # 6. Verify health
         _stdin, stdout, _stderr = ssh.exec_command(
             f"docker ps --filter name=ai-one-{agent_id.hex[:8]} --format '{{{{.Status}}}}'"
         )
         health_status = stdout.read().decode().strip()
         _log(f"Container health: {health_status}")
 
-        ***REMOVED*** 7. Register agent (curl to hub)
+        # 7. Register agent (curl to hub)
         _log("Registering agent with AI One hub...")
         _stdin, stdout, _stderr = ssh.exec_command(
             f"curl -s -X POST {hub_url}/api/agents/ "

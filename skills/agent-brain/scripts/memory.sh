@@ -1,51 +1,51 @@
-***REMOVED***!/bin/bash
-***REMOVED*** memory.sh — Thin dispatcher for Agent Brain v4
-***REMOVED*** Routes all commands to brain.py (Python engine with pluggable storage)
-***REMOVED***
-***REMOVED*** Usage: ./scripts/memory.sh <command> [args]
-***REMOVED***
-***REMOVED*** Environment:
-***REMOVED***   MEMORY_DIR           Path to memory directory (default: ../memory)
-***REMOVED***   AGENT_BRAIN_BACKEND  Storage backend: 'sqlite' (default) or 'json'
-***REMOVED***   AGENT_BRAIN_SUPERMEMORY_SYNC  SuperMemory sync mode: auto|on|off
-***REMOVED***   AGENT_BRAIN_PII_MODE PII policy: strict (default) | off
-***REMOVED***   SUPERMEMORY_API_KEY  Optional API key for cloud mirror
-***REMOVED***   AGENT_BRAIN_ENV_FILE Optional local env file (default: ../.env)
-***REMOVED***
-***REMOVED*** Core Commands:
-***REMOVED***   init                                              Initialize memory
-***REMOVED***   add <type> <content> [source] [tags] [url] [ctx]  Add an entry
-***REMOVED***   get <query> [--policy] [--stores] [--explain]    Hybrid retrieval
-***REMOVED***   loop <message> [--user-feedback] [--response] [--policy] [--stores] Orchestrated retrieve/extract/learn
-***REMOVED***   list [type]                                       List all or by type
-***REMOVED***   update <id> <field> <value>                       Update a field on an entry
-***REMOVED***   touch <id>                                        Mark as accessed
-***REMOVED***   supersede <old_id> <new_id>                       Mark entry as superseded
-***REMOVED***
-***REMOVED*** Learning Commands:
-***REMOVED***   conflicts <content>                               Find potential conflicts
-***REMOVED***   similar <content> [threshold]                     Find related entries (TF-IDF)
-***REMOVED***   correct <wrong_id> <right> [reason] [tags]        Track a correction
-***REMOVED***   success <id> [context]                            Record successful use
-***REMOVED***
-***REMOVED*** Analysis Commands:
-***REMOVED***   reflect                                           Memory health analysis
-***REMOVED***   consolidate                                       Find consolidation candidates
-***REMOVED***   tags                                              List tag hierarchy
-***REMOVED***   decay                                             Downgrade stale entries
-***REMOVED***   export                                            Dump full JSON
-***REMOVED***   stats                                             Memory statistics
-***REMOVED***   log [count] [action]                               Activity log
-***REMOVED***
-***REMOVED*** Session Commands:
-***REMOVED***   session [context]                                 Start new session
+#!!/bin/bash
+# memory.sh — Thin dispatcher for Agent Brain v4
+# Routes all commands to brain.py (Python engine with pluggable storage)
+# 
+# Usage: ./scripts/memory.sh <command> [args]
+# 
+# Environment:
+# MEMORY_DIR           Path to memory directory (default: ../memory)
+# AGENT_BRAIN_BACKEND  Storage backend: 'sqlite' (default) or 'json'
+# AGENT_BRAIN_SUPERMEMORY_SYNC  SuperMemory sync mode: auto|on|off
+# AGENT_BRAIN_PII_MODE PII policy: strict (default) | off
+# SUPERMEMORY_API_KEY  Optional API key for cloud mirror
+# AGENT_BRAIN_ENV_FILE Optional local env file (default: ../.env)
+# 
+# Core Commands:
+# init                                              Initialize memory
+# add <type> <content> [source] [tags] [url] [ctx]  Add an entry
+# get <query> [--policy] [--stores] [--explain]    Hybrid retrieval
+# loop <message> [--user-feedback] [--response] [--policy] [--stores] Orchestrated retrieve/extract/learn
+# list [type]                                       List all or by type
+# update <id> <field> <value>                       Update a field on an entry
+# touch <id>                                        Mark as accessed
+# supersede <old_id> <new_id>                       Mark entry as superseded
+# 
+# Learning Commands:
+# conflicts <content>                               Find potential conflicts
+# similar <content> [threshold]                     Find related entries (TF-IDF)
+# correct <wrong_id> <right> [reason] [tags]        Track a correction
+# success <id> [context]                            Record successful use
+# 
+# Analysis Commands:
+# reflect                                           Memory health analysis
+# consolidate                                       Find consolidation candidates
+# tags                                              List tag hierarchy
+# decay                                             Downgrade stale entries
+# export                                            Dump full JSON
+# stats                                             Memory statistics
+# log [count] [action]                               Activity log
+# 
+# Session Commands:
+# session [context]                                 Start new session
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 export MEMORY_DIR="${MEMORY_DIR:-$(cd "$SCRIPT_DIR/../memory" && pwd 2>/dev/null || echo "$SCRIPT_DIR/../memory")}"
 
-***REMOVED*** Optional local env auto-load for standalone skill packaging.
+# Optional local env auto-load for standalone skill packaging.
 if [[ -z "${SUPERMEMORY_API_KEY:-}" ]]; then
   SUPERMEMORY_ENV="${AGENT_BRAIN_ENV_FILE:-$SCRIPT_DIR/../.env}"
   if [[ -f "$SUPERMEMORY_ENV" ]]; then
@@ -57,7 +57,7 @@ value = ""
 with open(path, "r", encoding="utf-8") as fh:
     for raw in fh:
         line = raw.strip()
-        if not line or line.startswith("***REMOVED***") or "=" not in line:
+        if not line or line.startswith("#") or "=" not in line:
             continue
         key, val = line.split("=", 1)
         key = key.strip()

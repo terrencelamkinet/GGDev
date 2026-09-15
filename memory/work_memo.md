@@ -1,8 +1,8 @@
-***REMOVED*** Work Memo
+# Work Memo
 
-***REMOVED******REMOVED*** 2026-05-20
+# # 2026-05-20
 
-***REMOVED******REMOVED******REMOVED*** GG V2 Upgrade — Overnight Operation (2026-05-20)
+# ## GG V2 Upgrade — Overnight Operation (2026-05-20)
 
 0500 HKT — 凌晨操作完成：
 - GG V2 upgrade
@@ -18,27 +18,27 @@ Status: All done. ✅
 - **Scope**: GG V2 upgrade, all operations approved until 07:00 HKT
 - **Status**: ✅ Executed overnight, all components operational
 
-***REMOVED******REMOVED*** 2026-05-21
+# # 2026-05-21
 
-***REMOVED******REMOVED******REMOVED*** GG V2 Upgrade 後續
+# ## GG V2 Upgrade 後續
 - 凌晨操作已於 02:50-07:00 HKT 完成
 - Terrence 已授權所有相關操作
 - [person_memo] Terrence 指示 GG V2 upgrade 並批准整晚操作
 - [work_memo] GG V2 upgrade overnight ops completed
 
-***REMOVED******REMOVED******REMOVED*** Terrence指示 GG V2 Overnight Upgrade
+# ## Terrence指示 GG V2 Overnight Upgrade
 - Terrence 已指示進行 GG V2 upgrade，批准整晚操作
 - 執行時間：凌晨時段
 - 狀態：已記錄待執行
 
-***REMOVED******REMOVED*** 2026-06-01
+# # 2026-06-01
 
-***REMOVED******REMOVED******REMOVED*** Terrence instructed overnight GG V2 upgrade at 02:50 HKT
+# ## Terrence instructed overnight GG V2 upgrade at 02:50 HKT
 - **Status**: GG V2 upgrade, all operations approved
 - **Time**: 02:50 HKT overnight operation
 - **Result**: All operations executed successfully
 
-***REMOVED******REMOVED******REMOVED*** [MEMORY] Terrence instructed overnight GG V2 upgrade at 02:50 HKT — All operations approved and executed
+# ## [MEMORY] Terrence instructed overnight GG V2 upgrade at 02:50 HKT — All operations approved and executed
 - **記錄時間**: 02:50 HKT (2026-05-20)
 - **發起人**: Terrence
 - **時段**: 02:50 - 07:00 HKT
@@ -46,16 +46,16 @@ Status: All done. ✅
 - **結果**: ✅ All components operational, test suite 6/6 passed
 - **歸檔**: 已寫入 work_memo、person_memo、2026-05-20.md
 
-***REMOVED******REMOVED******REMOVED*** GG V2 Upgrade — Detailed Component Status
+# ## GG V2 Upgrade — Detailed Component Status
 - **agent-team-orchestration**: 已建立 multi-agent team orchestration，定義咗 task lifecycle、handoff protocol、review workflow
 - **orchestrate.py**: 建立咗主 orchestration script，整合各 agent 協作流程
 - **vm_query.py**: VM 查詢模組，用於 infrastructure 狀態查詢
 - **SOUL.md**: 已更新各 agent 嘅 SOUL.md，明確 scope、responsibilities、communication rules
 - **tunnel cron**: 已設定 tunnel cron job，確保遠端連線穩定
 
-***REMOVED******REMOVED*** 2026-05-19
+# # 2026-05-19
 
-***REMOVED******REMOVED******REMOVED*** GG V2 Upgrade Components Record
+# ## GG V2 Upgrade Components Record
 - **agent-team-orchestration**: ✅ skill installed, multi-agent team orchestration framework in place
 - **orchestrate.py**: ✅ main orchestration script created for agent coordination (`scripts/vm/orchestrate.py`)
 - **vm_query.py**: ⚠️ 記錄為已完成但實際檔案唔存在（`scripts/vm/vm_query.py` 未被建立）
@@ -63,7 +63,7 @@ Status: All done. ✅
 - **tunnel cron**: ⚠️ 系統 crontab 冇 tunnel cron entry，OpenClaw cron 亦冇相關記錄
 - **系統 crontab 修復**: ⚠️ 已記錄修正但 crontab 目前全空
 
-***REMOVED******REMOVED******REMOVED*** Inventory Audit (2026-05-21 re-check)
+# ## Inventory Audit (2026-05-21 re-check)
 | Component | Status | Notes |
 |-----------|--------|-------|
 | `agent-team-orchestration` skill | ✅ | Installed, file exists at `skills/agent-team-orchestration/SKILL.md` |
@@ -74,9 +74,9 @@ Status: All done. ✅
 | tunnel cron (OpenClaw) | ❌ | OpenClaw cron jobs list 為空 |
 | 系統 crontab | ❌ | `crontab -l` 冇任何 entries |
 
-***REMOVED******REMOVED*** 2026-05-22
+# # 2026-05-22
 
-***REMOVED******REMOVED******REMOVED*** [UPGRADE] Test Suite 6/6 Passed — Full Pipeline Verification
+# ## [UPGRADE] Test Suite 6/6 Passed — Full Pipeline Verification
 - **時間**: 2026-05-22 (afternoon)
 - **Initiator**: Terrence
 - **Result**: ✅ Test suite 6/6 all passed
@@ -89,9 +89,9 @@ Status: All done. ✅
   6. ✅ task lifecycle (assign → execute → complete → verify)
 - **Status**: GG V2 upgrade components now fully verified & operational
 
-***REMOVED******REMOVED*** 2026-05-22
+# # 2026-05-22
 
-***REMOVED******REMOVED******REMOVED*** [MEMORY] Daily Memory Extract + Nightly Consolidation Crons Installed
+# ## [MEMORY] Daily Memory Extract + Nightly Consolidation Crons Installed
 
 **時間**: 2026-05-22 (afternoon)
 **發起人**: Terrence
@@ -103,7 +103,7 @@ Status: All done. ✅
 - 語法檢查：✅ both scripts OK
 **狀態**: ✅ Installed & verified
 
-***REMOVED******REMOVED*** 2026-05-21 — [MEMORY] GG V2 Upgrade Memory Recording Request
+# # 2026-05-21 — [MEMORY] GG V2 Upgrade Memory Recording Request
 
 **來源**: Terrence via WebChat
 **訊息**: 請記錄：[MEMORY] [work_memo] [MEMORY] [person_memo] [UPGRADE] GG V2 upgrade: agent-team-orchestration, orchestrate.py, vm_query.py, SOUL.md update, tunnel cron

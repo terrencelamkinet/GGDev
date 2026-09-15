@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 focus_bridge_windows.py
 BrainLink EEG → WebSocket bridge for Focus Bird Pro
@@ -12,7 +12,7 @@ Usage:
 import asyncio, json, time, argparse, sys
 from datetime import datetime
 
-***REMOVED*** ── Try importing optional packages ──────────────────────────
+# ── Try importing optional packages ──────────────────────────
 try:
     import serial, serial.tools.list_ports
     HAS_SERIAL = True
@@ -28,7 +28,7 @@ except ImportError:
     print("[ERROR] websockets not found. Install: pip install websockets")
     sys.exit(1)
 
-***REMOVED*** ── BrainLink MindSet protocol parser ────────────────────────
+# ── BrainLink MindSet protocol parser ────────────────────────
 SYNC1, SYNC2, SYNC3 = 0xAA, 0xAA, 0x04
 
 class MindSetParser:
@@ -45,7 +45,7 @@ class MindSetParser:
         self.buf.extend(raw)
         packets = []
         while len(self.buf) >= 4:
-            ***REMOVED*** Find sync bytes
+            # Find sync bytes
             if self.buf[0] != 0xAA or self.buf[1] != 0xAA:
                 self.buf.pop(0); continue
             plen = self.buf[2]
@@ -68,15 +68,15 @@ class MindSetParser:
         updated = False
         while i < len(payload):
             code = payload[i]; i += 1
-            if code == 0x02:   ***REMOVED*** Signal quality
+            if code == 0x02:   # Signal quality
                 self.data['signal'] = payload[i]; i += 1; updated = True
-            elif code == 0x04: ***REMOVED*** Attention
+            elif code == 0x04: # Attention
                 self.data['attention'] = payload[i]; i += 1; updated = True
-            elif code == 0x05: ***REMOVED*** Meditation
+            elif code == 0x05: # Meditation
                 self.data['meditation'] = payload[i]; i += 1; updated = True
-            elif code == 0x80: ***REMOVED*** Raw wave (2 bytes) — skip
+            elif code == 0x80: # Raw wave (2 bytes) — skip
                 i += 3
-            elif code == 0x83: ***REMOVED*** EEG power (24 bytes)
+            elif code == 0x83: # EEG power (24 bytes)
                 bands = ['delta','theta','lowAlpha','highAlpha',
                          'lowBeta','highBeta','lowGamma','midGamma']
                 for b in bands:
@@ -89,7 +89,7 @@ class MindSetParser:
         return dict(self.data) if updated else None
 
 
-***REMOVED*** ── WebSocket server ──────────────────────────────────────────
+# ── WebSocket server ──────────────────────────────────────────
 clients = set()
 
 async def ws_handler(ws):
@@ -98,7 +98,7 @@ async def ws_handler(ws):
         async for msg in ws:
             try:
                 d = json.loads(msg)
-                ***REMOVED*** Accept threshold/age from game (optional)
+                # Accept threshold/age from game (optional)
                 print(f"[WS] recv from game: {d}")
             except Exception:
                 pass
@@ -120,7 +120,7 @@ async def broadcast(data: dict):
     clients -= dead
 
 
-***REMOVED*** ── Serial reader ─────────────────────────────────────────────
+# ── Serial reader ─────────────────────────────────────────────
 async def serial_loop(port, baud, age, threshold):
     if not HAS_SERIAL:
         print("[ERROR] pyserial required for serial mode.")
@@ -156,7 +156,7 @@ async def serial_loop(port, baud, age, threshold):
         await asyncio.sleep(0.005)
 
 
-***REMOVED*** ── Demo loop (no hardware) ───────────────────────────────────
+# ── Demo loop (no hardware) ───────────────────────────────────
 async def demo_loop(age, threshold):
     """Simulate brain signal for testing without hardware."""
     import math, random
@@ -182,7 +182,7 @@ async def demo_loop(age, threshold):
         await asyncio.sleep(1.0)
 
 
-***REMOVED*** ── Main ──────────────────────────────────────────────────────
+# ── Main ──────────────────────────────────────────────────────
 async def main(args):
     server = await websockets.serve(ws_handler, 'localhost', args.ws_port)
     print(f"[WS] Server listening on ws://localhost:{args.ws_port}")

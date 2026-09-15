@@ -1,10 +1,10 @@
-***REMOVED*** AI One 🦾
+# AI One 🦾
 
 **The operating system for AI agents.**
 
 Deploy, manage, and orchestrate AI agents across any server with one click. Enter host + username + password — AI One auto-SSH, auto-install, auto-connect.
 
-***REMOVED******REMOVED*** Quick Start
+# # Quick Start
 
 ```bash
 docker compose up -d
@@ -14,7 +14,7 @@ Frontend: http://localhost:3000
 Backend API: http://localhost:8000
 API Docs: http://localhost:8000/docs
 
-***REMOVED******REMOVED*** Architecture
+# # Architecture
 
 ```
 User → AI One Dashboard
@@ -24,28 +24,28 @@ User → AI One Dashboard
          └── Real-Time Gateway (WebSocket)
 ```
 
-***REMOVED******REMOVED*** Projects Structure
+# # Projects Structure
 
 ```
 g04-ai-one/
-├── PRD.md                 ***REMOVED*** Product requirements
-├── ARCHITECTURE.md        ***REMOVED*** System design
-├── backend/               ***REMOVED*** FastAPI + SQLAlchemy
+├── PRD.md                 # Product requirements
+├── ARCHITECTURE.md        # System design
+├── backend/               # FastAPI + SQLAlchemy
 │   ├── app/
-│   │   ├── main.py        ***REMOVED*** Entry point
-│   │   ├── models/        ***REMOVED*** ORM models
-│   │   ├── routers/       ***REMOVED*** API endpoints
-│   │   └── services/      ***REMOVED*** Business logic
-│   └── alembic/           ***REMOVED*** DB migrations
-├── frontend/              ***REMOVED*** React 19 + TypeScript + Tailwind
+│   │   ├── main.py        # Entry point
+│   │   ├── models/        # ORM models
+│   │   ├── routers/       # API endpoints
+│   │   └── services/      # Business logic
+│   └── alembic/           # DB migrations
+├── frontend/              # React 19 + TypeScript + Tailwind
 │   └── src/
-│       ├── pages/         ***REMOVED*** Dashboard, Agents, Provision, Detail
-│       └── components/    ***REMOVED*** AgentCard, AgentStream, ProvisionForm
+│       ├── pages/         # Dashboard, Agents, Provision, Detail
+│       └── components/    # AgentCard, AgentStream, ProvisionForm
 ├── docker-compose.yml
 └── README.md
 ```
 
-***REMOVED******REMOVED*** Tech Stack
+# # Tech Stack
 
 | Layer | Technology |
 |---|---|

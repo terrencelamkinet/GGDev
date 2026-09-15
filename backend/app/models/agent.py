@@ -23,8 +23,8 @@ class Agent(Base):
         String(50),
         default="offline",
         nullable=False,
-    )  ***REMOVED*** online, offline, provisioning, error
-    api_key = Column(String(255), nullable=True)
+    )  # online, offline, provisioning, error
+    api_key = "REDACTED" nullable=True)
     config = Column(JSONB, default=dict, nullable=True)
     last_heartbeat = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(

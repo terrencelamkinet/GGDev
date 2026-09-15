@@ -53,7 +53,7 @@
     border-radius: 10px;
     transition: width 0.15s;
   }
-  ***REMOVED***overlay {
+  # overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
@@ -65,9 +65,9 @@
     gap: 10px;
     padding: 20px;
   }
-  ***REMOVED***overlay h1 { font-size: 36px; }
-  ***REMOVED***overlay p { font-size: 16px; opacity: 0.8; max-width: 300px; }
-  ***REMOVED***overlay button {
+  # overlay h1 { font-size: 36px; }
+  # overlay p { font-size: 16px; opacity: 0.8; max-width: 300px; }
+  # overlay button {
     margin-top: 6px;
     padding: 12px 40px;
     font-size: 18px;
@@ -79,7 +79,7 @@
     cursor: pointer;
     transition: transform 0.15s;
   }
-  ***REMOVED***overlay button:hover { transform: scale(1.05); }
+  # overlay button:hover { transform: scale(1.05); }
   .hidden { display: none !important; }
   .credits {
     position: absolute;

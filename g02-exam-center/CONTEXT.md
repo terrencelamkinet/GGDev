@@ -1,4 +1,4 @@
-***REMOVED*** exam-center — Project Context
+# exam-center — Project Context
 
 > 最後更新：2026-05-30
 > 狀態：pending — 等待首次重大工作後 update

@@ -1,21 +1,21 @@
-***REMOVED*** /run_tests
+# /run_tests
 
 Run all test suites for the project.
 
-***REMOVED******REMOVED*** Usage
+# # Usage
 ```
 /run_tests [target]
 ```
 
-***REMOVED******REMOVED*** Targets
+# # Targets
 - `backend` — Run Python tests: `cd gg-dashboard && python -m pytest tests/ -v`
 - `frontend` — Run frontend tests: `cd gg-dashboard/frontend && npm test`
 - `all` — Run all tests (default)
 
-***REMOVED******REMOVED*** Implementation
+# # Implementation
 ```bash
-***REMOVED***!/bin/bash
-***REMOVED*** Run tests for GGDev project
+#!!/bin/bash
+# Run tests for GGDev project
 set -e
 
 TARGET="${1:-all}"

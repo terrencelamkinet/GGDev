@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 gg_insights_pusher.py — Push new stacking insights to Telegram.
 
@@ -19,9 +19,9 @@ BASE = Path.home() / "projects/ggdev-repo/gg-dashboard"
 INSIGHTS_FILE = BASE / "gg-insights.json"
 PUSH_LOG = BASE / "gg-insights-pushlog.json"
 
-***REMOVED*** Entry types that are worth pushing
+# Entry types that are worth pushing
 PUSHABLE_TYPES = {"discovery", "trend", "suggestion", "milestone"}
-***REMOVED*** Skip these messages (too noisy)
+# Skip these messages (too noisy)
 SKIP_PATTERNS = ["Cron output:", "無 urgent", "沒有新發現", "所有 daemon 正常", "已穩定運行"]
 
 def should_push(entry):
@@ -34,7 +34,7 @@ def should_push(entry):
     if entry_type in PUSHABLE_TYPES:
         return True
     if entry_type == "activity" and entry.get("source") in ("work", "person"):
-        return True  ***REMOVED*** Push work/person activity
+        return True  # Push work/person activity
     return False
 
 def main():
@@ -57,14 +57,14 @@ def main():
     last_push_id = push_log.get("last_push_id", 0)
     entries = insights.get("entries", [])
 
-    ***REMOVED*** Find new entries that haven't been pushed
+    # Find new entries that haven't been pushed
     new_entries = [e for e in entries if e.get("id", 0) > last_push_id and should_push(e)]
 
     if not new_entries:
         print("NOTHING_NEW")
         return
 
-    ***REMOVED*** Group by source for readable push
+    # Group by source for readable push
     by_source = {}
     for e in new_entries:
         src = e.get("source", "system")
@@ -72,7 +72,7 @@ def main():
             by_source[src] = []
         by_source[src].append(e)
 
-    ***REMOVED*** Build push message
+    # Build push message
     src_labels = {
         "fighter": "🤖 GG Fighter",
         "work": "⚙️ GG-Work",
@@ -92,7 +92,7 @@ def main():
 
     lines.append(f"📊 {len(new_entries)} new — {len(entries)} total")
 
-    ***REMOVED*** Save push log
+    # Save push log
     max_id = max(e.get("id", 0) for e in new_entries)
     push_log["last_push_id"] = max_id
     push_log["pushed"].append({
@@ -100,14 +100,14 @@ def main():
         "count": len(new_entries),
         "max_id": max_id
     })
-    ***REMOVED*** Keep last 50 push records
+    # Keep last 50 push records
     if len(push_log["pushed"]) > 50:
         push_log["pushed"] = push_log["pushed"][-50:]
 
     with open(PUSH_LOG, "w") as f:
         json.dump(push_log, f, indent=2, ensure_ascii=False)
 
-    ***REMOVED*** Output for cron delivery
+    # Output for cron delivery
     print("\n".join(lines))
 
 if __name__ == "__main__":

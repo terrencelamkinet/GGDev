@@ -5,20 +5,20 @@ description: Session 並行開發 + Ralph Loop 訓練指南。複雜 task 用 Ra
 summary: 高效開發流程 — Session 並行、Ralph Loop 自動循環、Timeline revert。
 ---
 
-***REMOVED*** Session + Ralph Loop Training
+# Session + Ralph Loop Training
 
-***REMOVED******REMOVED*** 核心工作流程
+# # 核心工作流程
 
 OpenCode 嘅 Session 系統同 Ralph Loop 係處理複雜 project 嘅兩大法寶。
 
 ---
 
-***REMOVED******REMOVED*** 1. Session 並行開發
+# # 1. Session 並行開發
 
-***REMOVED******REMOVED******REMOVED*** 咩係 Session？
+# ## 咩係 Session？
 每個新對話 = 一個 Session。你可以同時開多個 Session 背景運行。
 
-***REMOVED******REMOVED******REMOVED*** 點樣用？
+# ## 點樣用？
 
 | Instruction | 用途 |
 |------------|------|
@@ -27,7 +27,7 @@ OpenCode 嘅 Session 系統同 Ralph Loop 係處理複雜 project 嘅兩大法�
 | `/timeline` | 睇當前對話紀錄 + 所有修改點 |
 | `revert` | 回溯到修改前嘅版本 |
 
-***REMOVED******REMOVED******REMOVED*** 幾時用 Session？
+# ## 幾時用 Session？
 
 **✅ 適合用 Session：**
 - 多個獨立 task（例如同時寫 API + 前端 component）
@@ -38,26 +38,26 @@ OpenCode 嘅 Session 系統同 Ralph Loop 係處理複雜 project 嘅兩大法�
 - 互相依賴嘅 task（一個改完另一個要用結果）
 - 改同一個 file 嘅多個 task
 
-***REMOVED******REMOVED******REMOVED*** 最佳實踐
+# ## 最佳實踐
 1. 見到有 2+ 個獨立 task → 用 `new` 開 Session 並行
 2. 定期 `/sessions` check 進度
 3. Session 完成後自動 merge 結果
 
 ---
 
-***REMOVED******REMOVED*** 2. Ralph Loop（/r）
+# # 2. Ralph Loop（/r）
 
-***REMOVED******REMOVED******REMOVED*** 咩係 Ralph Loop？
+# ## 咩係 Ralph Loop？
 指令 `/r` → AI 自動循環執行超複雜任務，直到完成為止。
 
-***REMOVED******REMOVED******REMOVED*** 點樣用？
+# ## 點樣用？
 ```
 /r 幫我重構成個 authentication system
 /r 將全部 test pass
 /r 將呢個 monolith 拆做 microservices
 ```
 
-***REMOVED******REMOVED******REMOVED*** 幾時用 Ralph Loop？
+# ## 幾時用 Ralph Loop？
 
 **✅ 適合用 /r：**
 - **超複雜任務（>5 files）** — 重構、重寫、migration
@@ -69,15 +69,15 @@ OpenCode 嘅 Session 系統同 Ralph Loop 係處理複雜 project 嘅兩大法�
 - 簡單 task（1-2 files）
 - 只需要一次修改嘅 task
 
-***REMOVED******REMOVED******REMOVED*** Ralph Loop 限制
+# ## Ralph Loop 限制
 - 用 token 好多（不停循環）
 - 可能陷入 infinite loop（要手動 `/stop`）
 
 ---
 
-***REMOVED******REMOVED*** 3. Error Recovery（Timeline + Revert）
+# # 3. Error Recovery（Timeline + Revert）
 
-***REMOVED******REMOVED******REMOVED*** 出錯時嘅標準流程
+# ## 出錯時嘅標準流程
 
 ```
 Step 1: /timeline
@@ -93,16 +93,16 @@ Step 3: 重新嘗試
   → 或者用 Ralph Loop 自動 fix
 ```
 
-***REMOVED******REMOVED******REMOVED*** 點解用 Timeline 唔係 git？
+# ## 點解用 Timeline 唔係 git？
 OpenCode 嘅 Timeline 記錄每個 AI 修改點，粒度比 git commit 更細：
 - 可以 revert 到某個 AI response 之前嘅狀態
 - 唔會影響 git history
 
 ---
 
-***REMOVED******REMOVED*** 4. 實際場景
+# # 4. 實際場景
 
-***REMOVED******REMOVED******REMOVED*** Scenario A：重構成個 project（>5 files）
+# ## Scenario A：重構成個 project（>5 files）
 ```
 1. /r 重構 authentication system
 2. 等 AI 自動循環修改
@@ -111,7 +111,7 @@ OpenCode 嘅 Timeline 記錄每個 AI 修改點，粒度比 git commit 更細：
 5. git commit + push
 ```
 
-***REMOVED******REMOVED******REMOVED*** Scenario B：多個獨立 task
+# ## Scenario B：多個獨立 task
 ```
 1. 「幫我寫一個 user profile API」
    → 用 main session 做
@@ -121,7 +121,7 @@ OpenCode 嘅 Timeline 記錄每個 AI 修改點，粒度比 git commit 更細：
 4. 完成後 merge
 ```
 
-***REMOVED******REMOVED******REMOVED*** Scenario C：出錯修復
+# ## Scenario C：出錯修復
 ```
 1. AI 改完發現 bug → 「嘩，壞咗」
 2. /timeline → 搵 bug change

@@ -1,57 +1,57 @@
-***REMOVED*** You are building UI in the localhost design system.
+# You are building UI in the localhost design system.
 
 Source: http://localhost:7870
 Extracted by designlang on 2026-06-08.
 
-***REMOVED******REMOVED*** Brand at a glance
+# # Brand at a glance
 
 - title         3AI Intelligence Dashboard
 - page intent   landing
 - material      material-you
 - design grade  B
 
-***REMOVED******REMOVED*** Colour
+# # Colour
 
-- primary     ***REMOVED***af52de
-- secondary   ***REMOVED***5856d6
-- accent      ***REMOVED***ff3b30
-- neutrals    ***REMOVED***3c3c43 · ***REMOVED***000000 · ***REMOVED***ffffff · ***REMOVED***787880 · ***REMOVED***e5e5ea · ***REMOVED***f2f2f7
+- primary     #af52de
+- secondary   #5856d6
+- accent      #ff3b30
+- neutrals    #3c3c43 · #000000 · #ffffff · #787880 · #e5e5ea · #f2f2f7
 
-***REMOVED******REMOVED*** Typography
+# # Typography
 
 - families   Arial · SF Mono · Times New Roman
 - weights    400 · 700 · 500 · 600
 - base size  16px
 
-***REMOVED******REMOVED*** Spacing
+# # Spacing
 
 - scale      1px · 20px · 27px · 32px · 48px · 444px
 
-***REMOVED******REMOVED*** Radii
+# # Radii
 
 - scale      10px · 13px · 50px · 999px
 
-***REMOVED******REMOVED*** Motion
+# # Motion
 
 - durations  150ms · 200ms
 
-***REMOVED******REMOVED*** Voice
+# # Voice
 
 - tone       neutral
 - pronoun    third-person
 - headings   unknown
 - CTA verbs  home · intelligence · tasks · connection · settings
 
-***REMOVED******REMOVED*** Component anatomy
+# # Component anatomy
 
 - card       variants: [object Object]  ·  slots: false · false · false · false
 - button     variants: [object Object]  ·  slots: true · true · false
 
-***REMOVED******REMOVED*** Accessibility
+# # Accessibility
 
 - WCAG score 100% · failing pairs: 0
 
-***REMOVED******REMOVED*** Build rules
+# # Build rules
 
 1. Use the colours above. **Never invent a new hex.** If you need a
    shade between two existing colours, derive it via HSL adjustment
@@ -69,7 +69,7 @@ Extracted by designlang on 2026-06-08.
 7. Reuse component anatomy when it exists — do not invent novel
    structures for things the site already has.
 
-***REMOVED******REMOVED*** Available context files
+# # Available context files
 
 designlang wrote these alongside this prompt. Reach for them when
 you need ground truth:
@@ -90,7 +90,7 @@ you need ground truth:
 When you reference the system in code, prefer importing from these
 files over hard-coding values.
 
-***REMOVED******REMOVED*** Output expectations
+# # Output expectations
 
 When asked to "build a pricing page" or "make a card" or any UI:
 
@@ -104,7 +104,7 @@ When asked to "build a pricing page" or "make a card" or any UI:
 - Annotate any choice where you had to bend the system, with a
   one-line `// note:` comment explaining what and why.
 
-***REMOVED******REMOVED*** One-line install
+# # One-line install
 
 ```bash
 npx designlang localhost

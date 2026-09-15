@@ -19,7 +19,7 @@ async def provision(
     session: AsyncSession = Depends(get_session),
 ) -> ProvisionResponse:
     """One-click provision: SSH into server, install agent, register."""
-    ***REMOVED*** Generate a temporary agent record
+    # Generate a temporary agent record
     agent_name = req.name or f"agent-{uuid.uuid4().hex[:8]}"
 
     agent = Agent(
@@ -33,7 +33,7 @@ async def provision(
     await session.flush()
     await session.refresh(agent)
 
-    ***REMOVED*** Create deployment record
+    # Create deployment record
     deployment = Deployment(
         agent_id=agent.id,
         host=req.host,
@@ -44,7 +44,7 @@ async def provision(
     await session.refresh(deployment)
 
     try:
-        ***REMOVED*** Run provisioner
+        # Run provisioner
         result = await provision_agent(
             host=req.host,
             port=req.port,
@@ -55,9 +55,9 @@ async def provision(
             role=req.role,
         )
 
-        ***REMOVED*** Update agent on success
+        # Update agent on success
         agent.status = "online"
-        agent.api_key = result.get("api_key")
+        agent.api_key = "REDACTED"api_key")
         agent.config = result.get("config", {})
 
         deployment.status = "success"
@@ -73,7 +73,7 @@ async def provision(
         )
 
     except Exception as exc:
-        ***REMOVED*** Mark as failed
+        # Mark as failed
         agent.status = "error"
         deployment.status = "failed"
         deployment.log = f"Provisioning failed: {str(exc)}"

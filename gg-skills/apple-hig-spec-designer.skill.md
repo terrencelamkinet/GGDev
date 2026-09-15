@@ -10,15 +10,15 @@ sources:
   - https://developer.apple.com/design/
 ---
 
-***REMOVED*** Apple HIG Spec Designer
+# Apple HIG Spec Designer
 
 Use this skill when designing a mobile app, game UI, or desktop app specification for Apple platforms. This skill translates Apple Human Interface Guidelines into agent-executable instructions for generating structured `.md` specs, screen definitions, component contracts, and review rubrics.
 
-***REMOVED******REMOVED*** Goal
+# # Goal
 
 Produce app specifications that feel native to Apple platforms, prefer system conventions over custom invention, and are complete enough for product, design, and engineering handoff. Apple’s HIG emphasizes hierarchy, harmony, and consistency across platform experiences.[cite:1]
 
-***REMOVED******REMOVED*** Design principles
+# # Design principles
 
 Always optimize for these principles first:
 - Hierarchy: create a clear visual and interaction hierarchy.[cite:1]
@@ -27,7 +27,7 @@ Always optimize for these principles first:
 - Native-first: prefer Apple patterns before custom interaction models.[cite:2][cite:3]
 - Task clarity: every screen must make the primary action obvious.
 
-***REMOVED******REMOVED*** When to use
+# # When to use
 
 Use this skill when the user asks for any of the following:
 - Design a new iOS, iPadOS, macOS, watchOS, tvOS, or visionOS app spec
@@ -38,7 +38,7 @@ Use this skill when the user asks for any of the following:
 
 Do not use this skill for Android-first or web-first products unless the user explicitly wants Apple-platform adaptation.
 
-***REMOVED******REMOVED*** Required output artifacts
+# # Required output artifacts
 
 The default output should be one or more Markdown files. A complete delivery should usually contain:
 - `00_Product_Overview.md`
@@ -57,11 +57,11 @@ For smaller requests, compress the structure, but do not omit:
 - Accessibility
 - Design review checklist
 
-***REMOVED******REMOVED*** Agent workflow
+# # Agent workflow
 
 Follow this sequence strictly.
 
-***REMOVED******REMOVED******REMOVED*** 1. Interpret product context
+# ## 1. Interpret product context
 
 Extract or infer:
 - Product type
@@ -75,7 +75,7 @@ Extract or infer:
 
 If the request is under-specified, define explicit assumptions and label them as assumptions.
 
-***REMOVED******REMOVED******REMOVED*** 2. Choose platform conventions
+# ## 2. Choose platform conventions
 
 Select patterns according to Apple platform norms:
 - iPhone: navigation stack, tab bar, sheets, large-title roots when appropriate.[cite:2]
@@ -83,7 +83,7 @@ Select patterns according to Apple platform norms:
 - Games: immersive full-screen presentation, controller-aware UI, gameplay-safe overlays.[cite:10][cite:41][cite:44]
 - Component usage should prefer system-defined elements because Apple explicitly recommends familiar and consistent system components.[cite:3]
 
-***REMOVED******REMOVED******REMOVED*** 3. Build information architecture
+# ## 3. Build information architecture
 
 Define:
 - Top-level destinations
@@ -93,7 +93,7 @@ Define:
 - Modal vs push navigation boundaries
 - Maximum reasonable hierarchy depth
 
-***REMOVED******REMOVED******REMOVED*** 4. Generate user flows
+# ## 4. Generate user flows
 
 For each core task, define:
 - Entry point
@@ -107,12 +107,12 @@ For each core task, define:
 - Permission denial path
 - Offline or interrupted path
 
-***REMOVED******REMOVED******REMOVED*** 5. Generate screen specs
+# ## 5. Generate screen specs
 
 Every screen spec must include this schema:
 
 ```md
-***REMOVED******REMOVED*** Screen: <name>
+# # Screen: <name>
 - Purpose:
 - Primary user goal:
 - Primary action:
@@ -135,7 +135,7 @@ Every screen spec must include this schema:
 
 No screen is complete without state coverage.
 
-***REMOVED******REMOVED******REMOVED*** 6. Assign component contracts
+# ## 6. Assign component contracts
 
 For each major component, define:
 - Name
@@ -148,7 +148,7 @@ For each major component, define:
 - Platform-specific notes
 - Reuse rules
 
-***REMOVED******REMOVED******REMOVED*** 7. Run HIG review
+# ## 7. Run HIG review
 
 Evaluate the draft on:
 - Hierarchy
@@ -163,11 +163,11 @@ Evaluate the draft on:
 - Permission timing
 - Clarity of primary actions
 
-***REMOVED******REMOVED*** Decision rules
+# # Decision rules
 
 Use these decision rules when generating new specs.
 
-***REMOVED******REMOVED******REMOVED*** Navigation
+# ## Navigation
 
 ```text
 IF the app has 3–5 top-level peer destinations on iPhone
@@ -183,7 +183,7 @@ IF a task is temporary and self-contained
 THEN prefer a Sheet rather than full navigation takeover.
 ```
 
-***REMOVED******REMOVED******REMOVED*** Search
+# ## Search
 
 ```text
 IF users seek known items from medium or large datasets
@@ -193,7 +193,7 @@ IF search is frequent and task-critical
 THEN expose it high in the hierarchy, not buried in settings or overflow menus.
 ```
 
-***REMOVED******REMOVED******REMOVED*** Forms
+# ## Forms
 
 ```text
 IF the form is short and low-risk
@@ -203,7 +203,7 @@ IF the form is long, sensitive, or cognitively heavy
 THEN split into progressive steps with clear progress feedback.
 ```
 
-***REMOVED******REMOVED******REMOVED*** Modality
+# ## Modality
 
 ```text
 IF the user must resolve a focused task before continuing
@@ -213,7 +213,7 @@ IF the task can be postponed without harm
 THEN keep the user in normal navigation flow.
 ```
 
-***REMOVED******REMOVED******REMOVED*** Components
+# ## Components
 
 ```text
 IF a standard Apple component exists
@@ -223,7 +223,7 @@ IF a custom component is necessary
 THEN document why the system component is insufficient and define accessibility behavior explicitly.
 ```
 
-***REMOVED******REMOVED*** Writing rules for generated Markdown
+# # Writing rules for generated Markdown
 
 Every generated Markdown spec should:
 - Use clear section headings
@@ -234,7 +234,7 @@ Every generated Markdown spec should:
 - Avoid decorative language
 - Use tables for comparisons and mappings
 
-***REMOVED******REMOVED*** Accessibility minimums
+# # Accessibility minimums
 
 Always require:
 - Minimum 44×44pt touch targets where relevant to touch interfaces
@@ -246,7 +246,7 @@ Always require:
 
 These are consistent with Apple’s design guidance and platform expectations.[cite:2][cite:3]
 
-***REMOVED******REMOVED*** Review rubric
+# # Review rubric
 
 Every final spec must end with a rubric table like this:
 
@@ -265,13 +265,13 @@ Then provide:
 - Top 3 unresolved assumptions
 - Recommended next design iteration
 
-***REMOVED******REMOVED*** Output modes
+# # Output modes
 
-***REMOVED******REMOVED******REMOVED*** Mode A: New app spec
+# ## Mode A: New app spec
 
 Create a full app spec package.
 
-***REMOVED******REMOVED******REMOVED*** Mode B: Single feature spec
+# ## Mode B: Single feature spec
 
 Create:
 - feature overview
@@ -280,7 +280,7 @@ Create:
 - component deltas
 - review checklist
 
-***REMOVED******REMOVED******REMOVED*** Mode C: HIG audit
+# ## Mode C: HIG audit
 
 Audit an existing concept or screen set against this rubric:
 - compliant
@@ -288,14 +288,14 @@ Audit an existing concept or screen set against this rubric:
 - non-compliant
 - recommendation
 
-***REMOVED******REMOVED*** Style calibration
+# # Style calibration
 
 - Favor native-feeling, calm, obvious interactions over novelty.
 - Prefer removal over addition when a UI feels crowded.
 - If unsure, use standard Apple conventions.
 - Explain deviations from standard patterns explicitly.
 
-***REMOVED******REMOVED*** Example prompt patterns
+# # Example prompt patterns
 
 - Design an iPhone budgeting app spec using apple-hig-spec-designer.
 - Convert this product brief into Apple-platform screen specs.

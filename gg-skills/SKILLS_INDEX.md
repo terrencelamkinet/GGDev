@@ -1,6 +1,6 @@
-***REMOVED*** GG Skills Database Index
+# GG Skills Database Index
 
-***REMOVED******REMOVED*** Load-on-Demand Skills
+# # Load-on-Demand Skills
 
 | Skill | File | Trigger |
 |-------|------|---------|
@@ -19,7 +19,7 @@
 | iPhone 14 Pro WebApp Guideline | `gg-skills/iphone-14-pro-webapp-guideline.skill.md` | iPhone 14 Pro / 393x852 / viewport / mobile-first / safe-area / WebApp / iOS Safari / 44px touch target / mobile design / touch target / Apple mobile |
 | OpenCode Product Architecture | `gg-skills/opencode-product-architecture.skill.md` | OpenCode / Crush / product / tech stack / FastAPI / React / TypeScript / Tailwind / shadcn / PostgreSQL / Redis / Mac Mini / Docker / product architecture / fullstack / 開發架構 |
 
-***REMOVED******REMOVED*** Load Rules
+# # Load Rules
 - Load skill file at start of conversation when trigger matches
 - One skill at a time (most relevant first)
 - Keep loaded in context for that conversation turn

@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 GG Reminder Scheduler Daemon v1
 ================================
@@ -42,9 +42,9 @@ from datetime import datetime, timedelta, timezone, date
 from pathlib import Path
 from typing import Optional, Any
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** CONFIG
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# CONFIG
+# ════════════════════════════════════════════════════════════════
 
 BASE_DIR = Path("/home/airoot/.openclaw")
 LOG_DIR = BASE_DIR / "logs" / "gg-reminder"
@@ -56,21 +56,21 @@ HEALTH_LOG = LOG_DIR / "reminder-health.log"
 
 TZ = timezone(timedelta(hours=8))
 
-INTERVAL_S = 30           ***REMOVED*** main loop interval
-QUIET_HOURS = (0, 6.5)    ***REMOVED*** 00:00 - 06:30 HKT, no reminders
-DAILY_CAP = 8             ***REMOVED*** max reminders per day
-COOLDOWN_MIN = 2          ***REMOVED*** min between reminders
-CALENDAR_CHECK_INTERVAL = 300  ***REMOVED*** check Notion calendar every 5 min
+INTERVAL_S = 30           # main loop interval
+QUIET_HOURS = (0, 6.5)    # 00:00 - 06:30 HKT, no reminders
+DAILY_CAP = 8             # max reminders per day
+COOLDOWN_MIN = 2          # min between reminders
+CALENDAR_CHECK_INTERVAL = 300  # check Notion calendar every 5 min
 KINETIX_ICS_URL = "https://outlook.office365.com/owa/calendar/23025923e672405cb1bcf881dcdd1e32@kinetix.com.hk/34fde7f166474af5ab31916b7fc8490c11023895445072650156/S-1-8-2393449578-217208843-2629041897-1723878112/reachcalendar.ics"
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** LOGGING — completely independent, writes its own files only
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# LOGGING — completely independent, writes its own files only
+# ════════════════════════════════════════════════════════════════
 
 def setup_logging():
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     
-    ***REMOVED*** Health log (rotating)
+    # Health log (rotating)
     lgr = logging.getLogger("gg_reminder")
     lgr.setLevel(logging.INFO)
     fmt = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S")
@@ -79,16 +79,16 @@ def setup_logging():
     lgr.addHandler(fh)
     return lgr
 
-log: logging.Logger = None  ***REMOVED*** set by main()
+log: logging.Logger = None  # set by main()
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** EVENT LOG — independent JSONL (NOT gg_event_logger_v2)
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# EVENT LOG — independent JSONL (NOT gg_event_logger_v2)
+# ════════════════════════════════════════════════════════════════
 
 _event_counter = 0
-_last_calendar_check = 0  ***REMOVED*** timestamp of last Notion calendar check
-_last_kinetix_check = 0  ***REMOVED*** timestamp of last Kinetix calendar check
-_last_gcal_check = 0  ***REMOVED*** timestamp of last Google Calendar check
+_last_calendar_check = 0  # timestamp of last Notion calendar check
+_last_kinetix_check = 0  # timestamp of last Kinetix calendar check
+_last_gcal_check = 0  # timestamp of last Google Calendar check
 
 def log_event(level: str, category: str, message: str, **extra):
     """Write to reminder-events.jsonl only. No cross-talk with gg-v2 events.jsonl."""
@@ -114,9 +114,9 @@ def log_event(level: str, category: str, message: str, **extra):
             if log:
                 log.error(f"Failed to write event: {e}")
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** STATE — persistent JSON, survives restarts
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# STATE — persistent JSON, survives restarts
+# ════════════════════════════════════════════════════════════════
 
 state_lock = threading.Lock()
 
@@ -146,20 +146,20 @@ def _ensure_today_reset():
     if _state.get("stats", {}).get("today_key") != today:
         _state["stats"] = {"reminded_today": 0, "today_key": today}
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** REMINDER STATE MACHINE
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** States:
-***REMOVED***   pending     → created, not yet due
-***REMOVED***   sent        → delivered to user, awaiting confirm/dismiss
-***REMOVED***   confirmed   → user said "got it"
-***REMOVED***   dismissed   → user said "skip/dismiss"
-***REMOVED***   overdue     → sent but no response within grace period (e.g. 30min)
-***REMOVED***   cancelled   → user cancelled before due
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# REMINDER STATE MACHINE
+# ════════════════════════════════════════════════════════════════
+# States:
+# pending     → created, not yet due
+# sent        → delivered to user, awaiting confirm/dismiss
+# confirmed   → user said "got it"
+# dismissed   → user said "skip/dismiss"
+# overdue     → sent but no response within grace period (e.g. 30min)
+# cancelled   → user cancelled before due
+# ════════════════════════════════════════════════════════════════
 
 REMINDER_STATES = {"pending", "sent", "confirmed", "dismissed", "overdue", "cancelled"}
-GRACE_MINUTES = 30  ***REMOVED*** sent → overdue after this
+GRACE_MINUTES = 30  # sent → overdue after this
 
 _next_id_counter = 1
 
@@ -168,14 +168,14 @@ def _next_id() -> str:
     today = datetime.now(TZ).strftime("%Y%m%d")
     existing = _state.get("reminders", [])
     count = sum(1 for r in existing if r["id"].startswith(today))
-    ***REMOVED*** Use max of existing count or internal counter
+    # Use max of existing count or internal counter
     n = max(count, _next_id_counter) + 1
     _next_id_counter = n
-    ***REMOVED*** Millisecond suffix prevents ID collisions after daemon restart
+    # Millisecond suffix prevents ID collisions after daemon restart
     ms = datetime.now(TZ).strftime("%f")[:3]
     return f"RMDR-{today}-{n:04d}-{ms}"
 
-***REMOVED*** ── Public API ──────────────────────────────────────────────────
+# ── Public API ──────────────────────────────────────────────────
 
 def add_reminder(
     title: str,
@@ -201,14 +201,14 @@ def add_reminder(
     """
     rid = _next_id()
     
-    ***REMOVED*** Compute actual fire times from offsets
+    # Compute actual fire times from offsets
     fire_times = [start_dt]
     if reminders_minutes:
         for offset in reminders_minutes:
             if offset > 0:
                 fire_times.append(start_dt - timedelta(minutes=offset))
     
-    ***REMOVED*** De-duplicate by sorting unique
+    # De-duplicate by sorting unique
     fire_times = sorted(set(fire_times))
     
     reminder = {
@@ -258,7 +258,7 @@ def add_birthday_reminder(name: str, day: int, month: int, year_born: int | None
     
     title = f"🎂 {name} birthday{age_str}!"
     
-    ***REMOVED*** 7 days before + 1 day before
+    # 7 days before + 1 day before
     reminders_minutes = [7 * 24 * 60, 24 * 60]
     
     rid = add_reminder(
@@ -314,7 +314,7 @@ def update_state(reminder_id: str, new_state: str) -> bool:
         for r in _state.get("reminders", []):
             if r["id"] == reminder_id:
                 if r["state"] == new_state:
-                    return True  ***REMOVED*** idempotent
+                    return True  # idempotent
                 old_state = r["state"]
                 r["state"] = new_state
                 now = datetime.now(TZ).isoformat()
@@ -391,9 +391,9 @@ def get_stats() -> dict:
     return counts
 
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** NLU PARSER — from reed1898/reminder + martok9803/reminder-engine
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# NLU PARSER — from reed1898/reminder + martok9803/reminder-engine
+# ════════════════════════════════════════════════════════════════
 
 PAT_TIME = re.compile(r"(\d{1,2})[:：](\d{2})")
 PAT_HOUR = re.compile(r"(\d{1,2})[時點](\d{0,2})(半|分)?")
@@ -451,7 +451,7 @@ def _resolve_time(text: str) -> tuple[int, int] | None:
         elif re.search(r"(凌[晨早])", text) and h < 6:
             pass
         elif h < 7 and m_val == 0:
-            pass  ***REMOVED*** keep ambiguous
+            pass  # keep ambiguous
         return h, m_val
     return None
 
@@ -486,7 +486,7 @@ def parse_natural(text: str) -> dict:
         "hour": None, "minute": None, "month": None, "day": None,
     }
     
-    ***REMOVED*** Birthday pattern
+    # Birthday pattern
     if re.search(r"(生日|birthday)", text, re.I):
         result["is_birthday"] = True
         m = re.search(r"(\w{2,})\s*(?:的|既)?生日", text)
@@ -498,7 +498,7 @@ def parse_natural(text: str) -> dict:
             result["day"] = int(dm.group(2))
         return result
     
-    ***REMOVED*** Relative time (priority)
+    # Relative time (priority)
     rel = _resolve_relative_time(text)
     if rel is not None:
         result["relative_min"] = rel
@@ -510,37 +510,37 @@ def parse_natural(text: str) -> dict:
             result["title"] = cleaned
         return result
     
-    ***REMOVED*** Days offset
+    # Days offset
     result["days_offset"] = _resolve_relative_day(text)
     
-    ***REMOVED*** Check for "每月X號" / "每星期X" pattern — day-only, NOT month_offset
+    # Check for "每月X號" / "每星期X" pattern — day-only, NOT month_offset
     day_only_m = re.search(r"每[月星期週禮拜](\d{1,2})[號日]?", text)
     _has_specific_date = False
     if day_only_m:
         result["day"] = int(day_only_m.group(1))
         if "月" in day_only_m.group(0):
-            result["_day_only"] = True  ***REMOVED*** flag for resolve_parsed
+            result["_day_only"] = True  # flag for resolve_parsed
     else:
-        ***REMOVED*** Specific date with month — check BEFORE month_offset to avoid conflict
+        # Specific date with month — check BEFORE month_offset to avoid conflict
         dm = re.search(r"(\d{1,2})[月/](\d{1,2})[日號]?", text)
-        _has_specific_date = dm is not None and 1 <= int(dm.group(1)) <= 12  ***REMOVED*** month must be 1-12
+        _has_specific_date = dm is not None and 1 <= int(dm.group(1)) <= 12  # month must be 1-12
         if _has_specific_date:
             result["month"] = int(dm.group(1))
             result["day"] = int(dm.group(2))
     
-    ***REMOVED*** Month offset (only if no specific date was given and no day-only)
+    # Month offset (only if no specific date was given and no day-only)
     if not _has_specific_date and not result.get("_day_only"):
         if re.search(r"(下[個]?月)", text):
             result["month_offset"] = 1
         elif re.search(r"(上[個]?月)", text):
             result["month_offset"] = -1
     
-    ***REMOVED*** Time
+    # Time
     time_val = _resolve_time(text)
     if time_val:
         result["hour"], result["minute"] = time_val
     
-    ***REMOVED*** Recurring
+    # Recurring
     if re.search(r"(每[日天]|每天|every\s*day|daily)", text, re.I):
         result["repeat"] = "daily"
     elif re.search(r"(每[月]|每月|every\s*month|monthly)", text, re.I):
@@ -550,7 +550,7 @@ def parse_natural(text: str) -> dict:
     elif re.search(r"(每[年]|每年|every\s*year|yearly)", text, re.I):
         result["repeat"] = "yearly"
     
-    ***REMOVED*** Clean title
+    # Clean title
     cleaned = re.sub(
         r"(今|聽|明|後|大後)(日|天|朝|晚).{0,10}?|"
         r"(上|下)午\s*|\d{1,2}[:：]\d{2}\s*|\d{1,2}[時點]\s*\d{0,2}(分|半)?\s*|"
@@ -573,13 +573,13 @@ def resolve_parsed(parsed: dict) -> dict | None:
     """
     now = datetime.now(TZ)
     
-    ***REMOVED*** Relative time
+    # Relative time
     if parsed.get("relative_min"):
         start = now + timedelta(minutes=parsed["relative_min"])
         return {"start_dt": start, "title": parsed["title"], "repeat": parsed["repeat"],
                 "notes": "", "reminders_minutes": None, "is_birthday": False}
     
-    ***REMOVED*** Birthday
+    # Birthday
     if parsed.get("is_birthday"):
         from calendar import monthrange
         month = parsed.get("month", now.month)
@@ -599,7 +599,7 @@ def resolve_parsed(parsed: dict) -> dict | None:
     month_offset = parsed.get("month_offset", 0)
     target_date = now.date() + timedelta(days=days)
     
-    ***REMOVED*** Handle "每月X號" — next occurrence of this day in future (this month or next)
+    # Handle "每月X號" — next occurrence of this day in future (this month or next)
     if parsed.get("_day_only"):
         day = parsed["day"]
         target_month = now.month
@@ -608,7 +608,7 @@ def resolve_parsed(parsed: dict) -> dict | None:
         if day > max_day:
             day = max_day
         target_date = target_date.replace(day=day)
-        ***REMOVED*** If already past this month, go to next month
+        # If already past this month, go to next month
         test_dt = datetime.combine(target_date, datetime.min.time().replace(hour=23, minute=59)).replace(tzinfo=TZ)
         if test_dt < now:
             target_month += 1
@@ -670,9 +670,9 @@ def resolve_parsed(parsed: dict) -> dict | None:
             "is_birthday": False}
 
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** NOTION CALENDAR CHECK
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# NOTION CALENDAR CHECK
+# ════════════════════════════════════════════════════════════════
 
 def check_notion_calendar():
     """
@@ -690,7 +690,7 @@ def check_notion_calendar():
         return
     
     with open(key_path) as f:
-        api_key = f.read().strip()
+        api_key = "REDACTED"
     
     data_source_id = '63161371-2aa4-460a-9758-c125709e1489'
     today = datetime.now(TZ).strftime('%Y-%m-%d')
@@ -724,21 +724,21 @@ def check_notion_calendar():
     for r in results:
         props = r.get('properties', {})
         
-        ***REMOVED*** Skip completed/cancelled
+        # Skip completed/cancelled
         status = ''
         if 'Status' in props and props['Status'].get('status'):
             status = props['Status']['status'].get('name', '')
         if status in ('Done', 'Cancelled'):
             continue
         
-        ***REMOVED*** Get title
+        # Get title
         title = ''
         if 'Name' in props and props['Name'].get('title'):
             title = props['Name']['title'][0].get('plain_text', '')
         if not title:
             continue
         
-        ***REMOVED*** Check Due Date and Do Date
+        # Check Due Date and Do Date
         due_date = None
         if 'Due Date' in props and props['Due Date'].get('date'):
             due_date = props['Due Date']['date'].get('start', '')
@@ -747,7 +747,7 @@ def check_notion_calendar():
         if 'Do Date' in props and props['Do Date'].get('date'):
             do_date = props['Do Date']['date'].get('start', '')
         
-        ***REMOVED*** Get area for metadata
+        # Get area for metadata
         area = ''
         if 'Area' in props and props['Area'].get('select'):
             area = props['Area']['select'].get('name', '')
@@ -756,22 +756,22 @@ def check_notion_calendar():
         if not is_today:
             continue
         
-        ***REMOVED*** Create a unique reminder title
+        # Create a unique reminder title
         reminder_title = f"📋 {title}"
         
         if reminder_title in existing_titles:
-            continue  ***REMOVED*** Already have this reminder
+            continue  # Already have this reminder
         
-        ***REMOVED*** Calculate due time — end of day by default
+        # Calculate due time — end of day by default
         due_time = now.replace(hour=22, minute=0, second=0, microsecond=0)
         
-        ***REMOVED*** Add as one-shot reminder
+        # Add as one-shot reminder
         add_reminder(
             reminder_title,
             due_time,
             notes=f"From Notion Task Center ({area})" if area else "From Notion Task Center",
             repeat="one-off",
-            reminders_minutes=[60],  ***REMOVED*** 1 hour pre-remind for Notion tasks
+            reminders_minutes=[60],  # 1 hour pre-remind for Notion tasks
             metadata={
                 "source": "notion_calendar",
                 "area": area,
@@ -795,9 +795,9 @@ def check_notion_calendar():
         logger.debug(f"Notion calendar check: 0 new tasks for {today}")
 
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** KINETIX OUTLOOK 365 CALENDAR CHECK
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# KINETIX OUTLOOK 365 CALENDAR CHECK
+# ════════════════════════════════════════════════════════════════
 
 def check_kinetix_calendar():
     """
@@ -827,45 +827,45 @@ def check_kinetix_calendar():
     added = 0
 
     for block in blocks:
-        ***REMOVED*** Extract date
+        # Extract date
         m = _re.search(r'DTSTART(?:;TZID[^:]*)?:(20\d{6})', block)
         if not m:
             continue
         date_str = m.group(1)
 
-        ***REMOVED*** Only today's events
+        # Only today's events
         if date_str != today_str:
             continue
 
-        ***REMOVED*** Extract time
+        # Extract time
         time_match = _re.search(r'DTSTART(?:;TZID[^:]*)?:(20\d{6})T(\d{4})', block)
         event_time_str = time_match.group(2) if time_match else ''
 
-        ***REMOVED*** Extract summary
+        # Extract summary
         sm = _re.search(r'SUMMARY:(.*?)(?:\r?\n|$)', block)
         summary = sm.group(1).strip().replace(r'\,', ',') if sm else '(no title)'
 
-        ***REMOVED*** Extract end time for duration
+        # Extract end time for duration
         end_match = _re.search(r'DTEND(?:;TZID[^:]*)?:(20\d{6})T(\d{4})', block)
         end_time_str = end_match.group(2) if end_match else ''
 
-        ***REMOVED*** Create reminder title
+        # Create reminder title
         if event_time_str:
             hour = int(event_time_str[:2])
             minute = int(event_time_str[2:4])
             time_label = f"{hour:02d}:{minute:02d}"
             reminder_title = f"\N{TELEPHONE RECEIVER}[{time_label}] {summary}"
 
-            ***REMOVED*** Set due time to event start
+            # Set due time to event start
             due_time = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
             if due_time < now:
-                ***REMOVED*** Event already started or passed
+                # Event already started or passed
                 continue
         else:
             reminder_title = f"\N{TELEPHONE RECEIVER} {summary}"
             due_time = now.replace(hour=23, minute=59, second=0, microsecond=0)
 
-        ***REMOVED*** Skip if already exists
+        # Skip if already exists
         if reminder_title in existing_titles:
             continue
 
@@ -874,7 +874,7 @@ def check_kinetix_calendar():
             start_dt=due_time,
             notes=f"Kinetix Outlook 365 event",
             repeat="one-off",
-            reminders_minutes=[60],  ***REMOVED*** 1 hour pre-remind for work events
+            reminders_minutes=[60],  # 1 hour pre-remind for work events
             metadata={
                 "source": "kinetix_ics",
                 "original_title": summary,
@@ -894,9 +894,9 @@ def check_kinetix_calendar():
         logger.debug("Kinetix calendar: 0 new events for today")
 
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** GOOGLE CALENDAR CHECK
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# GOOGLE CALENDAR CHECK
+# ════════════════════════════════════════════════════════════════
 
 def check_google_calendar():
     """
@@ -927,7 +927,7 @@ def check_google_calendar():
         creds = Credentials.from_authorized_user_info(tok)
         service = build('calendar', 'v3', credentials=creds)
         
-        ***REMOVED*** Today's range in UTC
+        # Today's range in UTC
         day_start = now.replace(hour=0, minute=0, second=0, microsecond=0).astimezone(timezone.utc)
         day_end = now.replace(hour=23, minute=59, second=59, microsecond=0).astimezone(timezone.utc)
         
@@ -943,7 +943,7 @@ def check_google_calendar():
         for event in events.get('items', []):
             start_str = event['start'].get('dateTime', event['start'].get('date'))
             if 'T' not in start_str:
-                continue  ***REMOVED*** skip all-day events
+                continue  # skip all-day events
             
             summary = event['summary']
             
@@ -962,7 +962,7 @@ def check_google_calendar():
             event_local = event_dt.astimezone(TZ)
             
             if event_local < now:
-                continue  ***REMOVED*** skip past events
+                continue  # skip past events
             
             time_label = event_local.strftime('%H:%M')
             reminder_title = f"\U0001F4C5 [{time_label}] {summary}"
@@ -977,7 +977,7 @@ def check_google_calendar():
                 reminder_title,
                 event_local,
                 repeat="once",
-                reminders_minutes=[60],  ***REMOVED*** 1 hour pre-remind
+                reminders_minutes=[60],  # 1 hour pre-remind
                 metadata={
                     "source": "google_calendar",
                     "original_title": summary,
@@ -1001,13 +1001,13 @@ def check_google_calendar():
         log_event("ERROR", "gcal", f"Check failed: {e}")
 
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** SCHEDULER — main loop
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# SCHEDULER — main loop
+# ════════════════════════════════════════════════════════════════
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** TELEGRAM DELIVERY — push notifications to Terrence
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# TELEGRAM DELIVERY — push notifications to Terrence
+# ════════════════════════════════════════════════════════════════
 
 def _get_bot_token():
     """Read bot token from ~/.hermes/.env — NOT hardcoded."""
@@ -1019,7 +1019,7 @@ def _get_bot_token():
                     return line.split("=", 1)[1].strip()
     return os.environ.get("TELEGRAM_BOT_TOKEN", "")
 
-TELEGRAM_BOT_TOKEN = _get_bot_token()
+TELEGRAM_BOT_TOKEN = "REDACTED"
 TELEGRAM_CHAT_ID = "7380833889"
 DELIVERY_QUEUE_FILE = LOG_DIR / "pending_deliveries.jsonl"
 
@@ -1041,19 +1041,19 @@ def deliver_reminder(reminder: dict):
     meta = reminder.get("metadata", {})
     source = meta.get("source", "")
     
-    ***REMOVED*** Use smart context for calendar-sourced reminders
+    # Use smart context for calendar-sourced reminders
     if source in ("google_calendar", "kinetix_ics"):
         try:
             from gg_reminder_context import build_smart_reminder
             
-            ***REMOVED*** Strip emoji prefix for clean title
+            # Strip emoji prefix for clean title
             clean_title = re.sub(r'^[\U0001F4C5\U0001F4E0]\s*\[?[\d:]{4,5}\]?\s*', '', title).strip()
             
             event_time = reminder.get("start_dt", "")
             location = meta.get("location", "")
             description = meta.get("description", "")
             
-            ***REMOVED*** Kinetix ICS = always Kwun Tong office
+            # Kinetix ICS = always Kwun Tong office
             if source == "kinetix_ics" and not location:
                 location = "Kinetix"
             
@@ -1069,12 +1069,12 @@ def deliver_reminder(reminder: dict):
             if notes:
                 message += f"\n\n{notes}"
     else:
-        ***REMOVED*** Basic reminder for non-calendar sources
+        # Basic reminder for non-calendar sources
         message = f"⏰ *{title}*"
         if notes:
             message += f"\n\n{notes}"
     
-    ***REMOVED*** Try direct Telegram API send
+    # Try direct Telegram API send
     success = _send_telegram(message)
     
     if success:
@@ -1082,7 +1082,7 @@ def deliver_reminder(reminder: dict):
         log_event("INFO", "deliver", f"Delivered: {rid} — {title}", reminder_id=rid)
         return
     
-    ***REMOVED*** Fallback: queue to file
+    # Fallback: queue to file
     _enqueue_delivery(reminder)
 
 
@@ -1166,20 +1166,20 @@ def flush_delivery_queue():
             except (json.JSONDecodeError, KeyError):
                 remaining.append(line)
         
-        ***REMOVED*** Write back remaining (failed) or clear if all succeeded
+        # Write back remaining (failed) or clear if all succeeded
         if remaining:
             with open(DELIVERY_QUEUE_FILE, "w") as f:
                 f.writelines(remaining)
             logger.info(f"Delivery queue: {len(lines)} attempted, {len(remaining)} remaining")
         else:
-            ***REMOVED*** Clear the file
+            # Clear the file
             open(DELIVERY_QUEUE_FILE, "w").close()
             logger.info(f"Delivery queue: {len(lines)} all delivered, queue cleared")
     except Exception as e:
         logger.error(f"Failed to flush delivery queue: {e}")
 
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
 
 
 def _parse_dt(iso_str: str | None) -> datetime | None:
@@ -1260,7 +1260,7 @@ def process_due_reminders() -> list[dict]:
         if snooze_until and snooze_until > now:
             continue
         
-        ***REMOVED*** Multi-fire: check if ANY fire_time is due or past
+        # Multi-fire: check if ANY fire_time is due or past
         fire_times = r.get("fire_times", [])
         sent_times = set(r.get("_sent_fire_times", []))
         unsent_fire = None
@@ -1274,7 +1274,7 @@ def process_due_reminders() -> list[dict]:
         next_fire = _parse_dt(r.get("next_fire"))
         
         if unsent_fire:
-            ***REMOVED*** Found an unsent fire time that's due → use it for delivery
+            # Found an unsent fire time that's due → use it for delivery
             next_fire = unsent_fire
         elif not next_fire or next_fire > now:
             continue
@@ -1285,7 +1285,7 @@ def process_due_reminders() -> list[dict]:
                 update_state(r["id"], "overdue")
             continue
         
-        ***REMOVED*** Record which fire_time was sent
+        # Record which fire_time was sent
         if unsent_fire:
             with state_lock:
                 sent_times = set(r.get("_sent_fire_times", []))
@@ -1293,13 +1293,13 @@ def process_due_reminders() -> list[dict]:
                 r["_sent_fire_times"] = list(sent_times)
                 _save_state(_state)
         
-        ***REMOVED*** Mark sent
+        # Mark sent
         with state_lock:
             _state["stats"]["reminded_today"] += 1
         update_state(r["id"], "sent")
         
-        ***REMOVED*** Deliver via Telegram
-        r_copy = dict(r)  ***REMOVED*** copy because we have state_lock
+        # Deliver via Telegram
+        r_copy = dict(r)  # copy because we have state_lock
         deliver_reminder(r_copy)
         
         due.append(r)
@@ -1331,9 +1331,9 @@ def schedule_next_occurrence(reminder_id: str):
             return
 
 
-***REMOVED*** ════════════════════════════════════════════════════════════════
-***REMOVED*** DAEMON LIFECYCLE
-***REMOVED*** ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+# DAEMON LIFECYCLE
+# ════════════════════════════════════════════════════════════════
 
 _running = True
 
@@ -1354,18 +1354,18 @@ def main():
     log.info("═══ GG Reminder Daemon v1 starting ═══")
     log_event("INFO", "startup", "Daemon started")
     
-    ***REMOVED*** Write PID file
+    # Write PID file
     try:
         PID_FILE.write_text(str(os.getpid()))
     except OSError as e:
         log.warning(f"Cannot write PID file: {e}")
     
-    ***REMOVED*** Clean stale lock
+    # Clean stale lock
     with state_lock:
         for r in _state.get("reminders", []):
             if r["state"] == "sent":
-                ***REMOVED*** If daemon restarted while reminders were sent, re-mark as pending
-                ***REMOVED*** to pick up overdue tracking
+                # If daemon restarted while reminders were sent, re-mark as pending
+                # to pick up overdue tracking
                 pass
     
     cycle = 0
@@ -1374,27 +1374,27 @@ def main():
         loop_start = time.time()
         
         try:
-            ***REMOVED*** Process due reminders (state transitions)
+            # Process due reminders (state transitions)
             due = process_due_reminders()
             
-            ***REMOVED*** Calendar check every 5 min (not every 30s)
+            # Calendar check every 5 min (not every 30s)
             global _last_calendar_check, _last_kinetix_check, _last_gcal_check
             if time.time() - _last_calendar_check > CALENDAR_CHECK_INTERVAL:
                 check_notion_calendar()
                 _last_calendar_check = time.time()
 
-            ***REMOVED*** Kinetix Outlook 365 calendar check every 5 min
+            # Kinetix Outlook 365 calendar check every 5 min
             if time.time() - _last_kinetix_check > 300:
                 check_kinetix_calendar()
                 _last_kinetix_check = time.time()
 
-            ***REMOVED*** Google Calendar check every 5 min
+            # Google Calendar check every 5 min
             if time.time() - _last_gcal_check > 300:
                 check_google_calendar()
                 _last_gcal_check = time.time()
 
-            ***REMOVED*** Log heartbeat every 20 cycles (10 min)
-            ***REMOVED*** Flush delivery queue every 10 cycles (5 min)
+            # Log heartbeat every 20 cycles (10 min)
+            # Flush delivery queue every 10 cycles (5 min)
             if cycle % 10 == 0:
                 flush_delivery_queue()
 

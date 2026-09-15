@@ -1,4 +1,4 @@
-***REMOVED*** 專注飛鳥 Pro — 兒童腦電波遊戲訓練手冊
+# 專注飛鳥 Pro — 兒童腦電波遊戲訓練手冊
 
 **版本：** 3.0  
 **適用年齡：** 1 至 40 歲  
@@ -7,11 +7,11 @@
 
 ---
 
-***REMOVED******REMOVED*** 一、產品概覽
+# # 一、產品概覽
 
 「專注飛鳥 Pro」是一款以神經反饋原理設計的認知訓練遊戲。玩家佩戴 BrainLink 腦電波頭盔，通過真實專注度數據控制螢幕上的飛鳥，專注度達到指定門檻時飛鳥下沉收集美食。遊戲共分 **10 層 × 10 關**，合計 100 關，食物主題逐層變換，難度循序漸進，支援 **1 至 40 歲**廣泛年齡段。
 
-***REMOVED******REMOVED******REMOVED*** 核心機制
+# ## 核心機制
 
 - **腦電波下沉控制**：attention 值達到年齡對應門檻後，飛鳥以比例速度下沉。
 - **EMA 平滑**：WebSocket 訊號以指數移動平均（α=0.18）處理，防止訊號抖動。
@@ -21,7 +21,7 @@
 
 ---
 
-***REMOVED******REMOVED*** 二、10 層食物主題
+# # 二、10 層食物主題
 
 | 層次 | 主題       | 食物   | 背景風格     |
 |------|------------|--------|--------------|
@@ -40,7 +40,7 @@
 
 ---
 
-***REMOVED******REMOVED*** 三、年齡分段設計
+# # 三、年齡分段設計
 
 | 年齡段  | 標籤   | 建議每節 | 基礎目標 | 下沉門檻 | 容錯值 | 特點                     |
 |---------|--------|----------|----------|----------|--------|--------------------------|
@@ -59,9 +59,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 四、操作說明
+# # 四、操作說明
 
-***REMOVED******REMOVED******REMOVED*** 硬件連接步驟
+# ## 硬件連接步驟
 
 1. 確認 BrainLink 頭盔已充電，並佩戴於額頭正中，調整至感測器貼緊皮膚。
 2. 開啟 BrainLink 配套 App 或藍牙配對，確認訊號燈顯示綠色。
@@ -77,7 +77,7 @@ python focus_bridge_windows.py --port COM5
 5. 在設定頁調整年齡滑桿，遊戲自動計算適合難度。
 6. 按「開始遊戲」即可進入第 1 層第 1 關。
 
-***REMOVED******REMOVED******REMOVED*** 備用控制（無頭盔時）
+# ## 備用控制（無頭盔時）
 
 - **空白鍵（Space）**：按住時飛鳥下沉，放開上升，用於測試遊戲流程。
 - **觸控屏**：按住螢幕同效果。
@@ -85,7 +85,7 @@ python focus_bridge_windows.py --port COM5
 
 ---
 
-***REMOVED******REMOVED*** 五、一個月訓練計劃
+# # 五、一個月訓練計劃
 
 本計劃參考以下學術研究：
 
@@ -94,7 +94,7 @@ python focus_bridge_windows.py --port COM5
 - **Frontiers in Human Neuroscience（2014）**：每週 3–5 節 × 15 分鐘，2 週後觀察工作記憶改善。
 - **NHA 指引（2025）**：10–20 節後大多數人感受改善，30–40 節效果穩固。
 
-***REMOVED******REMOVED******REMOVED*** 第一週：基礎適應
+# ## 第一週：基礎適應
 
 **目標**：建立遊戲習慣，成功率達 60% 以上
 
@@ -111,7 +111,7 @@ python focus_bridge_windows.py --port COM5
 
 ---
 
-***REMOVED******REMOVED******REMOVED*** 第二週：穩定提升
+# ## 第二週：穩定提升
 
 **目標**：連擊出現 ≥ 3 次 / 節，專注時長提升
 
@@ -128,7 +128,7 @@ python focus_bridge_windows.py --port COM5
 
 ---
 
-***REMOVED******REMOVED******REMOVED*** 第三週：挑戰突破
+# ## 第三週：挑戰突破
 
 **目標**：完成第 1 層全 10 關，平均專注度 ≥ 55%
 
@@ -145,7 +145,7 @@ python focus_bridge_windows.py --port COM5
 
 ---
 
-***REMOVED******REMOVED******REMOVED*** 第四週：鞏固成效
+# ## 第四週：鞏固成效
 
 **目標**：完成第 1–2 層，建立長期訓練習慣
 
@@ -162,7 +162,7 @@ python focus_bridge_windows.py --port COM5
 
 ---
 
-***REMOVED******REMOVED*** 六、每節訓練建議流程
+# # 六、每節訓練建議流程
 
 1. **準備（2 分鐘）**：佩戴頭盔、深呼吸 3 次、告知孩子今天的目標關卡。
 2. **暖身（3 分鐘）**：使用 Space 鍵玩 1 關，讓孩子熟悉操作感。
@@ -172,7 +172,7 @@ python focus_bridge_windows.py --port COM5
 
 ---
 
-***REMOVED******REMOVED*** 七、注意事項
+# # 七、注意事項
 
 - **不強迫**：孩子表示疲倦或抗拒時立即停止，強迫訓練會降低效果。
 - **安靜環境**：訓練期間減少周邊干擾（關電視、手機靜音）。
@@ -183,16 +183,16 @@ python focus_bridge_windows.py --port COM5
 
 ---
 
-***REMOVED******REMOVED*** 八、Windows Python 橋接程式說明
+# # 八、Windows Python 橋接程式說明
 
 檔案：`focus_bridge_windows.py`
 
-***REMOVED******REMOVED******REMOVED*** 系統需求
+# ## 系統需求
 
 - Python 3.8 或以上
 - 安裝套件：`pip install websockets pyserial bleak`
 
-***REMOVED******REMOVED******REMOVED*** 常用指令
+# ## 常用指令
 
 | 指令                                       | 說明                         |
 |--------------------------------------------|------------------------------|
@@ -201,7 +201,7 @@ python focus_bridge_windows.py --port COM5
 | `python focus_bridge_windows.py --port COM5 --age 8` | 同時設定年齡（傳送至遊戲）|
 | `python focus_bridge_windows.py --port COM5 --threshold 35` | 覆蓋門檻值      |
 
-***REMOVED******REMOVED******REMOVED*** 資料格式
+# ## 資料格式
 
 程式將以下 JSON 資料廣播至 `ws://localhost:8765`：
 
@@ -219,7 +219,7 @@ python focus_bridge_windows.py --port COM5
 
 ---
 
-***REMOVED******REMOVED*** 九、技術架構概覽
+# # 九、技術架構概覽
 
 | 檔案         | 功能                                        |
 |--------------|---------------------------------------------|

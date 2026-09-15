@@ -7,11 +7,11 @@ intent: landing
 material: material-you
 tokens:
   colors:
-    primary: "***REMOVED***af52de"
-    secondary: "***REMOVED***5856d6"
-    accent: "***REMOVED***ff3b30"
-    background: "***REMOVED***f2f2f7"
-    foreground: "***REMOVED***000000"
+    primary: "#af52de"
+    secondary: "#5856d6"
+    accent: "#ff3b30"
+    background: "#f2f2f7"
+    foreground: "#000000"
   typography:
     sans: Arial
     mono: SF Mono
@@ -27,7 +27,7 @@ tokens:
     sm: "rgb(175, 82, 222) 0px 0px 8px 0px"
 ---
 
-***REMOVED*** Overview
+# Overview
 
 A **landing** page (heuristic confidence 0.45), dressed in **material-you** material (0.45).
 
@@ -39,21 +39,21 @@ Reading order detected on the source: `—`.
 
 Source: <http://localhost:7870>.
 
-***REMOVED*** Colors
+# Colors
 
 | role | hex | usage |
 |---|---|---|
-| primary | `***REMOVED***af52de` | 15 |
-| secondary | `***REMOVED***5856d6` | 35 |
-| accent | `***REMOVED***ff3b30` | 49 |
-| background | `***REMOVED***f2f2f7` | — |
-| foreground | `***REMOVED***000000` | — |
+| primary | `#af52de` | 15 |
+| secondary | `#5856d6` | 35 |
+| accent | `#ff3b30` | 49 |
+| background | `#f2f2f7` | — |
+| foreground | `#000000` | — |
 
-**Neutrals:** `***REMOVED***3c3c43` · `***REMOVED***000000` · `***REMOVED***ffffff` · `***REMOVED***787880` · `***REMOVED***e5e5ea`
+**Neutrals:** `#3c3c43` · `#000000` · `#ffffff` · `#787880` · `#e5e5ea`
 
 **Total unique colors detected:** 14.
 
-***REMOVED*** Typography
+# Typography
 
 **Families**
 - `Arial` · 30 uses
@@ -67,19 +67,19 @@ Source: <http://localhost:7870>.
 |---|---|---|---|
 | h1 | `17px` | `700` | `22.1px` |
 
-***REMOVED*** Layout
+# Layout
 
 **Spacing base:** `4px` increments.
 **Scale:** `1px` · `20px` · `27px` · `32px` · `48px` · `444px`
 
 **Layout primitives:** 2 grid containers · 114 flex containers.
 
-***REMOVED*** Elevation and Depth
+# Elevation and Depth
 
 **Shadow scale**
 - `sm` — `rgb(175, 82, 222) 0px 0px 8px 0px`
 
-***REMOVED*** Shapes
+# Shapes
 
 **Radius scale**
 - `md` — `10px`
@@ -87,7 +87,7 @@ Source: <http://localhost:7870>.
 - `full` — `50px`
 - `full` — `999px`
 
-***REMOVED*** Components
+# Components
 
 **Detected patterns:** `buttons` · `cards` · `inputs` · `navigation` · `tables` · `badges` · `avatars` · `tabs`
 
@@ -97,7 +97,7 @@ Source: <http://localhost:7870>.
 | card | — | — | 15 |
 | button | — | — | 5 |
 
-***REMOVED*** Do's and Don'ts
+# Do's and Don'ts
 
 **Do's**
 - Use `home`, `intelligence`, `tasks` as the primary verbs in CTAs — these dominate the source.

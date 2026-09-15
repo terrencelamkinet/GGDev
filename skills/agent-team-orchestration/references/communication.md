@@ -1,10 +1,10 @@
-***REMOVED*** Communication
+# Communication
 
 How agents coordinate: sync vs async, spawning vs messaging, and artifact sharing.
 
-***REMOVED******REMOVED*** Communication Channels
+# # Communication Channels
 
-***REMOVED******REMOVED******REMOVED*** Shared Files (Primary — Async)
+# ## Shared Files (Primary — Async)
 
 The default communication method. Persistent, auditable, no timing dependency.
 
@@ -18,13 +18,13 @@ The default communication method. Persistent, auditable, no timing dependency.
 
 **Use for:** Deliverables, specs, reviews, decisions — anything another agent needs to find later.
 
-***REMOVED******REMOVED******REMOVED*** Task Comments (Async)
+# ## Task Comments (Async)
 
 Attached to specific tasks. Chronological record of progress.
 
 **Use for:** Status updates, blockers, handoff messages, review feedback.
 
-***REMOVED******REMOVED******REMOVED*** sessions_send (Sync — Urgent)
+# ## sessions_send (Sync — Urgent)
 
 Direct message to a running agent session. Interrupts their current work.
 
@@ -38,41 +38,41 @@ Direct message to a running agent session. Interrupts their current work.
 - Delivering artifacts (use shared files)
 - Anything the agent needs to reference later (messages are ephemeral)
 
-***REMOVED******REMOVED*** Spawn vs Send
+# # Spawn vs Send
 
-***REMOVED******REMOVED******REMOVED*** Spawn a new sub-agent when:
+# ## Spawn a new sub-agent when:
 - The task is self-contained with clear inputs and outputs
 - You want isolation — the work shouldn't affect other running sessions
 - The task needs a different model or capability set
 - You're parallelizing — multiple independent tasks at once
 
-***REMOVED******REMOVED******REMOVED*** Send to an existing session when:
+# ## Send to an existing session when:
 - The agent is already working on related context
 - You need a quick answer, not a full task execution
 - The work is a small addition to something already in progress
 
 **Default to spawn.** It's cleaner. Send is for exceptions.
 
-***REMOVED******REMOVED*** Spawn Prompt Template
+# # Spawn Prompt Template
 
 Every spawn includes:
 
 ```markdown
-***REMOVED******REMOVED*** Task: [Title]
+# # Task: [Title]
 **Task ID:** [ID]
 **Role:** [What this agent is]
 **Priority:** [High/Medium/Low]
 
-***REMOVED******REMOVED******REMOVED*** Context
+# ## Context
 [What the agent needs to know]
 
-***REMOVED******REMOVED******REMOVED*** Deliverables
+# ## Deliverables
 [Exactly what to produce]
 
-***REMOVED******REMOVED******REMOVED*** Output Path
+# ## Output Path
 [Exact directory/file path for artifacts]
 
-***REMOVED******REMOVED******REMOVED*** Handoff
+# ## Handoff
 When complete:
 1. Write artifacts to [output path]
 2. Comment on task with handoff summary
@@ -83,9 +83,9 @@ When complete:
 - **Output Path** — Without this, you'll lose the work. Always specify.
 - **Handoff instructions** — Tell the agent exactly how to signal completion.
 
-***REMOVED******REMOVED*** Artifact Conventions
+# # Artifact Conventions
 
-***REMOVED******REMOVED******REMOVED*** Naming
+# ## Naming
 ```
 /shared/artifacts/[task-id]-[short-name]/
 /shared/specs/[date]-[topic].md
@@ -93,13 +93,13 @@ When complete:
 /shared/reviews/[task-id]-review.md
 ```
 
-***REMOVED******REMOVED******REMOVED*** Rules
+# ## Rules
 - All deliverables go to `/shared/` — never to personal agent workspaces
 - One directory per task for multi-file outputs
 - Include a brief README or summary at the top of the artifact directory if it contains 3+ files
 - Overwrite previous versions in place — don't create v2, v3 copies
 
-***REMOVED******REMOVED*** Avoiding Communication Failures
+# # Avoiding Communication Failures
 
 **Silent agents:** If an agent doesn't comment within its expected timeframe, assume it's stuck. Check on it or restart the task.
 

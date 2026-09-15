@@ -179,7 +179,7 @@
     transition: 0.15s;
   }
   .lv-btn:hover { transform: scale(1.05); background: rgba(46,196,182,0.2); }
-  ***REMOVED***overlay {
+  # overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
@@ -192,30 +192,30 @@
     z-index: 20;
   }
   /* Cream card base for overlay */
-  ***REMOVED***overlay.cream-overlay {
+  # overlay.cream-overlay {
     background: rgba(244,249,249,0.95);
   }
   /* Dark overlay for initial state */
-  ***REMOVED***overlay.dark-overlay {
+  # overlay.dark-overlay {
     background: rgba(26,58,92,0.85);
     color: ***REMOVED***F4F9F9;
   }
-  ***REMOVED***overlay.dark-overlay h1 { color: ***REMOVED***F4F9F9; font-size: clamp(22px, 4vh, 48px); }
-  ***REMOVED***overlay.dark-overlay p { font-size: clamp(13px, 1.8vh, 20px); }
-  ***REMOVED***overlay.dark-overlay button.primary { background: ***REMOVED***2EC4B6; color: ***REMOVED***fff; }
+  # overlay.dark-overlay h1 { color: ***REMOVED***F4F9F9; font-size: clamp(22px, 4vh, 48px); }
+  # overlay.dark-overlay p { font-size: clamp(13px, 1.8vh, 20px); }
+  # overlay.dark-overlay button.primary { background: ***REMOVED***2EC4B6; color: ***REMOVED***fff; }
   
   /* Cream card style for Game Over / Level Complete */
-  ***REMOVED***overlay.cream-overlay h1 { 
+  # overlay.cream-overlay h1 { 
     font-size: clamp(24px, 4vh, 42px); 
     color: ***REMOVED***1a6b5a; 
   }
-  ***REMOVED***overlay.cream-overlay p { 
+  # overlay.cream-overlay p { 
     font-size: clamp(14px, 1.6vh, 20px); 
     opacity: 0.8; 
     max-width: min(70vw, 500px); 
     color: ***REMOVED***264653;
   }
-  ***REMOVED***overlay.cream-overlay .popup-card {
+  # overlay.cream-overlay .popup-card {
     background: ***REMOVED***F4F9F9;
     border: 2px solid ***REMOVED***2EC4B6;
     border-radius: clamp(12px, 2vh, 24px);
@@ -224,7 +224,7 @@
     width: 100%;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   }
-  ***REMOVED***overlay.cream-overlay .card-header {
+  # overlay.cream-overlay .card-header {
     background: ***REMOVED***1a6b5a;
     color: ***REMOVED***F4F9F9;
     margin: calc(-1 * clamp(18px, 3vh, 40px)) calc(-1 * clamp(18px, 3vh, 40px)) clamp(12px, 2vh, 24px) calc(-1 * clamp(18px, 3vh, 40px));
@@ -233,7 +233,7 @@
     font-size: clamp(16px, 2.5vh, 28px);
     font-weight: bold;
   }
-  ***REMOVED***overlay button {
+  # overlay button {
     margin-top: clamp(4px, 0.6vh, 10px);
     padding: clamp(8px, 1.2vh, 16px) clamp(20px, 3vw, 50px);
     font-size: clamp(14px, 1.8vh, 22px);
@@ -245,17 +245,17 @@
     cursor: pointer;
     transition: transform 0.15s;
   }
-  ***REMOVED***overlay button:hover { transform: scale(1.05); }
-  ***REMOVED***overlay button.secondary {
+  # overlay button:hover { transform: scale(1.05); }
+  # overlay button.secondary {
     background: ***REMOVED***F4F9F9;
     color: ***REMOVED***264653;
     border: 1.5px solid ***REMOVED***2EC4B6;
   }
-  ***REMOVED***overlay button.secondary:hover { background: ***REMOVED***A8DADC; }
+  # overlay button.secondary:hover { background: ***REMOVED***A8DADC; }
   .hidden { display: none !important; }
 
   /* Fullscreen button */
-  ***REMOVED***fsBtn {
+  # fsBtn {
     position: absolute;
     top: clamp(8px, 1.2vh, 16px);
     right: clamp(8px, 1.2vh, 16px);
@@ -274,10 +274,10 @@
     transition: 0.2s;
     line-height: 1;
   }
-  ***REMOVED***fsBtn:hover { background: rgba(46, 196, 182, 0.5); transform: scale(1.1); }
-  ***REMOVED***fsBtn svg { width: clamp(18px, 2.2vh, 30px); height: clamp(18px, 2.2vh, 30px); fill: currentColor; }
+  # fsBtn:hover { background: rgba(46, 196, 182, 0.5); transform: scale(1.1); }
+  # fsBtn svg { width: clamp(18px, 2.2vh, 30px); height: clamp(18px, 2.2vh, 30px); fill: currentColor; }
 
-  ***REMOVED***exitBtn {
+  # exitBtn {
     position: absolute;
     top: clamp(8px, 1.2vh, 16px);
     left: clamp(8px, 1.2vh, 16px);
@@ -295,7 +295,7 @@
     justify-content: center;
     transition: 0.2s;
   }
-  ***REMOVED***exitBtn:hover { background: rgba(26,107,90,0.8); }
+  # exitBtn:hover { background: rgba(26,107,90,0.8); }
   .credits {
     position: absolute;
     bottom: clamp(4px, 0.6vh, 10px);
