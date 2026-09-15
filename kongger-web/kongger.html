@@ -19,11 +19,11 @@
 </head>
 <body>
 <canvas id="particles-canvas" aria-hidden="true"></canvas>
-<a class="sr-only" href="***REMOVED***main-content">Skip to content</a>
+<a class="sr-only" href="#main-content">Skip to content</a>
 
 <!-- NAV -->
 <header class="nav" role="banner">
-  <a class="nav__logo" href="***REMOVED***home" data-page="home" aria-label="KONGGER Home">
+  <a class="nav__logo" href="#home" data-page="home" aria-label="KONGGER Home">
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
       <circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="2"/>
       <path d="M8 10 L14 6 L20 10 L20 19 L14 22 L8 19 Z" stroke="currentColor" stroke-width="1.8" fill="none"/>
@@ -32,10 +32,10 @@
     KONGGER
   </a>
   <nav class="nav__links" aria-label="Main navigation">
-    <a class="nav__link active" href="***REMOVED***home" data-page="home">首頁</a>
-    <a class="nav__link" href="***REMOVED***profile" data-page="profile">個人檔案</a>
-    <a class="nav__link" href="***REMOVED***proposal" data-page="proposal">項目簡介</a>
-    <a class="nav__link" href="***REMOVED***ai" data-page="ai">AI 功能</a>
+    <a class="nav__link active" href="#home" data-page="home">首頁</a>
+    <a class="nav__link" href="#profile" data-page="profile">個人檔案</a>
+    <a class="nav__link" href="#proposal" data-page="proposal">項目簡介</a>
+    <a class="nav__link" href="#ai" data-page="ai">AI 功能</a>
   </nav>
   <div class="nav__actions">
     <button class="nav__notif-btn" onclick="openNotifModal()" aria-label="Notifications">
@@ -50,11 +50,11 @@
 
 <!-- MOBILE BOTTOM NAV -->
 <nav class="bottom-nav" aria-label="Mobile navigation">
-  <a class="bottom-nav__item active" href="***REMOVED***home" data-page="home">
+  <a class="bottom-nav__item active" href="#home" data-page="home">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     首頁
   </a>
-  <a class="bottom-nav__item" href="***REMOVED***profile" data-page="profile">
+  <a class="bottom-nav__item" href="#profile" data-page="profile">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     我的
   </a>
@@ -62,7 +62,7 @@
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
     寫日記
   </button>
-  <a class="bottom-nav__item" href="***REMOVED***ai" data-page="ai">
+  <a class="bottom-nav__item" href="#ai" data-page="ai">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
     AI
   </a>
@@ -79,7 +79,7 @@
       <p class="hero__subtitle">屬於你的數碼空間。用 Drag &amp; Drop 裝飾你的個人頁面，分享心情日記，連結志同道合的鄰居。</p>
       <div class="hero__actions">
         <button class="btn btn-primary btn-lg" onclick="openModal('modal-waitlist')">申請提早加入 ✨</button>
-        <a class="btn btn-ghost btn-lg" href="***REMOVED***proposal">了解更多</a>
+        <a class="btn btn-ghost btn-lg" href="#proposal">了解更多</a>
       </div>
     </div>
   </section>
@@ -106,10 +106,10 @@
         <div class="card">
           <h3 style="font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-4)">🔥 熱門話題</h3>
           <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
-            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">***REMOVED***日記</span>
-            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">***REMOVED***香港生活</span>
-            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">***REMOVED***Xanga回憶</span>
-            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">***REMOVED***音樂</span>
+            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">#日記</span>
+            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">#香港生活</span>
+            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">#Xanga回憶</span>
+            <span style="padding:4px 12px;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;">#音樂</span>
           </div>
         </div>
       </aside>

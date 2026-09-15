@@ -1,13 +1,13 @@
-***REMOVED*** NEXUS CRM — SaaS Platform Design Guide
+# NEXUS CRM — SaaS Platform Design Guide
 
 > 基於 G08 NEXUS CRM v2 核心系統，設計一個支援 100 個獨立帳戶嘅 SaaS CRM 平台。
 > 呢份文件分三部分：(A) 完整功能目錄 (B) 核心架構原則 (C) AI Web Layout Design Guide
 
 ---
 
-***REMOVED******REMOVED*** A — 完整功能目錄
+## A — 完整功能目錄
 
-***REMOVED******REMOVED******REMOVED*** CRM Core（數據層）
+### CRM Core（數據層）
 
 | 功能 | 說明 | 數據源 |
 |------|------|--------|
@@ -18,7 +18,7 @@
 | Touchpoints | Meeting/Call/Email/Briefing/Workshop/Outreach 時間線，自動記錄 | 自動+手動 |
 | Tasks | P0-P3 優先級、Due date、Eisenhower Matrix 象限、關聯 project | 用戶輸入 / 自動 create |
 
-***REMOVED******REMOVED******REMOVED*** Meeting Intelligence Layer（自動收集）
+### Meeting Intelligence Layer（自動收集）
 
 | 功能 | 觸發頻率 | 說明 |
 |------|---------|------|
@@ -28,7 +28,7 @@
 | NameCard Scanner | 每日10:00（可配置） | Upload image → LLM Vision corner detect → OCR → OpenCV enhance → auto-create contact |
 | Entity Matcher | 每15分鐘 | Event title → company/contact automatic lookup |
 
-***REMOVED******REMOVED******REMOVED*** AI Intelligence Layer（LLM，按需）
+### AI Intelligence Layer（LLM，按需）
 
 | 功能 | 觸發 | 輸出 |
 |------|------|------|
@@ -38,7 +38,7 @@
 | Relationship Coach | 每週 | 提醒過期未聯絡客戶，建議 outreach |
 | Proactive Gap Detection | 每15分鐘 | Detect missing company/contacts in upcoming events → ask user to fill |
 
-***REMOVED******REMOVED******REMOVED*** Notification Layer
+### Notification Layer
 
 | 功能 | 時間 | 格式示例 |
 |------|------|---------|
@@ -50,7 +50,7 @@
 | Tasks Summary | 07:35 | 7天內 tasks 按優先級排列 |
 | Friction Log | 每15分鐘 | Detect CRM data gaps → ask user to fill |
 
-***REMOVED******REMOVED******REMOVED*** SaaS Layer（新增）
+### SaaS Layer（新增）
 
 | 功能 | 說明 |
 |------|------|
@@ -65,11 +65,11 @@
 
 ---
 
-***REMOVED******REMOVED*** B — 核心架構原則（G08 Principles）
+## B — 核心架構原則（G08 Principles）
 
 呢個系統係產品，唔係 scripts collection。以下係所有開發決策嘅底層規則。
 
-***REMOVED******REMOVED******REMOVED*** 原則 1：Schedule in PG, Not External Cron
+### 原則 1：Schedule in PG, Not External Cron
 所有排程必須喺 PostgreSQL 入面，唔可以用 crontab / systemd timer / 任何外部 scheduler。
 
 ```
@@ -85,7 +85,7 @@
 
 新 tenant onboarding = INSERT seed schedules + start daemon。唔使改 crontab。
 
-***REMOVED******REMOVED******REMOVED*** 原則 2：Zero Hardcode
+### 原則 2：Zero Hardcode
 所有 config 喺 PG 入面，唔可以喺 code 入面 hardcode：
 - API keys → `.env` only
 - 分類 keywords → `nexus_event_rules` table
@@ -94,22 +94,22 @@
 
 Code 可以 deploy 俾任何人，tenant-specific config 全部喺 DB + .env。
 
-***REMOVED******REMOVED******REMOVED*** 原則 3：Multi-Tenant by Design
+### 原則 3：Multi-Tenant by Design
 - 所有 `nexus_*` tables 有 `tenant_id` FK
 - 用 PostgreSQL Row-Level Security（RLS）做 data isolation
 - 每個 API request 經 JWT 拎 `tenant_id`，DB 自動 filter
 - 唔可以做 schema-per-tenant（100 tenants 用 shared schema + RLS 最簡單）
 
-***REMOVED******REMOVED******REMOVED*** 原則 4：LLM One-Shot
+### 原則 4：LLM One-Shot
 - Mechanical work（keyword matching, data sync, threshold checks）→ 零 LLM cost
 - 每個 entity trigger LLM 最多一次，用 flag 防止重覆
 - LLM 只做 judgment + discovery，唔做 mechanical matching
 
-***REMOVED******REMOVED******REMOVED*** 原則 5：Silent by Default
+### 原則 5：Silent by Default
 - 冇新 data 就出 `[SILENT]`，唔好出「No new cards to process」
 - Module output 只有兩種：有用嘅 message 或者 silence
 
-***REMOVED******REMOVED******REMOVED*** 原則 6：Backend-Agnostic Storage
+### 原則 6：Backend-Agnostic Storage
 CRM write operations 唔可以 hardcode Notion/HubSpot/Salesforce。用 plugin pattern：
 ```
 nexus.storage_plugins/
@@ -120,22 +120,22 @@ nexus.storage_plugins/
 
 換 backend = UPDATE `nexus_storage_backends` + 新 plugin folder。唔改 code。
 
-***REMOVED******REMOVED******REMOVED*** 原則 7：Product = Zero Personal Data in Code
+### 原則 7：Product = Zero Personal Data in Code
 - 無 hardcoded user paths (`/home/user/`)
 - 無 hardcoded tenant names / emails
 - 所有 secrets from `.env`，fail-fast if missing
 - Deploy 步驟：`cp -r nexus/` + create `.env` + run seed → done
 
-***REMOVED******REMOVED******REMOVED*** 原則 8：Modular with Runtime Toggle
+### 原則 8：Modular with Runtime Toggle
 - 每個功能係獨立 module，有 module_id
 - Runtime enable/disable 喺 `nexus_tenant_modules` table
 - Core modules（pg_sync, cost_guard）always on，feature modules 可 toggle
 
 ---
 
-***REMOVED******REMOVED*** C — Web Layout Design Guide（for AI Frontend Generation）
+## C — Web Layout Design Guide（for AI Frontend Generation）
 
-***REMOVED******REMOVED******REMOVED*** C1. Layout Architecture
+### C1. Layout Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -164,7 +164,7 @@ nexus.storage_plugins/
 - Tablet 768-1023px: sidebar collapses to 64px icons only
 - Mobile < 768px: sidebar hidden, hamburger overlay
 
-***REMOVED******REMOVED******REMOVED*** C2. Navigation Sidebar
+### C2. Navigation Sidebar
 
 ```
 🏠  Dashboard
@@ -182,45 +182,45 @@ nexus.storage_plugins/
 💳  Billing
 ```
 
-- Active tab: left border 3px `***REMOVED***2563eb`, bg `***REMOVED***334155`
-- Hover: bg `***REMOVED***334155`
-- Sidebar bg: `***REMOVED***1e293b`, text: `***REMOVED***cbd5e1`
+- Active tab: left border 3px `#2563eb`, bg `#334155`
+- Hover: bg `#334155`
+- Sidebar bg: `#1e293b`, text: `#cbd5e1`
 - Collapsed tablet: icon only with tooltip
 
-***REMOVED******REMOVED******REMOVED*** C3. Color System
+### C3. Color System
 
 ```
-Primary:        ***REMOVED***2563eb (blue-600)
-Primary hover:  ***REMOVED***1d4ed8 (blue-700)
-Primary light:  ***REMOVED***dbeafe (blue-100)
+Primary:        #2563eb (blue-600)
+Primary hover:  #1d4ed8 (blue-700)
+Primary light:  #dbeafe (blue-100)
 
-Success:        ***REMOVED***059669 (emerald-600)
-Warning:        ***REMOVED***d97706 (amber-600)
-Danger:         ***REMOVED***dc2626 (red-600)
-Info:           ***REMOVED***0284c7 (sky-600)
+Success:        #059669 (emerald-600)
+Warning:        #d97706 (amber-600)
+Danger:         #dc2626 (red-600)
+Info:           #0284c7 (sky-600)
 
-Surface:        ***REMOVED***ffffff
-Page bg:        ***REMOVED***f8fafc (slate-50)
-Card bg:        ***REMOVED***ffffff
-Border:         ***REMOVED***e2e8f0 (slate-200)
-Border light:   ***REMOVED***f1f5f9 (slate-100)
+Surface:        #ffffff
+Page bg:        #f8fafc (slate-50)
+Card bg:        #ffffff
+Border:         #e2e8f0 (slate-200)
+Border light:   #f1f5f9 (slate-100)
 
-Text primary:   ***REMOVED***0f172a (slate-900)
-Text secondary: ***REMOVED***64748b (slate-500)
-Text muted:     ***REMOVED***94a3b8 (slate-400)
+Text primary:   #0f172a (slate-900)
+Text secondary: #64748b (slate-500)
+Text muted:     #94a3b8 (slate-400)
 
-Sidebar bg:     ***REMOVED***1e293b (slate-800)
-Sidebar text:   ***REMOVED***cbd5e1 (slate-300)
-Sidebar hover:  ***REMOVED***334155 (slate-700)
-Sidebar active: ***REMOVED***2563eb (blue-600)
+Sidebar bg:     #1e293b (slate-800)
+Sidebar text:   #cbd5e1 (slate-300)
+Sidebar hover:  #334155 (slate-700)
+Sidebar active: #2563eb (blue-600)
 
-Status:         🟢 ***REMOVED***22c55e  🟡 ***REMOVED***eab308  🔴 ***REMOVED***ef4444  ⚪ ***REMOVED***cbd5e1
+Status:         🟢 #22c55e  🟡 #eab308  🔴 #ef4444  ⚪ #cbd5e1
 
-Table stripe:   ***REMOVED***f8fafc every-other-row
-Skeleton:       ***REMOVED***f1f5f9 pulse animation
+Table stripe:   #f8fafc every-other-row
+Skeleton:       #f1f5f9 pulse animation
 ```
 
-***REMOVED******REMOVED******REMOVED*** C4. Typography
+### C4. Typography
 
 ```
 Font family: Inter (body), JetBrains Mono (code/data)
@@ -235,9 +235,9 @@ Scale:
   Data: 14px / 500 / 1    — Table cells, numbers
 ```
 
-***REMOVED******REMOVED******REMOVED*** C5. Component Inventory
+### C5. Component Inventory
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C5a. Data Table
+#### C5a. Data Table
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -252,14 +252,14 @@ Scale:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- Header row: 44px, sticky top, bg `***REMOVED***f8fafc`
-- Data rows: 48px, hover bg `***REMOVED***f8fafc`, selected bg `***REMOVED***eff6ff`
+- Header row: 44px, sticky top, bg `#f8fafc`
+- Data rows: 48px, hover bg `#f8fafc`, selected bg `#eff6ff`
 - Checkbox: 16px
 - Sort indicator: ▲/▼ on active column header
 - Column resizable via drag
 - Pagination: center aligned, current page highlighted
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C5b. Kanban Board（Deals Pipeline）
+#### C5b. Kanban Board（Deals Pipeline）
 
 ```
 ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
@@ -286,7 +286,7 @@ Scale:
 - "+ Add" button at bottom of each column
 - Probability shown as progress bar: `████░░░ 85%`
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C5c. Activity Timeline
+#### C5c. Activity Timeline
 
 ```
 [TODAY]
@@ -308,13 +308,13 @@ Scale:
            🏢 HPE Hong Kong · 👥 3 attendees
 ```
 
-- Vertical line: 2px `***REMOVED***e2e8f0`
+- Vertical line: 2px `#e2e8f0`
 - Dots: 12px, coloured by type（📞=blue, ✅=green, 📇=purple, 🤝=orange）
 - 24px gap between items
 - Sticky section headers: TODAY / YESTERDAY / date
 - Click on item → expand detail
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C5d. Stats Card
+#### C5d. Stats Card
 
 ```
 ┌──────────────────────────┐
@@ -330,7 +330,7 @@ Scale:
 - Trend arrow + percentage colored green/red
 - Subtle border + shadow-sm
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C5e. Dashboard Layout
+#### C5e. Dashboard Layout
 
 ```
 ┌──────────────┬──────────────┬──────────────┬──────────────┐
@@ -344,12 +344,12 @@ Scale:
 └─────────────────────────────┴─────────────────────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED*** C6. Page Templates
+### C6. Page Templates
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C6a. Login / Signup
+#### C6a. Login / Signup
 
 ```
-Centered card 400px on gradient bg ***REMOVED***2563eb → ***REMOVED***1d4ed8
+Centered card 400px on gradient bg #2563eb → #1d4ed8
 
 ┌──────────────────────────────────┐
 │                                  │
@@ -373,10 +373,10 @@ Centered card 400px on gradient bg ***REMOVED***2563eb → ***REMOVED***1d4ed8
 └──────────────────────────────────┘
 ```
 
-- Input: height 44px, border `***REMOVED***cbd5e1`, focus ring 3px `***REMOVED***2563eb`
-- Button: height 44px, bg `***REMOVED***2563eb`, hover `***REMOVED***1d4ed8`, text white 700
+- Input: height 44px, border `#cbd5e1`, focus ring 3px `#2563eb`
+- Button: height 44px, bg `#2563eb`, hover `#1d4ed8`, text white 700
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C6b. Settings
+#### C6b. Settings
 
 ```
 Two-panel layout:
@@ -415,11 +415,11 @@ INTEGRATIONS:
   └──────────────────────────────────────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C6c. NameCard Scanner
+#### C6c. NameCard Scanner
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│ [📸 Upload Card  ***REMOVED***2563eb]  or drag & drop images here       │
+│ [📸 Upload Card  #2563eb]  or drag & drop images here       │
 ├──────────────────────────┬───────────────────────────────────┤
 │                          │  Extracted Data                   │
 │   [Card Preview]         │  ─────────────────────           │
@@ -434,7 +434,7 @@ INTEGRATIONS:
 └──────────────────────────┴───────────────────────────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C6d. Contact Detail / Company Detail
+#### C6d. Contact Detail / Company Detail
 
 ```
 Two-panel layout:
@@ -460,26 +460,26 @@ Right: tabbed content
   TASKS TAB: task list filtered by contact
 ```
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** C6e. Empty States
+#### C6e. Empty States
 
 - **Empty table**: ghost icon 48px + "No contacts yet" + "Import from CSV" CTA button
 - **No search results**: "No results for "xxx"" + "Try different keywords"
 - **Error state**: red banner at top "Failed to load data" + [Retry] button
-- **Loading**: skeleton cards (pulse animation, `***REMOVED***f1f5f9` bg, rounded 4px)
+- **Loading**: skeleton cards (pulse animation, `#f1f5f9` bg, rounded 4px)
 
-***REMOVED******REMOVED******REMOVED*** C7. Interaction Patterns
+### C7. Interaction Patterns
 
 | Element | Default | Hover | Active/Focus | Disabled |
 |---------|---------|-------|-------------|----------|
 | Button | bg primary | bg darken 10% | scale 0.97 | opacity 0.5 |
-| Input | border ***REMOVED***cbd5e1 | — | border ***REMOVED***2563eb + ring 3px | bg ***REMOVED***f1f5f9 |
-| Table row | bg white | bg ***REMOVED***f8fafc | selected: bg ***REMOVED***eff6ff | — |
-| Sidebar item | bg transparent | bg ***REMOVED***334155 | left border 3px ***REMOVED***2563eb | — |
+| Input | border #cbd5e1 | — | border #2563eb + ring 3px | bg #f1f5f9 |
+| Table row | bg white | bg #f8fafc | selected: bg #eff6ff | — |
+| Sidebar item | bg transparent | bg #334155 | left border 3px #2563eb | — |
 | Card | shadow-sm | shadow-md | — | — |
-| Dropdown | border ***REMOVED***e2e8f0 | border ***REMOVED***2563eb | — | — |
-| Toggle switch | bg ***REMOVED***cbd5e1 | — | bg ***REMOVED***2563eb | opacity 0.5 |
+| Dropdown | border #e2e8f0 | border #2563eb | — | — |
+| Toggle switch | bg #cbd5e1 | — | bg #2563eb | opacity 0.5 |
 
-***REMOVED******REMOVED******REMOVED*** C8. Modal / Dialog Pattern
+### C8. Modal / Dialog Pattern
 
 ```
 ┌─────────────────────────────────────────┐
@@ -504,7 +504,7 @@ Right: tabbed content
 - Form fields: standard input pattern
 - Buttons: Cancel (outline) on left, Create (primary) on right
 
-***REMOVED******REMOVED******REMOVED*** C9. Notifications / Toast
+### C9. Notifications / Toast
 
 ```
 ┌──────────────────────────────────────┐
@@ -518,7 +518,7 @@ Right: tabbed content
 - Auto-dismiss: 4 seconds. Hover to pause.
 - Stack vertically, newest on top
 
-***REMOVED******REMOVED******REMOVED*** C10. Responsive Rules
+### C10. Responsive Rules
 
 - **Desktop** (>= 1024px): sidebar visible, max width 1280px centered
 - **Tablet** (768-1023px): sidebar collapsed to 64px icons, content full width
@@ -529,7 +529,7 @@ Right: tabbed content
 
 ---
 
-***REMOVED******REMOVED*** D — Tech Stack
+## D — Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -548,9 +548,9 @@ Right: tabbed content
 
 ---
 
-***REMOVED******REMOVED*** E — API Contract（Frontend-Backend）
+## E — API Contract（Frontend-Backend）
 
-***REMOVED******REMOVED******REMOVED*** Authentication
+### Authentication
 
 ```
 POST  /api/auth/signup       { email, password, company_name }
@@ -559,7 +559,7 @@ POST  /api/auth/refresh      { refresh_token } → { access_token }
 GET   /api/auth/me           → { user, tenant }
 ```
 
-***REMOVED******REMOVED******REMOVED*** CRM CRUD
+### CRM CRUD
 
 ```
 GET    /api/contacts                ?search&company_id&page&limit
@@ -595,7 +595,7 @@ GET    /api/dashboard/stats
 GET    /api/dashboard/recent-activity
 ```
 
-***REMOVED******REMOVED******REMOVED*** Settings & Team
+### Settings & Team
 
 ```
 GET    /api/settings/profile        
@@ -613,7 +613,7 @@ GET    /api/billing/plan
 GET    /api/billing/invoices        
 ```
 
-***REMOVED******REMOVED******REMOVED*** WebSocket（Real-time）
+### WebSocket（Real-time）
 
 ```
 wss://<host>/ws/dashboard
@@ -625,9 +625,9 @@ wss://<host>/ws/notifications
 
 ---
 
-***REMOVED******REMOVED*** F — Data Model（SaaS Tables Additions）
+## F — Data Model（SaaS Tables Additions）
 
-***REMOVED******REMOVED******REMOVED*** New Tables（sao_ prefix — SaaS Operations）
+### New Tables（sao_ prefix — SaaS Operations）
 
 ```sql
 -- Tenant registry
@@ -701,7 +701,7 @@ CREATE TABLE saas_audit_log (
 );
 ```
 
-***REMOVED******REMOVED******REMOVED*** RLS Policy Example
+### RLS Policy Example
 
 ```sql
 -- On nexus_contacts:
@@ -714,7 +714,7 @@ CREATE POLICY tenant_isolation ON nexus_contacts
 
 ---
 
-***REMOVED******REMOVED*** G — Frontend Route Map
+## G — Frontend Route Map
 
 ```
 /login                          → Login page

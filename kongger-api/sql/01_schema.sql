@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   ad_title        TEXT,
   ad_description  TEXT,
   ad_link_url     TEXT,
-  theme_colour    TEXT DEFAULT '***REMOVED***4a90d9',
+  theme_colour    TEXT DEFAULT '#4a90d9',
   is_private      BOOLEAN DEFAULT FALSE,
   total_visitors  INTEGER DEFAULT 0,
   created_at      TIMESTAMPTZ DEFAULT NOW(),

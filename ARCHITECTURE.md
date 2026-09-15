@@ -1,10 +1,10 @@
-***REMOVED*** AI One — System Architecture
+# AI One — System Architecture
 
-***REMOVED******REMOVED*** Overview
+## Overview
 
 AI One is a centralized AI Agent management platform. Users provide server credentials, and the system auto-provisions AI agents via SSH, registers them in a central registry, and enables real-time monitoring via WebSocket.
 
-***REMOVED******REMOVED*** High-Level Architecture
+## High-Level Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -41,9 +41,9 @@ AI One is a centralized AI Agent management platform. Users provide server crede
     └────────────────┘   └───────────────┘   └────────────┘
 ```
 
-***REMOVED******REMOVED*** Component Details
+## Component Details
 
-***REMOVED******REMOVED******REMOVED*** 1. Agent Registry (PostgreSQL)
+### 1. Agent Registry (PostgreSQL)
 Stores all registered agents and their metadata.
 
 ```
@@ -81,7 +81,7 @@ events
 └── created_at    TIMESTAMP
 ```
 
-***REMOVED******REMOVED******REMOVED*** 2. Provisioner Engine (Paramiko SSH)
+### 2. Provisioner Engine (Paramiko SSH)
 
 ```
 ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
@@ -96,7 +96,7 @@ events
 └──────────────┘     └──────────────┘     └──────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED*** 3. Message Bus (Redis Pub/Sub)
+### 3. Message Bus (Redis Pub/Sub)
 
 ```
                 ┌──────────────────────────┐
@@ -116,7 +116,7 @@ events
          └─────────┘   └─────────┘   └─────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED*** 4. Real-Time Gateway (FastAPI WebSocket)
+### 4. Real-Time Gateway (FastAPI WebSocket)
 
 ```
  Browser/Client              FastAPI                  Redis
@@ -130,9 +130,9 @@ events
      │    payload: { id, status, uptime } }             │
 ```
 
-***REMOVED******REMOVED*** Data Flow
+## Data Flow
 
-***REMOVED******REMOVED******REMOVED*** Provisioning Flow
+### Provisioning Flow
 1. User submits host + user + password via `POST /api/provision`
 2. Backend creates a `Deployment` record (status: pending)
 3. Provisioner service opens SSH connection via Paramiko
@@ -140,13 +140,13 @@ events
 5. On success: agent container starts, agent registers via API
 6. Deployment status → success, Agent status → online
 
-***REMOVED******REMOVED******REMOVED*** Event Flow
+### Event Flow
 1. Any component publishes to Redis channel `events`
 2. Backend subscribes and fans out to connected WebSocket clients
 3. Events persisted to Postgres `events` table for history
 4. Frontend updates dashboard in real-time
 
-***REMOVED******REMOVED*** Security
+## Security
 - SSH credentials transmitted in-memory only, never stored
 - Agent API keys generated per deployment
 - JWT authentication for API endpoints
@@ -154,7 +154,7 @@ events
 - Redis password-protected
 - PostgreSQL credentials via environment variables
 
-***REMOVED******REMOVED*** Scalability
+## Scalability
 - Stateless FastAPI backend → horizontal scaling behind reverse proxy
 - Redis Pub/Sub decouples agents from backend
 - PostgreSQL connection pooling via asyncpg

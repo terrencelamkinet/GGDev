@@ -1,8 +1,8 @@
-***REMOVED*** G02 — Exam Center File Inventory
+# G02 — Exam Center File Inventory
 
-***REMOVED******REMOVED*** Source: `projects/ggdev-repo/exam-center/`
+## Source: `projects/ggdev-repo/exam-center/`
 
-***REMOVED******REMOVED*** Core Pages
+## Core Pages
 
 | File | Purpose |
 |------|---------|
@@ -12,9 +12,9 @@
 | `code/favicon.png` | Favicon (fallback) |
 | `code/CONTEXT.md` | Project context (preserved) |
 
-***REMOVED******REMOVED*** Exam Modules
+## Exam Modules
 
-***REMOVED******REMOVED******REMOVED*** cisp/ — CISP Certification
+### cisp/ — CISP Certification
 
 | File | Purpose |
 |------|---------|
@@ -22,7 +22,7 @@
 | `code/cisp/questions.js` | CISP question bank |
 | `code/cisp/images/` | 106 exam images (image1.png – image106.png) |
 
-***REMOVED******REMOVED******REMOVED*** ngfw/ — NGFW Certification
+### ngfw/ — NGFW Certification
 
 | File | Purpose |
 |------|---------|
@@ -34,7 +34,7 @@
 | `code/ngfw/verify_all.py` | Answer verification script |
 | `code/ngfw/_batch1.json` | Batch 1 questions data |
 
-***REMOVED******REMOVED******REMOVED*** soc/ — SOC Certification
+### soc/ — SOC Certification
 
 | File | Purpose |
 |------|---------|
@@ -42,7 +42,7 @@
 | `code/soc/quiz.html.bak` | SOC quiz backup |
 | `code/soc/questions.js` | SOC question bank |
 
-***REMOVED******REMOVED******REMOVED*** vcf/ — VCF Certification
+### vcf/ — VCF Certification
 
 | File | Purpose |
 |------|---------|
@@ -52,7 +52,7 @@
 | `code/vcf/questions.js.bak` | VCF questions backup |
 | `code/vcf/styles.css` | VCF-specific styles |
 
-***REMOVED******REMOVED*** Assets
+## Assets
 
 | File | Purpose |
 |------|---------|

@@ -1,6 +1,6 @@
 export function initRouter(routes){
   function activate(hash){
-    const id=(hash.replace('***REMOVED***','').replace('/',''))||'home';
+    const id=(hash.replace('#','').replace('/',''))||'home';
     document.querySelectorAll('.page').forEach(p=>{
       if(p.id==='page-'+id){p.classList.add('active','page-enter');setTimeout(()=>p.classList.remove('page-enter'),220);}
       else p.classList.remove('active');
@@ -10,5 +10,5 @@ export function initRouter(routes){
     window.scrollTo({top:0,behavior:'instant'});
   }
   window.addEventListener('hashchange',()=>activate(location.hash));
-  activate(location.hash||'***REMOVED***home');
+  activate(location.hash||'#home');
 }

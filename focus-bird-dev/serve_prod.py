@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """Static HTTP server with no-cache headers to prevent Cloudflare/CDN caching."""
 import http.server
 import os

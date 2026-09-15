@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 GG Agent Orchestra v2 — 任務管理同自動記憶委派系統
 用法: python3 orchestrate.py <action> [args]
@@ -66,7 +66,7 @@ def assign(target, desc):
         "status": "assigned", "created": ts(), "result": None
     }
     try:
-        get_logger().record('command', f'orchestrate assign ***REMOVED***{tid}→{target}: {desc[:200]}',
+        get_logger().record('command', f'orchestrate assign #{tid}→{target}: {desc[:200]}',
                            source='orchestrate', details={'target': target, 'desc': desc[:100]})
     except Exception:
         pass
@@ -83,7 +83,7 @@ def assign(target, desc):
 def memo(target, text):
     """Pure memory delegation — no task tracking"""
     ok, result = call_vm(target, f"請記錄：{text}")
-    ***REMOVED*** Auto-log with event logger
+    # Auto-log with event logger
     try:
         evt_log = get_logger()
         category = 'work_memo' if target == 'work' else 'person_memo'
@@ -149,7 +149,7 @@ if __name__ == "__main__":
         result = status(tid)
         if isinstance(result, list):
             if not result: print("📭 冇任務")
-            for t in result: desc = t.get('desc', t.get('description', t.get('task','?')))[:60]; print(f"  {'✅' if t['status']=='done' else '❌'} ***REMOVED***{t['id']}→{t['target']}: {desc} ({t['status']})")
+            for t in result: desc = t.get('desc', t.get('description', t.get('task','?')))[:60]; print(f"  {'✅' if t['status']=='done' else '❌'} #{t['id']}→{t['target']}: {desc} ({t['status']})")
         else:
             print(json.dumps(result, ensure_ascii=False, indent=2) if result else "❌ 唔存在")
     elif a == "complete" and len(sys.argv) >= 3:

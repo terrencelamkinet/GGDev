@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 C9 NEXUS Conv Sync — silent post-processing for clarification replies.
 
@@ -16,7 +16,7 @@ HERMES_DB = os.path.expanduser("~/.hermes/sessions.db")
 
 def get_recent_conversations(minutes=10):
     """Get recent Hermes conversation logs from session DB or files."""
-    ***REMOVED*** Try reading from session_search JSON output
+    # Try reading from session_search JSON output
     result = subprocess.run(
         ["hermes", "session", "list", "--limit", "5", "--json"],
         capture_output=True, text=True, timeout=10
@@ -29,7 +29,7 @@ def get_recent_conversations(minutes=10):
     except json.JSONDecodeError:
         sessions = []
     
-    ***REMOVED*** Filter sessions from last `minutes` minutes
+    # Filter sessions from last `minutes` minutes
     cutoff = datetime.now(HKT) - timedelta(minutes=minutes)
     recent = []
     for s in sessions:
@@ -50,7 +50,7 @@ def extract_clarification_replies(session):
     if not session_id:
         return []
     
-    ***REMOVED*** Get full session content
+    # Get full session content
     result = subprocess.run(
         ["hermes", "session", "get", session_id, "--json"],
         capture_output=True, text=True, timeout=10
@@ -76,17 +76,17 @@ def extract_clarification_replies(session):
             continue
         
         content_stripped = content.strip().lower()
-        ***REMOVED*** Check if this looks like confirmation reply
+        # Check if this looks like confirmation reply
         is_confirm = bool(re.match(r'^(✅|✓|ok|好|done|yes|y|可以|係|confirm|confirm|check|✔|是|做得|做)', content_stripped))
         
         if not is_confirm:
             continue
         
-        ***REMOVED*** Look back at previous assistant message for context
+        # Look back at previous assistant message for context
         prev_msg = msgs[i-1] if i > 0 else {}
         prev_content = prev_msg.get("content", "") if isinstance(prev_msg, dict) else ""
         
-        ***REMOVED*** Detect if assistant was asking a clarification question
+        # Detect if assistant was asking a clarification question
         prev_lower = prev_content.lower()
         is_clarification = any(kw in prev_lower for kw in [
             "?",
@@ -98,7 +98,7 @@ def extract_clarification_replies(session):
             "確認",
             "請確認",
             "要唔要",
-        ]) and len(prev_content) < 200  ***REMOVED*** short = clarification, not long response
+        ]) and len(prev_content) < 200  # short = clarification, not long response
         
         if is_clarification:
             replies.append({
@@ -117,27 +117,27 @@ def process_reply(reply):
     
     print(f"[conv_sync] Processing: \"{question[:80]}...\" → \"{user_reply}\"")
     
-    ***REMOVED*** --- Detect action type from question ---
+    # --- Detect action type from question ---
     
-    ***REMOVED*** 1. Link task to project
+    # 1. Link task to project
     if re.search(r'link.*task|task.*link|connect.*project|project.*connect', question, re.I):
-        ***REMOVED*** Extract task name and project name from question
+        # Extract task name and project name from question
         task_match = re.search(r'[`"]([^`"]+)[`"]', question)
         if task_match:
             task_name = task_match.group(1)
             print(f"[conv_sync] → Linking task '{task_name}' to project (auto)")
-            ***REMOVED*** The actual link action requires Notion API — logged for next cron cycle
+            # The actual link action requires Notion API — logged for next cron cycle
             _log_pending_action("link_task_project", {"task": task_name, "reply": user_reply})
     
-    ***REMOVED*** 2. Create task / follow-up
+    # 2. Create task / follow-up
     elif re.search(r'create.*task|add.*task|follow.?up|todo', question, re.I):
         _log_pending_action("create_task", {"context": question, "reply": user_reply})
     
-    ***REMOVED*** 3. Mark something as done / complete
+    # 3. Mark something as done / complete
     elif re.search(r'mark.*done|complete.*task|done\?', question, re.I):
         _log_pending_action("mark_done", {"context": question, "reply": user_reply})
     
-    ***REMOVED*** 4. General confirmation — log for review
+    # 4. General confirmation — log for review
     else:
         _log_pending_action("general_confirm", {"context": question, "reply": user_reply})
     
@@ -177,11 +177,11 @@ def execute_pending_actions():
     
     print(f"[conv_sync] Executing {len(pending)} pending action(s)...")
     
-    ***REMOVED*** For now, just log them — actual execution happens in main cron
-    ***REMOVED*** Clear the file after reading
+    # For now, just log them — actual execution happens in main cron
+    # Clear the file after reading
     os.remove(PENDING_LOG)
     
-    ***REMOVED*** Re-write any that failed to execute
+    # Re-write any that failed to execute
     failed = []
     for action in pending:
         try:
@@ -202,7 +202,7 @@ def _execute_single(action):
     
     if atype == "link_task_project":
         print(f"[conv_sync] Executing link_task_project: {payload}")
-        ***REMOVED*** TODO: call Notion API to link task to project
+        # TODO: call Notion API to link task to project
         pass
     
     elif atype == "general_confirm":
@@ -212,10 +212,10 @@ def _execute_single(action):
 def main():
     print(f"[conv_sync] {datetime.now(HKT).isoformat()} — Starting conv sync...")
     
-    ***REMOVED*** Phase 1: Execute any pending actions from last cycle
+    # Phase 1: Execute any pending actions from last cycle
     execute_pending_actions()
     
-    ***REMOVED*** Phase 2: Check recent conversations for clarification replies
+    # Phase 2: Check recent conversations for clarification replies
     sessions = get_recent_conversations(minutes=10)
     if not sessions:
         print("[conv_sync] No recent sessions found")

@@ -1,12 +1,12 @@
-***REMOVED*** Auto-Repair System (2026-05-23 established)
+# Auto-Repair System (2026-05-23 established)
 
-***REMOVED******REMOVED*** Decision: Option A — Automatic repair + log (don't notify)
+## Decision: Option A — Automatic repair + log (don't notify)
 
 Terrence chose: **Detect → Auto-fix → Log it → Skip notification unless unrecoverable**
 
-***REMOVED******REMOVED*** Architecture
+## Architecture
 
-***REMOVED******REMOVED******REMOVED*** Components
+### Components
 
 ```
 gg_healing_engine.sh (cron every 5 min)
@@ -15,7 +15,7 @@ gg_healing_engine.sh (cron every 5 min)
   └── Layer 3: Analyze events → gg_repair_spawner.py
 ```
 
-***REMOVED******REMOVED******REMOVED*** Repair Spawner Flow
+### Repair Spawner Flow
 
 ```
 events.jsonl CRITICAL detected (recent 5min)
@@ -36,7 +36,7 @@ events.jsonl CRITICAL detected (recent 5min)
       └── DO NOT notify Terrence unless unrecoverable
 ```
 
-***REMOVED******REMOVED******REMOVED*** Known False Positives to Filter
+### Known False Positives to Filter
 
 | Pattern | Why it's triggered | Action |
 |---------|-------------------|--------|
@@ -44,7 +44,7 @@ events.jsonl CRITICAL detected (recent 5min)
 | `gg-monitor: Cron stale: ...` | Some crons stopped running (by design) | **Filter out** if < 48h stale |
 | Gateway check during deploy | Gateway restart during deploy = transient | Retry 2x before flagging |
 
-***REMOVED******REMOVED******REMOVED*** Repair Actions (auto-execute)
+### Repair Actions (auto-execute)
 
 | Issue | Auto-action | Verify |
 |-------|-----------|--------|
@@ -54,21 +54,21 @@ events.jsonl CRITICAL detected (recent 5min)
 | Gateway fail | `systemctl --user restart openclaw`, wait 8s | Retry API call |
 | Sub-agent session stuck | `gg_subagent_watchdog.py` handles this | Watchdog logs |
 
-***REMOVED******REMOVED******REMOVED*** Notification Rules
+### Notification Rules
 
 - ✅ Auto-fix succeeded (from known fix list) → **Log only, no notification**
 - ⚠️ Auto-fix failed → Log + **flag in events.jsonl** (waits for Terrence to ask)
 - 🔴 Unrecoverable (e.g., VM unreachable via SSH/tunnel) → **Spawning repair session** with context
 - 🔴 New error pattern (not in known fix list) → **Spawning repair session**
 
-***REMOVED******REMOVED******REMOVED*** Metrics
+### Metrics
 
 Success rate of auto-fix actions:
 - Tunnel restart: verified today (manual). Auto-fix pending validation.
 - Disk cleanup: in healing engine already (works).
 - Gateway restart: in healing engine already.
 
-***REMOVED******REMOVED******REMOVED*** Implementation Changes
+### Implementation Changes
 
 1. **gg_repair_spawner.py** — Add:
    - `filter_false_positives()` — removes known noise

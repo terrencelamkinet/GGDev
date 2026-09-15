@@ -46,8 +46,8 @@ STEP 2 — ENVIRONMENT VARIABLES
   cp .env.example .env
 
 Edit .env and set:
-  PG_CONNECTION_STRING= REDACTED
-  JWT_SECRET=generate-a-32-char-random-string-here
+  PG_CONNECTION_STRING=postgresql://REDACTED:REDACTED@localhost:5432/kongger_db
+  JWT_SECRET="REDACTED"
   PORT=3001
   NODE_ENV=production
   FRONTEND_ORIGIN=http://localhost:3000
@@ -79,13 +79,13 @@ Change apiBase to your API URL:
 =======================================================================
 STEP 5 — SERVE FRONTEND
 =======================================================================
-  ***REMOVED*** Local development:
+  # Local development:
   npx serve frontend -p 3000
 
-  ***REMOVED*** Production with Nginx:
+  # Production with Nginx:
   cp -r frontend/* /var/www/kongger/
   cp backend/nginx.conf /etc/nginx/sites-available/kongger
-  ***REMOVED*** Edit nginx.conf: replace 'your-domain.com' with actual domain
+  # Edit nginx.conf: replace 'your-domain.com' with actual domain
   ln -s /etc/nginx/sites-available/kongger /etc/nginx/sites-enabled/
   nginx -t && systemctl reload nginx
 
@@ -97,23 +97,23 @@ STEP 6 — SSL (PRODUCTION ONLY)
 =======================================================================
 STEP 7 — SMOKE TESTS
 =======================================================================
-  ***REMOVED*** Health
+  # Health
   curl http://localhost:3001/health
 
-  ***REMOVED*** Register user
+  # Register user
   curl -X POST http://localhost:3001/api/v1/auth/register \
     -H "Content-Type: application/json" \
     -d '{"email":"test@kongger.hk","password":"Test1234!","display_name":"Test User","handle":"test_user"}'
 
-  ***REMOVED*** Login
+  # Login
   curl -X POST http://localhost:3001/api/v1/auth/login \
     -H "Content-Type: application/json" \
     -d '{"email":"test@kongger.hk","password":"Test1234!"}'
 
-  ***REMOVED*** Get profile
+  # Get profile
   curl http://localhost:3001/api/v1/profiles/test_user
 
-  ***REMOVED*** Waitlist
+  # Waitlist
   curl -X POST http://localhost:3001/api/v1/waitlist \
     -H "Content-Type: application/json" \
     -d '{"email":"hello@kongger.hk","name":"Hello"}'
@@ -124,8 +124,8 @@ STEP 8 — OPTIONAL: DOCKER COMPOSE (ONE COMMAND DEPLOY)
   cd backend
   docker compose up -d
 
-  ***REMOVED*** This starts PostgreSQL + API automatically.
-  ***REMOVED*** SQL migrations run automatically via /docker-entrypoint-initdb.d/
+  # This starts PostgreSQL + API automatically.
+  # SQL migrations run automatically via /docker-entrypoint-initdb.d/
 
 =======================================================================
 API ENDPOINT REFERENCE

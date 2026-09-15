@@ -9,5 +9,5 @@ services:
           - /api/v1/health
         strip_path: false
 
-***REMOVED*** mTLS should be added after Fubon provides the test CA and client certificates.
-***REMOVED*** Recommended plugin: mtls-auth, scoped to smoke-test-health or to the target service.
+# mTLS should be added after Fubon provides the test CA and client certificates.
+# Recommended plugin: mtls-auth, scoped to smoke-test-health or to the target service.

@@ -45,7 +45,7 @@ function createWindow() {
     skipTaskbar: false,
     resizable: true,
     minWidth: 360, minHeight: 480,
-    backgroundColor: '***REMOVED***0a0a14',
+    backgroundColor: '#0a0a14',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,

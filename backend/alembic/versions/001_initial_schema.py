@@ -1,5 +1,5 @@
 """Alembic migration script template."""
-***REMOVED*** type: ignore
+# type: ignore
 
 """initial schema
 

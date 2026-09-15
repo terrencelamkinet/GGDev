@@ -1,14 +1,14 @@
-***REMOVED*** AgentSentinel `v0.1.2` For OpenClaw
+# AgentSentinel `v0.1.2` For OpenClaw
 
-***REMOVED******REMOVED*** Recommended Listing Title
+## Recommended Listing Title
 
 AgentSentinel Safety Layer
 
-***REMOVED******REMOVED*** Recommended Short Description
+## Recommended Short Description
 
 Local-first budget and policy guardrails for OpenClaw agents, with optional cloud sync when an API key is provided.
 
-***REMOVED******REMOVED*** Recommended Long Description
+## Recommended Long Description
 
 AgentSentinel is the operational circuit breaker for OpenClaw agents.
 
@@ -34,7 +34,7 @@ Use it to:
 - reset local run state between sessions
 - connect to the wider AgentSentinel platform when cloud visibility is needed
 
-***REMOVED******REMOVED*** 30-Second Quickstart
+## 30-Second Quickstart
 
 ```bash
 python3 sentinel_wrapper.py --bootstrap
@@ -50,7 +50,7 @@ export AGENT_SENTINEL_API_KEY=as_...
 python3 sentinel_wrapper.py sync
 ```
 
-***REMOVED******REMOVED*** Security Positioning
+## Security Positioning
 
 Recommended trust-language for ClawHub:
 
@@ -60,7 +60,7 @@ Recommended trust-language for ClawHub:
 - no automatic install step is required
 - no remote sync occurs unless the user provides an API key and runs `sync`
 
-***REMOVED******REMOVED*** Recommended Tags
+## Recommended Tags
 
 - safety
 - security
@@ -68,7 +68,7 @@ Recommended trust-language for ClawHub:
 - compliance
 - governance
 
-***REMOVED******REMOVED*** Release Notes
+## Release Notes
 
 - local-only mode now works with `python3` and no SDK install
 - API keys are no longer persisted to `.env`

@@ -19,15 +19,15 @@
 @media(max-width:600px){.ag-grid{grid-template-columns:1fr}}
 .ag-err{padding:24px;text-align:center;color:var(--text-muted);font-size:13px}
 .ag-err .retry{color:var(--primary);cursor:pointer;text-decoration:underline}
-.bg-cyan{background:var(--primary);color:***REMOVED***fff}
-***REMOVED***confirm-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,.45);align-items:center;justify-content:center}
-***REMOVED***confirm-overlay.open{display:flex}
+.bg-cyan{background:var(--primary);color:#fff}
+#confirm-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,.45);align-items:center;justify-content:center}
+#confirm-overlay.open{display:flex}
 </style></head><body>
 <div id="sb"></div><div id="bn"></div>
 <div class="main">
   <header class="topbar">
     <div id="hm"></div>
-    <div class="tb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="***REMOVED***fff" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h1V6a4 4 0 0 1 4-4z"/></svg></div>
+    <div class="tb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h1V6a4 4 0 0 1 4-4z"/></svg></div>
     <div class="tb-titles"><div class="tb-title">AI Agents</div><div class="tb-sub" id="tb-sub">Loading...</div></div>
     <div class="tb-right"><button class="btn btn-g" data-tt><svg data-tt-ico width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button><span id="ar-indicator" style="font-size:9px;color:var(--text-faint);margin-left:6px"></span></div>
   </header>
@@ -55,7 +55,7 @@ try{document.getElementById('hm').innerHTML=window.AC.ham;}catch(e){console.warn
 
 // ── Agent icon mapping ───────────────────────────────────
 function agentIco(id){
-  const map={'main-orchestrator':{ico:'🧠',bg:'***REMOVED***dbeafe'},'gg-work':{ico:'⚡',bg:'***REMOVED***ede9fe'},'gg-person':{ico:'👤',bg:'***REMOVED***d1fae5'}};
+  const map={'main-orchestrator':{ico:'🧠',bg:'#dbeafe'},'gg-work':{ico:'⚡',bg:'#ede9fe'},'gg-person':{ico:'👤',bg:'#d1fae5'}};
   return map[id]||{ico:'🤖',bg:'var(--surface-off)'};
 }
 
@@ -110,7 +110,7 @@ function renderAgents(data){
   document.getElementById('tb-sub').textContent=all.length+' agents · '+online+' active';
 
   document.getElementById('ag-grid').innerHTML=all.map(a=>`
-    <div class="ag-card" onclick='openAgent(${JSON.stringify(a).replace(/'/g,"&***REMOVED***39;")})'>
+    <div class="ag-card" onclick='openAgent(${JSON.stringify(a).replace(/'/g,"&#39;")})'>
       <div class="ag-hd">
         <div class="ag-ico" style="background:${a.bg}">${a.ico}</div>
         <div><div class="ag-name">${a.name}</div><div class="ag-type">${a.type} · ${a.model}</div></div>

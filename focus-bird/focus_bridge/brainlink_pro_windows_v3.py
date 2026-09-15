@@ -1,14 +1,14 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 BrainLink Pro 腦波讀取器 — Windows 版
 =====================================
 用 pyserial 直接讀 BrainLink Pro 藍牙 COM port。
 
 用法:
-  python brainlink_pro.py --scan              ***REMOVED*** 掃描 COM port
-  python brainlink_pro.py --port COM5         ***REMOVED*** 連接（普通模式）
-  python brainlink_pro.py --port COM5 --json  ***REMOVED*** JSON 輸出
-  python brainlink_pro.py --port COM5 --ws 8765  ***REMOVED*** WebSocket 模式
+  python brainlink_pro.py --scan              # 掃描 COM port
+  python brainlink_pro.py --port COM5         # 連接（普通模式）
+  python brainlink_pro.py --port COM5 --json  # JSON 輸出
+  python brainlink_pro.py --port COM5 --ws 8765  # WebSocket 模式
 
 需要: BrainLinkParser.pyd + pyserial
 """
@@ -21,7 +21,7 @@ try:
 except ImportError:
     websockets = None
 
-***REMOVED*** ── Load BrainLinkParser (only needed for connection) ──
+# ── Load BrainLinkParser (only needed for connection) ──
 try:
     from BrainLinkParser import BrainLinkParser
     _HAS_PARSER = True
@@ -36,7 +36,7 @@ except ImportError:
     sys.exit(1)
 
 
-***REMOVED*** ── Brain data state ──
+# ── Brain data state ──
 
 class BrainData:
     def __init__(self):
@@ -87,11 +87,11 @@ def log_debug(msg):
         pass
 
 
-***REMOVED*** ── Auto-detect BrainLinkParser parameters ──
+# ── Auto-detect BrainLinkParser parameters ──
 
 def build_parser(state):
     """Build BrainLinkParser with auto-detected parameter names."""
-    ***REMOVED*** Callbacks
+    # Callbacks
     _eeg_count = [0]
     _ext_count = [0]
     
@@ -100,15 +100,15 @@ def build_parser(state):
         sig = int(getattr(data, 'signal', -1))
         att = int(getattr(data, 'attention', -1))
         med = int(getattr(data, 'meditation', -1))
-        ***REMOVED*** Log every 10th packet (avoid too much I/O)
+        # Log every 10th packet (avoid too much I/O)
         if _eeg_count[0] <= 5 or _eeg_count[0] % 10 == 0:
-            log_debug(f"EEG ***REMOVED***{_eeg_count[0]}: sig={sig} att={att} med={med}")
-        ***REMOVED*** Only update if this is a real EEG packet (not empty alternate packet)
+            log_debug(f"EEG #{_eeg_count[0]}: sig={sig} att={att} med={med}")
+        # Only update if this is a real EEG packet (not empty alternate packet)
         if getattr(data, 'attention', None) is not None and data.attention >= 0:
             state.attention = int(data.attention)
             state.meditation = int(getattr(data, 'meditation', 0) or 0)
-            ***REMOVED*** BrainLink Pro parser callback data often lacks 'signal' attr
-            ***REMOVED*** If we got real data, device IS connected → force signal=0
+            # BrainLink Pro parser callback data often lacks 'signal' attr
+            # If we got real data, device IS connected → force signal=0
             raw_sig = getattr(data, 'signal', None)
             state.signal = int(raw_sig) if raw_sig is not None and raw_sig >= 0 else 0
             state.focus = round(state.attention / 100.0, 2) if state.signal != 200 else 0.0
@@ -124,7 +124,7 @@ def build_parser(state):
         if _ext_count[0] <= 3:
             bat = int(getattr(data, 'battery', -1))
             ver = int(getattr(data, 'version', -1))
-            log_debug(f"EXT ***REMOVED***{_ext_count[0]}: battery={bat} version={ver}")
+            log_debug(f"EXT #{_ext_count[0]}: battery={bat} version={ver}")
         state.delta = int(getattr(data, 'delta', 0) or 0)
         state.theta = int(getattr(data, 'theta', 0) or 0)
         state.low_alpha = int(getattr(data, 'lowAlpha', 0) or 0)
@@ -138,16 +138,16 @@ def build_parser(state):
     def noop(*args, **kwargs):
         pass
 
-    ***REMOVED*** Get actual param names from the .pyd
+    # Get actual param names from the .pyd
     try:
         sig = inspect.signature(BrainLinkParser.__init__)
         param_names = [p for p in sig.parameters.keys() if p != 'self']
     except Exception:
         param_names = []
 
-    ***REMOVED*** If no names detected, use fallback
+    # If no names detected, use fallback
     if not param_names:
-        ***REMOVED*** Try common patterns
+        # Try common patterns
         for attempt in [
             {'eeg_callback': on_eeg, 'eeg_extend_callback': on_ext,
              'gyro_callback': noop, 'rr_callback': noop, 'raw_callback': noop},
@@ -166,7 +166,7 @@ def build_parser(state):
                 continue
         raise RuntimeError("無法匹配 BrainLinkParser 參數名")
 
-    ***REMOVED*** Map detected names to callbacks
+    # Map detected names to callbacks
     kwargs = {}
     for name in param_names:
         lower = name.replace('_', '').replace('-', '').lower()
@@ -181,14 +181,14 @@ def build_parser(state):
         elif any(k in lower for k in ['raw']):
             kwargs[name] = noop
         else:
-            ***REMOVED*** Unknown parameter - try eeg callback as default
+            # Unknown parameter - try eeg callback as default
             kwargs[name] = on_eeg
 
     print(f"  ✓ 自動識別參數: {list(kwargs.keys())}")
     return BrainLinkParser(**kwargs)
 
 
-***REMOVED*** ── Serial reader ──
+# ── Serial reader ──
 
 def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False):
     if not _HAS_PARSER:
@@ -202,7 +202,7 @@ def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False)
     print(f" 連接 {port} @ {baud} baud...")
     parser = build_parser(state)
 
-    ***REMOVED*** Try cushy_serial first (official BrainLink library), fallback to pyserial
+    # Try cushy_serial first (official BrainLink library), fallback to pyserial
     using_cushy = False
     _raw_count = [0]
     _last_raw_len = 0
@@ -223,7 +223,7 @@ def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False)
             except Exception as e:
                 _parse_errors[0] += 1
                 if _parse_errors[0] <= 10:
-                    log_debug(f"parse error ***REMOVED***{_parse_errors[0]}: {e} (len={len(msg)})")
+                    log_debug(f"parse error #{_parse_errors[0]}: {e} (len={len(msg)})")
 
         using_cushy = True
         print(f" ✓ 使用 cushy_serial 連接成功！")
@@ -241,7 +241,7 @@ def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False)
         print(f"   Relay: {RELAY_URL}")
     print("-" * 50)
 
-    ***REMOVED*** Optional WebSocket
+    # Optional WebSocket
     clients: set = set()
     if ws_port:
         if websockets is None:
@@ -276,7 +276,7 @@ def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False)
             t = threading.Thread(target=lambda: asyncio.run(ws_start()), daemon=True)
             t.start()
 
-    ***REMOVED*** Relay mode — connect to remote server
+    # Relay mode — connect to remote server
     if relay:
         _relay_q = queue.Queue()
         _relay_connected = [False]
@@ -291,7 +291,7 @@ def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False)
                             data = _relay_q.get(timeout=5)
                             await ws.send(data)
                         except queue.Empty:
-                            ***REMOVED*** Send keepalive
+                            # Send keepalive
                             try:
                                 await ws.send(json.dumps({"ping": 1}))
                             except:
@@ -310,18 +310,18 @@ def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False)
         rt.start()
         time.sleep(0.5)
 
-    ***REMOVED*** Main read loop
+    # Main read loop
     buf = bytearray()
     last_out = 0
 
     try:
         while True:
-            ***REMOVED*** Read data based on connection type
+            # Read data based on connection type
             if using_cushy:
-                ***REMOVED*** cushy_serial mode — on_message callback handles parsing
+                # cushy_serial mode — on_message callback handles parsing
                 time.sleep(0.1)
             else:
-                ***REMOVED*** pyserial mode — manual reading + parsing
+                # pyserial mode — manual reading + parsing
                 if ser.in_waiting:
                     chunk = ser.read(ser.in_waiting)
                     buf.extend(chunk)
@@ -341,14 +341,14 @@ def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False)
                         except:
                             pass
 
-            ***REMOVED*** Output (both modes)
+            # Output (both modes)
             now = time.time()
             if now - last_out >= 0.5:
                 last_out = now
                 s = state.signal
                 has_data = s != 200
 
-                ***REMOVED*** Relay: send to remote server
+                # Relay: send to remote server
                 if relay:
                     try:
                         _relay_q.put_nowait(json.dumps(state.to_dict()))
@@ -361,7 +361,7 @@ def read_serial(port, baud=115200, output_json=False, ws_port=None, relay=False)
                     print(json.dumps(state.to_dict()), flush=True)
                 else:
                     bar = "█" * max(0, 5 - s // 30) + "░" * min(5, s // 30)
-                    ***REMOVED*** Debug info when no signal
+                    # Debug info when no signal
                     try:
                         time_since_raw = now - _last_raw_time
                         raw_info = f" raw:{_raw_count[0]}pkts/{time_since_raw:.0f}s"

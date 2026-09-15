@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 : "${KONG_ADMIN_PASSWORD:?Set KONG_ADMIN_PASSWORD}"

@@ -1,5 +1,5 @@
-***REMOVED***!/usr/bin/env python3
-***REMOVED*** scripts/run_task_from_human.py - The Human Automation Designer Interface
+#!/usr/bin/env python3
+# scripts/run_task_from_human.py - The Human Automation Designer Interface
 
 import sys
 import json
@@ -16,7 +16,7 @@ def main():
     
     print(f"--- Processing Human Request: {human_request} ---")
     
-    ***REMOVED*** 1. Parse Request
+    # 1. Parse Request
     parsed_task = parse_human_request(human_request)
     
     if 'error' in parsed_task:
@@ -25,7 +25,7 @@ def main():
         
     print(f"✅ Request parsed into task: {parsed_task['task_name']}")
     
-    ***REMOVED*** 2. Run Workflow (Handles state and cooldowns internally)
+    # 2. Run Workflow (Handles state and cooldowns internally)
     final_results = run_workflow(parsed_task)
     
     print("\n--- Workflow Execution Results ---")

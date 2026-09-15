@@ -6,22 +6,22 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
-    ***REMOVED*** Application
+    # Application
     app_name: str = "AI One"
     debug: bool = True
 
-    ***REMOVED*** Database
+    # Database
     database_url: str = "postgresql+asyncpg://REDACTED:REDACTED@postgres:5432/aione"
     database_url_sync: str = "postgresql://REDACTED:REDACTED@postgres:5432/aione"
 
-    ***REMOVED*** Redis
+    # Redis
     redis_url: str = "redis://redis:6379/0"
 
-    ***REMOVED*** JWT
+    # JWT
     jwt_secret: str = "ai-one-dev-secret-change-in-production"
     jwt_algorithm: str = "HS256"
 
-    ***REMOVED*** CORS
+    # CORS
     cors_origins: list[str] = [
         "http://localhost:5173",
         "http://localhost:3000",
@@ -29,8 +29,8 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3000",
     ]
 
-    ***REMOVED*** Provisioning
-    provision_timeout: int = 300  ***REMOVED*** seconds
+    # Provisioning
+    provision_timeout: int = 300  # seconds
     agent_image: str = "ghcr.io/nousresearch/hermes-agent:latest"
 
     model_config = {

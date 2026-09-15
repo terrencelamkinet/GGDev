@@ -40,7 +40,7 @@ const WS = (() => {
         G.extMode = false;
         /* show offline in HUD */
         const dsEl = document.getElementById('device-status');
-        if (dsEl) { dsEl.innerHTML = '🔴 離線'; dsEl.style.color = '***REMOVED***ff6b6b'; }
+        if (dsEl) { dsEl.innerHTML = '🔴 離線'; dsEl.style.color = '#ff6b6b'; }
         if (retryTimer) clearTimeout(retryTimer);
         retryTimer = setTimeout(connect, 3000);
         stats.msgs = 0;
@@ -68,13 +68,13 @@ const WS = (() => {
             const attOk = typeof d.attention === 'number';
             if (sigOk && attOk) {
               dsEl.innerHTML = '🧠 已連接';
-              dsEl.style.color = '***REMOVED***74d680';
+              dsEl.style.color = '#74d680';
             } else if (typeof d.signal === 'number' && d.signal >= 150) {
               dsEl.innerHTML = '🔴 無裝置';
-              dsEl.style.color = '***REMOVED***ff6b6b';
+              dsEl.style.color = '#ff6b6b';
             } else {
               dsEl.innerHTML = '⏳';
-              dsEl.style.color = '***REMOVED***9bbfd4';
+              dsEl.style.color = '#9bbfd4';
             }
           }
 

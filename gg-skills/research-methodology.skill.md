@@ -1,24 +1,24 @@
-***REMOVED*** SKILL: research-methodology
+# SKILL: research-methodology
 
-***REMOVED******REMOVED*** Risk class
+## Risk class
 **Read** (methodology reference) — used when GG needs to find, evaluate, and cite authoritative sources for claims, decisions, and policy.
 
-***REMOVED******REMOVED*** Trigger
+## Trigger
 - Auto: any reply involving a claim that needs evidence (urgency, snooze, notification rules, decision frameworks)
 - Auto: Terrence asks "有冇文獻?" / "權威點講?" / "source?"
 - Auto: when GG is about to document a new rule or policy (skill file, SOUL.md update)
 - Manual: Terrence says "搵下文獻" or "research呢樣嘢"
 
-***REMOVED******REMOVED*** What this is
+## What this is
 A framework for distinguishing **original thinking** from **established knowledge**, and finding the right authoritative source every time.
 
 ---
 
-***REMOVED******REMOVED*** 0. 前置問題：呢個係我諗嘅，定係社會已有嘅原理？
+## 0. 前置問題：呢個係我諗嘅，定係社會已有嘅原理？
 
 **每次要引用/提出一個原理或概念前，先問：**
 
-***REMOVED******REMOVED******REMOVED*** 第一步：分辨來源類型
+### 第一步：分辨來源類型
 
 | 類型 | 例子 | 處理方式 |
 |------|------|---------|
@@ -28,7 +28,7 @@ A framework for distinguishing **original thinking** from **established knowledg
 | **📰 新聞/報導提及嘅概念** | 「研究發現notification fatigue」 | 追返原始source，唔好引用二手報導。 |
 | **💬 社交平台/論壇共識** | Reddit post有1萬like | 可作參考但不能作權威來源。 |
 
-***REMOVED******REMOVED******REMOVED*** 第二步：定義都需要引source
+### 第二步：定義都需要引source
 
 **任何定義（definition）都需要有來源，唔可以自己define完當standard。**
 
@@ -44,7 +44,7 @@ A framework for distinguishing **original thinking** from **established knowledg
 - 如果係我自己define嘅 → 標明係operational definition + 邊個authorise + 日期
 - 唔可以「我define完然後當係社會標準」
 
-***REMOVED******REMOVED******REMOVED*** 第二步：已經定義好嘅原理，係點樣？
+### 第二步：已經定義好嘅原理，係點樣？
 
 **特徵：**
 - 有標準名稱（"Prospect Theory", not "that thing about loss aversion"）
@@ -68,7 +68,7 @@ A framework for distinguishing **original thinking** from **established knowledg
 2. 原始出處係邊？→ 追溯到第一手source，唔好引用二手
 3. 有冇公認嘅定義？→ 引用官方定義，唔好自己paraphrase完當original
 
-***REMOVED******REMOVED******REMOVED*** 第三步：吸收落嚟有冇幫助？
+### 第三步：吸收落嚟有冇幫助？
 
 **判斷標準：**
 - ✅ 呢個原理可以直接解釋/支持我哋嘅決策 → 有用
@@ -85,7 +85,7 @@ A framework for distinguishing **original thinking** from **established knowledg
 
 ---
 
-***REMOVED******REMOVED*** 1. 定義權威來源（Terrence的權威定義）
+## 1. 定義權威來源（Terrence的權威定義）
 
 **不是只有學術論文先叫權威。根據你嘅定義，權威來源包括：**
 
@@ -100,7 +100,7 @@ A framework for distinguishing **original thinking** from **established knowledg
 | 🟡 中 | 技術文檔/Official docs | Python docs、RFC、API spec |
 | 🔴 低 | 個人blog/論壇/未經驗證pre-print | 只看methodology，當參考唔當證據 |
 
-***REMOVED******REMOVED******REMOVED*** 權威判斷流程
+### 權威判斷流程
 
 ```
 見到一個claim
@@ -120,9 +120,9 @@ A framework for distinguishing **original thinking** from **established knowledg
 
 ---
 
-***REMOVED******REMOVED*** 2. 如何搵到權威來源
+## 2. 如何搵到權威來源
 
-***REMOVED******REMOVED******REMOVED*** 搜尋策略
+### 搜尋策略
 
 **學術/理論類：**
 ```
@@ -146,7 +146,7 @@ Search: "best practices reminder design medium popular"
 Search: "site:news.ycombinator.com notification UX"
 ```
 
-***REMOVED******REMOVED******REMOVED*** 搜尋工具對照
+### 搜尋工具對照
 
 | Source Type | Tool | Reason |
 |------------|------|--------|
@@ -157,7 +157,7 @@ Search: "site:news.ycombinator.com notification UX"
 | 受歡迎內容 | web_search with "popular" "top" "viral" | Finds social consensus |
 | 已定義原理驗證 | web_search with exact term name | Confirms standard definition |
 
-***REMOVED******REMOVED******REMOVED*** 搜尋failover（如果第一次search冇料到）
+### 搜尋failover（如果第一次search冇料到）
 
 ```
 Search 1: "optimal reminder frequency research" → 冇好結果
@@ -169,9 +169,9 @@ Every search attempt = try 2-3 query variations before giving up.
 
 ---
 
-***REMOVED******REMOVED*** 3. 評估來源（不只是check domain）
+## 3. 評估來源（不只是check domain）
 
-***REMOVED******REMOVED******REMOVED*** 評估四問
+### 評估四問
 
 **1. 權威性：**
 - 作者/機構有冇credential？（教授、研究員、官方機構）
@@ -193,7 +193,7 @@ Every search attempt = try 2-3 query variations before giving up.
 - Methodology合理嗎？（sample size, control group, longitudinal?）
 - 結果有冇被replicate？
 
-***REMOVED******REMOVED******REMOVED*** 評分系統
+### 評分系統
 
 | Source | Author | Venue | Year | Methodology | Verdict |
 |--------|--------|-------|------|------------|---------|
@@ -203,9 +203,9 @@ Every search attempt = try 2-3 query variations before giving up.
 
 ---
 
-***REMOVED******REMOVED*** 4. 正確引用方式
+## 4. 正確引用方式
 
-***REMOVED******REMOVED******REMOVED*** Citation格式
+### Citation格式
 
 每個引用必須包含：
 ```
@@ -223,22 +223,22 @@ Every search attempt = try 2-3 query variations before giving up.
 Research backing: Fatigue Survey (ArXiv 2403)
 ```
 
-***REMOVED******REMOVED******REMOVED*** Dual-source principle（你嘅規則，2026-05-22）
+### Dual-source principle（你嘅規則，2026-05-22）
 
 每個policy claim必須有兩個來源：
 1. **權威文獻**（用呢個skill嘅方法搵到）
 2. **你嘅生活pattern**（從memory/logs/觀察）
 
-***REMOVED******REMOVED******REMOVED*** 引用時要講嘅嘢
+### 引用時要講嘅嘢
 - 唔係淨係俾citation，係要解釋 **點解呢篇文獻support呢個decision**
 - 如果有conflicting evidence，要mention兩邊
 - 如果係你自己諗出嚟嘅原則（唔係文獻），直接標明：Terrence's rule / GG's observation
 
 ---
 
-***REMOVED******REMOVED*** 5. 例子：應用呢個skill
+## 5. 例子：應用呢個skill
 
-***REMOVED******REMOVED******REMOVED*** Scenario A: 幫urgency tiers找文獻 （正確示範）
+### Scenario A: 幫urgency tiers找文獻 （正確示範）
 
 **思考分辨：**
 - 「越urgent越應該用更刺激嘅emoji」 → 我自己諗出嚟，唔係文獻
@@ -254,7 +254,7 @@ Research: 「Notification Frequency and User Fatigue」 (CHI 2023, n=1200) —
 同日超過3次同主題reminder令回應率下降40%。support我哋max 3 deliveries/day嘅規則。
 ```
 
-***REMOVED******REMOVED******REMOVED*** Scenario B: 遇到一個心理學概念
+### Scenario B: 遇到一個心理學概念
 
 **遇到概念：** 「人會偏向避免損失多過追求獲得」
 
@@ -270,7 +270,7 @@ Research: 「Notification Frequency and User Fatigue」 (CHI 2023, n=1200) —
 
 ---
 
-***REMOVED******REMOVED*** 6. Common pitfalls (updated)
+## 6. Common pitfalls (updated)
 
 | Pitfall | Fix |
 |---------|-----|

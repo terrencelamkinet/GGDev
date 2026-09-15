@@ -1,8 +1,8 @@
-***REMOVED*** references/task_schema.md - Task Structure Schema
+# references/task_schema.md - Task Structure Schema
 
 This document defines the JSON structure for a long-running, multi-step task to be consumed by the Agent Task Manager's `orchestrator.py`.
 
-***REMOVED******REMOVED*** Task Root Object
+## Task Root Object
 
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -11,7 +11,7 @@ This document defines the JSON structure for a long-running, multi-step task to 
 | `workflow` | Object | Yes | Dictionary defining the steps of the process. |
 | `rate_limit` | Object | No | Parameters for rate-limit management (if required). |
 
-***REMOVED******REMOVED*** Workflow Object (Steps)
+## Workflow Object (Steps)
 
 The `workflow` is a dictionary where keys are step names (e.g., `step_1`) and values are objects defining the step.
 
@@ -22,7 +22,7 @@ The `workflow` is a dictionary where keys are step names (e.g., `step_1`) and va
 | `dependency` | String | No | Name of the step that must complete before this step runs. |
 | `...params` | Any | No | Any required parameters for the action (e.g., `target_mint`, `threshold_percent`). |
 
-***REMOVED******REMOVED*** Rate Limit Object
+## Rate Limit Object
 
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |

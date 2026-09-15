@@ -18,13 +18,13 @@ from app.services.agent_discovery import discover as discover_agents
 @asynccontextmanager
 async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan: startup and shutdown."""
-    ***REMOVED*** Startup: verify DB connection & auto-create tables
+    # Startup: verify DB connection & auto-create tables
     try:
         async with engine.begin() as conn:
             from sqlalchemy import text
             await conn.execute(text("SELECT 1"))
             print("[AI Central] Database connection verified.")
-        ***REMOVED*** Auto-create tables (safe for SQLite, idempotent for PostgreSQL)
+        # Auto-create tables (safe for SQLite, idempotent for PostgreSQL)
         from app.database import Base
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
@@ -35,7 +35,7 @@ async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
 
     yield
 
-    ***REMOVED*** Shutdown
+    # Shutdown
     await engine.dispose()
     print("[AI Central] Engine disposed.")
 
@@ -47,7 +47,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-***REMOVED*** CORS
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -56,7 +56,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-***REMOVED*** Register all routers — app-level routes first (before wildcard router paths)
+# Register all routers — app-level routes first (before wildcard router paths)
 
 
 @app.get("/api/agents/discovery")
@@ -110,12 +110,12 @@ async def root():
     }
 
 
-***REMOVED*** Serve static frontend files (must be last — after all API routes)
+# Serve static frontend files (must be last — after all API routes)
 FRONTEND_DIR = Path(__file__).resolve().parent.parent.parent.parent / "ai-central"
 if FRONTEND_DIR.exists():
     from fastapi.responses import FileResponse, RedirectResponse, Response
     
-    ***REMOVED*** Middleware to add cache-busting headers on ALL responses
+    # Middleware to add cache-busting headers on ALL responses
     @app.middleware("http")
     async def add_cache_headers(request, call_next):
         response = await call_next(request)
@@ -123,10 +123,10 @@ if FRONTEND_DIR.exists():
         response.headers["Clear-Site-Data"] = '"cache","cookies","storage"'
         return response
     
-    ***REMOVED*** Mount assets directory first (before catch-all routes)
+    # Mount assets directory first (before catch-all routes)
     app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIR / "assets")), name="assets")
     
-    ***REMOVED*** Service worker kill-switches — neutralize any old Next.js service workers
+    # Service worker kill-switches — neutralize any old Next.js service workers
     @app.get("/sw.js", include_in_schema=False)
     @app.get("/service-worker.js", include_in_schema=False)
     async def service_worker_kill():
@@ -146,11 +146,11 @@ if FRONTEND_DIR.exists():
     async def serve_frontend():
         return FileResponse(str(FRONTEND_DIR / "index.html"))
 
-    ***REMOVED*** Catch old Next.js paths and browser cache ghosts
-    ***REMOVED*** When the user's browser loads cached Next.js HTML, it tries to fetch
-    ***REMOVED*** /_next/static/chunks/*.js as scripts. A 307 redirect to HTML causes
-    ***REMOVED*** JS parse errors. Instead, we return valid JavaScript that forces a
-    ***REMOVED*** hard page reload to the root with cache busting.
+    # Catch old Next.js paths and browser cache ghosts
+    # When the user's browser loads cached Next.js HTML, it tries to fetch
+    # /_next/static/chunks/*.js as scripts. A 307 redirect to HTML causes
+    # JS parse errors. Instead, we return valid JavaScript that forces a
+    # hard page reload to the root with cache busting.
     @app.get("/_next/{rest:path}", include_in_schema=False)
     async def nextjs_catch(rest: str):
         js = (

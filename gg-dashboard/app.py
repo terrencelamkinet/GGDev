@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 GG Interactive Platform — Flask backend, PG data, Notion proxy.
 Serves interactive dashboard at intel.kinet-poc.com via cloudflared tunnel.
@@ -7,7 +7,7 @@ import os, json, sys, uuid
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-***REMOVED*** Load .env for PG credentials
+# Load .env for PG credentials
 ENV_PATH = os.path.expanduser("~/.hermes/.env")
 PG_CONFIG = {
     "host": "127.0.0.1", "port": 5432, "dbname": "task_hub"
@@ -20,7 +20,7 @@ with open(ENV_PATH) as f:
         elif line.startswith("PG_PASSWORD="):
             PG_CONFIG["password"] = line.split("=", 1)[1]
 
-***REMOVED*** Perplexity API key
+# Perplexity API key
 PERPLEXITY_API_KEY = ""
 with open(ENV_PATH) as f:
     for line in f:
@@ -28,10 +28,10 @@ with open(ENV_PATH) as f:
             PERPLEXITY_API_KEY = line.split("=", 1)[1].strip().strip('"').strip("'")
             break
 
-***REMOVED*** Notion config
+# Notion config
 NOTION_TOKEN = ""
 NOTION_DB = "c5d6a00c-b4ab-40e5-ae83-505facd37be0"
-***REMOVED*** Try multiple locations for Notion key
+# Try multiple locations for Notion key
 notion_paths = [
     os.path.expanduser("~/.config/notion/api_key"),
     os.path.expanduser("~/.hermes/.env"),
@@ -43,10 +43,10 @@ for np in notion_paths:
             if "NOTION_API_KEY=" in content:
                 for line in content.split("\n"):
                     if line.startswith("NOTION_API_KEY="):
-                        NOTION_TOKEN = line.split("=", 1)[1].strip()
+                        NOTION_TOKEN = "REDACTED"=", 1)[1].strip()
                         break
             elif content.startswith("ntn_"):
-                NOTION_TOKEN = content
+                NOTION_TOKEN = "REDACTED"
                 break
 
 HKT = timezone(timedelta(hours=8))
@@ -64,7 +64,7 @@ import requests, psutil
 app = Flask(__name__, static_folder=".", static_url_path="")
 CORS(app)
 
-***REMOVED*** ===== PG HELPERS =====
+# ===== PG HELPERS =====
 
 def pg_cur():
     """Return (cursor, connection) or (None, None) on failure."""
@@ -78,7 +78,7 @@ def pg_cur():
         print(f"PG connect error: {e}")
         return None, None
 
-***REMOVED*** ===== API: ALL DATA (compatible with gg-data.json shape) =====
+# ===== API: ALL DATA (compatible with gg-data.json shape) =====
 
 @app.route("/api/data")
 def api_data():
@@ -105,7 +105,7 @@ def api_data():
         return jsonify(data)
     
     try:
-        ***REMOVED*** Real system data from psutil (local VM)
+        # Real system data from psutil (local VM)
         try:
             _cpu = psutil.cpu_percent(interval=0.5)
             _mem = psutil.virtual_memory().percent
@@ -123,7 +123,7 @@ def api_data():
             data["system"] = {"cpu": 0, "mem": 0, "disk": 0, "load": "N/A",
                               "uptime": "N/A", "services": {}}
         
-        ***REMOVED*** Tasks from PG
+        # Tasks from PG
         cur.execute("""
             SELECT id, title, priority::text, status::text, 
                    quadrant::text, suggested_delegate, project, 
@@ -144,7 +144,7 @@ def api_data():
         today_str = now.strftime("%Y-%m-%d")
         overdue = 0; due_today = 0; in_progress = 0; q1 = 0
 
-        ***REMOVED*** Load area info from Notion sync state file
+        # Load area info from Notion sync state file
         area_map = {}
         state_path = os.path.expanduser("~/.hermes/task_sync_state.json")
         if os.path.exists(state_path):
@@ -181,7 +181,7 @@ def api_data():
             if prio in ("P0", "P1") or (quad and "Q1" in quad):
                 q1 += 1
         
-        ***REMOVED*** Map PG priorities to display format
+        # Map PG priorities to display format
         prio_map = {"P0": "Q1 · Do Now", "P1": "Q1 · Do Now", "P2": "Q2 · Schedule", "P3": "Q2 · Schedule"}
         for t in tasks:
             p = t["priority"]
@@ -195,7 +195,7 @@ def api_data():
             "source": "pg"
         }
         
-        ***REMOVED*** Activity from action_log
+        # Activity from action_log
         cur.execute("""
             SELECT action_type, entity_ref, detail::text, created_at::text
             FROM action_log ORDER BY created_at DESC LIMIT 30
@@ -206,7 +206,7 @@ def api_data():
             for r in cur.fetchall()
         ]
         
-        ***REMOVED*** AI health — latest snapshot per agent
+        # AI health — latest snapshot per agent
         cur.execute("""
             SELECT DISTINCT ON (ai_name)
                 ai_name, status, cpu, mem, disk, uptime,
@@ -220,7 +220,7 @@ def api_data():
             aname, status, cpu, mem, disk, uptime, ts = r
             key = "main" if "main" in (aname or "") or "fighter" in (aname or "") else \
                   "work" if "work" in (aname or "") else "person"
-            ***REMOVED*** Determine if recently online (< 15 min, snapshots every ~15min)
+            # Determine if recently online (< 15 min, snapshots every ~15min)
             try:
                 snap_ts = datetime.strptime(ts, "%Y-%m-%d %H:%M:%S%z") if ts else None
                 recent = (now - snap_ts).total_seconds() < 900 if snap_ts else False
@@ -233,7 +233,7 @@ def api_data():
                 "thoughts": f"{'🟢' if recent else '🔴'} {status or 'unknown'} · CPU {cpu or 0}% · MEM {mem or 0}%",
                 "daemons": {"reminder": True, "monitor": True}
             }
-        ***REMOVED*** Fill any missing agents with defaults
+        # Fill any missing agents with defaults
         for k in ["main", "work", "person"]:
             if k not in agents:
                 agents[k] = {"cpu": 0, "mem": 0, "disk": 0, "uptime": "N/A",
@@ -241,7 +241,7 @@ def api_data():
                              "thoughts": "Offline", "daemons": {}}
         data["agents"] = agents
 
-        ***REMOVED*** Merge rich agent introspection from gg-data.json
+        # Merge rich agent introspection from gg-data.json
         gg_data_path = os.path.join(os.path.dirname(__file__), "gg-data.json")
         if os.path.exists(gg_data_path):
             try:
@@ -265,7 +265,7 @@ def api_data():
     return jsonify(data)
 
 
-***REMOVED*** ===== API: TASK ACTION (proxy to Notion) =====
+# ===== API: TASK ACTION (proxy to Notion) =====
 
 @app.route("/api/task/action", methods=["POST"])
 def task_action():
@@ -279,7 +279,7 @@ def task_action():
         return jsonify({"ok": False, "error": "Missing page_id"}), 400
     
     if not NOTION_TOKEN:
-        return jsonify({"ok": False, "error": "No Notion token configured"}), 500
+        "REDACTED" jsonify({"ok": False, "error": "No Notion token configured"}), 500
     
     headers = {
         "Authorization": f"Bearer {NOTION_TOKEN}",
@@ -311,7 +311,7 @@ def task_action():
             props = {"Priority": {"select": {"name": valid[value]}}}
         
         elif action == "archive":
-            ***REMOVED*** Archive the page (move to trash)
+            # Archive the page (move to trash)
             url = f"https://api.notion.com/v1/pages/{page_id}"
             resp = requests.patch(url, headers=headers, json={"archived": True}, timeout=15)
             if resp.status_code in (200, 201):
@@ -336,7 +336,7 @@ def task_action():
         resp = requests.patch(url, headers=headers, json={"properties": props}, timeout=15)
         
         if resp.status_code in (200, 201):
-            ***REMOVED*** Also update PG
+            # Also update PG
             cur, conn = pg_cur()
             if cur:
                 try:
@@ -349,7 +349,7 @@ def task_action():
                         cur.execute("UPDATE tasks SET status=%s::task_status, updated_at=NOW() WHERE notion_page_id=%s", 
                                    (pg_status, page_id))
                     
-                    ***REMOVED*** Log action
+                    # Log action
                     cur.execute("""INSERT INTO action_log (action_type, entity_ref, detail)
                         VALUES (%s, %s, %s)""", (f"task_{action}", "platform", 
                         json.dumps({"page_id": page_id, "value": value})))
@@ -367,7 +367,7 @@ def task_action():
         return jsonify({"ok": False, "error": str(e)}), 500
 
 
-***REMOVED*** ===== API: CREATE TASK (local PG + optionally Notion) =====
+# ===== API: CREATE TASK (local PG + optionally Notion) =====
 
 @app.route("/api/task/create", methods=["POST"])
 def api_task_create():
@@ -382,11 +382,11 @@ def api_task_create():
     due = (body.get("due") or "").strip()
     notes = (body.get("notes") or "").strip()
     
-    ***REMOVED*** Map display priority to PG priority
+    # Map display priority to PG priority
     prio_map = {"Q1 · Do Now": "P0", "Q2 · Schedule": "P2", "Q3 · Delegate": "P3", "Q4 · Eliminate": "P3"}
     pg_priority = prio_map.get(priority, "P2")
     
-    ***REMOVED*** Map display priority to quadrant
+    # Map display priority to quadrant
     quad_map = {"Q1 · Do Now": "Q1", "Q2 · Schedule": "Q2", "Q3 · Delegate": "Q3", "Q4 · Eliminate": "Q4"}
     quadrant = quad_map.get(priority, "Q2")
     
@@ -418,7 +418,7 @@ def api_task_create():
         if conn: conn.close()
 
 
-***REMOVED*** ===== API: UPDATE TASK =====
+# ===== API: UPDATE TASK =====
 
 @app.route("/api/task/update", methods=["POST"])
 def api_task_update():
@@ -441,15 +441,15 @@ def api_task_update():
     if due:
         notion_props["Due Date"] = {"date": {"start": due}}
     elif "due" in body and not due:
-        notion_props["Due Date"] = None  ***REMOVED*** clear date
+        notion_props["Due Date"] = None  # clear date
     if priority:
         prio_map = {"Q1 · Do Now": "Q1 · Do Now", "Q2 · Schedule": "Q2 · Schedule",
                     "Q3 · Delegate": "Q3 · Delegate", "Q4 · Eliminate": "Q4 · Eliminate"}
         notion_props["Priority"] = {"select": {"name": prio_map.get(priority, "Q2 · Schedule")}}
     if notes:
-        pass  ***REMOVED*** Notes stored in PG only; Notion bridge handles sync
+        pass  # Notes stored in PG only; Notion bridge handles sync
 
-    ***REMOVED*** 1. Update Notion FIRST (source of truth)
+    # 1. Update Notion FIRST (source of truth)
     if NOTION_TOKEN and notion_props:
         headers = {
             "Authorization": f"Bearer {NOTION_TOKEN}",
@@ -476,7 +476,7 @@ def api_task_update():
             "note": "Retry or check Notion API status"
         }), 502
 
-    ***REMOVED*** 2. Only if Notion succeeded, update PG
+    # 2. Only if Notion succeeded, update PG
     cur, conn = pg_cur()
     if cur:
         try:
@@ -517,7 +517,7 @@ def api_task_update():
     return jsonify({"ok": True, "message": "Task updated — Notion + PG synced"})
 
 
-***REMOVED*** ===== API: TASK SYNC VERIFY =====
+# ===== API: TASK SYNC VERIFY =====
 
 @app.route("/api/task/sync-verify", methods=["POST"])
 def api_task_sync_verify():
@@ -555,7 +555,7 @@ def api_task_sync_verify():
             )
             if nr.status_code == 200:
                 nd = nr.json()
-                ***REMOVED*** Extract status from Notion
+                # Extract status from Notion
                 props = nd.get("properties", {})
                 status_prop = props.get("Status", {})
                 notion_status = (status_prop.get("status") or {}).get("name")
@@ -575,7 +575,7 @@ def api_task_sync_verify():
     })
 
 
-***REMOVED*** ===== API: TASK DETAIL =====
+# ===== API: TASK DETAIL =====
 
 @app.route("/api/task/detail", methods=["POST"])
 def api_task_detail():
@@ -600,7 +600,7 @@ def api_task_detail():
         if not r:
             return jsonify({"ok": False, "error": "Task not found"}), 404
 
-        ***REMOVED*** Map PG priority levels (P0-P3) to display format
+        # Map PG priority levels (P0-P3) to display format
         pg_prio = r[2] or ""
         prio_display_map = {"P0": "Q1 · Do Now", "P1": "Q1 · Do Now",
                             "P2": "Q2 · Schedule", "P3": "Q2 · Schedule"}
@@ -621,7 +621,7 @@ def api_task_detail():
         if conn: conn.close()
 
 
-***REMOVED*** ===== API: AI CHAT (simple prompt relay) =====
+# ===== API: AI CHAT (simple prompt relay) =====
 
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
@@ -651,14 +651,14 @@ def api_chat():
     })
 
 
-***REMOVED*** ===== API: PERPLEXITY RESEARCH =====
+# ===== API: PERPLEXITY RESEARCH =====
 
 @app.route("/api/research", methods=["POST"])
 def api_research():
     """Run Perplexity research query and store result as insight."""
     body = request.get_json() or {}
     query = body.get("query", "").strip()
-    mode = body.get("mode", "quick")  ***REMOVED*** quick or deep
+    mode = body.get("mode", "quick")  # quick or deep
 
     if not query:
         return jsonify({"ok": False, "error": "Empty query"}), 400
@@ -692,7 +692,7 @@ def api_research():
         if not content:
             return jsonify({"ok": False, "error": "Empty response from Perplexity"}), 502
 
-        ***REMOVED*** Store in gg_insights
+        # Store in gg_insights
         cur, conn = pg_cur()
         if cur:
             try:
@@ -726,7 +726,7 @@ def api_research():
         return jsonify({"ok": False, "error": str(e)[:200]}), 500
 
 
-***REMOVED*** ===== API: INTEL SUMMARY (auto-generated by Perplexity from current state) =====
+# ===== API: INTEL SUMMARY (auto-generated by Perplexity from current state) =====
 
 @app.route("/api/intel-summary")
 def api_intel_summary():
@@ -739,7 +739,7 @@ def api_intel_summary():
         return jsonify({"ok": False, "error": "PG unavailable"}), 500
 
     try:
-        ***REMOVED*** Gather context
+        # Gather context
         cur.execute("SELECT COUNT(*) FROM tasks WHERE status NOT IN ('done','cancelled')")
         active_tasks = cur.fetchone()[0]
         cur.execute("SELECT COUNT(*) FROM tasks WHERE due_date < NOW() AND status NOT IN ('done','cancelled')")
@@ -784,12 +784,12 @@ def api_intel_summary():
         if conn: conn.close()
 
 
-***REMOVED*** ===== API: INSIGHTS =====
+# ===== API: INSIGHTS =====
 
 @app.route("/api/insights")
 def api_insights():
     """Return stacking insights from PG gg_insights table."""
-    ***REMOVED*** Try file-based first for compatibility
+    # Try file-based first for compatibility
     insights_path = os.path.join(os.path.dirname(__file__), "gg-insights.json")
     if os.path.exists(insights_path):
         try:
@@ -798,7 +798,7 @@ def api_insights():
         except (json.JSONDecodeError, IOError):
             pass
     
-    ***REMOVED*** Fallback: read from PG
+    # Fallback: read from PG
     cur, conn = pg_cur()
     if not cur:
         return jsonify({"entries": [], "dynamics": {}, "meta": {"total_entries": 0, "source": "none"}})
@@ -835,7 +835,7 @@ def api_insights():
         if conn: conn.close()
 
 
-***REMOVED*** ===== API: NOTICES =====
+# ===== API: NOTICES =====
 
 @app.route("/api/notices")
 def api_notices():
@@ -857,7 +857,7 @@ def api_notices():
     except Exception as e:
         return jsonify({"ok": True, "items": [], "error": str(e)[:50]})
 
-***REMOVED*** ===== API: STATUS =====
+# ===== API: STATUS =====
 
 @app.route("/api/status")
 def api_status():
@@ -871,7 +871,7 @@ def api_status():
     })
 
 
-***REMOVED*** ===== SERVE TEMPLATES (Webapp Version — NOT DO Static) =====
+# ===== SERVE TEMPLATES (Webapp Version — NOT DO Static) =====
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
@@ -923,7 +923,7 @@ def agent_detail(name):
         return html.replace("{{agent_name}}", safe_name)
     return "Agent detail template not found", 404
 
-***REMOVED*** ===== NFC WEBHOOKS =====
+# ===== NFC WEBHOOKS =====
 
 @app.route("/nfc/commute", methods=["POST"])
 def nfc_commute():
@@ -932,11 +932,11 @@ def nfc_commute():
         from datetime import datetime
         now = datetime.now(HKT)
         
-        ***REMOVED*** Send commute briefing via Telegram
+        # Send commute briefing via Telegram
         import subprocess, urllib.request
         msg = f"🚗 NFC Commute triggered at {now.strftime('%H:%M')} HKT"
         
-        ***REMOVED*** Log to conversation_log
+        # Log to conversation_log
         if HAS_PG:
             cur, conn = pg_cur()
             if cur:
@@ -962,7 +962,7 @@ def nfc_clockin():
         if HAS_PG:
             cur, conn = pg_cur()
             if cur:
-                ***REMOVED*** Update location to at_office
+                # Update location to at_office
                 cur.execute("""
                     UPDATE commute_state SET 
                         current_location='at_office', status='at_office',
@@ -970,7 +970,7 @@ def nfc_clockin():
                         last_location_confirm=NOW(), updated_at=NOW()
                     WHERE id=1
                 """)
-                ***REMOVED*** Log to conversation_log
+                # Log to conversation_log
                 cur.execute(
                     "INSERT INTO conversation_log (source_ai, user_message, summary) VALUES (%s,%s,%s)",
                     ("work", "/nfc/clockin", "NFC clock-in — arrived at office")
@@ -994,14 +994,14 @@ def nfc_goodnight():
         if HAS_PG:
             cur, conn = pg_cur()
             if cur:
-                ***REMOVED*** Generate quick summary from conversation_log
+                # Generate quick summary from conversation_log
                 cur.execute(
                     "SELECT user_message, summary FROM conversation_log WHERE created_at::date = %s::date ORDER BY created_at DESC LIMIT 5",
                     (today_str,)
                 )
                 rows = cur.fetchall()
                 
-                ***REMOVED*** Log goodnight event
+                # Log goodnight event
                 cur.execute(
                     "INSERT INTO conversation_log (source_ai, user_message, summary) VALUES (%s,%s,%s)",
                     ("life", "/nfc/goodnight", f"NFC goodnight — {today_str}")
@@ -1015,7 +1015,7 @@ def nfc_goodnight():
         return jsonify({"ok": False, "error": str(e)}), 500
 
 
-***REMOVED*** ===== CROSS-AGENT QUERY ENDPOINT =====
+# ===== CROSS-AGENT QUERY ENDPOINT =====
 
 @app.route("/api/agent-query", methods=["POST"])
 def agent_query():
@@ -1031,20 +1031,20 @@ def agent_query():
         if not question:
             return jsonify({"ok": False, "error": "question required"}), 400
 
-        ***REMOVED*** Load memory/patterns for context
+        # Load memory/patterns for context
         memory_dir = os.path.expanduser("~/.hermes/memory")
         patterns_path = os.path.join(memory_dir, "patterns.md")
         memories_dir = os.path.expanduser("~/.hermes/memories")
         
         context = {}
         
-        ***REMOVED*** Read patterns.md (main memory store)
+        # Read patterns.md (main memory store)
         if os.path.exists(patterns_path):
             with open(patterns_path) as f:
                 content = f.read()
-                context["patterns"] = content[:3000]  ***REMOVED*** trim to avoid bloat
+                context["patterns"] = content[:3000]  # trim to avoid bloat
         
-        ***REMOVED*** Read recent shared context
+        # Read recent shared context
         shared_path = os.path.expanduser("~/.hermes/shared_context.json")
         if os.path.exists(shared_path):
             with open(shared_path) as f:
@@ -1053,7 +1053,7 @@ def agent_query():
                 except:
                     pass
 
-        ***REMOVED*** Read user profile if exists
+        # Read user profile if exists
         user_profile = {}
         if os.path.exists(memories_dir):
             for fname in os.listdir(memories_dir):
@@ -1064,7 +1064,7 @@ def agent_query():
         
         context["user_profile"] = user_profile
         
-        ***REMOVED*** Log the query
+        # Log the query
         if HAS_PG:
             cur, conn = pg_cur()
             if cur:
@@ -1088,7 +1088,7 @@ def agent_query():
         return jsonify({"ok": False, "error": str(e)}), 500
 
 
-***REMOVED*** ===== CROSS-AGENT NOTIFICATION ENDPOINT =====
+# ===== CROSS-AGENT NOTIFICATION ENDPOINT =====
 
 @app.route("/api/agent-notify", methods=["POST"])
 def agent_notify():
@@ -1105,7 +1105,7 @@ def agent_notify():
         if not event:
             return jsonify({"ok": False, "error": "event required"}), 400
 
-        ***REMOVED*** Log to conversation_log
+        # Log to conversation_log
         if HAS_PG:
             cur, conn = pg_cur()
             if cur:
@@ -1119,7 +1119,7 @@ def agent_notify():
                 cur.close()
                 conn.close()
 
-        ***REMOVED*** Also write to a notifications file
+        # Also write to a notifications file
         notify_file = os.path.expanduser(f"~/.hermes/agent_notifications_{from_agent}.json")
         notifications = []
         if os.path.exists(notify_file):
@@ -1136,7 +1136,7 @@ def agent_notify():
             "timestamp": datetime.now(HKT).isoformat()
         })
         
-        ***REMOVED*** Keep last 20
+        # Keep last 20
         notifications = notifications[-20:]
         
         with open(notify_file, "w") as f:
@@ -1147,31 +1147,31 @@ def agent_notify():
         return jsonify({"ok": False, "error": str(e)}), 500
 
 
-***REMOVED*** Serve static files (icons, CSS)
+# Serve static files (icons, CSS)
 @app.route("/static/<path:filename>")
 def serve_static(filename):
     return send_from_directory(STATIC_DIR, filename)
 
-***REMOVED*** Catch-all: try templates/, then root/ files, else 404
+# Catch-all: try templates/, then root/ files, else 404
 @app.route("/<path:filename>")
 def serve_other(filename):
-    ***REMOVED*** Skip if already handled
+    # Skip if already handled
     if filename.startswith("static/") or filename.startswith("templates/"):
         return "", 404
-    ***REMOVED*** Try templates first
+    # Try templates first
     tp = os.path.join(TEMPLATES_DIR, filename)
     if os.path.exists(tp) and os.path.isfile(tp):
         return send_from_directory(TEMPLATES_DIR, filename)
-    ***REMOVED*** Then root
+    # Then root
     rp = os.path.join(os.path.dirname(__file__), filename)
     if os.path.exists(rp) and os.path.isfile(rp):
         return send_from_directory(".", filename)
     return "", 404
 
 
-***REMOVED*** ===== MAIN =====
+# ===== MAIN =====
 
-***REMOVED*** Focus Bird static files
+# Focus Bird static files
 BIRD_DIR = os.path.expanduser('~/projects/focus-bird/focus_bird')
 
 @app.route('/focus-bird/')

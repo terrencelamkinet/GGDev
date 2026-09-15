@@ -7,13 +7,13 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: ***REMOVED***1a1a2e;
+    background: #1a1a2e;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     font-family: 'Segoe UI', sans-serif;
-    color: ***REMOVED***fff;
+    color: #fff;
     touch-action: manipulation;
   }
   .game-wrapper {
@@ -24,7 +24,7 @@
   }
   canvas {
     display: block;
-    background: ***REMOVED***87CEEB;
+    background: #87CEEB;
     cursor: pointer;
   }
   .hud {
@@ -49,11 +49,11 @@
   .focus-bar-inner {
     height: 100%;
     width: 50%;
-    background: linear-gradient(90deg, ***REMOVED***ff6b6b, ***REMOVED***feca57, ***REMOVED***48dbfb);
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
     border-radius: 10px;
     transition: width 0.15s;
   }
-  ***REMOVED***overlay {
+  #overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
@@ -65,21 +65,21 @@
     gap: 10px;
     padding: 20px;
   }
-  ***REMOVED***overlay h1 { font-size: 36px; }
-  ***REMOVED***overlay p { font-size: 16px; opacity: 0.8; max-width: 300px; }
-  ***REMOVED***overlay button {
+  #overlay h1 { font-size: 36px; }
+  #overlay p { font-size: 16px; opacity: 0.8; max-width: 300px; }
+  #overlay button {
     margin-top: 6px;
     padding: 12px 40px;
     font-size: 18px;
     border: none;
     border-radius: 12px;
-    background: ***REMOVED***48dbfb;
-    color: ***REMOVED***1a1a2e;
+    background: #48dbfb;
+    color: #1a1a2e;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.15s;
   }
-  ***REMOVED***overlay button:hover { transform: scale(1.05); }
+  #overlay button:hover { transform: scale(1.05); }
   .hidden { display: none !important; }
   .credits {
     position: absolute;
@@ -109,7 +109,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background: rgba(0,0,0,0.6);
-    color: ***REMOVED***fff;
+    color: #fff;
     padding: 10px 22px;
     border-radius: 12px;
     font-size: 15px;
@@ -295,7 +295,7 @@ function showLevelComplete() {
     '<p style="font-size:13px;opacity:0.6;">金幣：' + cfg.coinTarget + ' 個</p>' +
     lbHtml +
     '<button id="nextLevelBtn" style="margin-top:4px;">' + (canNext ? '➡️ 下一關' : '🏆 全部完成！') + '</button>' +
-    '<button id="restartLv1Btn" style="margin-top:8px;padding:8px 20px;font-size:14px;background:rgba(255,255,255,0.1);color:***REMOVED***fff;">🔄 重新開始</button>';
+    '<button id="restartLv1Btn" style="margin-top:8px;padding:8px 20px;font-size:14px;background:rgba(255,255,255,0.1);color:#fff;">🔄 重新開始</button>';
 
   document.getElementById('nextLevelBtn').onclick = canNext ? function(){ startLevel(state.level + 1); } : resetGame;
   document.getElementById('restartLv1Btn').onclick = resetGame;
@@ -347,17 +347,17 @@ function resetGame() {
 function drawBackground() {
   // ===== 天空 =====
   const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
-  skyGrad.addColorStop(0, '***REMOVED***4a90d9');
-  skyGrad.addColorStop(0.4, '***REMOVED***87CEEB');
-  skyGrad.addColorStop(0.7, '***REMOVED***B8E6FF');
-  skyGrad.addColorStop(1, '***REMOVED***E8F5E9');
+  skyGrad.addColorStop(0, '#4a90d9');
+  skyGrad.addColorStop(0.4, '#87CEEB');
+  skyGrad.addColorStop(0.7, '#B8E6FF');
+  skyGrad.addColorStop(1, '#E8F5E9');
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, W, H);
 
   // ===== 太陽 =====
   ctx.beginPath();
   ctx.arc(W - 50, 45, 28, 0, Math.PI * 2);
-  ctx.fillStyle = '***REMOVED***FFF3B0';
+  ctx.fillStyle = '#FFF3B0';
   ctx.fill();
   // 太陽光暈
   ctx.beginPath();
@@ -379,7 +379,7 @@ function drawBackground() {
 
   // ===== 遠景（簡單）=====
   // 簡單遠山輪廓
-  ctx.fillStyle = '***REMOVED***8BC34A';
+  ctx.fillStyle = '#8BC34A';
   ctx.beginPath();
   ctx.moveTo(0, H * 0.75);
   ctx.lineTo(50, H * 0.60);
@@ -394,7 +394,7 @@ function drawBackground() {
   ctx.closePath();
   ctx.fill();
 
-  ctx.fillStyle = '***REMOVED***AED581';
+  ctx.fillStyle = '#AED581';
   ctx.beginPath();
   ctx.moveTo(0, H * 0.75);
   ctx.lineTo(60, H * 0.68);
@@ -427,11 +427,11 @@ function drawBackground() {
   }
 
   // ===== 草地（地面）=====
-  ctx.fillStyle = '***REMOVED***4CAF50';
+  ctx.fillStyle = '#4CAF50';
   ctx.fillRect(0, H-20, W, 20);
 
   // 草地紋理（草葉）
-  ctx.strokeStyle = '***REMOVED***388E3C';
+  ctx.strokeStyle = '#388E3C';
   ctx.lineWidth = 1;
   for (let i = 0; i < 30; i++) {
     let gx = (i * 13 - state.frame * 0.45) % W;
@@ -444,14 +444,14 @@ function drawBackground() {
   }
 
   // ===== 花朵 =====
-  const flowerColors = ['***REMOVED***E91E63', '***REMOVED***FF5722', '***REMOVED***FFEB3B', '***REMOVED***9C27B0', '***REMOVED***FF9800'];
+  const flowerColors = ['#E91E63', '#FF5722', '#FFEB3B', '#9C27B0', '#FF9800'];
   for (let i = 0; i < 8; i++) {
     let fx = (i * 47 + 15 - state.frame * 0.45) % W;
     if (fx < 0) fx += W;
     const fy = H - 18;
     const fc = flowerColors[i % flowerColors.length];
     // 花莖
-    ctx.strokeStyle = '***REMOVED***388E3C';
+    ctx.strokeStyle = '#388E3C';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(fx, fy);
@@ -466,7 +466,7 @@ function drawBackground() {
       ctx.fill();
     }
     // 花心
-    ctx.fillStyle = '***REMOVED***FFC107';
+    ctx.fillStyle = '#FFC107';
     ctx.beginPath();
     ctx.arc(fx, fy - 7, 1.5, 0, Math.PI * 2);
     ctx.fill();
@@ -489,20 +489,20 @@ function drawBird() {
   ctx.rotate(angle);
 
   // ===== 身體（橢圓形）=====
-  ctx.fillStyle = '***REMOVED***e17055';
+  ctx.fillStyle = '#e17055';
   ctx.beginPath();
   ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
   ctx.fill();
 
   // 腹部淺色
-  ctx.fillStyle = '***REMOVED***fab1a0';
+  ctx.fillStyle = '#fab1a0';
   ctx.beginPath();
   ctx.ellipse(2, 4, 10, 7, 0, 0, Math.PI * 2);
   ctx.fill();
 
   // ===== 尾羽 =====
   const tailFlap = Math.sin(frame * 0.08) * 2;
-  ctx.fillStyle = '***REMOVED***c0392b';
+  ctx.fillStyle = '#c0392b';
   ctx.beginPath();
   ctx.moveTo(-16, -3);
   ctx.lineTo(-28, -8 + tailFlap);
@@ -514,7 +514,7 @@ function drawBird() {
   // ===== 右翼（前面，拍翼動畫）=====
   const wingUp = Math.sin(frame * 0.1) * 8;
   const wingTwist = Math.abs(Math.sin(frame * 0.1));
-  ctx.fillStyle = '***REMOVED***d63031';
+  ctx.fillStyle = '#d63031';
   ctx.beginPath();
   ctx.moveTo(-4, -2);
   ctx.lineTo(-22, -16 + wingUp);
@@ -534,7 +534,7 @@ function drawBird() {
 
   // ===== 左翼（後面）=====
   const wingUp2 = Math.sin(frame * 0.1 + Math.PI) * 6;
-  ctx.fillStyle = '***REMOVED***a93226';
+  ctx.fillStyle = '#a93226';
   ctx.beginPath();
   ctx.moveTo(-4, -1);
   ctx.lineTo(-20, -12 + wingUp2);
@@ -544,31 +544,31 @@ function drawBird() {
   ctx.fill();
 
   // ===== 頭 =====
-  ctx.fillStyle = '***REMOVED***e17055';
+  ctx.fillStyle = '#e17055';
   ctx.beginPath();
   ctx.arc(14, -4, 9, 0, Math.PI * 2);
   ctx.fill();
 
   // ===== 眼（白）=====
-  ctx.fillStyle = '***REMOVED***fff';
+  ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.ellipse(18, -5, 4, 4.5, 0, 0, Math.PI * 2);
   ctx.fill();
 
   // ===== 瞳孔 =====
-  ctx.fillStyle = '***REMOVED***2d3436';
+  ctx.fillStyle = '#2d3436';
   ctx.beginPath();
   ctx.arc(19, -5, 2.5, 0, Math.PI * 2);
   ctx.fill();
 
   // ===== 瞳孔高光 =====
-  ctx.fillStyle = '***REMOVED***fff';
+  ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.arc(20, -6.5, 1, 0, Math.PI * 2);
   ctx.fill();
 
   // ===== 嘴 =====
-  ctx.fillStyle = '***REMOVED***fdcb6e';
+  ctx.fillStyle = '#fdcb6e';
   ctx.beginPath();
   ctx.moveTo(21, -2);
   ctx.lineTo(32, -1);
@@ -621,16 +621,16 @@ function drawCoin3D(c, rotAngle) {
   ctx.beginPath();
   ctx.ellipse(0, 0, r * scaleX, r, 0, 0, Math.PI * 2);
   const grad = ctx.createLinearGradient(-r, 0, r, 0);
-  grad.addColorStop(0, '***REMOVED***ffe066');
-  grad.addColorStop(0.2, '***REMOVED***ffd43b');
-  grad.addColorStop(0.5, '***REMOVED***fcc419');
-  grad.addColorStop(0.8, '***REMOVED***ffd43b');
-  grad.addColorStop(1, '***REMOVED***f08c00');
+  grad.addColorStop(0, '#ffe066');
+  grad.addColorStop(0.2, '#ffd43b');
+  grad.addColorStop(0.5, '#fcc419');
+  grad.addColorStop(0.8, '#ffd43b');
+  grad.addColorStop(1, '#f08c00');
   ctx.fillStyle = grad;
   ctx.fill();
 
   // 邊框
-  ctx.strokeStyle = '***REMOVED***d68910';
+  ctx.strokeStyle = '#d68910';
   ctx.lineWidth = 1.5;
   ctx.stroke();
 
@@ -644,7 +644,7 @@ function drawCoin3D(c, rotAngle) {
   if (scaleX > 0.3) {
     const opacity = Math.min(1, (scaleX - 0.3) / 0.5);
     ctx.globalAlpha = opacity;
-    ctx.fillStyle = '***REMOVED***b8860b';
+    ctx.fillStyle = '#b8860b';
     ctx.font = `bold ${Math.max(10, r * 1.1)}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

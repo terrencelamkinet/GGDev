@@ -14,9 +14,9 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: ***REMOVED***082029;
+    background: #082029;
     font-family: 'Helvetica', 'Segoe UI', Arial, sans-serif;
-    color: ***REMOVED***ffffff;
+    color: #ffffff;
     touch-action: manipulation;
   }
   .game-wrapper {
@@ -25,7 +25,7 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background: ***REMOVED***082029;
+    background: #082029;
   }
   canvas {
     display: block;
@@ -42,7 +42,7 @@
     align-items: center;
     pointer-events: none;
     font-size: clamp(13px, 1.8vh, 22px);
-    color: ***REMOVED***ffffff;
+    color: #ffffff;
     text-shadow: none;
     z-index: 10;
   }
@@ -65,24 +65,24 @@
   }
   .focus-bar-inner {
     height: 100%;
-    background: ***REMOVED***acbf20;
+    background: #acbf20;
     border-radius: 4px;
     transition: width 0.15s ease;
   }
   .level-badge {
-    background: ***REMOVED***003a49;
-    color: ***REMOVED***acbf20;
+    background: #003a49;
+    color: #acbf20;
     padding: 2px clamp(6px, 0.8vw, 14px);
     border-radius: 4px;
     font-weight: 600;
     font-size: clamp(11px, 1.4vh, 18px);
   }
   .score-badge {
-    color: ***REMOVED***ffffff;
+    color: #ffffff;
     font-weight: 600;
   }
   .coins-count {
-    color: ***REMOVED***acbf20;
+    color: #acbf20;
     font-weight: 700;
   }
   .timer {
@@ -93,7 +93,7 @@
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    color: ***REMOVED***ffffff;
+    color: #ffffff;
     font-size: clamp(20px, 3vh, 36px);
     font-weight: 600;
     text-align: center;
@@ -103,33 +103,33 @@
   }
   .center-msg .sub {
     font-size: clamp(14px, 2vh, 22px);
-    color: ***REMOVED***acbf20;
+    color: #acbf20;
     margin-top: 8px;
     font-weight: 400;
   }
   .game-over {
-    background: ***REMOVED***003a49;
-    color: ***REMOVED***ffffff;
+    background: #003a49;
+    color: #ffffff;
     padding: clamp(20px, 4vh, 50px) clamp(24px, 4vw, 60px);
     border-radius: 10px;
     text-align: center;
   }
   .game-over h2 {
     font-size: clamp(28px, 4vh, 54px);
-    color: ***REMOVED***acbf20;
+    color: #acbf20;
     margin-bottom: clamp(12px, 2vh, 24px);
     letter-spacing: -1px;
   }
   .game-over .final-score {
     font-size: clamp(18px, 2.5vh, 34px);
-    color: ***REMOVED***ffffff;
+    color: #ffffff;
     margin-bottom: clamp(16px, 2.5vh, 32px);
   }
   .game-over .controls-btn {
     display: inline-block;
     padding: clamp(8px, 1.2vh, 14px) clamp(20px, 3vw, 40px);
-    background: ***REMOVED***acbf20;
-    color: ***REMOVED***003a49;
+    background: #acbf20;
+    color: #003a49;
     font-size: clamp(16px, 2vh, 20px);
     font-weight: 600;
     border: none;
@@ -139,24 +139,24 @@
     letter-spacing: normal;
   }
   .game-over .controls-btn:hover {
-    background: ***REMOVED***c8d840;
+    background: #c8d840;
   }
   .game-over .controls-btn.secondary {
     background: transparent;
-    color: ***REMOVED***ffffff;
+    color: #ffffff;
     border: 1px solid rgba(255,255,255,0.3);
   }
   .game-over .controls-btn.secondary:hover {
-    border-color: ***REMOVED***ffffff;
+    border-color: #ffffff;
   }
   .focus-low {
-    background: linear-gradient(90deg, ***REMOVED***E76F51, ***REMOVED***E8933A);
+    background: linear-gradient(90deg, #E76F51, #E8933A);
   }
   .focus-mid {
-    background: linear-gradient(90deg, ***REMOVED***2EC4B6, ***REMOVED***74B3CE);
+    background: linear-gradient(90deg, #2EC4B6, #74B3CE);
   }
   .focus-high {
-    background: linear-gradient(90deg, ***REMOVED***4361EE, ***REMOVED***2EC4B6);
+    background: linear-gradient(90deg, #4361EE, #2EC4B6);
     box-shadow: 0 0 8px rgba(67,97,238,0.5);
   }
 
@@ -175,11 +175,11 @@
     cursor: pointer;
     font-size: clamp(12px, 1.5vh, 18px);
     text-align: center;
-    color: ***REMOVED***F4F9F9;
+    color: #F4F9F9;
     transition: 0.15s;
   }
   .lv-btn:hover { transform: scale(1.05); background: rgba(46,196,182,0.2); }
-  ***REMOVED***overlay {
+  #overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
@@ -192,77 +192,77 @@
     z-index: 20;
   }
   /* Cream card base for overlay */
-  ***REMOVED***overlay.cream-overlay {
+  #overlay.cream-overlay {
     background: rgba(244,249,249,0.95);
   }
   /* Dark overlay for initial state */
-  ***REMOVED***overlay.dark-overlay {
+  #overlay.dark-overlay {
     background: rgba(26,58,92,0.85);
-    color: ***REMOVED***F4F9F9;
+    color: #F4F9F9;
   }
-  ***REMOVED***overlay.dark-overlay h1 { color: ***REMOVED***F4F9F9; font-size: clamp(22px, 4vh, 48px); }
-  ***REMOVED***overlay.dark-overlay p { font-size: clamp(13px, 1.8vh, 20px); }
-  ***REMOVED***overlay.dark-overlay button.primary { background: ***REMOVED***2EC4B6; color: ***REMOVED***fff; }
+  #overlay.dark-overlay h1 { color: #F4F9F9; font-size: clamp(22px, 4vh, 48px); }
+  #overlay.dark-overlay p { font-size: clamp(13px, 1.8vh, 20px); }
+  #overlay.dark-overlay button.primary { background: #2EC4B6; color: #fff; }
   
   /* Cream card style for Game Over / Level Complete */
-  ***REMOVED***overlay.cream-overlay h1 { 
+  #overlay.cream-overlay h1 { 
     font-size: clamp(24px, 4vh, 42px); 
-    color: ***REMOVED***1a6b5a; 
+    color: #1a6b5a; 
   }
-  ***REMOVED***overlay.cream-overlay p { 
+  #overlay.cream-overlay p { 
     font-size: clamp(14px, 1.6vh, 20px); 
     opacity: 0.8; 
     max-width: min(70vw, 500px); 
-    color: ***REMOVED***264653;
+    color: #264653;
   }
-  ***REMOVED***overlay.cream-overlay .popup-card {
-    background: ***REMOVED***F4F9F9;
-    border: 2px solid ***REMOVED***2EC4B6;
+  #overlay.cream-overlay .popup-card {
+    background: #F4F9F9;
+    border: 2px solid #2EC4B6;
     border-radius: clamp(12px, 2vh, 24px);
     padding: clamp(18px, 3vh, 40px);
     max-width: min(60vw, 500px);
     width: 100%;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   }
-  ***REMOVED***overlay.cream-overlay .card-header {
-    background: ***REMOVED***1a6b5a;
-    color: ***REMOVED***F4F9F9;
+  #overlay.cream-overlay .card-header {
+    background: #1a6b5a;
+    color: #F4F9F9;
     margin: calc(-1 * clamp(18px, 3vh, 40px)) calc(-1 * clamp(18px, 3vh, 40px)) clamp(12px, 2vh, 24px) calc(-1 * clamp(18px, 3vh, 40px));
     padding: clamp(12px, 2vh, 24px);
     border-radius: clamp(10px, 1.8vh, 20px) clamp(10px, 1.8vh, 20px) 0 0;
     font-size: clamp(16px, 2.5vh, 28px);
     font-weight: bold;
   }
-  ***REMOVED***overlay button {
+  #overlay button {
     margin-top: clamp(4px, 0.6vh, 10px);
     padding: clamp(8px, 1.2vh, 16px) clamp(20px, 3vw, 50px);
     font-size: clamp(14px, 1.8vh, 22px);
     border: none;
     border-radius: clamp(8px, 1.2vh, 16px);
-    background: ***REMOVED***2EC4B6;
-    color: ***REMOVED***fff;
+    background: #2EC4B6;
+    color: #fff;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.15s;
   }
-  ***REMOVED***overlay button:hover { transform: scale(1.05); }
-  ***REMOVED***overlay button.secondary {
-    background: ***REMOVED***F4F9F9;
-    color: ***REMOVED***264653;
-    border: 1.5px solid ***REMOVED***2EC4B6;
+  #overlay button:hover { transform: scale(1.05); }
+  #overlay button.secondary {
+    background: #F4F9F9;
+    color: #264653;
+    border: 1.5px solid #2EC4B6;
   }
-  ***REMOVED***overlay button.secondary:hover { background: ***REMOVED***A8DADC; }
+  #overlay button.secondary:hover { background: #A8DADC; }
   .hidden { display: none !important; }
 
   /* Fullscreen button */
-  ***REMOVED***fsBtn {
+  #fsBtn {
     position: absolute;
     top: clamp(8px, 1.2vh, 16px);
     right: clamp(8px, 1.2vh, 16px);
     width: clamp(36px, 4vh, 52px);
     height: clamp(36px, 4vh, 52px);
     background: rgba(46, 196, 182, 0.25);
-    color: ***REMOVED***F4F9F9;
+    color: #F4F9F9;
     border: 1px solid rgba(46,196,182,0.4);
     border-radius: 50%;
     font-size: clamp(16px, 2vh, 26px);
@@ -274,17 +274,17 @@
     transition: 0.2s;
     line-height: 1;
   }
-  ***REMOVED***fsBtn:hover { background: rgba(46, 196, 182, 0.5); transform: scale(1.1); }
-  ***REMOVED***fsBtn svg { width: clamp(18px, 2.2vh, 30px); height: clamp(18px, 2.2vh, 30px); fill: currentColor; }
+  #fsBtn:hover { background: rgba(46, 196, 182, 0.5); transform: scale(1.1); }
+  #fsBtn svg { width: clamp(18px, 2.2vh, 30px); height: clamp(18px, 2.2vh, 30px); fill: currentColor; }
 
-  ***REMOVED***exitBtn {
+  #exitBtn {
     position: absolute;
     top: clamp(8px, 1.2vh, 16px);
     left: clamp(8px, 1.2vh, 16px);
     width: clamp(36px, 4vh, 52px);
     height: clamp(36px, 4vh, 52px);
     background: rgba(26,58,92,0.6);
-    color: ***REMOVED***F4F9F9;
+    color: #F4F9F9;
     border: 1px solid rgba(46,196,182,0.3);
     border-radius: 50%;
     font-size: clamp(16px, 2vh, 26px);
@@ -295,7 +295,7 @@
     justify-content: center;
     transition: 0.2s;
   }
-  ***REMOVED***exitBtn:hover { background: rgba(26,107,90,0.8); }
+  #exitBtn:hover { background: rgba(26,107,90,0.8); }
   .credits {
     position: absolute;
     bottom: clamp(4px, 0.6vh, 10px);
@@ -303,7 +303,7 @@
     font-size: clamp(8px, 1vh, 12px);
     opacity: 0.4;
     pointer-events: none;
-    color: ***REMOVED***A8DADC;
+    color: #A8DADC;
   }
 </style>
 </head>
@@ -332,7 +332,7 @@
       <div class="focus-bar-outer">
         <div class="focus-bar-inner focus-mid" id="focusBar" style="width:50%;"></div>
       </div>
-      <span id="wsStatus" title="BrainLink Connection" style="display:inline-block;width:clamp(10px,1.2vh,16px);height:clamp(10px,1.2vh,16px);border-radius:50%;background:***REMOVED***e74c3c;border:1px solid rgba(255,255,255,0.3);"></span>
+      <span id="wsStatus" title="BrainLink Connection" style="display:inline-block;width:clamp(10px,1.2vh,16px);height:clamp(10px,1.2vh,16px);border-radius:50%;background:#e74c3c;border:1px solid rgba(255,255,255,0.3);"></span>
     </div>
   </div>
 
@@ -564,20 +564,20 @@ function showLevelComplete() {
   const overlay = document.getElementById('overlay');
   overlay.classList.remove('hidden', 'dark-overlay');
   overlay.classList.add('cream-overlay');
-  var lbHtml = '<div style="margin:clamp(6px,0.8vh,12px) 0 clamp(3px,0.4vh,6px);font-size:clamp(12px,1.4vh,16px);opacity:0.7;color:***REMOVED***264653;">📊 排行榜 TOP5</div>';
+  var lbHtml = '<div style="margin:clamp(6px,0.8vh,12px) 0 clamp(3px,0.4vh,6px);font-size:clamp(12px,1.4vh,16px);opacity:0.7;color:#264653;">📊 排行榜 TOP5</div>';
   for (var i = 0; i < Math.min(5, records.length); i++) {
     var medal = ['🥇','🥈','🥉'][i] || (i+1) + '.';
     var t = records[i].time;
     var ts = t >= 60 ? Math.floor(t/60) + 'm ' + (t%60) + 's' : t + 's';
-    lbHtml += '<div style="font-size:clamp(12px,1.4vh,16px);color:***REMOVED***264653;">' + medal + ' ' + ts + (i === 0 ? ' 👑' : '') + '</div>';
+    lbHtml += '<div style="font-size:clamp(12px,1.4vh,16px);color:#264653;">' + medal + ' ' + ts + (i === 0 ? ' 👑' : '') + '</div>';
   }
 
   var canNext = state.level < cfg.maxLevel;
   overlay.innerHTML = 
     '<div class="popup-card">' +
     '<div class="card-header">🎉 第' + state.level + '關完成！</div>' +
-    '<p style="font-size:clamp(18px,2.5vh,28px);color:***REMOVED***264653;">⏱ <strong>' + timeStr + '</strong></p>' +
-    '<p style="font-size:clamp(12px,1.4vh,16px);opacity:0.6;color:***REMOVED***264653;">金幣：' + cfg.coinTarget + ' 個</p>' +
+    '<p style="font-size:clamp(18px,2.5vh,28px);color:#264653;">⏱ <strong>' + timeStr + '</strong></p>' +
+    '<p style="font-size:clamp(12px,1.4vh,16px);opacity:0.6;color:#264653;">金幣：' + cfg.coinTarget + ' 個</p>' +
     lbHtml +
     '<button id="nextLevelBtn" style="margin-top:clamp(3px,0.4vh,6px);">' + (canNext ? '➡️ 下一關 (Lv.' + (state.level + 1) + ')' : '🏆 全部完成！') + '</button>' +
     '<button id="homeBtn" class="secondary" style="margin-top:clamp(6px,0.8vh,10px);padding:clamp(6px,0.8vh,12px) clamp(14px,2vw,28px);font-size:clamp(12px,1.4vh,18px);margin-right:clamp(6px,0.8vw,12px);">🏠 主頁</button>' +
@@ -600,9 +600,9 @@ function showGameOver() {
   var _cfg = getLevelConfig(state.level);
   overlay.innerHTML = 
     '<div class="popup-card">' +
-    '<div class="card-header" style="background:***REMOVED***264653;">💫 遊戲結束</div>' +
-    '<p style="color:***REMOVED***264653;font-size:clamp(14px,1.8vh,22px);">分數：💰 ' + state.score + ' | Lv.' + state.level + '</p>' +
-    '<p style="font-size:clamp(12px,1.4vh,16px);opacity:0.6;color:***REMOVED***264653;">關卡進度：' + state.totalCoins + '/' + _cfg.coinTarget + '</p>' +
+    '<div class="card-header" style="background:#264653;">💫 遊戲結束</div>' +
+    '<p style="color:#264653;font-size:clamp(14px,1.8vh,22px);">分數：💰 ' + state.score + ' | Lv.' + state.level + '</p>' +
+    '<p style="font-size:clamp(12px,1.4vh,16px);opacity:0.6;color:#264653;">關卡進度：' + state.totalCoins + '/' + _cfg.coinTarget + '</p>' +
     '<button id="restartBtn">再玩一次</button>' +
     '<button id="homeBtn2" class="secondary" style="margin-top:clamp(6px,0.8vh,10px);padding:clamp(6px,0.8vh,12px) clamp(14px,2vw,28px);font-size:clamp(12px,1.4vh,18px);display:block;margin-left:auto;margin-right:auto;">🏠 主頁</button>' +
     '</div>';
@@ -640,7 +640,7 @@ function showLevelSelect() {
   }
   overlay.innerHTML = 
     '<h1>🦅 專注飛鳥 v2.8</h1>' +
-    '<p style="font-size:clamp(12px,1.5vh,18px);opacity:0.6;color:***REMOVED***A8DADC;">科學化視覺優化 · 揀關卡開始</p>' +
+    '<p style="font-size:clamp(12px,1.5vh,18px);opacity:0.6;color:#A8DADC;">科學化視覺優化 · 揀關卡開始</p>' +
     '<div class="lv-grid">' + grid + '</div>';
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground(0);
@@ -654,17 +654,17 @@ function drawBackground(frameOffset) {
 
   // ===== 天空 — 靜態 =====
   const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
-  skyGrad.addColorStop(0, '***REMOVED***1a3a5c');
-  skyGrad.addColorStop(0.4, '***REMOVED***74B3CE');
-  skyGrad.addColorStop(0.7, '***REMOVED***A8DADC');
-  skyGrad.addColorStop(1, '***REMOVED***F4F9F9');
+  skyGrad.addColorStop(0, '#1a3a5c');
+  skyGrad.addColorStop(0.4, '#74B3CE');
+  skyGrad.addColorStop(0.7, '#A8DADC');
+  skyGrad.addColorStop(1, '#F4F9F9');
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, W, H);
 
   // ===== 太陽 =====
   ctx.beginPath();
   ctx.arc(W - 50, 45, 28, 0, Math.PI * 2);
-  ctx.fillStyle = '***REMOVED***FFCB77';
+  ctx.fillStyle = '#FFCB77';
   ctx.fill();
   ctx.beginPath();
   ctx.arc(W - 50, 45, 38, 0, Math.PI * 2);
@@ -689,7 +689,7 @@ function drawBackground(frameOffset) {
 
   // ===== 中景山脈 =====
   const hillOffset = -(bgOffsets.hills % (W * 2));
-  ctx.fillStyle = '***REMOVED***1a6b5a';
+  ctx.fillStyle = '#1a6b5a';
   ctx.beginPath();
   ctx.moveTo(0, H * 0.70);
   for (let x = 0; x <= W; x += 10) {
@@ -701,7 +701,7 @@ function drawBackground(frameOffset) {
   ctx.closePath();
   ctx.fill();
 
-  ctx.fillStyle = '***REMOVED***2EC4B6';
+  ctx.fillStyle = '#2EC4B6';
   ctx.beginPath();
   ctx.moveTo(0, H * 0.73);
   for (let x = 0; x <= W; x += 10) {
@@ -733,10 +733,10 @@ function drawBackground(frameOffset) {
 
   // ===== 前景草地 =====
   const groundShift = -(bgOffsets.ground % W);
-  ctx.fillStyle = '***REMOVED***2EC4B6';
+  ctx.fillStyle = '#2EC4B6';
   ctx.fillRect(0, H-20, W, 20);
 
-  ctx.strokeStyle = '***REMOVED***1a6b5a';
+  ctx.strokeStyle = '#1a6b5a';
   ctx.lineWidth = 1;
   for (let i = 0; i < 30; i++) {
     let gx = (i * 13 + groundShift) % W;
@@ -749,13 +749,13 @@ function drawBackground(frameOffset) {
   }
 
   // ===== 花朵 =====
-  const flowerColors = ['***REMOVED***FFCB77', '***REMOVED***A8DADC', '***REMOVED***FFCB77', '***REMOVED***A8DADC', '***REMOVED***FFCB77'];
+  const flowerColors = ['#FFCB77', '#A8DADC', '#FFCB77', '#A8DADC', '#FFCB77'];
   for (let i = 0; i < 5; i++) {
     let fx = (i * 75 + 20 + groundShift) % W;
     if (fx < 0) fx += W;
     const fy = H - 18;
     const fc = flowerColors[i % flowerColors.length];
-    ctx.strokeStyle = '***REMOVED***1a6b5a';
+    ctx.strokeStyle = '#1a6b5a';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(fx, fy);
@@ -765,7 +765,7 @@ function drawBackground(frameOffset) {
     ctx.beginPath();
     ctx.arc(fx, fy - 7, 2, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = '***REMOVED***FFCB77';
+    ctx.fillStyle = '#FFCB77';
     ctx.beginPath();
     ctx.arc(fx, fy - 7, 1, 0, Math.PI * 2);
     ctx.fill();
@@ -785,20 +785,20 @@ function drawBird() {
   ctx.rotate(b.displayAngle);
 
   // Body
-  ctx.fillStyle = '***REMOVED***2EC4B6';
+  ctx.fillStyle = '#2EC4B6';
   ctx.beginPath();
   ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
   ctx.fill();
 
   // Belly
-  ctx.fillStyle = '***REMOVED***A8DADC';
+  ctx.fillStyle = '#A8DADC';
   ctx.beginPath();
   ctx.ellipse(2, 4, 10, 7, 0, 0, Math.PI * 2);
   ctx.fill();
 
   // Tail
   const tailFlap = Math.sin(frame * 0.08) * 2;
-  ctx.fillStyle = '***REMOVED***1a6b5a';
+  ctx.fillStyle = '#1a6b5a';
   ctx.beginPath();
   ctx.moveTo(-16, -3);
   ctx.lineTo(-28, -8 + tailFlap);
@@ -810,7 +810,7 @@ function drawBird() {
   // Right wing
   const wingUp = Math.sin(frame * 0.1) * 8;
   const wingTwist = Math.abs(Math.sin(frame * 0.1));
-  ctx.fillStyle = '***REMOVED***1a9b8a';
+  ctx.fillStyle = '#1a9b8a';
   ctx.beginPath();
   ctx.moveTo(-4, -2);
   ctx.lineTo(-22, -16 + wingUp);
@@ -829,7 +829,7 @@ function drawBird() {
 
   // Left wing
   const wingUp2 = Math.sin(frame * 0.1 + Math.PI) * 6;
-  ctx.fillStyle = '***REMOVED***1a6b5a';
+  ctx.fillStyle = '#1a6b5a';
   ctx.beginPath();
   ctx.moveTo(-4, -1);
   ctx.lineTo(-20, -12 + wingUp2);
@@ -839,31 +839,31 @@ function drawBird() {
   ctx.fill();
 
   // Head
-  ctx.fillStyle = '***REMOVED***2EC4B6';
+  ctx.fillStyle = '#2EC4B6';
   ctx.beginPath();
   ctx.arc(14, -4, 9, 0, Math.PI * 2);
   ctx.fill();
 
   // Eye
-  ctx.fillStyle = '***REMOVED***fff';
+  ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.ellipse(18, -5, 4, 4.5, 0, 0, Math.PI * 2);
   ctx.fill();
 
   // Pupil
-  ctx.fillStyle = '***REMOVED***264653';
+  ctx.fillStyle = '#264653';
   ctx.beginPath();
   ctx.arc(19, -5, 2.5, 0, Math.PI * 2);
   ctx.fill();
 
   // Highlight
-  ctx.fillStyle = '***REMOVED***fff';
+  ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.arc(20, -6.5, 1, 0, Math.PI * 2);
   ctx.fill();
 
   // Beak
-  ctx.fillStyle = '***REMOVED***FFCB77';
+  ctx.fillStyle = '#FFCB77';
   ctx.beginPath();
   ctx.moveTo(21, -2);
   ctx.lineTo(32, -1);
@@ -919,15 +919,15 @@ function drawCoin3D(c, rotAngle) {
   ctx.beginPath();
   ctx.ellipse(0, 0, r * scaleX, r, 0, 0, Math.PI * 2);
   const grad = ctx.createLinearGradient(-r, 0, r, 0);
-  grad.addColorStop(0, '***REMOVED***FFCB77');
-  grad.addColorStop(0.2, '***REMOVED***FFCB77');
-  grad.addColorStop(0.5, '***REMOVED***E8933A');
-  grad.addColorStop(0.8, '***REMOVED***FFCB77');
-  grad.addColorStop(1, '***REMOVED***E8933A');
+  grad.addColorStop(0, '#FFCB77');
+  grad.addColorStop(0.2, '#FFCB77');
+  grad.addColorStop(0.5, '#E8933A');
+  grad.addColorStop(0.8, '#FFCB77');
+  grad.addColorStop(1, '#E8933A');
   ctx.fillStyle = grad;
   ctx.fill();
 
-  ctx.strokeStyle = '***REMOVED***264653';
+  ctx.strokeStyle = '#264653';
   ctx.lineWidth = 1.5;
   ctx.stroke();
 
@@ -939,7 +939,7 @@ function drawCoin3D(c, rotAngle) {
   if (scaleX > 0.3) {
     const opacity = Math.min(1, (scaleX - 0.3) / 0.5);
     ctx.globalAlpha = opacity;
-    ctx.fillStyle = '***REMOVED***1a6b5a';
+    ctx.fillStyle = '#1a6b5a';
     ctx.font = `bold ${Math.max(10, r * 1.1)}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -1103,7 +1103,7 @@ let wsRetryTimer = null;
 function setWsStatus(connected) {
   const dot = document.getElementById('wsStatus');
   if (dot) {
-    dot.style.background = connected ? '***REMOVED***2ecc71' : '***REMOVED***e74c3c';
+    dot.style.background = connected ? '#2ecc71' : '#e74c3c';
     dot.style.boxShadow = connected ? '0 0 6px rgba(46,204,113,0.7)' : 'none';
   }
 }

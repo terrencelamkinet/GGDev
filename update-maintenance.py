@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """Query 車輛維修記錄 Notion DB and output as gg-maintenance.json"""
 import json, os, urllib.request
 from datetime import datetime, timezone
@@ -14,7 +14,7 @@ HEADERS = {
 
 DB_ID = "cc006950-e4b8-4772-ae4f-5a6b5c1a6eda"
 
-***REMOVED*** Query all records
+# Query all records
 req = urllib.request.Request(
     f"https://api.notion.com/v1/databases/{DB_ID}/query",
     data=json.dumps({"page_size": 50}).encode(),
@@ -68,12 +68,12 @@ for page in data.get('results', []):
     company = get_rich('Company')
     cost = get_number('Cost (HKD)')
     
-    ***REMOVED*** Calculate next service due
+    # Calculate next service due
     next_service = None
     due_status = 'ok'
     if last_service and interval:
         last = datetime.fromisoformat(last_service)
-        ***REMOVED*** Calculate next due
+        # Calculate next due
         import calendar
         month = last.month + interval
         year = last.year + (month - 1) // 12
@@ -105,7 +105,7 @@ for page in data.get('results', []):
         'cost': cost
     })
 
-***REMOVED*** Sort by urgency (overdue first, then soonest)
+# Sort by urgency (overdue first, then soonest)
 def sort_key(item):
     ds = item['dueStatus']
     if 'overdue' in ds:

@@ -6,10 +6,10 @@
 /* ═══ 1. Color — Apple Semantic System ═══ */
 :root {
   /* Apple semantic backgrounds — dark mode first (our primary) */
-  --systemBackground: ***REMOVED***1C1C1E;
-  --secondarySystemBackground: ***REMOVED***2C2C2E;
-  --tertiarySystemBackground: ***REMOVED***3A3A3C;
-  --groupedBackground: ***REMOVED***121214;
+  --systemBackground: #1C1C1E;
+  --secondarySystemBackground: #2C2C2E;
+  --tertiarySystemBackground: #3A3A3C;
+  --groupedBackground: #121214;
 
   /* Apple fills (translucent) */
   --systemFill: rgba(120,120,128,0.36);
@@ -18,7 +18,7 @@
   --quaternarySystemFill: rgba(120,120,128,0.18);
 
   /* Apple labels */
-  --label: ***REMOVED***FFFFFF;
+  --label: #FFFFFF;
   --secondaryLabel: rgba(235,235,245,0.6);
   --tertiaryLabel: rgba(235,235,245,0.3);
   --quaternaryLabel: rgba(235,235,245,0.18);
@@ -29,28 +29,28 @@
   --ultraThinMaterial: rgba(28,28,30,0.5);
 
   /* Apple system colors */
-  --systemBlue: ***REMOVED***0A84FF;
-  --systemGreen: ***REMOVED***30D158;
-  --systemRed: ***REMOVED***FF453A;
-  --systemOrange: ***REMOVED***FF9F0A;
-  --systemPurple: ***REMOVED***BF5AF2;
-  --systemPink: ***REMOVED***FF375F;
-  --systemGray: ***REMOVED***8E8E93;
-  --systemGray2: ***REMOVED***636366;
-  --systemGray3: ***REMOVED***48484A;
-  --systemGray4: ***REMOVED***3A3A3C;
-  --systemGray5: ***REMOVED***2C2C2E;
-  --systemGray6: ***REMOVED***1C1C1E;
+  --systemBlue: #0A84FF;
+  --systemGreen: #30D158;
+  --systemRed: #FF453A;
+  --systemOrange: #FF9F0A;
+  --systemPurple: #BF5AF2;
+  --systemPink: #FF375F;
+  --systemGray: #8E8E93;
+  --systemGray2: #636366;
+  --systemGray3: #48484A;
+  --systemGray4: #3A3A3C;
+  --systemGray5: #2C2C2E;
+  --systemGray6: #1C1C1E;
 
   /* 3 AI accents */
-  --fighter: ***REMOVED***FF6B35;
-  --work: ***REMOVED***5E5CE6;     /* Apple systemIndigo equivalent */
-  --person: ***REMOVED***FF375F;   /* Apple systemPink */
-  --pplx: ***REMOVED***BF5AF2;     /* Apple systemPurple */
+  --fighter: #FF6B35;
+  --work: #5E5CE6;     /* Apple systemIndigo equivalent */
+  --person: #FF375F;   /* Apple systemPink */
+  --pplx: #BF5AF2;     /* Apple systemPurple */
 
   /* Derived semantic tokens */
   --separator: rgba(84,84,86,0.6);
-  --opaqueSeparator: ***REMOVED***38383A;
+  --opaqueSeparator: #38383A;
 
   /* Tab bar */
   --tab-height: 50px;
@@ -103,12 +103,12 @@
 /* Light mode — Apple HIG CLR-001 */
 @media (prefers-color-scheme: light) {
   :root {
-    --systemBackground: ***REMOVED***FFFFFF;
-    --secondarySystemBackground: ***REMOVED***F2F2F7;
-    --tertiarySystemBackground: ***REMOVED***E5E5EA;
-    --groupedBackground: ***REMOVED***F2F2F7;
+    --systemBackground: #FFFFFF;
+    --secondarySystemBackground: #F2F2F7;
+    --tertiarySystemBackground: #E5E5EA;
+    --groupedBackground: #F2F2F7;
 
-    --label: ***REMOVED***000000;
+    --label: #000000;
     --secondaryLabel: rgba(60,60,67,0.6);
     --tertiaryLabel: rgba(60,60,67,0.3);
     --quaternaryLabel: rgba(60,60,67,0.18);
@@ -118,19 +118,19 @@
     --ultraThinMaterial: rgba(255,255,255,0.5);
 
     --separator: rgba(60,60,67,0.29);
-    --opaqueSeparator: ***REMOVED***C6C6C8;
+    --opaqueSeparator: #C6C6C8;
 
-    --systemBlue: ***REMOVED***007AFF;
-    --systemGreen: ***REMOVED***34C759;
-    --systemRed: ***REMOVED***FF3B30;
-    --systemOrange: ***REMOVED***FF9500;
-    --systemPurple: ***REMOVED***AF52DE;
-    --systemPink: ***REMOVED***FF2D55;
+    --systemBlue: #007AFF;
+    --systemGreen: #34C759;
+    --systemRed: #FF3B30;
+    --systemOrange: #FF9500;
+    --systemPurple: #AF52DE;
+    --systemPink: #FF2D55;
 
-    --fighter: ***REMOVED***FF6B35;
-    --work: ***REMOVED***5856D6;
-    --person: ***REMOVED***FF2D55;
-    --pplx: ***REMOVED***AF52DE;
+    --fighter: #FF6B35;
+    --work: #5856D6;
+    --person: #FF2D55;
+    --pplx: #AF52DE;
   }
 }
 

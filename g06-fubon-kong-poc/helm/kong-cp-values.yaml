@@ -1,14 +1,14 @@
-***REMOVED*** Fubon HK Kong API Gateway PoC - Kong Control Plane values
-***REMOVED*** Platform: Red Hat OpenShift UAT, self-managed Kong Gateway hybrid mode
-***REMOVED*** Chart: kong/kong 3.2.0
-***REMOVED*** Image: kong/kong-gateway:3.14
-***REMOVED***
-***REMOVED*** Secrets expected in namespace kong-cp-uat:
-***REMOVED*** - kong-enterprise-license: key "license"
-***REMOVED*** - kong-db-secret: key "password"
-***REMOVED*** - kong-admin-secret: key "password"
-***REMOVED*** - kong-session-config: key "admin_gui_session_conf"
-***REMOVED*** - kong-cluster-cert: keys "tls.crt", "tls.key"
+# Fubon HK Kong API Gateway PoC - Kong Control Plane values
+# Platform: Red Hat OpenShift UAT, self-managed Kong Gateway hybrid mode
+# Chart: kong/kong 3.2.0
+# Image: kong/kong-gateway:3.14
+#
+# Secrets expected in namespace kong-cp-uat:
+# - kong-enterprise-license: key "license"
+# - kong-db-secret: key "password"
+# - kong-admin-secret: key "password"
+# - kong-session-config: key "admin_gui_session_conf"
+# - kong-cluster-cert: keys "tls.crt", "tls.key"
 
 fullnameOverride: kong-cp
 
@@ -172,7 +172,7 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 
-***REMOVED*** OpenShift assigns the runtime UID through SCC. Keeping this disabled avoids
-***REMOVED*** pinning runAsUser/runAsGroup values that can conflict with restricted SCC.
+# OpenShift assigns the runtime UID through SCC. Keeping this disabled avoids
+# pinning runAsUser/runAsGroup values that can conflict with restricted SCC.
 containerSecurityContext:
   enabled: false

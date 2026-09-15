@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 sync_to_pg.py — Unified 15-min sync: Notion tasks + AI health + activity + perplexity → PG.
 Notion is source of truth for tasks. PG augments with audit trail & metadata.
@@ -13,7 +13,7 @@ HKT = timezone(timedelta(hours=8))
 sys.path.insert(0, str(HOME / ".hermes" / "scripts"))
 from task_hub import pg_cursor
 
-***REMOVED*** ── Paths ──
+# ── Paths ──
 TASK_SYNC_FILE = HOME / ".hermes" / "task_sync_state.json"
 CONV_LOG = "/tmp/ai_conversations.log"
 RESULTS_LOG = "/tmp/ai_results/results.jsonl"
@@ -22,7 +22,7 @@ CORRECT_KEY_PATH = "/tmp/correct_pplx_key.txt"
 
 REMOTE_HOSTS = {"gg-work": "Work", "gg-person": "Person"}
 
-***REMOVED*** ── Helpers ──
+# ── Helpers ──
 def hkt_now():
     return datetime.now(HKT)
 
@@ -36,7 +36,7 @@ def read_file_safe(path, default=""):
     try: return Path(path).read_text().strip()
     except: return default
 
-***REMOVED*** ═══ 1. TASK SYNC (Notion → PG + audit trail) ═══
+# ═══ 1. TASK SYNC (Notion → PG + audit trail) ═══
 
 def list_pg_tasks():
     """Get current PG task set by notion_page_id."""
@@ -105,7 +105,7 @@ def sync_tasks():
             old = pg_tasks.get(page_id)
             old_status = old["status"] if old else None
 
-            ***REMOVED*** Upsert into tasks table (by notion_page_id)
+            # Upsert into tasks table (by notion_page_id)
             cur.execute("""
                 UPDATE tasks SET title=%s, status=%s, priority=%s, project=%s,
                     due_date=%s, notes=%s, updated_at=%s
@@ -113,7 +113,7 @@ def sync_tasks():
             """, (title, status, priority, project, due if due else None,
                   notes, now, page_id))
             if cur.rowcount == 0:
-                ***REMOVED*** New task from Notion
+                # New task from Notion
                 cur.execute("""
                     INSERT INTO tasks (id, title, status, priority, project, due_date, notes,
                         created_by, created_at, updated_at, notion_page_id)
@@ -121,14 +121,14 @@ def sync_tasks():
                         'notion', %s, %s, %s)
                 """, (title, status, priority, project, due if due else None,
                       notes, now, now, page_id))
-                ***REMOVED*** Audit: created
+                # Audit: created
                 cur.execute("""
                     INSERT INTO task_audit (notion_page_id, title, action, old_status, new_status, changed_at)
                     VALUES (%s, %s, 'created', NULL, %s, %s)
                 """, (page_id, title, status, now))
                 changes += 1
             elif old and old_status != status:
-                ***REMOVED*** Map Notion status → enum for audit
+                # Map Notion status → enum for audit
                 old_enum = map_notion_status(old_status)
                 new_enum = status
                 action_map = {
@@ -143,12 +143,12 @@ def sync_tasks():
                 """, (page_id, title, action, old_enum, new_enum, now))
                 changes += 1
 
-        ***REMOVED*** Detect tasks removed from Notion (archived/untrashed?)
+        # Detect tasks removed from Notion (archived/untrashed?)
         pg_page_ids = set(pg_tasks.keys())
         notion_page_ids = set(notion_tasks.keys())
         removed = pg_page_ids - notion_page_ids
         for page_id in removed:
-            ***REMOVED*** Don't delete — mark as not visible
+            # Don't delete — mark as not visible
             if pg_tasks[page_id]["status"] not in ("Done", "Cancelled", "Archived"):
                 cur.execute("""
                     INSERT INTO task_audit (notion_page_id, title, action, old_status, new_status, changed_at)
@@ -159,7 +159,7 @@ def sync_tasks():
     print(f"[sync_tasks] {len(notion_tasks)} Notion tasks, {changes} changes")
     return changes
 
-***REMOVED*** ═══ 2. AI HEALTH SNAPSHOT ═══
+# ═══ 2. AI HEALTH SNAPSHOT ═══
 
 def ensure_ai_snapshot_table():
     with pg_cursor(commit=True) as cur:
@@ -231,11 +231,11 @@ def sync_ai_health():
     """Take health snapshot of all 3 AIs, write to PG."""
     now = hkt_now()
 
-    ***REMOVED*** Fighter (local)
+    # Fighter (local)
     local = get_local_health()
     fighter = local if local else {"status": "unknown", "cpu": 0, "mem": 0, "disk": "", "uptime": "N/A"}
 
-    ***REMOVED*** Work & Person (SSH)
+    # Work & Person (SSH)
     work = get_remote_health("gg-work")
     person = get_remote_health("gg-person")
 
@@ -257,11 +257,11 @@ def sync_ai_health():
           f"work={'ok' if work else 'fail'} person={'ok' if person else 'fail'}")
     return 1
 
-***REMOVED*** ═══ 3. ACTIVITY LOG ═══
+# ═══ 3. ACTIVITY LOG ═══
 
 def ensure_activity_log_table():
     """action_log already exists — just check it has the right structure."""
-    pass  ***REMOVED*** action_log already has: action_type, entity_ref, detail (jsonb), created_at
+    pass  # action_log already has: action_type, entity_ref, detail (jsonb), created_at
 
 def sync_activity():
     """Read conversation + cron logs, write to action_log."""
@@ -269,7 +269,7 @@ def sync_activity():
     count = 0
 
     with pg_cursor(commit=True) as cur:
-        ***REMOVED*** 1. Conversation log
+        # 1. Conversation log
         if os.path.exists(CONV_LOG):
             try:
                 with open(CONV_LOG) as f:
@@ -292,7 +292,7 @@ def sync_activity():
                         except: pass
             except: pass
 
-        ***REMOVED*** 2. Cron results
+        # 2. Cron results
         if os.path.exists(RESULTS_LOG):
             try:
                 with open(RESULTS_LOG) as f:
@@ -313,7 +313,7 @@ def sync_activity():
     print(f"[sync_activity] {count} entries")
     return count
 
-***REMOVED*** ═══ 4. PERPLEXITY LOG ═══
+# ═══ 4. PERPLEXITY LOG ═══
 
 def ensure_pplx_log_table():
     with pg_cursor(commit=True) as cur:
@@ -352,7 +352,7 @@ def sync_pplx():
     print(f"[sync_pplx] {count} entries")
     return count
 
-***REMOVED*** ═══ 5. SYNC STATUS ═══
+# ═══ 5. SYNC STATUS ═══
 
 def ensure_sync_status_table():
     with pg_cursor(commit=True) as cur:
@@ -375,18 +375,18 @@ def update_sync_status(source, status, message="", rows=0):
                 status=%s, message=%s, rows_synced=%s, synced_at=%s
         """, (source, status, message, rows, hkt_now(), status, message, rows, hkt_now()))
 
-***REMOVED*** ═══ MAIN ═══
+# ═══ MAIN ═══
 
 def main():
     print(f"=== sync_to_pg @ {hkt_now().strftime('%H:%M')} ===")
 
-    ***REMOVED*** Ensure tables
+    # Ensure tables
     ensure_task_audit_table()
     ensure_ai_snapshot_table()
     ensure_pplx_log_table()
     ensure_sync_status_table()
 
-    ***REMOVED*** Sync each source
+    # Sync each source
     try:
         n = sync_tasks()
         update_sync_status("notion_tasks", "ok", f"{n} changes", n)
@@ -415,7 +415,7 @@ def main():
         update_sync_status("pplx_log", "error", str(e)[:100])
         print(f"[ERROR] pplx: {e}")
 
-    ***REMOVED*** GG Insights data facts (every 15min)
+    # GG Insights data facts (every 15min)
     try:
         insights_script = str(HOME / "projects/gg-intelligence-dashboard/gg_insights_v2.py")
         r = subprocess.run(["python3", insights_script], capture_output=True, text=True, timeout=30)

@@ -6,48 +6,48 @@
       "palette": [
         {
           "slug": "primary",
-          "color": "***REMOVED***af52de",
+          "color": "#af52de",
           "name": "Primary"
         },
         {
           "slug": "secondary",
-          "color": "***REMOVED***5856d6",
+          "color": "#5856d6",
           "name": "Secondary"
         },
         {
           "slug": "accent",
-          "color": "***REMOVED***ff3b30",
+          "color": "#ff3b30",
           "name": "Accent"
         },
         {
           "slug": "neutral-1",
-          "color": "***REMOVED***3c3c43",
+          "color": "#3c3c43",
           "name": "Neutral 1"
         },
         {
           "slug": "neutral-2",
-          "color": "***REMOVED***000000",
+          "color": "#000000",
           "name": "Neutral 2"
         },
         {
           "slug": "neutral-3",
-          "color": "***REMOVED***ffffff",
+          "color": "#ffffff",
           "name": "Neutral 3"
         },
         {
           "slug": "neutral-4",
-          "color": "***REMOVED***787880",
+          "color": "#787880",
           "name": "Neutral 4"
         },
         {
           "slug": "neutral-5",
-          "color": "***REMOVED***e5e5ea",
+          "color": "#e5e5ea",
           "name": "Neutral 5"
         },
         {
           "slug": "bg-f2f2f7",
-          "color": "***REMOVED***f2f2f7",
-          "name": "Background ***REMOVED***f2f2f7"
+          "color": "#f2f2f7",
+          "name": "Background #f2f2f7"
         }
       ],
       "gradients": [
@@ -160,8 +160,8 @@
   },
   "styles": {
     "color": {
-      "background": "***REMOVED***f2f2f7",
-      "text": "***REMOVED***000000"
+      "background": "#f2f2f7",
+      "text": "#000000"
     },
     "typography": {
       "fontSize": "12px",

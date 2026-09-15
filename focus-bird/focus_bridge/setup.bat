@@ -21,7 +21,7 @@ py -3.11 -m pip install websockets
 echo.
 echo Step 4: Download BrainLinkParser.pyd
 echo URL: https://github.com/Macrotellect/BrainLinkParser-Python
-echo Or: https://o.macrotellect.com/index.html***REMOVED***v1
+echo Or: https://o.macrotellect.com/index.html#v1
 echo.
 echo Download BrainLinkParser.pyd and place it in this folder.
 echo.

@@ -1,13 +1,13 @@
-***REMOVED*** G01 — Focus Bird File Inventory
+# G01 — Focus Bird File Inventory
 
-***REMOVED******REMOVED*** Project Roots
+## Project Roots
 
 | Path | Description |
 |------|-------------|
 | `projects/ggdev-repo/focus-bird/` | v1.0 production game (legacy) |
 | `projects/ggdev-repo/focus-bird-dev/` | v2.0 development game (active) |
 
-***REMOVED******REMOVED*** Source Files (via symlink/`code/`)
+## Source Files (via symlink/`code/`)
 
 | File | Size | Purpose |
 |------|------|---------|
@@ -27,14 +27,14 @@
 | `code/focus_bridge/brainlink-integration-spec.md` | — | BrainLink integration spec doc |
 | `code/spec/focus-bird-v2-design-spec.md` | 24KB | v2.0 full design specification |
 
-***REMOVED******REMOVED*** Context & Metadata
+## Context & Metadata
 
 | File | Purpose |
 |------|---------|
 | `CONTEXT.md` | Current project context (from focus-bird-dev, latest) |
 | `README.md` | This file — project overview |
 
-***REMOVED******REMOVED*** Infrastructure (VM-side, not in repo)
+## Infrastructure (VM-side, not in repo)
 
 | Path | Purpose |
 |------|---------|

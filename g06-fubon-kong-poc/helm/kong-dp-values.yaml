@@ -1,11 +1,11 @@
-***REMOVED*** Fubon HK Kong API Gateway PoC - Kong Data Plane values
-***REMOVED*** Platform: Red Hat OpenShift UAT, self-managed Kong Gateway hybrid mode
-***REMOVED*** Chart: kong/kong 3.2.0
-***REMOVED*** Image: kong/kong-gateway:3.14
-***REMOVED***
-***REMOVED*** Secrets expected in namespace kong-dp-uat:
-***REMOVED*** - kong-enterprise-license: key "license"
-***REMOVED*** - kong-cluster-cert: keys "tls.crt", "tls.key"
+# Fubon HK Kong API Gateway PoC - Kong Data Plane values
+# Platform: Red Hat OpenShift UAT, self-managed Kong Gateway hybrid mode
+# Chart: kong/kong 3.2.0
+# Image: kong/kong-gateway:3.14
+#
+# Secrets expected in namespace kong-dp-uat:
+# - kong-enterprise-license: key "license"
+# - kong-cluster-cert: keys "tls.crt", "tls.key"
 
 fullnameOverride: kong-dp
 

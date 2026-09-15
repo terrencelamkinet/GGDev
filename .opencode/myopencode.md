@@ -1,8 +1,8 @@
-***REMOVED*** MyOpenCode / UltraW Mode
+# MyOpenCode / UltraW Mode
 
 整合工具 + MCP + 7 大專業 Agent 嘅終極開發模式。
 
-***REMOVED******REMOVED*** UltraW 模式
+## UltraW 模式
 
 **魔法指令：** `ultraw`
 
@@ -12,9 +12,9 @@
 3. 多個背景任務同時執行
 4. 自動合併結果
 
-***REMOVED******REMOVED*** 7 大專業 Agent
+## 7 大專業 Agent
 
-| ***REMOVED*** | Agent | 專長 | Model |
+| # | Agent | 專長 | Model |
 |---|-------|------|-------|
 | 1 | **Architect** 🏗️ | 系統設計、tech stack 決策 | DeepSeek V4 Flash |
 | 2 | **Frontend Engineer** 🎨 | UI/UX implementation | Claude 3.5 Sonnet |
@@ -24,7 +24,7 @@
 | 6 | **Researcher** 📚 | API docs、best practices | Perplexity Sonar Pro |
 | 7 | **Tech Writer** 📝 | Documentation、README | Claude 3.5 Sonnet |
 
-***REMOVED******REMOVED*** 整合工具
+## 整合工具
 
 | 工具 | 用途 | 類型 |
 |------|------|------|
@@ -36,7 +36,7 @@
 | rsync | Deploy to Mac Mini | Script |
 | git | Version control | Built-in |
 
-***REMOVED******REMOVED*** 用法示例
+## 用法示例
 
 ```
 ultraw 幫我整一個 user dashboard

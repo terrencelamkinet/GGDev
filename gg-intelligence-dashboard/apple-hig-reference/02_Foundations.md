@@ -1,12 +1,12 @@
-***REMOVED*** Foundations — AI Agent Instruction Spec
+# Foundations — AI Agent Instruction Spec
 > Reference: Apple HIG — Foundations
 > Covers: Accessibility, Color, Dark Mode, Icons, Images, Layout, Materials, Motion, Privacy, SF Symbols, Typography
 
 ---
 
-***REMOVED******REMOVED*** 1. Accessibility
+## 1. Accessibility
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | ACC-001 | All interactive elements must have `accessibilityLabel` — descriptive action labels, not control type names. |
@@ -22,16 +22,16 @@
 
 ---
 
-***REMOVED******REMOVED*** 2. Color
+## 2. Color
 
-***REMOVED******REMOVED******REMOVED*** Color System
+### Color System
 ```
 Semantic (Adaptive) Colors   → Automatically adapt to Light/Dark Mode
 System Colors                → Apple-defined palette (red, blue, green, etc.)
 Custom Colors                → App-specific, must be defined for both modes
 ```
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | CLR-001 | Use **semantic color tokens** (`.label`, `.secondaryLabel`, `.systemBackground`, `.systemFill`) — never hardcode hex values for UI chrome. |
@@ -41,22 +41,22 @@ Custom Colors                → App-specific, must be defined for both modes
 | CLR-005 | Test all color combinations with **color blindness simulators** (protanopia, deuteranopia, tritanopia). |
 | CLR-006 | Tint color (accent): use consistently for interactive elements (links, buttons, toggles). |
 
-***REMOVED******REMOVED******REMOVED*** System Color Palette Reference
+### System Color Palette Reference
 | Token | Light Mode | Dark Mode | Use Case |
 |-------|-----------|-----------|----------|
 | `.systemBackground` | White | Black | Primary container |
 | `.secondarySystemBackground` | Light Gray | Dark Gray | Secondary surfaces |
 | `.label` | Black | White | Primary text |
 | `.secondaryLabel` | Gray | Light Gray | Secondary/meta text |
-| `.systemBlue` | ***REMOVED***007AFF | ***REMOVED***0A84FF | Tint / interactive |
-| `.systemRed` | ***REMOVED***FF3B30 | ***REMOVED***FF453A | Destructive / error |
-| `.systemGreen` | ***REMOVED***34C759 | ***REMOVED***30D158 | Success / positive |
+| `.systemBlue` | #007AFF | #0A84FF | Tint / interactive |
+| `.systemRed` | #FF3B30 | #FF453A | Destructive / error |
+| `.systemGreen` | #34C759 | #30D158 | Success / positive |
 
 ---
 
-***REMOVED******REMOVED*** 3. Dark Mode
+## 3. Dark Mode
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | DRK-001 | Support Dark Mode natively using semantic color tokens (automatic adaptation). |
@@ -67,9 +67,9 @@ Custom Colors                → App-specific, must be defined for both modes
 
 ---
 
-***REMOVED******REMOVED*** 4. Icons
+## 4. Icons
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | ICN-001 | App Icon: must be provided at 1024×1024pt (App Store) — system scales down automatically. |
@@ -81,9 +81,9 @@ Custom Colors                → App-specific, must be defined for both modes
 
 ---
 
-***REMOVED******REMOVED*** 5. Images & Media
+## 5. Images & Media
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | IMG-001 | Provide images at 1x, 2x, and 3x resolutions in Asset Catalog. |
@@ -94,9 +94,9 @@ Custom Colors                → App-specific, must be defined for both modes
 
 ---
 
-***REMOVED******REMOVED*** 6. Layout
+## 6. Layout
 
-***REMOVED******REMOVED******REMOVED*** Grid System
+### Grid System
 ```
 Base Unit:      8pt
 Margin:         16pt (compact), 20pt (regular/iPad)
@@ -104,7 +104,7 @@ Gutter:         8pt between columns
 Safe Areas:     Top (status bar), Bottom (home indicator), Leading/Trailing (notch)
 ```
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | LAY-001 | Use the **8pt grid** for all spacing values (8, 16, 24, 32, 40...). |
@@ -116,9 +116,9 @@ Safe Areas:     Top (status bar), Bottom (home indicator), Leading/Trailing (not
 
 ---
 
-***REMOVED******REMOVED*** 7. Materials (Blur / Vibrancy)
+## 7. Materials (Blur / Vibrancy)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | MAT-001 | Use system materials (`.regularMaterial`, `.thinMaterial`, `.ultraThinMaterial`) for overlay surfaces. |
@@ -128,9 +128,9 @@ Safe Areas:     Top (status bar), Bottom (home indicator), Leading/Trailing (not
 
 ---
 
-***REMOVED******REMOVED*** 8. Motion & Animation
+## 8. Motion & Animation
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | MOT-001 | All animations must have a **purpose** — communicate state change, guide attention, or provide feedback. |
@@ -142,9 +142,9 @@ Safe Areas:     Top (status bar), Bottom (home indicator), Leading/Trailing (not
 
 ---
 
-***REMOVED******REMOVED*** 9. Privacy
+## 9. Privacy
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | PRV-001 | Request permissions **only when needed** and provide a clear usage explanation (purpose string). |
@@ -156,9 +156,9 @@ Safe Areas:     Top (status bar), Bottom (home indicator), Leading/Trailing (not
 
 ---
 
-***REMOVED******REMOVED*** 10. SF Symbols
+## 10. SF Symbols
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | SFS-001 | Use SF Symbols as the default icon library — 6,000+ symbols available. |
@@ -169,9 +169,9 @@ Safe Areas:     Top (status bar), Bottom (home indicator), Leading/Trailing (not
 
 ---
 
-***REMOVED******REMOVED*** 11. Typography
+## 11. Typography
 
-***REMOVED******REMOVED******REMOVED*** Type Scale (Dynamic Type)
+### Type Scale (Dynamic Type)
 | Text Style | Default Size | Use Case |
 |------------|-------------|----------|
 | `.largeTitle` | 34pt | Hero headers, screen titles |
@@ -186,7 +186,7 @@ Safe Areas:     Top (status bar), Bottom (home indicator), Leading/Trailing (not
 | `.caption` | 12pt | Image captions |
 | `.caption2` | 11pt | Micro labels |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | TYP-001 | Always use Dynamic Type semantic styles — never hardcode `font(.system(size: 17))`. |

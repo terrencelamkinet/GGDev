@@ -1,19 +1,19 @@
-***REMOVED*** SKILL: reminder-rules
+# SKILL: reminder-rules
 
-***REMOVED******REMOVED*** Risk class
+## Risk class
 **Read** (rules check) — no data modification; loaded on reminder delivery context.
 
-***REMOVED******REMOVED*** Trigger
+## Trigger
 - Auto: when processing a reminder delivery (daemon context)
 - Auto: when user mentions "reminder", "button", "snooze", "推遲", "urgent"
 - Manual: Terrence says "check reminder rules"
 
-***REMOVED******REMOVED*** Summary
+## Summary
 Defines the complete behaviour for GG's reminder buttons, urgency tiers, and snooze durations. Everything Terrence has set about how reminders should work.
 
 ---
 
-***REMOVED******REMOVED*** 1. Button Layout (mandatory, all reminder types)
+## 1. Button Layout (mandatory, all reminder types)
 
 Every reminder message MUST have exactly these inline buttons:
 
@@ -34,7 +34,7 @@ Every reminder message MUST have exactly these inline buttons:
 
 ---
 
-***REMOVED******REMOVED*** 2. Snooze Duration by Urgency
+## 2. Snooze Duration by Urgency
 
 More urgent = shorter snooze (Terrence's rule, 2026-05-22).
 
@@ -52,7 +52,7 @@ More urgent = shorter snooze (Terrence's rule, 2026-05-22).
 
 ---
 
-***REMOVED******REMOVED*** 3. Urgency Tier Classification (Research-Backed)
+## 3. Urgency Tier Classification (Research-Backed)
 
 | Tier | Name | Emoji | Research Basis |
 |------|------|-------|----------------|
@@ -66,7 +66,7 @@ More urgent = shorter snooze (Terrence's rule, 2026-05-22).
 
 ---
 
-***REMOVED******REMOVED*** 4. Quiet Hours Policy
+## 4. Quiet Hours Policy
 
 - **22:00 - 07:59**: suppress non-urgent (U<4) deliveries
 - **Research**: PersoNo (IEEE 2025) — activity context determines urgency. Fatigue Survey (ArXiv 2403) — night delivery suppresses next-day receptivity.
@@ -74,7 +74,7 @@ More urgent = shorter snooze (Terrence's rule, 2026-05-22).
 
 ---
 
-***REMOVED******REMOVED*** 5. Resend (Overdue) Behaviour
+## 5. Resend (Overdue) Behaviour
 
 - Grace period: 30min before sent→overdue
 - Resend interval: 40min (research: >30min prevents desensitisation)
@@ -86,26 +86,26 @@ More urgent = shorter snooze (Terrence's rule, 2026-05-22).
 
 ---
 
-***REMOVED******REMOVED*** 🎯 Case studies from Terrence's life
+## 🎯 Case studies from Terrence's life
 
-***REMOVED******REMOVED******REMOVED*** (1) 2026-05-22: Inline buttons — second version
+### (1) 2026-05-22: Inline buttons — second version
 - Problem: First version had different buttons per source (calendar=3 buttons, notion=2, routine=3), causing confusion
 - Terrence fix: All reminders = uniform 3-button layout: ✅ 做咗 / ⏰ 推遲 / ❌ 取消
 - Result: Single layout, no context-switching, no confusion
 - Lesson: User-facing UI must be consistent across all entry points. Source differences are backend concerns.
 
-***REMOVED******REMOVED******REMOVED*** (2) 2026-05-22: Snooze direction — research vs reality
+### (2) 2026-05-22: Snooze direction — research vs reality
 - Problem: GG proposed inverted snooze (more urgent=longer space) citing Fatigue Survey (ArXiv 2403)
 - Terrence: "錯曬" → more urgent MUST check back faster
 - Final rule: U5=30min fastest, U2=720min slowest
 - Lesson: Research informs; Terrence's actual usage and intuition overrides research.
 
-***REMOVED******REMOVED******REMOVED*** (3) 2026-05-22: Overdue resend frequency
+### (3) 2026-05-22: Overdue resend frequency
 - Problem: Multiple reminders stacking up on same day → noise
 - Solution: Max 3 deliveries per topic/day, 40min interval between resends
 - Research: Fatigue Survey (ArXiv 2403) — >3 same-topic = desensitisation
 
-***REMOVED******REMOVED******REMOVED*** (4) 2026-05-22: Quiet hours debate
+### (4) 2026-05-22: Quiet hours debate
 - Problem: GG proposed suppressing ALL reminders 22:00-07:59
 - Reality: Some reminders ARE urgent at night (e.g. church preparation the night before)
 - Solution: Suppress U<4 only. U4+ still delivered.
@@ -113,10 +113,10 @@ More urgent = shorter snooze (Terrence's rule, 2026-05-22).
 
 ---
 
-***REMOVED******REMOVED*** ⚠️ Research note
+## ⚠️ Research note
 The citations in the urgency tier table above were cited from memory. Before using these claims in decisions or documentation, re-search via `research-methodology.skill.md` to find current best sources.
 
-***REMOVED******REMOVED*** References
+## References
 - Research methodology: `gg-skills/research-methodology.skill.md`
 - Full research summary: `scripts/vm/gg_remitter_research.md`
 - Source code: `gg_reminder_context.py` (compute_urgency_tier, build_reminder_header)

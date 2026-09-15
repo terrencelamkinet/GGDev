@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """gg_context.py — Collects system context into a JSON file for LLM consumption."""
 import os, sys, json, subprocess
 from datetime import datetime, timezone, timedelta
@@ -18,17 +18,17 @@ def collect():
     ctx = {"generated_at": hkt_now().isoformat()}
 
     with pg_cursor() as cur:
-        ***REMOVED*** MCP status
+        # MCP status
         cur.execute("SELECT name, status, error, category FROM connection_status ORDER BY name")
         ctx["mcps"] = [dict(r) for r in cur.fetchall()]
 
-        ***REMOVED*** Task summary
+        # Task summary
         cur.execute("SELECT status, COUNT(*) as cnt FROM tasks GROUP BY status")
         ctx["tasks_by_status"] = {r["status"]: r["cnt"] for r in cur.fetchall()}
         cur.execute("SELECT COUNT(*) as cnt FROM tasks WHERE status NOT IN ('done','cancelled') AND due_date < %s", (hkt_now(),))
         ctx["overdue_tasks"] = dict(cur.fetchone())["cnt"]
 
-        ***REMOVED*** AI health (latest)
+        # AI health (latest)
         ctx["ai_health"] = {}
         for ai in ["fighter", "work", "person"]:
             cur.execute("SELECT cpu, mem, disk, uptime, status, recorded_at FROM ai_snapshot WHERE ai_name=%s ORDER BY recorded_at DESC LIMIT 1", (ai,))
@@ -38,20 +38,20 @@ def collect():
                 row["recorded_at"] = fmt(row["recorded_at"])
                 ctx["ai_health"][ai] = row
 
-        ***REMOVED*** Sync status
+        # Sync status
         cur.execute("SELECT source, status, message, synced_at FROM sync_status")
         ctx["syncs"] = [{"source": r["source"], "status": r["status"], "message": r["message"],
                          "synced_at": fmt(r["synced_at"])} for r in cur.fetchall()]
 
-        ***REMOVED*** Recent task activity
+        # Recent task activity
         cur.execute("SELECT action, COUNT(*) as cnt FROM task_audit WHERE changed_at >= %s GROUP BY action", (hkt_now() - timedelta(hours=24),))
         ctx["task_activity_24h"] = {r["action"]: r["cnt"] for r in cur.fetchall()}
 
-        ***REMOVED*** Total insights
+        # Total insights
         cur.execute("SELECT COUNT(*) as cnt FROM gg_insights")
         ctx["insights_count"] = dict(cur.fetchone())["cnt"]
 
-    ***REMOVED*** System
+    # System
     try:
         r = subprocess.run(["uptime"], capture_output=True, text=True, timeout=5)
         ctx["host_uptime"] = r.stdout.strip()

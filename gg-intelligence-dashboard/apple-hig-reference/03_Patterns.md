@@ -1,19 +1,19 @@
-***REMOVED*** Patterns — AI Agent Instruction Spec
+# Patterns — AI Agent Instruction Spec
 > Reference: Apple HIG — Patterns
 > Covers: Navigation, Searching, Onboarding, Settings, Feedback, Loading, Modality, Permissions, Data Entry, Undo & Redo, Drag & Drop, File Management, Collaboration, Handoff, Notifications, Printing, Quick Actions, Ratings & Reviews, Workouts & Health
 
 ---
 
-***REMOVED******REMOVED*** 1. Navigation
+## 1. Navigation
 
-***REMOVED******REMOVED******REMOVED*** Navigation Models
+### Navigation Models
 | Model | Description | Use When |
 |-------|-------------|----------|
 | **Hierarchical** | One choice per screen, drill down | Settings, Mail, Files |
 | **Flat (Tab-based)** | Switch between parallel sections | App Store, Music, Instagram |
 | **Content-Driven** | Free-form movement through content | Games, Books, Safari |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | NAV-001 | Choose one primary navigation model — do not combine hierarchical + flat at the same level. |
@@ -27,9 +27,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 2. Searching
+## 2. Searching
 
-***REMOVED******REMOVED******REMOVED*** Search UI Anatomy
+### Search UI Anatomy
 ```
 [ 🔍 Search placeholder... ] [Cancel]
   ┌─────────────────────────────┐
@@ -39,7 +39,7 @@
   └─────────────────────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | SCH-001 | Use `UISearchController` / `.searchable()` modifier — not a custom text field. |
@@ -51,9 +51,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 3. Onboarding
+## 3. Onboarding
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | ONB-001 | Show onboarding only once — not on every launch. |
@@ -66,9 +66,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 4. Settings
+## 4. Settings
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | SET-001 | Simple settings (toggles, selections): embed in-app in a Settings screen. |
@@ -79,9 +79,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 5. Feedback (User Feedback)
+## 5. Feedback (User Feedback)
 
-***REMOVED******REMOVED******REMOVED*** Feedback Types
+### Feedback Types
 | Type | Mechanism | Use Case |
 |------|-----------|----------|
 | Visual | State change, color, animation | Button tap confirmation |
@@ -90,7 +90,7 @@
 | Alert | `UIAlertController` | Errors requiring action |
 | Toast/Banner | Transient notification | Success confirmations |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | FBK-001 | Every user action must produce **immediate visual feedback** (≤100ms response). |
@@ -101,9 +101,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 6. Loading States
+## 6. Loading States
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | LOD-001 | Always show a loading indicator when content fetch exceeds **0.5 seconds**. |
@@ -115,9 +115,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 7. Modality
+## 7. Modality
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | MOD-001 | Use modals **sparingly** — only when the user must complete a task before continuing. |
@@ -129,9 +129,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 8. Requesting Permissions
+## 8. Requesting Permissions
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | PRM-001 | Request permission **at the moment the feature is first used** — not at app launch. |
@@ -142,9 +142,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 9. Data Entry
+## 9. Data Entry
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | DAT-001 | Use the appropriate keyboard type for each input field (`numberPad`, `emailAddress`, `phonePad`, `URL`). |
@@ -157,9 +157,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 10. Undo & Redo
+## 10. Undo & Redo
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | UND-001 | Support shake-to-undo for text editing via `UIUndoManager`. |
@@ -169,9 +169,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 11. Drag & Drop
+## 11. Drag & Drop
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | DRG-001 | Support system drag-and-drop for all content items (images, text, files, rows). |
@@ -181,9 +181,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 12. Notifications
+## 12. Notifications
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | NOT-001 | Request notification permission only when there is clear value to the user. |
@@ -194,9 +194,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 13. Quick Actions (Home Screen)
+## 13. Quick Actions (Home Screen)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | QCK-001 | Provide 3–4 Quick Actions on the Home Screen icon (long-press menu). |
@@ -205,9 +205,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 14. Ratings & Reviews
+## 14. Ratings & Reviews
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | RAT-001 | Use `SKStoreReviewController.requestReview()` — never build a custom rating prompt. |

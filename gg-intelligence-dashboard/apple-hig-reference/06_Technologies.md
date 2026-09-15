@@ -1,10 +1,10 @@
-***REMOVED*** Technologies — AI Agent Instruction Spec
+# Technologies — AI Agent Instruction Spec
 > Reference: Apple HIG — Technologies
 > Covers: Widgets, Live Activities, App Clips, AR / RealityKit, CarPlay, HealthKit, HomeKit, iCloud, In-App Purchase, Machine Learning, Maps, Messages, NFC, PassKit, Photos, SharePlay, Shortcuts / App Intents, Sign in with Apple, Siri, WatchKit Complications
 
 ---
 
-***REMOVED******REMOVED*** Technology Integration Principles
+## Technology Integration Principles
 1. Each technology must feel **native and seamless** — not bolted on.
 2. Always provide a **graceful degradation path** when a technology is unavailable.
 3. Follow Apple's **privacy requirements** for each technology's data usage.
@@ -12,9 +12,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 1. Widgets (WidgetKit)
+## 1. Widgets (WidgetKit)
 
-***REMOVED******REMOVED******REMOVED*** Widget Sizes
+### Widget Sizes
 | Size | Points | Use Case |
 |------|--------|----------|
 | Small | 155×155 | Single metric, quick glance |
@@ -25,7 +25,7 @@
 | Accessory Rectangular | 150×44 | Lock Screen banner |
 | Accessory Inline | Text only | Lock Screen single line |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | WGT-001 | Support all widget sizes — provide distinct layouts optimized for each. |
@@ -39,9 +39,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 2. Live Activities (ActivityKit)
+## 2. Live Activities (ActivityKit)
 
-***REMOVED******REMOVED******REMOVED*** Live Activity Zones
+### Live Activity Zones
 ```
 Dynamic Island (iPhone 14 Pro+):
   Compact Leading   → Small icon/value (left of TrueDepth camera)
@@ -55,7 +55,7 @@ Lock Screen Banner:
   Bottom Content    → Additional detail row
 ```
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | LAV-001 | Support both Dynamic Island and Lock Screen banner layouts. |
@@ -68,9 +68,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 3. App Clips
+## 3. App Clips
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | APC-001 | Maximum size: **50MB** for App Clip binary. |
@@ -82,9 +82,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 4. Augmented Reality (ARKit / RealityKit)
+## 4. Augmented Reality (ARKit / RealityKit)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | ARK-001 | Use `RealityView` (SwiftUI) or `ARSCNView` (UIKit) — do not build custom AR rendering. |
@@ -98,9 +98,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 5. CarPlay
+## 5. CarPlay
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | CAR-001 | CarPlay apps: audio, communication, navigation, EV charging, fueling, parking, and quick food ordering. |
@@ -113,9 +113,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 6. HealthKit
+## 6. HealthKit
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | HLT-001 | Request only the specific `HKObjectType` data types needed — not broad health access. |
@@ -126,9 +126,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 7. iCloud (CloudKit / iCloud Drive)
+## 7. iCloud (CloudKit / iCloud Drive)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | ICL-001 | Use `CloudKit` for database sync; `NSUbiquitousKeyValueStore` for small key-value sync. |
@@ -139,9 +139,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 8. In-App Purchase (StoreKit 2)
+## 8. In-App Purchase (StoreKit 2)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | IAP-001 | Use `StoreKit 2` API — never legacy `SKPaymentQueue`. |
@@ -154,9 +154,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 9. Machine Learning (Core ML / Create ML)
+## 9. Machine Learning (Core ML / Create ML)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | CML-001 | Run inference on-device using `Core ML` — do not send user data to servers for ML processing without consent. |
@@ -167,9 +167,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 10. Maps (MapKit)
+## 10. Maps (MapKit)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | MAP-001 | Use `MapKit` / `Map` SwiftUI view — not embedded web maps. |
@@ -181,9 +181,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 11. NFC (Core NFC)
+## 11. NFC (Core NFC)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | NFC-001 | Use `NFCTagReaderSession` for reading NFC tags. |
@@ -194,9 +194,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 12. PassKit (Wallet)
+## 12. PassKit (Wallet)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | PSK-001 | Use `PKPassLibrary` to add passes — boarding passes, loyalty cards, tickets, coupons. |
@@ -206,9 +206,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 13. Photos (PhotosKit)
+## 13. Photos (PhotosKit)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | PHT-001 | Use `PHPickerViewController` (iOS 14+) — no `UIImagePickerController` for new apps. |
@@ -219,9 +219,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 14. SharePlay (Group Activities)
+## 14. SharePlay (Group Activities)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | SHP-001 | Use `GroupActivities` framework for synchronized shared experiences. |
@@ -231,9 +231,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 15. Shortcuts / App Intents
+## 15. Shortcuts / App Intents
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | SRI-001 | Implement `AppIntent` for all key user actions — expose to Shortcuts app. |
@@ -245,9 +245,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 16. Sign in with Apple
+## 16. Sign in with Apple
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | SWA-001 | **Required** if any other social login (Google, Facebook) is offered. |
@@ -258,9 +258,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 17. Siri (SiriKit / App Intents)
+## 17. Siri (SiriKit / App Intents)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | SIR-001 | Implement `AppIntent` conformance for all primary user tasks. |
@@ -271,9 +271,9 @@ Lock Screen Banner:
 
 ---
 
-***REMOVED******REMOVED*** 18. Wallet & Apple Pay
+## 18. Wallet & Apple Pay
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | APY-001 | Use `PKPaymentAuthorizationViewController` or `PKPaymentAuthorizationController`. |

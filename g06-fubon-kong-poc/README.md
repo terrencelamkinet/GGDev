@@ -1,10 +1,10 @@
-***REMOVED*** Fubon HK Kong API Gateway PoC Environment Setup Guide
+# Fubon HK Kong API Gateway PoC Environment Setup Guide
 
 This guide builds the `Kong-PoC-UAT` environment from the PoC summary workbook.
 
 The target platform is Red Hat OpenShift UAT. Kong runs in self-managed hybrid mode: the Control Plane manages configuration and connects to the external PostgreSQL database, while the Data Plane handles API traffic. PostgreSQL is outside OpenShift on a dedicated RHEL VM.
 
-***REMOVED******REMOVED*** Confirmed PoC Values
+## Confirmed PoC Values
 
 | Item | Value |
 | --- | --- |
@@ -28,7 +28,7 @@ The target platform is Red Hat OpenShift UAT. Kong runs in self-managed hybrid m
 
 The workbook listed `kong-cp-cluster.fubon-uat.svc.cluster.local`; the generated values use the Helm service names and the confirmed CP namespace, which is the Kubernetes-correct DNS form for this installation.
 
-***REMOVED******REMOVED*** Repository Layout
+## Repository Layout
 
 ```text
 .
@@ -54,7 +54,7 @@ The workbook listed `kong-cp-cluster.fubon-uat.svc.cluster.local`; the generated
     └── validate-render.sh
 ```
 
-***REMOVED******REMOVED*** Prerequisites
+## Prerequisites
 
 Install these on the operator workstation or jump host:
 
@@ -78,7 +78,7 @@ Access requirements:
 - Kong Enterprise license JSON.
 - Fubon-approved image registry path if direct Docker Hub pulls are not allowed.
 
-***REMOVED******REMOVED*** Network and DNS
+## Network and DNS
 
 Create or confirm these DNS records:
 
@@ -101,7 +101,7 @@ Required firewall flows:
 
 Use passthrough TLS on the API route so Kong receives the client TLS handshake and can enforce mTLS at the Data Plane.
 
-***REMOVED******REMOVED*** Step 1 - Pull and Mirror Images
+## Step 1 - Pull and Mirror Images
 
 Pull the images locally:
 
@@ -123,7 +123,7 @@ Also mirror `hashicorp/http-echo:1.0` only if the optional smoke-test backend wi
 
 If Fubon mirrors `nicolaka/netshoot:v0.13`, update `manifests/04-netshoot.yaml` to use the internal registry image.
 
-***REMOVED******REMOVED*** Step 2 - Prepare PostgreSQL
+## Step 2 - Prepare PostgreSQL
 
 On the external RHEL PostgreSQL VM, install PostgreSQL 14+ using Fubon DBA standards. The PoC sizing is:
 
@@ -144,7 +144,7 @@ Before connecting, confirm these values with Fubon:
 | PostgreSQL port | `5432` | Use customer port if different |
 | Kong DB password | `<kong-db-password>` | Store later in OpenShift Secret only |
 
-***REMOVED******REMOVED******REMOVED*** Step 2.1 - SSH to the DB VM
+### Step 2.1 - SSH to the DB VM
 
 Direct SSH:
 
@@ -190,7 +190,7 @@ If SSH fails:
 | MFA prompt never appears | Check VPN/jump host session |
 | `sudo: user is not in sudoers` | Ask DBA/Unix team to run privileged setup commands |
 
-***REMOVED******REMOVED******REMOVED*** Step 2.2 - Confirm the VM is RHEL and Sized Correctly
+### Step 2.2 - Confirm the VM is RHEL and Sized Correctly
 
 Run on the DB VM:
 
@@ -214,7 +214,7 @@ Expected:
 - `ulimit -n` should be `65535` after limits are applied.
 - `ulimit -u` should be `4096` or higher after limits are applied.
 
-***REMOVED******REMOVED******REMOVED*** Step 2.3 - Confirm PostgreSQL 14+ is Installed
+### Step 2.3 - Confirm PostgreSQL 14+ is Installed
 
 Run on the DB VM:
 
@@ -245,7 +245,7 @@ Expected:
 - PostgreSQL service is `active (running)`.
 - No startup errors appear in `systemctl status`.
 
-***REMOVED******REMOVED******REMOVED*** Step 2.4 - Confirm PostgreSQL is Listening on TCP 5432
+### Step 2.4 - Confirm PostgreSQL is Listening on TCP 5432
 
 Run on the DB VM:
 
@@ -300,7 +300,7 @@ Expected:
 Validate database connectivity from the operator workstation or a network location equivalent to OpenShift egress:
 
 ```bash
-PGPASSWORD= REDACTED \
+PGPASSWORD='<kong-db-password>' \
   psql "host=<postgres-host-or-ip> port=5432 dbname=kong user=kong sslmode=prefer" \
   -c 'select version();'
 ```
@@ -312,7 +312,7 @@ Expected:
 
 Keep the DB VM terminal open until Kong CP installation is complete so DBA/Unix teams can inspect logs if the CP cannot connect.
 
-***REMOVED******REMOVED*** Step 3 - Create Namespaces and RBAC
+## Step 3 - Create Namespaces and RBAC
 
 Login to OpenShift:
 
@@ -375,7 +375,7 @@ oc adm policy add-scc-to-user restricted -z kong-sa -n kong-cp-uat
 oc adm policy add-scc-to-user restricted -z kong-sa -n kong-dp-uat
 ```
 
-***REMOVED******REMOVED*** Step 4 - Generate CP/DP Cluster Certificate
+## Step 4 - Generate CP/DP Cluster Certificate
 
 Create a shared CP/DP cluster certificate for PoC hybrid sync:
 
@@ -391,7 +391,7 @@ openssl req -new -x509 -nodes \
 
 For production, replace this with a Fubon CA-issued cluster certificate.
 
-***REMOVED******REMOVED*** Step 5 - Create OpenShift Secrets
+## Step 5 - Create OpenShift Secrets
 
 Set the secret inputs locally:
 
@@ -436,7 +436,7 @@ oc create secret generic kong-session-config \
   --dry-run=client -o yaml | oc apply -f -
 ```
 
-***REMOVED******REMOVED*** Step 6 - Update Environment-Specific Values
+## Step 6 - Update Environment-Specific Values
 
 Edit `helm/kong-cp-values.yaml`:
 
@@ -464,7 +464,7 @@ If the actual OpenShift route base domain differs from the workbook examples, ro
 - `kong-manager.uat.fubonhk.internal`
 - `kong-admin.uat.fubonhk.internal`
 
-***REMOVED******REMOVED*** Step 7 - Validate Helm Rendering
+## Step 7 - Validate Helm Rendering
 
 Run a local render and lint:
 
@@ -479,7 +479,7 @@ Inspect the rendered service names:
 rg 'name: kong-cp-cluster|name: kong-cp-clustertelemetry|name: kong-dp-proxy' /tmp/fubon-kong-*-render.yaml
 ```
 
-***REMOVED******REMOVED*** Step 8 - Install Kong Control Plane
+## Step 8 - Install Kong Control Plane
 
 Add and update the Kong Helm repo:
 
@@ -532,7 +532,7 @@ Expected:
 - `database.reachable` is `true`.
 - `server.connections_active` is present.
 
-***REMOVED******REMOVED*** Step 9 - Install Kong Data Plane
+## Step 9 - Install Kong Data Plane
 
 Install the Data Plane:
 
@@ -598,7 +598,7 @@ Expected:
 - TCP `8005` and `8006` are reachable from `kong-dp-uat` to `kong-cp-uat`.
 - CP service DNS resolves from the DP namespace.
 
-***REMOVED******REMOVED*** Step 10 - Apply Routes
+## Step 10 - Apply Routes
 
 Apply OpenShift Routes:
 
@@ -642,7 +642,7 @@ Expected:
 - Kong DP proxy TLS port `8443` is reachable inside the DP namespace.
 - Kong CP Admin API TLS port `8444` is reachable inside the CP namespace.
 
-***REMOVED******REMOVED*** Step 11 - Optional Smoke Test Backend
+## Step 11 - Optional Smoke Test Backend
 
 Deploy the simple backend:
 
@@ -690,7 +690,7 @@ Expected:
 - Route `smoke-test-health` exists.
 - Proxy request returns HTTP `200`.
 
-***REMOVED******REMOVED*** Step 12 - Apply Network Policies
+## Step 12 - Apply Network Policies
 
 Apply NetworkPolicies only after replacing the placeholder CIDRs and after the pre-policy connectivity checks pass.
 
@@ -752,7 +752,7 @@ If any check fails immediately after applying NetworkPolicy, remove the policy a
 oc delete -f manifests/02-networkpolicy.yaml
 ```
 
-***REMOVED******REMOVED*** Step 13 - mTLS Validation
+## Step 13 - mTLS Validation
 
 After Fubon provides the test CA and two client certificates:
 
@@ -772,7 +772,7 @@ curl -k https://api-poc.uat.fubonhk.internal/api/v1/health
 
 Do not mark mTLS complete until Kong rejects requests without a trusted client certificate.
 
-***REMOVED******REMOVED*** Step 14 - Management UI Validation
+## Step 14 - Management UI Validation
 
 Open Kong Manager from the internal operator network:
 
@@ -799,7 +799,7 @@ Expected:
 - `configuration_hash` is present.
 - Admin API is reachable only from the internal operator or CI/CD network.
 
-***REMOVED******REMOVED*** Step 15 - Monitoring Validation
+## Step 15 - Monitoring Validation
 
 Kong exposes Prometheus metrics on the status listener, port `8100`.
 
@@ -818,7 +818,7 @@ Minimum metrics to confirm for PoC sign-off:
 - DP pod CPU and memory.
 - DP health and CP/DP connectivity.
 
-***REMOVED******REMOVED*** Rollback
+## Rollback
 
 Uninstall DP first, then CP:
 
@@ -829,7 +829,7 @@ helm uninstall kong-cp -n kong-cp-uat
 
 Keep PostgreSQL until Fubon confirms no further config export is required.
 
-***REMOVED******REMOVED*** Customer Inputs Still Required
+## Customer Inputs Still Required
 
 The workbook marks these as TBC and they must be confirmed before the actual install:
 

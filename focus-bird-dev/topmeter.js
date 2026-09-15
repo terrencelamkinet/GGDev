@@ -36,10 +36,10 @@ const TopMeter = (() => {
   }
 
   function focusColor(v) {
-    if (v >= 85) return '***REMOVED***4f8cff';
-    if (v >= 60) return '***REMOVED***74d680';
-    if (v >= 30) return '***REMOVED***ffd166';
-    return '***REMOVED***ff6b6b';
+    if (v >= 85) return '#4f8cff';
+    if (v >= 60) return '#74d680';
+    if (v >= 30) return '#ffd166';
+    return '#ff6b6b';
   }
 
   /* ---------- 建立 DOM ---------- */
@@ -53,19 +53,19 @@ const TopMeter = (() => {
       '<div id="tfm-report-box"><canvas id="tfm-report-canvas"></canvas></div>' +
       '<div id="tfm-log-row">' +
         '<div class="tfm-log-panel">' +
-          '<div class="tfm-log-title high">&***REMOVED***x1f535; 高專注 (5秒均值 &***REMOVED***x2265;85%)</div>' +
+          '<div class="tfm-log-title high">&#x1f535; 高專注 (5秒均值 &#x2265;85%)</div>' +
           '<div id="tfm-high-list"><div class="tfm-log-empty">尚未記錄</div></div>' +
         '</div>' +
         '<div class="tfm-log-panel">' +
-          '<div class="tfm-log-title low">&***REMOVED***x1f534; 低專注 (5秒均值 &***REMOVED***x2264;30%)</div>' +
+          '<div class="tfm-log-title low">&#x1f534; 低專注 (5秒均值 &#x2264;30%)</div>' +
           '<div id="tfm-low-list"><div class="tfm-log-empty">尚未記錄</div></div>' +
         '</div>' +
         '<div class="tfm-log-panel">' +
-          '<div class="tfm-log-title surge">&***REMOVED***x1f4c8; 急升 (單次升 &gt;50)</div>' +
+          '<div class="tfm-log-title surge">&#x1f4c8; 急升 (單次升 &gt;50)</div>' +
           '<div id="tfm-surge-list"><div class="tfm-log-empty">尚未記錄</div></div>' +
         '</div>' +
         '<div class="tfm-log-panel">' +
-          '<div class="tfm-log-title plunge">&***REMOVED***x1f4c9; 急跌 (單次跌 &gt;50)</div>' +
+          '<div class="tfm-log-title plunge">&#x1f4c9; 急跌 (單次跌 &gt;50)</div>' +
           '<div id="tfm-plunge-list"><div class="tfm-log-empty">尚未記錄</div></div>' +
         '</div>' +
       '</div>';
@@ -176,7 +176,7 @@ const TopMeter = (() => {
   function renderLog(arr, listEl, kind) {
     if (!listEl) return;
     if (arr.length === 0) { listEl.innerHTML = '<div class="tfm-log-empty">尚未記錄</div>'; return; }
-    const color = kind === 'high' || kind === 'surge' ? '***REMOVED***4f8cff' : '***REMOVED***ff6b6b';
+    const color = kind === 'high' || kind === 'surge' ? '#4f8cff' : '#ff6b6b';
     let html = '';
     arr.slice().reverse().forEach(e => {
       if (kind === 'surge' || kind === 'plunge') {
@@ -217,12 +217,12 @@ const TopMeter = (() => {
     if (demo) {
       c.textAlign = 'center'; c.textBaseline = 'middle';
       c.font = '800 ' + Math.round(h * 0.16) + 'px sans-serif';
-      c.fillStyle = '***REMOVED***6d8ba0';
+      c.fillStyle = '#6d8ba0';
       c.fillText('等待連接', w/2, h * 0.44);
       c.font = Math.round(h * 0.07) + 'px sans-serif';
-      c.fillStyle = '***REMOVED***4a6a7a';
+      c.fillStyle = '#4a6a7a';
       c.fillText('請在另一分頁開啟專注飛鳥遊戲', w/2, h * 0.56);
-      c.fillStyle = '***REMOVED***3a5a6a';
+      c.fillStyle = '#3a5a6a';
       c.fillText('BrainLink 頭盔連接後即時顯示', w/2, h * 0.64);
       return;
     }
@@ -236,8 +236,8 @@ const TopMeter = (() => {
     c.strokeStyle = 'rgba(255,255,255,.12)'; c.lineWidth = 10; c.lineCap = 'round'; c.stroke();
 
     const grad = c.createLinearGradient(cx - R, cy, cx + R, cy);
-    grad.addColorStop(0, '***REMOVED***ff6b6b'); grad.addColorStop(.35, '***REMOVED***ffd166');
-    grad.addColorStop(.65, '***REMOVED***74d680'); grad.addColorStop(1, '***REMOVED***4f8cff');
+    grad.addColorStop(0, '#ff6b6b'); grad.addColorStop(.35, '#ffd166');
+    grad.addColorStop(.65, '#74d680'); grad.addColorStop(1, '#4f8cff');
     const angle = sA + (val / 100) * (eA - sA);
     c.beginPath(); c.arc(cx, cy, R, sA, angle);
     c.strokeStyle = grad; c.lineWidth = 10; c.lineCap = 'round';
@@ -251,14 +251,14 @@ const TopMeter = (() => {
     c.restore();
 
     c.font = '800 ' + Math.round(h * 0.075) + 'px sans-serif';
-    c.fillStyle = '***REMOVED***9bbfd4';
+    c.fillStyle = '#9bbfd4';
     c.fillText(demo ? '— 等待數據 —' : '即時專注感應', cx, cy + h * 0.30);
 
     const prev = history.length > 1 ? history[history.length - 2].v : rawValue;
     const delta = Math.round(rawValue - prev);
     if (delta !== 0 && history.length > 1) {
       c.font = '800 ' + Math.round(h * 0.08) + 'px sans-serif';
-      c.fillStyle = delta > 0 ? '***REMOVED***74d680' : '***REMOVED***ff6b6b';
+      c.fillStyle = delta > 0 ? '#74d680' : '#ff6b6b';
       c.fillText((delta > 0 ? '\u25b2+' : '\u25bc') + Math.abs(delta), cx, cy - h * 0.36);
     }
   }
@@ -291,12 +291,12 @@ const TopMeter = (() => {
 
     if (history.length < 2) {
       if (demo) {
-        c.font = Math.round(h * 0.28) + 'px sans-serif'; c.fillStyle = '***REMOVED***6d8ba0';
+        c.font = Math.round(h * 0.28) + 'px sans-serif'; c.fillStyle = '#6d8ba0';
         c.textAlign = 'center'; c.textBaseline = 'middle';
         c.fillText('等待遊戲數據...', w / 2, h / 2);
         return;
       }
-      c.font = Math.round(h * 0.32) + 'px sans-serif'; c.fillStyle = '***REMOVED***6d8ba0';
+      c.font = Math.round(h * 0.32) + 'px sans-serif'; c.fillStyle = '#6d8ba0';
       c.textAlign = 'center'; c.textBaseline = 'middle';
       c.fillText('收集數據中...', w / 2, h / 2);
       return;
@@ -316,7 +316,7 @@ const TopMeter = (() => {
     c.lineTo(pad, yPos(0)); c.closePath();
     c.fillStyle = 'rgba(79,140,255,.10)'; c.fill();
 
-    c.font = Math.round(h * 0.26) + 'px sans-serif'; c.fillStyle = '***REMOVED***9bbfd4';
+    c.font = Math.round(h * 0.26) + 'px sans-serif'; c.fillStyle = '#9bbfd4';
     c.textAlign = 'left'; c.textBaseline = 'top';
     c.fillText('0-100% 即時報表', pad, pad);
     c.textAlign = 'right';

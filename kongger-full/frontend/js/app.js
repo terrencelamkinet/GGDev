@@ -165,8 +165,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   // Auth form
   document.getElementById('auth-form')?.addEventListener('submit',async e=>{
     e.preventDefault();const btn=e.target.querySelector('button[type="submit"]');
-    const email=e.target.querySelector('[name="email"]')?.value||e.target.querySelector('***REMOVED***auth-email')?.value;
-    const pw=e.target.querySelector('***REMOVED***auth-password')?.value;
+    const email=e.target.querySelector('[name="email"]')?.value||e.target.querySelector('#auth-email')?.value;
+    const pw=e.target.querySelector('#auth-password')?.value;
     btn.classList.add('loading');
     const{error}=await AuthAPI.login(email,pw);
     btn.classList.remove('loading');

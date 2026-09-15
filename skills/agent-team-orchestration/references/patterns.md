@@ -1,8 +1,8 @@
-***REMOVED*** Patterns
+# Patterns
 
 Proven multi-agent workflows. Copy and adapt.
 
-***REMOVED******REMOVED*** Spec → Review → Build → Test
+## Spec → Review → Build → Test
 
 The full quality loop. Use for any non-trivial feature.
 
@@ -22,7 +22,7 @@ The full quality loop. Use for any non-trivial feature.
 
 **Key:** The person who writes the spec doesn't review the build. The person who builds doesn't approve their own work. Cross-role verification is the whole point.
 
-***REMOVED******REMOVED******REMOVED*** Minimal version (2 agents):
+### Minimal version (2 agents):
 ```
 1. Orchestrator writes brief spec
 2. Builder implements
@@ -30,7 +30,7 @@ The full quality loop. Use for any non-trivial feature.
 4. Done or return for fixes
 ```
 
-***REMOVED******REMOVED*** Parallel Research
+## Parallel Research
 
 Multiple agents research independently, then merge. Use for broad investigation.
 
@@ -48,7 +48,7 @@ Multiple agents research independently, then merge. Use for broad investigation.
 - Set a time/scope limit per agent — research expands to fill available time
 - The merge step is mandatory — raw research without synthesis is useless
 
-***REMOVED******REMOVED*** Escalation
+## Escalation
 
 Agent hits a blocker it can't resolve. Structured escalation prevents stalling.
 
@@ -71,11 +71,11 @@ Agent hits a blocker it can't resolve. Structured escalation prevents stalling.
 
 **Anti-pattern:** Agent silently struggling for 30 minutes instead of escalating after 10. Set the expectation: escalate early, escalate with context.
 
-***REMOVED******REMOVED*** Cron-Based Ops
+## Cron-Based Ops
 
 Scheduled tasks for team health. Assign to the cheapest reliable agent.
 
-***REMOVED******REMOVED******REMOVED*** Daily Standup
+### Daily Standup
 ```
 Schedule: Every morning
 Agent: Ops
@@ -91,7 +91,7 @@ Agent: Ops
 5. Post to orchestrator or team channel
 ```
 
-***REMOVED******REMOVED******REMOVED*** Task Dispatch
+### Task Dispatch
 ```
 Schedule: Every few hours (or on trigger)
 Agent: Orchestrator
@@ -102,7 +102,7 @@ Agent: Orchestrator
 4. Assign and spawn
 ```
 
-***REMOVED******REMOVED******REMOVED*** Health Check
+### Health Check
 ```
 Schedule: Periodic
 Agent: Ops
@@ -113,7 +113,7 @@ Agent: Ops
 4. Report anomalies to orchestrator
 ```
 
-***REMOVED******REMOVED*** Batch Processing
+## Batch Processing
 
 Multiple similar tasks that can run in parallel.
 
@@ -128,7 +128,7 @@ Multiple similar tasks that can run in parallel.
 
 **Sizing:** Start with 2-3 parallel agents. More isn't always faster — coordination overhead grows.
 
-***REMOVED******REMOVED*** Review Rotation
+## Review Rotation
 
 Prevent review fatigue and bias by rotating reviewers.
 

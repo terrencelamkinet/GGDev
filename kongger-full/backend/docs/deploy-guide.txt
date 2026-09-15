@@ -1,16 +1,16 @@
-***REMOVED*** KONGGER Full-Stack Deployment Guide
-***REMOVED*** For AI Agents: Cursor / Windsurf / Claude Dev / GPT-Engineer
+# KONGGER Full-Stack Deployment Guide
+# For AI Agents: Cursor / Windsurf / Claude Dev / GPT-Engineer
 
-***REMOVED******REMOVED*** PREREQUISITES
+## PREREQUISITES
 - Node.js 20+
 - PostgreSQL 16+
 - Nginx (production)
 - Certbot (SSL)
 - Git
 
-***REMOVED******REMOVED*** OPTION A — Docker Compose (Recommended)
+## OPTION A — Docker Compose (Recommended)
 1. Clone repo:         git clone <your-repo> && cd kongger-full/backend
-2. Create .env:        cp .env.example .env && nano .env   ***REMOVED*** set PG_PASSWORD + JWT_SECRET
+2. Create .env:        cp .env.example .env && nano .env   # set PG_PASSWORD + JWT_SECRET
 3. Start DB + API:     docker compose up -d
 4. Seed (optional):    docker exec -it kongger-full-db-1 psql -U kongger_user -d kongger_db -f /docker-entrypoint-initdb.d/04_seed.sql
 5. Deploy frontend:    cp -r ../frontend /var/www/kongger-full/frontend
@@ -20,7 +20,7 @@
 7. SSL:                certbot --nginx -d your-domain.com --email admin@your-domain.com --agree-tos -n
 8. Verify:             curl https://your-domain.com/health
 
-***REMOVED******REMOVED*** OPTION B — Manual (without Docker)
+## OPTION B — Manual (without Docker)
 1. Install PostgreSQL:  apt install postgresql-16 -y
 2. Create DB user:      sudo -u postgres psql -c "CREATE USER kongger_user WITH PASSWORD 'yourpassword';"
                         sudo -u postgres psql -c "CREATE DATABASE kongger_db OWNER kongger_user;"
@@ -36,7 +36,7 @@
 7. Deploy frontend:     cp -r ../frontend/* /var/www/kongger-full/
 8. Nginx + SSL:         (same as Option A steps 6-7)
 
-***REMOVED******REMOVED*** SMOKE TESTS
+## SMOKE TESTS
 curl http://localhost:3001/health
 curl -X POST http://localhost:3001/api/v1/auth/register \
   -H "Content-Type: application/json" \
@@ -44,7 +44,7 @@ curl -X POST http://localhost:3001/api/v1/auth/register \
 curl -X POST http://localhost:3001/api/v1/waitlist -H "Content-Type: application/json" -d '{"email":"hello@kongger.hk","name":"Hello"}'
 curl http://localhost:3001/api/v1/profiles/test_user
 
-***REMOVED******REMOVED*** AI AGENT DEPLOY PROMPT (Cursor / Windsurf / Claude Dev)
+## AI AGENT DEPLOY PROMPT (Cursor / Windsurf / Claude Dev)
 --------------------------------------------------------------------
 You are deploying KONGGER, a full-stack social website.
 
@@ -68,7 +68,7 @@ TASK:
    by editing the <script> block in frontend/index.html
 --------------------------------------------------------------------
 
-***REMOVED******REMOVED*** ENVIRONMENT VARIABLES REFERENCE
+## ENVIRONMENT VARIABLES REFERENCE
 PG_CONNECTION_STRING  postgresql://REDACTED:REDACTED@host:5432/kongger_db
 JWT_SECRET            random string, minimum 32 characters
 PORT                  API port (default: 3001)

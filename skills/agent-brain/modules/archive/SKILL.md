@@ -1,68 +1,68 @@
-***REMOVED*** Archive Memory 📦
+# Archive Memory 📦
 
 **Status:** ✅ Live | **Module:** archive | **Part of:** Agent Brain
 
 Memory storage and retrieval. The only module that reads/writes to the memory backend (`memory.db` via SQLite by default, or `memory.json` with legacy JSON backend).
 
-***REMOVED******REMOVED*** Operations
+## Operations
 
 All operations go through `scripts/memory.sh`:
 
-***REMOVED******REMOVED******REMOVED*** Store
+### Store
 ```bash
-***REMOVED*** User tells you a fact
+# User tells you a fact
 ./scripts/memory.sh add fact "Alex prefers prose over bullets" user "style,formatting"
 
-***REMOVED*** User teaches a procedure
+# User teaches a procedure
 ./scripts/memory.sh add procedure "Always run tests before committing" user "workflow,git"
 
-***REMOVED*** Store a preference with context
+# Store a preference with context
 ./scripts/memory.sh add preference "Prefers concise responses" user "style" "" "casual conversations"
 
-***REMOVED*** Store with namespaced tags
+# Store with namespaced tags
 ./scripts/memory.sh add preference "Uses Python for data work" user "code.python,data"
 ```
 
-***REMOVED******REMOVED******REMOVED*** Retrieve
+### Retrieve
 ```bash
-***REMOVED*** Search by keyword (auto-touches returned entries, weighted scoring)
+# Search by keyword (auto-touches returned entries, weighted scoring)
 ./scripts/memory.sh get "formatting style"
 
-***REMOVED*** List all of a type
+# List all of a type
 ./scripts/memory.sh list preference
 ```
 
 Results are ranked by keyword match (40%), tag overlap (25%), confidence (15%), recency (10%), and access frequency (10%). Returned entries are automatically marked as accessed — no need to call `touch` separately.
 
-***REMOVED******REMOVED******REMOVED*** Update
+### Update
 ```bash
-***REMOVED*** Update a field directly
+# Update a field directly
 ./scripts/memory.sh update <id> confidence sure
 
-***REMOVED*** Replace outdated info
+# Replace outdated info
 ./scripts/memory.sh add fact "Alex now works at CompanyB" user "work"
 ./scripts/memory.sh supersede <old_id> <new_id>
 ```
 
-***REMOVED******REMOVED******REMOVED*** Correct
+### Correct
 ```bash
-***REMOVED*** When user corrects you — tracks why you were wrong
+# When user corrects you — tracks why you were wrong
 ./scripts/memory.sh correct <wrong_id> "Correct claim here" "Reason for mistake" "tags"
 ```
 
-***REMOVED******REMOVED******REMOVED*** Record Success
+### Record Success
 ```bash
-***REMOVED*** When a memory was applied successfully
+# When a memory was applied successfully
 ./scripts/memory.sh success <id> "Applied during code review"
 ```
 
-***REMOVED******REMOVED*** Fact Extraction
+## Fact Extraction
 
 The agent MUST actively extract facts from every user message. Most users
 won't say "remember this" — they reveal information naturally. The agent's
 job is to catch it.
 
-***REMOVED******REMOVED******REMOVED*** Per-Message Extraction Flow
+### Per-Message Extraction Flow
 
 Run this on EVERY user message, before responding:
 
@@ -80,9 +80,9 @@ Run this on EVERY user message, before responding:
 4. Respond to the user's actual request, applying retrieved context
 ```
 
-***REMOVED******REMOVED******REMOVED*** What to Extract
+### What to Extract
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** Identity (type: `fact`, tags: `identity.*`)
+#### Identity (type: `fact`, tags: `identity.*`)
 
 | Signal | Example Message | What to Store |
 |--------|----------------|---------------|
@@ -92,7 +92,7 @@ Run this on EVERY user message, before responding:
 | Team | "Our team handles payments" | `"User's team handles payments"` → `identity,team` |
 | Location | "I'm based in Berlin" | `"User is based in Berlin"` → `identity,location` |
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** Tech Stack (type: `fact`, tags: `code.*`, `tools`)
+#### Tech Stack (type: `fact`, tags: `code.*`, `tools`)
 
 | Signal | Example Message | What to Store |
 |--------|----------------|---------------|
@@ -103,7 +103,7 @@ Run this on EVERY user message, before responding:
 | Implicit | "in our Next.js app..." | `"Project uses Next.js"` → `code.nextjs,project` |
 | Version | "We're on Python 3.12" | `"Uses Python 3.12"` → `code.python,project` |
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** Preferences (type: `preference`, tags: `style.*`, `code.*`)
+#### Preferences (type: `preference`, tags: `style.*`, `code.*`)
 
 | Signal | Example Message | What to Store |
 |--------|----------------|---------------|
@@ -115,7 +115,7 @@ Run this on EVERY user message, before responding:
 | Style choice | "Can you make it more concise?" | `"Prefers concise responses"` → `style.tone` |
 | Repeated picks | User picks Tailwind 3 times in a row | `"Prefers Tailwind CSS"` → `code.css,style.code` |
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** Workflows (type: `procedure`, tags: `workflow.*`)
+#### Workflows (type: `procedure`, tags: `workflow.*`)
 
 | Signal | Example Message | What to Store |
 |--------|----------------|---------------|
@@ -125,7 +125,7 @@ Run this on EVERY user message, before responding:
 | "My workflow" | "I branch off develop" | `"Branches from develop, not main"` → `workflow.git,process` |
 | "First I..then" | "First I prototype, then refactor" | `"Prototypes first, then refactors"` → `workflow.dev,process` |
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** Project Context (type: `fact`, tags: `project.*`)
+#### Project Context (type: `fact`, tags: `project.*`)
 
 | Signal | Example Message | What to Store |
 |--------|----------------|---------------|
@@ -135,7 +135,7 @@ Run this on EVERY user message, before responding:
 | Deadline | "Launching next month" | `"Launch target is next month"` → `project,timeline` |
 | Migration | "Migrating from REST to GraphQL" | `"Migrating API from REST to GraphQL"` → `project,code.api` |
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** Corrections (implicit extraction)
+#### Corrections (implicit extraction)
 
 When the user corrects you, this is a high-value extraction signal:
 
@@ -146,7 +146,7 @@ When the user corrects you, this is a high-value extraction signal:
 | "That's wrong" | "That's wrong, the API is REST" | `correct <old_id> "API is REST" "Incorrectly assumed GraphQL"` |
 | "Stop doing X" | "Stop adding semicolons" | Store preference: `"No semicolons in code"` → `style.code` |
 
-***REMOVED******REMOVED******REMOVED*** Implicit vs Explicit Signals
+### Implicit vs Explicit Signals
 
 **Explicit** (high confidence — store as `source: user`, `confidence: sure`):
 - "Remember that...", "I always...", "My name is...", "We use..."
@@ -159,13 +159,13 @@ When the user corrects you, this is a high-value extraction signal:
 
 Implicit facts should be confirmed before upgrading to `sure`:
 ```bash
-***REMOVED*** Store initially as uncertain
+# Store initially as uncertain
 ./scripts/memory.sh add fact "Project uses Next.js" inferred "code.nextjs,project"
-***REMOVED*** If user later confirms → upgrade
+# If user later confirms → upgrade
 ./scripts/memory.sh update <id> confidence sure
 ```
 
-***REMOVED******REMOVED******REMOVED*** What NOT to Extract
+### What NOT to Extract
 
 - **One-time requests**: "Format this as a table" ≠ user prefers tables
 - **Hypotheticals**: "If we were using Python..." ≠ user uses Python
@@ -174,7 +174,7 @@ Implicit facts should be confirmed before upgrading to `sure`:
 - **Already stored**: Always `get` first to avoid duplicates
 - **Obvious context**: Don't store "user is talking to me" or "user is coding"
 
-***REMOVED******REMOVED******REMOVED*** Extraction Examples
+### Extraction Examples
 
 **User message**: "Hey, I'm Marcus. I'm a senior engineer at Stripe working on a payments dashboard. We use React with TypeScript and I prefer Tailwind for styling."
 
@@ -198,7 +198,7 @@ Implicit facts should be confirmed before upgrading to `sure`:
 
 **Extraction**: Nothing — this is a transient task request with no durable facts.
 
-***REMOVED******REMOVED*** When to Retrieve
+## When to Retrieve
 
 Before responding to any task, search memory for relevant context. This is the FIRST step on every message — before extraction, before responding.
 
@@ -212,27 +212,27 @@ Before responding to any task, search memory for relevant context. This is the F
 | "How should I structure the API?" | `"api structure architecture"` |
 
 ```bash
-***REMOVED*** Always run this first
+# Always run this first
 ./scripts/memory.sh get "<query>"
 ```
 
 **Using results**: If entries come back, apply them silently. Never say "I remember that you..." or "According to my memory..." — just use the knowledge as if you naturally know it. Access tracking is automatic — retrieved entries stay fresh.
 
-***REMOVED******REMOVED*** When NOT to Store
+## When NOT to Store
 
 - Transient conversation details
 - Anything the user explicitly says is temporary
 - Sensitive data (passwords, API keys, SSNs)
 - Information that's already stored (check first with `get`)
 
-***REMOVED******REMOVED*** Conflict Check on Store
+## Conflict Check on Store
 
 Before adding any new entry, ALWAYS:
 1. Run `./scripts/memory.sh conflicts "<content>"`
 2. If `POTENTIAL_CONFLICTS` returned → pass to Signal module
 3. If `NO_CONFLICTS` → proceed with add
 
-***REMOVED******REMOVED*** Pattern Detection on Store
+## Pattern Detection on Store
 
 When storing a procedure or preference, check for related entries:
 1. Run `./scripts/memory.sh similar "<content>" 0.10`
@@ -241,7 +241,7 @@ When storing a procedure or preference, check for related entries:
    ./scripts/memory.sh add pattern "<generalized description>" inferred "<tags>"
    ```
 
-***REMOVED******REMOVED*** Integration
+## Integration
 
 - **Signal**: Archive calls Signal before every store to check conflicts
 - **Gauge**: Archive results include confidence level for retrieval

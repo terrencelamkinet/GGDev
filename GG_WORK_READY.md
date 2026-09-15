@@ -1,1 +1,1 @@
-***REMOVED*** GG-Work Development Environment - READY
+# GG-Work Development Environment - READY

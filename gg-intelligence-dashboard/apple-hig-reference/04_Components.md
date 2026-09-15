@@ -1,10 +1,10 @@
-***REMOVED*** Components — AI Agent Instruction Spec
+# Components — AI Agent Instruction Spec
 > Reference: Apple HIG — Components
 > Covers: Content, Layout & Organization, Menus & Actions, Navigation & Search, Presentation, Selection & Input, Status, System Experiences
 
 ---
 
-***REMOVED******REMOVED*** Component Design Principles
+## Component Design Principles
 1. **Always prefer system components** over custom implementations.
 2. **System components** automatically handle: accessibility, Dark Mode, Dynamic Type, haptics, animations.
 3. **Custom components** must manually implement all the above.
@@ -12,9 +12,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 1. Content Components
+## 1. Content Components
 
-***REMOVED******REMOVED******REMOVED*** 1.1 Text Views
+### 1.1 Text Views
 | Property | Specification |
 |----------|--------------|
 | Primary text | `.body` style, `.label` color |
@@ -22,14 +22,14 @@
 | Truncation | `.lineLimit(2)` for list items; none for detail views |
 | Selection | System text selection supported by default |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | TXT-001 | Use `Text` (SwiftUI) / `UILabel` — not `UITextView` for non-editable content. |
 | TXT-002 | Support text selection and copy for all substantive content. |
 | TXT-003 | Use `AttributedString` for mixed formatting (bold, link, color) within a single label. |
 
-***REMOVED******REMOVED******REMOVED*** 1.2 Images
+### 1.2 Images
 ```swift
 // SwiftUI
 Image("photo")
@@ -38,7 +38,7 @@ Image("photo")
     .accessibilityLabel("Description of image")
 ```
 
-***REMOVED******REMOVED******REMOVED*** 1.3 Charts (Swift Charts)
+### 1.3 Charts (Swift Charts)
 | Rule ID | Instruction |
 |---------|-------------|
 | CHT-001 | Use `Swift Charts` framework for all data visualization. |
@@ -48,9 +48,9 @@ Image("photo")
 
 ---
 
-***REMOVED******REMOVED*** 2. Layout & Organization
+## 2. Layout & Organization
 
-***REMOVED******REMOVED******REMOVED*** 2.1 Lists & Tables
+### 2.1 Lists & Tables
 ```
 List Types:
   Plain          → Continuous rows, no section headers
@@ -59,7 +59,7 @@ List Types:
   Sidebar        → For iPad/Mac sidebar navigation
 ```
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | LST-001 | Use `List` (SwiftUI) / `UITableView` for all row-based scrolling content. |
@@ -68,21 +68,21 @@ List Types:
 | LST-004 | Edit mode: support select-all, delete, and reorder where applicable. |
 | LST-005 | Use section headers to group logically related rows. |
 
-***REMOVED******REMOVED******REMOVED*** 2.2 Grids
+### 2.2 Grids
 | Rule ID | Instruction |
 |---------|-------------|
 | GRD-001 | Use `LazyVGrid` / `LazyHGrid` for image galleries and card layouts. |
 | GRD-002 | Grid columns: adaptive (fill available width) or fixed (consistent item sizes). |
 | GRD-003 | Minimum item size: 44×44pt for touch targets in a grid. |
 
-***REMOVED******REMOVED******REMOVED*** 2.3 Scroll Views
+### 2.3 Scroll Views
 | Rule ID | Instruction |
 |---------|-------------|
 | SCR-001 | Content must extend to bottom safe area — add `.safeAreaInset(edge: .bottom)` padding. |
 | SCR-002 | Horizontal scroll: indicate via partial visibility of next item (show 10–15% of next card). |
 | SCR-003 | Paging scroll: use `.scrollTargetBehavior(.paging)` for onboarding or media carousels. |
 
-***REMOVED******REMOVED******REMOVED*** 2.4 Split Views (iPad / Mac)
+### 2.4 Split Views (iPad / Mac)
 | Rule ID | Instruction |
 |---------|-------------|
 | SPL-001 | Use `NavigationSplitView` for iPad and Mac two/three-column layouts. |
@@ -91,9 +91,9 @@ List Types:
 
 ---
 
-***REMOVED******REMOVED*** 3. Menus & Actions
+## 3. Menus & Actions
 
-***REMOVED******REMOVED******REMOVED*** 3.1 Buttons
+### 3.1 Buttons
 | Button Style | Use Case |
 |-------------|----------|
 | `.bordered` / `.borderedProminent` | Primary CTAs |
@@ -101,7 +101,7 @@ List Types:
 | `.borderless` | Toolbar / navigation actions |
 | Destructive | Red color, confirmation required |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | BTN-001 | One **primary action** per screen — use `.borderedProminent` style. |
@@ -111,7 +111,7 @@ List Types:
 | BTN-005 | Icon-only buttons must have `accessibilityLabel`. |
 | BTN-006 | Minimum button height: 44pt; minimum width: 44pt. |
 
-***REMOVED******REMOVED******REMOVED*** 3.2 Context Menus
+### 3.2 Context Menus
 | Rule ID | Instruction |
 |---------|-------------|
 | CTX-001 | Use `.contextMenu {}` for long-press or right-click menus on content items. |
@@ -119,7 +119,7 @@ List Types:
 | CTX-003 | Destructive actions in context menus: use `.destructive` role (red, placed last). |
 | CTX-004 | Include SF Symbol icons for all context menu items. |
 
-***REMOVED******REMOVED******REMOVED*** 3.3 Action Sheets / Confirmation Dialogs
+### 3.3 Action Sheets / Confirmation Dialogs
 | Rule ID | Instruction |
 |---------|-------------|
 | ACT-001 | Use `.confirmationDialog` for presenting multiple choices. |
@@ -128,9 +128,9 @@ List Types:
 
 ---
 
-***REMOVED******REMOVED*** 4. Navigation & Search
+## 4. Navigation & Search
 
-***REMOVED******REMOVED******REMOVED*** 4.1 Tab Bar
+### 4.1 Tab Bar
 ```
 Max Tabs:     5 items
 Item anatomy: Icon (SF Symbol) + Label
@@ -139,7 +139,7 @@ Badges:       Numeric (count) or dot (unread indicator)
 Position:     Bottom on iPhone; sidebar on iPad (regular width)
 ```
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | TAB-001 | Tab bar: max 5 items; use "More" tab or sidebar if more sections exist. |
@@ -148,7 +148,7 @@ Position:     Bottom on iPhone; sidebar on iPad (regular width)
 | TAB-004 | Tab badges: use for unread counts — clear on tab open. |
 | TAB-005 | Never use tab bar as a toolbar — it's for top-level navigation only. |
 
-***REMOVED******REMOVED******REMOVED*** 4.2 Navigation Bar
+### 4.2 Navigation Bar
 | Rule ID | Instruction |
 |---------|-------------|
 | NBR-001 | Large title on root screens; inline title on drill-down screens. |
@@ -156,14 +156,14 @@ Position:     Bottom on iPhone; sidebar on iPad (regular width)
 | NBR-003 | Search bar attaches below navigation bar using `UISearchController`. |
 | NBR-004 | Back button label: truncate to parent screen title if long; use "Back" as fallback. |
 
-***REMOVED******REMOVED******REMOVED*** 4.3 Toolbar
+### 4.3 Toolbar
 | Rule ID | Instruction |
 |---------|-------------|
 | TBR-001 | Toolbars hold context-specific actions for the current screen — not navigation. |
 | TBR-002 | Toolbar items: icon + optional label; 3–5 items maximum. |
 | TBR-003 | Use `.toolbar` modifier in SwiftUI for placement (`.bottomBar`, `.navigationBarTrailing`). |
 
-***REMOVED******REMOVED******REMOVED*** 4.4 Sidebar (iPad / Mac)
+### 4.4 Sidebar (iPad / Mac)
 | Rule ID | Instruction |
 |---------|-------------|
 | SDB-001 | Sidebar replaces tab bar on iPad (regular width) and Mac. |
@@ -172,9 +172,9 @@ Position:     Bottom on iPhone; sidebar on iPad (regular width)
 
 ---
 
-***REMOVED******REMOVED*** 5. Presentation
+## 5. Presentation
 
-***REMOVED******REMOVED******REMOVED*** 5.1 Alerts
+### 5.1 Alerts
 ```
 Alert Anatomy:
   Title (required)    → Short, descriptive — "Delete Message?"
@@ -182,7 +182,7 @@ Alert Anatomy:
   Actions (1–2)       → [Cancel] [Destructive Action]
 ```
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | ALT-001 | Maximum 2 actions in an alert (Cancel + primary action). |
@@ -191,7 +191,7 @@ Alert Anatomy:
 | ALT-004 | Never use alerts for promotional content or tips. |
 | ALT-005 | Prefer in-context feedback (inline errors, toasts) over alerts where possible. |
 
-***REMOVED******REMOVED******REMOVED*** 5.2 Sheets
+### 5.2 Sheets
 | Rule ID | Instruction |
 |---------|-------------|
 | SHT-001 | Sheet: present with `.sheet {}` modifier for tasks requiring temporary focus. |
@@ -199,7 +199,7 @@ Alert Anatomy:
 | SHT-003 | Sheets include a drag indicator at the top — system-provided, do not replicate. |
 | SHT-004 | Navigation inside sheets: use `NavigationStack` — dismiss propagates to sheet root. |
 
-***REMOVED******REMOVED******REMOVED*** 5.3 Popovers
+### 5.3 Popovers
 | Rule ID | Instruction |
 |---------|-------------|
 | POP-001 | Popovers on iPad: anchor to the control that triggered them. |
@@ -208,9 +208,9 @@ Alert Anatomy:
 
 ---
 
-***REMOVED******REMOVED*** 6. Selection & Input
+## 6. Selection & Input
 
-***REMOVED******REMOVED******REMOVED*** 6.1 Text Fields
+### 6.1 Text Fields
 | Rule ID | Instruction |
 |---------|-------------|
 | TFD-001 | Use `TextField` with appropriate `textContentType` for AutoFill support. |
@@ -218,7 +218,7 @@ Alert Anatomy:
 | TFD-003 | Show character limits inline (e.g., "140/280") when applicable. |
 | TFD-004 | Use `SecureField` for passwords — with show/hide toggle. |
 
-***REMOVED******REMOVED******REMOVED*** 6.2 Pickers
+### 6.2 Pickers
 | Type | Use Case |
 |------|----------|
 | `Picker` (wheel) | Date/time, short value lists |
@@ -227,14 +227,14 @@ Alert Anatomy:
 | `ColorPicker` | Color selection |
 | `PhotosPicker` | Image/video selection from library |
 
-***REMOVED******REMOVED******REMOVED*** 6.3 Toggles & Switches
+### 6.3 Toggles & Switches
 | Rule ID | Instruction |
 |---------|-------------|
 | TGL-001 | Use `Toggle` for binary on/off settings. |
 | TGL-002 | Label must clearly describe what is toggled — "Enable Notifications" not "Notifications". |
 | TGL-003 | Toggle responds immediately — no Save button required. |
 
-***REMOVED******REMOVED******REMOVED*** 6.4 Sliders & Steppers
+### 6.4 Sliders & Steppers
 | Rule ID | Instruction |
 |---------|-------------|
 | SLD-001 | Use `Slider` for continuous value selection (volume, brightness, price range). |
@@ -243,16 +243,16 @@ Alert Anatomy:
 
 ---
 
-***REMOVED******REMOVED*** 7. Status
+## 7. Status
 
-***REMOVED******REMOVED******REMOVED*** 7.1 Progress Indicators
+### 7.1 Progress Indicators
 | Type | Use Case |
 |------|----------|
 | `ProgressView()` (spinner) | Indeterminate loading |
 | `ProgressView(value:total:)` (bar) | Determinate progress (upload, download) |
 | Skeleton views | Content placeholder while loading |
 
-***REMOVED******REMOVED******REMOVED*** 7.2 Badges
+### 7.2 Badges
 | Rule ID | Instruction |
 |---------|-------------|
 | BDG-001 | App icon badge: numeric count for notifications/unread items. |
@@ -261,9 +261,9 @@ Alert Anatomy:
 
 ---
 
-***REMOVED******REMOVED*** 8. System Experiences
+## 8. System Experiences
 
-***REMOVED******REMOVED******REMOVED*** 8.1 Widgets
+### 8.1 Widgets
 | Rule ID | Instruction |
 |---------|-------------|
 | WGT-001 | Support all three widget sizes: small, medium, large. |
@@ -271,7 +271,7 @@ Alert Anatomy:
 | WGT-003 | Widget content must load quickly — use `TimelineProvider` for scheduled updates. |
 | WGT-004 | Deep link from widget tap to specific app content using URL schemes. |
 
-***REMOVED******REMOVED******REMOVED*** 8.2 App Clips
+### 8.2 App Clips
 | Rule ID | Instruction |
 |---------|-------------|
 | APC-001 | App Clip binary: maximum 50MB. |

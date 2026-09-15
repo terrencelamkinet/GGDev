@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """HTTP server with no-cache headers for exam center."""
 import http.server
 import socketserver

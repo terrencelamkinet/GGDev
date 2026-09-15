@@ -6,16 +6,16 @@
   <title>NGFW Engineer Quiz - Palo Alto Networks</title>
   <style>
     :root {
-      --primary: ***REMOVED***e65100;
-      --primary-dark: ***REMOVED***bf360c;
-      --primary-light: ***REMOVED***fff3e0;
-      --success: ***REMOVED***2e7d32;
-      --danger: ***REMOVED***c62828;
-      --bg: ***REMOVED***f5f5f5;
-      --card: ***REMOVED***ffffff;
-      --text: ***REMOVED***1f2937;
-      --text-muted: ***REMOVED***6b7280;
-      --border: ***REMOVED***e0e0e0;
+      --primary: #e65100;
+      --primary-dark: #bf360c;
+      --primary-light: #fff3e0;
+      --success: #2e7d32;
+      --danger: #c62828;
+      --bg: #f5f5f5;
+      --card: #ffffff;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --border: #e0e0e0;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,9 +56,9 @@
     .hidden { display: none !important; }
 
     /* Home page */
-    ***REMOVED***home-page { text-align: center; }
-    ***REMOVED***home-page h2 { font-size: 24px; margin-bottom: 8px; }
-    ***REMOVED***home-page p { color: var(--text-muted); margin-bottom: 24px; }
+    #home-page { text-align: center; }
+    #home-page h2 { font-size: 24px; margin-bottom: 8px; }
+    #home-page p { color: var(--text-muted); margin-bottom: 24px; }
 
     .btn-grid {
       display: grid;
@@ -84,12 +84,12 @@
     .btn-success { background: var(--success); }
     .btn-danger { background: var(--danger); }
     .btn-secondary { background: var(--text-muted); }
-    .btn-warning { background: ***REMOVED***f9a825; color: ***REMOVED***1f2937; }
+    .btn-warning { background: #f9a825; color: #1f2937; }
     .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
 
     .info-box {
-      background: ***REMOVED***fff8e1;
-      border: 1px solid ***REMOVED***ffe082;
+      background: #fff8e1;
+      border: 1px solid #ffe082;
       border-radius: 8px;
       padding: 16px;
       text-align: left;
@@ -119,7 +119,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 12px 16px;
-      background: ***REMOVED***f9fafb;
+      background: #f9fafb;
       border-radius: 8px;
       margin-bottom: 16px;
     }
@@ -156,8 +156,8 @@
       border-radius: 12px;
       font-weight: 600;
     }
-    .question-type.single { background: ***REMOVED***e3f2fd; color: ***REMOVED***1565c0; }
-    .question-type.multi { background: ***REMOVED***fce4ec; color: ***REMOVED***c62828; }
+    .question-type.single { background: #e3f2fd; color: #1565c0; }
+    .question-type.multi { background: #fce4ec; color: #c62828; }
 
     .question-text {
       font-size: 15px;
@@ -184,7 +184,7 @@
     .answer-display {
       padding: 10px 14px;
       border-radius: 6px;
-      background: ***REMOVED***e8f5e9;
+      background: #e8f5e9;
       color: var(--success);
       font-weight: 600;
       font-size: 14px;
@@ -209,8 +209,8 @@
     }
     .option:hover { border-color: var(--primary); background: var(--primary-light); }
     .option.selected { border-color: var(--primary); background: var(--primary-light); }
-    .option.correct-answer { border-color: var(--success); background: ***REMOVED***e8f5e9; }
-    .option.wrong-answer { border-color: var(--danger); background: ***REMOVED***ffebee; }
+    .option.correct-answer { border-color: var(--success); background: #e8f5e9; }
+    .option.wrong-answer { border-color: var(--danger); background: #ffebee; }
 
     .option input { display: none; }
 
@@ -280,8 +280,8 @@
       margin-bottom: 8px;
       font-size: 13px;
     }
-    .review-item.correct { background: ***REMOVED***e8f5e9; border-left: 3px solid var(--success); }
-    .review-item.incorrect { background: ***REMOVED***ffebee; border-left: 3px solid var(--danger); }
+    .review-item.correct { background: #e8f5e9; border-left: 3px solid var(--success); }
+    .review-item.incorrect { background: #ffebee; border-left: 3px solid var(--danger); }
     .review-item .review-title { font-weight: 600; margin-bottom: 4px; }
     .review-item .review-answer { color: var(--text-muted); }
 
@@ -296,25 +296,25 @@
     }
 
     /* Answer Key page */
-    ***REMOVED***answer-key-page .q-block {
+    #answer-key-page .q-block {
       background: var(--card);
       border-radius: 12px;
       padding: 20px;
       margin-bottom: 16px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-    ***REMOVED***answer-key-page .q-title {
+    #answer-key-page .q-title {
       font-size: 14px;
       font-weight: 700;
       margin-bottom: 8px;
       color: var(--primary);
     }
-    ***REMOVED***answer-key-page .q-text {
+    #answer-key-page .q-text {
       font-size: 14px;
       line-height: 1.6;
       margin-bottom: 12px;
     }
-    ***REMOVED***answer-key-page .ak-choice {
+    #answer-key-page .ak-choice {
       display: flex;
       align-items: flex-start;
       gap: 10px;
@@ -324,11 +324,11 @@
       margin-bottom: 4px;
       font-size: 13px;
     }
-    ***REMOVED***answer-key-page .ak-choice.correct {
+    #answer-key-page .ak-choice.correct {
       border-color: var(--success);
-      background: ***REMOVED***e8f5e9;
+      background: #e8f5e9;
     }
-    ***REMOVED***answer-key-page .ak-choice .letter-badge {
+    #answer-key-page .ak-choice .letter-badge {
       width: 24px;
       height: 24px;
       border-radius: 50%;
@@ -340,14 +340,14 @@
       font-size: 12px;
       flex-shrink: 0;
     }
-    ***REMOVED***answer-key-page .ak-choice.correct .letter-badge {
+    #answer-key-page .ak-choice.correct .letter-badge {
       background: var(--success);
       color: white;
     }
-    ***REMOVED***answer-key-page .ak-answer {
+    #answer-key-page .ak-answer {
       margin-top: 8px;
       padding: 6px 10px;
-      background: ***REMOVED***e8f5e9;
+      background: #e8f5e9;
       color: var(--success);
       font-weight: 600;
       font-size: 13px;
@@ -482,7 +482,7 @@
         <h2 style="font-size: 20px; color: var(--primary);">📖 Answer Key — All 121 Questions</h2>
         <button class="btn btn-secondary" onclick="goHome()">← Back</button>
       </div>
-      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">順序顯示 1-121 題，每題 choices 跟 PDF 原始順序。<span style="background: ***REMOVED***e8f5e9; padding: 2px 6px; border-radius: 3px; font-weight: 600;">綠色 highlight</span> = 正確答案</p>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">順序顯示 1-121 題，每題 choices 跟 PDF 原始順序。<span style="background: #e8f5e9; padding: 2px 6px; border-radius: 3px; font-weight: 600;">綠色 highlight</span> = 正確答案</p>
       <div id="answer-key-content"></div>
     </div>
   </div>
@@ -675,7 +675,7 @@
     document.getElementById('result-correct').textContent = correct;
     document.getElementById('result-score').textContent = `${score} / ${maxScore} (${pct}%)`;
     document.getElementById('result-status').textContent = passed ? 'PASSED ✓' : 'FAILED ✗';
-    document.getElementById('result-status').style.color = passed ? '***REMOVED***2e7d32' : '***REMOVED***c62828';
+    document.getElementById('result-status').style.color = passed ? '#2e7d32' : '#c62828';
 
     // Build review
     let reviewHTML = '';
@@ -724,7 +724,7 @@
       const correctSet = new Set(q.answer.split(''));
 
       html += `<div class="q-block">`;
-      html += `<div class="q-title">Q${i + 1} (PDF ***REMOVED***${q.num}) · ${q.type === 'multi' ? 'Choose all that apply' : 'Single Select'}</div>`;
+      html += `<div class="q-title">Q${i + 1} (PDF #${q.num}) · ${q.type === 'multi' ? 'Choose all that apply' : 'Single Select'}</div>`;
       html += `<div class="q-text">${q.text.replace(/\n/g, '<br>')}</div>`;
 
       q.choices.forEach(c => {

@@ -18,9 +18,9 @@ const UI = (() => {
       f++;
       dc2.clearRect(0,0,420,280);
       const g2 = dc2.createLinearGradient(0,0,0,280);
-      g2.addColorStop(0,'***REMOVED***4fc3f7'); g2.addColorStop(.6,'***REMOVED***b3e5fc'); g2.addColorStop(1,'***REMOVED***e8f5e9');
+      g2.addColorStop(0,'#4fc3f7'); g2.addColorStop(.6,'#b3e5fc'); g2.addColorStop(1,'#e8f5e9');
       dc2.fillStyle = g2; dc2.fillRect(0,0,420,280);
-      dc2.fillStyle='***REMOVED***66bb6a'; dc2.fillRect(0,240,420,40);
+      dc2.fillStyle='#66bb6a'; dc2.fillRect(0,240,420,40);
       const by2 = 130+Math.sin(f*.04)*38;
       dc2.save(); dc2.translate(170,by2); dc2.scale(.62,.62);
       _demoBird(dc2,f*.15,Math.sin(f*.04)*.1);
@@ -38,26 +38,26 @@ const UI = (() => {
   function _demoBird(c2,wp,rot){
     const wu=Math.sin(wp)*20;
     c2.save(); c2.rotate(rot);
-    _p(c2,'***REMOVED***0d47a1',[[-62,0],[-86,-7],[-68,-22],[-48,-5]]);
-    _p(c2,'***REMOVED***1a4fa8',[[-12,2],[-58,-24+wu],[-48,-9+wu],[-6,14]]);
-    _p(c2,'***REMOVED***3a7bd5',[[0,-18],[48,-22],[56,2],[38,28],[0,26],[-20,6]]);
-    _p(c2,'***REMOVED***ffe066',[[18,8],[38,10],[34,28],[14,28]]);
-    _p(c2,'***REMOVED***4f8cff',[[38,-24],[76,-30],[80,-6],[58,2],[36,-2]]);
-    _p(c2,'***REMOVED***fff',[[55,-20],[65,-22],[67,-10],[57,-8]]);
-    _p(c2,'***REMOVED***111',[[59,-18],[63,-19],[64,-11],[60,-10]]);
-    _p(c2,'***REMOVED***fb8500',[[70,-14],[96,-8],[70,-2]]);
+    _p(c2,'#0d47a1',[[-62,0],[-86,-7],[-68,-22],[-48,-5]]);
+    _p(c2,'#1a4fa8',[[-12,2],[-58,-24+wu],[-48,-9+wu],[-6,14]]);
+    _p(c2,'#3a7bd5',[[0,-18],[48,-22],[56,2],[38,28],[0,26],[-20,6]]);
+    _p(c2,'#ffe066',[[18,8],[38,10],[34,28],[14,28]]);
+    _p(c2,'#4f8cff',[[38,-24],[76,-30],[80,-6],[58,2],[36,-2]]);
+    _p(c2,'#fff',[[55,-20],[65,-22],[67,-10],[57,-8]]);
+    _p(c2,'#111',[[59,-18],[63,-19],[64,-11],[60,-10]]);
+    _p(c2,'#fb8500',[[70,-14],[96,-8],[70,-2]]);
     c2.restore();
   }
   function _demoApple(c2){
-    _p(c2,'***REMOVED***c62828',[[-16,2],[-8,-22],[12,-20],[20,4],[8,22],[-10,22]]);
-    _p(c2,'***REMOVED***ef9a9a',[[-6,-10],[8,-8],[10,6],[0,14],[-8,12]]);
-    _p(c2,'***REMOVED***2e7d32',[[-2,-22],[6,-36],[10,-20]]);
+    _p(c2,'#c62828',[[-16,2],[-8,-22],[12,-20],[20,4],[8,22],[-10,22]]);
+    _p(c2,'#ef9a9a',[[-6,-10],[8,-8],[10,6],[0,14],[-8,12]]);
+    _p(c2,'#2e7d32',[[-2,-22],[6,-36],[10,-20]]);
   }
   function _demoCorn(c2){
-    _p(c2,'***REMOVED***f9a825',[[-12,-28],[12,-28],[18,28],[-18,28]]);
-    _p(c2,'***REMOVED***fdd835',[[-8,-24],[8,-24],[12,24],[-12,24]]);
-    _p(c2,'***REMOVED***388e3c',[[-14,24],[-4,0],[-14,14]]);
-    _p(c2,'***REMOVED***388e3c',[[14,24],[4,0],[14,14]]);
+    _p(c2,'#f9a825',[[-12,-28],[12,-28],[18,28],[-18,28]]);
+    _p(c2,'#fdd835',[[-8,-24],[8,-24],[12,24],[-12,24]]);
+    _p(c2,'#388e3c',[[-14,24],[-4,0],[-14,14]]);
+    _p(c2,'#388e3c',[[14,24],[4,0],[14,14]]);
   }
 
   function switchTab(screenId) {
@@ -78,7 +78,7 @@ const UI = (() => {
       const ok=d&&d.classList.contains('ok');
       const stale=d&&d.classList.contains('stale');
       el.textContent=ok?'🧠 已連接':stale?'⏳ 連線無數據':'未連接';
-      el.style.color=ok?'***REMOVED***74d680':stale?'***REMOVED***ffd166':'***REMOVED***ff6b6b';
+      el.style.color=ok?'#74d680':stale?'#ffd166':'#ff6b6b';
     });
   }
 
@@ -108,7 +108,7 @@ const UI = (() => {
   <div class="grid2">
     <div>
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
-        <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,***REMOVED***2ec4b6,***REMOVED***4f8cff);display:grid;place-items:center;flex-shrink:0">
+        <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#2ec4b6,#4f8cff);display:grid;place-items:center;flex-shrink:0">
           <svg viewBox="0 0 64 64" width="36" height="36" fill="none">
             <path d="M16 38c0-13 10-24 22-24 8 0 14 4 18 9-6-1-11 0-15 4 4 0 9 3 12 6-5 3-10 3-14 3-2 10-10 17-19 17-7 0-13-4-15-9 4 2 8 2 11 2-2-3 0-5 0-8z" fill="white" fill-opacity=".22"/>
             <circle cx="42" cy="28" r="3" fill="white"/>
@@ -143,7 +143,7 @@ const UI = (() => {
         const totalStars = Object.values(profile.completed).reduce((a,c) => a + (c.stars||0), 0);
         const totalDone = Object.keys(profile.completed).length;
         return `
-      <div class="panel" style="margin-top:16px;padding:14px 16px;border-left:4px solid ***REMOVED***ffd166">
+      <div class="panel" style="margin-top:16px;padding:14px 16px;border-left:4px solid #ffd166">
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <div style="font-size:28px">${profile.avatar}</div>
           <div style="flex:1;min-width:0">
@@ -151,18 +151,18 @@ const UI = (() => {
             <div class="note">⭐ ${totalStars}星 · ${totalDone}關完成 · ⏱ ${PROFILE.formatTime(profile.playTime)}</div>
           </div>
           <div style="text-align:right">
-            <div style="font-weight:900;font-size:clamp(18px,2.2vh,24px);color:***REMOVED***ffd166">第${cs}層</div>
+            <div style="font-weight:900;font-size:clamp(18px,2.2vh,24px);color:#ffd166">第${cs}層</div>
             <div class="note">第${cl}關</div>
           </div>
         </div>
         <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)">
           <div class="grid2b" style="gap:8px;font-size:clamp(11px,1.3vh,14px)">
             <div>
-              <span style="color:***REMOVED***9bbfd4">🎯 收集</span> <strong style="color:***REMOVED***ffd166">${goal}個 ${theme}</strong>
+              <span style="color:#9bbfd4">🎯 收集</span> <strong style="color:#ffd166">${goal}個 ${theme}</strong>
             </div>
             <div>
-              <span style="color:***REMOVED***9bbfd4">🧠 專注</span> <strong id="homeFocusVal">${Math.round(G.focus)}%</strong>
-              <span style="color:***REMOVED***9bbfd4"> · 門檻 ${G.threshold}</span>
+              <span style="color:#9bbfd4">🧠 專注</span> <strong id="homeFocusVal">${Math.round(G.focus)}%</strong>
+              <span style="color:#9bbfd4"> · 門檻 ${G.threshold}</span>
             </div>
           </div>
         </div>
@@ -170,15 +170,15 @@ const UI = (() => {
     </div>
     <div>
       <canvas id="demoC" width="420" height="280"
-        style="width:100%;border-radius:18px;border:1px solid rgba(255,255,255,.15);background:linear-gradient(180deg,***REMOVED***4fc3f7,***REMOVED***b3e5fc)"></canvas>
+        style="width:100%;border-radius:18px;border:1px solid rgba(255,255,255,.15);background:linear-gradient(180deg,#4fc3f7,#b3e5fc)"></canvas>
       <div class="grid2b" style="margin-top:12px;gap:8px">
         <div class="panel" style="padding:10px 12px">
-          <div style="font-size:11px;font-weight:900;color:***REMOVED***9bbfd4;margin-bottom:4px">目前設定</div>
+          <div style="font-size:11px;font-weight:900;color:#9bbfd4;margin-bottom:4px">目前設定</div>
           <div style="font-size:clamp(12px,1.5vh,15px);font-weight:900" id="homeAgeDisplay">${p.band} · ${G.age}歲</div>
           <div class="note">門檻 ${G.threshold} · 每節${p.session}分</div>
         </div>
         <div class="panel" style="padding:10px 12px">
-          <div style="font-size:11px;font-weight:900;color:***REMOVED***9bbfd4;margin-bottom:4px">連接狀態</div>
+          <div style="font-size:11px;font-weight:900;color:#9bbfd4;margin-bottom:4px">連接狀態</div>
           <div style="font-size:clamp(12px,1.5vh,15px);font-weight:900" id="wsStatusTxt">偵測中...</div>
           <div class="note">裝置連線後方可遊玩</div>
         </div>
@@ -193,20 +193,20 @@ const UI = (() => {
     <button id="btnDismissDevice" style="
       position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;
       border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);
-      color:***REMOVED***fff;font-size:22px;cursor:pointer;display:grid;place-items:center;
+      color:#fff;font-size:22px;cursor:pointer;display:grid;place-items:center;
       transition:.15s;z-index:41" title="略過，稍後再連">✕</button>
     <div style="text-align:center;max-width:400px;padding:20px">
       <div style="font-size:52px;margin-bottom:14px;animation:pulse 1.5s ease-in-out infinite" id="dev-icon">🧠</div>
       <div style="font-family:'Baloo 2';font-size:clamp(24px,4vw,36px);font-weight:900;line-height:1.2;margin-bottom:8px">等待 BrainLink 連接</div>
       <div class="sub" style="margin-inline:auto">請確保頭盔已開機並連接<br>然後啟動 bridge：<br><code style="background:rgba(255,255,255,.1);padding:4px 10px;border-radius:6px;font-size:12px">brainlink_pro.py --port COM3 --relay</code></div>
-      <div style="margin-top:14px;font-size:14px;color:***REMOVED***9bbfd4;margin-bottom:20px" id="dev-status-msg">
+      <div style="margin-top:14px;font-size:14px;color:#9bbfd4;margin-bottom:20px" id="dev-status-msg">
         等待連接中...
       </div>
       <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <button class="btn p" id="btnRetryDevice" style="font-size:15px">重新偵測</button>
       </div>
-      <div style="margin-top:14px;font-size:12px;color:***REMOVED***9bbfd4">
-        WS: <span id="dev-ws" style="color:***REMOVED***ff6b6b">❌</span>
+      <div style="margin-top:14px;font-size:12px;color:#9bbfd4">
+        WS: <span id="dev-ws" style="color:#ff6b6b">❌</span>
         &nbsp;訊號: <span id="dev-sig">-</span>
         &nbsp;<span id="dev-device" style="display:none"></span>
       </div>
@@ -218,12 +218,12 @@ const UI = (() => {
   <div class="sh" style="margin-bottom:14px">遊戲教學</div>
   <div class="tuts">
     ${[
-      {bg:'***REMOVED***3a7bd5',t:'腦電波控制',d:'戴上BrainLink頭盔，保持專注，小鳥自動下沉收集食物。專注度越高，下沉越深。'},
-      {bg:'***REMOVED***2ec4b6',t:'收集目標',d:'每關有指定收集數量，時間內收集足夠即可過關。食物沿地面從右方出現。'},
-      {bg:'***REMOVED***ffd166',t:'連擊加分',d:'短時間內連續收集可觸發連擊加分！保持高專注令小鳥持續低飛。'},
-      {bg:'***REMOVED***e63946',t:'年齡設定',d:'在設定頁調整1–40歲年齡滑桿，遊戲自動設定適合的速度、目標和難度。'},
-      {bg:'***REMOVED***7b1fa2',t:'10層100關',d:'共10層，每層10關，食物和背景主題各不相同，難度循序漸進。'},
-      {bg:'***REMOVED***ff7043',t:'Space備用',d:'沒有頭盔時按住Space鍵可控制小鳥，用於測試遊戲效果及展示。'},
+      {bg:'#3a7bd5',t:'腦電波控制',d:'戴上BrainLink頭盔，保持專注，小鳥自動下沉收集食物。專注度越高，下沉越深。'},
+      {bg:'#2ec4b6',t:'收集目標',d:'每關有指定收集數量，時間內收集足夠即可過關。食物沿地面從右方出現。'},
+      {bg:'#ffd166',t:'連擊加分',d:'短時間內連續收集可觸發連擊加分！保持高專注令小鳥持續低飛。'},
+      {bg:'#e63946',t:'年齡設定',d:'在設定頁調整1–40歲年齡滑桿，遊戲自動設定適合的速度、目標和難度。'},
+      {bg:'#7b1fa2',t:'10層100關',d:'共10層，每層10關，食物和背景主題各不相同，難度循序漸進。'},
+      {bg:'#ff7043',t:'Space備用',d:'沒有頭盔時按住Space鍵可控制小鳥，用於測試遊戲效果及展示。'},
     ].map(({bg,t,d})=>`
     <div class="tut">
       <div class="tut-ic" style="background:${bg}">
@@ -262,7 +262,7 @@ const UI = (() => {
   <div class="sh" style="margin-bottom:14px">遊戲設定</div>
   <div class="grid2b" style="gap:16px">
     <div class="panel">
-      <div class="sh">年齡設定 <span style="color:***REMOVED***9bbfd4;font-weight:600;font-size:11px">(1–40歲)</span></div>
+      <div class="sh">年齡設定 <span style="color:#9bbfd4;font-weight:600;font-size:11px">(1–40歲)</span></div>
       <div class="row">
         <input id="ageR" type="range" min="1" max="40" step="1" value="${G.age}">
         <div class="rval"><span id="ageV">${G.age}</span>歲</div>
@@ -270,7 +270,7 @@ const UI = (() => {
       <p class="note" id="ageNote" style="margin-top:8px">${p.band}：每節建議${p.session}分鐘，基礎目標${p.goalBase}個</p>
     </div>
     <div class="panel">
-      <div class="sh">下沉門檻 <span style="color:***REMOVED***9bbfd4;font-weight:600;font-size:11px">(專注度值)</span></div>
+      <div class="sh">下沉門檻 <span style="color:#9bbfd4;font-weight:600;font-size:11px">(專注度值)</span></div>
       <div class="row">
         <input id="thrR" type="range" min="20" max="90" step="1" value="${G.threshold}">
         <div class="rval"><span id="thrV">${G.threshold}</span></div>
@@ -301,10 +301,10 @@ const UI = (() => {
   <p class="note" style="margin-bottom:16px">參考AAP、PMC及NHA學術研究制定，多人認證有效。</p>
   <div class="grid2b" style="gap:12px">
     ${[
-      {c:'***REMOVED***2ec4b6',w:'第一週：基礎適應',f:'每週3天（一三五）',t:'8–12分鐘/節',g:'成功率達60%+，熟悉遊戲操作',ref:'美國兒科學會（AAP）：神經反饋為注意力訓練Level 1最強支持介入。初期以低壓力、高成功率建立正強化。'},
-      {c:'***REMOVED***4f8cff',w:'第二週：穩定提升',f:'每週4天（一二四五）',t:'12–16分鐘/節',g:'連擊出現≥3次/節',ref:'Frontiers in Human Neuroscience (2014)：每週3–5節×15分鐘，2週後可觀察工作記憶改善。'},
-      {c:'***REMOVED***ffd166',w:'第三週：挑戰突破',f:'每週5天（週一至五）',t:'15–20分鐘/節',g:'完成第1層全10關，專注度≥55%',ref:'PMC (2025) RCT研究（n=104）：每週5節×20分鐘×4週，效果持續6–12個月。'},
-      {c:'***REMOVED***ff8b6b',w:'第四週：鞏固成效',f:'每週5天',t:'18–25分鐘/節',g:'完成第1–2層，專注度≥65%',ref:'NHA指引（2025）：每週2–3節持續，10–20節後大多數人感受顯著改善。'},
+      {c:'#2ec4b6',w:'第一週：基礎適應',f:'每週3天（一三五）',t:'8–12分鐘/節',g:'成功率達60%+，熟悉遊戲操作',ref:'美國兒科學會（AAP）：神經反饋為注意力訓練Level 1最強支持介入。初期以低壓力、高成功率建立正強化。'},
+      {c:'#4f8cff',w:'第二週：穩定提升',f:'每週4天（一二四五）',t:'12–16分鐘/節',g:'連擊出現≥3次/節',ref:'Frontiers in Human Neuroscience (2014)：每週3–5節×15分鐘，2週後可觀察工作記憶改善。'},
+      {c:'#ffd166',w:'第三週：挑戰突破',f:'每週5天（週一至五）',t:'15–20分鐘/節',g:'完成第1層全10關，專注度≥55%',ref:'PMC (2025) RCT研究（n=104）：每週5節×20分鐘×4週，效果持續6–12個月。'},
+      {c:'#ff8b6b',w:'第四週：鞏固成效',f:'每週5天',t:'18–25分鐘/節',g:'完成第1–2層，專注度≥65%',ref:'NHA指引（2025）：每週2–3節持續，10–20節後大多數人感受顯著改善。'},
     ].map(({c,w,f,t,g,ref})=>`
     <div class="wcard" style="--wc:${c}">
       <div class="wtitle">${w}</div>
@@ -314,7 +314,7 @@ const UI = (() => {
     </div>`).join('')}
   </div>
   <div class="panel" style="margin-top:16px">
-    <div class="sh" style="margin-bottom:10px;color:***REMOVED***a78bfa">專家指引摘要</div>
+    <div class="sh" style="margin-bottom:10px;color:#a78bfa">專家指引摘要</div>
     <table class="ptable">
       <tr><th>指標</th><th>建議</th><th>依據</th></tr>
       <tr><td>每次時長</td><td>年齡 x 2–3分鐘</td><td>2歲約4–6分；10歲約20–30分</td></tr>
@@ -409,11 +409,11 @@ const UI = (() => {
       if (wsEl) {
         const dot = document.getElementById('ws-dot');
         if (dot && dot.classList.contains('ok')) {
-          wsEl.textContent = '✅'; wsEl.style.color = '***REMOVED***74d680';
+          wsEl.textContent = '✅'; wsEl.style.color = '#74d680';
         } else if (dot && dot.classList.contains('stale')) {
-          wsEl.textContent = '🟡'; wsEl.style.color = '***REMOVED***ffd166';
+          wsEl.textContent = '🟡'; wsEl.style.color = '#ffd166';
         } else {
-          wsEl.textContent = '❌'; wsEl.style.color = '***REMOVED***ff6b6b';
+          wsEl.textContent = '❌'; wsEl.style.color = '#ff6b6b';
         }
       }
       if (sigEl) sigEl.textContent = s.lastSig;
@@ -433,7 +433,7 @@ const UI = (() => {
         if (devEl) {
           devEl.style.display = 'inline';
           devEl.textContent = '🔴 無裝置';
-          devEl.style.color = '***REMOVED***ff6b6b';
+          devEl.style.color = '#ff6b6b';
         }
         return;  /* KEEP BLOCK — hard requirement */
       }
@@ -503,14 +503,14 @@ const UI = (() => {
         const lb = PROFILE.getLeaderboard(stage);
         return lb.length ? `
       <div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,209,102,.08);border-radius:12px;border:1px solid rgba(255,209,102,.15)">
-        <div style="font-weight:900;font-size:13px;color:***REMOVED***ffd166;margin-bottom:6px">🏆 排行榜 Top 3</div>
+        <div style="font-weight:900;font-size:13px;color:#ffd166;margin-bottom:6px">🏆 排行榜 Top 3</div>
         ${lb.map((e,i) => `
         <div style="display:flex;align-items:center;gap:8px;font-size:clamp(11px,1.3vh,14px);padding:3px 0">
-          <span style="font-weight:900;width:24px;text-align:center;color:${i===0?'***REMOVED***ffd166':i===1?'***REMOVED***c0c0c0':'***REMOVED***cd7f32'}">***REMOVED***${i+1}</span>
+          <span style="font-weight:900;width:24px;text-align:center;color:${i===0?'#ffd166':i===1?'#c0c0c0':'#cd7f32'}">#${i+1}</span>
           <span style="flex:1;font-weight:700">${e.name}</span>
-          <span style="color:***REMOVED***9bbfd4">🧠 ${e.focus5s}%</span>
-          <span style="color:***REMOVED***9bbfd4">⏱ ${PROFILE.formatTime(e.time)}</span>
-          <span style="color:***REMOVED***9bbfd4;font-size:10px">Lv.${e.level}</span>
+          <span style="color:#9bbfd4">🧠 ${e.focus5s}%</span>
+          <span style="color:#9bbfd4">⏱ ${PROFILE.formatTime(e.time)}</span>
+          <span style="color:#9bbfd4;font-size:10px">Lv.${e.level}</span>
         </div>`).join('')}
       </div>` : ''; })() : ''}
       <div class="lgrid">
@@ -527,7 +527,7 @@ const UI = (() => {
                 <div style="font-size:clamp(20px,3vw,36px);font-weight:900">${lv}</div>
                 <div>第${lv}關</div>
                 ${stars > 0 ? `<div style="font-size:14px">${'⭐'.repeat(stars)}</div>` : ''}
-                ${completed ? `<div style="font-size:10px;color:***REMOVED***9bbfd4">${PROFILE.formatTime(completed.time)}</div>` : ''}
+                ${completed ? `<div style="font-size:10px;color:#9bbfd4">${PROFILE.formatTime(completed.time)}</div>` : ''}
               </button>`
             : `<div class="lcard l-locked" style="cursor:default">
                 <div style="font-size:clamp(20px,3vw,36px)">🔒</div>
@@ -550,7 +550,7 @@ const UI = (() => {
     document.getElementById('mc').innerHTML = `
     <div style="text-align:center;padding:clamp(30px,4vh,50px) 22px">
       <div style="font-family:'Baloo 2';font-size:clamp(28px,4vw,48px);font-weight:900;line-height:1.1;
-        background:linear-gradient(135deg,***REMOVED***2ec4b6,***REMOVED***ffd166);
+        background:linear-gradient(135deg,#2ec4b6,#ffd166);
         -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
         準備挑戰
       </div>
@@ -562,7 +562,7 @@ const UI = (() => {
       </div>
       ${record ? `
       <div class="panel" style="display:inline-block;text-align:left;padding:12px 20px;margin-bottom:18px">
-        <div style="font-weight:900;font-size:13px;color:***REMOVED***ffd166;margin-bottom:6px">🏆 最佳紀錄</div>
+        <div style="font-weight:900;font-size:13px;color:#ffd166;margin-bottom:6px">🏆 最佳紀錄</div>
         <div class="note" style="font-size:clamp(12px,1.4vh,15px)">
           ⏱ 剩餘時間 ${PROFILE.formatTime(record.time)} &nbsp;·&nbsp; 🧠 5秒平均專注 ${record.focus}%
         </div>

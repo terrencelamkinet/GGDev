@@ -1,4 +1,4 @@
-***REMOVED*** scripts/task_parser.py - Natural Language to Task Structure Converter
+# scripts/task_parser.py - Natural Language to Task Structure Converter
 
 import json
 
@@ -10,8 +10,8 @@ def parse_human_request(request: str) -> dict:
     This is the core of the Human-Friendly Automation Designer.
     """
     
-    ***REMOVED*** --- Example: Simple "Monitor and Alert" Task ---
-    ***REMOVED*** Request: "Alert me on Signal if the $SHIPYARD whale balance drops below 10%"
+    # --- Example: Simple "Monitor and Alert" Task ---
+    # Request: "Alert me on Signal if the $SHIPYARD whale balance drops below 10%"
 
     if "whale balance drops" in request.lower() and "shipyard" in request.lower():
         return {
@@ -33,21 +33,21 @@ def parse_human_request(request: str) -> dict:
                 }
             },
             "rate_limit": {
-                "period_seconds": 600, ***REMOVED*** Check every 10 minutes
+                "period_seconds": 600, # Check every 10 minutes
                 "cooldown_key": "SHIPYARD_WHALE_CHECK"
             }
         }
 
-    ***REMOVED*** --- TODO: Add more parsers for other high-value human requests ---
+    # --- TODO: Add more parsers for other high-value human requests ---
     
     return {"error": "Could not parse request into a supported task structure."}
 
-***REMOVED*** Example Validation (for you, Harry)
+# Example Validation (for you, Harry)
 if __name__ == "__main__":
     request_1 = "Alert me on Signal if the $SHIPYARD whale balance drops below 10%"
     result = parse_human_request(request_1)
     print("--- Validation 1 (Financial Alert) ---")
     print(json.dumps(result, indent=2))
     
-    ***REMOVED*** You can now validate this structure.
-    ***REMOVED*** The next step is to write the orchestrator that consumes this JSON.
+    # You can now validate this structure.
+    # The next step is to write the orchestrator that consumes this JSON.

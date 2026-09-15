@@ -8,7 +8,7 @@ import uvicorn
 app = FastAPI(title="Smart AI Server", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-***REMOVED*** ── Config ──
+# ── Config ──
 CFG_DIR = os.path.expanduser("~/.smart-ai")
 os.makedirs(CFG_DIR, exist_ok=True)
 CFG_PATH = os.path.join(CFG_DIR, "config.json")
@@ -24,9 +24,9 @@ def save_cfg(cfg):
     with open(CFG_PATH, "w") as f:
         json.dump(cfg, f, indent=2)
 
-***REMOVED*** Create default config if not exists
+# Create default config if not exists
 if not os.path.exists(CFG_PATH):
-    ***REMOVED*** Try to read Hermes config for fallback
+    # Try to read Hermes config for fallback
     hermes_key = ""
     try:
         env_path = os.path.expanduser("~/.hermes/.env")
@@ -38,7 +38,7 @@ if not os.path.exists(CFG_PATH):
         pass
     save_cfg({"llm_api_key": hermes_key, "llm_model": "deepseek-chat", "llm_base_url": "https://api.deepseek.com"})
 
-***REMOVED*** ── Models ──
+# ── Models ──
 class ChatRequest(BaseModel):
     message: str
     session_id: str = "default"
@@ -47,27 +47,27 @@ class ChatResponse(BaseModel):
     reply: str
     session_id: str = ""
 
-***REMOVED*** ── Session history (in-memory, simple) ──
+# ── Session history (in-memory, simple) ──
 sessions = {}
 MAX_HISTORY = 20
 
-***REMOVED*** ── Chat ──
+# ── Chat ──
 @app.post("/api/v1/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
     cfg = load_cfg()
-    api_key = cfg.get("llm_api_key", "")
+    api_key = "REDACTED"llm_api_key", "")
     model = cfg.get("llm_model", "deepseek-chat")
     base_url = cfg.get("llm_base_url", "https://api.deepseek.com")
     
     if not api_key:
-        return ChatResponse(reply="⚠️ LLM API key not configured. Edit ~/.smart-ai/config.json", session_id=req.session_id)
+        "REDACTED" ChatResponse(reply="⚠️ LLM API key not configured. Edit ~/.smart-ai/config.json", session_id=req.session_id)
     
-    ***REMOVED*** Session management
+    # Session management
     sid = req.session_id
     if sid not in sessions:
         sessions[sid] = []
     
-    ***REMOVED*** Build messages
+    # Build messages
     msgs = [{"role": "system", "content": "You are Smart AI, a helpful AI assistant running as a Windows 11 desktop overlay. Respond concisely in the language the user uses. Be helpful, direct, and efficient."}]
     msgs.extend(sessions[sid][-MAX_HISTORY:])
     msgs.append({"role": "user", "content": req.message})
@@ -81,7 +81,7 @@ def chat(req: ChatRequest):
             data = json.loads(resp.read().decode())
             reply = data["choices"][0]["message"]["content"]
         
-        ***REMOVED*** Store in history
+        # Store in history
         sessions[sid].append({"role": "user", "content": req.message})
         sessions[sid].append({"role": "assistant", "content": reply})
         
@@ -92,12 +92,12 @@ def chat(req: ChatRequest):
     except Exception as e:
         return ChatResponse(reply=f"⚠️ Error: {str(e)[:200]}", session_id=sid)
 
-***REMOVED*** ── Health ──
+# ── Health ──
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "smart-ai", "version": "1.0.0"}
 
-***REMOVED*** ── Config endpoints ──
+# ── Config endpoints ──
 class ConfigUpdate(BaseModel):
     key: str
     value: str

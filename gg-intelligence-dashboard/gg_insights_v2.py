@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 gg_insights_v2.py — Deep system analysis → structured insights with drill-down data.
 Stores insights + detail payloads in gg_insights table. Zero LLM.
@@ -30,7 +30,7 @@ def add_insight(cat, source, title, content, priority="medium", detail=None):
 def clear_old(keep_hours=48):
     """Delete old insights, keeping only recent ones from data-fact generator."""
     with pg_cursor(commit=True) as cur:
-        ***REMOVED*** Delete v2 data-fact insights that are older, plus clear old LLM thoughts
+        # Delete v2 data-fact insights that are older, plus clear old LLM thoughts
         cur.execute("""
             DELETE FROM gg_insights
             WHERE (category != 'voice' AND created_at < %s)
@@ -38,10 +38,10 @@ def clear_old(keep_hours=48):
         """, (hkt_now() - timedelta(hours=6), hkt_now() - timedelta(hours=48)))
         return cur.rowcount
 
-***REMOVED*** ═══════════════════════════════════════════
-***REMOVED*** ANALYSIS FUNCTIONS — each returns (insights_list)
-***REMOVED*** Each insight: {title, content, priority, source, detail: {...}}
-***REMOVED*** ═══════════════════════════════════════════
+# ═══════════════════════════════════════════
+# ANALYSIS FUNCTIONS — each returns (insights_list)
+# Each insight: {title, content, priority, source, detail: {...}}
+# ═══════════════════════════════════════════
 
 def analyze_mcp_trends():
     """Cross-reference connection_status with itself to find changes."""
@@ -49,7 +49,7 @@ def analyze_mcp_trends():
     now = hkt_now()
     day_ago = now - timedelta(hours=24)
     with pg_cursor() as cur:
-        ***REMOVED*** Endpoints that changed status in last 24h
+        # Endpoints that changed status in last 24h
         cur.execute("""
             SELECT name, status, last_ok, last_fail, last_check, error
             FROM connection_status
@@ -77,7 +77,7 @@ def analyze_mcp_trends():
                     "detail": detail
                 })
             elif st == "connected" and lok and lok >= day_ago:
-                pass  ***REMOVED*** Healthy — skip for noise reduction
+                pass  # Healthy — skip for noise reduction
 
     return insights
 
@@ -90,7 +90,7 @@ def analyze_task_velocity():
     day_ago = now - timedelta(hours=24)
 
     with pg_cursor() as cur:
-        ***REMOVED*** Completions by day (last 7 days)
+        # Completions by day (last 7 days)
         cur.execute("""
             SELECT DATE(changed_at AT TIME ZONE 'Asia/Hong_Kong') as day, COUNT(*) as cnt
             FROM task_audit WHERE action IN ('completed') AND changed_at >= %s
@@ -101,7 +101,7 @@ def analyze_task_velocity():
         if len(daily) >= 2:
             total = sum(r["cnt"] for r in daily)
             avg = total / len(daily)
-            ***REMOVED*** Trend: is today above or below average?
+            # Trend: is today above or below average?
             today = now.strftime("%Y-%m-%d")
             today_tasks = sum(r["cnt"] for r in daily if str(r["day"]) == today)
 
@@ -122,7 +122,7 @@ def analyze_task_velocity():
                 "detail": detail
             })
 
-        ***REMOVED*** Stale tasks — created but no completion in 7+ days
+        # Stale tasks — created but no completion in 7+ days
         cur.execute("""
             SELECT DISTINCT ON (t.notion_page_id) t.notion_page_id, t.title, t.status,
                    a.changed_at as last_change, t.created_at
@@ -162,7 +162,7 @@ def analyze_ai_health_trends():
 
     with pg_cursor() as cur:
         for ai in ["fighter", "work", "person"]:
-            ***REMOVED*** Compare last 24h CPU vs previous 24h
+            # Compare last 24h CPU vs previous 24h
             cur.execute("""
                 SELECT AVG(cpu) as avg_cpu, MAX(cpu) as max_cpu, MIN(cpu) as min_cpu,
                        COUNT(*) as samples
@@ -243,13 +243,13 @@ def analyze_sync_health():
                     }
                 })
 
-        ***REMOVED*** Check for stale syncs (no update >30min)
+        # Check for stale syncs (no update >30min)
         for s in syncs:
             src = s["source"]
             if not s.get("synced_at") or s["status"] == "error":
                 continue
             delay = int((now - s["synced_at"].replace(tzinfo=HKT)).total_seconds() / 60)
-            if delay > 30 and src not in ("gg_insights",):  ***REMOVED*** insights only runs every 15min
+            if delay > 30 and src not in ("gg_insights",):  # insights only runs every 15min
                 insights.append({
                     "title": f"⏰ {src} sync overdue ({delay}m since last)",
                     "content": f"Expected every 15min. Last sync was {delay} min ago. Possible cron issue.",
@@ -318,7 +318,7 @@ def analyze_cron_reliability():
     return insights
 
 
-***REMOVED*** ═══ MAIN ═══
+# ═══ MAIN ═══
 
 def main():
     now = hkt_now()

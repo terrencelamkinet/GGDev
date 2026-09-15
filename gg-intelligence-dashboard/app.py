@@ -1,10 +1,10 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """3 Servants + Intelligence Dashboard — Flask backend. v2: real SSH health, live tasks, thought bubbles."""
 import json, os, sys, subprocess, time, glob, re
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime, timezone, timedelta
 
-***REMOVED*** PG connection for health check data
+# PG connection for health check data
 sys.path.insert(0, os.path.expanduser("~/.hermes/scripts"))
 try:
     from task_hub import pg_cursor
@@ -16,7 +16,7 @@ app = Flask(__name__)
 HKT = timezone(timedelta(hours=8))
 CORRECT_KEY_PATH = '/tmp/correct_pplx_key.txt'
 
-***REMOVED*** ── Helpers ──────────────────────────────────────────────────────────
+# ── Helpers ──────────────────────────────────────────────────────────
 
 def hkt_now():
     return datetime.now(HKT)
@@ -33,7 +33,7 @@ def read_json_safe(path, default=None):
             return json.load(f)
     except: return default if default is not None else {}
 
-***REMOVED*** ── Remote Health via SSH ──────────────────────────────────────────
+# ── Remote Health via SSH ──────────────────────────────────────────
 
 REMOTE_HOSTS = {
     "gg-work": {"host": "gg-work", "label": "Work"},
@@ -64,16 +64,16 @@ ps aux --sort=-%cpu | head -6 | tail -5 | awk "{{print \\$3}}"
         lines = output.strip().split('\n')
         result = {}
 
-        ***REMOVED*** Parse uptime line: " 16:46:00 up 19 days,  4:20,  1 user,  load average: 1.13, 0.56, 0.42"
+        # Parse uptime line: " 16:46:00 up 19 days,  4:20,  1 user,  load average: 1.13, 0.56, 0.42"
         uptime_line = lines[0] if lines else ""
         up_match = re.search(r'up\s+(.+?),\s+\d+\s+user', uptime_line)
         result['uptime'] = up_match.group(1) if up_match else "N/A"
 
         load_match = re.search(r'load average:\s+([\d.]+)', uptime_line)
         cpu_load = float(load_match.group(1)) if load_match else 0
-        result['cpu'] = round(cpu_load * 100 / 2, 1)  ***REMOVED*** normalize to % (2 cores typical)
+        result['cpu'] = round(cpu_load * 100 / 2, 1)  # normalize to % (2 cores typical)
 
-        ***REMOVED*** Parse mem: "Mem:           3915         932         661           0        2612        2983"
+        # Parse mem: "Mem:           3915         932         661           0        2612        2983"
         mem_line = None
         for line in lines:
             if line.startswith('Mem:'):
@@ -88,7 +88,7 @@ ps aux --sort=-%cpu | head -6 | tail -5 | awk "{{print \\$3}}"
                 result['mem_total'] = int(total)
                 result['mem_used'] = int(used)
 
-        ***REMOVED*** Parse disk: "/dev/mapper/ubuntu--vg-ubuntu--lv   19G  9.9G  7.8G  57% /"
+        # Parse disk: "/dev/mapper/ubuntu--vg-ubuntu--lv   19G  9.9G  7.8G  57% /"
         for line in lines:
             if line.startswith('/dev/'):
                 disk_parts = line.split()
@@ -106,7 +106,7 @@ def get_local_health():
     """Get real health data from local system."""
     try:
         result = {}
-        ***REMOVED*** Uptime
+        # Uptime
         r = subprocess.run(["uptime"], capture_output=True, text=True, timeout=5)
         up_match = re.search(r'up\s+(.+?),\s+\d+\s+user', r.stdout)
         result['uptime'] = up_match.group(1) if up_match else "N/A"
@@ -114,7 +114,7 @@ def get_local_health():
         cpu_load = float(load_match.group(1)) if load_match else 0
         result['cpu'] = round(cpu_load * 100 / 2, 1)
 
-        ***REMOVED*** Memory
+        # Memory
         r = subprocess.run(["free", "-m"], capture_output=True, text=True, timeout=5)
         for line in r.stdout.split('\n'):
             if line.startswith('Mem:'):
@@ -125,7 +125,7 @@ def get_local_health():
                     result['mem_pct'] = round(used / total * 100, 1)
                 break
 
-        ***REMOVED*** Disk
+        # Disk
         r = subprocess.run(["df", "-h", "/"], capture_output=True, text=True, timeout=5)
         for line in r.stdout.split('\n'):
             if line.startswith('/dev/'):
@@ -160,7 +160,7 @@ def get_ai_status(name):
             "uptime": "N/A", "source": "local"
         }
     else:
-        ***REMOVED*** Remote via SSH
+        # Remote via SSH
         host_key = "gg-work" if name == "Work" else "gg-person"
         remote = get_remote_health(host_key)
         if remote:
@@ -184,7 +184,7 @@ def get_ai_status(name):
                 "source": "ssh"
             }
 
-***REMOVED*** ── Dynamic Thought Bubbles ───────────────────────────────────────
+# ── Dynamic Thought Bubbles ───────────────────────────────────────
 
 def get_latest_thoughts():
     """Extract the latest message per AI from conversation log for thought bubbles."""
@@ -201,7 +201,7 @@ def get_latest_thoughts():
         with open(conv_log) as f:
             lines = f.readlines()
 
-        ***REMOVED*** Track last message per source
+        # Track last message per source
         last_per_source = {}
         for line in reversed(lines):
             try:
@@ -221,9 +221,9 @@ def get_latest_thoughts():
 
         for key in thoughts:
             if key in last_per_source:
-                ***REMOVED*** Clean up the thought — remove markdown headers, trim
+                # Clean up the thought — remove markdown headers, trim
                 thought = last_per_source[key]
-                thought = re.sub(r'^[***REMOVED****]{1,3}\s*', '', thought)
+                thought = re.sub(r'^[#*]{1,3}\s*', '', thought)
                 thought = thought.strip()
                 if len(thought) > 100:
                     thought = thought[:97] + "..."
@@ -234,7 +234,7 @@ def get_latest_thoughts():
 
     return thoughts
 
-***REMOVED*** ── Activity Feed ────────────────────────────────────────────────
+# ── Activity Feed ────────────────────────────────────────────────
 
 def get_activity_feed():
     """Read recent AI conversation + system logs."""
@@ -269,7 +269,7 @@ def get_activity_feed():
             except:
                 pass
 
-    ***REMOVED*** Add cron activity
+    # Add cron activity
     cron_file = "/tmp/ai_results/results.jsonl"
     if os.path.exists(cron_file):
         try:
@@ -321,7 +321,7 @@ def get_mcp_servers():
         return servers
     except: return []
 
-***REMOVED*** ── Real Task Data from Notion Task Center ──────────────────────
+# ── Real Task Data from Notion Task Center ──────────────────────
 
 def get_notion_tasks():
     """Fetch tasks from Notion Task Center sync state (live data)."""
@@ -329,7 +329,7 @@ def get_notion_tasks():
     data = read_json_safe(sync_file, {})
     tasks_dict = data.get("tasks", {})
     if not tasks_dict:
-        ***REMOVED*** Fallback to parsed file if sync unavailable
+        # Fallback to parsed file if sync unavailable
         fallback = "/tmp/notion_tasks_parsed.json"
         fb_data = read_json_safe(fallback)
         if fb_data:
@@ -350,7 +350,7 @@ def get_notion_tasks():
             "notes": (t.get("notes") or "")[:120]
         })
 
-    ***REMOVED*** Sort: in-progress first, then by due date (closest first), then by status
+    # Sort: in-progress first, then by due date (closest first), then by status
     def sort_key(t):
         status_order = 0 if t["status"] == "In progress" else 1 if t["status"] == "Not started" else 2
         due = t.get("due") or "9999-12-31"
@@ -378,7 +378,7 @@ def get_pplx_history():
     data = read_json_safe(history_file, [])
     return data[-20:]
 
-***REMOVED*** ── Perplexity Query Proxy ──────────────────────────────────────────
+# ── Perplexity Query Proxy ──────────────────────────────────────────
 
 def call_perplexity(query, mode="ask", recency=None, domains=None, context_size="medium"):
     """Call Perplexity API via REST."""
@@ -389,7 +389,7 @@ def call_perplexity(query, mode="ask", recency=None, domains=None, context_size=
         "search": None
     }
     model = model_map.get(mode, "sonar-pro")
-    api_key = read_file_safe(CORRECT_KEY_PATH, "")
+    api_key = "REDACTED" "")
 
     if not api_key or len(api_key) < 20:
         return {"ok": False, "error": "API key not configured"}
@@ -432,7 +432,7 @@ def call_perplexity(query, mode="ask", recency=None, domains=None, context_size=
         except Exception as e:
             return {"ok": False, "error": str(e)}
 
-***REMOVED*** ── Routes ──────────────────────────────────────────────────────────
+# ── Routes ──────────────────────────────────────────────────────────
 
 @app.route("/")
 def index():
@@ -444,15 +444,15 @@ def api_status():
     work = get_ai_status("Work")
     person = get_ai_status("Person")
 
-    ***REMOVED*** Perplexity status
-    api_key = read_file_safe(CORRECT_KEY_PATH, "")
+    # Perplexity status
+    api_key = "REDACTED" "")
     pplx_status = {
         "layer": "active" if len(api_key) > 20 else "inactive",
         "tools": ["search", "ask", "research", "reason"],
         "queries_today": len(get_pplx_history())
     }
 
-    ***REMOVED*** Thought bubbles — latest per-AI message
+    # Thought bubbles — latest per-AI message
     thoughts = get_latest_thoughts()
 
     return jsonify({
@@ -545,7 +545,7 @@ def api_tasks_pg():
         return jsonify({"ok": False, "error": "PG not available"})
     try:
         with pg_cursor() as cur:
-            ***REMOVED*** Current tasks
+            # Current tasks
             cur.execute("""
                 SELECT id, title, status, priority, project, due_date, notes,
                        notion_page_id, created_at, updated_at
@@ -570,7 +570,7 @@ def api_tasks_pg():
                     "created_at": r["created_at"].isoformat() if r["created_at"] else "",
                 })
 
-            ***REMOVED*** Recent audit (last 20 changes)
+            # Recent audit (last 20 changes)
             cur.execute("""
                 SELECT notion_page_id, title, action, old_status, new_status, changed_at
                 FROM task_audit
@@ -585,7 +585,7 @@ def api_tasks_pg():
                 "changed_at": r["changed_at"].isoformat() if r["changed_at"] else ""
             } for r in cur.fetchall()]
 
-            ***REMOVED*** Sync status
+            # Sync status
             cur.execute("""
                 SELECT status, message, rows_synced, synced_at
                 FROM sync_status
@@ -641,7 +641,7 @@ def api_pplx_query():
 
     result = call_perplexity(query, mode, recency, domains, context_size)
 
-    ***REMOVED*** Save to history
+    # Save to history
     history_file = "/tmp/pplx_query_history.json"
     history = get_pplx_history()
     history.append({
@@ -681,7 +681,7 @@ def api_pplx_history_pg():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)})
 
-***REMOVED*** ── GG Insights ──────────────────────────────────────────────────
+# ── GG Insights ──────────────────────────────────────────────────
 
 @app.route("/api/aria/insights")
 def api_insights():
@@ -708,7 +708,7 @@ def api_insights():
                 "created_at": r["created_at"].isoformat() if r["created_at"] else ""
             } for r in cur.fetchall()]
 
-            ***REMOVED*** Group by category
+            # Group by category
             grouped = {}
             for ins in insights:
                 cat = ins["category"]
@@ -719,7 +719,7 @@ def api_insights():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)})
 
-***REMOVED*** ── Connection Health ────────────────────────────────────────────────
+# ── Connection Health ────────────────────────────────────────────────
 
 @app.route("/api/health")
 def api_health():
@@ -745,7 +745,7 @@ def api_health():
             """)
             snap = cur.fetchone()
             
-            ***REMOVED*** Get previous snapshot for add/remove
+            # Get previous snapshot for add/remove
             cur.execute("""
                 SELECT names_json FROM connection_snapshots 
                 ORDER BY snapshot_time DESC LIMIT 1 OFFSET 1
@@ -755,18 +755,18 @@ def api_health():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)})
     
-    ***REMOVED*** Calculate adds/removes
+    # Calculate adds/removes
     current_names = set(json.loads(snap["names_json"])) if snap else set()
     prev_names = set(json.loads(prev["names_json"])) if prev else set()
     added = list(current_names - prev_names)
     removed = list(prev_names - current_names)
     
-    ***REMOVED*** Format timestamps
+    # Format timestamps
     fmt_rows = []
     for r in rows:
         r["last_check_fmt"] = r["last_check"].strftime("%H:%M") if r.get("last_check") else "-"
         
-        ***REMOVED*** Calculate how long in current state (in minutes)
+        # Calculate how long in current state (in minutes)
         if r["status"] == "connected":
             dur = 0
         elif r["status"] == "failed" and r.get("last_fail"):
@@ -795,7 +795,7 @@ def api_health():
         "snapshot_time": snap["snapshot_time"].strftime("%H:%M") if snap else "-",
     })
 
-***REMOVED*** ── Main ────────────────────────────────────────────────────────────
+# ── Main ────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7870))

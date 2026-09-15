@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --brand: ***REMOVED***6366f1;
+  --brand: #6366f1;
 }
 
 body {

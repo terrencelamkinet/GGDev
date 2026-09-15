@@ -235,7 +235,7 @@ const PROFILE = (() => {
         <div class="p-cards">
           ${cardsHtml}
         </div>
-        <div style="margin-top:30px;opacity:.35;font-size:clamp(12px,1.5vh,15px);color:***REMOVED***9bbfd4">
+        <div style="margin-top:30px;opacity:.35;font-size:clamp(12px,1.5vh,15px);color:#9bbfd4">
           專注飛鳥 Pro · v02 · 專注力訓練
         </div>
       </div>
@@ -268,8 +268,8 @@ const PROFILE = (() => {
     const levels = Array.from({length: 10}, (_, i) => i + 1);
 
     let html = `<div class="sh" style="margin-top:4px">
-      <span style="color:***REMOVED***ffd166">${p.avatar}</span> ${p.name} 的進度
-      <span style="font-weight:400;font-size:clamp(11px,1.3vh,14px);color:***REMOVED***9bbfd4;margin-left:8px">
+      <span style="color:#ffd166">${p.avatar}</span> ${p.name} 的進度
+      <span style="font-weight:400;font-size:clamp(11px,1.3vh,14px);color:#9bbfd4;margin-left:8px">
         ⏱ ${formatTime(p.playTime)}
       </span>
     </div>`;
@@ -291,10 +291,10 @@ const PROFILE = (() => {
             ? `<div style="font-size:clamp(20px,3vw,36px);font-weight:900">${level}</div>`
             : `<div style="font-size:clamp(20px,3vw,36px)">🔒</div>`
           }
-          <div style="font-size:clamp(10px,1.2vh,13px);color:***REMOVED***9bbfd4">第${level}關</div>
+          <div style="font-size:clamp(10px,1.2vh,13px);color:#9bbfd4">第${level}關</div>
           ${stars > 0 ? `<div style="font-size:14px">${'⭐'.repeat(stars)}</div>` : ''}
-          ${completed ? `<div style="font-size:10px;color:***REMOVED***9bbfd4">${formatTime(completed.time)}</div>` : ''}
-          ${isCurrent ? '<div style="font-size:10px;color:***REMOVED***ffd166;margin-top:2px">▶ 進行中</div>' : ''}
+          ${completed ? `<div style="font-size:10px;color:#9bbfd4">${formatTime(completed.time)}</div>` : ''}
+          ${isCurrent ? '<div style="font-size:10px;color:#ffd166;margin-top:2px">▶ 進行中</div>' : ''}
         </div>
       `;
     }

@@ -1,16 +1,16 @@
-***REMOVED*** Designing for Platforms — AI Agent Instruction Spec
+# Designing for Platforms — AI Agent Instruction Spec
 > Reference: Apple HIG — "Designing for iOS / Game / Desktop"
 
 ---
 
-***REMOVED******REMOVED*** 1. Designing for iOS
+## 1. Designing for iOS
 
-***REMOVED******REMOVED******REMOVED*** Platform Context
+### Platform Context
 - Primary input: **Touch** (finger, thumb gestures)
 - Screen form: Portrait-dominant; supports landscape
 - Navigation paradigm: Stack-based, tab-based, or content-driven
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | IOS-001 | Default to portrait layout; support landscape where content benefits (video, maps). |
@@ -24,18 +24,18 @@
 | IOS-009 | Use standard iOS transitions: push (navigation), slide-up (sheets), fade (modals). |
 | IOS-010 | Status bar: always use system-managed. Never occlude with custom overlays. |
 
-***REMOVED******REMOVED******REMOVED*** Screen Density & Layout Grid
+### Screen Density & Layout Grid
 - Base grid: **8pt grid system**
 - Margins: 16pt (compact), 20pt (regular)
 - Maximum content width on iPad: 680pt (centered)
 
-***REMOVED******REMOVED******REMOVED*** Adaptive Layouts (iPhone → iPad)
+### Adaptive Layouts (iPhone → iPad)
 ```
 Compact Width (iPhone):    Single-column, TabView navigation
 Regular Width (iPad):      Two-column split view or sidebar navigation
 ```
 
-***REMOVED******REMOVED******REMOVED*** Key UIKit / SwiftUI APIs
+### Key UIKit / SwiftUI APIs
 - `UINavigationController` / `NavigationStack`
 - `UITabBarController` / `TabView`
 - `UIScrollView` / `ScrollView`
@@ -44,14 +44,14 @@ Regular Width (iPad):      Two-column split view or sidebar navigation
 
 ---
 
-***REMOVED******REMOVED*** 2. Designing for Game (iOS / macOS / tvOS)
+## 2. Designing for Game (iOS / macOS / tvOS)
 
-***REMOVED******REMOVED******REMOVED*** Platform Context
+### Platform Context
 - Input: Touch, Game Controller, Keyboard+Mouse (macOS), Apple TV Remote
 - Experience: Immersive, full-screen, real-time interaction
 - Key challenge: Avoiding system UI interference during gameplay
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | GAME-001 | Games should run full-screen with all system chrome hidden during active gameplay. |
@@ -65,28 +65,28 @@ Regular Width (iPad):      Two-column split view or sidebar navigation
 | GAME-009 | Provide haptic feedback using `UIImpactFeedbackGenerator` for impactful in-game events. |
 | GAME-010 | For tvOS games: design for focus-based navigation; all interactive elements must be focusable. |
 
-***REMOVED******REMOVED******REMOVED*** Game UI Layout Zones
+### Game UI Layout Zones
 ```
 Safe Zone (Content):    Central 85% of screen — game world, characters
 HUD Zone (Overlay):     Corners and edges — score, health, minimap
 Menu Zone (Modal):      Full-screen overlay — pause, settings, leaderboard
 ```
 
-***REMOVED******REMOVED******REMOVED*** Accessibility in Games
+### Accessibility in Games
 - Provide subtitle/caption support for narrative content
 - Allow remapping of game controls
 - Support "Reduce Motion" — provide alternative camera/transition options
 
 ---
 
-***REMOVED******REMOVED*** 3. Designing for Desktop (macOS)
+## 3. Designing for Desktop (macOS)
 
-***REMOVED******REMOVED******REMOVED*** Platform Context
+### Platform Context
 - Primary input: **Mouse/Trackpad** + **Keyboard**
 - Window management: Resizable, multi-window, full-screen
 - Key paradigm: Menu bar, toolbar, sidebar, content area
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | MAC-001 | Structure app using Menu Bar + Toolbar + Sidebar + Content Area pattern. |
@@ -100,7 +100,7 @@ Menu Zone (Modal):      Full-screen overlay — pause, settings, leaderboard
 | MAC-009 | Support copy-paste, drag-and-drop for all content types natively. |
 | MAC-010 | Respect system-level Dark Mode, accent color, and accessibility contrast preferences. |
 
-***REMOVED******REMOVED******REMOVED*** Desktop Layout Anatomy
+### Desktop Layout Anatomy
 ```
 ┌─────────────────────────────────────────┐
 │  Menu Bar (System-managed)              │
@@ -116,7 +116,7 @@ Menu Zone (Modal):      Full-screen overlay — pause, settings, leaderboard
 └─────────────────────────────────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED*** macOS Window Types
+### macOS Window Types
 | Type | Use Case |
 |------|----------|
 | Document window | File-based editing apps |

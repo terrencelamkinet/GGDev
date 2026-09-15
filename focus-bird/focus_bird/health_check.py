@@ -8,7 +8,7 @@ import asyncio
 import websockets
 
 RELAY_URL = "wss://brainlink.kinet-poc.com/game"
-TIMEOUT = 60  ***REMOVED*** seconds total
+TIMEOUT = 60  # seconds total
 
 async def main():
     try:
@@ -20,8 +20,8 @@ async def main():
                     data = json.loads(msg)
                     sig = data.get("signal", 200)
                     att = data.get("attention")
-                    ***REMOVED*** Relay sends: attention, meditation, signal, shouldDive, focusLevel, agentNote
-                    ***REMOVED*** Real brain data: signal < 150 AND attention is a valid number
+                    # Relay sends: attention, meditation, signal, shouldDive, focusLevel, agentNote
+                    # Real brain data: signal < 150 AND attention is a valid number
                     att_ok = isinstance(att, (int, float)) and att >= 0
                     sig_ok = isinstance(sig, (int, float)) and sig >= 0 and sig < 150
                     if att_ok and sig_ok:

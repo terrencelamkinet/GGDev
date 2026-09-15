@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 css_class_audit.py — CSS class audit for GG Dashboard.
 Checks every HTML template against styles.css (and inline <style> blocks)
@@ -9,9 +9,9 @@ Exit codes:
   1 = missing classes found (also prints them)
 
 Usage:
-  python3 css_class_audit.py                    ***REMOVED*** check current state
-  python3 css_class_audit.py --fix              ***REMOVED*** append missing class stubs to styles.css (DANGEROUS)
-  python3 css_class_audit.py --git-hook         ***REMOVED*** run as pre-commit hook (only checks changed files)
+  python3 css_class_audit.py                    # check current state
+  python3 css_class_audit.py --fix              # append missing class stubs to styles.css (DANGEROUS)
+  python3 css_class_audit.py --git-hook         # run as pre-commit hook (only checks changed files)
 """
 import os, sys, re
 
@@ -26,10 +26,10 @@ def get_stylesheet_classes():
         return set()
     with open(STYLES) as f:
         css = f.read()
-    ***REMOVED*** Match .class-name {  or .class-name.class-name {
+    # Match .class-name {  or .class-name.class-name {
     classes = set()
     for m in re.finditer(r'\.([a-zA-Z0-9_-]+)', css):
-        ***REMOVED*** Skip pseudo-classes and after/before that start with :
+        # Skip pseudo-classes and after/before that start with :
         cls = m.group(1)
         if cls and cls[0].isalpha():
             classes.add(cls)
@@ -56,7 +56,7 @@ def get_html_classes(html_path):
         html = f.read()
     for m in re.finditer(r'class="([^"]*)"', html):
         for cls in m.group(1).split():
-            ***REMOVED*** Skip JS template expressions
+            # Skip JS template expressions
             if '+' in cls or "'" in cls or '"' in cls:
                 continue
             if cls:

@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """Static file server for NEXUS CRM public website — no-cache for CSS."""
 import http.server
 import socketserver
@@ -13,11 +13,11 @@ os.chdir(DIR)
 
 class NoCacheCSSHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
-        pass  ***REMOVED*** Quiet logging
+        pass  # Quiet logging
 
     def send_head(self):
         path = self.translate_path(self.path)
-        ***REMOVED*** Get the base Content-Type from the super
+        # Get the base Content-Type from the super
         ctype = self.guess_type(path)
         try:
             f = open(path, 'rb')
@@ -28,7 +28,7 @@ class NoCacheCSSHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Content-type", ctype)
         self.send_header("Content-Length", str(fs[6]))
         self.send_header("Last-Modified", self.date_time_string(fs.st_mtime))
-        ***REMOVED*** Disable caching for CSS, HTML, and JS
+        # Disable caching for CSS, HTML, and JS
         clean_path = self.path.split("?")[0]
         if clean_path.endswith(".css"):
             self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")

@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 gg_insights_collector.py — Zero-LLM stacking intelligence collector.
 
@@ -26,7 +26,7 @@ DATA_FILE = BASE / "gg-data.json"
 INSIGHTS_FILE = BASE / "gg-insights.json"
 PUSH_LOG = BASE / "gg-insights-pushed.json"
 
-***REMOVED*** === LOAD EXISTING DATA ===
+# === LOAD EXISTING DATA ===
 
 def load_json(path):
     if path.exists():
@@ -38,13 +38,13 @@ def load_json(path):
     return {}
 
 def save_json(path, data):
-    ***REMOVED*** Atomic write to prevent corruption
+    # Atomic write to prevent corruption
     tmp = path.with_suffix(".tmp")
     with open(tmp, "w") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     tmp.replace(path)
 
-***REMOVED*** === COLLECT SYSTEM DELTAS FROM gg-data.json ===
+# === COLLECT SYSTEM DELTAS FROM gg-data.json ===
 
 def collect_system_deltas(data, prev_metrics):
     """Compare current gg-data.json with previous metrics snapshot."""
@@ -87,7 +87,7 @@ def collect_system_deltas(data, prev_metrics):
 
     return entries, {"cpu": cpu, "mem": mem, "disk": disk}
 
-***REMOVED*** === COLLECT AGENT ACTIVITY FROM gg-data.json ===
+# === COLLECT AGENT ACTIVITY FROM gg-data.json ===
 
 def collect_agent_activity(data, prev_agents):
     """Extract meaningful agent state changes."""
@@ -100,14 +100,14 @@ def collect_agent_activity(data, prev_agents):
         thoughts = (agent.get("thoughts") or "").strip()
         prev_thoughts = (prev.get("thoughts") or "").strip()
 
-        ***REMOVED*** Detect thought changes
+        # Detect thought changes
         if thoughts and prev_thoughts and thoughts != prev_thoughts:
             entries.append({
                 "id": None, "ts": NOW, "source": label, "type": "activity",
                 "msg": f"💭 New thought: {thoughts[:80]}{'...' if len(thoughts) > 80 else ''}"
             })
 
-        ***REMOVED*** Track learnings as discoveries
+        # Track learnings as discoveries
         learnings = agent.get("learnings") or []
         prev_learnings = prev.get("learnings") or []
         new_learnings = [l for l in learnings if l not in prev_learnings]
@@ -128,7 +128,7 @@ def collect_agent_activity(data, prev_agents):
 
     return entries, agents
 
-***REMOVED*** === COLLECT WORK/PERSON VM ACTIVITY ===
+# === COLLECT WORK/PERSON VM ACTIVITY ===
 
 def collect_work_person_vm_activity():
     """SSH to Work/Person VMs for their latest activity (lightweight)."""
@@ -168,7 +168,7 @@ def collect_work_person_vm_activity():
             pass
     return entries
 
-***REMOVED*** === MAIN COLLECTION CYCLE ===
+# === MAIN COLLECTION CYCLE ===
 
 def main():
     insights = load_json(INSIGHTS_FILE)
@@ -180,34 +180,34 @@ def main():
     new_entries = []
     next_id = max((e.get("id", 0) for e in insights.get("entries", [])), default=0) + 1
 
-    ***REMOVED*** 1. Collect from system metrics
+    # 1. Collect from system metrics
     sys_entries, new_metrics = collect_system_deltas(data, prev_state.get("metrics", {}))
     for e in sys_entries:
         if e["id"] is None:
             e["id"] = next_id; next_id += 1
         new_entries.append(e)
 
-    ***REMOVED*** 2. Collect from agent thoughts/learnings/needs changes
+    # 2. Collect from agent thoughts/learnings/needs changes
     agent_entries, new_agents = collect_agent_activity(data, prev_state.get("agents", {}))
     for e in agent_entries:
         if e["id"] is None:
             e["id"] = next_id; next_id += 1
         new_entries.append(e)
 
-    ***REMOVED*** [REMOVED] collect_cron_logs() — produced 89% noise entries, no intelligence value
+    # [REMOVED] collect_cron_logs() — produced 89% noise entries, no intelligence value
     
-    ***REMOVED*** 3. Collect Work/Person VM activity (lightweight SSH)
+    # 3. Collect Work/Person VM activity (lightweight SSH)
     vm_entries = collect_work_person_vm_activity()
     for e in vm_entries:
         if e["id"] is None:
             e["id"] = next_id; next_id += 1
         new_entries.append(e)
 
-    ***REMOVED*** Append only new entries (don't regenerate)
+    # Append only new entries (don't regenerate)
     if new_entries:
         insights["entries"].extend(new_entries)
 
-        ***REMOVED*** Update dynamics summary
+        # Update dynamics summary
         agent_data = data.get("agents", {})
         insights["dynamics"] = {
             "fighter": {
@@ -230,7 +230,7 @@ def main():
             }
         }
 
-        ***REMOVED*** Trim to last 200 entries max (don't let file grow forever)
+        # Trim to last 200 entries max (don't let file grow forever)
         if len(insights["entries"]) > 200:
             insights["entries"] = insights["entries"][-200:]
 
@@ -238,12 +238,12 @@ def main():
     insights["meta"]["last_collect_ts"] = NOW
     save_json(INSIGHTS_FILE, insights)
 
-    ***REMOVED*** Save previous state for delta detection next cycle
+    # Save previous state for delta detection next cycle
     prev_state["metrics"] = new_metrics
     prev_state["agents"] = data.get("agents", {})
     save_json(BASE / ".insights_prev_state.json", prev_state)
 
-    ***REMOVED*** Output summary for cron logging
+    # Output summary for cron logging
     if new_entries:
         print(f"[{NOW}] GG Insights: {len(new_entries)} new entries (total: {len(insights['entries'])})")
         for e in new_entries:

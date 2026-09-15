@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 GG Unified Logger — 三部機統一日誌系統 (v1)
 
@@ -39,7 +39,7 @@ class GGLogger:
                 os.makedirs(d, exist_ok=True)
                 os.chmod(d, 0o755)
             except PermissionError:
-                ***REMOVED*** Fallback to app log dir
+                # Fallback to app log dir
                 os.makedirs(APP_LOG_DIR, exist_ok=True)
     
     def _setup_handlers(self):
@@ -47,7 +47,7 @@ class GGLogger:
         self.logger = logging.getLogger(f"gg.{self.source}")
         self.logger.setLevel(logging.DEBUG)
         
-        ***REMOVED*** Avoid duplicate handlers
+        # Avoid duplicate handlers
         if self.logger.handlers:
             return
         
@@ -56,28 +56,28 @@ class GGLogger:
             datefmt='%Y-%m-%d %H:%M:%S'
         )
         
-        ***REMOVED*** System log (rotated weekly)
+        # System log (rotated weekly)
         sys_log = os.path.join(LOG_DIR, f"{self.source}.log")
         try:
             handler = logging.handlers.TimedRotatingFileHandler(
-                sys_log, when='W6', interval=1, backupCount=4  ***REMOVED*** Weekly rotate, keep 4 weeks
+                sys_log, when='W6', interval=1, backupCount=4  # Weekly rotate, keep 4 weeks
             )
             handler.setFormatter(formatter)
             handler.setLevel(logging.INFO)
             self.logger.addHandler(handler)
         except PermissionError:
-            pass  ***REMOVED*** Skip system log if no permission
+            pass  # Skip system log if no permission
         
-        ***REMOVED*** App log (always available)
+        # App log (always available)
         app_log = os.path.join(APP_LOG_DIR, f"{self.source}.log")
         app_handler = logging.handlers.RotatingFileHandler(
-            app_log, maxBytes=5*1024*1024, backupCount=3  ***REMOVED*** 5MB rotate
+            app_log, maxBytes=5*1024*1024, backupCount=3  # 5MB rotate
         )
         app_handler.setFormatter(formatter)
         app_handler.setLevel(logging.DEBUG)
         self.logger.addHandler(app_handler)
         
-        ***REMOVED*** JSONL structured log (for machine parsing)
+        # JSONL structured log (for machine parsing)
         jsonl_path = os.path.join(APP_LOG_DIR, f"{self.source}.jsonl")
         self.jsonl_file = jsonl_path
     
@@ -97,7 +97,7 @@ class GGLogger:
             with open(self.jsonl_file, "a") as f:
                 f.write(json.dumps(entry, ensure_ascii=False) + "\n")
         except Exception:
-            pass  ***REMOVED*** Don't let logging fail the app
+            pass  # Don't let logging fail the app
     
     def info(self, message, details=None):
         self.logger.info(message)
@@ -122,7 +122,7 @@ class GGLogger:
         """
         self.info(f"MEMORY|{category}|{content[:200]}")
         
-        ***REMOVED*** Also write to the daily memory file
+        # Also write to the daily memory file
         today = datetime.now().strftime("%Y-%m-%d")
         mem_file = os.path.join(
             os.path.expanduser("~/.openclaw/workspace/memory"),
@@ -135,7 +135,7 @@ class GGLogger:
         except Exception:
             pass
 
-***REMOVED*** Singleton
+# Singleton
 _instances = {}
 
 def get_logger(source="gg-main"):
@@ -144,7 +144,7 @@ def get_logger(source="gg-main"):
     return _instances[source]
 
 if __name__ == "__main__":
-    ***REMOVED*** CLI mode: gg_logger.py <source> <level> <message> [--json details]
+    # CLI mode: gg_logger.py <source> <level> <message> [--json details]
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("source", help="log source name")

@@ -1,6 +1,6 @@
-***REMOVED*** Smart AI — Desktop Hermes Client
+# Smart AI — Desktop Hermes Client
 
-***REMOVED******REMOVED*** Architecture
+## Architecture
 
 ```
 Windows 11 Desktop                    Linux VPS (this machine)
@@ -17,12 +17,12 @@ Windows 11 Desktop                    Linux VPS (this machine)
 └──────────────────────┘
 ```
 
-***REMOVED******REMOVED*** Build Instructions (Windows 11)
+## Build Instructions (Windows 11)
 
-***REMOVED******REMOVED******REMOVED*** Prerequisites
+### Prerequisites
 - Node.js v18+: https://nodejs.org/
 
-***REMOVED******REMOVED******REMOVED*** Steps
+### Steps
 ```bash
 tar xzf smart-ai.tar.gz
 cd smart-ai
@@ -32,12 +32,12 @@ npm run build:win
 
 Installer will be at `dist/SmartAI-Setup-1.0.0.exe`
 
-***REMOVED******REMOVED******REMOVED*** Quick Dev Start
+### Quick Dev Start
 ```bash
 npm start
 ```
 
-***REMOVED******REMOVED*** Controls
+## Controls
 | Action | Method |
 |--------|--------|
 | Toggle overlay | `Ctrl+Alt+A` |
@@ -46,13 +46,13 @@ npm start
 | Record voice | 🎤 button (saves to ~/.smart-ai/recordings/) |
 | Switch tabs | Click tab buttons |
 
-***REMOVED******REMOVED*** Configuration
+## Configuration
 Edit `~/.smart-ai/config.json` after first run:
 - `server_url`: Smart AI server address (default: http://localhost:8765)
 - `weather_api_key`: OpenWeatherMap API key (free tier)
 - `telegram_token`/`telegram_chat_id`: Optional — direct Telegram integration
 
-***REMOVED******REMOVED*** Tabs
+## Tabs
 | Tab | Function |
 |-----|----------|
 | 💬 Chat | Text conversation with Hermes AI |
@@ -60,6 +60,6 @@ Edit `~/.smart-ai/config.json` after first run:
 | 📝 Notes | Quick note-taking |
 | 📋 Tasks | TODO |
 
-***REMOVED******REMOVED*** Server
+## Server
 Server runs on port 8765 (separate from AI Central).
 Start: `python3 server.py`

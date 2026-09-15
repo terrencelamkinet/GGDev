@@ -1,11 +1,11 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 BrainLinkParser.pyd 參數偵測器
 Run this to find the exact parameter names.
 """
 import inspect, sys
 
-***REMOVED*** Force load from current directory
+# Force load from current directory
 import importlib.util
 spec = importlib.util.spec_from_file_location("BrainLinkParser", "BrainLinkParser.pyd")
 if spec is None:
@@ -17,7 +17,7 @@ if spec is None:
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
-***REMOVED*** Show __init__ signature
+# Show __init__ signature
 try:
     sig = inspect.signature(module.BrainLinkParser.__init__)
     print("BrainLinkParser.__init__ parameters:")
@@ -31,13 +31,13 @@ try:
             print(f"  {name} = {default}")
 except Exception as e:
     print(f"inspect failed: {e}")
-    ***REMOVED*** Fallback: try to show __text_signature__
+    # Fallback: try to show __text_signature__
     try:
         print(f"__text_signature__: {module.BrainLinkParser.__init__.__text_signature__}")
     except:
         pass
 
-***REMOVED*** Also show all callable methods
+# Also show all callable methods
 print("\nAll callable methods:")
 for name in dir(module.BrainLinkParser):
     if not name.startswith('_'):

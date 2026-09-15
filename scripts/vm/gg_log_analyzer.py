@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 GG Log Analyzer — 分析 events.jsonl 俾出 insights
 
@@ -22,7 +22,7 @@ from collections import Counter, defaultdict
 LOG_DIR = os.path.expanduser("~/.openclaw/logs/gg-v2")
 LEARNINGS_DIR = os.path.expanduser("~/.openclaw/workspace/.learnings")
 
-***REMOVED*** Error weight for health score
+# Error weight for health score
 ERROR_WEIGHTS = {
     "FATAL": 1.0,
     "ERROR": 0.6,
@@ -60,18 +60,18 @@ def analyze(events):
     if total == 0:
         return {"score": 1.0, "message": "No events in period", "ok": True}
     
-    ***REMOVED*** Category breakdown
+    # Category breakdown
     categories = Counter(e.get("category", "unknown") for e in events)
     levels = Counter(e.get("level", "INFO") for e in events)
     
-    ***REMOVED*** Error analysis
+    # Error analysis
     errors = [e for e in events if e.get("level") in ("ERROR", "FATAL")]
     warns = [e for e in events if e.get("level") == "WARN"]
     
     error_penalty = sum(ERROR_WEIGHTS.get(e.get("level", "INFO"), 0) for e in events)
     health_score = max(0, 1.0 - (error_penalty / max(total, 1)))
     
-    ***REMOVED*** Pattern detection: repeated messages
+    # Pattern detection: repeated messages
     msg_counter = Counter(e.get("message", "")[:80] for e in errors)
     top_errors = msg_counter.most_common(3)
     
@@ -94,7 +94,7 @@ def log_learnings(report):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M")
     
     with open(errors_file, "a") as f:
-        f.write(f"\n***REMOVED******REMOVED*** {ts} — Log Analysis Report\n")
+        f.write(f"\n## {ts} — Log Analysis Report\n")
         f.write(f"- Health Score: {report['score']}\n")
         f.write(f"- Errors: {report['error_count']}, Warnings: {report['warn_count']}\n")
         if report["top_errors"]:

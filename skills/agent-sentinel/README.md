@@ -1,4 +1,4 @@
-***REMOVED*** AgentSentinel For OpenClaw
+# AgentSentinel For OpenClaw
 
 AgentSentinel `v0.1.2` is packaged for OpenClaw as a local-first safety layer:
 
@@ -12,7 +12,7 @@ This skill is one part of the broader AgentSentinel product:
 - the AgentSentinel SDK for Python agent instrumentation
 - the AgentSentinel platform for dashboards, approvals, and centralized monitoring
 
-***REMOVED******REMOVED*** Why This Release
+## Why This Release
 
 This release is designed to be more plug and play for OpenClaw and ClawHub:
 
@@ -22,7 +22,7 @@ This release is designed to be more plug and play for OpenClaw and ClawHub:
 - cloud mode uses an explicit direct HTTP call to AgentSentinel only when `sync` is run
 - clearer disclosure of optional remote behavior
 
-***REMOVED******REMOVED*** Quick Start
+## Quick Start
 
 Initialize local mode in a workspace:
 
@@ -60,7 +60,7 @@ Upload local events to the cloud:
 python3 sentinel_wrapper.py sync
 ```
 
-***REMOVED******REMOVED*** Local Mode
+## Local Mode
 
 Local mode requires only `python3`.
 
@@ -78,7 +78,7 @@ callguard.yaml
 
 If `callguard.yaml` is missing, the wrapper uses built-in defaults.
 
-***REMOVED******REMOVED*** Cloud Mode
+## Cloud Mode
 
 Cloud mode is optional and opt-in.
 
@@ -89,7 +89,7 @@ To enable it:
 
 If the API key is not present, the skill stays local-only.
 
-***REMOVED******REMOVED*** SDK And Platform
+## SDK And Platform
 
 This package is intentionally lightweight for OpenClaw.
 
@@ -99,7 +99,7 @@ If you want deeper integration, AgentSentinel also ships:
 
 The OpenClaw skill should feel safe and low-friction on its own, while still giving users a clean path into the larger AgentSentinel product when they need it.
 
-***REMOVED******REMOVED*** Release Checklist
+## Release Checklist
 
 Before publishing `v0.1.2`:
 

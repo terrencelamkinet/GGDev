@@ -8,15 +8,15 @@ description: >-
   down, (6) heartbeat/timeout events.
 ---
 
-***REMOVED*** System Maintenance Skill
+# System Maintenance Skill
 
-***REMOVED******REMOVED*** 🎯 Core Rule
+## 🎯 Core Rule
 
 > **Auto-repair silently for known issues. Escalate only when the same error repeats ≥3 times.**
 
 This avoids notification fatigue while still catching systemic problems.
 
-***REMOVED******REMOVED*** 📋 Error Registry (centralized)
+## 📋 Error Registry (centralized)
 
 **Location**: `~/.openclaw/logs/error_registry.json`
 
@@ -39,7 +39,7 @@ Format:
 }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Error Sources to Track
+### Error Sources to Track
 
 | Source | Check Method | Auto-fixable? |
 |--------|-------------|---------------|
@@ -49,7 +49,7 @@ Format:
 | Tunnel down | `curl localhost:18901/18902` | ✅ auto-reconnect via tunnels.sh |
 | Script errors | `~/.openclaw/logs/conversation.jsonl` (source=error) | ⚠️ depends on error |
 
-***REMOVED******REMOVED*** 🔧 Auto-Repair Actions (run silently, no notification)
+## 🔧 Auto-Repair Actions (run silently, no notification)
 
 | Error Pattern | Auto-Fix |
 |--------------|----------|
@@ -58,7 +58,7 @@ Format:
 | SSH tunnel down | Run `gg-deploy/tunnels.sh reconnect` |
 | Stale lock file | Remove `/tmp/gg_reminder_daemon.lock` and restart |
 
-***REMOVED******REMOVED*** 🚨 Escalation Rule (notify Terrence)
+## 🚨 Escalation Rule (notify Terrence)
 
 **Only when `count >= 3`** AND the error is the **exact same type + source + name**.
 
@@ -70,9 +70,9 @@ Escalate via cron (not inline) with summary:
    Action needed: {suggestion}
 ```
 
-***REMOVED******REMOVED*** 🏗️ Architecture
+## 🏗️ Architecture
 
-***REMOVED******REMOVED******REMOVED*** Error Monitor Script
+### Error Monitor Script
 Location: `scripts/vm/gg_error_monitor.py`
 
 **Run frequency**: Every 30 minutes (via cron job `0/30 * * * *`)
@@ -88,10 +88,10 @@ Location: `scripts/vm/gg_error_monitor.py`
 7. If entry already notified and still failing → do NOT notify again
 ```
 
-***REMOVED******REMOVED******REMOVED*** Heartbeat Integration
+### Heartbeat Integration
 HEARTBEAT.md stays as is — lightweight ping only. Error monitor is separate.
 
-***REMOVED******REMOVED*** 🔗 Related System Components
+## 🔗 Related System Components
 
 | Component | Location | Role |
 |-----------|----------|------|

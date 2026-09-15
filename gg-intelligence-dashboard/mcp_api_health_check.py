@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 api_health_check.py — no_agent cron script.
 Every 15min: discover all MCP servers + API keys, probe health, store in PG.
@@ -12,7 +12,7 @@ from pathlib import Path
 HKT = timezone(timedelta(hours=8))
 HOME = Path.home()
 
-***REMOVED*** ── Paths ──
+# ── Paths ──
 CONFIG_PATH = HOME / ".hermes" / "config.yaml"
 ENV_PATH = HOME / ".hermes" / ".env"
 NOTION_KEY_PATH = HOME / ".config" / "notion" / "api_key"
@@ -20,21 +20,21 @@ SCRIPTS_DIR = HOME / ".hermes" / "scripts"
 ALERT_WRITER = SCRIPTS_DIR / "alert_writer.py"
 MCP_STATE_FILE = HOME / ".hermes" / "data" / "mcp_last_known.json"
 
-***REMOVED*** ── PG (reuse task_hub.py) ──
+# ── PG (reuse task_hub.py) ──
 sys.path.insert(0, str(SCRIPTS_DIR))
 from task_hub import pg_cursor
 
-***REMOVED*** ── Known API key names that are NOT MCP-managed ──
+# ── Known API key names that are NOT MCP-managed ──
 API_KEY_MAP = {
     "OPENAI_API_KEY": {"desc": "DeepSeek LLM", "category": "ai"},
     "TELEGRAM_BOT_TOKEN": {"desc": "Telegram Bot", "category": "messaging"},
 }
 
-***REMOVED*** ── Circuit Breaker Settings ──
-MAX_RETRIES = 2          ***REMOVED*** Auto-restart attempts before circuit opens
-CIRCUIT_COOLDOWN = 2     ***REMOVED*** Skip this many probe cycles when HALF_OPEN (2 × 15min = 30min)
+# ── Circuit Breaker Settings ──
+MAX_RETRIES = 2          # Auto-restart attempts before circuit opens
+CIRCUIT_COOLDOWN = 2     # Skip this many probe cycles when HALF_OPEN (2 × 15min = 30min)
 
-***REMOVED*** MCP server command patterns for quick probe
+# MCP server command patterns for quick probe
 def probe_command(cmd_str, timeout=5):
     """Quick check if an MCP server command can start. Returns (ok, error)."""
     if not cmd_str:
@@ -45,7 +45,7 @@ def probe_command(cmd_str, timeout=5):
     try:
         r = subprocess.run(parts[:1], capture_output=True, timeout=timeout)
         if r.returncode != 0:
-            ***REMOVED*** Some CLIs exit non-zero without args (e.g. designlang). Retry with --version.
+            # Some CLIs exit non-zero without args (e.g. designlang). Retry with --version.
             try:
                 r2 = subprocess.run(parts[:1] + ["--version"], capture_output=True, timeout=timeout)
                 return r2.returncode == 0, f"exit={r.returncode} (retry --version: exit={r2.returncode})"
@@ -99,7 +99,7 @@ def probe_mcp_server_deep(name, command, args, env, timeout=10):
     try:
         start = datetime.now()
 
-        ***REMOVED*** Step 1: Initialize
+        # Step 1: Initialize
         send_msg({"jsonrpc": "2.0", "id": 1, "method": "initialize",
                    "params": {"protocolVersion": "2024-11-05",
                               "capabilities": {},
@@ -123,10 +123,10 @@ def probe_mcp_server_deep(name, command, args, env, timeout=10):
             proc.wait()
             return False, f"initialize error: {err}"
 
-        ***REMOVED*** Step 2: Send initialized notification (no response expected)
+        # Step 2: Send initialized notification (no response expected)
         send_msg({"jsonrpc": "2.0", "method": "notifications/initialized"})
 
-        ***REMOVED*** Step 3: Try tools/list (MCP 2024-11-05 spec)
+        # Step 3: Try tools/list (MCP 2024-11-05 spec)
         send_msg({"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}})
         resp = None
         while (datetime.now() - start).total_seconds() < timeout:
@@ -136,7 +136,7 @@ def probe_mcp_server_deep(name, command, args, env, timeout=10):
             if proc.poll() is not None:
                 break
 
-        ***REMOVED*** Step 3b: If tools/list not recognized, try listTools (newer MCP spec)
+        # Step 3b: If tools/list not recognized, try listTools (newer MCP spec)
         if resp is None:
             send_msg({"jsonrpc": "2.0", "id": 2, "method": "listTools", "params": {}})
             while (datetime.now() - start).total_seconds() < timeout:
@@ -179,7 +179,7 @@ def probe_mcp_server_deep(name, command, args, env, timeout=10):
         return False, str(e)[:60]
 
     finally:
-        ***REMOVED*** Ensure process is cleaned up
+        # Ensure process is cleaned up
         try:
             if proc.poll() is None:
                 proc.kill()
@@ -221,9 +221,9 @@ def auto_restart_mcp(name, command, args):
     if not command:
         return False, "no command"
     
-    ***REMOVED*** Build a unique search pattern from the command
-    cmd_base = command.split("/")[-1]  ***REMOVED*** e.g. "npx" or "python3"
-    ***REMOVED*** For uniqueness, also match the first unique arg
+    # Build a unique search pattern from the command
+    cmd_base = command.split("/")[-1]  # e.g. "npx" or "python3"
+    # For uniqueness, also match the first unique arg
     kill_pattern = cmd_base
     for a in (args or []):
         if not a.startswith("-"):
@@ -231,7 +231,7 @@ def auto_restart_mcp(name, command, args):
             break
     
     try:
-        ***REMOVED*** Find matching processes
+        # Find matching processes
         r = subprocess.run(
             ["pgrep", "-f", kill_pattern],
             capture_output=True, text=True, timeout=5
@@ -243,14 +243,14 @@ def auto_restart_mcp(name, command, args):
         if not pids:
             return False, "no pids"
         
-        ***REMOVED*** Kill each matching PID (SIGTERM first, then SIGKILL after 2s)
+        # Kill each matching PID (SIGTERM first, then SIGKILL after 2s)
         for pid in pids:
             subprocess.run(["kill", pid], capture_output=True, timeout=3)
         
         import time
-        time.sleep(2)  ***REMOVED*** Wait for gateway to detect death and respawn
+        time.sleep(2)  # Wait for gateway to detect death and respawn
         
-        ***REMOVED*** Verify process was actually killed (not still running)
+        # Verify process was actually killed (not still running)
         r2 = subprocess.run(
             ["pgrep", "-f", kill_pattern],
             capture_output=True, text=True, timeout=5
@@ -312,7 +312,7 @@ def discover_mcp_servers():
         env = conf.get("env", {}) or {}
         t = conf.get("type", "mcp")
         
-        ***REMOVED*** Infer category
+        # Infer category
         cat = "other"
         nl = name.lower()
         if any(k in nl for k in ["google", "gmail", "calendar"]):
@@ -349,7 +349,7 @@ def discover_api_keys():
     env = {}
     for line in ENV_PATH.read_text().splitlines():
         line = line.strip()
-        if line and "=" in line and not line.startswith("***REMOVED***"):
+        if line and "=" in line and not line.startswith("#"):
             k, _, v = line.partition("=")
             env[k.strip()] = v.strip()
     
@@ -371,11 +371,11 @@ def check_endpoint(ep):
     """Probe a single endpoint. Returns (status, error_msg).
     For MCP: first quick binary check, then deep JSON-RPC probe."""
     if ep["type"] == "mcp":
-        ***REMOVED*** 1) Quick binary check
+        # 1) Quick binary check
         ok, err = probe_command(ep.get("command", ""))
         if not ok:
             return "failed", err
-        ***REMOVED*** 2) Deep JSON-RPC probe — actually start server, call listTools
+        # 2) Deep JSON-RPC probe — actually start server, call listTools
         command = ep.get("command", "")
         args = ep.get("args", [])
         env = ep.get("env", {})
@@ -398,7 +398,7 @@ def check_endpoint(ep):
 def main():
     now = datetime.now(HKT)
     
-    ***REMOVED*** Step 1: Discover all endpoints
+    # Step 1: Discover all endpoints
     mcp_servers = discover_mcp_servers()
     api_keys = discover_api_keys()
     all_endpoints = mcp_servers + api_keys
@@ -407,7 +407,7 @@ def main():
         print("[SILENT] No endpoints discovered")
         return 0
     
-    ***REMOVED*** Step 2: Get previous snapshot for add/remove detection
+    # Step 2: Get previous snapshot for add/remove detection
     prev_names = set()
     try:
         with pg_cursor() as cur:
@@ -422,23 +422,23 @@ def main():
     added = current_names - prev_names
     removed = prev_names - current_names
     
-    ***REMOVED*** Step 3: Load circuit breaker state
+    # Step 3: Load circuit breaker state
     prev_mcp_state = load_mcp_state()
     circuit_state = {}
     for name, val in prev_mcp_state.items():
         if isinstance(val, dict):
             circuit_state[name] = val
         else:
-            ***REMOVED*** Backward compat: old format was just "connected"/"failed"
+            # Backward compat: old format was just "connected"/"failed"
             circuit_state[name] = {
                 "status": val, "circuit": "CLOSED", "failures": 0,
                 "last_fail": None, "skip_count": 0
             }
     new_mcp_state = {}
-    state_changes = []  ***REMOVED*** (name, old_status, new_status, detail)
+    state_changes = []  # (name, old_status, new_status, detail)
     auto_restarted = []
     
-    ***REMOVED*** Step 4: Probe each endpoint
+    # Step 4: Probe each endpoint
     connected = unknown = failed = 0
     status_counts = {}
     
@@ -450,7 +450,7 @@ def main():
             status = "unknown"
             error = ""
             
-            ***REMOVED*** ── Circuit breaker check (MCP only) ──
+            # ── Circuit breaker check (MCP only) ──
             skip_probe = False
             if etype == "mcp":
                 cb = circuit_state.get(name, {
@@ -460,14 +460,14 @@ def main():
                 if cb["circuit"] == "HALF_OPEN":
                     cb["skip_count"] = cb.get("skip_count", 0) + 1
                     if cb["skip_count"] <= CIRCUIT_COOLDOWN:
-                        ***REMOVED*** Keep last known status, don't probe
+                        # Keep last known status, don't probe
                         status = cb.get("status", "failed")
                         error = f"circuit HALF_OPEN (skip {cb['skip_count']}/{CIRCUIT_COOLDOWN})"
                         skip_probe = True
                     else:
-                        ***REMOVED*** Allow one probe
+                        # Allow one probe
                         cb["skip_count"] = 0
-                ***REMOVED*** Store current circuit state for update
+                # Store current circuit state for update
                 ep["_circuit"] = cb
                 new_mcp_state[name] = cb
             
@@ -475,19 +475,19 @@ def main():
                 now_ts = datetime.now(HKT)
                 status, error = check_endpoint(ep)
             
-                ***REMOVED*** ── Auto-restart logic (MCP failed, circuit still CLOSED) ──
+                # ── Auto-restart logic (MCP failed, circuit still CLOSED) ──
                 if etype == "mcp" and status == "failed":
                     cb = ep["_circuit"]
                     cb["failures"] = cb.get("failures", 0) + 1
                     cb["last_fail"] = now_ts.isoformat()
                     
                     if cb["circuit"] == "CLOSED" and cb["failures"] <= MAX_RETRIES:
-                        ***REMOVED*** Try restart: kill process, gateway auto-respawns
+                        # Try restart: kill process, gateway auto-respawns
                         restart_ok, restart_detail = auto_restart_mcp(
                             name, ep.get("command", ""), ep.get("args", [])
                         )
                         if restart_ok:
-                            ***REMOVED*** Wait a moment, then re-probe
+                            # Wait a moment, then re-probe
                             import time as _time
                             _time.sleep(3)
                             status2, error2 = check_endpoint(ep)
@@ -497,16 +497,16 @@ def main():
                                 cb["failures"] = 0
                                 auto_restarted.append(name)
                             else:
-                                ***REMOVED*** Restart didn't help
+                                # Restart didn't help
                                 cb["failures"] = cb.get("failures", 0) + 1
                                 error = f"restart failed: {error2}"
                     
-                    ***REMOVED*** Open circuit if too many failures
+                    # Open circuit if too many failures
                     if cb["failures"] > MAX_RETRIES:
                         cb["circuit"] = "HALF_OPEN"
                         cb["skip_count"] = 0
                 
-                ***REMOVED*** ── Reset circuit on success ──
+                # ── Reset circuit on success ──
                 if etype == "mcp" and status == "connected":
                     cb = ep["_circuit"]
                     was_failed = cb.get("failures", 0) > 0 or cb.get("status") in ("failed", "unknown")
@@ -515,7 +515,7 @@ def main():
                     cb["skip_count"] = 0
                     cb["status"] = "connected"
             
-            ***REMOVED*** Upsert to PG
+            # Upsert to PG
             now_ts = datetime.now(HKT)
             cur.execute("""
                 INSERT INTO connection_status (name, type, category, status, last_check, last_ok, last_fail, error)
@@ -548,7 +548,7 @@ def main():
                 failed += 1
             status_counts[name] = status
             
-            ***REMOVED*** Track MCP state transitions for alerting
+            # Track MCP state transitions for alerting
             if etype == "mcp":
                 prev = prev_mcp_state.get(name, "unknown")
                 if isinstance(prev, dict):
@@ -575,7 +575,7 @@ def main():
                             f"Server {name} 回復正常: {error[:80]}"
                         )
         
-        ***REMOVED*** Step 5: Save snapshot + MCP state
+        # Step 5: Save snapshot + MCP state
         cur.execute("""
             INSERT INTO connection_snapshots (total_connected, total_unknown, total_failed, names_json)
             VALUES (%s, %s, %s, %s)
@@ -583,7 +583,7 @@ def main():
     
     save_mcp_state(new_mcp_state)
     
-    ***REMOVED*** Step 6: Output (silent if nothing changed)
+    # Step 6: Output (silent if nothing changed)
     total = len(all_endpoints)
     
     changes = []
@@ -597,7 +597,7 @@ def main():
             changes.append(f"{icon} {name}: {old}→{new} ({detail[:40]})")
     
     if not changes and failed == 0:
-        ***REMOVED*** Silent — everything normal
+        # Silent — everything normal
         return 0
     
     lines = [f"🔌 Connection Health · {now.strftime('%H:%M')}"]
@@ -608,7 +608,7 @@ def main():
     
     print("\n".join(lines))
     
-    ***REMOVED*** Return non-zero if there are failures (so cron doctor can detect)
+    # Return non-zero if there are failures (so cron doctor can detect)
     return 0 if failed == 0 else 1
 
 

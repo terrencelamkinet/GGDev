@@ -13,9 +13,9 @@ const Gauge = (() => {
 
   const COL = {
     track:   'rgba(255,255,255,.12)',
-    red:     '***REMOVED***ff6b6b', amber: '***REMOVED***ffd166',
-    green:   '***REMOVED***74d680', blue:  '***REMOVED***4f8cff',
-    text:    '***REMOVED***f4faff', muted: '***REMOVED***9bbfd4',
+    red:     '#ff6b6b', amber: '#ffd166',
+    green:   '#74d680', blue:  '#4f8cff',
+    text:    '#f4faff', muted: '#9bbfd4',
     grid:    'rgba(255,255,255,.06)',
   };
 
@@ -96,7 +96,7 @@ const Gauge = (() => {
 
     /* Center cap */
     c.beginPath(); c.arc(cx,cy,12,0,Math.PI*2);
-    c.fillStyle='***REMOVED***1a2332'; c.fill();
+    c.fillStyle='#1a2332'; c.fill();
     c.strokeStyle='rgba(255,255,255,.25)'; c.lineWidth=2; c.stroke();
   }
 

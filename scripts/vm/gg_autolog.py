@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 GG Auto-Log Wrapper — 自動記錄所有操作
 
@@ -26,7 +26,7 @@ def log_locally(category, content, level="info"):
     today = datetime.now().strftime("%Y-%m-%d")
     ts = datetime.now().strftime("%H:%M:%S")
     
-    ***REMOVED*** JSONL log
+    # JSONL log
     log_dir = os.path.expanduser("~/.openclaw/logs/gg")
     os.makedirs(log_dir, exist_ok=True)
     entry = {
@@ -39,7 +39,7 @@ def log_locally(category, content, level="info"):
     with open(os.path.join(log_dir, "auto.log"), "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
     
-    ***REMOVED*** Daily memory file (append)
+    # Daily memory file (append)
     os.makedirs(MEMORY_DIR, exist_ok=True)
     mem_file = os.path.join(MEMORY_DIR, f"{today}.md")
     ts_hkt = datetime.now().strftime("%H:%M HKT")
@@ -60,10 +60,10 @@ def log_locally(category, content, level="info"):
     
     line = f"\n- **{ts_hkt}** {cat_emoji} **[{category.upper()}]** {content}"
     
-    ***REMOVED*** Check if file exists, create header if not
+    # Check if file exists, create header if not
     if not os.path.exists(mem_file):
         with open(mem_file, "w") as f:
-            f.write(f"***REMOVED*** {today}\n")
+            f.write(f"# {today}\n")
     
     with open(mem_file, "a") as f:
         f.write(line)
@@ -77,7 +77,7 @@ def sync_to_vms(category, content):
                 "memo", target, f"[{category.upper()}] {content[:200]}"
             ], capture_output=True, timeout=30)
         except Exception:
-            pass  ***REMOVED*** Don't fail if sync fails
+            pass  # Don't fail if sync fails
 
 def main():
     parser = argparse.ArgumentParser(description="GG Auto-Log")
@@ -92,10 +92,10 @@ def main():
     
     args = parser.parse_args()
     
-    ***REMOVED*** Log locally
+    # Log locally
     log_locally(args.category, args.content, args.level)
     
-    ***REMOVED*** Sync to VMs (unless --no-sync)
+    # Sync to VMs (unless --no-sync)
     if not args.no_sync:
         sync_to_vms(args.category, args.content)
     

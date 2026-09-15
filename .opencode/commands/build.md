@@ -1,22 +1,22 @@
-***REMOVED*** /build
+# /build
 
 Build frontend + backend for the GGDev project.
 
-***REMOVED******REMOVED*** Usage
+## Usage
 ```
 /build [target]
 ```
 
-***REMOVED******REMOVED*** Targets
+## Targets
 - `frontend` — Build React/TypeScript frontend
 - `backend` — Build/compile backend
 - `docker` — Build Docker images
 - `all` — Build everything (default)
 
-***REMOVED******REMOVED*** Implementation
+## Implementation
 ```bash
-***REMOVED***!/bin/bash
-***REMOVED*** Build GGDev project
+#!/bin/bash
+# Build GGDev project
 set -e
 
 TARGET="${1:-all}"
@@ -33,10 +33,10 @@ build_backend() {
   echo "🔨 Building backend..."
   cd ~/projects/ggdev-repo
   
-  ***REMOVED*** Install Python dependencies
+  # Install Python dependencies
   pip install -r gg-dashboard/requirements.txt --quiet 2>/dev/null || true
   
-  ***REMOVED*** Run any build steps
+  # Run any build steps
   if [ -f "gg-dashboard/pyproject.toml" ]; then
     cd gg-dashboard && python -m build --wheel 2>/dev/null || true
   fi

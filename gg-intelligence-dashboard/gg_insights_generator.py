@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 gg_insights_generator.py — Reads real system data, generates structured insights.
 Runs every 30min as part of sync pipeline. No LLM — pure data analysis.
@@ -28,18 +28,18 @@ def add_insight(cat, source, title, content, priority="medium", meta=None):
         """, (cat, source, title, content, priority,
               json.dumps(meta) if meta else None, hkt_now()))
 
-***REMOVED*** ═══ 1. GG VOICES — each AI's perspective based on actual data ═══
+# ═══ 1. GG VOICES — each AI's perspective based on actual data ═══
 
 def gen_voices():
     """Generate what each AI would say based on real system data."""
     now = hkt_now()
 
-    ***REMOVED*** --- Fighter voice ---
+    # --- Fighter voice ---
     with pg_cursor() as cur:
         cur.execute("SELECT status, message, synced_at FROM sync_status ORDER BY synced_at DESC")
         syncs = cur.fetchall()
         
-        ***REMOVED*** Find any failed syncs
+        # Find any failed syncs
         failed_syncs = [s for s in syncs if s["status"] == "error"]
         if failed_syncs:
             add_insight("voice", "fighter",
@@ -48,7 +48,7 @@ def gen_voices():
                 ", ".join(f"{s['source']}: {s['message']}" for s in failed_syncs[:3]),
                 "high", {"component": "sync"})
 
-    ***REMOVED*** Recent task completion rate
+    # Recent task completion rate
     with pg_cursor() as cur:
         cur.execute("""
             SELECT action, COUNT(*) as cnt
@@ -67,7 +67,7 @@ def gen_voices():
                  else "Room to improve — some tasks are lingering."),
                 "medium", {"actions": actions})
 
-    ***REMOVED*** --- Work voice — MCP health ---
+    # --- Work voice — MCP health ---
     with pg_cursor() as cur:
         cur.execute("""
             SELECT name, status, error, last_check FROM connection_status
@@ -92,7 +92,7 @@ def gen_voices():
                 f"All {len(failed_mcps) if 'failed_mcps' in dir() else 0} MCP endpoints responding.",
                 "low")
 
-    ***REMOVED*** --- Person voice — task patterns ---
+    # --- Person voice — task patterns ---
     with pg_cursor() as cur:
         cur.execute("""
             SELECT notion_page_id, title, action, changed_at
@@ -109,7 +109,7 @@ def gen_voices():
                 "Making sure nothing falls through the cracks.",
                 "medium", {"recent": [dict(r) for r in recent]})
 
-***REMOVED*** ═══ 2. DISCOVERIES — system observations based on data ═══
+# ═══ 2. DISCOVERIES — system observations based on data ═══
 
 def gen_discoveries():
     with pg_cursor() as cur:
@@ -134,11 +134,11 @@ def gen_discoveries():
                 f"{'Normal load, plenty of headroom.' if avg_cpu < 20 else 'Moderate activity.'}",
                 "low", {"ai": name, "avg_cpu": avg_cpu, "avg_mem": avg_mem, "points": s["cnt"]})
 
-***REMOVED*** ═══ 3. UPGRADE SUGGESTIONS — based on gaps in current system ═══
+# ═══ 3. UPGRADE SUGGESTIONS — based on gaps in current system ═══
 
 def gen_suggestions():
     with pg_cursor() as cur:
-        ***REMOVED*** Check if we have sync_status data
+        # Check if we have sync_status data
         cur.execute("SELECT COUNT(*) as cnt FROM sync_status")
         sync_count = dict(cur.fetchone())["cnt"]
         if sync_count == 0:
@@ -148,7 +148,7 @@ def gen_suggestions():
                 "This makes it hard to know if background jobs are actually running.",
                 "medium")
 
-        ***REMOVED*** Check task_audit
+        # Check task_audit
         cur.execute("SELECT COUNT(*) as cnt FROM task_audit")
         audit_count = dict(cur.fetchone())["cnt"]
         if audit_count > 0:
@@ -158,7 +158,7 @@ def gen_suggestions():
                 "Could add a weekly trend view to show productivity patterns.",
                 "low", {"audit_count": audit_count})
 
-***REMOVED*** ═══ MAIN ═══
+# ═══ MAIN ═══
 
 def main():
     now = hkt_now()
@@ -176,7 +176,7 @@ def main():
     gen_suggestions()
     print("  Suggestions generated")
 
-    ***REMOVED*** Update sync_status
+    # Update sync_status
     with pg_cursor(commit=True) as cur:
         cur.execute("""
             INSERT INTO sync_status (source, status, message, rows_synced, synced_at)

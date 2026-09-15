@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 
-***REMOVED*** ── System helpers (no psutil) ────────────────────────────
+# ── System helpers (no psutil) ────────────────────────────
 
 
 def _get_cpu_pct() -> int:
@@ -109,7 +109,7 @@ def _get_llm_info_local() -> dict:
     return {"provider": "", "model": ""}
 
 
-***REMOVED*** ── Skills collector ──────────────────────────────────────
+# ── Skills collector ──────────────────────────────────────
 
 
 def _collect_skills() -> list[dict]:
@@ -132,16 +132,16 @@ def _collect_skills() -> list[dict]:
             content = skill_file.read_text()
             name = cat_dir.name
             desc = ""
-            ***REMOVED*** Try to find YAML front-matter description
+            # Try to find YAML front-matter description
             for line in content.splitlines():
                 if line.startswith("description:"):
                     desc = line.split(":", 1)[1].strip().strip("\"'")
                     break
-            ***REMOVED*** Try to find first heading as fallback description
+            # Try to find first heading as fallback description
             if not desc:
                 for line in content.splitlines():
-                    if line.startswith("***REMOVED*** "):
-                        desc = line.lstrip("***REMOVED*** ").strip()
+                    if line.startswith("# "):
+                        desc = line.lstrip("# ").strip()
                         break
             skills.append(
                 {"name": name, "description": desc, "category": cat_dir.parent.name}
@@ -152,7 +152,7 @@ def _collect_skills() -> list[dict]:
     return skills
 
 
-***REMOVED*** ── Main collection functions ─────────────────────────────
+# ── Main collection functions ─────────────────────────────
 
 
 def collect_local_agent_info() -> dict:

@@ -219,7 +219,7 @@ function initDiagram() {
   if (!container || typeof THREE === 'undefined') return;
   
   dScene = new THREE.Scene();
-  dScene.background = new THREE.Color('***REMOVED***0a0a14');
+  dScene.background = new THREE.Color('#0a0a14');
   dCam = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 1, 2000);
   dCam.position.set(0, 50, 250);
   dRenderer = new THREE.WebGLRenderer({ antialias: true });
@@ -243,13 +243,13 @@ function initDiagram() {
   dScene.add(dLinkGroup);
   
   var nodes = [
-    { id:'core', label:'AI Core', x:0, y:0, z:0, color:'***REMOVED***2563eb', size:1 },
-    { id:'chat', label:'Chat', x:80, y:40, z:20, color:'***REMOVED***7c3aed', size:0.7 },
-    { id:'voice', label:'Voice', x:-60, y:60, z:-30, color:'***REMOVED***0891b2', size:0.7 },
-    { id:'notes', label:'Notes', x:-80, y:-30, z:40, color:'***REMOVED***047857', size:0.7 },
-    { id:'tasks', label:'Tasks', x:60, y:-50, z:-20, color:'***REMOVED***ea580c', size:0.7 },
-    { id:'diagram', label:'3D View', x:90, y:-20, z:-40, color:'***REMOVED***db2777', size:0.7 },
-    { id:'system', label:'System', x:-50, y:-60, z:-10, color:'***REMOVED***64748b', size:0.7 },
+    { id:'core', label:'AI Core', x:0, y:0, z:0, color:'#2563eb', size:1 },
+    { id:'chat', label:'Chat', x:80, y:40, z:20, color:'#7c3aed', size:0.7 },
+    { id:'voice', label:'Voice', x:-60, y:60, z:-30, color:'#0891b2', size:0.7 },
+    { id:'notes', label:'Notes', x:-80, y:-30, z:40, color:'#047857', size:0.7 },
+    { id:'tasks', label:'Tasks', x:60, y:-50, z:-20, color:'#ea580c', size:0.7 },
+    { id:'diagram', label:'3D View', x:90, y:-20, z:-40, color:'#db2777', size:0.7 },
+    { id:'system', label:'System', x:-50, y:-60, z:-10, color:'#64748b', size:0.7 },
   ];
   var edges = [
     ['core','chat'],['core','voice'],['core','notes'],['core','tasks'],['core','diagram'],['core','system'],
@@ -261,11 +261,11 @@ function initDiagram() {
     var cvs = document.createElement('canvas');
     cvs.width = 160; cvs.height = 80;
     var ctx = cvs.getContext('2d');
-    ctx.fillStyle = '***REMOVED***12122a';
+    ctx.fillStyle = '#12122a';
     ctx.beginPath(); ctx.roundRect(0,0,160,80,8); ctx.fill();
     ctx.strokeStyle = nd.color; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(0,0,160,80,8); ctx.stroke();
     ctx.font = '22px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillStyle = '***REMOVED***e2e8f0'; ctx.fillText(nd.label, 80, 40);
+    ctx.fillStyle = '#e2e8f0'; ctx.fillText(nd.label, 80, 40);
     
     var tex = new THREE.CanvasTexture(cvs);
     tex.needsUpdate = true;

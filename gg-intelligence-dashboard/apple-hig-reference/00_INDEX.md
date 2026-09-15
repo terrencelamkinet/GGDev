@@ -1,12 +1,12 @@
-***REMOVED*** Apple Human Interface Guidelines — AI Agent Instruction Spec
+# Apple Human Interface Guidelines — AI Agent Instruction Spec
 > Auto-generated specification for AI Agents designing Apple platform apps.
 > Based on: https://developer.apple.com/design/human-interface-guidelines/
 > Last updated reference: June 2026
 
-***REMOVED******REMOVED*** Purpose
+## Purpose
 This specification translates Apple's Human Interface Guidelines (HIG) into structured, machine-readable instruction sets that AI Agents can use when generating mobile app UI specs, code scaffolding, design tokens, and UX logic.
 
-***REMOVED******REMOVED*** Core Design Principles
+## Core Design Principles
 | Principle | Instruction |
 |-----------|-------------|
 | **Clarity** | Every UI element must be legible, functional, and unambiguous. Labels must describe the action, not the control (e.g., "Send Payment" not "Submit"). |
@@ -16,7 +16,7 @@ This specification translates Apple's Human Interface Guidelines (HIG) into stru
 | **Harmony** | Align interface elements with Apple hardware/software concentric design. |
 | **Consistency** | Adopt platform conventions. Use system components before custom alternatives. |
 
-***REMOVED******REMOVED*** File Structure
+## File Structure
 ```
 00_INDEX.md                     ← This file (overview + navigation)
 01_Designing_for_Platforms.md   ← iOS, Game, Desktop design targets
@@ -27,7 +27,7 @@ This specification translates Apple's Human Interface Guidelines (HIG) into stru
 06_Technologies.md              ← Widgets, Live Activities, ARKit, Siri, Apple Pay, etc.
 ```
 
-***REMOVED******REMOVED*** AI Agent Usage Instructions
+## AI Agent Usage Instructions
 - Reference the relevant `.md` spec file for each design phase.
 - Always prefer **system-provided components** (UIKit / SwiftUI) over custom controls.
 - All layouts must be validated against **safe area insets** for all iPhone/iPad models.

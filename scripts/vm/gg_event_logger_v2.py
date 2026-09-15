@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 GG Master Log Daemon (v2) — 三部機統一紀錄系統
 
@@ -15,10 +15,10 @@ Core Principles:
 
 Storage:
   ~/.openclaw/logs/gg-v2/
-  ├── events.jsonl       ***REMOVED*** 所有事件（每次操作一條）
-  ├── handoffs.jsonl     ***REMOVED*** 跨機溝通記錄（A→B 做咗咩）
-  ├── heartbeats.jsonl   ***REMOVED*** 定時 health check
-  └── daily/             ***REMOVED*** 每日 summary
+  ├── events.jsonl       # 所有事件（每次操作一條）
+  ├── handoffs.jsonl     # 跨機溝通記錄（A→B 做咗咩）
+  ├── heartbeats.jsonl   # 定時 health check
+  └── daily/             # 每日 summary
       └── YYYY-MM-DD.md
 
 Format (JSONL):
@@ -31,7 +31,7 @@ Format (JSONL):
   "source": "orchestrate|vm_query|cron|manual|auto",
   "message": "human readable summary",
   "details": { "optional structured data" },
-  "handoff": { "to": "gg-work|gg-person", "status": "pending|done|failed" }  ***REMOVED*** 如果有跨機
+  "handoff": { "to": "gg-work|gg-person", "status": "pending|done|failed" }  # 如果有跨機
 }
 """
 import json, os, sys, socket, uuid, logging, logging.handlers
@@ -49,7 +49,7 @@ LOG_DIR = os.path.expanduser("~/.openclaw/logs/gg-v2")
 MEMORY_DIR = os.path.expanduser("~/.openclaw/workspace/memory")
 TEAM_DIR = os.path.expanduser("~/.openclaw/workspace/team")
 
-***REMOVED*** Daily event counter for ID generation
+# Daily event counter for ID generation
 _event_counter = 0
 
 class GGEventLogger:
@@ -72,7 +72,7 @@ class GGEventLogger:
         if self.logger.handlers:
             return
         
-        ***REMOVED*** Text log for human reading
+        # Text log for human reading
         txt_handler = logging.handlers.RotatingFileHandler(
             os.path.join(LOG_DIR, f"{HOST_ALIAS}.log"),
             maxBytes=5*1024*1024, backupCount=3
@@ -121,7 +121,7 @@ class GGEventLogger:
         if handoff:
             entry["handoff"] = handoff
         
-        ***REMOVED*** 1. Write to JSONL events file
+        # 1. Write to JSONL events file
         events_file = os.path.join(LOG_DIR, "events.jsonl")
         try:
             with open(events_file, "a") as f:
@@ -129,7 +129,7 @@ class GGEventLogger:
         except Exception as e:
             self.logger.error(f"Failed to write events.jsonl: {e}")
         
-        ***REMOVED*** 2. Write to daily memory file
+        # 2. Write to daily memory file
         mem_file = os.path.join(MEMORY_DIR, f"{today}.md")
         try:
             cat_emoji = {
@@ -148,14 +148,14 @@ class GGEventLogger:
             
             if not os.path.exists(mem_file):
                 with open(mem_file, "w") as f:
-                    f.write(f"***REMOVED*** {today}\n")
+                    f.write(f"# {today}\n")
             
             with open(mem_file, "a") as f:
                 f.write(line)
         except Exception as e:
             self.logger.error(f"Failed to write memory file: {e}")
         
-        ***REMOVED*** 3. If this is a handoff event, write to handoffs.jsonl
+        # 3. If this is a handoff event, write to handoffs.jsonl
         if handoff:
             try:
                 handoff_file = os.path.join(LOG_DIR, "handoffs.jsonl")
@@ -164,7 +164,7 @@ class GGEventLogger:
             except Exception as e:
                 self.logger.error(f"Failed to write handoffs.jsonl: {e}")
         
-        ***REMOVED*** 4. Console log
+        # 4. Console log
         self.logger.info(f"[{category}] {message[:200]}")
         
         return event_id
@@ -234,7 +234,7 @@ class GGEventLogger:
         
         return events[-limit:]
 
-***REMOVED*** Singleton
+# Singleton
 _instance = None
 
 def get_logger():
@@ -244,13 +244,13 @@ def get_logger():
     return _instance
 
 
-***REMOVED*** ===== CLI Interface =====
+# ===== CLI Interface =====
 def cli():
     import argparse
     parser = argparse.ArgumentParser(description="GG Event Logger v2")
     parser.add_argument("action", choices=["record", "heartbeat", "check", "recent"])
     
-    ***REMOVED*** record
+    # record
     parser.add_argument("--category", choices=[
         "conversation","upgrade","communication","connection",
         "cron","error","config","command","system","memory"
@@ -262,7 +262,7 @@ def cli():
     parser.add_argument("--handoff-to", help="handoff target: gg-work|gg-person")
     parser.add_argument("--handoff-status", choices=["pending","done","failed"], default="done")
     
-    ***REMOVED*** check/recent
+    # check/recent
     parser.add_argument("--limit", type=int, default=10)
     parser.add_argument("--filter-host", help="filter by host")
     parser.add_argument("--filter-category", help="filter by category")

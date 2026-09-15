@@ -1,10 +1,10 @@
-***REMOVED*** NEXUS CRM — SaaS Platform Build Guide
+# NEXUS CRM — SaaS Platform Build Guide
 
 > 以下係 AI frontend developer 需要知道嘅所有 specification。UI/UX design 自由創作，呢份嘢只講功能、頁面、同 API contract。
 
 ---
 
-***REMOVED******REMOVED*** 1. Tech Stack
+## 1. Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -15,20 +15,20 @@
 
 ---
 
-***REMOVED******REMOVED*** 2. Pages List
+## 2. Pages List
 
-***REMOVED******REMOVED******REMOVED*** 2.1 Login Page `/login`
+### 2.1 Login Page `/login`
 - Email + password form
 - Link to signup
 - "Forgot password" link
 - On success: store JWT, redirect to /dashboard
 
-***REMOVED******REMOVED******REMOVED*** 2.2 Signup Page `/signup`
+### 2.2 Signup Page `/signup`
 - Name, email, password, company name fields
 - On submit: POST /api/auth/signup → auto-login → redirect to /dashboard/welcome
 - Welcome screen: "Connect your Google Calendar" or "Skip for now"
 
-***REMOVED******REMOVED******REMOVED*** 2.3 Dashboard `/dashboard`
+### 2.3 Dashboard `/dashboard`
 4 stat cards at top:
 - Total Contacts, Active Deals ($ total), Open Tasks, Upcoming Events (next 7 days)
 
@@ -40,7 +40,7 @@ Below stat cards, 3 panels:
 Bottom section:
 - **Deal Pipeline** — mini kanban showing first 3 stages (Proposal / Negotiate / PO), max 3 cards each
 
-***REMOVED******REMOVED******REMOVED*** 2.4 Contacts Page `/contacts`
+### 2.4 Contacts Page `/contacts`
 - **Table view** with columns: Name, Email, Phone, Company, Last Touchpoint date, Status (Active/Warm/Cold)
 - Search bar (search by name, email, company)
 - Click row → `/contacts/:id` detail page
@@ -53,7 +53,7 @@ Right panel: tabbed view
 - Tab "Deals": list of deals linked to this contact
 - Tab "Tasks": list of tasks linked to this contact
 
-***REMOVED******REMOVED******REMOVED*** 2.5 Companies Page `/companies`
+### 2.5 Companies Page `/companies`
 - **Table view** with columns: Name, Industry, Contacts count, Active Deals, Status
 - Search bar + industry filter dropdown
 - Click row → `/companies/:id`
@@ -64,7 +64,7 @@ Right panel: tabbed view
 - Deals section: list of deals from this company
 - Touchpoint section: recent activity with this company
 
-***REMOVED******REMOVED******REMOVED*** 2.6 Deals Page `/deals`
+### 2.6 Deals Page `/deals`
 - **Kanban board view** with 6 columns: Proposal, Negotiate, P.O., Delivery, Closed Won, Lost
 - Each card shows: deal name, company, amount, probability %, owner name, due date (if any)
 - Drag-and-drop between columns to change stage
@@ -74,24 +74,24 @@ Right panel: tabbed view
 - Deal info (name, amount, probability, stage, company link, owner, close date, notes)
 - Activity timeline for this deal
 
-***REMOVED******REMOVED******REMOVED*** 2.7 Tasks Page `/tasks`
+### 2.7 Tasks Page `/tasks`
 - **Table view**: Title, Priority (P0 🔴 / P1 🟡 / P2 🔵 / P3 ⚪), Status, Due date, Related Deal
 - Filter by priority, status, date range
 - +New Task modal
 
-***REMOVED******REMOVED******REMOVED*** 2.8 Touchpoints Page `/touchpoints`
+### 2.8 Touchpoints Page `/touchpoints`
 - **Activity timeline view** (vertical timeline)
 - Each entry shows: type icon (📞 call, 🤝 meeting, ✉️ email, 📇 namecard), title, date, related company/contact
 - Filter by contact, company, date range
 
-***REMOVED******REMOVED******REMOVED*** 2.9 NameCards Page `/namecards`
+### 2.9 NameCards Page `/namecards`
 - Grid of uploaded namecard images + extracted data side by side
 - Upload button → opens file picker
 - Each card: image thumbnail + extracted fields (name, title, company, phone, email)
 - [Save to CRM] button → create contact
 - [Re-scan] → re-run OCR
 
-***REMOVED******REMOVED******REMOVED*** 2.10 Settings Page `/settings`
+### 2.10 Settings Page `/settings`
 
 **Profile** tab: edit name, email, phone, avatar, timezone
 
@@ -107,9 +107,9 @@ Right panel: tabbed view
 
 ---
 
-***REMOVED******REMOVED*** 3. API Contract
+## 3. API Contract
 
-***REMOVED******REMOVED******REMOVED*** Auth
+### Auth
 
 ```
 POST /api/auth/signup
@@ -129,7 +129,7 @@ GET /api/auth/me
   Response: { user, tenant }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Contacts
+### Contacts
 
 ```
 GET  /api/contacts?search=&company_id=&status=&page=1&limit=20
@@ -156,7 +156,7 @@ Contact object:
   address, tags, status, last_touchpoint_at, created_at }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Companies
+### Companies
 
 ```
 GET  /api/companies?search=&industry=&page=1&limit=20
@@ -172,7 +172,7 @@ Company object:
   active_deals_count, total_deal_value, created_at }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Deals
+### Deals
 
 ```
 GET  /api/deals?stage=&company_id=&page=1&limit=20
@@ -191,7 +191,7 @@ Deal object:
 
 Stages: `proposal` | `negotiate` | `po` | `delivery` | `closed_won` | `lost`
 
-***REMOVED******REMOVED******REMOVED*** Tasks
+### Tasks
 
 ```
 GET  /api/tasks?status=&priority=&due_before=&page=1&limit=20
@@ -210,7 +210,7 @@ Task object:
 Priorities: `p0` | `p1` | `p2` | `p3`
 Statuses: `pending` | `in_progress` | `done`
 
-***REMOVED******REMOVED******REMOVED*** Touchpoints
+### Touchpoints
 
 ```
 GET  /api/touchpoints?contact_id=&company_id=&page=1&limit=20
@@ -225,7 +225,7 @@ Touchpoint object:
 
 Types: `meeting` | `call` | `email` | `namecard` | `workshop` | `other`
 
-***REMOVED******REMOVED******REMOVED*** NameCards
+### NameCards
 
 ```
 GET  /api/namecards?page=1&limit=20
@@ -244,7 +244,7 @@ POST /api/namecards/:id/save
      Response: { contact_id }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Dashboard
+### Dashboard
 
 ```
 GET /api/dashboard/stats
@@ -264,7 +264,7 @@ GET /api/dashboard/deal-pipeline
   Response: { stages: { name, deals: Deal[] }[] }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Team
+### Team
 
 ```
 GET  /api/team
@@ -280,7 +280,7 @@ DELETE /api/team/:user_id
 
 Roles: `admin` | `member` | `viewer`
 
-***REMOVED******REMOVED******REMOVED*** Settings
+### Settings
 
 ```
 GET  /api/settings/profile
@@ -296,7 +296,7 @@ GET  /api/integrations
 
 ---
 
-***REMOVED******REMOVED*** 4. Auth Flow (Frontend)
+## 4. Auth Flow (Frontend)
 
 1. On app load: check localStorage for `access_token`
 2. If token exists: call `GET /api/auth/me` to validate
@@ -311,7 +311,7 @@ Authorization: Bearer <access_token>
 
 ---
 
-***REMOVED******REMOVED*** 5. Data Display Rules
+## 5. Data Display Rules
 
 - All monetary values: format as `$1,234,567`
 - All dates: show in user's timezone, format `2026-07-21` or `Jul 21, 2026`
@@ -324,7 +324,7 @@ Authorization: Bearer <access_token>
 
 ---
 
-***REMOVED******REMOVED*** 6. No-Go Rules
+## 6. No-Go Rules
 
 - No hardcoded demo data in the frontend code
 - No mock API responses in production build (use msw or similar only in dev)

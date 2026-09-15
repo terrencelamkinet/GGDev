@@ -14,17 +14,17 @@
    Density: dense dashboard grid, generous section rhythm, weekly calendar as centerpiece with live time indicator */
 
 :root, [data-theme="light"]{
-  --color-bg:***REMOVED***f7f8fa; --color-surface:***REMOVED***ffffff; --color-surface-2:***REMOVED***ffffff;
-  --color-surface-offset:***REMOVED***f1f3f5; --color-surface-offset-2:***REMOVED***e9ebee; --color-surface-dynamic:***REMOVED***dfe2e6;
-  --color-divider:***REMOVED***e5e7eb; --color-border:***REMOVED***d7dbe0;
-  --color-text:***REMOVED***1f2328; --color-text-muted:***REMOVED***6b7280; --color-text-faint:***REMOVED***9ca3af; --color-text-inverse:***REMOVED***ffffff;
-  --color-primary:***REMOVED***0d7a75; --color-primary-hover:***REMOVED***0a5d59; --color-primary-active:***REMOVED***084644; --color-primary-highlight:***REMOVED***dbeceb;
-  --color-notification:***REMOVED***c0344c; --color-notification-highlight:***REMOVED***fbe2e6;
-  --color-success:***REMOVED***3f8a3f; --color-success-highlight:***REMOVED***e3f1e2;
-  --color-warning:***REMOVED***b9760f; --color-warning-highlight:***REMOVED***faecd6;
-  --color-blue:***REMOVED***2870b8; --color-blue-highlight:***REMOVED***dfeaf7;
-  --color-gold:***REMOVED***b8901a; --color-gold-highlight:***REMOVED***f6ecd2;
-  --color-purple:***REMOVED***7350ad; --color-purple-highlight:***REMOVED***ece4f6;
+  --color-bg:#f7f8fa; --color-surface:#ffffff; --color-surface-2:#ffffff;
+  --color-surface-offset:#f1f3f5; --color-surface-offset-2:#e9ebee; --color-surface-dynamic:#dfe2e6;
+  --color-divider:#e5e7eb; --color-border:#d7dbe0;
+  --color-text:#1f2328; --color-text-muted:#6b7280; --color-text-faint:#9ca3af; --color-text-inverse:#ffffff;
+  --color-primary:#0d7a75; --color-primary-hover:#0a5d59; --color-primary-active:#084644; --color-primary-highlight:#dbeceb;
+  --color-notification:#c0344c; --color-notification-highlight:#fbe2e6;
+  --color-success:#3f8a3f; --color-success-highlight:#e3f1e2;
+  --color-warning:#b9760f; --color-warning-highlight:#faecd6;
+  --color-blue:#2870b8; --color-blue-highlight:#dfeaf7;
+  --color-gold:#b8901a; --color-gold-highlight:#f6ecd2;
+  --color-purple:#7350ad; --color-purple-highlight:#ece4f6;
   --radius-sm:.375rem; --radius-md:.5rem; --radius-lg:.75rem; --radius-xl:1rem; --radius-full:9999px;
   --transition-interactive:180ms cubic-bezier(.16,1,.3,1); --ease-out:cubic-bezier(.16,1,.3,1);
   --shadow-sm:0 1px 2px oklch(0.2 0 0/.06); --shadow-md:0 4px 14px oklch(0.2 0 0/.08); --shadow-lg:0 20px 48px oklch(0.2 0 0/.14);
@@ -32,17 +32,17 @@
   --sidebar-w:252px; --sidebar-w-collapsed:76px; --topbar-h:64px;
 }
 [data-theme="dark"]{
-  --color-bg:***REMOVED***171614; --color-surface:***REMOVED***1c1b19; --color-surface-2:***REMOVED***201f1d;
-  --color-surface-offset:***REMOVED***1d1c1a; --color-surface-offset-2:***REMOVED***22211f; --color-surface-dynamic:***REMOVED***2d2c2a;
-  --color-divider:***REMOVED***262523; --color-border:***REMOVED***393836;
-  --color-text:***REMOVED***cdccca; --color-text-muted:***REMOVED***797876; --color-text-faint:***REMOVED***5a5957; --color-text-inverse:***REMOVED***2b2a28;
-  --color-primary:***REMOVED***4f98a3; --color-primary-hover:***REMOVED***227f8b; --color-primary-active:***REMOVED***1a626b; --color-primary-highlight:***REMOVED***313b3b;
-  --color-notification:***REMOVED***dd6974; --color-notification-highlight:***REMOVED***574848;
-  --color-success:***REMOVED***6daa45; --color-success-highlight:***REMOVED***3a4435;
-  --color-warning:***REMOVED***bb653b; --color-warning-highlight:***REMOVED***564942;
-  --color-blue:***REMOVED***5591c7; --color-blue-highlight:***REMOVED***3a4550;
-  --color-gold:***REMOVED***e8af34; --color-gold-highlight:***REMOVED***4d4332;
-  --color-purple:***REMOVED***a86fdf; --color-purple-highlight:***REMOVED***4e4652;
+  --color-bg:#171614; --color-surface:#1c1b19; --color-surface-2:#201f1d;
+  --color-surface-offset:#1d1c1a; --color-surface-offset-2:#22211f; --color-surface-dynamic:#2d2c2a;
+  --color-divider:#262523; --color-border:#393836;
+  --color-text:#cdccca; --color-text-muted:#797876; --color-text-faint:#5a5957; --color-text-inverse:#2b2a28;
+  --color-primary:#4f98a3; --color-primary-hover:#227f8b; --color-primary-active:#1a626b; --color-primary-highlight:#313b3b;
+  --color-notification:#dd6974; --color-notification-highlight:#574848;
+  --color-success:#6daa45; --color-success-highlight:#3a4435;
+  --color-warning:#bb653b; --color-warning-highlight:#564942;
+  --color-blue:#5591c7; --color-blue-highlight:#3a4550;
+  --color-gold:#e8af34; --color-gold-highlight:#4d4332;
+  --color-purple:#a86fdf; --color-purple-highlight:#4e4652;
   --shadow-sm:0 1px 2px oklch(0 0 0/.25); --shadow-md:0 4px 12px oklch(0 0 0/.35); --shadow-lg:0 16px 40px oklch(0 0 0/.5);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -84,7 +84,7 @@ table{border-collapse:collapse;width:100%}
 .nav-item:hover{background:var(--color-surface-offset);color:var(--color-text)}
 .nav-item.active{background:var(--color-primary-highlight);color:var(--color-primary-active);font-weight:600}
 .nav-item.active svg{color:var(--color-primary)}
-.nav-item .nav-badge{margin-left:auto;background:var(--color-notification);color:***REMOVED***fff;font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:var(--radius-full);line-height:1.4}
+.nav-item .nav-badge{margin-left:auto;background:var(--color-notification);color:#fff;font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:var(--radius-full);line-height:1.4}
 .collapsed .nav-item .nav-badge{display:none}
 .sidebar-footer{border-top:1px solid var(--color-divider);padding:12px;flex-shrink:0}
 .user-chip{display:flex;align-items:center;gap:10px;padding:8px;border-radius:var(--radius-md);transition:background var(--transition-interactive);cursor:pointer}
@@ -136,7 +136,7 @@ table{border-collapse:collapse;width:100%}
 .focus-card .task-sub{font-size:11.5px;color:var(--color-text-faint);margin-bottom:16px}
 .focus-ring{width:84px;height:84px;border-radius:var(--radius-full);background:conic-gradient(var(--color-notification) 0turn .38turn, var(--color-surface-offset) .38turn 1turn);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;position:relative}
 .focus-ring::before{content:'';position:absolute;inset:8px;border-radius:var(--radius-full);background:var(--color-surface)}
-.focus-ring .play-btn{position:relative;width:38px;height:38px;border-radius:var(--radius-full);background:var(--color-notification);display:flex;align-items:center;justify-content:center;color:***REMOVED***fff}
+.focus-ring .play-btn{position:relative;width:38px;height:38px;border-radius:var(--radius-full);background:var(--color-notification);display:flex;align-items:center;justify-content:center;color:#fff}
 .focus-meta{display:flex;justify-content:space-around;border-top:1px solid var(--color-divider);padding-top:14px}
 .focus-meta div{text-align:center}
 .focus-meta .v{font-size:14px;font-weight:700;font-family:var(--font-display)}
@@ -145,7 +145,7 @@ table{border-collapse:collapse;width:100%}
 .task-row:hover{background:var(--color-surface-offset)}
 .task-row.playing{background:var(--color-notification-highlight)}
 .play-mini{width:28px;height:28px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--color-surface-offset);color:var(--color-text-muted)}
-.task-row.playing .play-mini{background:var(--color-notification);color:***REMOVED***fff}
+.task-row.playing .play-mini{background:var(--color-notification);color:#fff}
 .task-row .info{flex:1;min-width:0}
 .task-row .t{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .task-row .s{font-size:11px;color:var(--color-primary)}
@@ -203,7 +203,7 @@ table{border-collapse:collapse;width:100%}
 .now-line{position:absolute;left:0;right:0;height:0;z-index:8;pointer-events:none}
 .now-line::before{content:'';position:absolute;left:0;right:0;top:0;height:1.5px;background:var(--color-notification);box-shadow:0 0 8px color-mix(in oklch, var(--color-notification) 60%, transparent)}
 .now-dot{position:absolute;left:-4px;top:-4.5px;width:9px;height:9px;border-radius:50%;background:var(--color-notification);animation:pulse 2s ease-in-out infinite}
-.now-label{position:absolute;left:2px;top:-19px;background:var(--color-notification);color:***REMOVED***fff;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:var(--radius-sm);white-space:nowrap;font-variant-numeric:tabular-nums}
+.now-label{position:absolute;left:2px;top:-19px;background:var(--color-notification);color:#fff;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:var(--radius-sm);white-space:nowrap;font-variant-numeric:tabular-nums}
 
 .dash-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px}
 .activity-panel{padding:16px}
@@ -358,7 +358,7 @@ table{border-collapse:collapse;width:100%}
 .checklist-row:last-of-type{border-bottom:none}
 .checkbox-circle{width:18px;height:18px;border-radius:50%;border:1.6px solid var(--color-border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background var(--transition-interactive),border-color var(--transition-interactive)}
 .checkbox-circle.checked{background:var(--color-success);border-color:var(--color-success)}
-.checkbox-circle.checked::after{content:'';width:7px;height:5px;border-left:2px solid ***REMOVED***fff;border-bottom:2px solid ***REMOVED***fff;transform:rotate(-45deg) translate(0,-1px)}
+.checkbox-circle.checked::after{content:'';width:7px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(0,-1px)}
 .checklist-row .ct{flex:1;font-size:12.5px}
 .checklist-row.done .ct{color:var(--color-text-faint);text-decoration:line-through}
 .checklist-row .cd{font-size:11px;color:var(--color-text-faint)}
@@ -439,7 +439,7 @@ table{border-collapse:collapse;width:100%}
 .modal-card p{font-size:13px;color:var(--color-text-muted);margin-bottom:20px;line-height:1.5}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end}
 .toast-stack{position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:none}
-.toast{display:flex;align-items:center;gap:10px;background:***REMOVED***1b1d22;color:***REMOVED***fafafa;padding:11px 16px;border-radius:var(--radius-md);font-size:12.5px;font-weight:500;box-shadow:var(--shadow-lg);opacity:0;transform:translateY(10px) scale(.96);transition:opacity 200ms var(--ease-out),transform 200ms var(--ease-out);max-width:320px;pointer-events:auto}
+.toast{display:flex;align-items:center;gap:10px;background:#1b1d22;color:#fafafa;padding:11px 16px;border-radius:var(--radius-md);font-size:12.5px;font-weight:500;box-shadow:var(--shadow-lg);opacity:0;transform:translateY(10px) scale(.96);transition:opacity 200ms var(--ease-out),transform 200ms var(--ease-out);max-width:320px;pointer-events:auto}
 .toast.show{opacity:1;transform:translateY(0) scale(1)}
 .toast.success{background:var(--color-success)}
 .toast.danger{background:var(--color-notification)}
@@ -608,18 +608,18 @@ table{border-collapse:collapse;width:100%}
       <span>Nexus CRM</span>
     </div>
     <nav class="sidebar-nav" aria-label="Primary" id="sideNav">
-      <a class="nav-item" data-route="dashboard" href="***REMOVED***dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span class="label">Dashboard</span></a>
-      <a class="nav-item" data-route="contacts" href="***REMOVED***contacts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg><span class="label">Contacts</span></a>
-      <a class="nav-item" data-route="companies" href="***REMOVED***companies"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></svg><span class="label">Companies</span></a>
-      <a class="nav-item" data-route="deals" href="***REMOVED***deals"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="label">Deals</span><span class="nav-badge">12</span></a>
-      <a class="nav-item" data-route="projects" href="***REMOVED***projects"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span class="label">Projects</span></a>
-      <a class="nav-item" data-route="team" href="***REMOVED***team"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="label">Team</span></a>
-      <a class="nav-item" data-route="sales-dashboard" href="***REMOVED***sales-dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8 13 13.7l-3-3L7 13.5"/></svg><span class="label">Sales</span></a>
-      <a class="nav-item" data-route="tasks" href="***REMOVED***tasks"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="label">Tasks</span><span class="nav-badge">4</span></a>
-      <a class="nav-item" data-route="touchpoints" href="***REMOVED***touchpoints"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="label">Touchpoints</span></a>
-      <a class="nav-item" data-route="namecards" href="***REMOVED***namecards"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg><span class="label">NameCards</span></a>
+      <a class="nav-item" data-route="dashboard" href="#dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span class="label">Dashboard</span></a>
+      <a class="nav-item" data-route="contacts" href="#contacts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg><span class="label">Contacts</span></a>
+      <a class="nav-item" data-route="companies" href="#companies"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></svg><span class="label">Companies</span></a>
+      <a class="nav-item" data-route="deals" href="#deals"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="label">Deals</span><span class="nav-badge">12</span></a>
+      <a class="nav-item" data-route="projects" href="#projects"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span class="label">Projects</span></a>
+      <a class="nav-item" data-route="team" href="#team"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="label">Team</span></a>
+      <a class="nav-item" data-route="sales-dashboard" href="#sales-dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8 13 13.7l-3-3L7 13.5"/></svg><span class="label">Sales</span></a>
+      <a class="nav-item" data-route="tasks" href="#tasks"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="label">Tasks</span><span class="nav-badge">4</span></a>
+      <a class="nav-item" data-route="touchpoints" href="#touchpoints"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="label">Touchpoints</span></a>
+      <a class="nav-item" data-route="namecards" href="#namecards"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg><span class="label">NameCards</span></a>
       <div class="nav-section-label">Workspace</div>
-      <a class="nav-item" data-route="settings" href="***REMOVED***settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="label">Settings</span></a>
+      <a class="nav-item" data-route="settings" href="#settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="label">Settings</span></a>
     </nav>
     <div class="sidebar-footer">
       <div class="user-chip"><div class="user-avatar">TL</div><div class="user-meta"><div class="name">Terrence Lam</div><div class="tenant">Terrence_PRO</div></div></div>
@@ -886,7 +886,7 @@ const pages = {
   'contact-detail'(id){
     const c = D.contacts.find(x=>x.id==id) || D.contacts[0];
     return `
-    <div class="breadcrumb"><a href="***REMOVED***contacts" style="color:var(--color-text-faint)">Contacts</a><span class="sep">/</span><span class="current">${c.name}</span></div>
+    <div class="breadcrumb"><a href="#contacts" style="color:var(--color-text-faint)">Contacts</a><span class="sep">/</span><span class="current">${c.name}</span></div>
     <div class="page-header"><div><h1>${c.name}</h1><p>${c.company}</p></div><div class="header-actions"><button class="btn-secondary">Edit</button><button class="btn-primary">Log Activity</button></div></div>
     <div class="detail-grid">
       <div class="profile-card animate-in"><div class="profile-avatar">${initials(c.name)}</div><h3>${c.name}</h3><div class="role">${c.company}</div>
@@ -911,7 +911,7 @@ const pages = {
   'company-detail'(id){
     const c = D.companies.find(x=>x.id==id) || D.companies[0];
     return `
-    <div class="breadcrumb"><a href="***REMOVED***companies" style="color:var(--color-text-faint)">Companies</a><span class="sep">/</span><span class="current">${c.name}</span></div>
+    <div class="breadcrumb"><a href="#companies" style="color:var(--color-text-faint)">Companies</a><span class="sep">/</span><span class="current">${c.name}</span></div>
     <div class="page-header"><div><h1>${c.name}</h1><p>${c.industry}</p></div><div class="header-actions"><button class="btn-secondary">Edit</button></div></div>
     <div class="panel animate-in" style="margin-bottom:16px"><div class="panel-head"><h3>Contacts</h3></div><div>${D.contacts.slice(0,3).map(ct=>`<div class="list-row"><div class="avatar-sm">${initials(ct.name)}</div><div class="list-main"><div class="list-title">${ct.name}</div><div class="list-sub">${ct.email}</div></div></div>`).join('')}</div></div>
     <div class="panel animate-in"><div class="panel-head"><h3>Recent Touchpoints</h3></div><div>${D.touchpoints.slice(0,3).map(t=>`<div class="list-row"><div class="list-icon">${ICONS[t.type]}</div><div class="list-main"><div class="list-title">${t.title}</div></div><div class="list-meta">${t.date}</div></div>`).join('')}</div></div>`;
@@ -928,7 +928,7 @@ const pages = {
   'deal-detail'(){
     const d = D.deals.proposal[0];
     return `
-    <div class="breadcrumb"><a href="***REMOVED***deals" style="color:var(--color-text-faint)">Deals</a><span class="sep">/</span><span class="current">${d.name}</span></div>
+    <div class="breadcrumb"><a href="#deals" style="color:var(--color-text-faint)">Deals</a><span class="sep">/</span><span class="current">${d.name}</span></div>
     <div class="page-header"><div><h1>${d.name}</h1><p>${d.company} · ${d.amt}</p></div><div class="header-actions"><button class="btn-secondary">Edit</button></div></div>
     <div class="detail-grid">
       <div class="profile-card animate-in" style="text-align:left">
@@ -976,7 +976,7 @@ const pages = {
     const p = D.projects.find(x=>x.id==id) || D.projects[0];
     const pct = Math.round(p.spent/p.budget*100);
     return `
-    <div class="breadcrumb"><a href="***REMOVED***projects" style="color:var(--color-text-faint)">Projects</a><span class="sep">/</span><span class="current">${p.name}</span></div>
+    <div class="breadcrumb"><a href="#projects" style="color:var(--color-text-faint)">Projects</a><span class="sep">/</span><span class="current">${p.name}</span></div>
     <div class="page-header"><div><h1>${p.name}</h1><div style="display:flex;gap:6px;margin-top:8px">${projStatusBadge(p.status)}${prioBadge(p.priority)}${stageBadge(p.stage)}</div></div><div class="header-actions"><button class="btn-secondary">Edit</button><button class="btn-secondary" style="color:var(--color-notification)">Delete</button></div></div>
     <div class="two-col-layout">
       <div class="animate-in" style="display:flex;flex-direction:column;gap:16px">
@@ -1012,7 +1012,7 @@ const pages = {
     const pct = Math.round(m.achieved/m.quota*100);
     const memberProjects = D.projects.filter(p=>p.owner===m.name);
     return `
-    <div class="breadcrumb"><a href="***REMOVED***team" style="color:var(--color-text-faint)">Team</a><span class="sep">/</span><span class="current">${m.name}</span></div>
+    <div class="breadcrumb"><a href="#team" style="color:var(--color-text-faint)">Team</a><span class="sep">/</span><span class="current">${m.name}</span></div>
     <div class="page-header"><div><h1>${m.name}</h1><div style="margin-top:8px">${roleBadge(m.role)}</div></div><div class="header-actions"><button class="btn-secondary">Edit</button></div></div>
     <div class="two-col-layout" style="grid-template-columns:340px 1fr">
       <div class="animate-in" style="display:flex;flex-direction:column;gap:16px">
@@ -1082,7 +1082,7 @@ const pages = {
   settings(tab){
     tab = tab || 'profile';
     const tabs = [['profile','Profile'],['team','Team'],['integrations','Integrations'],['billing','Billing']];
-    const nav = tabs.map(([k,l])=>`<a href="***REMOVED***settings/${k}" class="item ${tab===k?'active':''}">${l}</a>`).join('');
+    const nav = tabs.map(([k,l])=>`<a href="#settings/${k}" class="item ${tab===k?'active':''}">${l}</a>`).join('');
     let body = '';
     if(tab==='integrations'){
       const groups = [...new Set(D.integrations.map(i=>i.group))];
@@ -1162,7 +1162,7 @@ const pages = {
 /* ===== ROUTER ===== */
 const main = document.getElementById('mainContent');
 function render(){
-  const hash = location.hash.replace('***REMOVED***','') || 'dashboard';
+  const hash = location.hash.replace('#','') || 'dashboard';
   const [route, id] = hash.split('/');
   const fn = pages[route] || pages.dashboard;
   main.innerHTML = fn(id);

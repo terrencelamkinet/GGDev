@@ -1,10 +1,10 @@
-***REMOVED*** BrainLink Bridge Configuration
-***REMOVED*** 請根據你嘅 Lenovo X1 環境修改
+# BrainLink Bridge Configuration
+# 請根據你嘅 Lenovo X1 環境修改
 
-***REMOVED*** BrainLink 藍牙 COM Port (Outgoing port!)
-***REMOVED*** 用 setup_once.bat 或 python brainlink_bridge.py --scan 掃描
+# BrainLink 藍牙 COM Port (Outgoing port!)
+# 用 setup_once.bat 或 python brainlink_bridge.py --scan 掃描
 BLUETOOTH_COM=COM5
 
-***REMOVED*** Agent Relay Server WebSocket URL (wss:// 必須！)
-***REMOVED*** Focus Bird 生產環境
+# Agent Relay Server WebSocket URL (wss:// 必須！)
+# Focus Bird 生產環境
 AGENT_WS_URL=wss://brainlink.kinet-poc.com/brainlink

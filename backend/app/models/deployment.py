@@ -21,7 +21,7 @@ class Deployment(Base):
     host = Column(String(255), nullable=False)
     status = Column(
         String(50), default="pending", nullable=False
-    )  ***REMOVED*** pending, running, success, failed
+    )  # pending, running, success, failed
     log = Column(Text, default="", nullable=True)
     created_at = Column(
         DateTime(timezone=True), default=datetime.utcnow, nullable=False

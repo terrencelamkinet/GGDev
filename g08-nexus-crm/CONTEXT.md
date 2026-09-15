@@ -1,11 +1,11 @@
-***REMOVED*** G08 NEXUS CRM v2 — Project Context
+# G08 NEXUS CRM v2 — Project Context
 
 | 最後更新：2026-07-09 00:45 HKT
 | 由 GG Fighter 於 G08 NEXUS CRM tasks/projects enrichment session 更新
 
 ---
 
-***REMOVED******REMOVED*** 1. 專案定位
+## 1. 專案定位
 
 NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 GG infrastructure（Notion CRM + Task Hub PG + Google Calendar），提供 intelligent meeting prep、CRM enrichment、relationship health tracking。
 
@@ -15,7 +15,7 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 
 ---
 
-***REMOVED******REMOVED*** 2. Architecture
+## 2. Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -46,7 +46,7 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 
 ---
 
-***REMOVED******REMOVED*** 3. PG Schema（18 nexus_* tables）
+## 3. PG Schema（18 nexus_* tables）
 
 | Table | Purpose | Populated |
 |-------|---------|:---------:|
@@ -77,7 +77,7 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 
 ---
 
-***REMOVED******REMOVED*** 4. Cron Jobs（10 NEXUS + 74 existing = 84 total）
+## 4. Cron Jobs（10 NEXUS + 74 existing = 84 total）
 
 | ID | Name | Schedule | Type | Script | Deliver | Status |
 |----|------|----------|------|--------|:-------:|:------:|
@@ -100,7 +100,7 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 
 ---
 
-***REMOVED******REMOVED*** 5. Key File Paths
+## 5. Key File Paths
 
 | Path | Purpose |
 |------|---------|
@@ -133,7 +133,7 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 
 ---
 
-***REMOVED******REMOVED*** 6. Design Principles（應用中）
+## 6. Design Principles（應用中）
 
 1. **Strangler Fig** — Shadow → Validate → Cutover ✅ Done
 2. ~~【測試版】Prefix~~ — No longer needed (cutover complete)
@@ -149,9 +149,9 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 
 ---
 
-***REMOVED******REMOVED*** 7. Pending Work
+## 7. Pending Work
 
-***REMOVED******REMOVED******REMOVED*** 🟡 A: Name Card OCR Module
+### 🟡 A: Name Card OCR Module
 **Why:** 現有 `namecard_scanner.py` 係獨立 script，唔係 NEXUS module。
 **What:**
 - [ ] 建立 `nexus/modules/crm/namecard.py`
@@ -162,18 +162,18 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 - [ ] 註冊為 NEXUS module（crm.namecard）
 - [ ] 整合入 Central CRM Sync 排程（唔另開 cron）
 
-***REMOVED******REMOVED******REMOVED*** 📌 Completed This Session (2026-07-09)
+### 📌 Completed This Session (2026-07-09)
 - ✅ **C3 → no_agent**: 由 LLM cron 改做 no_agent script。每日 cost 由 ~$0.80 → ~$0.02
 - ✅ **C6 Deal Radar**: + overdue tasks + tasks due within 14 days per project
 - ✅ **C7 CRM Daily**: + open tasks summary + due-this-week + overdue tasks sections
 
-***REMOVED******REMOVED******REMOVED*** ⚠️ Known Issues（要 fix）
+### ⚠️ Known Issues（要 fix）
 - [ ] C1/C2 之前「Script not found」error — 已整 wrappers，聽朝 verify
 - [ ] C5 Post-Logger 曾有 error — 手動 run 正常，聽朝 confirm cron log
 - [ ] Entity matcher 未 populate crm_project_ids → task enrichment 未有 output
 - [ ] 2 old crons paused but not deleted（Aug 1 auto-remove queued）
 
-***REMOVED******REMOVED******REMOVED*** 🔮 Future（觀察後決定）
+### 🔮 Future（觀察後決定）
 - [ ] NEXUS Dashboard（Web UI）
 - [ ] Analytics（deal velocity, trends）
 - [ ] Multi-tenant（second client）
@@ -181,7 +181,7 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 
 ---
 
-***REMOVED******REMOVED*** 8. Cost Tracking（每日 cap $1.50 USD）
+## 8. Cost Tracking（每日 cap $1.50 USD）
 
 | Module | LLM? | Est daily cost |
 |--------|:----:|:--------------:|
@@ -199,7 +199,7 @@ NEXUS CRM v2 係一個 AI-powered CRM intelligence layer，wraps around 現有 G
 
 ---
 
-***REMOVED******REMOVED*** 9. Session History Reference
+## 9. Session History Reference
 
 **2026-07-08 重要事件：**
 - 15:00 — Start G08 NEXUS CRM v2 build

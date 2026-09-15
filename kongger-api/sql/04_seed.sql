@@ -5,8 +5,8 @@ INSERT INTO users (id, email, hashed_password) VALUES
 ON CONFLICT DO NOTHING;
 
 INSERT INTO profiles (id, display_name, handle, bio, theme_colour) VALUES
-  ('11111111-1111-1111-1111-111111111111','KONGGER Demo','kongger_demo','Welcome to KONGGER','***REMOVED***4a90d9'),
-  ('22222222-2222-2222-2222-222222222222','Alice','alice_k','Digital creator','***REMOVED***e91e8c')
+  ('11111111-1111-1111-1111-111111111111','KONGGER Demo','kongger_demo','Welcome to KONGGER','#4a90d9'),
+  ('22222222-2222-2222-2222-222222222222','Alice','alice_k','Digital creator','#e91e8c')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO pages (owner_id, slug, title, is_published) VALUES

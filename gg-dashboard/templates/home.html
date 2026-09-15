@@ -58,7 +58,7 @@
           <div class="ios-row-label">Fighter</div>
           <div class="ios-row-meta" id="fighterStatus">Online</div>
         </div>
-        <svg class="ios-row-icon"><use href="/static/icons.svg***REMOVED***icon-chevron-right"/></svg>
+        <svg class="ios-row-icon"><use href="/static/icons.svg#icon-chevron-right"/></svg>
       </div>
       <div class="ios-row" onclick="location.href='/agents/work'">
         <span class="dot-breathe" id="workDot" style="background:var(--blue);width:12px;height:12px;flex-shrink:0;margin-right:12px"></span>
@@ -66,7 +66,7 @@
           <div class="ios-row-label">Work</div>
           <div class="ios-row-meta" id="workStatus">Online</div>
         </div>
-        <svg class="ios-row-icon"><use href="/static/icons.svg***REMOVED***icon-chevron-right"/></svg>
+        <svg class="ios-row-icon"><use href="/static/icons.svg#icon-chevron-right"/></svg>
       </div>
       <div class="ios-row" onclick="location.href='/agents/person'">
         <span class="dot-breathe" id="personDot" style="background:var(--pink);width:12px;height:12px;flex-shrink:0;margin-right:12px"></span>
@@ -74,7 +74,7 @@
           <div class="ios-row-label">Person</div>
           <div class="ios-row-meta" id="personStatus">Online</div>
         </div>
-        <svg class="ios-row-icon"><use href="/static/icons.svg***REMOVED***icon-chevron-right"/></svg>
+        <svg class="ios-row-icon"><use href="/static/icons.svg#icon-chevron-right"/></svg>
       </div>
     </div>
   </div>
@@ -83,11 +83,11 @@
 
 <!-- iOS Tab Bar -->
 <nav class="ios-tab-bar">
-  <a href="/home" class="ios-tab active"><svg role="img" aria-label="Home"><use href="/static/icons.svg***REMOVED***icon-house"/></svg><span>Home</span></a>
-  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg***REMOVED***icon-list"/></svg><span>Tasks</span></a>
-  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg***REMOVED***icon-brain"/></svg><span>Intel</span></a>
-  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg***REMOVED***icon-server"/></svg><span>Agents</span></a>
-  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg***REMOVED***icon-user"/></svg><span>Profile</span></a>
+  <a href="/home" class="ios-tab active"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
 </nav>
 </div>
 
@@ -118,7 +118,7 @@
 function toggleChat(){var o=document.getElementById('chatOverlay');o.style.display=o.style.display==='none'?'block':'none';}
 function sendChat(){var i=document.getElementById('chatInput'),msg=i.value.trim();if(!msg)return;var m=document.getElementById('chatMessages');m.innerHTML+='<div style="text-align:right;margin:2px 0"><span style="background:rgba(108,92,231,0.2);padding:6px 12px;border-radius:10px;display:inline-block;font-size:15px">'+esc(msg)+'</span></div>';i.value='';i.disabled=true;
 fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})}).then(function(r){return r.json()}).then(function(r){m.innerHTML+='<div style="margin:2px 0"><span style="background:var(--fill);padding:6px 12px;border-radius:10px;display:inline-block;font-size:15px">🤖 '+(r.message||'Got it')+'</span></div>';}).catch(function(){}).finally(function(){i.disabled=false;i.focus();});}
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&***REMOVED***60;').replace(/>/g,'&***REMOVED***62;');}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
 
 /* Collapsible AI Intelligence briefing */
 function hashStr(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h+s.charCodeAt(i))|0;}return String(h);}

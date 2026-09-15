@@ -64,18 +64,18 @@
 
 export const theme = {
   "colors": {
-    "primary": "***REMOVED***af52de",
-    "secondary": "***REMOVED***5856d6",
-    "accent": "***REMOVED***ff3b30",
-    "background": "***REMOVED***f2f2f7",
-    "foreground": "***REMOVED***000000",
-    "neutral50": "***REMOVED***3c3c43",
-    "neutral100": "***REMOVED***000000",
-    "neutral200": "***REMOVED***ffffff",
-    "neutral300": "***REMOVED***787880",
-    "neutral400": "***REMOVED***e5e5ea",
-    "neutral500": "***REMOVED***f2f2f7",
-    "neutral600": "***REMOVED***c6c6c8"
+    "primary": "#af52de",
+    "secondary": "#5856d6",
+    "accent": "#ff3b30",
+    "background": "#f2f2f7",
+    "foreground": "#000000",
+    "neutral50": "#3c3c43",
+    "neutral100": "#000000",
+    "neutral200": "#ffffff",
+    "neutral300": "#787880",
+    "neutral400": "#e5e5ea",
+    "neutral500": "#f2f2f7",
+    "neutral600": "#c6c6c8"
   },
   "fonts": {
     "body": "'Times New Roman', sans-serif",
@@ -131,22 +131,22 @@ export const theme = {
 export const muiTheme = {
   "palette": {
     "primary": {
-      "main": "***REMOVED***af52de",
+      "main": "#af52de",
       "light": "hsl(280, 68%, 75%)",
       "dark": "hsl(280, 68%, 45%)"
     },
     "secondary": {
-      "main": "***REMOVED***5856d6",
+      "main": "#5856d6",
       "light": "hsl(241, 61%, 74%)",
       "dark": "hsl(241, 61%, 44%)"
     },
     "background": {
-      "default": "***REMOVED***f2f2f7",
-      "paper": "***REMOVED***f2f2f7"
+      "default": "#f2f2f7",
+      "paper": "#f2f2f7"
     },
     "text": {
-      "primary": "***REMOVED***000000",
-      "secondary": "***REMOVED***ffffff"
+      "primary": "#000000",
+      "secondary": "#ffffff"
     }
   },
   "typography": {

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="***REMOVED***121214">
+<meta name="theme-color" content="#121214">
 <title>3AI Intelligence Dashboard</title>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <link rel="stylesheet" href="/static/apple-hig.css">
@@ -580,7 +580,7 @@ body {
         </template>
         <template x-if="statusError">
             <div class="state-error">
-            <svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-triangle-alert"/></svg>
+            <svg class="icon-state"><use href="/static/icons.svg#icon-triangle-alert"/></svg>
             <div class="state-error-text">Could not reach the servants</div>
             <button class="state-retry-btn" @click="fetchStatus()">Retry</button>
           </div>
@@ -591,9 +591,9 @@ body {
       <div>
         <div class="section-title">Overview</div>
         <div class="quick-stats">
-          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg***REMOVED***icon-list-checks"/></svg><div class="quick-stat-value" x-text="totalTasks || '0'"></div><div class="quick-stat-label">Tasks</div></div>
-          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg***REMOVED***icon-search"/></svg><div class="quick-stat-value" x-text="totalQueries || '0'"></div><div class="quick-stat-label">Queries</div></div>
-          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg***REMOVED***icon-activity"/></svg><div class="quick-stat-value" x-text="onlineMCPs || '0'"></div><div class="quick-stat-label">MCPs</div></div>
+          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg#icon-list-checks"/></svg><div class="quick-stat-value" x-text="totalTasks || '0'"></div><div class="quick-stat-label">Tasks</div></div>
+          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg#icon-search"/></svg><div class="quick-stat-value" x-text="totalQueries || '0'"></div><div class="quick-stat-label">Queries</div></div>
+          <div class="quick-stat"><svg class="icon-stat"><use href="/static/icons.svg#icon-activity"/></svg><div class="quick-stat-value" x-text="onlineMCPs || '0'"></div><div class="quick-stat-label">MCPs</div></div>
         </div>
       </div>
     </div>
@@ -619,7 +619,7 @@ body {
               <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:var(--caption);color:var(--tertiaryLabel)" x-text="' · ' + voices.length + ' thoughts'"></span>
             </div>
             <template x-if="voices.length === 0">
-              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-inbox"/></svg><div class="state-empty-text">No thoughts yet — give me time to observe</div></div>
+              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-inbox"/></svg><div class="state-empty-text">No thoughts yet — give me time to observe</div></div>
             </template>
             <template x-if="voices.length > 0">
               <div class="activity-list">
@@ -656,7 +656,7 @@ body {
           <div>
             <div class="section-title">🔍 Discoveries</div>
             <template x-if="discoveries.length === 0">
-              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-search"/></svg><div class="state-empty-text">No findings yet — system is still warming up</div></div>
+              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-search"/></svg><div class="state-empty-text">No findings yet — system is still warming up</div></div>
             </template>
             <template x-if="discoveries.length > 0">
               <div class="activity-list">
@@ -691,7 +691,7 @@ body {
           <div>
             <div class="section-title">⬆️ Suggestions</div>
             <template x-if="suggestions.length === 0">
-              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-lightbulb"/></svg><div class="state-empty-text">No suggestions right now</div></div>
+              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-lightbulb"/></svg><div class="state-empty-text">No suggestions right now</div></div>
             </template>
             <template x-if="suggestions.length > 0">
               <div class="activity-list">
@@ -718,7 +718,7 @@ body {
               <div class="state-loading"><div class="loading-spinner"></div></div>
             </template>
             <template x-if="activityLoaded && activities.length === 0">
-              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-inbox"/></svg><div class="state-empty-text">All quiet, master</div></div>
+              <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-inbox"/></svg><div class="state-empty-text">All quiet, master</div></div>
             </template>
             <template x-if="activities.length > 0">
               <div class="activity-list">
@@ -774,7 +774,7 @@ body {
           <!-- ═══ Perplexity — kept as compact card ═══ -->
           <div>
             <div class="section-title" style="cursor:pointer" @click="showPplx = !showPplx">
-              <svg class="icon" style="color:var(--pplx);width:14px;height:14px;vertical-align:middle"><use href="/static/icons.svg***REMOVED***icon-sparkles"/></svg>
+              <svg class="icon" style="color:var(--pplx);width:14px;height:14px;vertical-align:middle"><use href="/static/icons.svg#icon-sparkles"/></svg>
               Perplexity
               <span x-text="showPplx ? '▼' : '▶'" style="font-size:10px;margin-left:4px"></span>
             </div>
@@ -784,7 +784,7 @@ body {
                   <input class="intel-input" type="text" x-model="pplxQuery" @keyup.enter="submitQuery()"
                          placeholder="Ask anything..." :disabled="pplxLoading">
                   <button class="intel-send" @click="submitQuery()" :disabled="!pplxQuery.trim() || pplxLoading">
-                    <svg class="icon-lg" style="color:white" x-show="!pplxLoading"><use href="/static/icons.svg***REMOVED***icon-send"/></svg>
+                    <svg class="icon-lg" style="color:white" x-show="!pplxLoading"><use href="/static/icons.svg#icon-send"/></svg>
                     <span x-show="pplxLoading" class="loading-spinner" style="width:18px;height:18px;border-width:2px"></span>
                   </button>
                 </div>
@@ -795,7 +795,7 @@ body {
                 </div>
               </template>
               <template x-if="pplxError && !pplxLoading">
-                <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-circle-x"/></svg><div class="state-error-text" x-text="pplxError"></div></div>
+                <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg#icon-circle-x"/></svg><div class="state-error-text" x-text="pplxError"></div></div>
               </template>
             </div>
           </div>
@@ -816,14 +816,14 @@ body {
           <div class="state-loading"><div class="loading-spinner"></div></div>
         </template>
         <template x-if="tasksLoaded && filteredTasks.length === 0">
-          <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-circle-check"/></svg><div class="state-empty-text">All done, master</div></div>
+          <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-circle-check"/></svg><div class="state-empty-text">All done, master</div></div>
         </template>
         <template x-if="filteredTasks.length > 0">
           <div class="activity-list">
             <template x-for="t in filteredTasks" :key="t.id || t.name">
               <div class="task-item fade-in" :class="{ 'task-overdue': isTaskOverdue(t) }">
                 <div class="task-check" :style="{ background: t.done ? 'var(--systemGreen)' : 'transparent', borderColor: t.done ? 'var(--systemGreen)' : 'var(--tertiaryLabel)' }" @click="toggleTask(t)">
-                  <svg class="icon-sm" x-show="t.done" style="color:white;margin:auto;display:block;width:14px;height:14px"><use href="/static/icons.svg***REMOVED***icon-check"/></svg>
+                  <svg class="icon-sm" x-show="t.done" style="color:white;margin:auto;display:block;width:14px;height:14px"><use href="/static/icons.svg#icon-check"/></svg>
                 </div>
                 <span class="task-name" :style="{ textDecoration: t.done ? 'line-through' : 'none', color: t.done ? 'var(--tertiaryLabel)' : 'var(--label)' }" x-text="t.name || t.title"></span>
                 <template x-if="!t.done && isTaskOverdue(t)">
@@ -842,7 +842,7 @@ body {
       <div>
         <div class="section-title">Activity Timeline</div>
         <template x-if="taskAudit.length === 0">
-          <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-inbox"/></svg><div class="state-empty-text">No changes yet</div></div>
+          <div class="state-empty"><svg class="icon-state"><use href="/static/icons.svg#icon-inbox"/></svg><div class="state-empty-text">No changes yet</div></div>
         </template>
         <template x-if="taskAudit.length > 0">
           <div class="activity-list">
@@ -876,7 +876,7 @@ body {
         <template x-if="taskSync.last_sync">
           <div style="text-align:center;padding:var(--space-md);color:var(--tertiaryLabel);font-size:var(--caption)">
             Last sync: <span x-text="taskSync.last_sync"></span> · <span x-text="taskSync.rows"></span> changes
-            <svg class="icon-sm" style="margin-left:4px;color:var(--systemGreen)" x-show="taskSync.status === 'ok'"><use href="/static/icons.svg***REMOVED***icon-circle-check"/></svg>
+            <svg class="icon-sm" style="margin-left:4px;color:var(--systemGreen)" x-show="taskSync.status === 'ok'"><use href="/static/icons.svg#icon-circle-check"/></svg>
           </div>
         </template>
       </div>
@@ -891,9 +891,9 @@ body {
           <template x-for="(s, name) in statuses" :key="name">
             <template x-if="name !== 'perplexity'">
               <div class="setting-card" :style="{ borderColor: (s.cpu || 0) > 50 ? 'var(--systemOrange)' : 'var(--systemGreen)' }">
-                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--fighter)" x-show="name === 'fighter'"><use href="/static/icons.svg***REMOVED***icon-zap"/></svg>
-                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--work)" x-show="name === 'work'"><use href="/static/icons.svg***REMOVED***icon-cpu"/></svg>
-                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--person)" x-show="name === 'person'"><use href="/static/icons.svg***REMOVED***icon-hard-drive"/></svg>
+                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--fighter)" x-show="name === 'fighter'"><use href="/static/icons.svg#icon-zap"/></svg>
+                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--work)" x-show="name === 'work'"><use href="/static/icons.svg#icon-cpu"/></svg>
+                <svg class="icon icon-lg" style="flex-shrink:0;color:var(--person)" x-show="name === 'person'"><use href="/static/icons.svg#icon-hard-drive"/></svg>
                 <div class="setting-card-info">
                   <div class="setting-card-title" x-text="name.charAt(0).toUpperCase() + name.slice(1)"></div>
                   <div class="setting-card-desc" x-text="'CPU: ' + (s.cpu || 'N/A') + '%  MEM: ' + (s.mem || 'N/A') + '%  Up: ' + (s.uptime || 'N/A')"></div>
@@ -915,7 +915,7 @@ body {
           <div class="state-loading"><div class="loading-spinner"></div></div>
         </template>
         <template x-if="mcpLoaded && mcpServers.length === 0">
-          <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-circle-x"/></svg><div class="state-error-text">Could not fetch MCP status</div></div>
+          <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg#icon-circle-x"/></svg><div class="state-error-text">Could not fetch MCP status</div></div>
         </template>
         <template x-if="mcpServers.length > 0">
           <div>
@@ -948,10 +948,10 @@ body {
 
       <!-- Perplexity Usage -->
       <div>
-        <div class="section-title">Intelligence Usage <svg class="icon" style="color:var(--pplx);width:14px;height:14px"><use href="/static/icons.svg***REMOVED***icon-sparkles"/></svg></div>
+        <div class="section-title">Intelligence Usage <svg class="icon" style="color:var(--pplx);width:14px;height:14px"><use href="/static/icons.svg#icon-sparkles"/></svg></div>
         <div class="setting-group">
           <div class="setting-card">
-            <svg class="icon icon-lg" style="color:var(--pplx);flex-shrink:0"><use href="/static/icons.svg***REMOVED***icon-sparkles"/></svg>
+            <svg class="icon icon-lg" style="color:var(--pplx);flex-shrink:0"><use href="/static/icons.svg#icon-sparkles"/></svg>
             <div class="setting-card-info">
               <div class="setting-card-title">Perplexity Layer</div>
               <div class="setting-card-desc" x-text="'Queries today: ' + (statuses.perplexity?.queries_today || 0) + ' | Tools: ' + (statuses.perplexity?.tools?.join(', ') || 'N/A')"></div>
@@ -975,7 +975,7 @@ body {
           <div class="state-loading"><div class="loading-spinner"></div></div>
         </template>
         <template x-if="connLoaded && connError">
-          <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg***REMOVED***icon-circle-x"/></svg><div class="state-error-text" x-text="connError"></div></div>
+          <div class="state-error"><svg class="icon-state"><use href="/static/icons.svg#icon-circle-x"/></svg><div class="state-error-text" x-text="connError"></div></div>
         </template>
         <template x-if="connLoaded && !connError">
           <div>
@@ -1045,23 +1045,23 @@ body {
   <!-- ═══ Tab Bar ═══ -->
   <div class="tab-bar">
     <button class="tab-item" data-tab="home" :class="{ active: tab === 'home' }" @click="tab = 'home'">
-      <svg class="icon-tab"><use href="/static/icons.svg***REMOVED***icon-house"/></svg>
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-house"/></svg>
       <span class="tab-label">Home</span>
     </button>
     <button class="tab-item" data-tab="intel" :class="{ active: tab === 'intel' }" @click="tab = 'intel'">
-      <svg class="icon-tab"><use href="/static/icons.svg***REMOVED***icon-sparkles"/></svg>
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-sparkles"/></svg>
       <span class="tab-label">Intelligence</span>
     </button>
     <button class="tab-item" data-tab="tasks" :class="{ active: tab === 'tasks' }" @click="tab = 'tasks'">
-      <svg class="icon-tab"><use href="/static/icons.svg***REMOVED***icon-list-checks"/></svg>
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-list-checks"/></svg>
       <span class="tab-label">Tasks</span>
     </button>
     <button class="tab-item" data-tab="conn" :class="{ active: tab === 'conn' }" @click="tab = 'conn'">
-      <svg class="icon-tab"><use href="/static/icons.svg***REMOVED***icon-plug"/></svg>
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-plug"/></svg>
       <span class="tab-label">Connection</span>
     </button>
     <button class="tab-item" data-tab="settings" :class="{ active: tab === 'settings' }" @click="tab = 'settings'">
-      <svg class="icon-tab"><use href="/static/icons.svg***REMOVED***icon-settings"/></svg>
+      <svg class="icon-tab"><use href="/static/icons.svg#icon-settings"/></svg>
       <span class="tab-label">Settings</span>
     </button>
   </div>

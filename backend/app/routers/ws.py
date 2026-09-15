@@ -49,7 +49,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
     await manager.connect(websocket)
     try:
         while True:
-            ***REMOVED*** Keep connection alive — receive pings
+            # Keep connection alive — receive pings
             data = await websocket.receive_text()
             if data == "ping":
                 await websocket.send_json({"type": "pong"})
@@ -72,8 +72,8 @@ async def broadcast_event(
     }
     await manager.broadcast(message)
 
-    ***REMOVED*** Also publish to Redis
+    # Also publish to Redis
     try:
         await message_bus.publish("events", message)
     except Exception:
-        pass  ***REMOVED*** Redis may not be available
+        pass  # Redis may not be available

@@ -1,15 +1,15 @@
-***REMOVED*** Terrence Pattern Profile
+# Terrence Pattern Profile
 
-***REMOVED******REMOVED*** Purpose
+## Purpose
 Build a detailed profile of Terrence's behaviour, communication style, busy times, and preferences — so GG can adapt proactively instead of reactively.
 
 > **Note**: This is a non-invasive profile built only from interaction data that Terrence has consented to. No hidden tracking.
 
 ---
 
-***REMOVED******REMOVED*** 0. Personality Framework: Enneagram 7w6
+## 0. Personality Framework: Enneagram 7w6
 
-***REMOVED******REMOVED******REMOVED*** Core Traits (7 = Enthusiast, w6 = Loyalist wing)
+### Core Traits (7 = Enthusiast, w6 = Loyalist wing)
 | Trait | How it shows | GG adaptation |
 |-------|-------------|---------------|
 | **Novelty-seeking** | Enjoys new ideas, frameworks, systems thinking | Present changes as improvements, not corrections. Frame "fixes" as "upgrades". |
@@ -21,7 +21,7 @@ Build a detailed profile of Terrence's behaviour, communication style, busy time
 | **Need for variety** | Multiple projects, interests, ideas | When organising tasks, offer options and prioritisation, not just a fixed list. |
 | **Present-focused** | Responds to immediate, tangible needs | Avoid abstract theorising; anchor recommendations in "today's context." |
 
-***REMOVED******REMOVED******REMOVED*** Communication style implications
+### Communication style implications
 - **Wants depth, not fluff** — goes with "實用直接，唔繞圈" rule
 - **Likes frameworks** — explains things in structured systems (九型、urgency tiers、decision framework)
 - **Responds to evidence** — 7w6 appreciates both big-picture logic (7) AND detailed verification (w6)
@@ -30,9 +30,9 @@ Build a detailed profile of Terrence's behaviour, communication style, busy time
 
 ---
 
-***REMOVED******REMOVED*** 1. Communication Patterns
+## 1. Communication Patterns
 
-***REMOVED******REMOVED******REMOVED*** Preferred Time
+### Preferred Time
 | Period | Activity | Notes |
 |--------|----------|-------|
 | Morning (07:00-09:00) | Daily briefing + planning | Brief, actionable preferred |
@@ -42,16 +42,16 @@ Build a detailed profile of Terrence's behaviour, communication style, busy time
 | Evening (18:00-22:00) | Family / personal / church | Fewer work topics |
 | Night (22:00-07:00) | Rest / can also be thinking time | Quiet hours for reminders OK, but conversational replies still welcome |
 
-***REMOVED******REMOVED******REMOVED*** Response Style
+### Response Style
 - **Tone**: Direct, practical, no small talk
 - **Language**: Written Cantonese with HK flavour
 - **7w6 pattern**: Detailed corrections (w6 precision) + big-picture thinking (7 vision)
 
 ---
 
-***REMOVED******REMOVED*** 2. Busy / Focus Indicators
+## 2. Busy / Focus Indicators
 
-***REMOVED******REMOVED******REMOVED*** Location-aware logic
+### Location-aware logic
 If context includes location info (via Google Calendar or explicit mention), adjust GG behaviour:
 
 | Location | Likely Mode | GG Adaptation |
@@ -63,7 +63,7 @@ If context includes location info (via Google Calendar or explicit mention), adj
 | 餐廳 / Cafe | Social / break | Light topics, no urgency |
 | Unknown (only time given) | Default | Use time-of-day + reply pattern to infer |
 
-***REMOVED******REMOVED******REMOVED*** Signals GG is learning to detect
+### Signals GG is learning to detect
 | Signal | Likely State | GG Action |
 |--------|-------------|-----------|
 | One-word replies (✅, ok, done, no) | Busy / doesn't want to engage | Keep reply minimal, no follow-ups |
@@ -74,7 +74,7 @@ If context includes location info (via Google Calendar or explicit mention), adj
 | Sunday | Church day | Church-related topics recommended |
 | Location = 教會 during service time | Do not disturb | Defer all notifications |
 
-***REMOVED******REMOVED******REMOVED*** To track over time
+### To track over time
 - [ ] Average reply latency per time of day
 - [ ] Message length patterns (short→busy, long→free)
 - [ ] Topics that get quick replies vs delayed replies
@@ -84,14 +84,14 @@ If context includes location info (via Google Calendar or explicit mention), adj
 
 ---
 
-***REMOVED******REMOVED*** 3. Interests & Knowledge Areas
+## 3. Interests & Knowledge Areas
 
-***REMOVED******REMOVED******REMOVED*** Work
+### Work
 - **Industry**: IT / Cybersecurity / Government projects
 - **Tools**: Google Calendar, Notion, Kinetix, MTR, tunnel boring
 - **Languages**: English (technical), Cantonese (daily)
 
-***REMOVED******REMOVED******REMOVED*** Personal
+### Personal
 - **Activities**: Church (Sunday school, worship, teaching), family, car maintenance, 港車北上
 - **Family**: Aggie (wife), mother
 - **Transport**: Drives (own car), HK public transport
@@ -100,7 +100,7 @@ If context includes location info (via Google Calendar or explicit mention), adj
 
 ---
 
-***REMOVED******REMOVED*** 4. Preferred Notification Style
+## 4. Preferred Notification Style
 
 From reminder-state.json analysis (2026-05-22):
 - **Frequency**: Max 3 deliveries per topic/day, 40min min between resends
@@ -110,7 +110,7 @@ From reminder-state.json analysis (2026-05-22):
 - **Snooze**: Urgent = shorter delay (U5=30min fastest)
 - **7w6 impact**: Wants control over timing (7 hates feeling constrained) + clear verification path (w6 needs to confirm)
 
-***REMOVED******REMOVED******REMOVED*** To track
+### To track
 - [ ] Which types of reminders get ✅ confirm first tap
 - [ ] Which get ⏰ snoozed repeatedly
 - [ ] Which get ❌ cancelled
@@ -119,7 +119,7 @@ From reminder-state.json analysis (2026-05-22):
 
 ---
 
-***REMOVED******REMOVED*** 5. Learning Method
+## 5. Learning Method
 
 The profile is **never static** — GG updates it when:
 1. Terrence corrects something → document the correction + update pattern
@@ -135,7 +135,7 @@ The profile is **never static** — GG updates it when:
 
 ---
 
-***REMOVED******REMOVED*** 6. Tracked Data Reference
+## 6. Tracked Data Reference
 
 Tracked via: `scripts/vm/track_patterns.py`
 Patterns file: `gg-skills/terrence-patterns.json`

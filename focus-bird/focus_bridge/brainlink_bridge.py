@@ -1,19 +1,19 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 BrainLink → Agent Relay Bridge (for Lenovo X1 Windows)
 讀取 BrainLink 腦波資料，經 wss:// 傳去 Agent Relay Server
 
 用法：
-  ***REMOVED*** 用 config.txt
+  # 用 config.txt
   python brainlink_bridge.py --config config.txt
 
-  ***REMOVED*** 直接指定
+  # 直接指定
   python brainlink_bridge.py --port COM5 --url wss://agent-server:8765/brainlink
 
-  ***REMOVED*** 掃描 COM port
+  # 掃描 COM port
   python brainlink_bridge.py --scan
 
-  ***REMOVED*** 本機模式（唔經 Agent Server，直接 broadcast 俾本地 browser）
+  # 本機模式（唔經 Agent Server，直接 broadcast 俾本地 browser）
   python brainlink_bridge.py --port COM5 --local
 """
 
@@ -25,7 +25,7 @@ import sys
 import signal
 import time
 
-***REMOVED*** Try importing SDK
+# Try importing SDK
 try:
     from cushy_serial import CushySerial
 except ImportError:
@@ -45,15 +45,15 @@ class BrainLinkBridge:
     def __init__(self, port, baud=115200, threshold=40):
         self.port = port
         self.baud = baud
-        self.threshold = threshold  ***REMOVED*** attention 大過呢個值 = 下沉 (local mode)
+        self.threshold = threshold  # attention 大過呢個值 = 下沉 (local mode)
         self.current_attention = 0
         self.current_meditation = 0
-        self.current_signal = 200  ***REMOVED*** 200 = no signal
+        self.current_signal = 200  # 200 = no signal
         self.serial = None
         self.parser = None
-        self.websocket_clients = set()  ***REMOVED*** For local mode
+        self.websocket_clients = set()  # For local mode
         self.server = None
-        self.agent_ws = None  ***REMOVED*** For agent relay mode
+        self.agent_ws = None  # For agent relay mode
         self.agent_url = None
         self.running = True
 
@@ -64,16 +64,16 @@ class BrainLinkBridge:
         self.current_signal = data.signal
 
     def on_extend_eeg(self, data):
-        pass  ***REMOVED*** 唔需要用
+        pass  # 唔需要用
 
     def on_gyro(self, x, y, z):
-        pass  ***REMOVED*** 唔需要用
+        pass  # 唔需要用
 
     def on_rr(self, rr1, rr2, rr3):
-        pass  ***REMOVED*** 唔需要用
+        pass  # 唔需要用
 
     def on_raw(self, raw):
-        pass  ***REMOVED*** 唔需要用
+        pass  # 唔需要用
 
     def get_brain_data(self):
         """返回完整 brain data dict"""
@@ -140,12 +140,12 @@ class BrainLinkBridge:
                     await self.agent_ws.send(payload)
                 except Exception as e:
                     print(f"⚠️  Send error: {e}")
-                    ***REMOVED*** Try reconnect
+                    # Try reconnect
                     self.agent_ws = None
                     print("🔄 嘗試重新連接 Agent Server...")
                     await asyncio.sleep(3)
                     await self.connect_to_agent()
-            await asyncio.sleep(0.1)  ***REMOVED*** 10Hz
+            await asyncio.sleep(0.1)  # 10Hz
 
     async def broadcast_local(self):
         """每秒 broadcast 一次 attention 去所有 websocket clients (local mode)"""
@@ -195,7 +195,7 @@ class BrainLinkBridge:
             return
         if not await self.connect_to_agent():
             print("⚠️  Agent mode 無法連接，請檢查 URL 和 Server 狀態")
-            ***REMOVED*** Keep trying in background
+            # Keep trying in background
             asyncio.create_task(self._keep_trying_to_connect())
 
         await self.send_to_agent()
@@ -245,7 +245,7 @@ def load_config(config_path):
     with open(config_path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if not line or line.startswith("***REMOVED***") or line.startswith(";"):
+            if not line or line.startswith("#") or line.startswith(";"):
                 continue
             if "=" in line:
                 key, value = line.split("=", 1)
@@ -273,10 +273,10 @@ if __name__ == "__main__":
         find_available_ports()
         sys.exit(0)
 
-    ***REMOVED*** Load config from file
+    # Load config from file
     config = load_config(args.config)
 
-    ***REMOVED*** Priority: CLI args > config file
+    # Priority: CLI args > config file
     port = args.port or config.get("BLUETOOTH_COM") or config.get("COM_PORT")
     url = args.url or config.get("AGENT_WS_URL") or config.get("WS_URL")
 
@@ -288,7 +288,7 @@ if __name__ == "__main__":
         print("   or: python brainlink_bridge.py --scan  (掃描可用 port)")
         sys.exit(1)
 
-    ***REMOVED*** Determine mode
+    # Determine mode
     is_local = args.local or (not url)
 
     bridge = BrainLinkBridge(port, args.baud, args.threshold)

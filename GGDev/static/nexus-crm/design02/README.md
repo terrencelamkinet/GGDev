@@ -1,8 +1,8 @@
-***REMOVED*** NEXUS CRM — White Edition + Projects, Sales, Integrations, Full Mobile Responsive
+# NEXUS CRM — White Edition + Projects, Sales, Integrations, Full Mobile Responsive
 
 Single-file HTML/CSS/JS CRM app.
 
-***REMOVED******REMOVED*** What's new in this version — Mobile / Tablet responsive overhaul
+## What's new in this version — Mobile / Tablet responsive overhaul
 Tested against real device breakpoints for iPhone, Android, and iPad:
 
 | Breakpoint | Target devices | Key changes |
@@ -21,11 +21,11 @@ Other mobile-specific fixes:
 - `-webkit-overflow-scrolling: touch` on all horizontal-scroll regions (tables, kanban, weekly grid, tabs, settings nav)
 - Single scroll region preserved (`.main-content`) — no nested scroll traps on mobile
 
-***REMOVED******REMOVED*** Usage
+## Usage
 Open `nexus-crm-app-white.html` directly in any modern browser (desktop or mobile). No build step required.
 
-***REMOVED******REMOVED*** Routes
-`***REMOVED***dashboard` `***REMOVED***contacts` `***REMOVED***contact-detail/:id` `***REMOVED***companies` `***REMOVED***company-detail/:id` `***REMOVED***deals` `***REMOVED***deal-detail`
-`***REMOVED***projects` `***REMOVED***project-detail/:id` `***REMOVED***team` `***REMOVED***team-detail/:id` `***REMOVED***sales-dashboard`
-`***REMOVED***tasks` `***REMOVED***touchpoints` `***REMOVED***namecards`
-`***REMOVED***settings/profile` `***REMOVED***settings/team` `***REMOVED***settings/integrations` `***REMOVED***settings/billing`
+## Routes
+`#dashboard` `#contacts` `#contact-detail/:id` `#companies` `#company-detail/:id` `#deals` `#deal-detail`
+`#projects` `#project-detail/:id` `#team` `#team-detail/:id` `#sales-dashboard`
+`#tasks` `#touchpoints` `#namecards`
+`#settings/profile` `#settings/team` `#settings/integrations` `#settings/billing`

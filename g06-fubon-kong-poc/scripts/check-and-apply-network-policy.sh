@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 CP_NAMESPACE="${CP_NAMESPACE:-kong-cp-uat}"
@@ -24,7 +24,7 @@ Optional environment variables:
   BACKEND_PORT=${BACKEND_PORT}
   POLICY_FILE=${POLICY_FILE}
   APPLY_ON_FAILURE=${APPLY_ON_FAILURE}
-  KONG_ADMIN_PASSWORD=<admin-password>      ***REMOVED*** enables Admin API post-check
+  KONG_ADMIN_PASSWORD=<admin-password>      # enables Admin API post-check
   API_URL=https://api-poc.uat.fubonhk.internal/api/v1/health
   ADMIN_URL=https://kong-admin.uat.fubonhk.internal/
 
@@ -102,7 +102,7 @@ if [[ -n "${BACKEND_HOST}" ]]; then
     oc exec -n "${DP_NAMESPACE}" deploy/netshoot -- nc -vz -w 5 "${BACKEND_HOST}" "${BACKEND_PORT}"
 fi
 
-if [[ "${***REMOVED***failed_checks[@]}" -eq 0 ]]; then
+if [[ "${#failed_checks[@]}" -eq 0 ]]; then
   log "Default connectivity checks passed"
   echo "NetworkPolicy is not required for basic connectivity at this point."
   echo "You can still apply ${POLICY_FILE} later as the planned hardening step."

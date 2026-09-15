@@ -1,6 +1,6 @@
-***REMOVED*** System Resource Check Log
+# System Resource Check Log
 
-***REMOVED******REMOVED*** 2025-07-18 (approx)
+## 2025-07-18 (approx)
 - **Time**: ~UTC+8 afternoon
 - **Main**: 15G RAM / 8%
 - **Work**: 3.8G / 24%

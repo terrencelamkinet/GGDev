@@ -2,30 +2,30 @@
    TOP FOCUS METER — topmeter.css
    置於畫面頂部中央的專注力感應大儀錶 + 即時報表 + 5秒記錄面板
    ================================================================ */
-***REMOVED***tfm-wrap{
+#tfm-wrap{
   position:fixed; top:8px; left:50%; transform:translateX(-50%);
   z-index:40; width:min(560px,92vw);
   display:flex; flex-direction:column; align-items:center; gap:6px;
   pointer-events:none;
 }
-***REMOVED***tfm-gauge-box{
+#tfm-gauge-box{
   position:relative; width:100%; aspect-ratio:16/9;
   background:rgba(4,14,22,.55); border:1px solid rgba(255,255,255,.14);
   border-radius:20px; backdrop-filter:blur(10px);
   box-shadow:0 10px 30px rgba(0,0,0,.35);
   overflow:hidden;
 }
-***REMOVED***tfm-gauge-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#tfm-gauge-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
-***REMOVED***tfm-report-box{
+#tfm-report-box{
   position:relative; width:100%; height:20%;
   min-height:34px; max-height:70px;
   background:rgba(4,14,22,.5); border:1px solid rgba(255,255,255,.1);
   border-radius:14px; backdrop-filter:blur(8px); overflow:hidden;
 }
-***REMOVED***tfm-report-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#tfm-report-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
-***REMOVED***tfm-log-row{
+#tfm-log-row{
   width:100%; display:grid; grid-template-columns:1fr 1fr; gap:4px;
   pointer-events:auto;
 }
@@ -40,17 +40,17 @@
   font-size:11px; font-weight:900; letter-spacing:.5px; margin-bottom:4px;
   display:flex; align-items:center; gap:5px;
 }
-.tfm-log-title.high{color:***REMOVED***4f8cff}
-.tfm-log-title.low{color:***REMOVED***ff6b6b}
-.tfm-log-title.surge{color:***REMOVED***74d680}
-.tfm-log-title.plunge{color:***REMOVED***ff8b6b}
+.tfm-log-title.high{color:#4f8cff}
+.tfm-log-title.low{color:#ff6b6b}
+.tfm-log-title.surge{color:#74d680}
+.tfm-log-title.plunge{color:#ff8b6b}
 .tfm-log-item{
-  font-size:11px; color:***REMOVED***cfe4f2; line-height:1.5;
+  font-size:11px; color:#cfe4f2; line-height:1.5;
   display:flex; justify-content:space-between; gap:6px;
 }
-.tfm-log-empty{font-size:11px;color:***REMOVED***6d8ba0;font-style:normal}
+.tfm-log-empty{font-size:11px;color:#6d8ba0;font-style:normal}
 
 @media (max-width:520px){
-  ***REMOVED***tfm-wrap{width:96vw}
+  #tfm-wrap{width:96vw}
   .tfm-log-item,.tfm-log-title{font-size:10px}
 }

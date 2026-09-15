@@ -1,12 +1,12 @@
-***REMOVED*** NGFW-Engineer Verified Results
-***REMOVED******REMOVED*** Source: Palo Alto Networks Official Documentation
-***REMOVED******REMOVED*** Date: 2026-05-16
+# NGFW-Engineer Verified Results
+## Source: Palo Alto Networks Official Documentation
+## Date: 2026-05-16
 
 ---
 
-***REMOVED******REMOVED*** 已確認（PA Docs Verified）
+## 已確認（PA Docs Verified）
 
-| ***REMOVED*** | Our Answer | Verified | PA Doc Evidence |
+| # | Our Answer | Verified | PA Doc Evidence |
 |:-:|:----------:|:--------:|:----------------|
 | 001 | BD | ✅ BD | Cloud NGFW AWS: Security VPC+TGW / Azure: vNET routing / Panorama unified mgmt |
 | 002 | A | ✅ A | ARE supports: PA-7000/5400/5200/3400/3200/1400/400/CN/VM. PA-800 NOT listed |
@@ -36,9 +36,9 @@
 | 080 | A | ✅ C | Inter-VSYS: External zone for security policy, single VR for routing |
 | 089 | B | ✅ B | VSYS quotas: Sessions limit is configurable parameter |
 
-***REMOVED******REMOVED*** 未確認（Pending）
+## 未確認（Pending）
 
-| ***REMOVED*** | Our Answer | Brave Dump | Status |
+| # | Our Answer | Brave Dump | Status |
 |:-:|:----------:|:----------:|:-------|
 | 004 | C | C | Match - OK |
 | 005 | D | D | Match - OK |
@@ -135,9 +135,9 @@
 | 120 | B | B | Match - OK |
 | 121 | B | B | Match - OK |
 
-***REMOVED******REMOVED*** 仲有衝突（需另外兩個AI confirm）
+## 仲有衝突（需另外兩個AI confirm）
 
-| ***REMOVED*** | Our | Brave | Topic |
+| # | Our | Brave | Topic |
 |:-:|:---:|:-----:|:------|
 | Q015 | D | C | HA IP assignment |
 | Q043 | AC | BD | SAML admin auth rollout |

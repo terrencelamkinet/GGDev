@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Nightly Memory Consolidation — 每晚 23:55 HKT 執行
 三層記憶整理：
@@ -64,7 +64,7 @@ def compress_index():
         if len(lines) <= 50:
             log(f"Index is {len(lines)} lines — under limit")
             return
-        ***REMOVED*** Keep first 10 lines (header), last 30 lines (recent), drop middle
+        # Keep first 10 lines (header), last 30 lines (recent), drop middle
         head = lines[:10]
         tail = lines[-35:]
         date_str = datetime.now().strftime("%Y-%m-%d")
@@ -88,7 +88,7 @@ def clean_stale_memory_files():
         try:
             fpath = os.path.join(MEMORY_DIR, f)
             if not f.endswith(".md"): continue
-            if "_summary" in f: continue  ***REMOVED*** keep summaries
+            if "_summary" in f: continue  # keep summaries
             mtime = os.path.getmtime(fpath)
             if (now - mtime) / 86400 > 30:
                 os.remove(fpath)

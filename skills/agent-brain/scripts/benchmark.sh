@@ -1,7 +1,7 @@
-***REMOVED***!/bin/bash
-***REMOVED*** benchmark.sh — Performance benchmark for Agent Brain v3
-***REMOVED*** Tests operation latency at 100, 1000, 5000, and 10000 entries
-***REMOVED*** Compares SQLite vs JSON backends side by side
+#!/bin/bash
+# benchmark.sh — Performance benchmark for Agent Brain v3
+# Tests operation latency at 100, 1000, 5000, and 10000 entries
+# Compares SQLite vs JSON backends side by side
 
 set -euo pipefail
 
@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MEMORY_SH="$SCRIPT_DIR/memory.sh"
 MEMORY_DIR="$SCRIPT_DIR/../memory"
 
-***REMOVED*** Backup existing data
+# Backup existing data
 BACKUP_DB="$MEMORY_DIR/memory.benchmark.db"
 BACKUP_JSON="$MEMORY_DIR/memory.benchmark.json"
 [[ -f "$MEMORY_DIR/memory.db" ]] && cp "$MEMORY_DIR/memory.db" "$BACKUP_DB"
@@ -32,7 +32,7 @@ random_tags() {
   local n=$(( RANDOM % 3 + 1 ))
   local result=""
   for ((i=0; i<n; i++)); do
-    local idx=$(( RANDOM % ${***REMOVED***TAGS[@]} ))
+    local idx=$(( RANDOM % ${#TAGS[@]} ))
     if [[ -n "$result" ]]; then
       result="$result,${TAGS[$idx]}"
     else
@@ -43,7 +43,7 @@ random_tags() {
 }
 
 random_type() {
-  local idx=$(( RANDOM % ${***REMOVED***TYPES[@]} ))
+  local idx=$(( RANDOM % ${#TYPES[@]} ))
   echo "${TYPES[$idx]}"
 }
 
@@ -65,22 +65,22 @@ run_benchmark() {
   export AGENT_BRAIN_BACKEND="$backend"
   rm -f "$MEMORY_DIR/memory.db" "$MEMORY_DIR/memory.json" "$MEMORY_DIR/memory.json.bak"
 
-  ***REMOVED*** Init
+  # Init
   "$MEMORY_SH" init >/dev/null 2>&1
 
-  ***REMOVED*** Bulk insert
+  # Bulk insert
   local start end
   start=$(python3 -c "import time; print(time.time())")
   for ((i=1; i<=count; i++)); do
     local t=$(random_type)
     local tags=$(random_tags)
-    "$MEMORY_SH" add "$t" "Benchmark entry number $i about ${TAGS[$(( RANDOM % ${***REMOVED***TAGS[@]} ))]}" user "$tags" >/dev/null 2>&1
+    "$MEMORY_SH" add "$t" "Benchmark entry number $i about ${TAGS[$(( RANDOM % ${#TAGS[@]} ))]}" user "$tags" >/dev/null 2>&1
   done
   end=$(python3 -c "import time; print(time.time())")
   local total_insert=$(python3 -c "print(f'{($end - $start) * 1000:.0f}')")
   local avg_insert=$(python3 -c "print(f'{($end - $start) / $count * 1000:.1f}')")
 
-  ***REMOVED*** Benchmark operations
+  # Benchmark operations
   local t_get=$(time_cmd "\"$MEMORY_SH\" get \"python code\"")
   local t_similar=$(time_cmd "\"$MEMORY_SH\" similar \"javascript react frontend\"")
   local t_conflicts=$(time_cmd "\"$MEMORY_SH\" conflicts \"Python is better than JavaScript for data science\"")

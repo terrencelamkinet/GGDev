@@ -1,10 +1,10 @@
-***REMOVED*** Inputs — AI Agent Instruction Spec
+# Inputs — AI Agent Instruction Spec
 > Reference: Apple HIG — Inputs
 > Covers: Touch, Keyboard, Apple Pencil, Game Controllers, Pointer (Mouse/Trackpad), Eye Tracking, Action Button, Digital Crown, Remote & Siri Remote
 
 ---
 
-***REMOVED******REMOVED*** Input Method Overview
+## Input Method Overview
 
 | Input Method | Platform | Primary Use |
 |-------------|----------|-------------|
@@ -21,9 +21,9 @@
 
 ---
 
-***REMOVED******REMOVED*** 1. Touch (iOS / iPadOS)
+## 1. Touch (iOS / iPadOS)
 
-***REMOVED******REMOVED******REMOVED*** Touch Gesture Library
+### Touch Gesture Library
 | Gesture | Action | System Use |
 |---------|--------|-----------|
 | Tap | Primary selection | Button press, item selection |
@@ -35,7 +35,7 @@
 | Pan / Drag | Move content | Scroll, drag-and-drop |
 | Edge swipe (left) | Navigate back | System back gesture |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | TCH-001 | Design for **thumb-first** interaction — primary actions in the bottom 60% of screen. |
@@ -47,7 +47,7 @@
 | TCH-007 | Avoid requiring complex multi-finger gestures for primary actions. |
 | TCH-008 | Touch feedback: visual state change must occur within **100ms** of touch. |
 
-***REMOVED******REMOVED******REMOVED*** One-Handed Reach Zone Design
+### One-Handed Reach Zone Design
 ```
 iPhone 14/15 Layout (Portrait):
 ┌─────────────────────┐
@@ -62,9 +62,9 @@ iPhone 14/15 Layout (Portrait):
 
 ---
 
-***REMOVED******REMOVED*** 2. Keyboard (iOS / iPadOS / macOS)
+## 2. Keyboard (iOS / iPadOS / macOS)
 
-***REMOVED******REMOVED******REMOVED*** Keyboard Types
+### Keyboard Types
 | `UIKeyboardType` | Use Case |
 |-----------------|----------|
 | `.default` | General text input |
@@ -75,7 +75,7 @@ iPhone 14/15 Layout (Portrait):
 | `.phonePad` | Phone number input |
 | `.namePhonePad` | Name or phone |
 
-***REMOVED******REMOVED******REMOVED*** Text Content Types (AutoFill)
+### Text Content Types (AutoFill)
 | `UITextContentType` | AutoFill Behavior |
 |--------------------|------------------|
 | `.username` | Credential username |
@@ -86,7 +86,7 @@ iPhone 14/15 Layout (Portrait):
 | `.telephoneNumber` | Phone number fill |
 | `.fullStreetAddress` | Address fill from Contacts |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | KBD-001 | Use `textContentType` on all input fields for AutoFill integration. |
@@ -98,7 +98,7 @@ iPhone 14/15 Layout (Portrait):
 | KBD-007 | Register keyboard shortcuts with `UIKeyCommand` / `.keyboardShortcut()` modifier. |
 | KBD-008 | Respect hardware keyboard presence on iPad — do not show soft keyboard redundantly. |
 
-***REMOVED******REMOVED******REMOVED*** Essential Keyboard Shortcuts (macOS / iPadOS)
+### Essential Keyboard Shortcuts (macOS / iPadOS)
 | Shortcut | Action |
 |----------|--------|
 | `Cmd+N` | New item |
@@ -113,9 +113,9 @@ iPhone 14/15 Layout (Portrait):
 
 ---
 
-***REMOVED******REMOVED*** 3. Apple Pencil (iPadOS)
+## 3. Apple Pencil (iPadOS)
 
-***REMOVED******REMOVED******REMOVED*** Pencil Input Capabilities
+### Pencil Input Capabilities
 | Feature | Pencil Gen | Description |
 |---------|-----------|-------------|
 | Pressure sensitivity | 1st, 2nd, Pro | 4096 levels of pressure |
@@ -125,7 +125,7 @@ iPhone 14/15 Layout (Portrait):
 | Barrel roll | Pro | Tool rotation |
 | Low latency (ProMotion) | All (120Hz iPad) | 9ms latency on ProMotion displays |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | PCL-001 | Use `PKCanvasView` (PencilKit) for drawing — do not build a custom canvas unless required. |
@@ -137,9 +137,9 @@ iPhone 14/15 Layout (Portrait):
 
 ---
 
-***REMOVED******REMOVED*** 4. Game Controllers
+## 4. Game Controllers
 
-***REMOVED******REMOVED******REMOVED*** Controller Support
+### Controller Support
 | Controller Type | Framework | Notes |
 |---------------|-----------|-------|
 | MFi Extended | `GameController` | Standard L/R sticks, triggers, ABXY, bumpers |
@@ -147,7 +147,7 @@ iPhone 14/15 Layout (Portrait):
 | PlayStation DualShock/DualSense | `GameController` | Direct support iOS 14+ |
 | Apple TV Remote | `GameController` | Basic D-pad input |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | GCT-001 | Support `GCController.controllers()` — detect connected controllers on app launch and during session. |
@@ -159,9 +159,9 @@ iPhone 14/15 Layout (Portrait):
 
 ---
 
-***REMOVED******REMOVED*** 5. Pointer (Mouse / Trackpad) — iPadOS / macOS
+## 5. Pointer (Mouse / Trackpad) — iPadOS / macOS
 
-***REMOVED******REMOVED******REMOVED*** Pointer Interaction Types
+### Pointer Interaction Types
 | Type | Behavior | Use When |
 |------|----------|----------|
 | `.highlight` | Highlights element, pointer morphs | Buttons, links |
@@ -169,7 +169,7 @@ iPhone 14/15 Layout (Portrait):
 | `.hover` | Custom hover region | Custom interactive areas |
 | `.automatic` | System-inferred behavior | Default |
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | PTR-001 | iPadOS: add `UIPointerInteraction` to interactive elements for visual cursor feedback. |
@@ -181,9 +181,9 @@ iPhone 14/15 Layout (Portrait):
 
 ---
 
-***REMOVED******REMOVED*** 6. Eye Tracking (Accessibility — iOS)
+## 6. Eye Tracking (Accessibility — iOS)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | EYT-001 | Eye Tracking uses `UIPointerInteraction` automatically — ensure all interactive elements are accessible via pointer. |
@@ -193,9 +193,9 @@ iPhone 14/15 Layout (Portrait):
 
 ---
 
-***REMOVED******REMOVED*** 7. Action Button (iPhone 15 Pro+)
+## 7. Action Button (iPhone 15 Pro+)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | ACB-001 | Register app-specific actions via `AppIntents` framework for system Action Button assignment. |
@@ -205,9 +205,9 @@ iPhone 14/15 Layout (Portrait):
 
 ---
 
-***REMOVED******REMOVED*** 8. Digital Crown (watchOS)
+## 8. Digital Crown (watchOS)
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | CRN-001 | Map Digital Crown rotation to the primary scrollable content on every screen. |
@@ -217,9 +217,9 @@ iPhone 14/15 Layout (Portrait):
 
 ---
 
-***REMOVED******REMOVED*** 9. Apple TV Remote / Siri Remote
+## 9. Apple TV Remote / Siri Remote
 
-***REMOVED******REMOVED******REMOVED*** AI Agent Rules
+### AI Agent Rules
 | Rule ID | Instruction |
 |---------|-------------|
 | RMT-001 | All interactive elements must be **focusable** via `isFocusable = true`. |

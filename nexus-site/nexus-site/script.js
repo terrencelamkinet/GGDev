@@ -44,7 +44,7 @@ function openModal(tab) {
   document.body.style.overflow = 'hidden';
   switchTab(tab || 'signup');
   setTimeout(() => {
-    const first = document.querySelector('***REMOVED***auth-modal input');
+    const first = document.querySelector('#auth-modal input');
     if (first) first.focus();
   }, 100);
 }

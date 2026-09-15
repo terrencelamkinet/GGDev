@@ -21,7 +21,7 @@ from app.services.agent_discovery import _fetch_via_ssh_tunnel
 router = APIRouter()
 
 
-***REMOVED*** ── Schemas ───────────────────────────────────────────────
+# ── Schemas ───────────────────────────────────────────────
 
 class SubAgentCreate(BaseModel):
     id: str
@@ -69,7 +69,7 @@ class SubAgentResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-***REMOVED*** ── Helper: decrypt credential before response ────────────
+# ── Helper: decrypt credential before response ────────────
 
 def _decrypt_for_response(config: SubAgentConfig) -> dict:
     """Convert ORM model to dict, decrypting credential."""
@@ -92,7 +92,7 @@ def _decrypt_for_response(config: SubAgentConfig) -> dict:
     return data
 
 
-***REMOVED*** ── Endpoints ─────────────────────────────────────────────
+# ── Endpoints ─────────────────────────────────────────────
 
 @router.get("/configs", response_model=list[SubAgentResponse])
 async def list_configs(session: AsyncSession = Depends(get_session)):
@@ -101,7 +101,7 @@ async def list_configs(session: AsyncSession = Depends(get_session)):
         select(SubAgentConfig).order_by(SubAgentConfig.created_at.desc())
     )
     configs = list(result.scalars().all())
-    ***REMOVED*** Decrypt credentials for response
+    # Decrypt credentials for response
     return [_decrypt_for_response(c) for c in configs]
 
 
@@ -130,7 +130,7 @@ async def update_config(agent_id: str, data: SubAgentUpdate,
 
     update_data = data.model_dump(exclude_unset=True)
 
-    ***REMOVED*** Encrypt credential if provided
+    # Encrypt credential if provided
     if "credential" in update_data and update_data["credential"]:
         update_data["credential"] = encrypt(update_data["credential"])
     elif "credential" in update_data:
@@ -170,8 +170,8 @@ async def get_agent_exporter_data(agent_id: str, session: AsyncSession = Depends
     if not config:
         raise HTTPException(404, f"Agent '{agent_id}' not found")
 
-    ***REMOVED*** Use capabilities endpoint (returns skills, tools, mcp, system, memory, cron)
-    ***REMOVED*** + agent-info separately — only 2 tunnel calls instead of 7
+    # Use capabilities endpoint (returns skills, tools, mcp, system, memory, cron)
+    # + agent-info separately — only 2 tunnel calls instead of 7
     endpoints = ["agent-info", "capabilities"]
     data = {}
     for ep in endpoints:

@@ -14,18 +14,18 @@
 <style>
 /* ── Fireart Studio Design Tokens ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:***REMOVED***464554;background:***REMOVED***f5f5f5;-webkit-font-smoothing:antialiased}
+html{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#464554;background:#f5f5f5;-webkit-font-smoothing:antialiased}
 :root{
-  --color-primary:***REMOVED***ff470a;
-  --color-secondary:***REMOVED***d1e1fb;
-  --color-accent:***REMOVED***ff561d;
-  --color-text:***REMOVED***000000;
-  --color-body:***REMOVED***464554;
-  --color-muted:***REMOVED***76757f;
-  --color-border:***REMOVED***dfdfdf;
-  --color-surface:***REMOVED***ffffff;
-  --color-bg:***REMOVED***f5f5f5;
-  --color-bg-alt:***REMOVED***f5f5f6;
+  --color-primary:#ff470a;
+  --color-secondary:#d1e1fb;
+  --color-accent:#ff561d;
+  --color-text:#000000;
+  --color-body:#464554;
+  --color-muted:#76757f;
+  --color-border:#dfdfdf;
+  --color-surface:#ffffff;
+  --color-bg:#f5f5f5;
+  --color-bg-alt:#f5f5f6;
 
   --font-sans:'Inter',sans-serif;
   --text-xs:0.75rem;--text-sm:0.875rem;--text-body:1rem;--text-lg:1.125rem;
@@ -45,26 +45,26 @@ body{min-height:100vh;background:var(--color-bg);}
   --dur-fast:150ms;--dur-std:280ms;--safe-bottom:env(safe-area-inset-bottom,0px);
 }
 [data-theme="dark"]{
-  --bg:***REMOVED***000;--bg-elevated:***REMOVED***1c1c1e;--bg-elevated-2:***REMOVED***2c2c2e;--bg-elevated-3:***REMOVED***3a3a3c;
+  --bg:#000;--bg-elevated:#1c1c1e;--bg-elevated-2:#2c2c2e;--bg-elevated-3:#3a3a3c;
   --glass-card:rgba(44,44,46,0.80);--glass-nav:rgba(0,0,0,0.85);--glass-tab:rgba(28,28,30,0.95);
   --sep:rgba(255,255,255,0.10);--sep-strong:rgba(255,255,255,0.18);
   --label:rgba(255,255,255,0.95);--label-2:rgba(255,255,255,0.60);--label-3:rgba(255,255,255,0.35);--label-4:rgba(255,255,255,0.18);
-  --blue:***REMOVED***0A84FF;--blue-tint:rgba(10,132,255,0.15);--green:***REMOVED***30D158;--green-tint:rgba(48,209,88,0.15);
-  --orange:***REMOVED***FF9F0A;--orange-tint:rgba(255,159,10,0.15);--red:***REMOVED***FF453A;--red-tint:rgba(255,69,58,0.15);
-  --yellow:***REMOVED***FFD60A;--yellow-tint:rgba(255,214,10,0.15);--purple:***REMOVED***BF5AF2;--purple-tint:rgba(191,90,242,0.15);
-  --teal:***REMOVED***5AC8FA;--teal-tint:rgba(90,200,250,0.15);--telegram:***REMOVED***2AABEE;--telegram-tint:rgba(42,171,238,0.15);
+  --blue:#0A84FF;--blue-tint:rgba(10,132,255,0.15);--green:#30D158;--green-tint:rgba(48,209,88,0.15);
+  --orange:#FF9F0A;--orange-tint:rgba(255,159,10,0.15);--red:#FF453A;--red-tint:rgba(255,69,58,0.15);
+  --yellow:#FFD60A;--yellow-tint:rgba(255,214,10,0.15);--purple:#BF5AF2;--purple-tint:rgba(191,90,242,0.15);
+  --teal:#5AC8FA;--teal-tint:rgba(90,200,250,0.15);--telegram:#2AABEE;--telegram-tint:rgba(42,171,238,0.15);
   --fill:rgba(255,255,255,0.08);--fill-2:rgba(255,255,255,0.05);
   --shadow-sm:0 2px 8px rgba(0,0,0,0.4);--shadow-md:0 4px 20px rgba(0,0,0,0.5);--shadow-lg:0 12px 48px rgba(0,0,0,0.6);
 }
 [data-theme="light"]{
-  --bg:***REMOVED***f2f2f7;--bg-elevated:***REMOVED***fff;--bg-elevated-2:***REMOVED***f2f2f7;--bg-elevated-3:***REMOVED***e5e5ea;
+  --bg:#f2f2f7;--bg-elevated:#fff;--bg-elevated-2:#f2f2f7;--bg-elevated-3:#e5e5ea;
   --glass-card:rgba(255,255,255,0.90);--glass-nav:rgba(242,242,247,0.90);--glass-tab:rgba(242,242,247,0.95);
   --sep:rgba(60,60,67,0.12);--sep-strong:rgba(60,60,67,0.22);
   --label:rgba(0,0,0,0.85);--label-2:rgba(60,60,67,0.60);--label-3:rgba(60,60,67,0.30);--label-4:rgba(60,60,67,0.18);
-  --blue:***REMOVED***007AFF;--blue-tint:rgba(0,122,255,0.12);--green:***REMOVED***34C759;--green-tint:rgba(52,199,89,0.12);
-  --orange:***REMOVED***FF9500;--orange-tint:rgba(255,149,0,0.12);--red:***REMOVED***FF3B30;--red-tint:rgba(255,59,48,0.12);
-  --yellow:***REMOVED***FFCC00;--yellow-tint:rgba(255,204,0,0.12);--purple:***REMOVED***AF52DE;--purple-tint:rgba(175,82,222,0.12);
-  --teal:***REMOVED***32ADE6;--teal-tint:rgba(50,173,230,0.12);--telegram:***REMOVED***0088CC;--telegram-tint:rgba(0,136,204,0.12);
+  --blue:#007AFF;--blue-tint:rgba(0,122,255,0.12);--green:#34C759;--green-tint:rgba(52,199,89,0.12);
+  --orange:#FF9500;--orange-tint:rgba(255,149,0,0.12);--red:#FF3B30;--red-tint:rgba(255,59,48,0.12);
+  --yellow:#FFCC00;--yellow-tint:rgba(255,204,0,0.12);--purple:#AF52DE;--purple-tint:rgba(175,82,222,0.12);
+  --teal:#32ADE6;--teal-tint:rgba(50,173,230,0.12);--telegram:#0088CC;--telegram-tint:rgba(0,136,204,0.12);
   --fill:rgba(120,120,128,0.12);--fill-2:rgba(120,120,128,0.08);
   --shadow-sm:0 2px 8px rgba(0,0,0,0.08);--shadow-md:0 4px 20px rgba(0,0,0,0.10);--shadow-lg:0 12px 48px rgba(0,0,0,0.12);
 }
@@ -137,14 +137,14 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:v
 .rule-name{font-size:var(--text-subh);font-weight:500;color:var(--label);flex:1}
 .rule-pattern{font-size:var(--text-xs);color:var(--label-3);font-family:monospace;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .toggle{width:36px;height:20px;border-radius:var(--radius-capsule);background:var(--fill);position:relative;cursor:pointer;transition:background var(--dur-std);flex-shrink:0}
-.toggle.on{background:var(--green)}.toggle::after{content:'';width:16px;height:16px;border-radius:50%;background:***REMOVED***fff;position:absolute;top:2px;left:2px;transition:transform var(--dur-std) var(--ease-spring);box-shadow:0 1px 3px rgba(0,0,0,0.3)}
+.toggle.on{background:var(--green)}.toggle::after{content:'';width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:transform var(--dur-std) var(--ease-spring);box-shadow:0 1px 3px rgba(0,0,0,0.3)}
 .toggle.on::after{transform:translateX(16px)}
 
 /* ── TASK ITEM ── */
 .task-item{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-md);background:var(--fill-3);margin-bottom:var(--sp-1);cursor:pointer;transition:background var(--dur-fast),transform var(--dur-fast)}
 .task-item:active{background:var(--fill);transform:translateX(2px)}
 .task-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--sep-strong);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;cursor:pointer}
-.task-item.done .task-check{background:var(--green);border-color:var(--green);color:***REMOVED***fff}
+.task-item.done .task-check{background:var(--green);border-color:var(--green);color:#fff}
 .task-text{flex:1;font-size:var(--text-subh);color:var(--label);font-weight:500}
 .task-item.done .task-text{color:var(--label-3);text-decoration:line-through}
 .task-area{font-size:var(--text-xs);color:var(--label-3);flex-shrink:0}
@@ -308,7 +308,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:v
       <!-- Rules -->
       <template x-for="r in rules" :key="r.id">
         <div class="rule-row">
-          <span class="rule-id" x-text="'***REMOVED***' + r.id"></span>
+          <span class="rule-id" x-text="'#' + r.id"></span>
           <span class="rule-name" x-text="r.note"></span>
           <code class="rule-pattern" x-text="r.pattern"></code>
           <span class="badge" :class="r.severity === 'BLOCK' ? 'badge-red' : 'badge-green'" x-text="r.severity" style="margin:0 var(--sp-2)"></span>
@@ -498,8 +498,8 @@ function ariaApp() {
       return m[cat] || 'rgba(90,200,250,0.15)';
     },
     catText(cat) {
-      const m = {person:'***REMOVED***BF5AF2', vehicle:'***REMOVED***0A84FF', faith:'***REMOVED***FFD60A', work:'***REMOVED***30D158'};
-      return m[cat] || '***REMOVED***5AC8FA';
+      const m = {person:'#BF5AF2', vehicle:'#0A84FF', faith:'#FFD60A', work:'#30D158'};
+      return m[cat] || '#5AC8FA';
     },
     catLabel(cat) {
       const m = {person:'人物', vehicle:'車輛', faith:'信仰', work:'工作'};

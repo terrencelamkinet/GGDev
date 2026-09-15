@@ -23,8 +23,8 @@ html {
 }
 
 body {
-  background-color: ***REMOVED***ffffff;
-  color: ***REMOVED***000000;
+  background-color: #ffffff;
+  color: #000000;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -39,12 +39,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: ***REMOVED***af52de;
+  color: #af52de;
   text-decoration: none;
   background-color: transparent;
 }
 a:hover { text-decoration: underline; }
-a:focus-visible { outline: 2px solid ***REMOVED***ff3b30; outline-offset: 2px; border-radius: 4px; }
+a:focus-visible { outline: 2px solid #ff3b30; outline-offset: 2px; border-radius: 4px; }
 
 img, picture, video, canvas, svg {
   display: block;
@@ -64,12 +64,12 @@ code, pre, kbd, samp {
 
 hr {
   border: 0;
-  border-top: 1px solid ***REMOVED***5856d6;
+  border-top: 1px solid #5856d6;
 }
 
 ::selection {
-  background: ***REMOVED***ff3b30;
-  color: ***REMOVED***ffffff;
+  background: #ff3b30;
+  color: #ffffff;
 }
 
 @media (prefers-reduced-motion: reduce) {

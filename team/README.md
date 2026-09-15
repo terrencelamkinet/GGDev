@@ -1,9 +1,9 @@
-***REMOVED*** Agent Team Directory — GG Multi-Agent System
+# Agent Team Directory — GG Multi-Agent System
 
-***REMOVED******REMOVED*** Overview
+## Overview
 呢個係 GG 三部機嘅 shared workspace，用 agent-team-orchestration 模式管理任務。
 
-***REMOVED******REMOVED*** Directory Structure
+## Directory Structure
 
 ```
 team/
@@ -15,7 +15,7 @@ team/
 └── reviews/         ← 跨機 review comments
 ```
 
-***REMOVED******REMOVED*** Task File Format
+## Task File Format
 
 每條 task 用 JSON 格式，跟 orchestrate.py 嘅 lifecycle：
 
@@ -35,7 +35,7 @@ team/
 }
 ```
 
-***REMOVED******REMOVED*** Task Lifecycle States
+## Task Lifecycle States
 
 ```
 Inbox ──→ Assigned ──→ In Progress ──→ Review ──→ Done
@@ -43,24 +43,24 @@ Inbox ──→ Assigned ──→ In Progress ──→ Review ──→ Done
                      └────── Failed ←─────────────┘
 ```
 
-***REMOVED******REMOVED*** Shared Artifacts Paths
+## Shared Artifacts Paths
 
 - GG-Work 產出 → `artifacts/work-{tid}.md`
 - GG-Person 產出 → `artifacts/person-{tid}.md`
 
-***REMOVED******REMOVED*** Decision Records
+## Decision Records
 
 `decisions/` 放重要決策，格式：
 - `YYYY-MM-DD_title.md`
 - 包含：decision, rationale, alternatives considered
 
-***REMOVED******REMOVED*** Review Workflow
+## Review Workflow
 
 - Builder 完成 task → status → `review`
 - Review 記錄寫入 `reviews/`
 - Orchestrator (main GG) 驗證 → pass: done, fail: back to assigned
 
-***REMOVED******REMOVED*** 連通
+## 連通
 
 - Main GG 直接存取本地 team/
 - GG-Work / GG-Person 通過 VM query ($quest) 存取

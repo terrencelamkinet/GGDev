@@ -1,6 +1,6 @@
-***REMOVED*** 🔐 Token & API Key 中央化規則
+# 🔐 Token & API Key 中央化規則
 
-***REMOVED******REMOVED*** 鐵則
+## 鐵則
 **所有 token / API key / secret / password 一律只存於 `~/.hermes/.env`（permission 600）**
 
 嚴禁：
@@ -9,9 +9,9 @@
 - ❌ 放喺 script 嘅 comment / docstring
 - ❌ 喺任何 backup 出現（已 revoke 嘅除外）
 
-***REMOVED******REMOVED*** 點樣讀 token
+## 點樣讀 token
 
-***REMOVED******REMOVED******REMOVED*** Python
+### Python
 ```python
 def get_token(name):
     env_path = os.path.expanduser("~/.hermes/.env")
@@ -22,13 +22,13 @@ def get_token(name):
     return ""
 ```
 
-***REMOVED******REMOVED******REMOVED*** Shell
+### Shell
 ```bash
 source ~/.hermes/.env
 echo $TELEGRAM_BOT_TOKEN
 ```
 
-***REMOVED******REMOVED*** 目前中央化 token list
+## 目前中央化 token list
 
 | Token Name | 用途 | 位置 |
 |------------|------|------|
@@ -41,14 +41,14 @@ echo $TELEGRAM_BOT_TOKEN
 | `GITHUB_TOKEN` | Git push to DO | `.git-credentials` (600) |
 | `SILICONFLOW_API_KEY` | Vision AI API | `.env` |
 
-***REMOVED******REMOVED*** Audit 檢查
+## Audit 檢查
 每次自我審計檢查：
 1. 所有 script 冇 hardcode token
 2. `.env` permission = 600
 3. `.env` 唔喺 git repo 入面
 4. git remote 冇 embed token
 
-***REMOVED******REMOVED*** 紧急 revoke 流程
+## 紧急 revoke 流程
 1. Bot token 洩露 → BotFather `/token` revoke
 2. Google API key → Google Cloud Console
 3. GitHub token → GitHub Settings

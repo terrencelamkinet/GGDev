@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 KONG_IMAGE="${KONG_IMAGE:-kong/kong-gateway:3.14}"

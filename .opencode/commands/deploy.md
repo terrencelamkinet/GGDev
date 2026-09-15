@@ -1,21 +1,21 @@
-***REMOVED*** /deploy
+# /deploy
 
 Deploy the project to Mac Mini via rsync, then restart services.
 
-***REMOVED******REMOVED*** Usage
+## Usage
 ```
 /deploy [target]
 ```
 
-***REMOVED******REMOVED*** Targets
+## Targets
 - `dashboard` — Deploy gg-dashboard only
 - `all` — Deploy entire ggdev-repo (default)
 - `frontend` — Deploy frontend assets only
 
-***REMOVED******REMOVED*** Implementation
+## Implementation
 ```bash
-***REMOVED***!/bin/bash
-***REMOVED*** Deploy GGDev project to Mac Mini
+#!/bin/bash
+# Deploy GGDev project to Mac Mini
 set -e
 
 TARGET="${1:-all}"

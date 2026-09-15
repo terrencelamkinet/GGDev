@@ -21,7 +21,7 @@
     <div style="background:var(--secondary-background);border-radius:10px;padding:4px 12px;display:flex;gap:8px;align-items:center">
       <input id="researchInput" type="text" placeholder="Ask Perplexity..." onkeydown="if(event.key==='Enter') runResearch()" style="flex:1;border:none;background:transparent;padding:10px 4px;font-size:17px;outline:none;color:var(--label)">
       <button id="researchDeepBtn" onclick="toggleDeep()" style="background:var(--fill);border:none;border-radius:8px;padding:8px 12px;min-height:44px;cursor:pointer;font-size:13px;font-weight:500;color:var(--secondary-label);white-space:nowrap">Quick</button>
-      <button id="researchBtn" onclick="runResearch()" style="background:var(--accent);border:none;border-radius:8px;padding:8px 16px;min-height:44px;cursor:pointer;font-size:15px;font-weight:500;color:***REMOVED***fff;white-space:nowrap">Search</button>
+      <button id="researchBtn" onclick="runResearch()" style="background:var(--accent);border:none;border-radius:8px;padding:8px 16px;min-height:44px;cursor:pointer;font-size:15px;font-weight:500;color:#fff;white-space:nowrap">Search</button>
     </div>
     <div id="researchStatus" style="font-size:13px;color:var(--secondary-label);margin-top:8px;display:none"></div>
   </div>
@@ -55,11 +55,11 @@
 
 <!-- iOS Tab Bar -->
 <nav class="ios-tab-bar">
-  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg***REMOVED***icon-house"/></svg><span>Home</span></a>
-  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg***REMOVED***icon-list"/></svg><span>Tasks</span></a>
-  <a href="/intel" class="ios-tab active"><svg role="img" aria-label="Intel"><use href="/static/icons.svg***REMOVED***icon-brain"/></svg><span>Intel</span></a>
-  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg***REMOVED***icon-server"/></svg><span>Agents</span></a>
-  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg***REMOVED***icon-user"/></svg><span>Profile</span></a>
+  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab active"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
 </nav>
 </div>
 
@@ -70,7 +70,7 @@ function toggleDeep(){
   var btn = document.getElementById('researchDeepBtn');
   btn.textContent = researchMode === 'deep' ? 'Deep' : 'Quick';
   btn.style.background = researchMode === 'deep' ? 'var(--gold)' : 'var(--fill)';
-  btn.style.color = researchMode === 'deep' ? '***REMOVED***000' : 'var(--secondary-label)';
+  btn.style.color = researchMode === 'deep' ? '#000' : 'var(--secondary-label)';
 }
 function runResearch(){
   var input = document.getElementById('researchInput');
@@ -177,7 +177,7 @@ function loadInsights(){
   }).catch(function(){});
 }
 
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&***REMOVED***60;').replace(/>/g,'&***REMOVED***62;').replace(/\n/g,'<br>')}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;').replace(/\n/g,'<br>')}
 
 loadInsights();
 </script>

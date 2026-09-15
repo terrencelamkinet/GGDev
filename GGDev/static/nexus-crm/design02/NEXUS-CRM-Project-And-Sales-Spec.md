@@ -1,12 +1,12 @@
-***REMOVED*** NEXUS CRM — Project & Sales Module Spec
+# NEXUS CRM — Project & Sales Module Spec
 
 For AI to build Project Details page + Sales module into design02 (Ivory Edition).
 
 ---
 
-***REMOVED******REMOVED*** 1. New Entity: Project
+## 1. New Entity: Project
 
-***REMOVED******REMOVED******REMOVED*** 1.1 Field List
+### 1.1 Field List
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -30,7 +30,7 @@ For AI to build Project Details page + Sales module into design02 (Ivory Edition
 | created_at | date | auto |
 | updated_at | date | auto |
 
-***REMOVED******REMOVED******REMOVED*** 1.2 Sample Data
+### 1.2 Sample Data
 
 ```javascript
 projects: [
@@ -70,7 +70,7 @@ projects: [
 ]
 ```
 
-***REMOVED******REMOVED******REMOVED*** 1.3 Relationships
+### 1.3 Relationships
 
 ```
 Project ──belongs_to──> Company
@@ -80,7 +80,7 @@ Project ──belongs_to──> Deal (linked opportunity, optional)
 Project ──belongs_to──> TeamMember (owner)
 ```
 
-***REMOVED******REMOVED******REMOVED*** 1.4 API Contract (GET / POST / PUT)
+### 1.4 API Contract (GET / POST / PUT)
 
 ```
 GET /api/projects          → { projects: Project[] }
@@ -90,7 +90,7 @@ PUT /api/projects/:id      → body: partial Project
 DELETE /api/projects/:id   → { ok: true }
 ```
 
-***REMOVED******REMOVED******REMOVED*** 1.5 Project Detail Page UI Sections
+### 1.5 Project Detail Page UI Sections
 
 | Section | Content |
 |---------|---------|
@@ -105,9 +105,9 @@ DELETE /api/projects/:id   → { ok: true }
 
 ---
 
-***REMOVED******REMOVED*** 2. Sales Module — Team Management
+## 2. Sales Module — Team Management
 
-***REMOVED******REMOVED******REMOVED*** 2.1 New Entity: TeamMember
+### 2.1 New Entity: TeamMember
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -126,7 +126,7 @@ DELETE /api/projects/:id   → { ok: true }
 | quota_yearly | string | e.g. "$2,400,000" |
 | personal_notes | text | |
 
-***REMOVED******REMOVED******REMOVED*** 2.2 New Entity: SalesTarget
+### 2.2 New Entity: SalesTarget
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -139,7 +139,7 @@ DELETE /api/projects/:id   → { ok: true }
 | closed_deals | int | count |
 | avg_deal_size | string | auto-calc |
 
-***REMOVED******REMOVED******REMOVED*** 2.3 Relations
+### 2.3 Relations
 
 ```
 TeamMember ──has_many──> Deal (via owner field)
@@ -148,7 +148,7 @@ TeamMember ──has_many──> SalesTarget
 TeamMember ──belongs_to──> TeamMember (manager, self-ref)
 ```
 
-***REMOVED******REMOVED******REMOVED*** 2.4 Sample Data
+### 2.4 Sample Data
 
 ```javascript
 team: [
@@ -163,14 +163,14 @@ sales_targets: [
 ]
 ```
 
-***REMOVED******REMOVED******REMOVED*** 2.5 Sales Module Pages
+### 2.5 Sales Module Pages
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** 2.5.1 Team List (table)
+#### 2.5.1 Team List (table)
 
 Columns: Name, Role, Territory, Monthly Quota, Achieved%, Manager, Status
 Filters: Role, Territory, Status
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** 2.5.2 Team Member Detail
+#### 2.5.2 Team Member Detail
 
 Sections:
 - Profile card: avatar, name, role, contact info, manager
@@ -179,7 +179,7 @@ Sections:
 - Projects: linked projects (table filtered by owner)
 - Touchpoints: timeline filtered by member name
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** 2.5.3 Sales Dashboard (new page)
+#### 2.5.3 Sales Dashboard (new page)
 
 Cards:
 - **Team performance**: ranking table (who's closest to quota)
@@ -187,7 +187,7 @@ Cards:
 - **Territory breakdown**: deals by territory
 - **Team activity**: recent touchpoints across all team members
 
-***REMOVED******REMOVED******REMOVED*** 2.6 Additional Deals Fields
+### 2.6 Additional Deals Fields
 
 Add to existing Deal entity (in `D.deals`):
 
@@ -205,7 +205,7 @@ Add to existing Deal entity (in `D.deals`):
 }
 ```
 
-***REMOVED******REMOVED******REMOVED*** 2.7 API Contract (Sales)
+### 2.7 API Contract (Sales)
 
 ```
 GET /api/team              → { team: TeamMember[] }
@@ -219,7 +219,7 @@ GET /api/sales/dashboard   → { ranking, pipeline_total, win_rate, territory_br
 
 ---
 
-***REMOVED******REMOVED*** 3. Integration: How Projects Connect Everything
+## 3. Integration: How Projects Connect Everything
 
 ```
                       ┌─────────────┐
@@ -247,7 +247,7 @@ GET /api/sales/dashboard   → { ranking, pipeline_total, win_rate, territory_br
 
 ---
 
-***REMOVED******REMOVED*** 4. Implementation Notes for AI
+## 4. Implementation Notes for AI
 
 1. **Add to existing `D` object** — insert `projects`, `team`, `sales_targets` alongside existing `contacts`, `companies`, `deals`, `tasks`, `touchpoints`
 2. **Hash routing** — add `projects`, `project-detail/:id`, `team`, `team-detail/:id`, `sales-dashboard` to `pages` object

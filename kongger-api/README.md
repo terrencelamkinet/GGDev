@@ -1,10 +1,10 @@
-***REMOVED*** KONGGER API
+# KONGGER API
 
 **Social Platform Backend** — a sellable, white-label API product.
 
 A PostgreSQL-backed REST API for social networking platforms. Includes user authentication, profile management, social feed, canvas pages, neighbour graph, virtual gifts, and waitlist management.
 
-***REMOVED******REMOVED*** Product Features
+## Product Features
 
 - **Modular API** — 30+ REST endpoints across 7 domains
 - **Row-Level Security** — data isolation baked into the database
@@ -12,17 +12,17 @@ A PostgreSQL-backed REST API for social networking platforms. Includes user auth
 - **Optimistic UI Support** — client-side caching + debounced writes
 - **Auto-scaling** — connection pooling, rate limiting, materialized views
 
-***REMOVED******REMOVED*** Quick Start
+## Quick Start
 
 ```bash
 npm install
-cp .env.example .env   ***REMOVED*** Edit PG_CONNECTION_STRING and JWT_SECRET
-npm run db:init         ***REMOVED*** Creates all tables, indexes, RLS policies
-npm run db:seed         ***REMOVED*** Optional: development seed data
-npm start               ***REMOVED*** API starts on PORT (default 3001)
+cp .env.example .env   # Edit PG_CONNECTION_STRING and JWT_SECRET
+npm run db:init         # Creates all tables, indexes, RLS policies
+npm run db:seed         # Optional: development seed data
+npm start               # API starts on PORT (default 3001)
 ```
 
-***REMOVED******REMOVED*** Sellable As
+## Sellable As
 
 | Package | Contents | For |
 |---------|----------|-----|
@@ -30,7 +30,7 @@ npm start               ***REMOVED*** API starts on PORT (default 3001)
 | **kongger-web** | HTML/JS frontend + db-client.js | Clients who need frontend template |
 | **kongger-stack** | Both + Docker Compose | Full-platform deployment |
 
-***REMOVED******REMOVED*** API Endpoints
+## API Endpoints
 
 ```
 GET    /health                          Health check
@@ -73,7 +73,7 @@ PATCH  /api/v1/notifications/read-all    Mark all read
 POST   /api/v1/waitlist                  Join waitlist
 ```
 
-***REMOVED******REMOVED*** Configuration (all via `.env`)
+## Configuration (all via `.env`)
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
@@ -82,20 +82,20 @@ POST   /api/v1/waitlist                  Join waitlist
 | `PORT` | | 3001 | HTTP listen port |
 | `ALLOWED_ORIGIN` | | `*` | CORS allowed origins |
 
-***REMOVED******REMOVED*** Deployment
+## Deployment
 
 ```bash
-***REMOVED*** Standalone
+# Standalone
 node server.js
 
-***REMOVED*** Docker
+# Docker
 docker compose up -d
 
-***REMOVED*** Production (nginx reverse proxy)
-***REMOVED*** See nginx.conf for reference
+# Production (nginx reverse proxy)
+# See nginx.conf for reference
 ```
 
-***REMOVED******REMOVED*** Migration Path
+## Migration Path
 
 - **App**: Replace `db-client.js` with Flutter Repository / React Native Zustand
 - **Database**: Schema is Supabase-compatible. Replace direct PG with `supabase.from().select()`

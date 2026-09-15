@@ -1,10 +1,10 @@
-***REMOVED*** NEXUS CRM — Meetings Module Layout Design (White Edition)
+# NEXUS CRM — Meetings Module Layout Design (White Edition)
 
 For AI to build Meetings List + Meeting Detail pages into `nexus-crm-app-white.html`.
 
 ---
 
-***REMOVED******REMOVED*** 1. New Data: `D.meetings`
+## 1. New Data: `D.meetings`
 
 Add to `const D = { ... }`:
 
@@ -130,7 +130,7 @@ meetings:[
 
 ---
 
-***REMOVED******REMOVED*** 2. Add to Sidebar Nav
+## 2. Add to Sidebar Nav
 
 Insert after "Touchpoints" nav item, before "NameCards":
 
@@ -150,9 +150,9 @@ Icon: calendar-check style (rectangle with tick or clock).
 
 ---
 
-***REMOVED******REMOVED*** 3. Meetings List Page (`***REMOVED***meetings`)
+## 3. Meetings List Page (`#meetings`)
 
-***REMOVED******REMOVED******REMOVED*** 3.1 Layout
+### 3.1 Layout
 
 ```
 Breadcrumb: Workspace / Meetings
@@ -171,7 +171,7 @@ Today tab — meetings with date === today.
 Past tab — completed/past meetings.
 ```
 
-***REMOVED******REMOVED******REMOVED*** 3.2 Meeting Cards (not table — card-based for meetings)
+### 3.2 Meeting Cards (not table — card-based for meetings)
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -196,7 +196,7 @@ Past tab — completed/past meetings.
 └────────────────────────────────────────────────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED*** 3.3 Color/Icon by Meeting Type
+### 3.3 Color/Icon by Meeting Type
 
 | Type | Icon | Badge color | Dot |
 |------|------|:-----------:|:---:|
@@ -208,7 +208,7 @@ Past tab — completed/past meetings.
 | call | 📞 | `--color-success` | 🟢 |
 | vendor | 🏢 | `--color-blue` | 🔵 |
 
-***REMOVED******REMOVED******REMOVED*** 3.4 Sorting
+### 3.4 Sorting
 
 - Upcoming tab: by date ASC (nearest first)
 - Today tab: by start time ASC
@@ -216,9 +216,9 @@ Past tab — completed/past meetings.
 
 ---
 
-***REMOVED******REMOVED*** 4. Meeting Detail Page (`***REMOVED***meeting-detail/:id`)
+## 4. Meeting Detail Page (`#meeting-detail/:id`)
 
-***REMOVED******REMOVED******REMOVED*** 4.1 Layout (two-column, 60/40)
+### 4.1 Layout (two-column, 60/40)
 
 ```
 Breadcrumb: Workspace / Meetings / {Meeting Title}
@@ -256,7 +256,7 @@ Layout:
 │ │   spec sheet       │  │ │ │    Holdings   │ │
 │ └────────────────────┘  │ │ │ 📊 Storage    │ │
 │                          │ │ │    Refresh Q3 │ │
-│ Section: Notes           │ │ │ 📋 Project ***REMOVED***1 │ │
+│ Section: Notes           │ │ │ 📋 Project #1 │ │
 │ ┌────────────────────┐  │ │ └───────────────┘ │
 │ │ Editable textarea  │  │ │                   │
 │ │ "Bring latest      │  │ │ Panel: Tasks      │ │
@@ -279,7 +279,7 @@ Layout:
 └──────────────────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED*** 4.2 Brief Card (7 dimensions)
+### 4.2 Brief Card (7 dimensions)
 
 Inside the Summary section, a styled card:
 
@@ -310,7 +310,7 @@ Inside the Summary section, a styled card:
 └───────────────────────────────────┘
 ```
 
-***REMOVED******REMOVED******REMOVED*** 4.3 Status Bar Components
+### 4.3 Status Bar Components
 
 **Upcoming meeting (within 24h):**
 ```
@@ -338,7 +338,7 @@ Inside the Summary section, a styled card:
 
 ---
 
-***REMOVED******REMOVED*** 5. Meeting Status/Type Badge Functions
+## 5. Meeting Status/Type Badge Functions
 
 Add alongside existing `stageBadge()` / `roleBadge()`:
 
@@ -376,7 +376,7 @@ function meetingIcon(t) {
 
 ---
 
-***REMOVED******REMOVED*** 6. Update Dashboard
+## 6. Update Dashboard
 
 Replace hardcoded "Today's meetings" section in `dashboard()` to read from `D.meetings`:
 
@@ -396,7 +396,7 @@ Also update weekly grid `weekEvents` to read from meetings data when available.
 
 ---
 
-***REMOVED******REMOVED*** 7. Router Update
+## 7. Router Update
 
 ```javascript
 'meeting-detail'(id){
@@ -417,7 +417,7 @@ Already handles `meeting-detail/:id` ✓
 
 ---
 
-***REMOVED******REMOVED*** 8. Desktop Safeguards
+## 8. Desktop Safeguards
 
 - Meeting list: cards layout (not table) — works on all screen sizes
 - Detail page: `grid-template-columns: 1fr 380px` (same as project-detail / contact-detail)

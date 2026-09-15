@@ -9,17 +9,17 @@ metadata:
     user-invocable: true
 ---
 
-***REMOVED*** Agent Brain 🧠
+# Agent Brain 🧠
 
 **Teach your AI once. It remembers forever. It gets smarter over time.**
 
 Agent Brain is a modular memory system for AI agents with continuous learning. It stores facts, catches contradictions, learns your habits, ingests external knowledge, tracks what works, learns from mistakes, and adapts to your tone — all in a local SQLite database with real persistence, full-text search, and pluggable storage backends.
 
-***REMOVED******REMOVED******REMOVED*** Why this exists
+### Why this exists
 
 Every AI conversation starts from zero. You repeat yourself. It forgets what you taught it. Agent Brain fixes that with a working persistence layer (`scripts/memory.sh`) and six cognitive modules that the agent selectively invokes based on what the task actually needs.
 
-***REMOVED******REMOVED******REMOVED*** What makes this different
+### What makes this different
 
 - **Production-grade storage.** SQLite with WAL mode and indexed queries. Handles 10,000+ entries without breaking a sweat. JSON backend available as fallback.
 - **Pluggable backends.** Storage abstraction layer means you can swap SQLite for Postgres, Supabase, or any other backend — the command interface stays the same.
@@ -31,7 +31,7 @@ Every AI conversation starts from zero. You repeat yourself. It forgets what you
 - **Supersede, don't delete.** Old facts aren't destroyed. They're marked `superseded_by` with a pointer to the replacement, preserving full history.
 - **Decay is mechanical.** Entries scale their decay threshold by access count. Heavily-used knowledge persists longer. Unused knowledge fades.
 
-***REMOVED******REMOVED*** Architecture
+## Architecture
 
 Six modules, one orchestrator, pluggable storage.
 
@@ -61,9 +61,9 @@ Six modules, one orchestrator, pluggable storage.
                 └──────────────────┘
 ```
 
-***REMOVED******REMOVED*** How It Works
+## How It Works
 
-***REMOVED******REMOVED******REMOVED*** Per-Message Flow
+### Per-Message Flow
 
 On EVERY user message, the agent runs this sequence:
 
@@ -99,8 +99,8 @@ See the **Archive module** (`modules/archive/SKILL.md`) for signal patterns, cat
 
 ```bash
 ./scripts/memory.sh conflicts "<content to store>"
-***REMOVED*** If NO_CONFLICTS → proceed with add
-***REMOVED*** If POTENTIAL_CONFLICTS → ask user to clarify, or supersede old entry
+# If NO_CONFLICTS → proceed with add
+# If POTENTIAL_CONFLICTS → ask user to clarify, or supersede old entry
 ./scripts/memory.sh add <type> "<content>" <source> "<tags>"
 ```
 
@@ -111,14 +111,14 @@ Extraction is silent — never announce "I'm storing this."
 **Step 4: LEARN** — If the user corrects you or confirms something worked, record it:
 
 ```bash
-***REMOVED*** User says "that's wrong, it's actually X"
+# User says "that's wrong, it's actually X"
 ./scripts/memory.sh correct <wrong_id> "<right content>" "<reason>"
 
-***REMOVED*** User says "that worked great"
+# User says "that worked great"
 ./scripts/memory.sh success <id>
 ```
 
-***REMOVED******REMOVED******REMOVED*** Full Example
+### Full Example
 
 **User message**: "Can you update the database migration? We use Prisma with PostgreSQL."
 
@@ -150,7 +150,7 @@ Agent thinks:
 
 3. **RESPOND**: Acknowledge the switch, adjust advice to use Drizzle.
 
-***REMOVED******REMOVED******REMOVED*** Selective Dispatch
+### Selective Dispatch
 
 Not every task needs every module. The orchestrator classifies the task and
 calls only what's relevant:
@@ -167,7 +167,7 @@ calls only what's relevant:
 | Record what worked | Archive (success) |
 | Review memory health | Archive (reflect) |
 
-***REMOVED******REMOVED******REMOVED*** Persistence
+### Persistence
 
 Memory lives in `memory/memory.db` (SQLite, default) or `memory/memory.json` (legacy).
 All operations go through `scripts/memory.sh` → `scripts/brain.py` with a pluggable
@@ -199,7 +199,7 @@ The SQLite backend uses WAL mode for concurrent reads, indexes on type/confidenc
 and handles 10,000+ entries with sub-100ms latency. Existing `memory.json` files are
 automatically migrated to SQLite on first run (original backed up as `memory.json.bak`).
 
-***REMOVED******REMOVED******REMOVED*** Confidence
+### Confidence
 
 No fake numeric scores. Four categories derived from entry metadata:
 - **SURE**: Well-established fact, stated multiple times or 3+ successes
@@ -207,7 +207,7 @@ No fake numeric scores. Four categories derived from entry metadata:
 - **UNCERTAIN**: Inferred, not directly stated
 - **UNKNOWN**: No relevant memory exists
 
-***REMOVED******REMOVED******REMOVED*** Retrieval
+### Retrieval
 
 Results are ranked by a hybrid formula:
 - Keyword match (40%) — meaningful words, stopwords filtered
@@ -219,7 +219,7 @@ Results are ranked by a hybrid formula:
 
 Retrieved entries are automatically marked as accessed (no manual `touch` needed).
 
-***REMOVED******REMOVED******REMOVED*** Continuous Learning
+### Continuous Learning
 
 The learning loop has three signals:
 
@@ -227,11 +227,11 @@ The learning loop has three signals:
 2. **Successes** (`success`): When a memory is applied successfully, record it. At 3+ successes, confidence auto-upgrades to SURE.
 3. **Patterns** (`similar`): The agent can manually check for 3+ similar entries and create `pattern` entries. Anti-pattern detection after 3+ corrections on the same tag IS automatic.
 
-***REMOVED******REMOVED*** Storage
+## Storage
 
 Default: `memory/memory.db` (SQLite). Legacy: `memory/memory.json`.
 
-***REMOVED******REMOVED******REMOVED*** Entry Schema
+### Entry Schema
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -252,7 +252,7 @@ Default: `memory/memory.db` (SQLite). Legacy: `memory/memory.json`.
 | `success_count` | int | Times successfully applied |
 | `correction_meta` | object? | For corrections: `wrong_entry_id`, `wrong_claim`, `right_claim`, `reason` |
 
-***REMOVED******REMOVED******REMOVED*** Meta Fields
+### Meta Fields
 
 | Key | Description |
 |-----|-------------|
@@ -261,7 +261,7 @@ Default: `memory/memory.db` (SQLite). Legacy: `memory/memory.json`.
 | `session_counter` | Auto-incrementing session ID |
 | `current_session` | Active session (id, context, started) |
 
-***REMOVED******REMOVED******REMOVED*** Decay
+### Decay
 
 Decay threshold scales with access count: `30 * (1 + access_count)` days.
 - An entry accessed once decays after 60 days
@@ -270,17 +270,17 @@ Decay threshold scales with access count: `30 * (1 + access_count)` days.
 
 Decay runs automatically during `get` and `add` operations (24-hour cooldown).
 
-***REMOVED******REMOVED******REMOVED*** Tags
+### Tags
 
 Tags support dot notation for namespacing: `code.python`, `style.tone`, `workflow.git`.
 Search for `code` matches both `code.python` and `code.typescript`.
 Use `./scripts/memory.sh tags` to view the tag hierarchy.
 
-***REMOVED******REMOVED*** Natural Language → Commands
+## Natural Language → Commands
 
 These are examples of what users might say and the commands the agent should run:
 
-***REMOVED******REMOVED******REMOVED*** Core
+### Core
 ```
 "Remember: <fact>"              → add fact "<content>" user "<tags>"
 "What do you know about X?"     → get "<topic>" --policy balanced
@@ -289,7 +289,7 @@ These are examples of what users might say and the commands the agent should run
 "Show all memories"             → export
 ```
 
-***REMOVED******REMOVED******REMOVED*** Learning
+### Learning
 ```
 "That's wrong, it's actually Y" → correct <wrong_id> "<right>" "<reason>"
 "That worked well"               → success <id>
@@ -297,7 +297,7 @@ These are examples of what users might say and the commands the agent should run
 "Any anti-patterns?"             → list anti-pattern
 ```
 
-***REMOVED******REMOVED******REMOVED*** Meta
+### Meta
 ```
 "Check for conflicts"           → conflicts "<content>"
 "Memory health?"                → reflect
@@ -305,12 +305,12 @@ These are examples of what users might say and the commands the agent should run
 "What happened recently?"       → log
 ```
 
-***REMOVED******REMOVED******REMOVED*** Sessions
+### Sessions
 ```
 "Start session: Frontend work"  → session "Frontend work"
 ```
 
-***REMOVED******REMOVED*** Modules
+## Modules
 
 Each module has its own SKILL.md in `modules/`:
 
@@ -326,7 +326,7 @@ Each module has its own SKILL.md in `modules/`:
 **Code** = implemented in `scripts/brain.py` with actual commands.
 **Guideline** = behavioral instructions for the agent — no dedicated code, the agent follows these using core commands (`add`, `get`, `conflicts`, `similar`, etc.).
 
-***REMOVED******REMOVED*** Security
+## Security
 
 - **Local-first by default.** All data is written to `memory/memory.db` first
 - **Optional cloud mirror.** SuperMemory sync is best-effort and can be disabled (`AGENT_BRAIN_SUPERMEMORY_SYNC=off`)
