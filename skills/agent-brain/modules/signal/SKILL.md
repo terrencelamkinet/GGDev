@@ -1,10 +1,10 @@
-***REMOVED*** Signal Memory ⚡
+# Signal Memory ⚡
 
 **Status:** 📋 Agent Guideline | **Module:** signal | **Part of:** Agent Brain
 
 Conflict detection. The agent SHOULD call `conflicts` before storing new facts — this is a manual step, not automatic.
 
-***REMOVED******REMOVED*** When to Run Signal
+# # When to Run Signal
 
 Signal is NOT automatic. The agent must explicitly call it:
 
@@ -12,14 +12,14 @@ Signal is NOT automatic. The agent must explicitly call it:
 2. **On-demand**: User asks "check for conflicts" or "anything inconsistent?"
 
 ```bash
-***REMOVED*** Before adding any new entry:
+# Before adding any new entry:
 ./scripts/memory.sh conflicts "User prefers Python for data work"
 
-***REMOVED*** If NO_CONFLICTS → proceed with add
-***REMOVED*** If POTENTIAL_CONFLICTS → ask user or supersede
+# If NO_CONFLICTS → proceed with add
+# If POTENTIAL_CONFLICTS → ask user or supersede
 ```
 
-***REMOVED******REMOVED*** How Conflict Detection Works
+# # How Conflict Detection Works
 
 The engine filters out common stopwords (I, the, is, etc.) and compares meaningful words between the new content and existing entries. A potential conflict requires:
 
@@ -28,16 +28,16 @@ The engine filters out common stopwords (I, the, is, etc.) and compares meaningf
 
 This prevents false positives like "I like Python" vs "Python is a snake" (different context, only 1 meaningful word overlap after filtering "I", "is", "a").
 
-***REMOVED******REMOVED*** Conflict Types
+# # Conflict Types
 
-***REMOVED******REMOVED******REMOVED*** Direct Contradiction
+# ## Direct Contradiction
 ```
 Existing: "User prefers TypeScript"
 New:      "User prefers Python"
 → Ask: "Previously you said you prefer TypeScript. Has that changed?"
 ```
 
-***REMOVED******REMOVED******REMOVED*** Temporal Update
+# ## Temporal Update
 ```
 Existing: "Alex works at CompanyA"
 New:      "Alex works at CompanyB"
@@ -45,7 +45,7 @@ New:      "Alex works at CompanyB"
 → Run: ./scripts/memory.sh supersede <old_id> <new_id>
 ```
 
-***REMOVED******REMOVED******REMOVED*** Context-Dependent
+# ## Context-Dependent
 ```
 Existing: "Use short responses"
 New:      "Give me detailed analysis"
@@ -55,7 +55,7 @@ New:      "Give me detailed analysis"
   ./scripts/memory.sh add preference "Detailed analysis" user "style" "" "research tasks"
 ```
 
-***REMOVED******REMOVED*** Detection Flow
+# # Detection Flow
 
 ```
 New content arrives
@@ -72,9 +72,9 @@ New content arrives
               └── Different context? → Store both with context field
 ```
 
-***REMOVED******REMOVED*** Response Templates
+# # Response Templates
 
-***REMOVED******REMOVED******REMOVED*** Contradiction Found
+# ## Contradiction Found
 ```
 "I have something that might conflict with this:
  - Previously: [old claim]
@@ -82,13 +82,13 @@ New content arrives
  Should I update, or are both true in different contexts?"
 ```
 
-***REMOVED******REMOVED******REMOVED*** User Corrects You
+# ## User Corrects You
 ```
 "Got it, tracking that correction."
 → ./scripts/memory.sh correct <old_id> "<new_content>" "<reason>"
 ```
 
-***REMOVED******REMOVED*** What Signal Does NOT Do
+# # What Signal Does NOT Do
 
 - Run automatically before stores (agent must call it manually)
 - Monitor "tone shifts" (that's Vibe guidelines)
@@ -96,7 +96,7 @@ New content arrives
 - Run continuously in the background
 - Detect "implicit" conflicts from silence or repeated questions
 
-***REMOVED******REMOVED*** Integration
+# # Integration
 
 - **Archive**: Agent should call `conflicts` before `add` (not automatic)
 - **Gauge**: Conflicts may warrant downgrading confidence to UNCERTAIN

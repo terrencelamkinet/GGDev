@@ -1,4 +1,4 @@
-***REMOVED*** scripts/molt_task.py - Core Agent Task Management Class
+# scripts/molt_task.py - Core Agent Task Management Class
 
 from pathlib import Path
 import json
@@ -52,18 +52,18 @@ class AgentTask:
         self._save_state()
         print(f"Task '{self.task_name}' status updated to: {new_status}")
 
-***REMOVED*** Example Usage (for testing the module)
+# Example Usage (for testing the module)
 if __name__ == "__main__":
     auditor_task = AgentTask("MFA_SHIPYARD_AUDIT")
     auditor_task.update_status("CONTRACT_CHECKED", {"contract_score": 50})
     
-    ***REMOVED*** Simulate an external dependency being blocked
+    # Simulate an external dependency being blocked
     state = auditor_task.get_task_state()
     if state["status"] == "CONTRACT_CHECKED":
-        ***REMOVED*** Financial Check would run here
+        # Financial Check would run here
         auditor_task.update_status("COMPLETE", {"final_score": 10, "whale_percent": 18.14})
         
     print(auditor_task.get_task_state())
     
-    ***REMOVED*** Test cleanup
-    ***REMOVED*** Path('task_state.json').unlink() ***REMOVED*** Uncomment for fresh start
+    # Test cleanup
+    # Path('task_state.json').unlink() # Uncomment for fresh start

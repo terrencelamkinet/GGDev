@@ -1,10 +1,10 @@
-***REMOVED***!/bin/bash
-***REMOVED*** test_memory.sh — Comprehensive test suite for Agent Brain v4
-***REMOVED*** Run: ./scripts/test_memory.sh
-***REMOVED***
-***REMOVED*** Tests all commands, edge cases, and integration flows.
-***REMOVED*** Outputs PASS/FAIL for each test with a summary at the end.
-***REMOVED*** Works with both sqlite and json backends.
+#!!/bin/bash
+# test_memory.sh — Comprehensive test suite for Agent Brain v4
+# Run: ./scripts/test_memory.sh
+# 
+# Tests all commands, edge cases, and integration flows.
+# Outputs PASS/FAIL for each test with a summary at the end.
+# Works with both sqlite and json backends.
 
 set -uo pipefail
 
@@ -18,7 +18,7 @@ BACKUP_JSON="$MEMORY_DIR/memory.backup.json"
 BACKUP_JSON_BAK="$MEMORY_DIR/memory.json.bak.backup"
 export AGENT_BRAIN_SUPERMEMORY_SYNC="${AGENT_BRAIN_SUPERMEMORY_SYNC:-off}"
 
-***REMOVED*** --- Test Framework ---
+# --- Test Framework ---
 
 PASS_COUNT=0
 FAIL_COUNT=0
@@ -68,7 +68,7 @@ assert_exit_code() {
   fi
 }
 
-***REMOVED*** Assert a field value from exported JSON
+# Assert a field value from exported JSON
 assert_export_field() {
   local query="$1"
   local expected="$2"
@@ -87,17 +87,17 @@ print(result)
   fi
 }
 
-***REMOVED*** Extract entry ID from "Added: <uuid> (type)" output
+# Extract entry ID from "Added: <uuid> (type)" output
 extract_id() {
   echo "$1" | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1
 }
 
-***REMOVED*** Extract the NEW id from "Corrected: <old> -> <new>" output
+# Extract the NEW id from "Corrected: <old> -> <new>" output
 extract_new_id() {
   echo "$1" | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | tail -1
 }
 
-***REMOVED*** Read a field from a specific entry by ID (via export)
+# Read a field from a specific entry by ID (via export)
 read_entry_field() {
   local entry_id="$1"
   local field="$2"
@@ -115,7 +115,7 @@ for e in d['entries']:
 " "$entry_id" "$field" 2>&1
 }
 
-***REMOVED*** Read a nested field from correction_meta (via export)
+# Read a nested field from correction_meta (via export)
 read_correction_field() {
   local entry_id="$1"
   local sub_field="$2"
@@ -130,7 +130,7 @@ for e in d['entries']:
 " "$entry_id" "$sub_field" 2>&1
 }
 
-***REMOVED*** Back up and restore memory (handles both backends)
+# Back up and restore memory (handles both backends)
 backup_memory() {
   [[ -f "$MEMORY_DB" ]] && cp "$MEMORY_DB" "$BACKUP_DB"
   [[ -f "$MEMORY_JSON" ]] && cp "$MEMORY_JSON" "$BACKUP_JSON"
@@ -138,9 +138,9 @@ backup_memory() {
 }
 
 restore_memory() {
-  ***REMOVED*** Remove test artifacts
+  # Remove test artifacts
   rm -f "$MEMORY_DB" "$MEMORY_JSON" "$MEMORY_DIR/memory.json.bak"
-  ***REMOVED*** Restore backups
+  # Restore backups
   [[ -f "$BACKUP_DB" ]] && cp "$BACKUP_DB" "$MEMORY_DB" && rm "$BACKUP_DB"
   [[ -f "$BACKUP_JSON" ]] && cp "$BACKUP_JSON" "$MEMORY_JSON" && rm "$BACKUP_JSON"
   [[ -f "$BACKUP_JSON_BAK" ]] && cp "$BACKUP_JSON_BAK" "$MEMORY_DIR/memory.json.bak" && rm "$BACKUP_JSON_BAK"
@@ -150,22 +150,22 @@ clean_start() {
   rm -f "$MEMORY_DB" "$MEMORY_JSON" "$MEMORY_DIR/memory.json.bak"
 }
 
-***REMOVED*** ============================================================
-***REMOVED*** TESTS
-***REMOVED*** ============================================================
+# ============================================================
+# TESTS
+# ============================================================
 
 echo "========================================="
 echo " Agent Brain v4 — Test Suite"
 echo "========================================="
 echo ""
 
-***REMOVED*** Save existing memory if present
+# Save existing memory if present
 backup_memory
 clean_start
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo "[1/17] INIT"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 output=$("$MEMORY_SH" init 2>&1)
 assert_contains "$output" "Initialized" "init creates memory file"
 assert_export_field "['version']" "4" "init creates v4 schema"
@@ -185,10 +185,10 @@ else
   pass "memory.sh env parsing is non-executing"
 fi
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[2/17] ADD — basic entries"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out1=$("$MEMORY_SH" add fact "User likes coffee" user "food,beverage" 2>&1)
 ID1=$(extract_id "$out1")
 assert_contains "$out1" "Added:" "add fact succeeds"
@@ -201,66 +201,66 @@ assert_contains "$out2" "preference" "add preference succeeds"
 out3=$("$MEMORY_SH" add procedure "Run linter before commit" user "workflow.git,code" 2>&1)
 ID3=$(extract_id "$out3")
 
-***REMOVED*** With context
+# With context
 out4=$("$MEMORY_SH" add preference "Use tabs not spaces" user "style.code,formatting" "" "Python projects" 2>&1)
 ID4=$(extract_id "$out4")
 assert_contains "$out4" "Added:" "add with context succeeds"
 
-***REMOVED*** With source_url
+# With source_url
 out5=$("$MEMORY_SH" add ingested "TDD improves code quality" ingested "testing,methodology" "https://example.com/tdd" 2>&1)
 ID5=$(extract_id "$out5")
 assert_contains "$out5" "ingested" "add ingested with source_url succeeds"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[3/17] ADD — field validation"
-***REMOVED*** ----------------------------------------------------------
-***REMOVED*** Check access_count starts at 1 (not 0)
+# ----------------------------------------------------------
+# Check access_count starts at 1 (not 0)
 ac=$(read_entry_field "$ID1" "access_count")
 [[ "$ac" == "1" ]] && pass "new entries start with access_count=1" || fail "new entries start with access_count=1" "Got $ac"
 
-***REMOVED*** Check confidence assignment
+# Check confidence assignment
 conf_user=$(read_entry_field "$ID1" "confidence")
 [[ "$conf_user" == "sure" ]] && pass "user-sourced entries get confidence=sure" || fail "user-sourced entries get confidence=sure" "Got $conf_user"
 
 conf_ingested=$(read_entry_field "$ID5" "confidence")
 [[ "$conf_ingested" == "likely" ]] && pass "ingested entries get confidence=likely" || fail "ingested entries get confidence=likely" "Got $conf_ingested"
 
-***REMOVED*** Check context field
+# Check context field
 ctx=$(read_entry_field "$ID4" "context")
 [[ "$ctx" == "Python projects" ]] && pass "context field stored correctly" || fail "context field stored correctly" "Got $ctx"
 
-***REMOVED*** Check source_url field
+# Check source_url field
 url=$(read_entry_field "$ID5" "source_url")
 [[ "$url" == "https://example.com/tdd" ]] && pass "source_url stored correctly" || fail "source_url stored correctly" "Got $url"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[4/17] GET — weighted search + auto-touch"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_get=$("$MEMORY_SH" get "coffee" 2>&1)
 assert_contains "$out_get" "User likes coffee" "get finds matching entry"
 assert_contains "$out_get" "score:" "get shows relevance score"
 
-***REMOVED*** Check auto-touch incremented access_count
+# Check auto-touch incremented access_count
 ac_after=$(read_entry_field "$ID1" "access_count")
 [[ "$ac_after" == "2" ]] && pass "get auto-touches returned entries" || fail "get auto-touches returned entries" "access_count=$ac_after, expected 2"
 
-***REMOVED*** Search that should return nothing
+# Search that should return nothing
 out_empty=$("$MEMORY_SH" get "quantum physics" 2>&1)
 assert_contains "$out_empty" "No matching" "get returns no results for unrelated query"
 
-***REMOVED*** Tag prefix matching
+# Tag prefix matching
 out_tag=$("$MEMORY_SH" get "style" 2>&1)
 assert_contains "$out_tag" "dark mode" "get matches namespaced tag prefix (style matches style.editor)"
 
-***REMOVED*** Retrieval flags: policy + stores + explain
+# Retrieval flags: policy + stores + explain
 out_get_explain=$("$MEMORY_SH" get "coffee" --policy deep --stores semantic --explain 2>&1)
 assert_contains "$out_get_explain" "explain:" "get --explain shows score components"
 assert_contains "$out_get_explain" "/semantic)" "get prints memory class on results"
 assert_contains "$out_get_explain" "semantic_mode=local" "get --explain reports semantic mode"
 
-***REMOVED*** Remote embeddings are opt-in and can be safely capped.
+# Remote embeddings are opt-in and can be safely capped.
 out_get_remote_default=$(AGENT_BRAIN_EMBEDDING_URL="http://127.0.0.1:9" "$MEMORY_SH" get "coffee" --explain 2>&1)
 assert_contains "$out_get_remote_default" "semantic_mode=local" "remote embeddings stay off by default"
 assert_contains "$out_get_remote_default" "semantic_reason=remote_disabled" "default remote reason is explicit"
@@ -281,7 +281,7 @@ ec=$?
 [[ $ec -ne 0 ]] && pass "get rejects unknown flags" || fail "get rejects unknown flags" "exit code was $ec"
 assert_contains "$out_get_bad_flag" "Unknown flag" "get unknown flag shows error"
 
-***REMOVED*** Hyphen-prefixed query terms are allowed with "--" separator
+# Hyphen-prefixed query terms are allowed with "--" separator
 out_dash_entry=$("$MEMORY_SH" add fact "Tune JVM -Xms and -Xmx flags" user "jvm,flags" 2>&1)
 assert_contains "$out_dash_entry" "Added:" "add entry with hyphen-prefixed terms succeeds"
 out_get_dash=$("$MEMORY_SH" get -- "-xms flags" 2>&1)
@@ -297,10 +297,10 @@ ec=$?
 [[ $ec -ne 0 ]] && pass "get rejects --user-feedback flag" || fail "get rejects --user-feedback flag" "exit code was $ec"
 assert_contains "$out_get_bad_feedback" "does not accept" "get --user-feedback shows explicit error"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[5/17] LIST"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_list=$("$MEMORY_SH" list 2>&1)
 assert_contains "$out_list" "active entries" "list shows all active entries"
 assert_contains "$out_list" "coffee" "list includes fact entry"
@@ -309,18 +309,18 @@ out_list_type=$("$MEMORY_SH" list preference 2>&1)
 assert_contains "$out_list_type" "dark mode" "list filters by type"
 assert_not_contains "$out_list_type" "coffee" "list type filter excludes other types"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[6/17] UPDATE"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_upd=$("$MEMORY_SH" update "$ID2" confidence likely 2>&1)
 assert_contains "$out_upd" "Updated" "update changes confidence"
 
-***REMOVED*** Verify change persisted
+# Verify change persisted
 new_conf=$(read_entry_field "$ID2" "confidence")
 [[ "$new_conf" == "likely" ]] && pass "update persists confidence change" || fail "update persists confidence change" "Got $new_conf"
 
-***REMOVED*** Update tags
+# Update tags
 "$MEMORY_SH" update "$ID2" tags "style.editor,ui,theme" >/dev/null 2>&1
 tag_count=$("$MEMORY_SH" export 2>/dev/null | python3 -c "
 import json, sys
@@ -332,76 +332,76 @@ for e in d['entries']:
 " "$ID2")
 [[ "$tag_count" == "3" ]] && pass "update replaces tags correctly" || fail "update replaces tags correctly" "Got $tag_count tags"
 
-***REMOVED*** Disallowed field
+# Disallowed field
 out_bad=$("$MEMORY_SH" update "$ID1" id "hacked" 2>&1)
 ec=$?
 assert_contains "$out_bad" "ERROR" "update rejects disallowed field"
 
-***REMOVED*** Non-existent ID
+# Non-existent ID
 out_miss=$("$MEMORY_SH" update "fake-id-000" confidence sure 2>&1)
 ec=$?
 assert_contains "$out_miss" "not found" "update reports missing entry"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[7/17] CONFLICTS — improved detection"
-***REMOVED*** ----------------------------------------------------------
-***REMOVED*** Should detect: same topic, different claim
+# ----------------------------------------------------------
+# Should detect: same topic, different claim
 out_conf=$("$MEMORY_SH" conflicts "User likes tea instead of coffee" 2>&1)
 assert_contains "$out_conf" "POTENTIAL_CONFLICTS" "conflicts detects related entry"
 assert_contains "$out_conf" "overlap:" "conflicts reports overlap percentage"
 
-***REMOVED*** Should NOT false positive on stopwords only
+# Should NOT false positive on stopwords only
 out_no_conf=$("$MEMORY_SH" conflicts "I have a big dog" 2>&1)
 assert_contains "$out_no_conf" "NO_CONFLICTS" "conflicts filters stopwords (no false positive)"
 
-***REMOVED*** Should NOT flag unrelated content sharing a common word
+# Should NOT flag unrelated content sharing a common word
 out_no_conf2=$("$MEMORY_SH" conflicts "The coffee table is broken" 2>&1)
-***REMOVED*** "coffee" is 1 meaningful word overlap, needs 2+
+# "coffee" is 1 meaningful word overlap, needs 2+
 assert_contains "$out_no_conf2" "NO_CONFLICTS" "conflicts requires 2+ meaningful word overlap"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[8/17] SIMILAR — TF-IDF"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_sim=$("$MEMORY_SH" similar "User enjoys drinking coffee every morning" 2>&1)
 assert_contains "$out_sim" "SIMILAR_ENTRIES" "similar finds related entries"
 assert_contains "$out_sim" "similarity:" "similar reports similarity score"
 assert_contains "$out_sim" "coffee" "similar returns the correct entry"
 
-***REMOVED*** No similar entries
+# No similar entries
 out_no_sim=$("$MEMORY_SH" similar "quantum entanglement theory" 2>&1)
 assert_contains "$out_no_sim" "NO_SIMILAR" "similar returns nothing for unrelated query"
 
-***REMOVED*** Custom threshold
+# Custom threshold
 out_low=$("$MEMORY_SH" similar "coding practices" 0.05 2>&1)
-***REMOVED*** Should find something at very low threshold
-***REMOVED*** (may or may not, depends on corpus — just check it doesn't crash)
+# Should find something at very low threshold
+# (may or may not, depends on corpus — just check it doesn't crash)
 ec=$?
 assert_exit_code "$ec" 0 "similar with custom threshold doesn't crash"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[9/17] SUPERSEDE"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_new=$("$MEMORY_SH" add fact "User likes green tea" user "food,beverage" 2>&1)
 ID_NEW=$(extract_id "$out_new")
 out_sup=$("$MEMORY_SH" supersede "$ID1" "$ID_NEW" 2>&1)
 assert_contains "$out_sup" "Superseded" "supersede marks old entry"
 
-***REMOVED*** Superseded entry should not appear in list
+# Superseded entry should not appear in list
 out_list2=$("$MEMORY_SH" list 2>&1)
 assert_not_contains "$out_list2" "User likes coffee" "superseded entry hidden from list"
 assert_contains "$out_list2" "green tea" "new entry visible in list"
 
-***REMOVED*** Superseded entry should not appear in get
+# Superseded entry should not appear in get
 out_get2=$("$MEMORY_SH" get "coffee" 2>&1)
 assert_not_contains "$out_get2" "User likes coffee" "superseded entry hidden from get"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[10/17] CORRECT — correction tracking + anti-pattern"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_corr=$("$MEMORY_SH" correct "$ID3" "Run linter AND tests before commit" "Original missed the test step" "workflow.git,code" 2>&1)
 CORR_ID=$(extract_new_id "$out_corr")
 assert_contains "$out_corr" "Corrected:" "correct creates correction entry"
@@ -409,15 +409,15 @@ assert_contains "$out_corr" "Wrong:" "correct shows wrong claim"
 assert_contains "$out_corr" "Right:" "correct shows right claim"
 assert_contains "$out_corr" "Reason:" "correct shows reason"
 
-***REMOVED*** Verify correction_meta
+# Verify correction_meta
 meta=$(read_correction_field "$CORR_ID" "wrong_claim")
 assert_contains "$meta" "Run linter" "correction_meta stores wrong claim"
 
-***REMOVED*** Verify old entry is superseded
+# Verify old entry is superseded
 sup_by=$(read_entry_field "$ID3" "superseded_by")
 [[ "$sup_by" == "$CORR_ID" ]] && pass "correct supersedes wrong entry" || fail "correct supersedes wrong entry" "superseded_by=$sup_by, expected $CORR_ID"
 
-***REMOVED*** Anti-pattern detection: need 3 corrections with same tag
+# Anti-pattern detection: need 3 corrections with same tag
 out_wa=$("$MEMORY_SH" add fact "Wrong fact A" user "testing" 2>&1)
 WA_ID=$(extract_id "$out_wa")
 "$MEMORY_SH" correct "$WA_ID" "Right fact A" "mistake" "workflow.git" >/dev/null 2>&1
@@ -427,11 +427,11 @@ WB_ID=$(extract_id "$out_wb")
 out_ap=$("$MEMORY_SH" correct "$WB_ID" "Right fact B" "mistake" "workflow.git" 2>&1)
 assert_contains "$out_ap" "ANTI_PATTERN_DETECTED" "anti-pattern detected after 3 corrections with same tag"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[11/17] SUCCESS — tracking + auto-upgrade"
-***REMOVED*** ----------------------------------------------------------
-***REMOVED*** Downgrade an entry first so we can test auto-upgrade
+# ----------------------------------------------------------
+# Downgrade an entry first so we can test auto-upgrade
 "$MEMORY_SH" update "$ID4" confidence uncertain >/dev/null 2>&1
 
 out_s1=$("$MEMORY_SH" success "$ID4" 2>&1)
@@ -443,36 +443,36 @@ out_s3=$("$MEMORY_SH" success "$ID4" 2>&1)
 assert_contains "$out_s3" "Auto-upgraded" "success auto-upgrades at 3"
 assert_contains "$out_s3" "sure" "success upgrades to sure"
 
-***REMOVED*** Verify persistence
+# Verify persistence
 final_conf=$(read_entry_field "$ID4" "confidence")
 [[ "$final_conf" == "sure" ]] && pass "auto-upgrade persists" || fail "auto-upgrade persists" "Got $final_conf"
 
-***REMOVED*** Success on non-existent ID
+# Success on non-existent ID
 out_sfail=$("$MEMORY_SH" success "fake-id" 2>&1)
 assert_contains "$out_sfail" "not found" "success reports missing entry"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[12/17] SESSION"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_sess=$("$MEMORY_SH" session "Frontend refactor" 2>&1)
 assert_contains "$out_sess" "Session 1" "session starts with counter"
 assert_contains "$out_sess" "Frontend refactor" "session includes context"
 
-***REMOVED*** Entry added after session should have session_id
+# Entry added after session should have session_id
 out_sessentry=$("$MEMORY_SH" add fact "React is great for UI" user "code.react,frontend" 2>&1)
 SESS_ENTRY_ID=$(extract_id "$out_sessentry")
 sid=$(read_entry_field "$SESS_ENTRY_ID" "session_id")
 [[ "$sid" == "1" ]] && pass "entries get session_id from active session" || fail "entries get session_id from active session" "Got $sid"
 
-***REMOVED*** Second session increments counter
+# Second session increments counter
 out_sess2=$("$MEMORY_SH" session "Backend work" 2>&1)
 assert_contains "$out_sess2" "Session 2" "session counter increments"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[12.5/17] LOOP — orchestrated retrieve/extract"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 count_before=$("$MEMORY_SH" export 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d['entries']))")
 out_loop=$("$MEMORY_SH" loop "My name is Marcus. We use Rust. I prefer concise replies." --policy deep --stores semantic,preference --explain 2>&1)
 assert_contains "$out_loop" "LOOP_RETRIEVE" "loop runs retrieval stage"
@@ -489,35 +489,35 @@ fi
 out_rust=$("$MEMORY_SH" get "rust" --stores semantic 2>&1)
 assert_contains "$out_rust" "Team uses Rust" "loop-extracted fact is retrievable"
 
-out_loop_sensitive=$("$MEMORY_SH" loop "api_key=SECRET_12345 password=abc123" 2>&1)
+out_loop_sensitive=$("$MEMORY_SH" loop "api_key="REDACTED" password=abc123" 2>&1)
 assert_contains "$out_loop_sensitive" "skipped_sensitive" "loop blocks sensitive content extraction"
 
-***REMOVED*** Loop reinforcement behavior:
-***REMOVED*** 1) --response alone must NOT increment success_count
+# Loop reinforcement behavior:
+# 1) --response alone must NOT increment success_count
 out_loop_target=$("$MEMORY_SH" add fact "Loop feedback target" user "feedback" 2>&1)
 LOOP_TARGET_ID=$(extract_id "$out_loop_target")
 "$MEMORY_SH" loop "loop feedback target" --response "Great, done" >/dev/null 2>&1
 sc_no_feedback=$(read_entry_field "$LOOP_TARGET_ID" "success_count")
 [[ "$sc_no_feedback" == "0" ]] && pass "loop --response does not auto-reinforce" || fail "loop --response does not auto-reinforce" "success_count=$sc_no_feedback"
 
-***REMOVED*** 2) explicit --user-feedback should reinforce
+# 2) explicit --user-feedback should reinforce
 "$MEMORY_SH" loop "loop feedback target" --user-feedback "that worked great" >/dev/null 2>&1
 sc_with_feedback=$(read_entry_field "$LOOP_TARGET_ID" "success_count")
 [[ "$sc_with_feedback" == "1" ]] && pass "loop --user-feedback reinforces success" || fail "loop --user-feedback reinforces success" "success_count=$sc_with_feedback"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[13/17] TAGS — hierarchy"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_tags=$("$MEMORY_SH" tags 2>&1)
 assert_contains "$out_tags" "code" "tags shows root tag"
-***REMOVED*** Should show child tags
+# Should show child tags
 assert_contains "$out_tags" ".react" "tags shows namespaced children"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[14/17] REFLECT + CONSOLIDATE + STATS + DECAY"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 out_refl=$("$MEMORY_SH" reflect 2>&1)
 assert_contains "$out_refl" "MEMORY REFLECTION" "reflect runs without error"
 assert_contains "$out_refl" "active" "reflect shows active count"
@@ -526,7 +526,7 @@ assert_contains "$out_refl" "TOP SUCCESSES" "reflect shows successes"
 assert_contains "$out_refl" "TOP TAGS" "reflect shows tag distribution"
 
 out_cons=$("$MEMORY_SH" consolidate 2>&1)
-***REMOVED*** With enough entries sharing tags, should find clusters
+# With enough entries sharing tags, should find clusters
 ec=$?
 assert_exit_code "$ec" 0 "consolidate runs without error"
 
@@ -539,12 +539,12 @@ assert_contains "$out_stats" "Last decay:" "stats shows last decay time"
 out_decay=$("$MEMORY_SH" decay 2>&1)
 assert_contains "$out_decay" "Decayed" "decay runs without error"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[15/17] EDGE CASES + ERROR HANDLING"
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 
-***REMOVED*** Missing required arguments
+# Missing required arguments
 out_notype=$("$MEMORY_SH" add 2>&1)
 ec=$?
 [[ $ec -ne 0 ]] && pass "add without args fails" || fail "add without args fails" "exit code was $ec"
@@ -565,46 +565,46 @@ out_nocorr=$("$MEMORY_SH" correct 2>&1)
 ec=$?
 [[ $ec -ne 0 ]] && pass "correct without args fails" || fail "correct without args fails" "exit code was $ec"
 
-***REMOVED*** Special characters in content
+# Special characters in content
 out_special=$("$MEMORY_SH" add fact "User's favorite: \"quotes\" & <brackets>" user "special" 2>&1)
 assert_contains "$out_special" "Added:" "add handles special characters"
 SPEC_ID=$(extract_id "$out_special")
 
-***REMOVED*** Verify special chars round-trip
+# Verify special chars round-trip
 spec_content=$(read_entry_field "$SPEC_ID" "content")
 assert_contains "$spec_content" "quotes" "special characters survive round-trip"
 
-***REMOVED*** Unicode content
+# Unicode content
 out_unicode=$("$MEMORY_SH" add fact "Likes sushi and ramen" user "food" 2>&1)
 assert_contains "$out_unicode" "Added:" "add handles unicode content"
 
-***REMOVED*** Very long content
+# Very long content
 long_str=$(python3 -c "print('x' * 500)")
 out_long=$("$MEMORY_SH" add fact "$long_str" user "test" 2>&1)
 assert_contains "$out_long" "Added:" "add handles long content (500 chars)"
 
-***REMOVED*** Empty tags
+# Empty tags
 out_notags=$("$MEMORY_SH" add fact "No tags entry" user "" 2>&1)
 assert_contains "$out_notags" "Added:" "add works with empty tags"
 
-***REMOVED*** Unknown command
+# Unknown command
 out_unk=$("$MEMORY_SH" foobar 2>&1)
 assert_contains "$out_unk" "Usage:" "unknown command shows help"
 
-***REMOVED*** Export produces valid JSON
+# Export produces valid JSON
 out_export=$("$MEMORY_SH" export 2>&1)
 echo "$out_export" | python3 -c "import json,sys; json.load(sys.stdin)" 2>/dev/null
 ec=$?
 assert_exit_code "$ec" 0 "export produces valid JSON"
 
-***REMOVED*** ----------------------------------------------------------
+# ----------------------------------------------------------
 echo ""
 echo "[16/17] JSON BACKEND + V2 → V4 MIGRATION"
-***REMOVED*** ----------------------------------------------------------
-***REMOVED*** Clean slate for migration test
+# ----------------------------------------------------------
+# Clean slate for migration test
 clean_start
 
-***REMOVED*** Create a v2 JSON file manually
+# Create a v2 JSON file manually
 mkdir -p "$MEMORY_DIR"
 cat > "$MEMORY_JSON" << 'MIGEOF'
 {
@@ -627,13 +627,13 @@ cat > "$MEMORY_JSON" << 'MIGEOF'
 }
 MIGEOF
 
-***REMOVED*** Use JSON backend for migration test
+# Use JSON backend for migration test
 export AGENT_BRAIN_BACKEND=json
 out_mig=$("$MEMORY_SH" stats 2>&1)
 assert_contains "$out_mig" "Migrated memory to v4" "v2 file auto-migrates to v4"
 assert_contains "$out_mig" "Version: 4" "migrated file reports v4"
 
-***REMOVED*** Check new fields added to old entry
+# Check new fields added to old entry
 mig_fields=$("$MEMORY_SH" export 2>/dev/null | python3 -c "
 import json, sys
 d = json.load(sys.stdin)
@@ -646,7 +646,7 @@ print('OK' if not missing else ','.join(missing))
 ")
 [[ "$mig_fields" == "OK" ]] && pass "migration adds all new fields to existing entries" || fail "migration adds all new fields to existing entries" "Missing: $mig_fields"
 
-***REMOVED*** Check top-level fields added
+# Check top-level fields added
 mig_top=$("$MEMORY_SH" export 2>/dev/null | python3 -c "
 import json, sys
 d = json.load(sys.stdin)
@@ -658,7 +658,7 @@ print('OK' if not missing else ','.join(missing))
 ")
 [[ "$mig_top" == "OK" ]] && pass "migration adds all top-level fields" || fail "migration adds all top-level fields" "Missing: $mig_top"
 
-***REMOVED*** Migration preserves existing data
+# Migration preserves existing data
 mig_ac=$("$MEMORY_SH" export 2>/dev/null | python3 -c "
 import json, sys
 d = json.load(sys.stdin)
@@ -666,7 +666,7 @@ print(d['entries'][0]['access_count'])
 ")
 [[ "$mig_ac" == "5" ]] && pass "migration preserves existing access_count" || fail "migration preserves existing access_count" "Got $mig_ac"
 
-***REMOVED*** Migration is idempotent (running again shouldn't change anything)
+# Migration is idempotent (running again shouldn't change anything)
 "$MEMORY_SH" stats >/dev/null 2>&1
 mig_v=$("$MEMORY_SH" export 2>/dev/null | python3 -c "
 import json, sys
@@ -675,53 +675,53 @@ print(d['version'])
 ")
 [[ "$mig_v" == "4" ]] && pass "migration is idempotent" || fail "migration is idempotent" "Version became $mig_v"
 
-***REMOVED*** Unset to restore default backend
+# Unset to restore default backend
 unset AGENT_BRAIN_BACKEND
 
 
-***REMOVED*** ============================================================
+# ============================================================
 echo "[17/17] ACTIVITY LOG"
-***REMOVED*** ============================================================
+# ============================================================
 
 clean_start
 
 "$MEMORY_SH" init >/dev/null 2>&1
 
-***REMOVED*** Log starts empty
+# Log starts empty
 log_empty=$("$MEMORY_SH" log 2>&1)
 assert_contains "$log_empty" "No activity" "log is empty on fresh init"
 
-***REMOVED*** Add generates log entry
+# Add generates log entry
 add_out=$("$MEMORY_SH" add fact "Log test entry" user "testing" 2>&1)
 log_after_add=$("$MEMORY_SH" log 2>&1)
 assert_contains "$log_after_add" "add" "log records add operation"
 assert_contains "$log_after_add" "Log test entry" "log shows entry content"
 
-***REMOVED*** Get generates log entry
+# Get generates log entry
 "$MEMORY_SH" get "log test" >/dev/null 2>&1
 log_after_get=$("$MEMORY_SH" log 2>&1)
 assert_contains "$log_after_get" "get" "log records get operation"
 assert_contains "$log_after_get" "query=" "log shows query details"
 
-***REMOVED*** Log count filter works
+# Log count filter works
 log_one=$("$MEMORY_SH" log 1 2>&1)
 line_count=$(echo "$log_one" | wc -l | tr -d ' ')
 [[ "$line_count" -le 2 ]] && pass "log count filter limits output" || fail "log count filter limits output" "Got $line_count lines"
 
-***REMOVED*** Log action filter works
+# Log action filter works
 log_adds=$("$MEMORY_SH" log 50 add 2>&1)
 assert_contains "$log_adds" "add" "log action filter returns matching actions"
 assert_not_contains "$log_adds" "get" "log action filter excludes other actions"
 
-***REMOVED*** Session generates log entry
+# Session generates log entry
 "$MEMORY_SH" session "Log test session" >/dev/null 2>&1
 log_after_session=$("$MEMORY_SH" log 2>&1)
 assert_contains "$log_after_session" "session" "log records session operation"
 
 
-***REMOVED*** ============================================================
-***REMOVED*** SUMMARY
-***REMOVED*** ============================================================
+# ============================================================
+# SUMMARY
+# ============================================================
 
 echo ""
 echo "========================================="
@@ -740,8 +740,8 @@ fi
 
 echo ""
 
-***REMOVED*** Restore original memory
+# Restore original memory
 restore_memory
 
-***REMOVED*** Exit with failure code if any tests failed
+# Exit with failure code if any tests failed
 [[ $FAIL_COUNT -eq 0 ]] && exit 0 || exit 1

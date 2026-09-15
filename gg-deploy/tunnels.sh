@@ -1,6 +1,6 @@
-***REMOVED***!/bin/bash
-***REMOVED*** Tunnel Manager for GG Sub-agent VMs
-***REMOVED*** Maintains SSH tunnels from main GG to work/person VM gateways
+#!!/bin/bash
+# Tunnel Manager for GG Sub-agent VMs
+# Maintains SSH tunnels from main GG to work/person VM gateways
 
 WORK_PID_FILE="/home/airoot/.openclaw/logs/gg-v2/work_tunnel.pid"
 PERSON_PID_FILE="/home/airoot/.openclaw/logs/gg-v2/person_tunnel.pid"
@@ -34,14 +34,14 @@ status() {
 start() {
     echo "🚀 Starting tunnels..."
     
-    ***REMOVED*** Kill existing by port, not PID files (avoids permission issues)
+    # Kill existing by port, not PID files (avoids permission issues)
     for p in $WORK_PORT $PERSON_PORT; do
         OLD_PID=$(ss -tlnp | grep ":$p " | grep -oP 'pid=\K[0-9]+' | head -1)
         [ -n "$OLD_PID" ] && kill $OLD_PID 2>/dev/null && echo "  Killed old tunnel on port $p (PID $OLD_PID)" || true
     done
     sleep 1
     
-    ***REMOVED*** Work tunnel
+    # Work tunnel
     ssh -i $SSH_KEY -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
         -fNL ${WORK_PORT}:127.0.0.1:${VM_GW_PORT} airoot@${WORK_HOST} sleep 99999
     sleep 2
@@ -49,7 +49,7 @@ start() {
     echo "$WORK_PID" > "$WORK_PID_FILE" 2>/dev/null || true
     echo "  ✅ work tunnel → localhost:$WORK_PORT (PID $WORK_PID)"
     
-    ***REMOVED*** Person tunnel
+    # Person tunnel
     ssh -i $SSH_KEY -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
         -fNL ${PERSON_PORT}:127.0.0.1:${VM_GW_PORT} airoot@${PERSON_HOST} sleep 99999
     sleep 2

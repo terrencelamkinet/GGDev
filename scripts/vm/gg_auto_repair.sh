@@ -1,7 +1,7 @@
-***REMOVED***!/bin/bash
-***REMOVED*** GG Auto-Repair System
-***REMOVED*** Runs every 5 min: checks system health and auto-spawns repair sessions for failures
-***REMOVED*** Does NOT notify Terrence unless unrecoverable
+#!!/bin/bash
+# GG Auto-Repair System
+# Runs every 5 min: checks system health and auto-spawns repair sessions for failures
+# Does NOT notify Terrence unless unrecoverable
 
 HEALTH_CHECK_LOG="/home/airoot/.openclaw/logs/gg-v2/health.log"
 WORK_PORT=18901
@@ -11,7 +11,7 @@ PERSON_TOKEN="REDACTED"e952187ef0d4f375202a62de1b3cf8a2"
 
 log() { echo "[$(date '+%H:%M:%S')] $*" >> "$HEALTH_CHECK_LOG"; }
 
-***REMOVED*** ── Check 1: Tunnel ports ──
+# ── Check 1: Tunnel ports ──
 check_tunnels() {
   for port in $WORK_PORT $PERSON_PORT; do
     if ! ss -tlnp | grep -q ":$port "; then
@@ -29,13 +29,13 @@ check_tunnels() {
   return 0
 }
 
-***REMOVED*** ── Check 2: VM connectivity (curl pong) ──
+# ── Check 2: VM connectivity (curl pong) ──
 check_vm() {
   local name="$1" port="$2" token="$3"
-  local vm_name="${name***REMOVED***GG-}"
+  local vm_name="${name#GG-}"
   vm_name=$(echo "$vm_name" | tr '[:upper:]' '[:lower:]')
   
-  ***REMOVED*** Use vm_query.py for reliable health check
+  # Use vm_query.py for reliable health check
   local result
   result=$(python3 /home/airoot/.openclaw/workspace/scripts/vm/vm_query.py "$vm_name" "ping" 2>&1)
   
@@ -58,26 +58,26 @@ check_vm() {
   fi
 }
 
-***REMOVED*** ── Check 3: Cron job last-success times ──
+# ── Check 3: Cron job last-success times ──
 check_cron_heartbeat() {
   local now=$(date +%s)
   local issues=""
   
-  ***REMOVED*** morning_briefing
+  # morning_briefing
   if [ -f /tmp/morning_briefing.log ]; then
     local last_mod=$(stat -c %Y /tmp/morning_briefing.log 2>/dev/null || echo 0)
     local age=$(( (now - last_mod) / 3600 ))
     [ $age -gt 26 ] && log "⚠️ morning_briefing last run ${age}h ago — may have failed"
   fi
   
-  ***REMOVED*** sync_agent
+  # sync_agent
   if [ -f /tmp/gg_sync_agent.log ]; then
     local last_sync=$(stat -c %Y /tmp/gg_sync_agent.log 2>/dev/null || echo 0)
     local sync_age=$(( (now - last_sync) / 60 ))
     [ $sync_age -gt 30 ] && log "⚠️ sync_agent not run in ${sync_age}min"
   fi
   
-  ***REMOVED*** daily_memory_extract
+  # daily_memory_extract
   if [ -f /tmp/daily_memory_extract.log ]; then
     local last_mem=$(stat -c %Y /tmp/daily_memory_extract.log 2>/dev/null || echo 0)
     local mem_age=$(( (now - last_mem) / 3600 ))
@@ -85,7 +85,7 @@ check_cron_heartbeat() {
   fi
 }
 
-***REMOVED*** ── Check 4: Disk space ──
+# ── Check 4: Disk space ──
 check_disk() {
   local usage
   usage=$(df / | tail -1 | awk '{print $5}' | sed 's/%//')
@@ -96,7 +96,7 @@ check_disk() {
   return 0
 }
 
-***REMOVED*** ── Main ──
+# ── Main ──
 {
   echo "=== Health Check $(date '+%Y-%m-%d %H:%M') ==="
   
@@ -109,5 +109,5 @@ check_disk() {
   echo "=== Done ==="
 } >> "$HEALTH_CHECK_LOG" 2>&1
 
-***REMOVED*** Trim log to 100 lines
+# Trim log to 100 lines
 tail -n 100 "$HEALTH_CHECK_LOG" > "${HEALTH_CHECK_LOG}.tmp" && mv "${HEALTH_CHECK_LOG}.tmp" "$HEALTH_CHECK_LOG"

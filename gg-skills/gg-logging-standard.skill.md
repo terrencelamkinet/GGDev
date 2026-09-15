@@ -8,14 +8,14 @@ description: >-
   health. This is mandatory — no component runs without logging.
 ---
 
-***REMOVED*** GG Logging Standard
+# GG Logging Standard
 
-***REMOVED******REMOVED*** 🎯 Rule
+# # 🎯 Rule
 
 > **Every component MUST log start + end + success/failure to the central log.**
 > No exceptions. If a script doesn't log, it's invisible to the error monitor.
 
-***REMOVED******REMOVED*** 🗺️ Central Log Files
+# # 🗺️ Central Log Files
 
 | Log | Location | Format | Purpose |
 |-----|----------|--------|---------|
@@ -24,7 +24,7 @@ description: >-
 | Cron runs | `~/.openclaw/cron/runs/<job_id>.jsonl` | JSONL (auto) | OpenClaw cron job execution history (auto-generated, no manual log needed) |
 | Daemon events | `~/.openclaw/logs/gg-reminder/reminder-events.jsonl` | JSONL | gg_reminder_daemon specific events |
 
-***REMOVED******REMOVED*** 📝 Events Log Format (System-wide)
+# # 📝 Events Log Format (System-wide)
 
 **File**: `~/.openclaw/logs/gg-v2/events.jsonl`
 
@@ -41,7 +41,7 @@ Each line is a JSON object:
 }
 ```
 
-***REMOVED******REMOVED******REMOVED*** Levels
+# ## Levels
 | Level | When to use |
 |-------|------------|
 | `INFO` | Normal operation (start, complete) |
@@ -50,7 +50,7 @@ Each line is a JSON object:
 | `CRITICAL` | System-wide failure (daemon crash, tunnel down) |
 | `HEARTBEAT` | Regular health ping (every N cycles) |
 
-***REMOVED******REMOVED******REMOVED*** Categories
+# ## Categories
 | Category | When to use |
 |----------|------------|
 | `run` | Script/cron execution (start + end) |
@@ -65,9 +65,9 @@ Each line is a JSON object:
 | `create` | Creating resources |
 | `delete` | Deleting resources |
 
-***REMOVED******REMOVED*** 🔧 How to Add Logging to Any Script
+# # 🔧 How to Add Logging to Any Script
 
-***REMOVED******REMOVED******REMOVED*** Python Scripts
+# ## Python Scripts
 ```python
 import json, datetime, os, uuid
 
@@ -93,13 +93,13 @@ def log_event(level: str, category: str, message: str, **extra):
     with open(EVENTS_LOG, "a") as f:
         f.write(json.dumps(event, ensure_ascii=False) + "\n")
 
-***REMOVED*** Usage:
-***REMOVED*** log_event("INFO", "run", "Script started")
-***REMOVED*** try: ... ; log_event("INFO", "run", "Script completed")
-***REMOVED*** except Exception as e: log_event("ERROR", "error", str(e))
+# Usage:
+# log_event("INFO", "run", "Script started")
+# try: ... ; log_event("INFO", "run", "Script completed")
+# except Exception as e: log_event("ERROR", "error", str(e))
 ```
 
-***REMOVED******REMOVED******REMOVED*** Bash Scripts
+# ## Bash Scripts
 ```bash
 SCRIPT_NAME="$(basename "$0")"
 
@@ -123,13 +123,13 @@ with open(logfile, 'a') as f:
 "
 }
 
-***REMOVED*** Usage:
-***REMOVED*** log_event INFO run "Script started"
-***REMOVED*** ... do work ...
-***REMOVED*** if [ $? -eq 0 ]; then log_event INFO run "Script completed"; else log_event ERROR error "Script failed"; fi
+# Usage:
+# log_event INFO run "Script started"
+# ... do work ...
+# if [ $? -eq 0 ]; then log_event INFO run "Script completed"; else log_event ERROR error "Script failed"; fi
 ```
 
-***REMOVED******REMOVED*** 📋 Standard Log Events Checklist
+# # 📋 Standard Log Events Checklist
 
 Every script/daemon must log these minimal events:
 
@@ -143,11 +143,11 @@ Every script/daemon must log these minimal events:
 | Tunnel fails | `ERROR` | `tunnel` | "Tunnel DOWN: port 1890X" |
 | Disk >85% | `WARN` | `disk` | "Disk usage: 86%" |
 
-***REMOVED******REMOVED*** 🔗 Related Skills
+# # 🔗 Related Skills
 - `system-maintenance.skill.md` — error monitor that reads these logs
 - `notion-crm-integration/SKILL.md` — uses `conversation.jsonl` for delivery tracking
 
-***REMOVED******REMOVED*** 📋 Script Audit Status (as of 2026-05-22)
+# # 📋 Script Audit Status (as of 2026-05-22)
 
 | Script | Has Logging? | Priority to Fix |
 |--------|-------------|-----------------|

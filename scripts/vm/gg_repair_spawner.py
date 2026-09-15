@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 GG Repair Spawner — 自動 spawn repair session 俾 GG 主機
 當 healing engine 偵測到 CRITICAL 事件無法自動修復時，spawn 一個 repair session
@@ -22,7 +22,7 @@ from datetime import datetime, timezone, timedelta
 LOG_DIR = os.path.expanduser("~/.openclaw/logs/gg-v2")
 EVENTS_FILE = os.path.join(LOG_DIR, "events.jsonl")
 SPAWN_MARKER = os.path.join(LOG_DIR, ".last_spawn")
-CRITICAL_THRESHOLD_MINUTES = 5  ***REMOVED*** 5分鐘內冇 spawn 過先 spawn
+CRITICAL_THRESHOLD_MINUTES = 5  # 5分鐘內冇 spawn 過先 spawn
 
 def get_recent_criticals(within_minutes=5):
     """Fetch CRITICAL events from last N minutes"""
@@ -40,7 +40,7 @@ def get_recent_criticals(within_minutes=5):
             try:
                 evt = json.loads(line)
                 if evt.get("level") == "CRITICAL":
-                    ***REMOVED*** Parse timestamp
+                    # Parse timestamp
                     ts_str = evt.get("ts", "")
                     if ts_str:
                         try:
@@ -76,22 +76,22 @@ def build_repair_context(criticals):
     hostname = os.uname().nodename
     
     lines = [
-        f"***REMOVED*** 🛠️ GG Auto-Repair Session ({datetime.now().strftime('%Y-%m-%d %H:%M')})",
+        f"# 🛠️ GG Auto-Repair Session ({datetime.now().strftime('%Y-%m-%d %H:%M')})",
         f"Host: {hostname}",
         f"",
-        f"***REMOVED******REMOVED*** Detected CRITICAL Issues (last 5 min)",
+        f"## Detected CRITICAL Issues (last 5 min)",
     ]
     
     for evt in criticals:
         lines.append(f"- [{evt.get('host','?')}] {evt.get('message','')}")
     
-    ***REMOVED*** Collect system state
+    # Collect system state
     lines.extend([
         f"",
-        f"***REMOVED******REMOVED*** System State",
+        f"## System State",
     ])
     
-    ***REMOVED*** Disk
+    # Disk
     try:
         disk = subprocess.run(["df", "-h", "/"], capture_output=True, text=True, timeout=5)
         for line in disk.stdout.strip().split("\n"):
@@ -99,7 +99,7 @@ def build_repair_context(criticals):
     except:
         lines.append("  (disk check failed)")
     
-    ***REMOVED*** Memory
+    # Memory
     try:
         mem = subprocess.run(["free", "-h"], capture_output=True, text=True, timeout=5)
         for line in mem.stdout.strip().split("\n"):
@@ -107,7 +107,7 @@ def build_repair_context(criticals):
     except:
         lines.append("  (memory check failed)")
     
-    ***REMOVED*** Processes
+    # Processes
     try:
         proc = subprocess.run(["ps", "aux", "--sort=-%cpu", "|", "head", "-8"], capture_output=True, text=True, timeout=5, shell=True)
         lines.append(f"  Top processes:")
@@ -117,7 +117,7 @@ def build_repair_context(criticals):
     except:
         lines.append("  (process check failed)")
     
-    ***REMOVED*** Health log tail
+    # Health log tail
     health_log = os.path.join(LOG_DIR, "health.log")
     if os.path.exists(health_log):
         try:
@@ -125,17 +125,17 @@ def build_repair_context(criticals):
                 tail = f.readlines()[-20:]
             lines.extend([
                 f"",
-                f"***REMOVED******REMOVED*** Health Log (last 20 lines)",
+                f"## Health Log (last 20 lines)",
             ])
             for line in tail:
                 lines.append(f"  {line.strip()}")
         except:
             pass
     
-    ***REMOVED*** Tunnels
+    # Tunnels
     lines.extend([
         f"",
-        f"***REMOVED******REMOVED*** Tunnel Status",
+        f"## Tunnel Status",
     ])
     try:
         tunnel_result = subprocess.run(
@@ -161,12 +161,12 @@ CRITICAL issues detected on the system. Please investigate and fix:
 DO NOT notify Terrence unless the issue is unrecoverable or requires human intervention.
 After fixing, log the repair action and confirm the system is healthy."""
 
-    ***REMOVED*** Write the repair task to a temp file so the spawning shell can read it
+    # Write the repair task to a temp file so the spawning shell can read it
     task_file = "/tmp/gg_repair_task.txt"
     with open(task_file, "w") as f:
         f.write(task_message)
     
-    ***REMOVED*** Log that we're spawning
+    # Log that we're spawning
     print(f"[{datetime.now().isoformat()}] Spawning repair session...")
     print(f"Context: {context[:200]}...")
     
@@ -176,7 +176,7 @@ def main():
     criticals = get_recent_criticals()
     
     if not criticals:
-        return  ***REMOVED*** 冇問題，唔 spawn
+        return  # 冇問題，唔 spawn
     
     if not can_spawn():
         print(f"Cooldown active — skipping spawn")
@@ -187,7 +187,7 @@ def main():
     context = build_repair_context(criticals)
     task_file = spawn_repair(context)
     
-    ***REMOVED*** Write to log
+    # Write to log
     evt = {
         "event_id": f"EVT-{datetime.now().strftime('%Y%m%d-%H%M%S')}-SPAWN",
         "ts": datetime.now(timezone.utc).isoformat(),

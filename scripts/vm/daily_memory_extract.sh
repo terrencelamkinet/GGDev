@@ -1,13 +1,13 @@
-***REMOVED***!/bin/bash
-***REMOVED*** daily_memory_extract.sh — 每日提取昨日聊天重點
-***REMOVED*** 由 main GG 嘅 cron 每日 06:00 HKT 觸發
-***REMOVED*** 
-***REMOVED*** 用途:
-***REMOVED*** 1. 從 main GG 的 memory_search 拎關鍵記憶
-***REMOVED*** 2. 從 GG-Work VM query 工作重點
-***REMOVED*** 3. 從 GG-Person VM query 個人重點
-***REMOVED*** 4. 整合成一日摘要，寫入 memory/YYYY-MM-DD_summary.md
-***REMOVED*** 5. 確保三部機記憶一致，唔會「間歇性失憶」
+#!!/bin/bash
+# daily_memory_extract.sh — 每日提取昨日聊天重點
+# 由 main GG 嘅 cron 每日 06:00 HKT 觸發
+# 
+# 用途:
+# 1. 從 main GG 的 memory_search 拎關鍵記憶
+# 2. 從 GG-Work VM query 工作重點
+# 3. 從 GG-Person VM query 個人重點
+# 4. 整合成一日摘要，寫入 memory/YYYY-MM-DD_summary.md
+# 5. 確保三部機記憶一致，唔會「間歇性失憶」
 
 WORKSPACE="/home/airoot/.openclaw/workspace"
 DATE=$(date +%Y-%m-%d)
@@ -19,13 +19,13 @@ echo "📥 Daily Memory Extract — ${DATE}"
 echo "====================================="
 echo ""
 
-***REMOVED*** Step 1: Query main GG memory for recent facts
+# Step 1: Query main GG memory for recent facts
 echo "🔍 Step 1/5: Querying main GG memory..."
 cd "${WORKSPACE}"
 python3 -c "
 import subprocess, json
 
-***REMOVED*** Use memory_search concept — query recent context
+# Use memory_search concept — query recent context
 queries = [
     'Terrence recent work decisions tasks projects',
     'Terrence personal life family plans preferences',
@@ -33,38 +33,38 @@ queries = [
 ]
 
 for q in queries:
-    ***REMOVED*** Simulate memory search output via orchestrate tools
+    # Simulate memory search output via orchestrate tools
     print(f'Query: {q}')
 " 2>/dev/null
 
-***REMOVED*** Step 2: Query GG-Work for yesterday's work highlights
+# Step 2: Query GG-Work for yesterday's work highlights
 echo "🔍 Step 2/5: Querying GG-Work VM..."
 python3 "${SCRIPT_DIR}/vm_query.py" work "Summarise yesterday's (${YESTERDAY}) work highlights, tasks completed, decisions made, and any project status changes. Focus on things GG main needs to know today."
 echo ""
 
-***REMOVED*** Step 3: Query GG-Person for yesterday's personal highlights
+# Step 3: Query GG-Person for yesterday's personal highlights
 echo "🔍 Step 3/5: Querying GG-Person VM..."
 python3 "${SCRIPT_DIR}/vm_query.py" person "Summarise yesterday's (${YESTERDAY}) personal interactions, plans, reminders set, and any important life events for Terrence. Focus on things GG main needs to know today."
 echo ""
 
-***REMOVED*** Step 4: Collect and generate summary
+# Step 4: Collect and generate summary
 echo "📝 Step 4/5: Generating daily summary..."
 WORK_SUMMARY=$(python3 "${SCRIPT_DIR}/vm_query.py" work "List ONLY the key facts from ${YESTERDAY} that GG main should remember. Format: bullet points, 3-5 items max, no commentary." 2>/dev/null | grep -A50 '"content"' | tail -30 | sed 's/.*"content": "//;s/"}$//' 2>/dev/null)
 PERSON_SUMMARY=$(python3 "${SCRIPT_DIR}/vm_query.py" person "List ONLY the key personal facts from ${YESTERDAY} that GG main should remember. Format: bullet points, 3-5 items max, no commentary." 2>/dev/null | grep -A50 '"content"' | tail -30 | sed 's/.*"content": "//;s/"}$//' 2>/dev/null)
 
 cat > "${SUMMARY_FILE}" << SUMMARY
-***REMOVED*** 🧠 Daily Memory Digest — ${YESTERDAY}
+# 🧠 Daily Memory Digest — ${YESTERDAY}
 
 > Generated: ${DATE} 06:00 HKT
 > Source: Main GG + GG-Work + GG-Person
 
-***REMOVED******REMOVED*** 💼 Work Highlights
+# # 💼 Work Highlights
 ${WORK_SUMMARY:-_No work records found_}
 
-***REMOVED******REMOVED*** 🏠 Personal Highlights
+# # 🏠 Personal Highlights
 ${PERSON_SUMMARY:-_No personal records found_}
 
-***REMOVED******REMOVED*** 🔄 System State
+# # 🔄 System State
 - Main GG: active
 - GG-Work: active
 - GG-Person: active
@@ -76,9 +76,9 @@ SUMMARY
 
 echo "✅ Summary written to ${SUMMARY_FILE}"
 
-***REMOVED*** Step 5: Sync summary to both VMs
+# Step 5: Sync summary to both VMs
 echo "🔄 Step 5/5: Syncing summary to VMs..."
-***REMOVED*** (main GG cron will handle this if needed)
+# (main GG cron will handle this if needed)
 
 echo ""
 echo "✅ Daily Memory Extract complete!"

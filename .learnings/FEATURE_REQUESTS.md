@@ -1,12 +1,12 @@
-***REMOVED*** Feature Requests
+# Feature Requests
 
 Capabilities requested by the user.
 
 ---
 
-***REMOVED******REMOVED*** 2026-05-06
+# # 2026-05-06
 
-***REMOVED******REMOVED******REMOVED*** 🔥 P0: 提升主動性 - 自我審視與進化機制
+# ## 🔥 P0: 提升主動性 - 自我審視與進化機制
 - **Request**: Terrence wants GG to be more proactive — reminders, care, understanding user needs better
 - **Status**: ✅ In progress (this file system created)
 - **Sub-tasks**:
@@ -17,7 +17,7 @@ Capabilities requested by the user.
   - [ ] 建立個人化提醒知識庫
   - [ ] 每月自我檢討機制
 
-***REMOVED******REMOVED******REMOVED*** 🔥 P0: 主動推送有用內容
+# ## 🔥 P0: 主動推送有用內容
 - **Request**: News, weather, traffic, reminders pushed automatically
 - **Status**: ✅ Partially done
 - **Done**:
@@ -29,27 +29,27 @@ Capabilities requested by the user.
   - [ ] 週末前主動問 plan
   - [ ] 夜晚 OT 提醒叫外賣
 
-***REMOVED******REMOVED******REMOVED*** 🔥 P0: 多平台叫車 Deep Link
+# ## 🔥 P0: 多平台叫車 Deep Link
 - **Request**: One message with Uber/高德/DiDi/飛的 links
 - **Status**: ⏸️ Paused — user said "先暫停"
 - **Progress**:
   - Uber ✅ working
   - Others ❌ no public Universal Links found
 
-***REMOVED******REMOVED******REMOVED*** 🔥 P1: Google Calendar 整合
+# ## 🔥 P1: Google Calendar 整合
 - **Request**: Auto-check calendar for meetings, proactive notification
 - **Status**: ⏸️ Blocked — needs OAuth JSON from user
 - **Next**: User said "聽日繼續搞"
 
-***REMOVED******REMOVED******REMOVED*** P2: SiliconFlow API 整合
+# ## P2: SiliconFlow API 整合
 - **Request**: TTS + ASR + OCR + Image Gen + Embedding
 - **Status**: ⏸️ Paused — user said "都係普通話，算啦"
 - **Working**: TTS (MOSS+CosyVoice2), LLM (DeepSeek-V4)
 - **Not tested**: ASR, OCR, Image Gen, Embedding
 
-***REMOVED******REMOVED*** 2026-05-07
+# # 2026-05-07
 
-***REMOVED******REMOVED******REMOVED*** 🔥 P0: 自駕全鏈查詢（已由 Terrence 確認要求）
+# ## 🔥 P0: 自駕全鏈查詢（已由 Terrence 確認要求）
 - **Request**: 每次知道係自駕後，自動考慮以下所有事項，直至泊好位為止
 - **Status**: ✅ Requirements recorded, implementation iterative
 - **Complete Chain**:
@@ -69,7 +69,7 @@ Capabilities requested by the user.
   - 要問清楚泊幾耐、幾點走、邊個位，唔好自己估
   - 如果車場收費可能有變，要問 Terrence 知唔知最新價
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** 💬 詢問機制規則
+# ### 💬 詢問機制規則
 每次需要問 Terrence 問題前，必須先自我反問三次：
 1. **呢條問題真係需要問嗎？** — 我係咪已經有足夠資料推論到？
 2. **有冇其他已經有嘅資料可以代替呢條問題？** — 比如 context.md、MEMORY.md、之前對話
@@ -80,7 +80,7 @@ Capabilities requested by the user.
 - 等 Terrence 答完先問下一個
 - 夠資料就即停，唔好問多餘嘅
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** 🅿️ 泊車選擇優先級記錄
+# ### 🅿️ 泊車選擇優先級記錄
 每次 Terrence 選擇泊邊個場之後，記錄佢嘅考慮因素，累積後形成優先級 pattern。
 
 | 日期 | 目的地 | 給出的選擇 | Terrence選擇 | 考慮因素 |

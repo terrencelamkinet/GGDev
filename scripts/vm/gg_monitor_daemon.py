@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """
 GG Monitor Daemon — continuous health check + auto-repair
 - 30s: local health (gateway, disk, memory, cpu, net)
@@ -20,7 +20,7 @@ import logging.handlers
 from datetime import datetime, timezone
 from pathlib import Path
 
-***REMOVED*** ── Config ────────────────────────────────────────────
+# ── Config ────────────────────────────────────────────
 WORK_HOST = "172.6.15.181"
 PERSON_HOST = "172.6.15.182"
 WORK_PORT = 18901
@@ -34,7 +34,7 @@ HEALTH_LOG = LOG_DIR / "health.log"
 PID_FILE = BASE_DIR / "logs" / "gg-monitor.pid"
 REPAIR_SPAWNER = str(BASE_DIR / "workspace" / "scripts" / "vm" / "gg_repair_spawner.py")
 
-***REMOVED*** Read gateway token
+# Read gateway token
 GW_TOKEN = ""
 try:
     config_path = BASE_DIR / "openclaw.json"
@@ -47,7 +47,7 @@ MY_HOST = socket.gethostname()
 IS_MAIN = MY_HOST in ("arpa-ai-test01", "gg-main")
 INTERVAL_FAST = 30
 
-***REMOVED*** ── Logging Setup ─────────────────────────────────────
+# ── Logging Setup ─────────────────────────────────────
 def setup_logging():
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     lgr = logging.getLogger("gg_monitor")
@@ -78,7 +78,7 @@ def log_event(level, category, message):
         f.write(json.dumps(entry) + "\n")
     logger.info(f"[{level}] [{category}] {message}")
 
-***REMOVED*** ── Helpers ───────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────
 def run(cmd, timeout=10, shell=True):
     try:
         r = subprocess.run(cmd if shell else cmd.split(),
@@ -130,7 +130,7 @@ def repair_gateway():
     if curl_gateway():
         log_event("WARN", "healing", "Gateway restarted successfully")
         return True
-    ***REMOVED*** Second attempt with node kill + restart
+    # Second attempt with node kill + restart
     logger.info("🔄 Gateway restart failed — trying node process restart...")
     run("pkill -HUP -f 'openclaw.*gateway' || kill -HUP $(pgrep -f 'openclaw.*gateway') 2>/dev/null", timeout=5)
     time.sleep(8)
@@ -146,7 +146,7 @@ def trigger_repair_spawn():
     if ok and out:
         logger.info(f"🛠️ Repair spawner: {out[:200]}")
 
-***REMOVED*** Module state
+# Module state
 STATE = {}
 
 ERROR_PATTERNS = re.compile(
@@ -170,16 +170,16 @@ def scan_cron_logs(cron_log_files):
                     issues_found = True
                     meta = os.path.basename(logfile)
                     log_event("WARN", "cron", f"[{meta}] {line.strip()[:180]}")
-                    break  ***REMOVED*** one WARN per log file per cycle
+                    break  # one WARN per log file per cycle
         except Exception as e:
             log_event("WARN", "cron", f"Failed reading {logfile}: {e}")
     return issues_found
 
-***REMOVED*** ── Main Loop ─────────────────────────────────────────
+# ── Main Loop ─────────────────────────────────────────
 def run_cycle(cycle):
     """One complete health check cycle (every 30s)"""
 
-    ***REMOVED*** ── 1. Gateway ──
+    # ── 1. Gateway ──
     gw_ok = curl_gateway()
     if gw_ok:
         logger.debug("✅ Gateway OK")
@@ -192,7 +192,7 @@ def run_cycle(cycle):
         elif STATE["gw_down"] >= 3:
             log_event("CRITICAL", "healing", "Gateway down for 90s+ — repair_spawn needed")
 
-    ***REMOVED*** ── 2. Disk ──
+    # ── 2. Disk ──
     ok, out, _ = run("df / | tail -1")
     if ok:
         pct = percent_from_df_line(out)
@@ -204,7 +204,7 @@ def run_cycle(cycle):
         else:
             logger.debug(f"✅ Disk {pct}%")
 
-    ***REMOVED*** ── 3. Memory ──
+    # ── 3. Memory ──
     try:
         with open("/proc/meminfo") as f:
             mem = f.read()
@@ -218,7 +218,7 @@ def run_cycle(cycle):
     except Exception:
         pass
 
-    ***REMOVED*** ── 4. CPU load ──
+    # ── 4. CPU load ──
     ok, out, _ = run("cat /proc/loadavg | cut -d' ' -f1")
     if ok:
         load = float(out.strip())
@@ -229,7 +229,7 @@ def run_cycle(cycle):
         else:
             logger.debug(f"✅ CPU {pct}%")
 
-    ***REMOVED*** ── 5. Cron heartbeat + content scan ──
+    # ── 5. Cron heartbeat + content scan ──
     if IS_MAIN:
         cron_log_files = {
             "/tmp/daily_memory_extract.log": 28,
@@ -257,11 +257,11 @@ def run_cycle(cycle):
                       f"not run in {age_hours:.0f}h (limit {max_hours}h)")
             any_cron_issue = True
 
-    ***REMOVED*** Content scan: detect ERROR/traceback in cron logs
+    # Content scan: detect ERROR/traceback in cron logs
     if scan_cron_logs(list(cron_log_files.keys())):
         any_cron_issue = True
 
-    ***REMOVED*** ── 6. OpenClaw journalctl — message timeout / connection errors ──
+    # ── 6. OpenClaw journalctl — message timeout / connection errors ──
     ok, out, _ = run(
         "journalctl --user -u openclaw --since '10 min ago' --no-pager -n 50 2>/dev/null "
         "| grep -iE 'timeout|fail|error|retry|provider|connection' | tail -5"
@@ -278,7 +278,7 @@ def run_cycle(cycle):
                 log_event("WARN", "gateway", f"Gateway error: {line[:120]}")
                 any_cron_issue = True
 
-    ***REMOVED*** ── 7. Network ──
+    # ── 7. Network ──
     ok, _, _ = run("dig +short google.com @8.8.8.8 2>/dev/null | head -1")
     if not ok:
         log_event("WARN", "network", "DNS/network failure — auto-repairing")
@@ -287,13 +287,13 @@ def run_cycle(cycle):
     else:
         logger.debug("✅ Network OK")
 
-    ***REMOVED*** ── 8. If any issue found, trigger repair spawner ──
+    # ── 8. If any issue found, trigger repair spawner ──
     if any_cron_issue:
         trigger_repair_spawn()
 
-    ***REMOVED*** ── 9. VM / Tunnel checks (every 2nd cycle = 60s, main only) ──
+    # ── 9. VM / Tunnel checks (every 2nd cycle = 60s, main only) ──
     if cycle % 2 == 0 and IS_MAIN:
-        ***REMOVED*** Tunnel ports
+        # Tunnel ports
         ok, out, _ = run("ss -tlnp | grep -E '18901|18902'")
         if ok:
             logger.debug("✅ Tunnel ports OK")
@@ -301,7 +301,7 @@ def run_cycle(cycle):
             log_event("WARN", "tunnel", "Tunnel ports down — rebuilding")
             repair_tunnels()
 
-        ***REMOVED*** VM via tunnels
+        # VM via tunnels
         work_ok = check_vm_via_tunnel("work", WORK_HOST, WORK_PORT,
             "bf80e73561d252ec9345a2be8be7c4c0e952187ef0d4f375202a62de1b3cf8a2")
         person_ok = check_vm_via_tunnel("person", PERSON_HOST, PERSON_PORT,
@@ -327,12 +327,12 @@ def run_cycle(cycle):
             else:
                 log_event("CRITICAL", "vm", "Person VM OFFLINE (SSH fail)")
 
-        ***REMOVED*** Rebuild if both down
+        # Rebuild if both down
         if not work_ok and not person_ok:
             log_event("CRITICAL", "tunnel", "Both VMs unreachable — rebuilding tunnels")
             repair_tunnels()
 
-        ***REMOVED*** VM tunnel issues → also trigger repair spawner
+        # VM tunnel issues → also trigger repair spawner
         if not work_ok or not person_ok:
             trigger_repair_spawn()
 

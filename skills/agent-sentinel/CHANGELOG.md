@@ -1,6 +1,6 @@
-***REMOVED*** Changelog
+# Changelog
 
-***REMOVED******REMOVED*** 0.1.2
+# # 0.1.2
 
 - switched the OpenClaw skill to local-first behavior by default
 - removed API key persistence to `.env`

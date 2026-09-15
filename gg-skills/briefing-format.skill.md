@@ -1,28 +1,28 @@
-***REMOVED*** SKILL: briefing-format
+# SKILL: briefing-format
 
-***REMOVED******REMOVED*** Risk class
+# # Risk class
 **Read** (format reference) — applied when GG prepares a daily briefing.
 
-***REMOVED******REMOVED*** Trigger
+# # Trigger
 - Auto: when GG is running **morning briefing** (07:30 cron job)
 - Auto: when GG is running **morning reminder** (08:00 cron job)
 - Auto: when Terrence asks "brief me" or "今日有咩要知"
 - Manual: Terrence says "俾briefing"
 
-***REMOVED******REMOVED*** Summary
+# # Summary
 Defines the format and content rules for GG's daily briefings. Ensures consistency across morning briefing (07:30) and morning reminder (08:00).
 
 ---
 
-***REMOVED******REMOVED*** 1. 07:30 Briefing — 天氣 + 日程 + 新聞
+# # 1. 07:30 Briefing — 天氣 + 日程 + 新聞
 
-***REMOVED******REMOVED******REMOVED*** Content (required)
+# ## Content (required)
 1. **🌤 天氣** — HKO data（溫度、濕度、雨量、警告）
 2. **📅 今日日程** — Reminders + Google Calendar + Notion tasks
 3. **📰 今日重點** — 新聞摘要（只限相關話題）
 4. **💡 提醒** — 如果今日有 overdue 或重要未完成事項
 
-***REMOVED******REMOVED******REMOVED*** Format (message 1 — weather + schedule)
+# ## Format (message 1 — weather + schedule)
 ```
 🌅 **Good morning Terrence | {date} {weekday}**
 
@@ -37,7 +37,7 @@ Defines the format and content rules for GG's daily briefings. Ensures consisten
 ...
 ```
 
-***REMOVED******REMOVED******REMOVED*** Format (message 2 — news + reminders) — only if needed
+# ## Format (message 2 — news + reminders) — only if needed
 ```
 **📰 今日重點**
 • {item 1}
@@ -47,10 +47,10 @@ Defines the format and content rules for GG's daily briefings. Ensures consisten
 • {overdue/unfinished items}
 ```
 
-***REMOVED******REMOVED******REMOVED*** Buttons (mandatory)
+# ## Buttons (mandatory)
 - `✅ 收到` / `✏️ 改錯`
 
-***REMOVED******REMOVED******REMOVED*** Key rules
+# ## Key rules
 - Keep it concise — 2 messages max
 - If nothing special, just message 1
 - News only if relevant to Terrence (tech, HK, finance, church)
@@ -58,14 +58,14 @@ Defines the format and content rules for GG's daily briefings. Ensures consisten
 
 ---
 
-***REMOVED******REMOVED*** 2. 08:00 Reminder — 屬靈 + 提醒 + 路面
+# # 2. 08:00 Reminder — 屬靈 + 提醒 + 路面
 
-***REMOVED******REMOVED******REMOVED*** Content (required)
+# ## Content (required)
 1. **🙏 屬靈提醒** — 今日有冇church activity / devotion reminder
 2. **⏰ 重要提醒** — 今日關鍵事項（meetings, deadlines, appointments）
 3. **🚗 路面狀況** — 如果今日要出街，check traffic
 
-***REMOVED******REMOVED******REMOVED*** Format (single message)
+# ## Format (single message)
 ```
 🌅 **早晨提醒 | {date} {weekday}**
 
@@ -79,36 +79,36 @@ Defines the format and content rules for GG's daily briefings. Ensures consisten
 • {only if relevant}
 ```
 
-***REMOVED******REMOVED******REMOVED*** Buttons (mandatory)
+# ## Buttons (mandatory)
 - `✅ 收到` / `✏️ 改錯`
 
-***REMOVED******REMOVED******REMOVED*** Key rules
+# ## Key rules
 - 08:00 = actionable, not informational
 - Focus on things Terrence needs to action TODAY
 - Don't duplicate 07:30 briefing content — complement it
 
 ---
 
-***REMOVED******REMOVED*** 3. General rules (both briefings)
+# # 3. General rules (both briefings)
 
-***REMOVED******REMOVED******REMOVED*** Sources
+# ## Sources
 - Weather: HKO skill (`hko-weather`)
 - Schedule: Reminder state + Notion + Google Calendar
 - Traffic: KMB/Citybus ETA skills + Google Maps API
 - News: Tavily / Perplexity search (topic-relevant only)
 - Church: Notion tasks / memory
 
-***REMOVED******REMOVED******REMOVED*** Order
+# ## Order
 - Always summary first (1-2 lines)
 - Then detail
 - End with action item / question if needed
 
-***REMOVED******REMOVED******REMOVED*** Tone
+# ## Tone
 - Morning = calm, clear, not rushed
 - Don't overwhelm — if nothing important, say "今日冇特別"
 - Use bullets, not paragraphs
 
-***REMOVED******REMOVED******REMOVED*** Edge cases
+# ## Edge cases
 - Holiday / weekend: Adjust to "今日休息日" tone
 - Bad weather warning: Put it FIRST, before everything else
 - No schedule: 一句「今日冇行程安排」就夠，唔好硬塞資訊

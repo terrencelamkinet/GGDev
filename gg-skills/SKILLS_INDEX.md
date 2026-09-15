@@ -1,6 +1,6 @@
-***REMOVED*** GG Skills Database Index
+# GG Skills Database Index
 
-***REMOVED******REMOVED*** Load-on-Demand Skills
+# # Load-on-Demand Skills
 
 | Skill | File | Trigger |
 |-------|------|---------|
@@ -16,7 +16,7 @@
 | Terrence Profile | `gg-skills/terrence-profile.md` | User personality / communication style / preferences |
 | Notion CRM | `gg-skills/notion-crm-integration/SKILL.md` | CRM / Notion / Project / Company / Contact |
 
-***REMOVED******REMOVED*** Load Rules
+# # Load Rules
 - Load skill file at start of conversation when trigger matches
 - One skill at a time (most relevant first)
 - Keep loaded in context for that conversation turn

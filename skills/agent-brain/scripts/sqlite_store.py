@@ -86,9 +86,9 @@ class SQLiteStore(MemoryStore):
         d = dict(row)
         if not d.get("memory_class"):
             d["memory_class"] = infer_memory_class(d.get("type", ""))
-        ***REMOVED*** Parse tags from comma-separated string to list
+        # Parse tags from comma-separated string to list
         d["tags"] = [t.strip() for t in (d["tags"] or "").split(",") if t.strip()]
-        ***REMOVED*** Parse correction_meta from JSON string
+        # Parse correction_meta from JSON string
         if d["correction_meta"]:
             d["correction_meta"] = json.loads(d["correction_meta"])
         return d
@@ -98,7 +98,7 @@ class SQLiteStore(MemoryStore):
         if dir_path:
             os.makedirs(dir_path, exist_ok=True)
 
-        ***REMOVED*** Check for JSON migration opportunity
+        # Check for JSON migration opportunity
         json_path = os.path.join(os.path.dirname(self.db_path), "memory.json")
         needs_json_migration = (
             not os.path.exists(self.db_path)
@@ -108,7 +108,7 @@ class SQLiteStore(MemoryStore):
         conn = self._connect()
         conn.executescript(SCHEMA_SQL)
 
-        ***REMOVED*** Initialize/repair required meta keys.
+        # Initialize/repair required meta keys.
         conn.execute(
             "INSERT OR IGNORE INTO meta (key, value) VALUES (?, ?)",
             ("version", str(SCHEMA_VERSION)),
@@ -147,7 +147,7 @@ class SQLiteStore(MemoryStore):
                 "CREATE INDEX IF NOT EXISTS idx_entries_memory_class ON entries(memory_class)"
             )
 
-        ***REMOVED*** Backfill memory class on old rows.
+        # Backfill memory class on old rows.
         for entry_type, mem_class in TYPE_TO_MEMORY_CLASS.items():
             conn.execute(
                 """UPDATE entries
@@ -190,7 +190,7 @@ class SQLiteStore(MemoryStore):
             )
             count += 1
 
-        ***REMOVED*** Import meta
+        # Import meta
         if mem.get("last_decay"):
             conn.execute("UPDATE meta SET value = ? WHERE key = 'last_decay'",
                          (mem["last_decay"],))
@@ -203,7 +203,7 @@ class SQLiteStore(MemoryStore):
 
         conn.commit()
 
-        ***REMOVED*** Backup the old JSON file
+        # Backup the old JSON file
         backup_path = json_path + ".bak"
         os.rename(json_path, backup_path)
         print(f"Migrated {count} entries from JSON to SQLite")

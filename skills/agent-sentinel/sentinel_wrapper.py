@@ -133,7 +133,7 @@ def _load_policy() -> dict[str, object]:
         line = raw_line.rstrip()
         stripped = line.strip()
 
-        if not stripped or stripped.startswith("***REMOVED***"):
+        if not stripped or stripped.startswith("#"):
             continue
 
         if not line.startswith(" "):
@@ -252,9 +252,9 @@ def _event_count() -> int:
 
 def cmd_sync() -> None:
     state = _read_state()
-    api_key = _cloud_api_key()
+    api_key = "REDACTED"
     if not api_key:
-        print(
+        "REDACTED"
             json.dumps(
                 {
                     "status": "ERROR",

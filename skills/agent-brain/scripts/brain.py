@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """Agent Brain v4 — Memory engine with pluggable storage.
 
 Usage: python3 brain.py <command> [args...]
@@ -19,7 +19,7 @@ import uuid
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
-***REMOVED*** --- Text Processing ---
+# --- Text Processing ---
 
 STOPWORDS = frozenset({
     "i", "a", "an", "the", "is", "are", "was", "were", "be", "been",
@@ -204,7 +204,7 @@ def derive_query_terms(text: str, limit: int = 5) -> str:
     return " ".join(words[:limit]).strip()
 
 
-***REMOVED*** --- Optional SuperMemory Sync ---
+# --- Optional SuperMemory Sync ---
 
 TRUTHY = {"1", "true", "yes", "on"}
 FALSY = {"0", "false", "no", "off"}
@@ -236,7 +236,7 @@ def _maybe_sync_supermemory(entry: dict):
     if _is_falsy(mode):
         return
 
-    api_key = _supermemory_api_key()
+    api_key = "REDACTED"
     if not api_key:
         if mode != "auto" and _is_truthy(os.environ.get("AGENT_BRAIN_SUPERMEMORY_DEBUG", "")):
             print("SuperMemory sync warning: SUPERMEMORY_API_KEY is not set", file=sys.stderr)
@@ -262,7 +262,7 @@ def _maybe_sync_supermemory(entry: dict):
         if len(tags) >= 8:
             break
         tags.append(_sanitize_supermemory_tag(tag))
-    ***REMOVED*** Keep deterministic order and avoid duplicate container tags.
+    # Keep deterministic order and avoid duplicate container tags.
     tags = list(dict.fromkeys(tags))
 
     req_payload = {
@@ -300,7 +300,7 @@ def _maybe_sync_supermemory(entry: dict):
             print(f"SuperMemory sync warning: {exc}", file=sys.stderr)
 
 
-***REMOVED*** --- Scoring ---
+# --- Scoring ---
 
 CONF_WEIGHT = {"sure": 1.0, "likely": 0.7, "uncertain": 0.4}
 
@@ -310,11 +310,11 @@ def score_entry_components(entry: dict, query_words: list, now: datetime, max_ac
     content_words = tokenize_set(entry["content"])
     tag_list = entry.get("tags", [])
 
-    ***REMOVED*** 1. Keyword match (40%)
+    # 1. Keyword match (40%)
     keyword_matches = sum(1 for w in query_words if w in content_words)
     keyword_score = keyword_matches / len(query_words) if query_words else 0
 
-    ***REMOVED*** 2. Tag overlap (25%) with prefix matching
+    # 2. Tag overlap (25%) with prefix matching
     tag_matches = 0
     for qw in query_words:
         for tag in tag_list:
@@ -324,10 +324,10 @@ def score_entry_components(entry: dict, query_words: list, now: datetime, max_ac
                 break
     tag_score = tag_matches / len(query_words) if query_words else 0
 
-    ***REMOVED*** 3. Confidence (15%)
+    # 3. Confidence (15%)
     conf_score = CONF_WEIGHT.get(entry.get("confidence", "uncertain"), 0.4)
 
-    ***REMOVED*** 4. Recency (10%)
+    # 4. Recency (10%)
     try:
         last = parse_ts(entry["last_accessed"])
         days_ago = (now - last).days
@@ -335,7 +335,7 @@ def score_entry_components(entry: dict, query_words: list, now: datetime, max_ac
     except (ValueError, KeyError):
         recency_score = 0.5
 
-    ***REMOVED*** 5. Access frequency (10%)
+    # 5. Access frequency (10%)
     access_count = entry.get("access_count", 0)
     freq_score = math.log(1 + access_count) / math.log(1 + max_access) if max_access > 0 else 0
 
@@ -417,11 +417,11 @@ def remote_semantic_vector(text: str) -> dict | None:
     if not url:
         return None
 
-    api_key = os.environ.get("AGENT_BRAIN_EMBEDDING_API_KEY", "").strip()
+    api_key = "REDACTED"AGENT_BRAIN_EMBEDDING_API_KEY", "").strip()
     payload = json.dumps({"input": text}).encode("utf-8")
     headers = {"Content-Type": "application/json"}
     if api_key:
-        headers["Authorization"] = f"Bearer {api_key}"
+        "REDACTED"Authorization"] = f"Bearer {api_key}"
 
     timeout = float(os.environ.get("AGENT_BRAIN_EMBEDDING_TIMEOUT", "6"))
     req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
@@ -450,7 +450,7 @@ def semantic_vector(text: str, cache: dict | None = None) -> dict:
     return vec
 
 
-***REMOVED*** --- Decay Logic ---
+# --- Decay Logic ---
 
 def decay_fn(entry: dict, now_str_val: str):
     """Returns new confidence if entry should decay, else None."""
@@ -480,7 +480,7 @@ def should_auto_decay(store, now: datetime) -> bool:
         return True
 
 
-***REMOVED*** --- Store Factory ---
+# --- Store Factory ---
 
 def get_store(memory_dir: str):
     backend = os.environ.get("AGENT_BRAIN_BACKEND", "sqlite").lower()
@@ -702,7 +702,7 @@ def extract_candidates(message: str) -> list:
         company = re.sub(r"\s+", " ", m.group(3)).strip()
         add_candidate("fact", f"User is a {role} at {company}", ["identity", "work", "role"], source="user", confidence="sure")
 
-    m = re.search(r"\bwe use\s+([A-Za-z0-9+.***REMOVED***/_ -]{2,60})", text, re.IGNORECASE)
+    m = re.search(r"\bwe use\s+([A-Za-z0-9+.#/_ -]{2,60})", text, re.IGNORECASE)
     if m:
         tech = re.sub(r"[.?!].*$", "", m.group(1)).strip()
         add_candidate("fact", f"Team uses {tech}", ["project", "code.stack"], source="user", confidence="sure")
@@ -722,7 +722,7 @@ def extract_candidates(message: str) -> list:
         proc = m.group(2).strip(" \"'")
         add_candidate("procedure", f"Workflow: {proc}", ["workflow", "process"], source="user", confidence="sure")
 
-    ***REMOVED*** Deduplicate within extraction batch.
+    # Deduplicate within extraction batch.
     seen = set()
     unique = []
     for c in candidates:
@@ -733,7 +733,7 @@ def extract_candidates(message: str) -> list:
     return unique
 
 
-***REMOVED*** --- Commands ---
+# --- Commands ---
 
 def cmd_init(store):
     store.init()
@@ -780,7 +780,7 @@ def cmd_add(store, args):
     store.log_activity(ts, "add", entry_id,
                        f"{entry_type}/{entry['memory_class']}: {content[:60]}" + (f" [{tags_display}]" if tags_display else ""))
 
-    ***REMOVED*** Auto-decay
+    # Auto-decay
     now = now_dt()
     if should_auto_decay(store, now):
         decayed = store.run_decay(ts, decay_fn)
@@ -916,7 +916,7 @@ def cmd_loop(store, args):
         active.append(entry)
         added += 1
 
-    ***REMOVED*** Reinforcement only from explicit user feedback (not assistant response text).
+    # Reinforcement only from explicit user feedback (not assistant response text).
     if opts.get("user_feedback") and retrieved:
         response = opts["user_feedback"].lower()
         if any(s in response for s in ["worked", "that helped", "helpful", "thanks", "great", "resolved"]):
@@ -1042,14 +1042,14 @@ def cmd_similar(store, args):
     query_token_set = set(query_tokens)
     all_docs = [query_tokens] + [tokenize(e["content"]) for e in active]
 
-    ***REMOVED*** Compute IDF
+    # Compute IDF
     n = len(all_docs)
     df = {}
     for doc in all_docs:
         for word in set(doc):
             df[word] = df.get(word, 0) + 1
 
-    ***REMOVED*** Build TF-IDF vectors
+    # Build TF-IDF vectors
     vectors = []
     for doc in all_docs:
         tf = {}
@@ -1133,7 +1133,7 @@ def cmd_correct(store, args):
     if reason:
         print(f"  Reason: {reason}")
 
-    ***REMOVED*** Anti-pattern detection
+    # Anti-pattern detection
     active = store.get_active_entries()
     corrections = [e for e in active if e.get("type") == "correction"]
     tag_counts = {}
@@ -1183,7 +1183,7 @@ def cmd_reflect(store):
     all_data = store.read_all()
     superseded = [e for e in all_data["entries"] if e.get("superseded_by")]
 
-    ***REMOVED*** Stale entries
+    # Stale entries
     stale = []
     for e in active:
         try:
@@ -1195,7 +1195,7 @@ def cmd_reflect(store):
             pass
     stale.sort(key=lambda x: x[0], reverse=True)
 
-    ***REMOVED*** Upgrade candidates
+    # Upgrade candidates
     hot = [(e.get("access_count", 0), e) for e in active
            if e.get("access_count", 0) > 3 and e.get("confidence") != "sure"]
     hot.sort(key=lambda x: x[0], reverse=True)
@@ -1442,15 +1442,15 @@ def cmd_help():
     print("Memory classes: episodic | semantic | procedural | preference | policy")
 
 
-***REMOVED*** --- Main Dispatch ---
+# --- Main Dispatch ---
 
 def main():
-    ***REMOVED*** Determine memory directory
+    # Determine memory directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
     memory_dir = os.environ.get("MEMORY_DIR", os.path.join(script_dir, "..", "memory"))
     memory_dir = os.path.abspath(memory_dir)
 
-    ***REMOVED*** Add script dir to Python path so imports work
+    # Add script dir to Python path so imports work
     if script_dir not in sys.path:
         sys.path.insert(0, script_dir)
 
@@ -1460,7 +1460,7 @@ def main():
 
     store = get_store(memory_dir)
 
-    ***REMOVED*** Commands that need init first
+    # Commands that need init first
     if cmd != "init":
         store.init()
 

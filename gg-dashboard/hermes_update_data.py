@@ -1,4 +1,4 @@
-***REMOVED***!/usr/bin/env python3
+#!!/usr/bin/env python3
 """Hermes Dashboard Data Updater — collects health data from all 3 machines."""
 import json, os, subprocess
 from datetime import datetime, timezone, timedelta
@@ -47,7 +47,7 @@ def poll_machine(name, host=""):
         monitor_pid = run_cmd(["pgrep", "-f", "gg_monitor_daemon"])
         openclaw_pid = run_cmd(["pgrep", "-f", "openclaw"])
 
-    ***REMOVED*** Parse CPU from top output
+    # Parse CPU from top output
     cpu = 0
     for line in top_raw.split("\n"):
         if "%Cpu(s)" in line or "Cpu(s)" in line:
@@ -62,7 +62,7 @@ def poll_machine(name, host=""):
                         cpu = 0
                     break
 
-    ***REMOVED*** Parse MEM from free output
+    # Parse MEM from free output
     mem = 0
     for line in free_raw.split("\n"):
         if line.startswith("Mem:"):
@@ -76,7 +76,7 @@ def poll_machine(name, host=""):
                     mem = 0
             break
 
-    ***REMOVED*** Parse DISK from df output
+    # Parse DISK from df output
     disk = 0
     for line in df_raw.split("\n"):
         if line.startswith("/"):
@@ -88,9 +88,9 @@ def poll_machine(name, host=""):
                     disk = 0
             break
 
-    ***REMOVED*** Parse uptime
+    # Parse uptime
     uptime = uptime_raw.replace("up ", "").strip() if uptime_raw else "?"
-    ***REMOVED*** Parse load
+    # Parse load
     load = "0"
     for line in load_raw.split("\n"):
         if "load average:" in line:

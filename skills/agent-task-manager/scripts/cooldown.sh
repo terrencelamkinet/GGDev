@@ -1,8 +1,8 @@
-***REMOVED***!/usr/bin/env bash
+#!!/usr/bin/env bash
 
-***REMOVED*** cooldown.sh - Rate Limit Management Script for Agent Task Manager
+# cooldown.sh - Rate Limit Management Script for Agent Task Manager
 
-***REMOVED*** Usage: ./cooldown.sh <TASK_NAME> <COOLDOWN_SECONDS> <COMMAND...>
+# Usage: ./cooldown.sh <TASK_NAME> <COOLDOWN_SECONDS> <COMMAND...>
 
 TASK_NAME="$1"
 COOLDOWN_SECONDS="$2"
@@ -34,11 +34,11 @@ if [ "$WAIT_TIME" -gt 0 ]; then
     sleep "$WAIT_TIME"
 fi
 
-***REMOVED*** Execute the wrapped command
+# Execute the wrapped command
 echo "🚀 Executing command for $TASK_NAME..."
-***REMOVED*** Run the command in a subshell so we can capture success/failure
+# Run the command in a subshell so we can capture success/failure
 if eval "$COMMAND"; then
-    ***REMOVED*** Update timestamp only on success
+    # Update timestamp only on success
     echo "$CURRENT_TIME" > "$TIMESTAMP_FILE"
     echo "✅ Success. Timestamp updated."
 else

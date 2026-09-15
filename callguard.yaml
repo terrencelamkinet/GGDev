@@ -1,4 +1,4 @@
-***REMOVED*** AgentSentinel policy - GG-Work
+# AgentSentinel policy - GG-Work
 budgets:
   session: 10.00
   run: 2.00
@@ -8,7 +8,7 @@ denied_actions:
   - "format"
   - "mkfs"
   - "dd if=/dev/zero"
-  - ":(){ :|:& };:"  ***REMOVED*** fork bomb
+  - ":(){ :|:& };:"  # fork bomb
   - "shutdown"
   - "reboot"
 policy:
