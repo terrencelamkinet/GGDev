@@ -9,12 +9,12 @@
 // Source: http://localhost:7870
 // Generated: 2026-06-08T01:59:49.138Z
 
-export type Hex = `***REMOVED***${string}`;
+export type Hex = `#${string}`;
 export type Px  = `${number}px`;
 export type Ms  = `${number}ms`;
 
 export type ColorRole = 'primary' | 'secondary' | 'accent';
-export type ColorHex  = '***REMOVED***3c3c43' | '***REMOVED***000000' | '***REMOVED***ffffff' | '***REMOVED***34c759' | '***REMOVED***787880' | '***REMOVED***ff3b30' | '***REMOVED***5856d6' | '***REMOVED***e5e5ea' | '***REMOVED***ff6b35' | '***REMOVED***af52de' | '***REMOVED***ff9500' | '***REMOVED***ff2d55' | '***REMOVED***f2f2f7' | '***REMOVED***c6c6c8';
+export type ColorHex  = '#3c3c43' | '#000000' | '#ffffff' | '#34c759' | '#787880' | '#ff3b30' | '#5856d6' | '#e5e5ea' | '#ff6b35' | '#af52de' | '#ff9500' | '#ff2d55' | '#f2f2f7' | '#c6c6c8';
 export type ColorToken = ColorRole | ColorHex;
 
 export type FontFamilyToken = 'Arial' | 'SF Mono' | 'Times New Roman';

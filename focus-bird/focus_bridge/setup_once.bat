@@ -71,8 +71,8 @@ REM ---- Create config.txt if not exists ----
 if not exist config.txt (
     echo Creating default config.txt...
     (
-        echo ***REMOVED*** BrainLink Bridge Config
-        echo ***REMOVED*** 請修改 COM port 同 Agent Server URL
+        echo # BrainLink Bridge Config
+        echo # 請修改 COM port 同 Agent Server URL
         echo BLUETOOTH_COM=COM5
         echo AGENT_WS_URL=wss://your-agent-server.com:8765/brainlink
     ) > config.txt

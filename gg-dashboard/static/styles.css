@@ -5,26 +5,26 @@
 
 /* ===== iOS System Colors (Dark Mode Default) ===== */
 :root {
-  --system-background: ***REMOVED***1C1C1E;
-  --secondary-background: ***REMOVED***2C2C2E;
-  --tertiary-background: ***REMOVED***3A3A3C;
+  --system-background: #1C1C1E;
+  --secondary-background: #2C2C2E;
+  --tertiary-background: #3A3A3C;
   --separator: rgba(84, 84, 88, 0.36);
-  --opaque-separator: ***REMOVED***38383A;
-  --label: ***REMOVED***FFFFFF;
+  --opaque-separator: #38383A;
+  --label: #FFFFFF;
   --secondary-label: rgba(235, 235, 245, 0.6);
   --tertiary-label: rgba(235, 235, 245, 0.3);
   --quaternary-label: rgba(235, 235, 245, 0.18);
   --fill: rgba(120, 120, 128, 0.2);
   --secondary-fill: rgba(120, 120, 128, 0.16);
   --tertiary-fill: rgba(120, 120, 128, 0.12);
-  --accent: ***REMOVED***00d2a0;
+  --accent: #00d2a0;
   --accent-dim: rgba(0,210,160,0.15);
-  --gold: ***REMOVED***f0b429;
-  --orange: ***REMOVED***FF8C5A;
-  --blue: ***REMOVED***7C7AFF;
-  --pink: ***REMOVED***FF6B8A;
-  --green: ***REMOVED***00d2a0;
-  --red: ***REMOVED***FF453A;
+  --gold: #f0b429;
+  --orange: #FF8C5A;
+  --blue: #7C7AFF;
+  --pink: #FF6B8A;
+  --green: #00d2a0;
+  --red: #FF453A;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --nav-bar-height: 44px;
@@ -36,26 +36,26 @@
 /* ===== Light Mode Colors ===== */
 @media (prefers-color-scheme: light) {
   :root {
-    --system-background: ***REMOVED***F2F2F7;
-    --secondary-background: ***REMOVED***F2F2F7;
-    --tertiary-background: ***REMOVED***FFFFFF;
+    --system-background: #F2F2F7;
+    --secondary-background: #F2F2F7;
+    --tertiary-background: #FFFFFF;
     --separator: rgba(60, 60, 67, 0.12);
-    --opaque-separator: ***REMOVED***C6C6C8;
-    --label: ***REMOVED***1C1C1E;
+    --opaque-separator: #C6C6C8;
+    --label: #1C1C1E;
     --secondary-label: rgba(60, 60, 67, 0.6);
     --tertiary-label: rgba(60, 60, 67, 0.3);
     --quaternary-label: rgba(60, 60, 67, 0.18);
     --fill: rgba(120, 120, 128, 0.12);
     --secondary-fill: rgba(120, 120, 128, 0.09);
     --tertiary-fill: rgba(120, 120, 128, 0.06);
-    --accent: ***REMOVED***00b894;
+    --accent: #00b894;
     --accent-dim: rgba(0,184,148,0.12);
-    --gold: ***REMOVED***d4a017;
-    --orange: ***REMOVED***FF6B35;
-    --blue: ***REMOVED***5E5CE6;
-    --pink: ***REMOVED***FF375F;
-    --green: ***REMOVED***00b894;
-    --red: ***REMOVED***FF3B30;
+    --gold: #d4a017;
+    --orange: #FF6B35;
+    --blue: #5E5CE6;
+    --pink: #FF375F;
+    --green: #00b894;
+    --red: #FF3B30;
   }
 }
 
@@ -322,7 +322,7 @@ body {
 }
 .ios-chip.active {
   background: var(--accent);
-  color: ***REMOVED***fff;
+  color: #fff;
 }
 
 /* ===== iOS Checkbox ===== */
@@ -436,7 +436,7 @@ body {
   align-items: center;
   gap: 6px;
 }
-.btn.accent { background: var(--accent); color: ***REMOVED***fff; }
+.btn.accent { background: var(--accent); color: #fff; }
 .btn.ghost { background: var(--fill); color: var(--label); }
 .btn.danger { background: rgba(255,69,58,0.15); color: var(--red); }
 
@@ -540,7 +540,7 @@ input:focus, textarea:focus, select:focus {
   height: 48px;
   border-radius: 50%;
   background: var(--accent);
-  color: ***REMOVED***fff;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -600,7 +600,7 @@ input:focus, textarea:focus, select:focus {
   border-radius: 20px;
   border: none;
   background: var(--accent);
-  color: ***REMOVED***fff;
+  color: #fff;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
@@ -634,7 +634,7 @@ input:focus, textarea:focus, select:focus {
   border-radius: 14px;
   font-size: 15px;
   font-weight: 500;
-  color: ***REMOVED***fff;
+  color: #fff;
   text-align: center;
   z-index: 1005;
   transition: opacity 0.25s;

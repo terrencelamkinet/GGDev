@@ -794,10 +794,10 @@ async function fetchMemoryStats() {
     var growthEl = document.getElementById('memGrowthList');
     if (growthEl && d.growth) {
       growthEl.innerHTML = '<table style="width:100%;font-size:13px;border-collapse:collapse">' +
-        '<tr style="color:var(--text-dim);border-bottom:1px solid ***REMOVED***333"><td style="padding:4px">Date</td><td style="padding:4px;text-align:right">+Added</td><td style="padding:4px;text-align:right">Total</td></tr>' +
+        '<tr style="color:var(--text-dim);border-bottom:1px solid #333"><td style="padding:4px">Date</td><td style="padding:4px;text-align:right">+Added</td><td style="padding:4px;text-align:right">Total</td></tr>' +
         d.growth.slice().reverse().map(function(g) {
           var isToday = g.date === d.growth[d.growth.length-1].date;
-          return '<tr style="' + (isToday ? 'color:var(--accent);font-weight:bold' : '') + ';border-bottom:1px solid ***REMOVED***222">' +
+          return '<tr style="' + (isToday ? 'color:var(--accent);font-weight:bold' : '') + ';border-bottom:1px solid #222">' +
             '<td style="padding:4px">' + g.date + '</td>' +
             '<td style="padding:4px;text-align:right;color:var(--success)">+' + g.added + '</td>' +
             '<td style="padding:4px;text-align:right">' + g.total + '</td></tr>';
@@ -808,13 +808,13 @@ async function fetchMemoryStats() {
     var distEl = document.getElementById('memScoreDist');
     if (distEl) {
       var labels = ['>=8','7-7.9','6-6.9','5-5.9','4-4.9','3-3.9','2-2.9','1-1.9','<1'];
-      var colors = ['***REMOVED***f44336','***REMOVED***e57373','***REMOVED***ff9800','***REMOVED***ffb74d','***REMOVED***ffd54f','***REMOVED***81c784','***REMOVED***4caf50','***REMOVED***388e3c','***REMOVED***ddd'];
+      var colors = ['#f44336','#e57373','#ff9800','#ffb74d','#ffd54f','#81c784','#4caf50','#388e3c','#ddd'];
       distEl.innerHTML = '<table style="width:100%;font-size:13px;border-collapse:collapse">' +
-        '<tr style="color:var(--text-dim);border-bottom:1px solid ***REMOVED***333"><td style="padding:4px">Range</td><td style="padding:4px;text-align:right">Count</td><td style="padding:4px">Bar</td></tr>' +
+        '<tr style="color:var(--text-dim);border-bottom:1px solid #333"><td style="padding:4px">Range</td><td style="padding:4px;text-align:right">Count</td><td style="padding:4px">Bar</td></tr>' +
         labels.map(function(l) {
           var cnt = d.score_distribution[l] || 0;
           var pct = Math.min(100, (cnt / 30) * 100);
-          return '<tr style="border-bottom:1px solid ***REMOVED***222">' +
+          return '<tr style="border-bottom:1px solid #222">' +
             '<td style="padding:4px;color:var(--text-dim)">' + l + '</td>' +
             '<td style="padding:4px;text-align:right">' + cnt + '</td>' +
             '<td style="padding:4px"><div style="background:' + colors[labels.indexOf(l)] + ';width:' + pct + '%;height:14px;border-radius:3px;min-width:' + (cnt > 0 ? '4px' : '0') + '"></div></td></tr>';
@@ -826,8 +826,8 @@ async function fetchMemoryStats() {
     if (topEl && d.top100) {
       topEl.innerHTML = d.top100.map(function(m, i) {
         var bg = m.importance >= 8 ? 'rgba(244,67,54,0.1)' : m.importance >= 6 ? 'rgba(255,152,0,0.08)' : 'transparent';
-        return '<div class="sp-row" style="background:' + bg + ';padding:6px 0;border-bottom:1px solid ***REMOVED***1a1a1a">' +
-          '<span class="sp-dot" style="width:24px;flex-shrink:0;color:var(--text-dim);font-size:11px">***REMOVED***' + (i+1) + '</span>' +
+        return '<div class="sp-row" style="background:' + bg + ';padding:6px 0;border-bottom:1px solid #1a1a1a">' +
+          '<span class="sp-dot" style="width:24px;flex-shrink:0;color:var(--text-dim);font-size:11px">#' + (i+1) + '</span>' +
           '<span class="sp-value" style="font-size:12px;line-height:1.4;flex:1">' + escHtml(m.doc.slice(0,100)) + '</span>' +
           '<span class="sp-badge" style="background:' + (m.importance >= 6 ? 'var(--warning-bg)' : 'var(--accent-light)') + ';color:' + (m.importance >= 6 ? 'var(--warning)' : 'var(--accent)') + ';flex-shrink:0;font-size:10px">' + m.importance.toFixed(1) + '</span></div>';
       }).join('');
@@ -886,7 +886,7 @@ function runSystemCheck() {
 
 <div id="sub-sys-status" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">System Status</span>
     <span class="subpage-subtitle">Live metrics</span>
   </div>
@@ -915,7 +915,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-sys-services" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Services</span>
     <span class="subpage-subtitle">System health monitor</span>
   </div>
@@ -944,14 +944,14 @@ function runSystemCheck() {
       </div>
     </div>
     <div class="sp-actions">
-      <a href="***REMOVED***" class="sp-action-btn" onclick="alert('Restart not available from dashboard')">🔄 Restart</a>
-      <a href="***REMOVED***" class="sp-action-btn primary" onclick="closeSubpage()">← Back</a>
+      <a href="#" class="sp-action-btn" onclick="alert('Restart not available from dashboard')">🔄 Restart</a>
+      <a href="#" class="sp-action-btn primary" onclick="closeSubpage()">← Back</a>
     </div>
   </div>
 </div>
 <div id="sub-sys-today" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Today's Schedule</span>
     <span class="subpage-subtitle">23 May 2026 · Saturday</span>
   </div>
@@ -978,7 +978,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-sys-projects" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Projects</span>
     <span class="subpage-subtitle">Active GG projects</span>
   </div>
@@ -1010,7 +1010,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-sys-actions" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Quick Actions</span>
     <span class="subpage-subtitle">Shortcuts & tools</span>
   </div>
@@ -1018,14 +1018,14 @@ function runSystemCheck() {
     <div class="sp-actions" style="flex-direction:column;gap:8px">
       <a href="/exam-center/" class="sp-action-btn primary">🌅 Morning Briefing</a>
       <a href="/exam-center/" class="sp-action-btn">📝 Exam Center</a>
-      <a href="***REMOVED***" class="sp-action-btn" onclick="manualRefresh()">🔍 System Check</a>
-      <a href="***REMOVED***" class="sp-action-btn" onclick="manualRefresh()">🚗 Traffic Check</a>
+      <a href="#" class="sp-action-btn" onclick="manualRefresh()">🔍 System Check</a>
+      <a href="#" class="sp-action-btn" onclick="manualRefresh()">🚗 Traffic Check</a>
     </div>
   </div>
 </div>
 <div id="sub-sys-activity" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Today's Activity</span>
     <span class="subpage-subtitle">Full event log</span>
   </div>
@@ -1044,7 +1044,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-pers-profile" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Terrence Lam</span>
     <span class="subpage-subtitle">Profile details</span>
   </div>
@@ -1068,7 +1068,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-pers-info" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Key Info</span>
     <span class="subpage-subtitle">Quick reference</span>
   </div>
@@ -1084,7 +1084,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-pers-spiritual" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Spiritual</span>
     <span class="subpage-subtitle">Faith & ministry</span>
   </div>
@@ -1108,7 +1108,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-pers-today" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Today</span>
     <span class="subpage-subtitle">23 May 2026</span>
   </div>
@@ -1135,7 +1135,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-gg-state" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Current State</span>
     <span class="subpage-subtitle">GG's mind</span>
   </div>
@@ -1157,7 +1157,7 @@ function runSystemCheck() {
 
 <div id="sub-gg-memory" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Recent Memory</span>
     <span class="subpage-subtitle">GG's notes</span>
   </div>
@@ -1180,7 +1180,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-pers-vehicle" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Vehicle</span>
     <span class="subpage-subtitle">車 · 管理</span>
   </div>
@@ -1206,14 +1206,14 @@ function runSystemCheck() {
     </div>
 
     <div class="sp-actions">
-      <a href="***REMOVED***" class="sp-action-btn" onclick="refreshMaintData();this.textContent='✅ Refreshed'">🔄 Refresh</a>
+      <a href="#" class="sp-action-btn" onclick="refreshMaintData();this.textContent='✅ Refreshed'">🔄 Refresh</a>
       <a href="https://notion.so" target="_blank" class="sp-action-btn">➕ Add Record (Notion)</a>
     </div>
   </div>
 </div>
 <div id="sub-pers-expiring" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Expiring Soon</span>
     <span class="subpage-subtitle">Upcoming deadlines</span>
   </div>
@@ -1241,7 +1241,7 @@ function runSystemCheck() {
     </div>
 <div id="sub-gg-decisions" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Recent Decisions</span>
     <span class="subpage-subtitle">Session log</span>
   </div>
@@ -1268,7 +1268,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-gg-stats" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Memory Stats</span>
     <span class="subpage-subtitle">All records</span>
   </div>
@@ -1299,7 +1299,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-gg-learnings" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Active Learnings</span>
     <span class="subpage-subtitle">GG's notes</span>
   </div>
@@ -1323,7 +1323,7 @@ function runSystemCheck() {
 </div>
 <div id="sub-gg-uncertainty" class="subpage">
   <div class="subpage-header">
-    <a href="***REMOVED***" class="subpage-back" onclick="closeSubpage()">‹</a>
+    <a href="#" class="subpage-back" onclick="closeSubpage()">‹</a>
     <span class="subpage-title">Uncertainty Radar</span>
     <span class="subpage-subtitle">Things GG isn't sure about</span>
   </div>

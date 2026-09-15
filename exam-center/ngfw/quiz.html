@@ -86,7 +86,7 @@
       <div class="options" id="options-container"></div>
       <div class="nav-buttons">
         <button class="btn btn-primary" onclick="prevQuestion()" id="btn-prev" disabled>← Previous</button>
-        <button class="btn btn-primary" onclick="nextQuestion()" id="btn-next">Next →<br><small class="desktop-hint" style="font-size:11px;color:***REMOVED***ffffff;font-weight:700;">(Space)</small></button>
+        <button class="btn btn-primary" onclick="nextQuestion()" id="btn-next">Next →<br><small class="desktop-hint" style="font-size:11px;color:#ffffff;font-weight:700;">(Space)</small></button>
         <button class="btn btn-success" onclick="submitQuiz()" id="btn-submit" style="display: none;">✓ Submit Quiz</button>
         <button class="btn btn-secondary" onclick="confirmGoHome()">⌂ Home</button>
       </div>
@@ -128,7 +128,7 @@
       </div>
       <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
         順序顯示 1-132 題，每題 choices 跟原始順序。
-        <span style="background: ***REMOVED***e8f5e9; padding: 2px 6px; border-radius: 3px; font-weight: 600;">綠色 highlight</span> = 正確答案
+        <span style="background: #e8f5e9; padding: 2px 6px; border-radius: 3px; font-weight: 600;">綠色 highlight</span> = 正確答案
       </p>
       <div id="answer-key-content"></div>
     </div>
@@ -168,7 +168,7 @@
       var r = localStorage.getItem(CACHE_KEY); if (!r) return false; var d = JSON.parse(r);
       if (!Array.isArray(d.questions) || !d.questions.length) return false;
       selectedQuestions = d.questions; currentQuestion = d.current; userAnswers = d.answers || {}; showAnswerState = d.showAns || {};
-      document.querySelectorAll("***REMOVED***home-page, ***REMOVED***quiz-page, ***REMOVED***results-page, ***REMOVED***answer-key-page").forEach(function(el){ el.classList.toggle("hidden", el.id !== "quiz-page"); });
+      document.querySelectorAll("#home-page, #quiz-page, #results-page, #answer-key-page").forEach(function(el){ el.classList.toggle("hidden", el.id !== "quiz-page"); });
       displayQuestion(); return true;
     } catch(e) { return false; }
   }
@@ -204,7 +204,7 @@
     quizClearCache();
     selectedQuestions = shuffleArray(ngfwQuestions).slice(0, count).map(q => shuffleChoices(q));
     currentQuestion = 0; userAnswers = {}; showAnswerState = {};
-    document.querySelectorAll('***REMOVED***home-page, ***REMOVED***quiz-page, ***REMOVED***results-page, ***REMOVED***answer-key-page')
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
     displayQuestion();
   }
@@ -281,7 +281,7 @@
     document.getElementById('result-correct').textContent = correct;
     document.getElementById('result-score').textContent = `${correct * POINTS_PER_Q} / ${total * POINTS_PER_Q} (${pct}%)`;
     document.getElementById('result-status').textContent = passed ? 'PASSED ✓' : 'FAILED ✗';
-    document.getElementById('result-status').style.color = passed ? '***REMOVED***2e7d32' : '***REMOVED***c62828';
+    document.getElementById('result-status').style.color = passed ? '#2e7d32' : '#c62828';
 
     window._lastUserAnswers = JSON.parse(JSON.stringify(userAnswers));
     window._lastSelectedQuestions = selectedQuestions;
@@ -318,7 +318,7 @@
     if (old && oldQs && old.length === oldQs.length) {
       selectedQuestions = oldQs.map(q => shuffleChoices(JSON.parse(JSON.stringify(q))));
       currentQuestion = 0; userAnswers = {}; showAnswerState = {};
-      document.querySelectorAll('***REMOVED***home-page, ***REMOVED***quiz-page, ***REMOVED***results-page, ***REMOVED***answer-key-page')
+      document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
         .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
       displayQuestion();
     } else {
@@ -338,13 +338,13 @@
     if (wrong.length === 0) { alert('🎉 全部答啱，冇錯題！'); return; }
     selectedQuestions = wrong.map(q => shuffleChoices(JSON.parse(JSON.stringify(q))));
     currentQuestion = 0; userAnswers = {}; showAnswerState = {};
-    document.querySelectorAll('***REMOVED***home-page, ***REMOVED***quiz-page, ***REMOVED***results-page, ***REMOVED***answer-key-page')
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'quiz-page'));
     displayQuestion();
   }
 
   function goHome() {
-    document.querySelectorAll('***REMOVED***home-page, ***REMOVED***quiz-page, ***REMOVED***results-page, ***REMOVED***answer-key-page')
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'home-page'));
   }
 
@@ -363,7 +363,7 @@
       html += `<div class="ak-answer">✅ Correct Answer: ${q.answer}</div></div>`;
     }
     document.getElementById('answer-key-content').innerHTML = html;
-    document.querySelectorAll('***REMOVED***home-page, ***REMOVED***quiz-page, ***REMOVED***results-page, ***REMOVED***answer-key-page')
+    document.querySelectorAll('#home-page, #quiz-page, #results-page, #answer-key-page')
       .forEach(el => el.classList.toggle('hidden', el.id !== 'answer-key-page'));
   }
 

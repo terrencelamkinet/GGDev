@@ -70,11 +70,11 @@
 
 <!-- iOS Tab Bar -->
 <nav class="ios-tab-bar">
-  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg***REMOVED***icon-house"/></svg><span>Home</span></a>
-  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg***REMOVED***icon-list"/></svg><span>Tasks</span></a>
-  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg***REMOVED***icon-brain"/></svg><span>Intel</span></a>
-  <a href="/agents" class="ios-tab active"><svg role="img" aria-label="Agents"><use href="/static/icons.svg***REMOVED***icon-server"/></svg><span>Agents</span></a>
-  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg***REMOVED***icon-user"/></svg><span>Profile</span></a>
+  <a href="/home" class="ios-tab"><svg role="img" aria-label="Home"><use href="/static/icons.svg#icon-house"/></svg><span>Home</span></a>
+  <a href="/tasks" class="ios-tab"><svg role="img" aria-label="Tasks"><use href="/static/icons.svg#icon-list"/></svg><span>Tasks</span></a>
+  <a href="/intel" class="ios-tab"><svg role="img" aria-label="Intel"><use href="/static/icons.svg#icon-brain"/></svg><span>Intel</span></a>
+  <a href="/agents" class="ios-tab active"><svg role="img" aria-label="Agents"><use href="/static/icons.svg#icon-server"/></svg><span>Agents</span></a>
+  <a href="/profile" class="ios-tab"><svg role="img" aria-label="Profile"><use href="/static/icons.svg#icon-user"/></svg><span>Profile</span></a>
 </nav>
 </div>
 
@@ -120,6 +120,6 @@ fetch('/api/data?_='+Date.now()).then(r=>r.json()).then(function(d){
 
 }).catch(function(){});
 
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&***REMOVED***60;').replace(/>/g,'&***REMOVED***62;');}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&#60;').replace(/>/g,'&#62;');}
 </script>
 </body></html>

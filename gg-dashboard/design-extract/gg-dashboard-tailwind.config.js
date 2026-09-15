@@ -15,7 +15,7 @@ export default {
             '800': 'hsl(280, 68%, 24%)',
             '900': 'hsl(280, 68%, 16%)',
             '950': 'hsl(280, 68%, 10%)',
-            DEFAULT: '***REMOVED***af52de'
+            DEFAULT: '#af52de'
         },
         secondary: {
             '50': 'hsl(241, 61%, 97%)',
@@ -29,7 +29,7 @@ export default {
             '800': 'hsl(241, 61%, 24%)',
             '900': 'hsl(241, 61%, 16%)',
             '950': 'hsl(241, 61%, 10%)',
-            DEFAULT: '***REMOVED***5856d6'
+            DEFAULT: '#5856d6'
         },
         accent: {
             '50': 'hsl(3, 100%, 97%)',
@@ -43,17 +43,17 @@ export default {
             '800': 'hsl(3, 100%, 24%)',
             '900': 'hsl(3, 100%, 16%)',
             '950': 'hsl(3, 100%, 10%)',
-            DEFAULT: '***REMOVED***ff3b30'
+            DEFAULT: '#ff3b30'
         },
-        'neutral-50': '***REMOVED***3c3c43',
-        'neutral-100': '***REMOVED***000000',
-        'neutral-200': '***REMOVED***ffffff',
-        'neutral-300': '***REMOVED***787880',
-        'neutral-400': '***REMOVED***e5e5ea',
-        'neutral-500': '***REMOVED***f2f2f7',
-        'neutral-600': '***REMOVED***c6c6c8',
-        background: '***REMOVED***f2f2f7',
-        foreground: '***REMOVED***000000'
+        'neutral-50': '#3c3c43',
+        'neutral-100': '#000000',
+        'neutral-200': '#ffffff',
+        'neutral-300': '#787880',
+        'neutral-400': '#e5e5ea',
+        'neutral-500': '#f2f2f7',
+        'neutral-600': '#c6c6c8',
+        background: '#f2f2f7',
+        foreground: '#000000'
     },
     fontFamily: {
         body: [

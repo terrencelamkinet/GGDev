@@ -132,7 +132,7 @@ const questionBank = [
   },
   // Question 17 (originally Q18)
   {
-    text: "Topic ***REMOVED***: 1 An architect is responsible for designing a new VMware Cloud Foundation (VCF)-based Private Cloud solution.<br>During the requirements gathering workshop with key customer stakeholders, the following information was captured: The solution must ensure all components are configured with SSL certificates that have been signed by the corporate Certificate Authority.<br>The solution must ensure that users with administrative access are authenticated through an approved Identity Provider.<br>When creating the design document, which design quality should be used to classify the stated requirements?",
+    text: "Topic #: 1 An architect is responsible for designing a new VMware Cloud Foundation (VCF)-based Private Cloud solution.<br>During the requirements gathering workshop with key customer stakeholders, the following information was captured: The solution must ensure all components are configured with SSL certificates that have been signed by the corporate Certificate Authority.<br>The solution must ensure that users with administrative access are authenticated through an approved Identity Provider.<br>When creating the design document, which design quality should be used to classify the stated requirements?",
     options: [{"text": "Security", "value": "A"}, {"text": "Recoverability", "value": "B"}, {"text": "Manageability", "value": "C"}, {"text": "Availability", "value": "D"}],
     correct: "A",
     type: "radio",
