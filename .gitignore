@@ -1,1 +1,6 @@
 exam-center-dev
+
+***REMOVED*** Per-deployment secrets - never commit
+.env
+*.env
+!*.env.example
