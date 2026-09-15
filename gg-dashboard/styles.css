@@ -4,22 +4,22 @@
  */
 
 :root {
-  --bg: ***REMOVED***1a1d23;
-  --card: ***REMOVED***23272e;
-  --card-hover: ***REMOVED***2c3039;
-  --accent: ***REMOVED***4a9eff;
+  --bg: #1a1d23;
+  --card: #23272e;
+  --card-hover: #2c3039;
+  --accent: #4a9eff;
   --accent-light: rgba(74, 158, 255, 0.15);
-  --success: ***REMOVED***34d399;
+  --success: #34d399;
   --success-bg: rgba(52, 211, 153, 0.12);
-  --warning: ***REMOVED***fbbf24;
+  --warning: #fbbf24;
   --warning-bg: rgba(251, 191, 36, 0.12);
-  --danger: ***REMOVED***f87171;
+  --danger: #f87171;
   --danger-bg: rgba(248, 113, 113, 0.12);
-  --text: ***REMOVED***e5e7eb;
-  --text-muted: ***REMOVED***9ca3af;
-  --text-dim: ***REMOVED***6b7280;
+  --text: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-dim: #6b7280;
   --border: rgba(255,255,255,0.06);
-  --tab-active: ***REMOVED***4a9eff;
+  --tab-active: #4a9eff;
   --radius: 12px;
   --radius-sm: 8px;
   --shadow: 0 1px 3px rgba(0,0,0,0.3);
@@ -73,7 +73,7 @@ body {
 .header h1 {
   font-size: 16px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--accent), ***REMOVED***a78bfa);
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -417,7 +417,7 @@ body {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), ***REMOVED***a78bfa);
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -466,7 +466,7 @@ body {
   right: 0;
   height: calc(var(--bottom-nav-h) + var(--safe-bottom));
   padding-bottom: var(--safe-bottom);
-  background: ***REMOVED***1a1d23;
+  background: #1a1d23;
   border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
   align-items: center;
