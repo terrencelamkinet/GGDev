@@ -67,7 +67,7 @@
     {
       "name": "G05 - GG Dashboard",
       "description": "GG Dashboard — 一個 central dashboard 俾 Terrence 睇晒所有 system status（cron健康、提醒、tunnel、disk、error registry）、屬靈功課、TODO、快速action buttons",
-      "status": "development",
+      "status": "retired",
       "created": "2026-05-23 00:17",
       "last_activity": "2026-05-23 10:47",
       "conversations": 1,
@@ -75,8 +75,8 @@
         "gg-dashboard/index.html",
         "gg-dashboard/styles.css"
       ],
-      "notes": "Built prototype — combines G05 + G02 (Exam Center link) + G03 (Voice Practice link). Geckoboard-style dark card dashboard. Mobile-first, status cards, schedule, alerts, projects, quick actions."
+      "notes": "Built prototype — combines G05 + G02 (Exam Center link) + G03 (Voice Practice link). Geckoboard-style dark card dashboard. Mobile-first, status cards, schedule, alerts, projects, quick actions. ⛔ 2026-10-06 已退役清走（Terrence 指示）：gg-dashboard/ 目錄、systemd gg-dashboard.service、intel.kinet-poc.com 路由、相關 cron 全部移除。"
     }
   ],
-  "last_updated": "2026-05-23 10:47"
+  "last_updated": "2026-10-06 23:20"
 }
