@@ -1,1 +1,9 @@
 exam-center-dev
+
+# Secrets — 真 .env 只留喺 server，唔准入 public repo
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
