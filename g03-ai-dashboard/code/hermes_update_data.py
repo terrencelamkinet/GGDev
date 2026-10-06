@@ -1,1 +1,0 @@
-/home/airoot/projects/ggdev-repo/gg-dashboard/hermes_update_data.py

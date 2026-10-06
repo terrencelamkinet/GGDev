@@ -1,1 +1,0 @@
-/home/airoot/projects/ggdev-repo/gg-dashboard/update-maintenance.py
